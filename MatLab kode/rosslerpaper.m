@@ -1,5 +1,5 @@
 function dy = rosslerpaper(t,y,conf,wc)
-%Tthis function is used to generate different network configurations for the Roessler oscillator. 
+%This function is used to generate different network configurations for the Roessler oscillator. 
 % Inputs: t and y are parameters
 %         conf: different configuration in this paper (values 1 to 6 corresponding to networks 1 to 6 in figure 1 of the paper)
 %         wc   :additional noise 
@@ -11,12 +11,12 @@ function dy = rosslerpaper(t,y,conf,wc)
 % Digital Signal Processing, Volume 84, 2019, Pages 59-68, ISSN 1051-2004,
 % https://doi.org/10.1016/j.dsp.2018.08.019.
 
-w=[1.05,1.05,1.05,1.05,1.05,1.05]; % initial condition on W
+w = [1.05,1.05,1.05,1.05,1.05,1.05]; % initial condition on W
 dy = zeros(18,1);
 u = 1.5; % initial condition on U
 a = 0.35; % a
 b = 0.2;  % b
-c=10;     % c
+c = 10;     % c
 
 %%% See Al Khassaweneh's 2015 IEEE TSP (Fig 6) and Eq. 43 for more details.
 switch conf

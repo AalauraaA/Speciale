@@ -1,3 +1,5 @@
+% This is to generating non-linear AR data.
+
 function F = generate_AR(N)
 % N is number of the time points (samples)
 % randn('seed', 1);

@@ -33,11 +33,7 @@ x = y(:,[1,4,7,10,13,16]);
 %x: extracting X segments, here it is 6 segments. We look at all x/rows
 % and extract 6 indices of y/columns
 x = x(61:end,:);
-% x: we start at index 61 to end of the rows and take all the associated
-% columns
 end
-
-% Plot of the found X segments
 plot(linspace(0,50,size(x,1)),x(:,1));
 plot(linspace(0,50,size(x,1)),x(:,2));
 plot(linspace(0,50,size(x,1)),x(:,3));

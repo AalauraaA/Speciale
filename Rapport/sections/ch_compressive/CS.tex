@@ -7,19 +7,19 @@ Compressive sensing is the theory of efficient recover/reconstruct a signal from
 \end{align*}
 which consist of observed data $\mathbf{y} \in \mathbb{R}^M$, a matrix $\mathbf{A} \in \mathbb{R}^{M \times N}$ which models the linear measurements and signal $\mathbf{x} \in \mathbb{R}^N$. In compressive sensing terminology, $\mathbf{y}$ is the signal of interest that is wish recovered from minimal measurements meaning that the signal $\mathbf{x}$ must be sparse.
 \\
-A signal is said to be $k$-sparse if the signal has at most $k$ non-zeros coefficient: 
+A signal is said to be $k$-sparse if the signal has at most $k$ non-zeros coefficient
 \begin{align*}
-\Vert \mathbf{x} \Vert_0 = \text{card}(\text{supp}(\mathbf{x}) \leq k,
+\Vert \mathbf{x} \Vert_0 = \text{card}(\text{supp}(\mathbf{x})) \leq k,
 \end{align*}
-where $\ell_0$ norm is used. The function $\text{card}$ is the cardinality of the support of $\mathbf{x}$. The support of $\mathbf{x}$ is giving as
+where the $\ell_0$-norm is used. The function $\text{card}$ is the cardinality of the support of $\mathbf{x}$. The support of $\mathbf{x}$ is giving as
 \begin{align*}
 \text{supp}(\mathbf{x}) = \{ j \in [N] \ : \ x_j \neq 0 \},
 \end{align*} 
-where $[N]$ a set \cite[p. 41]{FR}. The set of all $k$-sparse signal is denoted as
+where $[N]$ a set \cite[p. 41]{FR}. The set of all $k$-sparse signals is denoted as
 \begin{align*}
 \Sigma_k = \{ \mathbf{x} \ : \ \Vert \mathbf{x} \Vert_0 \leq k \}.
 \end{align*}
-We want to recover the signal when there is $M << N$ and $k < M$ \cite[p. 8]{CS}. This lead to that the matrix $\mathbf{A}$ becomes rank-deficient and therefore have a non-empty null-space \cite[p. XX]{CS}.
+It is of interest to recover the signal $\mathbf{y}$ when $M << N$ and $k < M$ \cite[p. 8]{CS}. This lead to that the matrix $\mathbf{A}$ becomes rank-deficient and therefore have a non-empty null-space \cite[p. ix]{CS}.
 \\ \\
 The linear model and finding the sparse signal $\mathbf{x}$ can be written as an optimisation problem
 \begin{align*}
@@ -27,10 +27,11 @@ The linear model and finding the sparse signal $\mathbf{x}$ can be written as an
 \end{align*}
 where $\mathbf{z}$ is all possible candidates to an $k$-sparse signal $\mathbf{x}$.
 \\
-Unfortunately, this optimisation problem is non-convex because of $\ell_0$ norm and is therefore very difficult to solve leading it to be a NP-hard problem. Instead by replacing the $\ell_0$ norm with its convex approximation, the $\ell_1$ norm, the optimisation problem become computational feasible \cite[p. 27]{CS}:
-\begin{align*}
-\min_{\mathbf{z}} \Vert \mathbf{z} \Vert_1 \quad \text{s.t} \quad \mathbf{y} = \mathbf{Az}.
-\end{align*} 
+Unfortunately, this optimisation problem is non-convex because of $\ell_0$-norm and is therefore difficult to solve -- it is a NP-hard problem. Instead by replacing the $\ell_0$-norm with its convex approximation, the $\ell_1$-norm, the optimisation problem become computational feasible \cite[p. 27]{CS}
+\begin{align}\label{eq:p1}
+\min_{\mathbf{z}} \Vert \mathbf{z} \Vert_1 \quad \text{s.t} \quad \mathbf{y} = \mathbf{Az},
+\end{align} 
+and instead we find the best $k$-term approximation of the signal $\mathbf{x}$.
 
 \subsection{Conditions on the Mixing Matrix}
 To ensure an exact or an approximate reconstruction of the sparse signal $\mathbf{x}$ some conditions associated on the matrix $\mathbf{A}$ must be satisfied.
@@ -45,17 +46,14 @@ The null space of the matrix $A$ is defined as
 
 
 
-$\ell_p$ norm is given as
-\begin{align*}
-\Vert x \Vert_p = \left( \sum_{i=1}^n \vert x_i \vert^p \right)^{1/p}, \quad p \in [1, \infty)
-\end{align*}
-the norm is used as an measure of the strenght of a signal or as an error.
-
-Then $\ell_0$ norm is np hard to calculate and therefore we seek for an approximation within the $\ell_1$ norm. Therefore,  we instead find the best $k$-term approximation of the signal
-
+%$\ell_p$ norm is given as
+%\begin{align*}
+%\Vert x \Vert_p = \left( \sum_{i=1}^n \vert x_i \vert^p \right)^{1/p}, \quad p \in [1, \infty)
+%\end{align*}
+%the norm is used as an measure of the strenght of a signal or as an error.
 
 \subsubsection{Restricted Isometry Conditions}
-NSP do not take account for noise and we must therefore look at some stronger conditions which incoperate noise, the following restricted isometry property (RIP) \cite[p. 19]{•}.
+NSP do not take account for noise and we must therefore look at some stronger conditions which incoperate noise, the following restricted isometry property (RIP) %\cite[p. 19]{•}.
 
 \begin{definition}[Restricted Isometry Property]
 A matrix $A$ satisfies the RIP of order $k$ if there exists a $\delta_k \in (0,1)$ such that
@@ -75,10 +73,12 @@ C = \frac{2}{1 - (1 + \sqrt{2}) \delta_{2k}}
 \end{theorem} 
 
 \subsubsection{Coherence}
-Another measure used for sparsity is coherence \cite[p. 24]{•}.
+The NSP provide a unique solution to the optimisation problem, \eqref{eq:p1}, but is unfortunately complicated to investigate. Instead an alternative measure used for sparsity is presented.
+\\%\cite[p. 24]{•}.
+Coherence is a measure of quality and determine if the matrix $A$ is a good choice for the optimisation problem \eqref{eq:p1}. A small coherence describe the performance of a recovery algorithm as good with that choice of $\mathbf{A}$. 
 \begin{definition}[Coherence]
-Coherence of the matrix $A$, denoted as $\mu (A)$, is the largest absolute value between two columns $a_i$ and $a_j$ from $A$:
+Coherence of the matrix $A \in \mathbb{R}^{M \times N}$, denoted as $\mu (A)$, with columns $\mathbf{a}_1, \dots, \mathbf{a}_N$ for all $i \in [N]$ is given as
 \begin{align*}
-\mu (A) = \max_{1 \leq i < j \leq n} \frac{\vert \langle a_i, a_j \rangle \vert}{\Vert a_i \Vert_2 \Vert a_j \Vert_2}
+\mu (A) = \max_{1 \leq i < j \leq n} \frac{\vert \langle a_i, a_j \rangle \vert}{\Vert a_i \Vert_2 \Vert a_j \Vert_2}.
 \end{align*}
 \end{definition}

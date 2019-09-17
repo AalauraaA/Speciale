@@ -2,98 +2,17 @@
 % Encoding: Cp1252
 
 
-@Book{Moller,
-  Title                    = {Statistical Inference and Simulation for Spatial Point Processes},
-  Author                   = {Moeller, Jesper and Waagepetersen, Rasmus Plenge},
-  Publisher                = {Chapman and HallCRC},
-  Year                     = {2004}
+@Book{CS,
+  Title                    = {Compressed Sensing : Theory and Application},
+  Author                   = {Yonina C. Eldar, Gitta Kutyniok},
+  Publisher                = {Cambridge University Presse, New York},
+  Year                     = {2012}
 }
 
-@Book{RoomAcoustics,
-  Title                    = {Room Acoustics},
-  Author                   = {Heinrich Kuttruff},
-  Publisher                = {CRC Press, Taylor and Francis Group},
-  Year                     = {2013},
-  Edition                  = {6. edition}
-}
-
-@Book{winkler2003,
-  Title                    = {Image Analysis, Random Fields and Markov Chain Monte Carlo Methods},
-  Author                   = {Gehard Winkler},
-  Publisher                = {Springer-Verlag},
-  Year                     = {2003},
-  Edition                  = {2},
-  ISBN                     = {3-540-44213-8}
-}
-
-@Conference{ICM,
-  Title                    = {A Comparative Study of Energy Minimization Methods for Markov Random Fields},
-  Author                   = {Szeliski, Richard and Zabih, Ramin and Scharstein, Daniel and Veksler, Olga and Kolmogorov, Vladimir and Agarwala, Aseem and Tappen, Marshall and Rother, Carsten},
-  Booktitle                = {ECCV},
-  Year                     = {2006},
-  Pages                    = {16--29},
-  Volume                   = {2}
-}
-
-@InCollection{Sharma2013,
-  Title                    = {Evolution of Mobile Wireless Communication
-Networks-1G to 5G as well as Future Prospective
-of Next Generation Communication Network},
-  Author                   = {Pankaj Sharma},
-  Booktitle                = {IJCSMC},
-  Publisher                = {International Journal of Computer Science and Mobile Communication},
-  Year                     = {2013},
-  Number                   = {No. 8},
-  Pages                    = {p. 47-53},
-  Volume                   = {2},
-  Url                      = {https://pdfs.semanticscholar.org/8e32/4078c7b0848c5e8c573861878cdbe417e89e.pdf}
-}
-
-@Misc{Frequency_bands,
-  Title                    = {Definition of frequency bands},
-  Author                   = {Timislav Stimac},
-  Note                     = {Last checked 21-02-2018},
-  Publisher                = {Self published},
-  Url                      = {http://www.vlf.it/frequency/bands.html}
-}
-
-@Misc{MCMC,
-  Title                    = {A Zero-Math Introduction to Markov Chain Monte Carlo Methods},
-  Author                   = {Ben Shaver},
-  HowPublished             = {Towards Data Science},
-  Month                    = {22 December},
-  Note                     = {Visited 26.05.2019},
-  Year                     = {2017},
-  Url                      = {https://towardsdatascience.com/a-zero-math-introduction-to-markov-chain-monte-carlo-methods-dcba889e0c50}
-}
-
-@Misc{modes,
-  Title                    = {Improve your studio acoustics: How to deal with room modes},
-  Author                   = {sonible GmbH},
-  Note                     = {Visited 23.05.2019},
-  Year                     = {02.11.2017},
-  Owner                    = {Laura},
-  Timestamp                = {visited 23.05.2019},
-  Url                      = {https://www.sonible.com/blog/room-modes/?fbclid=IwAR22hqiNO8jdPjZhdFEqFR2gdlSpHYrvFKEaAoeUPL8wCkTRrzTCnADv6NM}
-}
-
-@PhdThesis{levy,
-  Title                    = {Inference for the Lévy Models and Their Applications in Medicine and Statistical Physics},
-  Author                   = {Alexandra Piryatinska},
-  School                   = {Department of Statistics, Case Western Reserve University},
-  Year                     = {2005},
-  Month                    = {January}
-}
-
-@TechReport{ISO3382-2,
-  Title                    = {{Acoustics - Measurements of room acoustic parameters - Part 2: Peverberation time in ordinary rooms}},
-  Institution              = {International Organization for Standardization},
-  Year                     = {2008},
-  Address                  = {Chalottenlund, DK},
-  Month                    = {Juli},
-  Number                   = {DS/EN ISO 3382-2:2008},
-  Type                     = {Standard},
-  Shorttitle               = {{DS}/{EN} {ISO} 3382-2:2008},
-  Volume                   = {2. udgave}
+@Book{FR,
+  Title                    = {A Mathematical Introduction to Compressive Sensing},
+  Author                   = {Simon Foucart \& Hoger Rauhut},
+  Publisher                = {Springer Science+Business Media New York},
+  Year                     = {2013}
 }
 

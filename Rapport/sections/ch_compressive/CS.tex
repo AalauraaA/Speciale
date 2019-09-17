@@ -19,27 +19,31 @@ where $[N]$ a set \cite[p. 41]{FR}. The set of all $k$-sparse signal is denoted 
 \begin{align*}
 \Sigma_k = \{ \mathbf{x} \ : \ \Vert \mathbf{x} \Vert_0 \leq k \}.
 \end{align*}
-We want to recover the signal when there is $M << N$ and $k < M$ \cite[p. 8]{CS}.
+We want to recover the signal when there is $M << N$ and $k < M$ \cite[p. 8]{CS}. This lead to that the matrix $\mathbf{A}$ becomes rank-deficient and therefore have a non-empty null-space \cite[p. XX]{CS}.
 \\ \\
 The linear model and finding the sparse signal $\mathbf{x}$ can be written as an optimisation problem
 \begin{align*}
-\min_{\mathbf{x}} \Vert \mathbf{x} \Vert_0 \quad \text{s.t} \quad \mathbf{y} = \mathbf{Ax}.
+\min_{\mathbf{z}} \Vert \mathbf{z} \Vert_0 \quad \text{s.t} \quad \mathbf{y} = \mathbf{Az},
 \end{align*}
+where $\mathbf{z}$ is all possible candidates to an $k$-sparse signal $\mathbf{x}$.
+\\
+Unfortunately, this optimisation problem is non-convex because of $\ell_0$ norm and is therefore very difficult to solve leading it to be a NP-hard problem. Instead by replacing the $\ell_0$ norm with its convex approximation, the $\ell_1$ norm, the optimisation problem become computational feasible \cite[p. 27]{CS}:
+\begin{align*}
+\min_{\mathbf{z}} \Vert \mathbf{z} \Vert_1 \quad \text{s.t} \quad \mathbf{y} = \mathbf{Az}.
+\end{align*} 
+
+\subsection{Conditions on the Mixing Matrix}
+To ensure an exact or an approximate reconstruction of the sparse signal $\mathbf{x}$ some conditions associated on the matrix $\mathbf{A}$ must be satisfied.
+
+\subsubsection{Null Space Conditions}
+The null space property (NSP) is some necessary and sufficient condition for exact recovery.
+The null space of the matrix $A$ is defined as
+\begin{align*}
+\mathcal{N}(A) = \{ z \ : \ Az = 0 \}.
+\end{align*} 
 
 
 
-Compressive sensing is used to recover high-dimensional signal from incomplete measurements using efficient algorithm. In compressive sensing a linear model is used to describe the relationship:
-$$
-y = Ax,
-$$
-where $x$ is a $1 \times N$ vector and $A$ is a matrix of size $M \times N$.
-
-As we want $M << N$ then $A$ becomes rank-deficieny and therefore have a nonempty nullspace.
-
-We want x to be a sparse representation, meaning that we have a signal of lenght N we want to represent it with k << N nonzero coefficient
-
-
-signal can be well-approximated from a linearly combination of few elements extracted from a known basis or dictionary. If the representation is exact then the signal is sparse.
 
 $\ell_p$ norm is given as
 \begin{align*}
@@ -50,16 +54,7 @@ the norm is used as an measure of the strenght of a signal or as an error.
 Then $\ell_0$ norm is np hard to calculate and therefore we seek for an approximation within the $\ell_1$ norm. Therefore,  we instead find the best $k$-term approximation of the signal
 
 
-
-some conditions must be satisfied to insure that we recover all sparse representation of a signal. Some of the most known conditions explore the null space: Null Space Conditions.
-\\
-The null space of the matrix $A$ is defined as
-\begin{align*}
-\mathcal{N}(A) = \{ z \ : \ Az = 0 \}.
-\end{align*} 
-
-
-
+\subsubsection{Restricted Isometry Conditions}
 NSP do not take account for noise and we must therefore look at some stronger conditions which incoperate noise, the following restricted isometry property (RIP) \cite[p. 19]{•}.
 
 \begin{definition}[Restricted Isometry Property]
@@ -79,7 +74,7 @@ C = \frac{2}{1 - (1 + \sqrt{2}) \delta_{2k}}
 \end{align*}
 \end{theorem} 
 
-
+\subsubsection{Coherence}
 Another measure used for sparsity is coherence \cite[p. 24]{•}.
 \begin{definition}[Coherence]
 Coherence of the matrix $A$, denoted as $\mu (A)$, is the largest absolute value between two columns $a_i$ and $a_j$ from $A$:

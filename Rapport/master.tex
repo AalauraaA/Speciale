@@ -14,16 +14,23 @@
 
 \pdfbookmark[0]{Contents}{label:contents}
 \pagestyle{fancy} %enable headers and footers again
+
+\input{sections/preface.tex}
+\cleardoublepage
+\input{sections/danish_summary.tex}
+\cleardoublepage
+
 \tableofcontents
 
 %\listoftodos
 
-\input{sections/preface.tex}
-\cleardoublepage
+
 %mainmatter
 \pagenumbering{arabic} %use arabic page numbering in the mainmatter
-\input{sections/chapter1.tex}
-\input{sections/chapter2.tex}
+\input{sections/introduction.tex}
+\input{sections/ch_problemanalysis.tex}
+\input{sections/ch_compressive.tex}
+
 
 \printbibliography[heading=bibintoc, title=Bibliography]
 \label{bib:mybiblio}

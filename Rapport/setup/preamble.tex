@@ -23,7 +23,7 @@
 \linespread{1.05}         % Palatino needs more leading (space between lines)
 % Choose the font encoding
 \usepackage[T1]{fontenc}
-\newcommand{\hashsharp}{$^\#$}
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Graphics and Tables
 % http://en.wikibooks.org/wiki/LaTeX/Importing_Graphics
@@ -31,7 +31,7 @@
 % http://en.wikibooks.org/wiki/LaTeX/Colors
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % load a colour package
-\usepackage[usenames,dvipsnames,svgnames,table]{xcolor}
+\usepackage{xcolor}
 \definecolor{aaublue}{RGB}{33,26,82}% dark blue
 % The standard graphics inclusion package
 \usepackage{graphicx}
@@ -46,7 +46,7 @@
 % Enable the use of frames around, e.g., theorems
 % The framed package is used in the example environment
 \usepackage{framed}
-\usepackage{float}
+
 % Adds support for full page background picture
 \usepackage[contents={},color=gray]{background}
 %\usepackage[contents=draft,color=gray]{background}
@@ -61,49 +61,9 @@
 % Adds new math symbols
 \usepackage{amssymb}
 % Use theorems in your document
-\usepackage[makeroom]{cancel}
-\usepackage{mdframed}
 % The ntheorem package is also used for the example environment
 % When using thmmarks, amsmath must be an option as well. Otherwise \eqref doesn't work anymore.
 \usepackage[framed,amsmath,thmmarks]{ntheorem}
-
-\theoremheaderfont{\normalfont\bfseries}
-\theorembodyfont{\normalfont}
-\theoremstyle{break}
-\def\theoremframecommand{{\color{aaublue}\vrule width 2.5pt \hspace{5pt}}}
-
-\newshadedtheorem{definition}{Definition}[chapter]
-\newenvironment{defi}[1]{%
-		\begin{definition}[#1]
-}{%
-		\end{definition}
-}
-\newshadedtheorem{lemma}{Lemma}[section]
-\newenvironment{lem}[1]{%
-		\begin{lemma}[#1]
-}{%
-		\end{lemma}
-}
-\newshadedtheorem{proposition}{Proposition}[section]
-\newenvironment{prop}[1]{%
-		\begin{proposition}[#1]
-}{%
-		\end{proposition}
-}
-\newshadedtheorem{theorem}{Theorem}[section]
-\newenvironment{thm}[1]{%
-		\begin{thmeorem}[#1]
-}{%
-		\end{theorem}
-}
-\newshadedtheorem{corollary}{Corollary}[section]
-\newenvironment{cor}[1]{%
-		\begin{corollary}[#1]
-}{%
-		\end{corollary}
-}
-\newtheorem*{remark}{Remark}[chapter]\theoremsymbol{\ensuremath{\color{black}\blacksquare}}
-\newtheorem*{proof}{Proof}[section]
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Page Layout
@@ -153,29 +113,19 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \usepackage[backend=bibtex,
   bibencoding=utf8,
-  sorting = nty, 
+  style=numeric-comp
   ]{biblatex}
-
 \addbibresource{bib/mybib}
-\DeclareNameAlias{sortname}{last-first}
-\DeclareNameAlias{default}{last-first}
-\DefineBibliographyStrings{english}{%
-  bibliography = {Bibliography},
-}	
-%\renewcommand*{\bibfont}{\small}
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Misc
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Add bibliography and index to the table of
 % contents
-\setlength{\parindent}{0in}
-\setcounter{tocdepth}{1}
-\setcounter{secnumdepth}{2}
 \usepackage[nottoc]{tocbibind}
 % Add the command \pageref{LastPage} which refers to the
 % page number of the last page
 \usepackage{lastpage}
-\usepackage{epstopdf}
 % Add todo notes in the margin of the document
 \usepackage[
 %  disable, %turn off todonotes
@@ -206,104 +156,3 @@
 	urlcolor=black,%
 	pdfstartview=FitH%
 }
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\usepackage{pdfpages}	
-\usepackage{algorithm}
-\usepackage{algpseudocode}
-
-\usepackage{todonotes} 
-\usepackage{tikz}
-
-%% Python code environment %%
-\usepackage{listings}
-\usepackage{color}
-\definecolor{codegreen}{rgb}{0,0.6,0}
-\definecolor{codegray}{rgb}{0.5,0.5,0.5}
-\definecolor{codepurple}{rgb}{0.58,0,0.82}
-\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
- 
-\lstdefinestyle{mystyle}{
-    backgroundcolor=\color{backcolour},   
-    commentstyle=\color{codegreen},
-    keywordstyle=\color{magenta},
-    numberstyle=\tiny\color{codegray},
-    stringstyle=\color{codepurple},
-    basicstyle=\footnotesize,
-    breakatwhitespace=false,         
-    breaklines=true,                 
-    captionpos=b,                    
-    keepspaces=true,                 
-    numbers=left,                    
-    numbersep=5pt,                  
-    showspaces=false,                
-    showstringspaces=false,
-    showtabs=false,                  
-    tabsize=2
-}
-\lstset{style=mystyle}
-\lstset{ %
-  language=Python,          % the language of the code
-  basicstyle=\footnotesize, % the size of the fonts that are used for t
-}
-
-
-\usetikzlibrary{decorations.markings}
-\tikzset{->-/.style={decoration={
-  markings,
-  mark=at position #1 with {\arrow{latex}}},postaction={decorate}}}
-
-\tikzset{middlearrow/.style={
-        decoration={markings,
-            mark= at position 0.5 with {\arrow{#1}} ,
-        },
-        postaction={decorate}
-    }
-} 
-
-\usepackage{pgfplots}
-%\usepackage{pgf-pie}
-
-
-\usetikzlibrary{shapes,arrows}
-\usetikzlibrary{decorations.pathreplacing}
-\usetikzlibrary{calc}
-\usetikzlibrary{decorations.text}
-\usetikzlibrary{positioning,circuits.ee.IEC}
-\usetikzlibrary{fit}
-\usepackage{circuitikz}
-
-\usepackage{lmodern}
-\usepackage{textcomp}
-\usepackage{MnSymbol,wasysym}
-
-%Tikz setup
-\tikzset{%
-  block/.style    = {draw, thick, rectangle, minimum height = 3em,
-    minimum width = 3em},
-  sum/.style      = {draw, circle, node distance = 2cm}, % Adder
-  input/.style    = {coordinate}, % Input
-  output/.style   = {coordinate}, % Output
-  a/.style   	= {rectangle,draw},
-  -|/.style		= {to path={-| (\tikztotarget) \tikztonodes}},
-  myarrow/.style={->, -latex', shorten >=1pt, thick}
-    }
-  
-
-\usepackage{varioref}
-\usepackage{multicol}
-
-% adjust page size with \begin{widepage}
-\usepackage{geometry}
-\usepackage{booktabs}
-\usepackage{tabularx}
-\usepackage{changepage}
-
-\newlength{\offsetpage}
-\setlength{\offsetpage}{1.0cm}
-\newenvironment{widepage}{\begin{adjustwidth}{-\offsetpage}{-\offsetpage}%
-    \addtolength{\textwidth}{2\offsetpage}}%
-{\end{adjustwidth}}
-\usepackage{multirow}
-\usepackage{enumerate}
-%\usepackage{enumitem}

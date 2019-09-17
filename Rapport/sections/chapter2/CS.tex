@@ -1,0 +1,68 @@
+\section{Compressive Sensing}
+Compressive sensing is used to recover high-dimensional signal from incomplete measurements using efficient algorithm. In compressive sensing a linear model is used to describe the relationship:
+$$
+y = Ax,
+$$
+where $x$ is a $1 \times N$ vector and $A$ is a matrix of size $M \times N$.
+
+As we want $M << N$ then $A$ becomes rank-deficieny and therefore have a nonempty nullspace.
+
+We want x to be a sparse representation, meaning that we have a signal of lenght N we want to represent it with k << N nonzero coefficient
+
+
+signal can be well-approximated from a linearly combination of few elements extracted from a known basis or dictionary. If the representation is exact then the signal is sparse. A signal $x$ said to be $k$-sparse when it has at most $k$ nonzeros in $x$:
+\begin{align*}
+\Vert x \Vert_0 \leq k,
+\end{align*}
+where
+\begin{align*}
+\Sigma_k = \{ x \ : \ \Vert x \Vert_0 \leq k \},
+\end{align*}
+denote the set of all $k$-sparse signals \cite[p. 8]{•}.
+
+$\ell_p$ norm is given as
+\begin{align*}
+\Vert x \Vert_p = \left( \sum_{i=1}^n \vert x_i \vert^p \right)^{1/p}, \quad p \in [1, \infty)
+\end{align*}
+the norm is used as an measure of the strenght of a signal or as an error.
+
+Then $\ell_0$ norm is np hard to calculate and therefore we seek for an approximation within the $\ell_1$ norm. Therefore,  we instead find the best $k$-term approximation of the signal
+
+
+
+some conditions must be satisfied to insure that we recover all sparse representation of a signal. Some of the most known conditions explore the null space: Null Space Conditions.
+\\
+The null space of the matrix $A$ is defined as
+\begin{align*}
+\mathcal{N}(A) = \{ z \ : \ Az = 0 \}.
+\end{align*} 
+
+
+
+NSP do not take account for noise and we must therefore look at some stronger conditions which incoperate noise, the following restricted isometry property (RIP) \cite[p. 19]{•}.
+
+\begin{definition}[Restricted Isometry Property]
+A matrix $A$ satisfies the RIP of order $k$ if there exists a $\delta_k \in (0,1)$ such that
+\begin{align*}
+(1 - \delta_k) \Vert x \Vert_2^2 \leq \Vert Ax \Vert_2^2 \leq (1 + \delta_k) \Vert x \Vert_2^2,
+\end{align*}
+holds for all $x \in \Sigma_k$
+\end{definition}
+
+
+If a matrix $A$ satisfy RIP then it will also satisfy the NSP as RIP is strictly stronger than NSP.
+\begin{theorem}
+If $A$ satisfies the RIP of order $2k$ with the constant $\delta_{2k} < \sqrt{2} -1$. Then
+\begin{align*}
+C = \frac{2}{1 - (1 + \sqrt{2}) \delta_{2k}}
+\end{align*}
+\end{theorem} 
+
+
+Another measure used for sparsity is coherence \cite[p. 24]{•}.
+\begin{definition}[Coherence]
+Coherence of the matrix $A$, denoted as $\mu (A)$, is the largest absolute value between two columns $a_i$ and $a_j$ from $A$:
+\begin{align*}
+\mu (A) = \max_{1 \leq i < j \leq n} \frac{\vert \langle a_i, a_j \rangle \vert}{\Vert a_i \Vert_2 \Vert a_j \Vert_2}
+\end{align*}
+\end{definition}

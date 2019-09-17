@@ -9,13 +9,23 @@ which consist of observed data $\mathbf{y} \in \mathbb{R}^M$, a matrix $\mathbf{
 \\
 A signal is said to be $k$-sparse if the signal has at most $k$ non-zeros coefficient: 
 \begin{align*}
-\Vert \mathbf{x} \Vert_0 \leq k,
+\Vert \mathbf{x} \Vert_0 = \text{card}(\text{supp}(\mathbf{x}) \leq k,
 \end{align*}
-where $\ell_0$ norm is used. The set of all $k$-sparse signal is denoted as
+where $\ell_0$ norm is used. The function $\text{card}$ is the cardinality of the support of $\mathbf{x}$. The support of $\mathbf{x}$ is giving as
+\begin{align*}
+\text{supp}(\mathbf{x}) = \{ j \in [N] \ : \ x_j \neq 0 \},
+\end{align*} 
+where $[N]$ a set \cite[p. 41]{FR}. The set of all $k$-sparse signal is denoted as
 \begin{align*}
 \Sigma_k = \{ \mathbf{x} \ : \ \Vert \mathbf{x} \Vert_0 \leq k \}.
 \end{align*}
-We want to recover the signal when there is $M << N$ and $k < M$ \cite[p. 8]{??}.
+We want to recover the signal when there is $M << N$ and $k < M$ \cite[p. 8]{CS}.
+\\ \\
+The linear model and finding the sparse signal $\mathbf{x}$ can be written as an optimisation problem
+\begin{align*}
+\min_{\mathbf{x}} \Vert \mathbf{x} \Vert_0 \quad \text{s.t} \quad \mathbf{y} = \mathbf{Ax}.
+\end{align*}
+
 
 
 Compressive sensing is used to recover high-dimensional signal from incomplete measurements using efficient algorithm. In compressive sensing a linear model is used to describe the relationship:

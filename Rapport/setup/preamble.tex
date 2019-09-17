@@ -153,14 +153,15 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \usepackage[backend=bibtex,
   bibencoding=utf8,
-  style=numeric-comp
+  sorting = nty, 
   ]{biblatex}
+
 \addbibresource{bib/mybib}
-%\DeclareNameAlias{sortname}{last-first}
-%\DeclareNameAlias{default}{last-first}
-%\DefineBibliographyStrings{english}{%
-%  bibliography = {Bibliography},
-%}	
+\DeclareNameAlias{sortname}{last-first}
+\DeclareNameAlias{default}{last-first}
+\DefineBibliographyStrings{english}{%
+  bibliography = {Bibliography},
+}	
 %\renewcommand*{\bibfont}{\small}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Misc

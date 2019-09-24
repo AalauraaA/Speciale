@@ -1,6 +1,8 @@
 \section{ICA}
-Through this section the mathematical concepts of Independent Component Analysis (ICA) will be explained and defined.
+Independent Component Analysis (ICA) is a method which assume statistical independent, in the EEG signal case, between the sources. With this independence it is possible for ICA to separate the scalp mixture $\mathbf{Y}$ into the sources $\mathbf{X}$ and the mixing matrix $\mathbf{A}$.
 \\
+Through this section the mathematical concepts of Independent Component Analysis (ICA) will be explained and defined.
+\\ \\
 Lets set up an situations. We have some measurements that has been affect by some surrounding noise or "\textbf{sideløbende}" measurements such as different conversations in a room. The measurements can be described by a vector $\mathbf{y}$ if we look at the one-dimensional case. $\mathbf{y}$ consist of the measurement from the original signal, a vector $\mathbf{x}$ and surrounding measurements, a matrix $\mathbf{A}$. This situation can be described as the linear model
 \begin{align*}
 \mathbf{y} = \mathbf{Ax} = \sum_{i=1}^n \mathbf{a}_i x_i
@@ -89,4 +91,7 @@ ICA can be used on Gaussian variables as little is done in addition to decorrela
 
 Whiting is useful to be done beore ICA
 
+A drawback of ICA is the system must be $N \leq M$ meaning that there must more sensors than sources which is not the case in this project where we look at low density EEG system, $M \leq N$. Furthermore, ICA need that the sources are stationary which is not the nature of EEG that are very much nonstationary \cite[p. 7-8]{PHD}.
+\\
+Instead a mixture model of ICA model where we assume that the amount of activation $k$ in $N$ sources are equal to $M$ (sensor). We can used the short time frame of the sources to make them stationary
 \section{Cov-DL}

@@ -82,3 +82,19 @@ Coherence of the matrix $A \in \mathbb{R}^{M \times N}$, denoted as $\mu (A)$, w
 \mu (A) = \max_{1 \leq i < j \leq n} \frac{\vert \langle a_i, a_j \rangle \vert}{\Vert a_i \Vert_2 \Vert a_j \Vert_2}.
 \end{align*}
 \end{definition}
+
+
+\subsection{Multiple Measurement Vector Model}
+A multiple measurement vector (MMV) model consist of the source matrix $\mathbf{X} \in \mathbb{R}^{N \times L}$ which have $k < M$ rows that are non-zero (the activations of the sources), a observed mixed data matrix $\mathbf{Y} \in \mathbb{R}^{M \times L}$ and a dictionary matrix $\mathbf{A} \in \mathbb{R}^{M \times N}$:
+\begin{align*}
+\mathbf{Y} = \mathbf{AX},
+\end{align*}
+where $L$ stand for the time samples. From the MMV model the non-zero rows of the source matrix $\mathbf{X}$ are the one of interest that are wanted recovered \cite[p. 11]{PHD}.
+
+
+\paragraph{Notes:}
+\begin{itemize}
+\item DL recover more sources than sensors $N > M$ assumning the constraint is at any time we have $k < M$. This cause problems for the use on low density system where we have low $M$.
+\item Recovery is not possible if $k \geq M$ since any random dictionary is sufficient to represent data points Y using only M basis vectors.
+\item If the source signal is sparse it is enough just to find the non-zero rows of X denoted by the set S, because then the source signal can be obtained by the psudo-inverse solution $\hat{\mathbf{X}} = \mathbf{A}_S^{perp} \mathbf{Y}$ where $\mathbf{A}_S$ is derived from the dictionary matrix $\mathbf{A}$ by deleting the columns assoicated with the zero rows of X. $S$ is called the support. (We identify the locations of sources)
+\end{itemize}

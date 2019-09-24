@@ -11,7 +11,8 @@ The EEG measurements are provided by a varies number of metal electrodes referre
 It takes a large amount of active neurons to generate an electrical signal that is recordable on the scalp as the current then have to penetrate the skull, skin and several other thin layers.  \\
 From this it is clear that the measurements from a single sensor do not correspond to the activity of a single neuron in the brain, but rather a collection of many activities. Here the same neuron activities can be measured by two or more sensors. Furthermore, interfering signals can occur resulting from physical movement of e.g. eyes and jawbone\cite{fundamentalEEG}.\\
 \\
-The waves resulting from EEG have been classified into four groups according to the dominant frequency. The delta wave ($0.5-4$ Hz) is observed from infants and sleeping adults, the Theta wave ($4-8$ Hz) is observed from children and sleeping adults, the alpha wave ($8-13$ Hz) is the most extensively studied brain rhythm, which is induced by an adult laying down with closed eyes. Lastly the beta wave ($13-30$ Hz) is considered the normal brain rhythm for normal adults, associated with active thinking, active attention or solving concrete problems\cite[p. 11]{EEGsignalprocessing}. An example of EEG measurement within the four categories are illustrated by figure \ref{fig:EEG_example}.        
+The waves resulting from EEG have been classified into four groups according to the dominant frequency. The delta wave ($0.5-4$ Hz) is observed from infants and sleeping adults, the Theta wave ($4-8$ Hz) is observed from children and sleeping adults, the alpha wave ($8-13$ Hz) is the most extensively studied brain rhythm, which is induced by an adult laying down with closed eyes. Lastly the beta wave ($13-30$ Hz) is considered the normal brain rhythm for normal adults, associated with active thinking, active attention or solving concrete problems\cite[p. 11]{EEGsignalprocessing}. An example of EEG measurement within the four categories are illustrated 
+by figure \ref{fig:EEG_example}.        
 \begin{figure}[h]
     \centering
     \includegraphics[scale=0.65]{figurs/EEG_example.png}
@@ -38,7 +39,8 @@ When considering the issue of identifying and localizing the activated sources f
 where $\mathbf{Y} \in \mathbb{R}^M\times N_d$ is the EEG measurements from $N$ sensors at $N_d$ data points, $\mathbf{A} \in \mathbb{R}^{M \times N}$ is an unknown mixing matrix and $\mathbf{X} \in \mathbb{R}^N \times N_d$ is the actual activation of sources within the brain. The $i^{th}$ column of $A$ represent the relative projection weights from the $i^{th}$ source to every sensor or channel\cite{phd2015}. 
 From this model the aim is to identify both $A$ and $X$ given the measurements $Y$. This set up is in general referred to as the inverse EEG problem.  \\
 \\
-To solve the problem the concept of compressive sensing makes a solid foundation including sparse signal recovery and dictionary learning. Independent Component Analysis (ICA) is a common applied method to solve the inverse problem   
+To solve the problem the concept of compressive sensing makes a solid foundation including sparse signal recovery and dictionary learning. Independent Component Analysis (ICA) is a common applied method to solve the inverse problem\cite{Scott1996}\cite{Scott1997}, here statistical independence between source activity is assumed. \\
+Application of ICA have shown great results regarding separation of high-density EEG. Further an enhanced signal-to-noise ratio of the unmixed independent source time series processes allow essential study of the behaviour and relationships between multiple EEG source processes\cite{Arnaud2012}.
 
 
 

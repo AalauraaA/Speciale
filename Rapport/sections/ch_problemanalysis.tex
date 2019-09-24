@@ -18,36 +18,47 @@ The waves resulting from EEG have been classified into four groups according to 
     \caption{Example of time dependent EEG measurements within the four defined categories alpha, beta, theta and delta. Image source: \cite{EEGsignalprocessing}}
     \label{fig:EEG_example}
 \end{figure}
-Evoked potential 
-
 
 (Hvad bruges det til)\\
 EEG is widely used within medicine and research of the cognitive processes in the brain. Diagnosis and Management of neurological disorders such as epilepsy is one example. \\   
 A great advantage of EEG is the speed. Neural activity can be measured within fractions of a second after a stimuli has been provided\cite[p. 3]{fundamentalEEG}. When a person is exposed to certain stimuli, e.g. visual or audible, the measured activity is said to result from evoked potential.\\
 \\
+slå de to sammen..
 
-noter
-- den skal drejes hen på connectivity som et ønsket område, og dermed source lokalisation 
-
-- study of dynamical behaviour of the brain, now big research field because of EEG and others --> many data analysis tools(Van artikel)
-
-- lately functional integration is of interest that is interplay between functionally segregate brain areas\\ 
-\\
 (Hvad er problemet, localisation)\\
 Due to EEG being non-invasive and fast it is widely used to study of the dynamical behaviour of the brain. Over the past two decades especially functional integration has become an area of interest, that is the interplay between functionally segregate brain areas\cite{Van2019}(evt. friston 2011).  \\
 This concerns the localization of the single cortical sources causing the united signal measured by a EEG sensor.\\ 
 \\  
+
+(Modellering)\\
+When considering the issue of identifying and localizing the activated sources from the EEG measurements, one known option is to model the data by the following linear system 
+\begin{align*}
+\mathbf{Y} = \mathbf{AX},
+\end{align*}
+where $\mathbf{Y} \in \mathbb{R}^M\times N_d$ is the EEG measurements from $N$ sensors at $N_d$ data points, $\mathbf{A} \in \mathbb{R}^{M \times N}$ is an unknown mixing matrix and $\mathbf{X} \in \mathbb{R}^N \times N_d$ is the actual activation of sources within the brain. The $i^{th}$ column of $A$ represent the relative projection weights from the $i^{th}$ source to every sensor or channel\cite{phd2015}. 
+From this model the aim is to identify both $A$ and $X$ given the measurements $Y$. This set up is in general referred to as the inverse EEG problem.  \\
+\\
+To solve the problem the concept of compressive sensing makes a solid foundation including sparse signal recovery and dictionary learning. Independent Component Analysis (ICA) is a common applied method to solve the inverse problem   
+
+
+
+
+problemet med source og sensors.. 
+low density 
+
 (Anvendelse i praksis)\\
 The hearing aid industry is one example of the use of this research. At Eriksholm research center which is a part of the hearing aid manufacture Oticon is cognitive hearing science an important research area. The main goal is to make it possible to the hearing aid to identify the attendeted speaker by reading the signal from the brain, which is where the EEG measurements are used(\url{https://www.eriksholm.com/research/cognitive-hearing-science}). \\
 \\
- 
+
 
 evt. lave subsections her..
 
-\section{Related Work and Our Contribution } 
-indhold
-\\
-\\
+\section{Related Work and Our Contribution} 
+
+
+
+
+
 nb. husk at dette kapitel skal vise et helt system og hvorhenne i det system vi kigger nærmere og kommer ind med vores bidrag. Det skal gøres klar hvilke områder vi vælger at ligge vores kræfter i.  
 
 

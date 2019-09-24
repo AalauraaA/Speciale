@@ -61,9 +61,9 @@ Gaussian random variable has a high entropy.
 
 The negentropy is defined as 
 \begin{align*}
-J(\mathbf{y}) = H(\mathbf{y}_{\text{gaus}) - H(\mathbf{y}),
+J(\mathbf{y}) = H(\mathbf{y}_{\text{gaus}}) - H(\mathbf{y}),
 \end{align*}
-which is also can be seen as a normalised differential entropy. $\mathbf{y}_{\text{gaus}$ is a gaussian random variable.
+which is also can be seen as a normalised differential entropy. $\mathbf{y}_{\text{gaus}}$ is a gaussian random variable.
 
 \subsubsection{Approximation of Kurtosis and Negentropy}
 
@@ -71,10 +71,7 @@ which is also can be seen as a normalised differential entropy. $\mathbf{y}_{\te
 \begin{algorithm}[H]
 \caption{Gradient Algorithm}
 \begin{itemize}
-\item[1.] Center the observed data $\mathbf{y}$ 
-
-
-$\Delta \mathbf{w} \propto \text{sign}(\text{kurt}(\mathbf{w}^T \mathbf{z})) \mathbb{E}[\mathbf{z} (\mathbf{w}^T \mathbf{z})^3 ]$
+\item[1.] Center the observed data $\mathbf{y}$. $\Delta \mathbf{w} \propto \text{sign}(\text{kurt}(\mathbf{w}^T \mathbf{z})) \mathbb{E}[\mathbf{z} (\mathbf{w}^T \mathbf{z})^3 ]$
 \item[2.] $\mathbf{w} \leftarrow \frac{\mathbf{w}}{\Vert \mathbf{w} \Vert}$
 \end{itemize}
 \end{algorithm}

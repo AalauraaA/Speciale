@@ -1,6 +1,6 @@
 \section{ICA}
 Through this section the mathematical concepts of Independent Component Analysis (ICA) will be explained and defined.
-
+\\
 Lets set up an situations. We have some measurements that has been affect by some surrounding noise or "\textbf{sideløbende}" measurements such as different conversations in a room. The measurements can be described by a vector $\mathbf{y}$ if we look at the one-dimensional case. $\mathbf{y}$ consist of the measurement from the original signal, a vector $\mathbf{x}$ and surrounding measurements, a matrix $\mathbf{A}$. This situation can be described as the linear model
 \begin{align*}
 \mathbf{y} = \mathbf{Ax} = \sum_{i=1}^n \mathbf{a}_i x_i
@@ -22,6 +22,67 @@ a_{n1} & a_{n2} & \cdots & a_{nn}
 \mathbf{x}
 \end{align*}
 where $\mathbf{y} = \{ y_i \}_{i \in [1,n]}$ and $\mathbf{x} = \{ x_t \}_{t \in [1,n]}$. Furthermore, $\mathbf{x}$ is statistically mutually independent.
+
+\subsection{Estimation of Independent Components}
+Notes:
+Estimation with maximization of nongaussianity (see section 7.5 for nonguassianity)
+
+
+\subsubsection{Kurtosis}
+When estimation ICA with maximization of nongaussianity a measure of the nongaussianity is needed. Kurtosis is quantitative measure used for nongaussianity of random variables. Kurtosis of a random variable $y$ is defined as
+\begin{align*}
+\text{kurt} (y) = \mathbb{E}[y^4] - 3 ( \mathbb{E}[y^2])^2,
+\end{align*}
+which is he fourth-order cumulant of the random variable $y$. By assume that the random variable $y$ have been normalised such that its variance $\mathbb{E}[y^2] = 1$, the kurtosis is rewritten as
+\begin{align*}
+\text{kurt} (y) = \mathbb{E}[y^4] - 3.
+\end{align*}
+Because of this definition the kurtosis of gaussian random variables will then be zero and for nongaussian random variables the kurtosis will almost always be non-zero \cite[p. 171]{ICA}.
+\\
+By using the absolute value of the kurtosis gaussian random variables are still zero but the nongaussian random variables will be greater than zero. In this case the random variables are called supergaussian.
+\\ \\
+For ICA the wish is to maximise the nongaussianity and therefore maximise the absolute value of kurtosis. One way to do this is to you a gradient algorithm.
+\\ \\
+One complication with the use of kurtosis as measure is the used of measured samples as the kurtosis is sensitive to outliers in the measured data set \cite[p. 182]{ICA}. 
+
+Notes:
+A measure of nongaussianity for the vector b which estimate 1 IC
+Have some outliners so we introduce negentropy
+
+\subsubsection{Negentropy}
+Another measure of nongaussianity is the negentropy which based of the differential entropy known from information theory.
+\\
+The differential entropy $H$ of a random variable $\mathbf{y}$ with density $p_y (\boldsymbol{\theta})$ is defined as
+\begin{align*}
+H(\mathbf{y}) = - \int p_y (\boldsymbol{\theta}) \log (p_y (\boldsymbol{\theta}) \ d\boldsymbol{\theta}
+\end{align*}
+Gaussian random variable has a high entropy.
+
+
+The negentropy is defined as 
+\begin{align*}
+J(\mathbf{y}) = H(\mathbf{y}_{\text{gaus}}) - H(\mathbf{y}),
+\end{align*}
+which is also can be seen as a normalised differential entropy. $\mathbf{y}_{\text{gaus}}$ is a gaussian random variable.
+
+\subsubsection{Approximation of Kurtosis and Negentropy}
+
+
+\begin{algorithm}[H]
+\caption{Gradient Algorithm}
+\begin{itemize}
+\item[1.] Center the observed data $\mathbf{y}$. $\Delta \mathbf{w} \propto \text{sign}(\text{kurt}(\mathbf{w}^T \mathbf{z})) \mathbb{E}[\mathbf{z} (\mathbf{w}^T \mathbf{z})^3 ]$
+\item[2.] $\mathbf{w} \leftarrow \frac{\mathbf{w}}{\Vert \mathbf{w} \Vert}$
+\end{itemize}
+\end{algorithm}
+
+
+
+
+
+
+
+
 
 Notes:
 ICA can be used on Gaussian variables as little is done in addition to decorrelate for Gaussian variable

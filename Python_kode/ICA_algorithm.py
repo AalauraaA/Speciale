@@ -6,13 +6,22 @@ Created on Sat Sep 21 22:40:41 2019
 Url: https://towardsdatascience.com/independent-component-analysis-ica-in-python-a0ef0db0955e
 
 See chapter 8 in ICA book
+-----------------------------------------------------------------------
+We have the ICA data model
+    x = As
+Estimating the independent component s can be done as
+    s = A^{-1} x
+We must introduce whitening which must be done before ICA
+    z = Wx = WAs
+
 """
 import numpy as np
 np.random.seed(0)
 
 def center(X):
     """
-    Subtract the mean from the signal observed signal X
+    Subtract the mean from the signal observed signal X to make the
+    mean of the data X zero
     """
     X = np.array(X)
     mean = X.mean(axis = 1, keepdims = True)

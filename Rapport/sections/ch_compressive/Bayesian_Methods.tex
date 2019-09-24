@@ -5,27 +5,27 @@ As described in earlier sections, the support set of sources is wish recovered. 
 \\ \\
 Lets first sketch the case. For the MMV model we assume that we have more sources than sensors $M \leq N$ and the activations inside the sources $k$ are less than the sensors $k \leq N$. At last we assume that the mixing happen instantaneous meaning that no time delay occur -- we will work in the time domain.
 \\
-We will look at two sufficient conditions for exact recovery of the support set $S$: orthogonality/uncorrelated of the active sources $k$ and contraint on the dictionary matrix $\mathbf{A}$.
+We will look at two sufficient conditions for exact recovery of the support set $S$: orthogonality/uncorrelated of the active sources $k$ and constraint on the dictionary matrix $\mathbf{A}$.
 
 \subsection{M-SBL Algorithm}
-The $i$-th row of the sources matrix $\mathbf{X}$, $\mathbf{x}_{i.}$, has an $L$-dimensional gaussian prior with zero mean and a variance controlled by $\gamma_i$:
+The $i$-th row of the sources matrix $\mathbf{X}$, $\mathbf{x}_{i.}$, has an $L$-dimensional independent gaussian prior with zero mean and a variance controlled by $\gamma_i$ which is unknown:
 \begin{align*}
 p (\mathbf{x}_{i.} ; \gamma) &= \mathcal{N}(0, \gamma_i \mathbf{I}) \\
-p (\mathbf{y}_{.j} \ \vert \ \mathbf{x}_{.j}) = \mathcal{N}(\mathbf{Ax}_{.j}, \sigma^2 \mathbf{I}) \\
-p (\mathbf{Y} \ \vert \ \mathbf{X}) = \prod_{j=1}^L p (\mathbf{y}_{.j} \ \vert \ \mathbf{x}_{.j})
+p (\mathbf{y}_{.j} \ \vert \ \mathbf{x}_{.j}) &= \mathcal{N}(\mathbf{Ax}_{.j}, \sigma^2 \mathbf{I}) \\
+p (\mathbf{Y} \ \vert \ \mathbf{X}) &= \prod_{j=1}^L p (\mathbf{y}_{.j} \ \vert \ \mathbf{x}_{.j})
 \end{align*}
 By integrating the unknown sources $\mathbf{X}$ the marginal likelihood of the observed mixed data $\mathbf{Y}$, $p (\mathbf{Y} ; \gamma)$ is achieved. By applying $-2 \log (\cdot)$ the marginal likelihood function is transformed to the cost function
 \begin{align*}
 \mathcal{L}(\gamma) &= - 2 \log(p (\mathbf{Y} ; \gamma)) = -2 \log \left( \int p (\mathbf{Y} \ \vert \ \mathbf{X}) p (\mathbf{X} ; \gamma) \ d\mathbf{X} \right) \\
-&= \log ( \vert \Sigma \vert) + \frac{1}{L} \sum_{t=1}^L \mathbf{y}_{.t}^T \Sigma^{-1} \mathbf{y}_{.t}
+&= \log ( \vert \boldsymbol{\Sigma} \vert) + \frac{1}{L} \sum_{t=1}^L \mathbf{y}_{.t}^T \boldsymbol{\Sigma}^{-1} \mathbf{y}_{.t}
 \end{align*}
 with
 \begin{align*}
-\Sigma = (\mathbf{A} \boldsymbol{\Gamma} \mathbf{A}^T + \sigma^2 \mathbf{I}), \quad \boldsymbol{\Gamma} = \text{diag}(\gamma).
+\boldsymbol{\Sigma} = (\mathbf{A} \boldsymbol{\Gamma} \mathbf{A}^T + \sigma^2 \mathbf{I}), \quad \boldsymbol{\Gamma} = \text{diag}(\gamma).
 \end{align*}
 To reach local minimum of the cost function we use a fixed point update that is fast and decrease the likelihood function at every step,
 \begin{align*}
-\gamma_i^{(k+1)} = \frac{\gamma_i^{(k)}}{\sqrt{\mathbf{a}_i^T (\Sigma^{(k)})^{-1} \mathbf{a}_i}} \frac{\Vert \mathbf{Y}^T (\Sigma^{(k)})^{-1} \mathbf{a}_i \Vert_2}{\sqrt{n}}
+\gamma_i^{(k+1)} = \frac{\gamma_i^{(k)}}{\sqrt{\mathbf{a}_i^T (\boldsymbol{\Sigma}^{(k)})^{-1} \mathbf{a}_i}} \frac{\Vert \mathbf{Y}^T (\boldsymbol{\Sigma}^{(k)})^{-1} \mathbf{a}_i \Vert_2}{\sqrt{n}}
 \end{align*}
 After convergence the support set $\hat{S}$ is extracted from the solution $\hat{\gamma}$ by $\hat{S} = \{ i, \hat{\gamma}_i \neq 0 \}$.
 
@@ -35,4 +35,5 @@ After convergence the support set $\hat{S}$ is extracted from the solution $\hat
 \item With M-SBL the \textbf{support set} of source can be recover for $k \geq M$, with some sufficient condition on the dictionary and sources. $M \leq k \leq N$ the support set can be recovered in the noiseless case.
 \item We assume that mixing at the sensors is instantaneous (no time delay between sources and sensors) and the environment is anechoic. (M-SBL)
 \item The sufficient conditions for exact support recovery for M-SBL in the regime k $\geq$ M are twofold: 1) orthogonality (uncorrelated) of the active sources, 2) The second condition imposes a constraint on the sensing dictionary A
+\item Bayesian replace the troublesome prior with a distribution that, while still encouraging sparsity, is somehow more computationally convenient. Bayesian approaches to the sparse approximation problem that follow this route have typically been divided into two categories: (i) maximum a posteriori (MAP) estimation using a fixed, computationally tractable family of priors and, (ii) empirical Bayesian approaches that employ a flexible, parameterized prior that is ‘learned’ from the data
 \end{itemize}

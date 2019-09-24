@@ -7,7 +7,6 @@ Created on Thu Sep 12 12:18:45 2019
 Topic: Covariance-Domain Dictionary Learning
 """
 import numpy as np
-import Rossler
 
 Y = 0 #EEG data matrix size M x Nd
 S_f = 100 # Sample frequency in Hz
@@ -23,16 +22,17 @@ Sigma_Ys = 1/Ls Ys Ys^T for each segment s
 """
 def Cov_DL(N, M, Ls):
     Xs = 0 # Source matrix for time segment s
-    Sigma_Xs = 1/Ls Xs * Xs.transpose
+    Sigma_Xs = 1/Ls * Xs * Xs.T
 
-    delta_s = diagonal(Sigma_Xs)
+    delta_s = np.diag(Sigma_Xs)
     D = 0  # Dictionary of size M(M+1)/2 x N -- BiGAMP-DL
     for i in range(N):
-        D[i] = a[i] a[i].transpose
+        D[i] = a[i] * a[i].T
 
-    Sigma_Ys = A * Lambda_s A.transpose + Es
+    Sigma_Ys = D * delta_s + Es
+    
     Lambda = 0
     for i in range(N):
-        Sigma_Ys[i] = Lambda[i][i] * a[i] * a[i].transpose + Es
+        Sigma_Ys[i] = Lambda_s[i][i] * D[i] + Es[i] # D[i] = a[i] * a[i].T
     
-    Sigma_Ys = D * delta_s + Es
+    Sigma_Ys = A * Lambda_s * A.T + Es

@@ -78,15 +78,7 @@ which is also can be seen as a normalised differential entropy. $\mathbf{y}_{\te
 \end{itemize}
 \end{algorithm}
 
-
-
-
-
-
-
-
-
-Notes:
+\paragraph{Notes:}
 ICA can be used on Gaussian variables as little is done in addition to decorrelate for Gaussian variable
 
 Whiting is useful to be done beore ICA
@@ -94,4 +86,48 @@ Whiting is useful to be done beore ICA
 A drawback of ICA is the system must be $N \leq M$ meaning that there must more sensors than sources which is not the case in this project where we look at low density EEG system, $M \leq N$. Furthermore, ICA need that the sources are stationary which is not the nature of EEG that are very much nonstationary \cite[p. 7-8]{PHD}.
 \\
 Instead a mixture model of ICA model where we assume that the amount of activation $k$ in $N$ sources are equal to $M$ (sensor). We can used the short time frame of the sources to make them stationary
+
 \section{Cov-DL}
+Covariance-domain dictionary learning (Cov-DL) is an algorithm which can identify more sources $N$ than sensors $M$ for the EEG inverse problem as described first in this chapter. The algorithm is used when the mixing matrix $\mathbf{A}$ wish recovered. We wish to handled cases where we have $\binom{N}{k}$ sources, where $1 \leq k \leq N$ can be jointly active.
+\\ \\
+In dictionary learning framework the inverse problem is defined as
+\begin{align*}
+\min_{A,X} = \frac{1}{2} \sum_{t=1}^{N_d} \Vert \mathbf{Y} - \mathbf{AX} \Vert_F^2 + \gamma \sum_{t=1}^{N_d} g(\mathbf{x}_t)
+\end{align*}
+The true dictionary is recovered if the sources $\mathbf{x}_t$ are sparse ($k_t < M$).
+
+
+\begin{align*}
+\boldsymbol{\Sigma}_{\mathbf{Y}_s} &= \mathbf{A} \boldsymbol{\Lambda} \mathbf{A}^T + \mathbf{E}_s \\
+\text{vech}(\boldsymbol{\Sigma}_{\mathbf{Y}_s}) &= \sum_{i=1}^N \boldsymbol{\Lambda}_{s_{ii}} \text{vech}(\mathbf{a}_i \mathbf{a}_i^T) + \text{vech}(\mathbf{E}_s) \\
+\text{vech}(\boldsymbol{\Sigma}_{\mathbf{Y}_s}) &= \mathbf{D} \boldsymbol{\delta}_s + \text{vech}(\mathbf{E}_s), \quad \forall s.
+\end{align*}
+The vector $\boldsymbol{\delta}_s$ contains the diagonal entries of the source sample-covariance matrix
+\begin{align*}
+\boldsymbol{\Sigma}_{\mathbf{X}_s} = \frac{1}{L_s} \mathbf{X}_s \mathbf{X}_s^T,
+\end{align*}
+and the matrix $\mathbf{D} \in \mathbb{R}^{M(M+1)/2 \times N}$ consists of the columns $\mathbf{d}_i = \text{vech}(\mathbf{a}_i \mathbf{a}_i^T)$. D and $\delta_s$ are unknown.
+\\
+Our goal is to learn $\mathbf{D}$ and the find the associated matrix $\mathbf{A}$.
+
+
+\paragraph{Notes:}
+In the case of EEG, this allows at most k = O(M) EEG sources to be simultaneously active which limits direct applicability of dictionary learning to low-density EEG systems.
+\\
+section 3.3.1 in phd.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

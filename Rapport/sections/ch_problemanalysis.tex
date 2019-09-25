@@ -43,7 +43,9 @@ Application of ICA have shown great results regarding separation of high-density
 This makes a foundation to look at the existing work considering the overcomplete inverse EEG problem. 
 
 \section{Related Work and Our Contribution} 
-As mentioned above ICA have been a solid method for source localisation in the case where a decomposition into a number of sources equal to the number of sensors was accepted. To overcome this issue an extension of ICA was suggested, referred to as the ICA mixture model, insted of identifying one mixing matrix $\mathbf{A}\in \mathbb{R}^{M\times N}$ this approach learns $N_{model}$(number of sources?) different mixing matrices $\mathbf{A}_i\in \mathbb{R}^{M\times M}$. A further adaptation of this method   
+As mentioned above ICA have been a solid method for source localisation in the case where a decomposition into a number of sources equal to the number of sensors was accepted. To overcome this issue an extension of ICA was suggested, referred to as the ICA mixture model, insted of identifying one mixing matrix $\mathbf{A}\in \mathbb{R}^{M\times N}$ this approach learns $N_{model}$(number of sources?) different mixing matrices $\mathbf{A}_i\in \mathbb{R}^{M\times M}$. A further adaptation of this method AMICA(Adaptive Mixture ICA)  have shown successful results regarding identification of more sources than available sensors\cite{Palmer2008}. However an assumption of no more than $M$ simultaneously active sources has to be made which is an essential limitation, especially when considering low density EEG. \\
+Other types of overcomplte ICA algorithms have be proposed, one is the Restricted ICA an efficient method used for unsupervised learning in neural networks 
+     
 
 
 

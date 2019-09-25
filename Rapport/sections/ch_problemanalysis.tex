@@ -21,15 +21,13 @@ by figure \ref{fig:EEG_example}.
 \end{figure}
 
 (Hvad bruges det til)\\
-EEG is widely used within medicine and research of the cognitive processes in the brain. Diagnosis and Management of neurological disorders such as epilepsy is one example. \\   
-A great advantage of EEG is the speed. Neural activity can be measured within fractions of a second after a stimuli has been provided\cite[p. 3]{fundamentalEEG}. When a person is exposed to certain stimuli, e.g. visual or audible, the measured activity is said to result from evoked potential.\\
-\\
-slå de to sammen..
+EEG is widely used within the medicine field and especially  research of the cognitive processes in the brain. Diagnosis and Management of neurological disorders such as epilepsy is one example. \\   
 
-(Hvad er problemet, localisation)\\
-Due to EEG being non-invasive and fast it is widely used to study of the dynamical behaviour of the brain. Over the past two decades especially functional integration has become an area of interest, that is the interplay between functionally segregate brain areas\cite{Van2019}(evt. friston 2011).  \\
-This concerns the localization of the single cortical sources causing the united signal measured by a EEG sensor.\\ 
-\\  
+Due to EEG being non-invasive and fast it is widely used to study of the dynamical behaviour of the brain. Neural activity can be measured within fractions of a second after a stimuli has been provided\cite[p. 3]{fundamentalEEG}. When a person is exposed to certain stimuli, e.g. visual or audible, the measured activity is said to result from evoked potential.\\
+Over the past two decades especially functional integration has become an area of interest, that is the interplay between functionally segregate brain areas\cite{Van2019}(evt. friston 2011). This concerns the localization of the single cortical sources causing the united signal measured by a EEG sensor.\\ 
+\\
+
+The hearing aid industry is one example where this research is highly prioritised. At Eriksholm research center which is a part of the hearing aid manufacture Oticon cognitive hearing science is a research area within in fast development. One main purpose is to make it possible for a hearing aid to identify the attended sound source by reading the signal from the brain of the user, which is where the EEG measurements are used\cite{Emina2019}\cite{Bech2018}. It is essentially the well known but unsolved cocktail problem which is sought improved by use of EEG measurement. The focus of the research considers the correlation between EEG measurements and the sound source rather than identification of the activated source from the EEG. Hence this localisation approach regarding hearing aids is of interest. Furthermore a real-time application to provide feedback from EEG measurements would be essential. \\ \\
 
 (Modellering)\\
 When considering the issue of identifying and localizing the activated sources from the EEG measurements, one known option is to model the data by the following linear system 
@@ -40,24 +38,12 @@ where $\mathbf{Y} \in \mathbb{R}^M\times N_d$ is the EEG measurements from $N$ s
 From this model the aim is to identify both $A$ and $X$ given the measurements $Y$. This set up is in general referred to as the inverse EEG problem.  \\
 \\
 To solve the problem the concept of compressive sensing makes a solid foundation including sparse signal recovery and dictionary learning. Independent Component Analysis (ICA) is a common applied method to solve the inverse problem\cite{Scott1996}\cite{Scott1997}, here statistical independence between source activity is assumed. \\
-Application of ICA have shown great results regarding separation of high-density EEG. Further an enhanced signal-to-noise ratio of the unmixed independent source time series processes allow essential study of the behaviour and relationships between multiple EEG source processes\cite{Arnaud2012}.
-
-
-
-
-problemet med source og sensors.. 
-low density 
-
-(Anvendelse i praksis)\\
-The hearing aid industry is one example of the use of this research. At Eriksholm research center which is a part of the hearing aid manufacture Oticon is cognitive hearing science an important research area. The main goal is to make it possible to the hearing aid to identify the attendeted speaker by reading the signal from the brain, which is where the EEG measurements are used(\url{https://www.eriksholm.com/research/cognitive-hearing-science}). \\
+Application of ICA have shown great results regarding separation of high-density EEG. Further an enhanced signal-to-noise ratio of the unmixed independent source time series processes allow essential study of the behaviour and relationships between multiple EEG source processes\cite{Arnaud2012}. However a significant flaw to this method is that to the EEG data can only be separated into a number of sources that are equal or less than the number of sensors, that is the inverse EEG problem can not be over-complete. This assumption undermines the reliability and usability of ICA, as the number of simultaneous active sources easyly  exceed the number of sensors\cite{phd2015}. This is especially a drawback when low density EEG are considered, that is equipment with less than 32 sensors. However improved capabilities of low density EEG devices are desirable due to relative low cost, mobility and ease to use. \\  
 \\
-
-
-evt. lave subsections her..
+This makes a foundation to look at the existing work considering the overcomplete inverse EEG problem. 
 
 \section{Related Work and Our Contribution} 
-
-
+As mentioned above ICA have been a solid method for source localisation in the case where a decomposition into a number of sources equal to the number of sensors was accepted. To overcome this issue an extension of ICA was suggested, referred to as the ICA mixture model, insted of identifying one mixing matrix $\mathbf{A}\in \mathbb{R}^{M\times N}$ this approach learns $N_{model}$(number of sources?) different mixing matrices $\mathbf{A}_i\in \mathbb{R}^{M\times M}$. A further adaptation of this method   
 
 
 

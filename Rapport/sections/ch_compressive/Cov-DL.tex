@@ -1,13 +1,31 @@
-\section{Covariance-Domain Dictionary Learning}
-Covariance-domain dictionary learning (Cov-DL) is an algorithm which can identify more sources $N$ than sensors $M$ for the EEG inverse problem as described first in this chapter. The algorithm is used when the mixing matrix $\mathbf{A}$ wish recovered. We wish to handled cases where we have $\binom{N}{k}$ sources, where $1 \leq k \leq N$ can be jointly active. This section is inspired by chapter 3 in \cite{phd2015}.
+\section{Covariance-Domain Dictionary Learning}\label{sec:Cov-DL}
+Covariance-domain dictionary learning (Cov-DL) is an algorithm which can identify more sources $N$ than sensors $M$ for the linear model of observed EEG data
+\begin{align*}
+\mathbf{Y} = \mathbf{AX}.
+\end{align*}
+Cov-DL takes advantage of dictionary framework and transformation into another domain -- covariance domain -- to recover the mixing matrix $\mathbf{A}$ from the observed data $\mathbf{Y}$. Cov-DL work together with another algorithm to find the sparse source matrix $\mathbf{X}$, in this thesis M-SBL is used for the source recovery and is described in section \ref{sec:M-SBL}. 
+\\
+In the following section we assume that $\mathbf{X}$ is known but in practice a random sparse matrix will be used to represent the sources. 
+\\
+This section is inspired by chapter 3 in \cite{phd2015} and the article \cite{Cov-DL}.
 \\ \\
+(?)\\
 In dictionary learning framework the inverse problem is defined as
 \begin{align*}
-\min_{A,X} = \frac{1}{2} \sum_{t=1}^{N_d} \Vert \mathbf{Y} - \mathbf{AX} \Vert_F^2 + \gamma \sum_{t=1}^{N_d} g(\mathbf{x}_t)
+\min_{A,X} = \frac{1}{2} \sum_{s=1}^{N_d} \Vert \mathbf{Y} - \mathbf{AX} \Vert_F^2 + \gamma \sum_{s=1}^{N_d} g(\mathbf{x}_s),
 \end{align*}
-The true dictionary is recovered if the sources $\mathbf{x}_t$ are sparse ($k_t < M$).
+where the function $g(\cdot)$ promotes sparsity of the source vector at time $t$ 
+The true dictionary $\mathbf{A}$ is recovered if the sources $\mathbf{x}_s$ are sparse ($k_s < M$).
 
 
+\paragraph{Introduction to Our Covariances:}
+Let $s$ be the time segments that $\mathbf{Y}$ is divided into and let it be sampled with the frequency $S_f$ such that our observed data is known overlapping segments $\mathbf{Y}_s \in \mathbb{R}^{M \times t_s S_f}$ where $t_s$ is the length of the segments in seconds. With the segments the linear model still holds and is rewritten into
+\begin{align*}
+\mathbf{Y}_s = \mathbf{AX}_s, \quad \forall s.
+\end{align*}
+The sources are assumed uncorrelated in time segments of the whole time scheme of the observed data. 
+\\
+In the covariance-domain, the observed segmented data $\mathbf{Y}_s$ is described by its covariance:
 \begin{align*}
 \boldsymbol{\Sigma}_{\mathbf{Y}_s} &= \mathbf{A} \boldsymbol{\Lambda} \mathbf{A}^T + \mathbf{E}_s \\
 \text{vech}(\boldsymbol{\Sigma}_{\mathbf{Y}_s}) &= \sum_{i=1}^N \boldsymbol{\Lambda}_{s_{ii}} \text{vech}(\mathbf{a}_i \mathbf{a}_i^T) + \text{vech}(\mathbf{E}_s) \\
@@ -25,8 +43,36 @@ Our goal is to learn $\mathbf{D}$ and the find the associated matrix $\mathbf{A}
 \end{align*}
 
 
+
+
+\paragraph{Introduction to Covariance Domain Transformation:}
+By the assumption of uncorrelated sources, the sample covariance source matrix is given as
+\begin{align*}
+\boldsymbol{\Sigma}_{\mathbf{X}_s} &= \frac{1}{L_s} \mathbf{X}_s \mathbf{X}_s^T \\
+&= \boldsymbol{\Lambda} + \mathbf{E},
+\end{align*}
+where $\boldsymbol{\Lambda}$ is the diagonal matrix of $\boldsymbol{\Sigma}_{\mathbf{X}_s}$. With this mindset, the linear model given in \eqref{} can then be modelled as
+\begin{align*}
+\mathbf{Y}_s \mathbf{Y}_s^T &= \mathbf{AX}_s \mathbf{X}_s^T \mathbf{A}^T \\
+\boldsymbol{\Sigma}_{\mathbf{Y}_s} &= \mathbf{A} \boldsymbol{\Sigma}_{\mathbf{X}_s} \mathbf{A}^T \\
+\boldsymbol{\Sigma}_{\mathbf{Y}_s} &= \mathbf{A} \boldsymbol{\Lambda} \mathbf{A}^T + \mathbf{E} \\
+&= \sum_{i=1}^N \boldsymbol{\Lambda}_{ii} \mathbf{a}_i \mathbf{a}_i^T + \mathbf{E}.
+\end{align*}
+As the covariance matrices are symmetric the lower triangular part can be vectorised:
+\begin{align*}
+\text{vech}(\boldsymbol{\Sigma}_{\mathbf{Y}_s}) &= \sum_{i=1}^N \boldsymbol{\Lambda}_{ii} \text{vector}(\mathbf{a}_i \mathbf{a}_i^T) + \text{vech}(\mathbf{E}) \\
+\text{vech}(\boldsymbol{\Sigma}_{\mathbf{Y}_s}) &= \sum_{i=1}^N \boldsymbol{\Lambda}_{ii} \mathbf{d}_i + \text{vech}(\mathbf{E}) \\
+\text{vech}(\boldsymbol{\Sigma}_{\mathbf{Y}_s}) &= \mathbf{D} \delta + \text{vech}(\mathbf{E}),
+\end{align*}
+where $\mathbf{d}_i = \text{vech}(\mathbf{a}_i \mathbf{a}_i^T)$. The size of the vectorised covariance matrices is $\frac{M(M+1)}{2}$.
+\\
+By use of the covariance domain it is possible to identify $\mathcal{O}(M^2)$ sources given the true dictionary matrix $\mathbf{A}$.
+
+
 \paragraph{Notes:}
 In the case of EEG, this allows at most k = O(M) EEG sources to be simultaneously active which limits direct applicability of dictionary learning to low-density EEG systems.
+\\
+We wish to handled cases where we have $\binom{N}{k}$ sources, where $1 \leq k \leq N$ can be jointly active. 
 \\
 section 3.3.1 in phd.
 

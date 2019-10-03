@@ -122,7 +122,7 @@ Analysis},
 
 @Book{ICA,
   Title                    = {Independent Component Analysis},
-  Author                   = {Hyvärinen, A. and Karhunen, J. and Oja, E.},
+  Author                   = {Hyvarinen, A. and Karhunen, J. and Oja, E.},
   Editor                   = {Simon Haykin},
   Publisher                = {John Wiley and Sons, Inc.},
   Year                     = {2001}

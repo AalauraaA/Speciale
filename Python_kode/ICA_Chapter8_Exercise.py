@@ -98,6 +98,12 @@ matrix, and estimate the model, using one of the nonlinearity in (8.31)
 
 
 
+"""
+8.2.2: Reduce the sample size to 100. Estimate the mixing matrix again. What do
+you see?
+"""
+
+
 
 
 

@@ -3,12 +3,12 @@ This chapter examines existing literature concerning source localisation from EE
 \\
 things to do: 
 - (DONE) phaselock, activities as one source
-- understreg vigtigheden af at kigge på sources istedet for scalp
-- specificering af feedback og test, nedjustering af ambitioner, indrage tid aspektet
+- (DONE) understreg vigtigheden af at kigge på sources istedet for scalp
+- (Done)specificering af feedback og test, nedjustering af ambitioner, indrage tid aspektet
 - fjern at vi har focus på attention decoding 
 - objektive tjek af resultater, sammenlign kendte application anvendt direkte på scalp med dem anvendt på vores løsning, kan det forbedre noget i sig selv 
-- sørge for at det ikke ligner correporation med Eriksholm, ref til hjemmeside 
-- updater idledningen
+- (DONE)sørge for at det ikke ligner correporation med Eriksholm, ref til hjemmeside 
+- updater indledningen
 - fokus på sammenhængene afsnit 
 - rette 
 - få styr på brugen af, measurements og dentification/seperation/localisation
@@ -26,13 +26,12 @@ It takes a large amount of active neurons to generate an electrical signal that 
 Hence it is clear that measurements from a single sensor do not correspond to the activity of a single specific neuron in the brain, but rather a collection of many activities within the range of the one sensor.
 Nor is the range of a single sensor separated from the other sensors thus the same activity can easily be measured by two or more sensors.
 Furthermore, interfering signals can occur in the measurments resulting from physical movement of e.g. eyes and jawbone \cite{fundamentalEEG}. 
-Lastly the transmission of the electric field through the biological tissue to the sensor has an impacted on the signal, this process is called volume conduction\cite[p. 68]{EEGsignalprocessing}.\\ \\
+Lastly the transmission of the electric field through the biological tissue to the sensor has an unknown mixing effect on the signal, this process is called volume conduction\cite[p. 68]{EEGsignalprocessing}\cite{Van2019}.\\ \\
 This clarifies the mixture of electrical signals with noise that form the EEG measurements. The concept is sought illustrated on figure \ref{fig:volumeconduction}. \\
 It will be clear later that it is of highly interest to separate and localize the sources of the neural activities measured on the scalp. Note that a source do not correspond to a single neuron but is typically a collection of synchronized/phase locked active neurons which are generating a constructive interference resulting in a measurable signal on the scalp(?).     
 \\
 \\
-The waves resulting from EEG measurement have been classified into four groups according to the dominant frequency. The delta wave ($0.5-4$ Hz) is observed from infants and sleeping adults, the theta wave ($4-8$ Hz) is observed from children and sleeping adults, the alpha wave ($8-13$ Hz) is the most extensively studied brain rhythm, which is induced by an adult laying down with closed eyes. Lastly the beta wave ($13-30$ Hz) is considered the normal brain rhythm for normal adults, associated with active thinking, active attention or solving concrete problems \cite[p. 11]{EEGsignalprocessing}. An example of EEG measurements within the four categories are illustrated 
-by figure \ref{fig:EEG_example}.        
+The waves resulting from EEG measurements have been classified into four groups according to the dominant frequency. The delta wave ($0.5-4$ Hz) is observed from infants and sleeping adults, the theta wave ($4-8$ Hz) is observed from children and sleeping adults, the alpha wave ($8-13$ Hz) is the most extensively studied brain rhythm, which is induced by an adult laying down with closed eyes. Lastly the beta wave ($13-30$ Hz) is considered the normal brain rhythm for normal adults, associated with active thinking, active attention or solving concrete problems \cite[p. 11]{EEGsignalprocessing}. An example of EEG measurements within the four categories is illustrated by figure \ref{fig:EEG_example}.        
 \begin{figure}[H]
     \begin{minipage}[t]{.45\textwidth}
         \centering
@@ -48,58 +47,64 @@ by figure \ref{fig:EEG_example}.
 \end{figure}
 \noindent
 %(Hvad bruges det til)\\
-EEG measurements are widely used within the medical field and especially research of the cognitive processes in the brain. Diagnosis and management of neurological disorders such as epilepsy is one example. 
-\\   
-Due to EEG being non-invasive and fast it is widely used to study of the dynamical behaviour of the brain. Neural activity can be measured within fractions of a second after a stimuli has been provided \cite[p. 3]{fundamentalEEG}. When a person is exposed to a certain stimuli, e.g. visual or audible, the measured activity is said to result from evoked potential.
+EEG is widely used within the medical field, especially research of the cognitive processes in the brain. Diagnosis and management of neurological disorders such as epilepsy is one example.\\
+EEG capitalize on the procedure being non-invasive and fast.
+Neural activity can be measured within fractions of a second after a stimuli has been provided \cite[p. 3]{fundamentalEEG}. When a person is exposed to a certain stimuli, e.g. visual or audible, the measured activity is said to result from evoked potential.
 \\
-Over the past two decades, especially functional integration has become an area of interest, that is the interplay between functionally segregate brain areas \cite{Van2019}(evt. friston 2011). This concerns the identification and localisation of the single cortical sources causing the united signal measured by a sensor.
+Over the past two decades, especially functional integration has become an area of interest\cite{Friston2011}. Within neurobiology functional integration referrers to the study of the correlation among activities in different regions of the brain. In other words, how do different part of the brain work together to process information and conduct a response\cite{Friston2002}.     
+For this purpose separation and localisation of the single sources which contribute to the EEG measurement is of interest. An article from 2016 point out the importance of performing analysis regarding functional integration at source level rather than at EEG level. It is argued through experiments that analysis at EEG level do not allow interpretations about the interaction between sources\cite{Van2019}.  
 \\ 
 \\
-The hearing aid industry is one example where this research is highly prioritised. At Eriksholm research center which is a part of the hearing aid manufacture Oticon cognitive hearing science is a research area within fast development. One main purpose is to make it possible for a hearing aid to identify the attended sound source by reading the signal from the brain of the user, which is where the EEG measurements are used \cite{Emina2019}, \cite{Bech2018}. It is essentially the well known but unsolved cocktail problem which is sought improved by use of EEG. The focus of the research considers the correlation between EEG measurements and the sound source rather than identification of the activated source from the EEG. Hence this localisation approach regarding hearing aids is of interest. Furthermore, a real-time application to provide feedback from EEG measurements would be essential. 
-\\
-\\
-%(Modellering)\\
-When considering the issue of identifying and localising the activated sources from the EEG measurements, one known option is to model the observed data by the following linear system 
+The hearing aid industry is one example where this research is highly prioritised. At Eriksholm research center which is a part of the hearing aid manufacture Oticon cognitive hearing science is a research area within fast development\cite{Weberik}. One main purpose of Eriksholm is to make it possible for a hearing aid to identify the attended sound source and hereby exclude noise from elsewhere \cite{Emina2019}, \cite{Bech2018}. This is where EEG and occasionally so called in-ear EEG is interesting, especiallaly in conjunction with the technology of beamforing, which allows for receiving only signals from a specific direction. It is essentially the well known but unsolved cocktail problem which is sought improved by use of EEG. However the focus of this research do consider the correlation between EEG measurements and the sound source rather than localisation of the activated source from the EEG\cite{Emina2019}. Hence a source localisation approach could potentially be of interest regarding hearing aids in order to improve the results.
+(Furthermore, a real-time application to provide feedback from EEG measurements would be essential.)? 
+
+\subsection{Modelling}
+Considering the issue of localising activated sources from EEG measurements, a known option is to model the observed data by the following linear system 
 \begin{align*}
 \mathbf{Y} = \mathbf{AX},
 \end{align*}
-where $\mathbf{Y} \in \mathbb{R}^{M\times N_d}$ is the EEG measurements from $M$ sensors at $N_d$ data points, $\mathbf{A} \in \mathbb{R}^{M \times N}$ is an unknown mixing matrix and $\mathbf{X} \in \mathbb{R}^{N \times N_d}$ is the actual activation of sources within the brain. The $i^{th}$ column of $\textbf{A}$ represent the relative projection weights from the $i^{th}$ source to every sensor \cite{phd2015}. From this model the aim is to identify both $\textbf{A}$ and $\textbf{X}$ given the measurements $\textbf{Y}$. This set up is in general referred to as the EEG inverse problem.  
+where $\mathbf{Y} \in \mathbb{R}^{M\times N_d}$ is the EEG measurements from $M$ sensors at $N_d$ data points, $\mathbf{A} \in \mathbb{R}^{M \times N}$ is an unknown mixing matrix and $\mathbf{X} \in \mathbb{R}^{N \times N_d}$ is the actual activation of sources within the brain. The $i^{th}$ column of $\textbf{A}$ represent the relative projection weights from the $i^{th}$ source to every sensor \cite{phd2015}. This is in general referred to as a multiple measurement vector model. The aim in this case is to identify both $\textbf{A}$ and $\textbf{X}$ given the measurements $\textbf{Y}$. For this specific set up the model is referred to as the EEG inverse problem.  
 \\
 \\
 To solve the EEG inverse problem the concept of compressive sensing makes a solid foundation including sparse signal recovery and dictionary learning. Independent Component Analysis (ICA) is a common applied method to solve the inverse problem \cite{Scott1996}, \cite{Scott1997}, here statistical independence between source activity is assumed. 
 \\
 Application of ICA have shown great results regarding source separation of high-density EEG. Furthermore, an enhanced signal-to-noise ratio of the unmixed independent source time series processes allow essential study of the behaviour and relationships between multiple EEG source processes \cite{Arnaud2012}. 
 \\
-However a significant flaw to this method is that the EEG measurements are only separated into a number of sources that are equal or less than the number of sensors.
+However a significant flaw to this method is that the EEG measurements are only separated into a number of sources that are equal or less than the number of sensors\cite{Balkan2015}.
 \\
-This means that the EEG inverse problem can not be over-complete. That is an assumption which undermines the reliability and usability of ICA, as the number of simultaneous active sources easily exceed the number of sensors \cite{phd2015}. This is especially a drawback when low-density EEG are considered, that is EEG equipment with less than 32 sensors. Improved capabilities of low-density EEG devices are desirable due to its relative low cost, mobility and ease to use. 
+This means that the EEG inverse problem can not be over-complete(er det correct i forhold til teorien om ICA?). That is an assumption which undermines the reliability and usability of ICA, as the number of simultaneous active sources easily exceed the number of sensors \cite{phd2015}. This is especially a drawback when low-density EEG are considered, that is EEG equipment with less than 32 sensors. Improved capabilities of low-density EEG devices are desirable due to its relative low cost, mobility and ease to use. 
 \\  
 \\
 This makes a foundation to look at the existing work considering the over-complete inverse EEG problem. 
 
 \section{Related Work and Our Contribution} 
-As mentioned above ICA has been a solid method for source localisation in the case where a separation into a number of sources equal to the number of sensors was accepted. To overcome this issue an extension of ICA was suggested, referred to as the ICA mixture model, instead of identifying one mixing matrix $\mathbf{A}\in \mathbb{R}^{M\times N}$ this approach learns $N_{model}$(number of sources? or datapoints) different mixing matrices $\mathbf{A}_i\in \mathbb{R}^{M\times M}$. The method was further adapted into the Adaptive Mixture ICA (AMICA) showed successful results regarding identification of more sources than available sensors \cite{Palmer2008}. However an assumption of no more than $M$ simultaneously active sources has to be made which is still an essential limitation, especially when considering low-density EEG. 
+As mentioned above ICA has been a solid method for source localisation in the case where a separation into a number of sources equal to the number of sensors was adequate. To overcome this issue an extension of ICA was suggested, referred to as the ICA mixture model\cite{Balkan2015}. Instead of identifying one mixing matrix $\mathbf{A}\in \mathbb{R}^{M\times N}$ this approach learns $N_{model}$(number of sources? or datapoints) different mixing matrices $\mathbf{A}_i\in \mathbb{R}^{M\times M}$. The method was further adapted into the Adaptive Mixture ICA (AMICA) which showed successful results regarding identification of more sources than available sensors \cite{Palmer2008}. However an assumption of no more than $M$ simultaneously active sources has to be made which is still an essential limitation, especially when considering low-density EEG. 
 \\
 Other types of over-complete ICA algorithms have been proposed to overcome the problem of learning over-complete systems. One is the Restricted ICA (RICA), an efficient method used for unsupervised learning in neural networks \cite{Le2011}. Here the hard orthonormal constraint in ICA is replaced with a soft reconstruction cost.
 \\
-In 2015, \cite{Balkan2015}, O. Balkan et. al. suggested a new approach also targeting the identification of more sources than sensors regarding EEG. The suggested method referred to as Cov-DL is a covariance based dictionary learning algorithm. The point is to transfer the forward problem into the covariance domain which has higher dimensionality than the original EEG sensor domain. This can be done when assuming the scalp mixing is linear and using the assumed natural uncorrelation of sources within a certain time-window. The Cov-DL algorithm stands out from the other straight forward dictionary learning methods as it does not relay on the sparsity of active sources thus it is a further advantage when low-density EEG is considered. 
+In 2015 O. Balkan et. al., \cite{Balkan2015}, suggested a new approach also targeting the identification of more sources than sensors regarding EEG. The suggested method, referred to as Cov-DL, is a covariance based dictionary learning algorithm. The point is to transfer the forward problem(?) into the covariance domain, which has higher dimensionality than the original EEG sensor domain. This can be done when assuming the scalp mixing is linear and using the assumed natural uncorrelation of sources within a certain time-window. The Cov-DL algorithm stands out from the other straight forward dictionary learning methods as it does not relay on the sparsity of active sources, this is an essential advantage when low-density EEG is considered. 
 \\
-Cov-DL was found to outperform both AMICA and RICA, thus it is considered the state of the art within the area of source identification. 
+Cov-DL was tested on  found to outperform both AMICA and RICA\cite{Balkan2015}, thus it is considered the state of the art within the area of source identification. 
 \\ 
 \\
 It is essential to note that the Cov-DL algorithm do only learn the mixing matrix $\textbf{A}$, the projection of sources to the scalp sensors, and not the explicit source activity time series $\textbf{X}$.
 \\
-For this purpose a multiple measurement sparse bayesian learning (M-SBL) algorithm was proposed in \cite{Balkan2014} also by O. Balkan et. al., also targeting the case of more active sources than sensors \cite{Balkan2014}. Here the mixing matrix which is now assumed known should fulfil the exact support recovery conditions. Though the method was proven to outperform the recently used algorithm M-CoSaMP even when the defined conditions was not fulfilled.  
+For this purpose a multiple measurement sparse bayesian learning (M-SBL) algorithm was proposed in \cite{Balkan2014} also by O. Balkan et. al., also targeting the case of more active sources than sensors \cite{Balkan2014}. Here the mixing matrix which is known should fulfil the exact support recovery conditions. Though, the method was proven to outperform the recently used algorithm M-CoSaMP even when the defined recovery conditions was not fulfilled.  
 \\   
 \\
-The two state of the art methods for source identification will make the foundation of this thesis. This thesis propose an algorithm which uses the investigated methods on synthetic EEG data and real EEG data. Furthermore, the purpose is to extend the algorithm to perform on EEG measurement in real-time in order to investigate the possibility of providing useful feedback depending on the real-time results of the algorithm. For this, analysis of results in different sound environments such as noisy and noise-less cases and cases of directional noise.
+The two state of the art methods for source identification makes the foundation of this thesis. This thesis propose an algorithm with the purpose of solving the EEG inverse problem using the presented methods on EEG measurement. To extent the existing results the algorithm is expanded into a real-time application, in order to provide feedback based on the source activity.\\
+The intention of the feedback is to adjust the direction of the beam within the hearing aid depending on the source activity.      
+For this, the application is tested within a simulation environment where the receiving direction of the test person can be adjusted in real-time. 
+The quality of the final results is measured by the capability of improving the listener experience and the time used to proved useful feedback. \\
 \\
-The overall purpose of the real-time performance is to provide results that can be useful to the hearing aid industry, considering the development of self-adaptive hearing aids. By this extension and associated analysis we seek to extend the existing results within the area.   
-\\ \\
+The overall purpose of the real-time performance is to provide results that can be useful to the hearing aid industry, considering the development of self-adaptive hearing aids.(nødvendigt med den sidste sætning?) 
+
+
+(nutid datid fremtid i det sidste her??)
+
 ...........\\
 nb. husk at dette kapitel skal vise et helt system og hvor henne i det system vi kigger nærmere og kommer ind med vores bidrag. Det skal gøres klart hvilke områder vi vælger at ligge vores kræfter i.  \\
-\\
-Vi skal lige have styr på brugen af source identification,localisation og separation. 
+- i forhold til det her burde vi så udpensle noget mere? 
 
 
 

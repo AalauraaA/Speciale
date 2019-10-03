@@ -1,17 +1,34 @@
-\chapter{Motivation}
-This chapter examines existing literature concerning source localisation from EEG measurements. At first a motivation for the problem is given, considering the application within the hearing aid industry. Further, the state of the art methods are presented followed by a description of the contribution proposed in this thesis. 
+\chapter{Motivation}\label{ch:motivation}
+This chapter examines existing literature concerning source localisation from EEG measurements. At first a motivation for the problem is given, considering the application within the hearing aid industry. Further, the state of the art methods are presented followed by a description of the contribution proposed in this thesis. \\
+\\
+things to do: 
+- (DONE) phaselock, activities as one source
+- understreg vigtigheden af at kigge på sources istedet for scalp
+- specificering af feedback og test, nedjustering af ambitioner, indrage tid aspektet
+- fjern at vi har focus på attention decoding 
+- objektive tjek af resultater, sammenlign kendte application anvendt direkte på scalp med dem anvendt på vores løsning, kan det forbedre noget i sig selv 
+- sørge for at det ikke ligner correporation med Eriksholm, ref til hjemmeside 
+- updater idledningen
+- fokus på sammenhængene afsnit 
+- rette 
+- få styr på brugen af, measurements og dentification/seperation/localisation
+brug kun seperation og localization  
 
 \section{EEG Measurements}
-%(Hvad er EEG)\\
+
 Electroencephalography (EEG) is a technique used within the medical field. It is an imaging technique measuring electric signals on the scalp, caused by brain activity. 
+The human brain consist of an enormous amounts of cells, called neurons. These neurons are mutually connected in neural nets and when a neuron is activated, for instance by a physical stimuli, local current flows are produced \cite{fundamentalEEG}. This is what makes a kind of neural interaction across different parts of the brain(?). 
 \\
-The human brain consist of an enormous amounts of cells, called neurons. These neurons are mutually connected in neural nets and when a neuron is activated, for instance by a physical stimuli, local current flows are produced \cite{fundamentalEEG}. As such the neurons are somehow communicating across different parts of the brain(?). 
 \\
-\\
-EEG measurements are provided by a varies number of metal electrodes, referred to as sensors, placed on the scalp of the patient. The sensors read the present electrical signals which are massively amplified and displayed on a computer, as a sum of sinusoidal waves relative to time.
+EEG measurements are provided by a varies number of metal electrodes, referred to as sensors, carefully placed on a human scalp. Each sensor read the present electrical signals, which are then displayed on a computer, as a sum of sinusoidal waves relative to time.
 \\
 It takes a large amount of active neurons to generate an electrical signal that is recordable on the scalp as the current have to penetrate the skull, skin and several other thin layers.
-Hence it is clear that measurements from a single sensor do not correspond to the activity of a single specific neuron in the brain, but rather a random collection of many activities. Nor is the range of a single sensor defined thus the same activity can be measured by two or more sensors. Furthermore, interfering signals can occur in the measurments resulting from physical movement of e.g. eyes and jawbone \cite{fundamentalEEG}. This transmission of an electric field through the biological tissue to the sensor is called volume conduction. The concept is illustrated on figure \ref{fig:volumeconduction}
+Hence it is clear that measurements from a single sensor do not correspond to the activity of a single specific neuron in the brain, but rather a collection of many activities within the range of the one sensor.
+Nor is the range of a single sensor separated from the other sensors thus the same activity can easily be measured by two or more sensors.
+Furthermore, interfering signals can occur in the measurments resulting from physical movement of e.g. eyes and jawbone \cite{fundamentalEEG}. 
+Lastly the transmission of the electric field through the biological tissue to the sensor has an impacted on the signal, this process is called volume conduction\cite[p. 68]{EEGsignalprocessing}.\\ \\
+This clarifies the mixture of electrical signals with noise that form the EEG measurements. The concept is sought illustrated on figure \ref{fig:volumeconduction}. \\
+It will be clear later that it is of highly interest to separate and localize the sources of the neural activities measured on the scalp. Note that a source do not correspond to a single neuron but is typically a collection of synchronized/phase locked active neurons which are generating a constructive interference resulting in a measurable signal on the scalp(?).     
 \\
 \\
 The waves resulting from EEG measurement have been classified into four groups according to the dominant frequency. The delta wave ($0.5-4$ Hz) is observed from infants and sleeping adults, the theta wave ($4-8$ Hz) is observed from children and sleeping adults, the alpha wave ($8-13$ Hz) is the most extensively studied brain rhythm, which is induced by an adult laying down with closed eyes. Lastly the beta wave ($13-30$ Hz) is considered the normal brain rhythm for normal adults, associated with active thinking, active attention or solving concrete problems \cite[p. 11]{EEGsignalprocessing}. An example of EEG measurements within the four categories are illustrated 

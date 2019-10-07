@@ -1,26 +1,15 @@
 \chapter{Problem Statement}
-From the motivation \ref{ch:motivation} and related work it was stated that EEG measurement of the brain activity could be a new contribution within the hearing aid industry to develop hearing aid with better performing in situations as the cocktail party problem. By solving the EEG inverse problem of the low-density EEG device to localise and identifying the sources of the brain activity the results could be used to guide and adapt the hearing aids performance such as move the beamformer in the direction of interest. This lead to the following problem statement.
+From the motivation and related work described in chapter \ref{ch:motivation} it is stated that EEG measurement of the brain activity has great potential to contribute within the hearing aid industry, regarding the development of hearing aids with improved performance in situations as the cocktail party problem. By solving the overcomplete EEG inverse problem, in order to localise the sources of the brain activity, the results could be used to guide and adapt the hearing aids performance such as move the microphone beam in the direction of interest. This lead to the following problem statement.
 \\ \\
-%Suggestion I:\\
-%How can sources of activation within the brain be localised from EEG measurement, in the case of less sensors than sources and how can this be extended to a real-time application useful within the hearing aid development?\\
-%Suggestion II: \\
-\textit{How can sources of activation within the brain be localised from the EEG inverse problem, in the case of less sensors than sources and how can such algorithm be extended to a real-time application useful within the hearing aid development?}
+\textit{How can sources of activation within the brain be localised from the EEG inverse problem, in the overcomplete case of less sensors than sources and how can such algorithm be extended to a real-time application providing feedback to improve the intentional listening experience?}
 \\ \\
 From the problem statement some clarifying sub-questions have been made.
 \begin{itemize}
 \item How can the over-complete EEG inverse problem be solved by use of compressive sensing included domain transformation?
 \item How can Cov-DL be used to estimate the mixing matrix $\mathbf{A}$ from the over-complete EEG inverse problem?
 \item How can M-SBL be used to estimate the source matrix $\mathbf{X}$ from the over-complete EEG inverse problem?
-\item How can the estimates from the over-complete EEG inverse problem be interpreted, regarding hearing aid research. 
-%\item How can an algorithm involving the compressive sensing methods for finding the estimates of the over-complete EEG inverse problem be created for real-time EEG measurements?
 \item How can an application be formed to constitute this source identification process operating in real-time?
+\item How can the feedback of the system be used to control the microphone beam of a simulated hearing aid. Especially how to analyse the feedback versus the listening experience in order to improve this.   
 \end{itemize}
 
-\paragraph{Notes:}
-Vi skal have styr på hvad det er vi vil dem vores realtime implementering:
-\begin{itemize}
-\item Måle om der er støj, så vi kan skrue ned for den støj,jeg tror det var det Jan snakked om i første omgang.
-\item Kæde støjen sammen med locationerne for de aktive sources, måske det man gør i forhold til at retningsbestemme støj?
-\item Er første del blot at localisere sources?
-\end{itemize}
  

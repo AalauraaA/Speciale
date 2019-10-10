@@ -1,8 +1,8 @@
 \section{Compressive Sensing}\label{sec:CS}
 Compressive sensing is the theory of efficient recovery or reconstruction of a signal from a minimal number of measurements. Assuming linear acquisition of the original information the relation between the measurements and the signal to be recovered is described by a linear model\cite{FR} 
-\begin{align*}\label{eq:model}
+\begin{align}\label{eq:model}
 \mathbf{y} = \mathbf{Ax},
-\end{align*}
+\end{align}
 where $\mathbf{y} \in \mathbb{R}^M$ is the observed data, $\mathbf{x} \in \mathbb{R}^N$ is the original signal and $\mathbf{A} \in \mathbb{R}^{M \times N}$ is a matrix which models the linear measurement process or in other word it maps from $\mathbb{R}^{N}$ to $\mathbb{R}^{M}$.\\
 In compressive sensing terminology, $\mathbf{x}$ is the signal of interest that is wished to be recovered by solving the linear system \eqref{eq:model}. In the typical compressive sensing case where $M<N$ the system become underdetermined and there are infinitely many solution, provided that a solution exist. Such system is also referred to as overcomplete(as the number of basis vectors is grather than the dimension of the input). However, by enforcing certian sparsity constraints it is possible to recover the wanted signal\cite{FR}.   
 \\ \\
@@ -10,15 +10,17 @@ A signal is said to be $k$-sparse if the signal has at most $k$ non-zeros coeffi
 \begin{align*}
 \Vert \mathbf{x} \Vert_0 := \text{card}(\text{supp}(\mathbf{x})) \leq k,
 \end{align*}
-The function $\text{card}$ is the cardinality of the support of $\mathbf{x}$. The support of $\mathbf{x}$ is giving as
+The function $\text{card}(\cdot)$ is the cardinality and the support of $\mathbf{x}$ is giving as
 \begin{align*}
 \text{supp}(\mathbf{x}) = \{ j \in [N] \ : \ x_j \neq 0 \},
 \end{align*} 
-where $[N]$ a set \cite[p. 41]{FR}. The set of all $k$-sparse signals is denoted as
+where $[N]$ a set of integers ${1,2,\hdots,N}$ \cite[p. 41]{FR}. The set of all $k$-sparse signals is denoted as
 \begin{align*}
 \Sigma_k = \{ \mathbf{x} \ : \ \Vert \mathbf{x} \Vert_0 \leq k \}.
 \end{align*}
-It is of interest to recover the signal $\mathbf{y}$ when $M << N$ and $k < M$ \cite[p. 8]{CS}. This lead to that the matrix $\mathbf{A}$ becomes rank-deficient and therefore have a non-empty null-space \cite[p. ix]{CS}.
+
+If a signal is assumed to be $k$-sparse with $k<M$  
+ \cite[p. 8]{CS}. This lead to that the matrix $\mathbf{A}$ becomes rank-deficient and therefore have a non-empty null-space \cite[p. i	x]{CS}.
 \\ \\
 The linear model and finding the sparse signal $\mathbf{x}$ can be written as an optimisation problem
 \begin{align*}

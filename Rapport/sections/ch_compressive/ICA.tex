@@ -1,4 +1,8 @@
 \section{Independent Component Analysis}\label{sec:ICA}
+\todo{Mangler at: \\
+- skriv om whiting og centering om 0 \\
+- fixed-point (fastICA) \\
+- læs igennem}
 Independent Component Analysis (ICA) is a method which assume statistical independent between the components. By statistical independent the component value do not give information of another component value. Furthermore, ICA also assume that the data of interest is nongaussian as in most practical cases the data do not follow the gaussian distribution \cite[p. 3]{ICA}.
 
 
@@ -78,9 +82,14 @@ From the all above the following algorithm can be stated.
 \end{itemize}
 \end{algorithm}
 
-\paragraph{Notes:}
-A measure of nongaussianity for the vector b which estimate 1 IC
-Have some outliners so we introduce negentropy
+\subsubsection*{Fixed-Point Algorithm - FastICA}
+A fixed-point algorithm to maximise the nongaussity is more efficient than the gradient algorithm as the gradient algorithm converge slow as depending on the choice of learning rate which could be chosen such that convergence never gonna be reach. The fixed-point algorithm is an alternative that could be used \todo{Afsnittet med fixed-point er ikke færdig}.
+
+\begin{align*}
+\mathbf{w} \propto ( \mathbb{E}[\mathbf{z}(\mathbf{w}^T \mathbf{z})^3] - 3 \Vert \mathbf{w} \Vert^2 \mathbf{w})
+\end{align*}
+The fixed-point algorithm is also called for FastICA as the algorithm has shown to converge fast and reliably \cite[p. 179]{ICA}. 
+
 
 \subsubsection{Negentropy}
 Another measure of nongaussianity is the negentropy which based of on the differential entropy. The differential entropy $H$ of a random variable $\mathbf{y}$ with density $p_y (\boldsymbol{\theta})$ is defined as
@@ -98,7 +107,21 @@ with $\mathbf{y}_{\text{gaus}}$ been a gaussian random variable of same covarian
 As the kurtosis is sensitive for outliers the negentropy is difficult to compute computationally as the negentropy require a estimate of the pdf. Instead it could be an idea to use an approximation of the negentropy.
  
 \subsubsection{Approximation of Kurtosis and Negentropy}
-
+The way to approximate the negentropy is to look at the high-order cumulants using polynomial density expansions such that the approximation could be given as
+\begin{align}\label{eq:approx_1}
+J(y) \approx \frac{1}{12} \mathbb{E}[y^3]^2 + \frac{1}{48} \text{kurt}(y)^2.
+\end{align}
+This is in the scalar case as in practice the approximation can be in the scalar case. The random variable $y$ has zero mean and unit variance and the kurtosis is introduced in the approximation. The approximation suffers from nonrobustness with the kurtosis and therefore a more generalised approximation is presented to avoid the nonrobustness.
+\\ \\
+For the generalised approximation the use of expectations of nonquadratic functions is introduced. The polynomial functions $y^3$ and $y^4$ from \eqref{eq:approx_1} are replaced by $G^i$ with $i$ been an index and $G$ been some function. The approximation in \eqref{eq:approx_1} then becomes
+\begin{align*}
+J(y) \approx (\mathbb{E}[G(y)] - \mathbb{E}[G(\nu)])^2.
+\end{align*}
+The choice of $G$ can lead to a better approximation than \eqref{eq:approx_1} and by choosing one with do not grow to fast more robust estimators can be obtained. The choice of $G$ could be the two following functions
+\begin{align*}
+G_1 (y) &= \frac{1}{a_1} \log (\cosh(a_1 y)), \quad 2 \leq a_1 \leq 2 \\
+G_2 (y) &= -\exp \left( \frac{-y^2}{2} \right)
+\end{align*}
 
 
 \subsubsection*{Gradient Algorithm with Negentropy}
@@ -106,12 +129,16 @@ As described in section \ref{??} the gradient algorithm is used to maximising ne
 \begin{align*}
 \mathbf{w} = \gamma \mathbb{E}[\mathbf{z} g(\mathbf{w}^T \mathbf{z})]
 \end{align*}
-with respect to $\mathbf{w}$ and where $\gamma = \mathbb{E}[G(\mathbf{w}^T \mathbf{z})] - \mathbb{E}[G(\nu)]$ with $\nu$ being the standardised gaussian random variable. To omitted the expectation $\gamma$ as we did with the sign of kurtosis, $\gamma$ is estimated as
+with respect to $\mathbf{w}$ and where $\gamma = \mathbb{E}[G(\mathbf{w}^T \mathbf{z})] - \mathbb{E}[G(\nu)]$ with $\nu$ being the standardised gaussian random variable. $g$ is the derivative of the nonquadratic function $G$. To omitted the expectation $\gamma$ as we did with the sign of kurtosis, $\gamma$ is estimated as
 \begin{align*}
 \gamma = (G(\mathbf{w}^T \mathbf{z}) - \mathbb{E}[G(\nu)]) - \gamma.
 \end{align*}
-
-
+For the choice of $g$ the derivative of the functions presented in \eqref{eq:G} could be use to achieve a robust result. Alternative a derivative which correspond to the fourth-power as seen in the kurtosis could be used. The functions $g$ could be
+\begin{align*}
+g_1 (y) &= \tanh (a_1 y), \quad 2 \leq a_1 \leq 2  \\
+g_2 (y) &= y \exp\left( \frac{-y^2}{2} \right) \\
+g_3 (y) &= y^3
+\end{align*}
 
 \begin{algorithm}[H]
 \caption{Gradient Algorithm}

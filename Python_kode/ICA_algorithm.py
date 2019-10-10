@@ -16,8 +16,13 @@ We must introduce whitening which must be done before ICA
 
 """
 import numpy as np
+from scipy import signal
+import matplotlib.pyplot as plt
 np.random.seed(0)
 
+# =============================================================================
+# Definition and Algorithm
+# =============================================================================
 def pre_alg(X):
     """
     Subtract the mean from the signal observed signal X to make the
@@ -45,7 +50,7 @@ def pre_alg(X):
     X_white = np.dot(E, np.dot(D_inv, np.dot(E.T, X)))
     
     return X_white
-
+    
 def g(x):
     """
     Equation 8.31, with a = 1
@@ -88,4 +93,34 @@ def ica(X, iterations, tolerance=1e-5):
         W[i, :] = w # Update w
         
     S = np.dot(W, X) # Source signal  
-    return S
+    return S, W
+
+# =============================================================================
+# Generating Data
+# =============================================================================
+n_samples = 2000
+time = np.linspace(0, 8, n_samples)
+s1 = np.sin(2 * time)  # sinusoidal
+s2 = np.sign(np.sin(3 * time))  # square signal
+s3 = signal.sawtooth(2 * np.pi * time)  # saw tooth signal
+
+X = np.c_[s1, s2, s3]
+A = np.array(([[1, 1, 1], [0.5, 2, 1.0], [1.5, 1.0, 2.0]])) #mix matrix
+X = np.dot(X, A.T) #Observed signal
+X = X.T
+S, A_mix = ica(X, iterations=1000)
+
+plt.figure(1)
+plt.subplot(3, 1, 1)
+for x in X:
+    plt.plot(x)
+plt.title("mixtures")
+plt.subplot(3, 1, 2)
+for s in [s1, s2, s3]:
+    plt.plot(s)
+plt.title("real sources")
+plt.subplot(3,1,3)
+for s in S:
+    plt.plot(s)
+plt.title("predicted sources")
+plt.show()

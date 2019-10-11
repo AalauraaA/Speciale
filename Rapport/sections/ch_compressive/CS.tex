@@ -4,7 +4,8 @@ Compressive sensing is the theory of efficient recovery or reconstruction of a s
 \mathbf{y} = \mathbf{Ax},
 \end{align}
 where $\mathbf{y} \in \mathbb{R}^M$ is the observed data, $\mathbf{x} \in \mathbb{R}^N$ is the original signal and $\mathbf{A} \in \mathbb{R}^{M \times N}$ is a matrix which models the linear measurement process or in other word it maps from $\mathbb{R}^{N}$ to $\mathbb{R}^{M}$.\\
-In compressive sensing terminology, $\mathbf{x}$ is the signal of interest that is wished to be recovered by solving the linear system \eqref{eq:model}. In the typical compressive sensing case where $M<N$ the system become underdetermined and there are infinitely many solution, provided that a solution exist. Such system is also referred to as overcomplete(as the number of basis vectors is grather than the dimension of the input). However, by enforcing certian sparsity constraints it is possible to recover the wanted signal\cite{FR}.   
+In compressive sensing terminology, $\mathbf{x}$ is the signal of interest which is sought recovered by solving the linear system \eqref{eq:model}. In the typical compressive sensing case where $M<N$ the system become underdetermined and there are infinitely many solutions, provided that a solution exist. Such system is also referred to as overcomplete(as the number of basis vectors is greater than the dimension of the input). However, by enforcing certian sparsity constraints it is possible to recover the wanted signal\cite{FR}. \\ 
+And another argument; If $M<<N$, it leads to the matrix $\mathbf{A}$ being rank-deficient(but not necessarily?) which imply that $\mathbf{A}$ has a non-empty null space and this leads to infinitely many signals will yield the same solution $\mathbf{y} = \mathbf{Ax} = \mathbf{Ax'}$ \cite[p. ix]{CS}. Thus it is necessary to limit the solution space to a specific class of signals $\mathbf{x}$, for this certain  constraints on sparsity is introduced.   
 \\ \\
 A signal is said to be $k$-sparse if the signal has at most $k$ non-zeros coefficient, for this purpose the $\ell_0$-norm is defined 
 \begin{align*}
@@ -14,29 +15,32 @@ The function $\text{card}(\cdot)$ is the cardinality and the support of $\mathbf
 \begin{align*}
 \text{supp}(\mathbf{x}) = \{ j \in [N] \ : \ x_j \neq 0 \},
 \end{align*} 
-where $[N]$ a set of integers ${1,2,\hdots,N}$ \cite[p. 41]{FR}. The set of all $k$-sparse signals is denoted as
+where $[N]$ a set of integers $\{1,2,\hdots,N\}$ \cite[p. 41]{FR}. The set of all $k$-sparse signals is denoted as
 \begin{align*}
 \Sigma_k = \{ \mathbf{x} \ : \ \Vert \mathbf{x} \Vert_0 \leq k \}.
 \end{align*}
 
-If a signal is assumed to be $k$-sparse with $k<M$  
- \cite[p. 8]{CS}. This lead to that the matrix $\mathbf{A}$ becomes rank-deficient and therefore have a non-empty null-space \cite[p. i	x]{CS}.
+A signal is assumed to be $k$-sparse with $k<M$\cite[p. 8]{CS}(not found yet?)
 \\ \\
-The linear model and finding the sparse signal $\mathbf{x}$ can be written as an optimisation problem
+From the desire of finding a sparse solution $\mathbf{x}$ the following optimisation problem is considered 
+
 \begin{align*}
 \min_{\mathbf{z}} \Vert \mathbf{z} \Vert_0 \quad \text{s.t} \quad \mathbf{y} = \mathbf{Az},
 \end{align*}
 where $\mathbf{z}$ is all possible candidates to an $k$-sparse signal $\mathbf{x}$.
 \\
-Unfortunately, this optimisation problem is non-convex because of $\ell_0$-norm and is therefore difficult to solve -- it is a NP-hard problem. Instead by replacing the $\ell_0$-norm with its convex approximation, the $\ell_1$-norm, the optimisation problem become computational feasible \cite[p. 27]{CS}
+Unfortunately, this optimisation problem is non-convex due to the definition of $\ell_0$-norm and is therefore difficult to solve -- it is a NP-hard problem. Instead by replacing the $\ell_0$-norm with its convex approximation, the $\ell_1$-norm, the optimisation problem become computational feasible \cite[p. 27]{CS}
 \begin{align}\label{eq:p1}
 \min_{\mathbf{z}} \Vert \mathbf{z} \Vert_1 \quad \text{s.t} \quad \mathbf{y} = \mathbf{Az},
 \end{align} 
 and instead we find the best $k$-term approximation of the signal $\mathbf{x}$.
-
+This method is referred to as Basis Pursuit and makes the foundation of several algorithms solving alternative versions of \eqref{eq:p1} where noise is incorporated. A different type of solution method includes greedy algorithm such as the Orthogonal Matching Pursuit.    
+      
 \subsection{Conditions on the Mixing Matrix}
-To ensure an exact or an approximate reconstruction of the sparse signal $\mathbf{x}$ some conditions associated on the matrix $\mathbf{A}$ must be satisfied.
-
+The construction of the matrix $\mathbf{A}$ is of course essential for the solution of the optimisation problem. So far no one has manage to construct a matrix which is proved optimal for some compressive sensing set up. However some certain constructions have shown sufficient recovery guarantee.\\ 
+\\
+To ensure an exact or an approximate reconstruction of the sparse signal $\mathbf{x}$ some conditions associated on the matrix $\mathbf{A}$ must be satisfied.\\
+(Next section are not finished, is it necessary with the details?)
 \subsubsection{Null Space Conditions}
 The null space property (NSP) is some necessary and sufficient condition for exact recovery.
 The null space of the matrix $A$ is defined as

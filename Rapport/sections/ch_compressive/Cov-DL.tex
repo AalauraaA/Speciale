@@ -69,13 +69,35 @@ where $\mathbf{d}_i = \text{vech}(\mathbf{a}_i \mathbf{a}_i^T)$. The size of the
 By use of the covariance domain it is possible to identify $\mathcal{O}(M^2)$ sources given the true dictionary matrix $\mathbf{A}$.
 
 
-\paragraph{Notes:}
-In the case of EEG, this allows at most k = O(M) EEG sources to be simultaneously active which limits direct applicability of dictionary learning to low-density EEG systems.
-\\
-We wish to handled cases where we have $\binom{N}{k}$ sources, where $1 \leq k \leq N$ can be jointly active. 
-\\
-section 3.3.1 in phd.
+\paragraph{Notes}\\
+Ting der skal uddybes:
+\begin{itemize}
+\item 
+\item
+\end{itemize}
 
+Andet:
+\begin{itemize}
+\item In the case of EEG, this allows at most k = O(M) EEG sources to be simultaneously active which limits direct applicability of dictionary learning to low-density EEG systems.
+\item We wish to handled cases where we have $\binom{N}{k}$ sources, where $1 \leq k \leq N$ can be jointly active.
+\item section 3.3.1 in phd.
+\item i phd så forstås source localisation som at finde support for x og source identification forstås som at finde værdierne i de non-zero indgange(?)
+
+\end{itemize}
+
+Trine indhold:
+\item til CS afsnit: kilde på at nok sparse giver den rigtige løsning, se [39] fra phd
+\item Dictionary learning:\\
+\begin{itemize}
+\item jointly solveing optimisation problem where g is introduced
+\item her siges at k<M= er nødvendigt for recovery( af x går jeg ud fra ) Fordi at enhver random dictionary kan bruges til at reprensentere y i dim M ved brug af M basis vektore i A.
+\item altså når k > M så udgør de berørte søjler i A ikke længere en basis og x kan ikke bestemmes entydigt ? derfor er k<M et krav i standard algorithmer
+\item der sættes så et nyt frame work hvor vi kan bruge standard algoritmer i vores tilfælde med k>M (forhåbenligt) 
+\end{itemize}
+\item EEG is non-stationary(afsnit 1.3.1 phd) source dynamics ændres med tiden afhængig af opave, fejlkilder kan være non stationære. så ICA dur ikke mixture model ICA var bedre til non stationær med statigvæk limited til k = M. 
+\item the contribution er så at: support for X i MMV problem kan findes for k>M, altså altal non-zero entry k i x, med sufficient conditions ved sparse bayesian learning. herefter ved brug at uncorrelation af sources i et dictionary learning frame work så kan vi recover x når k>M. 
+  
+  
 
 
 

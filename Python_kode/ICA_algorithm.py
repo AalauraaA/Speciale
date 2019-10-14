@@ -21,7 +21,48 @@ import matplotlib.pyplot as plt
 np.random.seed(0)
 
 # =============================================================================
-# Definition and Algorithm
+# Functions and derivatives
+# =============================================================================
+def g1(x):
+    """
+    Equation 8.31
+    """
+    a = 1
+    return np.tanh(a*x)
+
+def g2(x):
+    """
+    Equation 8.32
+    """
+    return x * np.exp(-x**2/2)
+
+def g3(x):
+    """
+    Equation 8.33
+    """
+    return x**2
+
+def g_der1(x):
+    """
+    Equation 8.44
+    """
+    a = 1
+    return a * (1 - g1(a*x)**2)
+
+def g_der2(x):
+    """
+    Equation 8.45
+    """
+    return (1 - x**2) * np.exp(-x**2/2)
+
+def g_der3(x):
+    """
+    Equation 8.46
+    """
+    return 3*x**2
+
+# =============================================================================
+# Algorithm
 # =============================================================================
 def preprocessing(X):
     """
@@ -51,19 +92,6 @@ def preprocessing(X):
     
     return X_white
     
-def g(x):
-    """
-    Equation 8.31, with a = 1
-    """
-    return np.tanh(x)
-
-def g_der(x):
-    """
-    Equation 8.44 wit a = 1
-    """
-    return 1 - g(x) * g(x)
-
-
 def ica(X, iterations, tolerance=1e-5):
     """
     The ICA algorithm
@@ -79,7 +107,7 @@ def ica(X, iterations, tolerance=1e-5):
         w = np.random.rand(components_nr)  # Normal distribution - initial value
         
         for j in range(iterations): # Update the mixing matrix elementwise
-            w_new = (X * g(np.dot(w.T, X))).mean(axis=1) - g_der(np.dot(w.T, X)).mean() * w
+            w_new = (X * g1(np.dot(w.T, X))).mean(axis=1) - g_der1(np.dot(w.T, X)).mean() * w
             w_new /= np.linalg.norm(w_new, ord=2) # Normalisation of w
             
             if i >= 1: # Components_nr is greater than 1
@@ -112,6 +140,7 @@ X = np.dot(X, A.T) # Observed signal
 X = X.T
 S, A_mix = ica(X, iterations=1000)
 
+" Plots "
 plt.figure(1)
 plt.subplot(3, 1, 1)
 for x in X:

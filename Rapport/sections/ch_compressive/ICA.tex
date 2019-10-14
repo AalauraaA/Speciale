@@ -54,7 +54,7 @@ Furthermore, to support the assumption of nongaussiantity the whiting preprocess
 A way to estimate/recover the independent components could be to take advantage of the assumption of nongaussiantity. By finding the estimate which maximise the nongaussiantity the real independent component can be found based on it must have a nongaussian distribution as mention in section XX. But before the estimation a measure of nongaussiantity must be introduce -- this could be the kurtosis.
 
 \subsubsection{Kurtosis}
-Kurtosis is a quantitative measure used for nongaussianity of random variables. Kurtosis of a random variable $y$ is defined as
+Kurtosis is a quantitative measure used for nongaussianity of random variables. Kurtosis of a random variable $y$ is defined as\todo{Tjek lige op denne definition}
 \begin{align*}
 \text{kurt} (y) = \mathbb{E}[y^4] - 3 ( \mathbb{E}[y^2])^2,
 \end{align*}
@@ -66,13 +66,14 @@ Because of this definition the kurtosis of nongaussian random variables the kurt
 \\
 By using the absolute value of the kurtosis gaussian random variables are still zero but the nongaussian random variables will be greater than zero. In this case the random variables are called supergaussian.
 \\ \\
-One complication with the use of kurtosis as measure is the used of measured samples as the kurtosis is sensitive to outliers in the measured data set \cite[p. 182]{ICA}. 
-\subsubsection*{Gradient Algorithm}
+One complication with kurtosis as a is that kurtosis is sensitive to outliers \cite[p. 182]{ICA}.
+ 
+\paragraph{The Gradient Algorithm}
 For ICA the wish is to maximise the nongaussianity and therefore maximise the absolute value of kurtosis. One way to do this is to use a gradient algorithm.
 \\ \\
-With a gradient algorithm you start from an initial vector $\mathbf{w}$ and then compute the direction. The direction is computed from the absolute kurtosis of $y = \mathbf{w}^T \mathbf{z}$ giving some samples of the mixture vector $\mathbf{z}$. The direction which give us the highest kurtosis is the direction where $\mathbf{w}$ is moved.
+With a gradient algorithm you start from an initial vector $\mathbf{w}$ and then compute the direction. The direction is computed from the absolute kurtosis of $y = \mathbf{w}^T \mathbf{z}$ giving some samples of the mixture vector $\mathbf{z}$ -- the mixture vector $\mathbf{z}$ is the whited observed mixture vector $\mathbf{y}_{\text{white}}$. The direction which give us the highest kurtosis is the direction where $\mathbf{w}$ is moved.
 \\
-The gradient of the absolute value of kurtosis is computed as
+The gradient of the absolute value of kurtosis is computed as\todo{Regn lige efter}
 \begin{align}\label{eq:kurt}
 \frac{\partial \vert \text{kurt}(\mathbf{w}^T \mathbf{x})\vert}{\partial \mathbf{w}} &= 4 \text{sign}(\text{kurt}(\mathbf{w}^T \mathbf{x})) (\mathbb{E}[\mathbf{z} (\mathbf{w}^T \mathbf{z})^3] - 3 \mathbf{w} \mathbb{E}[(\mathbf{w}^T\mathbf{z})^2] \nonumber \\
 &= 4 \text{sign}(\text{kurt}(\mathbf{w}^T \mathbf{x})) (\mathbb{E}[\mathbf{z} (\mathbf{w}^T \mathbf{z})^3] - 3 \mathbf{w} \Vert \mathbf{w} \Vert^2).
@@ -92,15 +93,20 @@ From the all above the following algorithm can be stated.
 \begin{algorithm}[H]
 \caption{Gradient Algorithm with Kurtosis}
 \begin{itemize}
-\item[1.] $\gamma = ((\mathbf{w}^T \mathbf{z})^4 - 3) - \gamma$
-\item[2.] $\mathbf{w} = \gamma \mathbf{z})) \mathbb{E}[\mathbf{z} (\mathbf{w}^T \mathbf{z})^3]$
-\item[3.] $\mathbf{w} = \frac{\mathbf{w}}{\Vert \mathbf{w} \Vert}$
+\item[1.] Center the observed data to achieve zero mean
+\item[2.] Whiten the centered data
+\item[3.] Create the initial random vector $\mathbf{w}$ and the initial value for $\gamma$
+\item[4.] Compute $\mathbf{w} = \gamma \mathbf{z} \mathbb{E}[\mathbf{z} (\mathbf{w}^T \mathbf{z})^3]$
+\item[5.] Normalise $\mathbf{w} = \frac{\mathbf{w}}{\Vert \mathbf{w} \Vert}$
+\item[6.] Update $\mathbf{w}$
+\item[7.] Update $\gamma = ((\mathbf{w}^T \mathbf{z})^4 - 3) - \gamma$
+\item[8.] Repeat until convergence
 \end{itemize}
 \end{algorithm}
 
-\subsubsection*{Fixed-Point Algorithm - FastICA}
-A fixed-point algorithm to maximise the nongaussity is more efficient than the gradient algorithm as the gradient algorithm converge slow as depending on the choice of learning rate which could be chosen such that convergence never gonna be reach. The fixed-point algorithm is an alternative that could be used.
-By looking at the gradient of kurtosis given in XX and then set the equation equal with $\mathbf{w}$:
+\paragraph{Fixed-Point Algorithm - FastICA}
+A fixed-point algorithm to maximise the nongaussity is more efficient than the gradient algorithm as the gradient algorithm converge slow as depending on the choice of $\gamma$ which could be chosen such that convergence never gonna be reach. The fixed-point algorithm is an alternative that could be used.
+By looking at the gradient of kurtosis given in \eqref{eq:kurt} and then set the equation equal with $\mathbf{w}$:
 \begin{align*}
 \mathbf{w} \propto ( \mathbb{E}[\mathbf{z}(\mathbf{w}^T \mathbf{z})^3] - 3 \Vert \mathbf{w} \Vert^2 \mathbf{w})
 \end{align*}
@@ -110,14 +116,19 @@ By this new equation, the algorithm find $\mathbf{w}$ by simply calculating the 
 \end{align*}
 As with the gradient algorithm the fixed-point algorithm do also divide the found $\mathbf{w}$ by its norm. Therefore is $\Vert \mathbf{w} \Vert$ omitted from the equation.
 \\
-Instead of a learning parameter $\gamma$ the fixed-point algorithm compute $\mathbf{w}$ directly from previous $\mathbf{w}$.
+Instead of $\gamma$ the fixed-point algorithm compute $\mathbf{w}$ directly from previous $\mathbf{w}$.
 \\ \\
 The fixed-point algorithm have been summed in the following algorithm.
 \begin{algorithm}[H]
 \caption{Fixed-Point Algorithm with Kurtosis}
 \begin{itemize}
-\item[1.] $\mathbf{w} = \mathbb{E}[\mathbf{z}(\mathbf{w}^T \mathbf{z})^3] - 3 \mathbf{w}$
-\item[2.] $\mathbf{w} = \frac{\mathbf{w}}{\Vert \mathbf{w} \Vert}$
+\item[1.] Center the observed data to achieve zero mean
+\item[2.] Whiten the centered data
+\item[3.] Create the initial random vector $\mathbf{w}$ 
+\item[4.] Compute $\mathbf{w} = \mathbb{E}[\mathbf{z}(\mathbf{w}^T \mathbf{z})^3] - 3 \mathbf{w}$
+\item[5.] Normalise $\mathbf{w} = \frac{\mathbf{w}}{\Vert \mathbf{w} \Vert}$
+\item[6.] Update $\mathbf{w}$
+\item[7.] Repeat until convergence
 \end{itemize}
 \end{algorithm}
 The fixed-point algorithm is also called for FastICA as the algorithm has shown to converge fast and reliably, then the current and previous $\mathbf{w}$ laid in the same direction \cite[p. 179]{ICA}. 
@@ -167,7 +178,7 @@ with respect to $\mathbf{w}$ and where $\gamma = \mathbb{E}[G(\mathbf{w}^T \math
 \end{align*}
 For the choice of $g$ the derivative of the functions presented in \eqref{eq:G} could be use to achieve a robust result. Alternative a derivative which correspond to the fourth-power as seen in the kurtosis could be used. The functions $g$ could be
 \begin{align*}
-g_1 (y) &= \tanh (a_1 y), \quad 2 \leq a_1 \leq 2  \\
+g_1 (y) &= \tanh (a_1 y), \quad 1 \leq a_1 \leq 2  \\
 g_2 (y) &= y \exp\left( \frac{-y^2}{2} \right) \\
 g_3 (y) &= y^3
 \end{align*}

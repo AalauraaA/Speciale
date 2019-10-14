@@ -30,6 +30,17 @@ To reach local minimum of the cost function we use a fixed point update that is 
 After convergence the support set $\hat{S}$ is extracted from the solution $\hat{\gamma}$ by $\hat{S} = \{ i, \hat{\gamma}_i \neq 0 \}$.
 
 
+\begin{algorithm}[H]
+\caption{M-SBL}
+\begin{itemize}
+\item[1.] Given some data $\mathbf{y}$ and a dictionary $\boldsymbol{\Phi}$.
+\item[2.] Initialise $\gamma$
+\item[3.] Compute $\Sigma$ and $\mu$
+\item[4.] Update $\gamma$ using EM or Fixed-point
+\item[5.] Repeat step 3 and 4 until convergence
+
+\end{itemize}
+
 \paragraph{Notes:}
 \begin{itemize}
 \item With M-SBL the \textbf{support set} of source can be recover for $k \geq M$, with some sufficient condition on the dictionary and sources. $M \leq k \leq N$ the support set can be recovered in the noiseless case.

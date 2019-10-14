@@ -23,7 +23,7 @@ np.random.seed(0)
 # =============================================================================
 # Definition and Algorithm
 # =============================================================================
-def pre_alg(X):
+def preprocessing(X):
     """
     Subtract the mean from the signal observed signal X to make the
     mean of the data X zero
@@ -31,7 +31,7 @@ def pre_alg(X):
     X = np.array(X)
     mean = X.mean(axis = 1, keepdims = True)
     
-    X_center = X - mean
+    X_center = X - mean   # X becomes zero mean (centred data)
     
     """
     Whitening the observed signal X to removed possibly correlations
@@ -39,12 +39,12 @@ def pre_alg(X):
 
     Use the eigenvalue decomposition (EVD) to whitening    
     """
-    cov = np.cov(X_center)
+    cov = np.cov(X_center)   # covariance matrix of X
     
     # EVD
     d, E = np.linalg.eigh(cov)
-    D = np.diag(d)                   # Matrix with eigenvalues in the diagonal
-    D_inv = np.sqrt(np.linalg.inv(D)) 
+    D = np.diag(d)                    # Matrix with eigenvalues in the diagonal
+    D_inv = np.sqrt(np.linalg.inv(D)) # D^(-1/2)
     
     # Whitening
     X_white = np.dot(E, np.dot(D_inv, np.dot(E.T, X)))
@@ -58,18 +58,21 @@ def g(x):
     return np.tanh(x)
 
 def g_der(x):
+    """
+    Equation 8.44 wit a = 1
+    """
     return 1 - g(x) * g(x)
 
 
 def ica(X, iterations, tolerance=1e-5):
     """
-    The ICA algorithmen
+    The ICA algorithm
     """
-    X = pre_alg(X) # Subtract mean from observed signal and whitening the observed signal
+    X = preprocessing(X) # Subtract mean from observed signal and whitening the observed signal
         
     components_nr = X.shape[0] # The amount of components
     
-    W = np.zeros((components_nr, components_nr)) # Mixing matrix
+    W = np.zeros((components_nr, components_nr)) # Mixing/whiting matrix
         
     " Used the Gradient Algorithm to update W "
     for i in range(components_nr):
@@ -77,14 +80,13 @@ def ica(X, iterations, tolerance=1e-5):
         
         for j in range(iterations): # Update the mixing matrix elementwise
             w_new = (X * g(np.dot(w.T, X))).mean(axis=1) - g_der(np.dot(w.T, X)).mean() * w
-            w_new /= np.sqrt((w_new ** 2).sum()) # Normalisation of w
+            w_new /= np.linalg.norm(w_new, ord=2) # Normalisation of w
             
             if i >= 1: # Components_nr is greater than 1
                 w_new -= np.dot(np.dot(w_new, W[:i].T), W[:i])
             
             distance = np.abs(np.abs((w * w_new).sum()) - 1)
             # (w * w_new).sum() want to be approx 1
-            
             w = w_new
             
             if distance < tolerance:
@@ -106,7 +108,7 @@ s3 = signal.sawtooth(2 * np.pi * time)  # saw tooth signal
 
 X = np.c_[s1, s2, s3]
 A = np.array(([[1, 1, 1], [0.5, 2, 1.0], [1.5, 1.0, 2.0]])) #mix matrix
-X = np.dot(X, A.T) #Observed signal
+X = np.dot(X, A.T) # Observed signal
 X = X.T
 S, A_mix = ica(X, iterations=1000)
 
@@ -115,10 +117,12 @@ plt.subplot(3, 1, 1)
 for x in X:
     plt.plot(x)
 plt.title("mixtures")
+
 plt.subplot(3, 1, 2)
 for s in [s1, s2, s3]:
     plt.plot(s)
 plt.title("real sources")
+
 plt.subplot(3,1,3)
 for s in S:
     plt.plot(s)

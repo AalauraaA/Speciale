@@ -1,109 +1,107 @@
 \section{Covariance-Domain Dictionary Learning}\label{sec:Cov-DL}
-\textit{
-\begin{itemize}
-\item in generel for $k>M$ it is not possible to recover $\textbf{x}$ as the system is underdetermined/overcomplete, furthermore we can not find the true dictionary $\textbf{A}$ by dictionary learning methods because when $k>M$, where $M$ is the dimension of $\textbf{y}$, any random dictionary can be used create $\textbf{y}$ from $\geq M$ basis vectors. that is generally the accuracy of recovery a $\textbf{A}$ increases as $k<<M$.\\
-\item To avoid this Cov-DL was proposed by O. Balkan. Though the theory of getting from $M$ sources to $M^2$ was established in \cite{Pal2015}. The design of the measurement/dictionary matrix is essential to overcome this issue, new conditions will be developed for this to be a success \cite{Pal2015},
-\item about the approach This will in turn lead to the development of new sampling
-schemes and justify the need for the use of nested and
-coprime sampling. Another noteworthy point is that we distinguish
-the recovery of the sparse vector from that of its support."\cite{Pal2015}. \\
-\item In \cite{Pal2015} it is in fact the support of $x$ which if found by use of the covariance domain, and this is what Balkan uses on the dictionary matrix i suppose.
-\item the assumed prior(which has not been expoilted before \cite{Pal2015}): a prior on the correlation of the received signal is to assume a (pseudo)diagonal covariance matrix for the unknown signal, that is $\frac{1}{L_s}\textbf{X}_{s}\textbf{X}_s^{T}$\cite{Pal2015}, which is then under the assumption of uncorrelated sources in $x$\cite{phd2015}. This is what lead to the correlation constraint (3.3) in phd.  
-\item the conditions mentioned on the measurement/dictionary matrix in \cite{Pal2015} is: "Sparse sampling
-schemes such as nested and coprime sampling will be shown to
-satisfy these conditions". For $\textbf{A}$ we need "$O(M^2)$ Kruskal Rank for their Khatri-Rao products". This is not necessarily what Balkan uses.   
-\item The prior mentioned by Balkan is the uncorrelated sources. 
-\end{itemize}
-Theory we know:
-\begin{itemize}
-\item Covariance matrix: $\Sigma_{\textbf{x}} = Cov(\textbf{x},\textbf{x}) = \mathbb{E}[ \textbf{x},\textbf{x}^T ]-\mu_{x}\mu_{x^{T}}$ , symmetric and positive simidefinite.
-\item Sample covariance matrix: $\Sigma_{\textbf{x}} = \frac{1}{L} \sum_{i=1}^{L}(\textbf{x}_i-\mathbb{E}[\textbf{x}])(\textbf{x}_i-\mathbb{E}[\textbf{x}])^T$ using unbiased estimate since we assume $\mathbb{E}[\textbf{x}]=0$
-\item this becomes $\frac{1}{L}\textbf{X}\textbf{X}^T$, where L is the length of the sample segment. 
-\end{itemize}
-}
-Consider the multiple measurement vector model as above
-\begin{align*}
-\mathbf{Y} = \mathbf{AX}.
-\end{align*}
-let $L_s$ denote the length of a segment.. \\ \\
-Covariance-domain dictionary learning (Cov-DL) is an algorithm which can identify more sources $N$ than sensors $M$ for the linear model of observed EEG data
-\begin{align*}
-\mathbf{Y} = \mathbf{AX}.
-\end{align*}
+Covariance-domain dictionary learning (Cov-DL) is an algorithm which can identify more sources $N$ than sensors $M$ for the linear model of observed EEG data.
 Cov-DL takes advantage of dictionary framework and transformation into another domain -- covariance domain -- to recover the mixing matrix $\mathbf{A}$ from the observed data $\mathbf{Y}$. Cov-DL work together with another algorithm to find the sparse source matrix $\mathbf{X}$, in this thesis M-SBL is used for the source recovery and is described in section \ref{sec:M-SBL}. 
 \\
-In the following section we assume that $\mathbf{X}$ is known but in practice a random sparse matrix will be used to represent the sources. 
+In this section we assume that $\mathbf{X}$ is known but in practice a random sparse matrix will be used to represent the sources. 
 \\
 This section is inspired by chapter 3 in \cite{phd2015} and the article \cite{Balkan2015}.
 \\ \\
-(?)\\
+(hvor henne indgår dette afsnit?)\\ 
 In dictionary learning framework the inverse problem is defined as
 \begin{align*}
 \min_{A,X} = \frac{1}{2} \sum_{s=1}^{N_d} \Vert \mathbf{Y} - \mathbf{AX} \Vert_F^2 + \gamma \sum_{s=1}^{N_d} g(\mathbf{x}_s),
 \end{align*}
 where the function $g(\cdot)$ promotes sparsity of the source vector at time $t$ 
 The true dictionary $\mathbf{A}$ is recovered if the sources $\mathbf{x}_s$ are sparse ($k_s < M$).
+\\ \\ 
 
+\textit{
+Notes, maybe prior to this section: 
+\begin{itemize}
+\item in general for $k>M$ it is not possible to recover $\textbf{x}$ as the system is underdetermined/overcomplete, furthermore we can not find the true dictionary $\textbf{A}$ by dictionary learning methods because when $k>M$, where $M$ is the dimension of $\textbf{y}$, any random dictionary can be used create $\textbf{y}$ from $\geq M$ basis vectors. that is generally the accuracy of recovery a $\textbf{A}$ increases as $k<<M$.\\
+\item To avoid this Cov-DL was proposed by O. Balkan. Though the theory of getting from $M$ sources to $M^2$ was established in \cite{Pal2015}. saying that the design of the measurement/dictionary matrix is essential to overcome this issue, new conditions will be developed for this to be a success \cite{Pal2015},
+\item about the approach: "This will in turn lead to the development of new sampling
+schemes and justify the need for the use of nested and
+coprime sampling. Another noteworthy point is that we distinguish
+the recovery of the sparse vector from that of its support."\cite{Pal2015}. \\
+\item In \cite{Pal2015} it is in fact the support of $x$ which if found by use of the covariance domain, and this is what Balkan uses on the dictionary matrix i suppose.
+\item the assumed prior(which has not been exploited before \cite{Pal2015}): a prior on the correlation of the received signal is to assume a (pseudo)diagonal covariance matrix for the unknown signal, that is $\frac{1}{L_s}\textbf{X}_{s}\textbf{X}_s^{T}$\cite{Pal2015}, which is then under the assumption of uncorrelated sources in $x$\cite{phd2015}. This is what lead to the correlation constraint (3.3) in phd.  
+\item the conditions mentioned on the measurement/dictionary matrix in \cite{Pal2015} is: "Sparse sampling
+schemes such as nested and coprime sampling will be shown to
+satisfy these conditions". For $\textbf{A}$ we need "$O(M^2)$ Kruskal Rank for their Khatri-Rao products". This is not necessarily what Balkan uses.   
+\item The prior mentioned by Balkan is the uncorrelated sources. 
+\end{itemize}
+We know:
+\begin{itemize}
+\item Covariance matrix:(when we have several observations) $\Sigma_{\textbf{x}} = Cov(\textbf{x}) = Cov(\textbf{x},\textbf{x}) = \mathbb{E}[ \textbf{x}\textbf{x}^T ]-\mu_{x}\mu_{x^{T}}$ , symmetric and positive simidefinite.
+\item Sample covariance matrix: $'\Sigma_{\textbf{x}} = \frac{1}{L} \sum_{i=1}^{L}(\textbf{x}_i-\mathbb{E}[\textbf{x}])(\textbf{x}_i-\mathbb{E}[\textbf{x}])^T$ using unbiased estimate since we assume $\mathbb{E}[\textbf{x}]=0$
+\item this becomes $\frac{1}{L}\textbf{X}\textbf{X}^T$, where L is the length of the sample segment.  
+\item the covariance of two vectors $cor(\textbf{x},\textbf{y})$ is also referred to as the cross-correlation.
+\end{itemize}
+}
 
-\paragraph{Introduction to Our Covariances:}
-Let $s$ be the time segments that $\mathbf{Y}$ is divided into and let it be sampled with the frequency $S_f$ such that our observed data is known overlapping segments $\mathbf{Y}_s \in \mathbb{R}^{M \times t_s S_f}$ where $t_s$ is the length of the segments in seconds. With the segments the linear model still holds and is rewritten into
+Consider the multiple measurement vector model as above
+\begin{align*}
+\mathbf{Y} = \mathbf{AX}.
+\end{align*}
+Let $s$ be the index of time segments that the observed data $\mathbf{Y}\in \mathbb{R}^{M\times L}$ is divided into and let $S_f$ be the sample frequency. As such the observed data is divided into segments $\mathbf{Y}_s \in \mathbb{R}^{M \times t_s S_f}$, possibly overlapping, where $t_s$ is the length of the segments in seconds. For each segment the linear model still holds and is rewritten into
 \begin{align*}
 \mathbf{Y}_s = \mathbf{AX}_s, \quad \forall s.
 \end{align*}
-The sources are assumed uncorrelated in time segments of the whole time scheme of the observed data. 
+An important aspect of this method is the prior assumption that the sources are statistical independent within the defined time segments. This implies the entries in $\textbf{X}_s$ to be uncorrelated. 
+
+\subsection{Covariances domain representation}
+The observed data $\textbf{Y}_s$ can be described in the covariance domain by the sample covariance matrix. Considering the observations $\textbf{Y}_s\in \mathbb{R}^{M\times L}$ the sample covariance is defined to find the covariance among the $M$ variables across the $L$ observations, that is essentially the covariance matrix averaged over all observations, resulting in a $M\times M$ matrix $\Sigma_{\textbf{Y}_s}=[\sigma_{jk}]$. Each entry is defined by[wiki?] 
+\begin{align*}
+\sigma_{jk}= \frac{1}{L}\sum_{i=1}^{L}(y_{ji}-\mathbb{E}[y_j])(y_{ki}-\mathbb{E}[y_k])
+\end{align*}
+Let the observations(argument for at vi antager zero mean på vores observationer, pre-normalisering?) be normalised resulting in zeros mean $\mathbb{E}[\textbf{Y}_s]=0$. \\
+Using matrix notation the sample covariance of $\textbf{Y}_s$ can be written as
+\begin{align*}
+\Sigma_{\textbf{Y}_s}= \frac{1}{L}\textbf{Y}_s\textbf{Y}_s^T
+\end{align*}  
+Similar the sources $\textbf{X}_s$ can be described in the covariance domain by the sample covariance matrix
+\begin{align*}
+\boldsymbol{\Sigma}_{\mathbf{X}_s} &= \frac{1}{L_s}\textbf{X}_s\textbf{X}_s^{T}
+\end{align*}
+From the assumption of uncorrelated sources the sample covariance matrix is expected to be nearly diagonal, thus it can be expressed as 
+\begin{align*}
+\boldsymbol{\Sigma}_{\mathbf{X}_s} &= \Lambda + \textbf{E}.
+\end{align*}
+where $\Lambda$ is a diagonal matrix consisting of the diagonal entries of $\Sigma_{\textbf{X}_s}$ and $\textbf{E}$ contains the remaining entries which is expected to be zeros or nearly zeros\cite{Balkan2015}.\\ \\
+
+Each segment of observations can be modelled as\todo{skal vi have $\mathbb{E}[]$ omkring her eller ej?, wiki covariance.\\
+giver det mening at udelade $\frac{1}{L}$ på begge sider her?}
+\begin{align}
+\textbf{Y}_s\textbf{Y}_s^{T} &=(\textbf{A}\textbf{X}_s)(\textbf{A}\textbf{X}_s)^{T}\nonumber \\
+&=\textbf{AX}_s\textbf{X}_s^T\textbf{A}^T \nonumber \\
+&=\textbf{A}\Sigma_{{X}_s}\textbf{A}^T \nonumber\\
+&=\mathbf{A} \boldsymbol{\Lambda} \mathbf{A}^T + \mathbf{E} = \sum_{i=1}^{N}\Lambda_{ii}\textbf{a}_i\textbf{a}_i^{T}+\textbf{E}\label{eq:cov_model}
+ \end{align}
+Remember that $N$ is the dimension of $X$ hence the number of possible sources and $k$ is the number of active sources.
+It has been shown that by this model it is possible to identify $O(M^2)$ sources given the true dictionary\cite{Pal2015}(dog er vektoriseringen også includeret i resultatet - så måske flyttes udtalelsen?). The purpose of the Cov-DL algorithm is instead to find the dictionary $\textbf{A}$ from this expression and then still allow for $O(M^2)$ sources to be identified.
+
+\subsection{Determination of dictionary}
+In order enable the possibilities of identifying $O(M^2)$ sources and learning the corresponding dictionary $A$ the model in \eqref{eq:cov_model} is rewritten\todo{er det muligt at vektoriceringen kun er til for at gøre dictionary learning problemet simplere? og ikke har noget med $O(M^2)$ at gøre, læs Pal2015}.  
+At first the both sides of the expression is vectorized. Because the covariance matrix is symmetric it is sufficient to vectorize only the lower triangular parts, including the diagonal. For this the function $\text{vec}(\cdot)$ is defined to map a symmetric $M\times M$ matrix into a vector of size $\frac{M(M+1)}{2}$ making a vectorisation of its lower triangular part.     
+\begin{align*}
+\text{vec}(\boldsymbol{\Sigma}_{\mathbf{Y}_s}) &= \sum_{i=1}^N \boldsymbol{\Lambda}_{s_{ii}} \text{vech}(\mathbf{a}_i \mathbf{a}_i^T) + \text{vec}(\mathbf{E}_s) \\
+&= \sum_{i=1}^N \textbf{d}_i \boldsymbol{\Lambda}_{s_{ii}} + \text{vec}(\mathbf{E}_s)
+\text{vec}(\boldsymbol{\Sigma}_{\mathbf{Y}_s}) &= \mathbf{D} \boldsymbol{\delta}_s + \text{vec}(\mathbf{E}_s), \quad \forall s.
+\end{align*}
+The vector $\boldsymbol{\delta}_s \in \mathbb{R}^{N}$ contains the diagonal entries of the source sample-covariance matrix $\boldsymbol{\Sigma}_{\mathbf{X}_s}$
+and the matrix $\mathbf{D} \in \mathbb{R}^{M(M+1)/2 \times N}$ consists of the columns $\mathbf{d}_i = \text{vech}(\mathbf{a}_i \mathbf{a}_i^T)$. Note that $\textbf{D}$ and $\delta_s$ are unknown while the left hand side is known from the observed data.
 \\
-In the covariance-domain, the observed segmented data $\mathbf{Y}_s$ is described by its covariance:
-\begin{align*}
-\boldsymbol{\Sigma}_{\mathbf{Y}_s} &= \mathbf{A} \boldsymbol{\Lambda} \mathbf{A}^T + \mathbf{E}_s \\
-\text{vech}(\boldsymbol{\Sigma}_{\mathbf{Y}_s}) &= \sum_{i=1}^N \boldsymbol{\Lambda}_{s_{ii}} \text{vech}(\mathbf{a}_i \mathbf{a}_i^T) + \text{vech}(\mathbf{E}_s) \\
-\text{vech}(\boldsymbol{\Sigma}_{\mathbf{Y}_s}) &= \mathbf{D} \boldsymbol{\delta}_s + \text{vech}(\mathbf{E}_s), \quad \forall s.
-\end{align*}
-The vector $\boldsymbol{\delta}_s$ contains the diagonal entries of the source sample-covariance matrix
-\begin{align*}
-\boldsymbol{\Sigma}_{\mathbf{X}_s} = \frac{1}{L_s} \mathbf{X}_s \mathbf{X}_s^T,
-\end{align*}
-and the matrix $\mathbf{D} \in \mathbb{R}^{M(M+1)/2 \times N}$ consists of the columns $\mathbf{d}_i = \text{vech}(\mathbf{a}_i \mathbf{a}_i^T)$. D and $\delta_s$ are unknown.
+From this expression it is now possible to learn $\mathbf{D}$ and then find the associated matrix $\mathbf{A}$.
+Comparing this expression to the original compressive sensing problem \eqref{eq:model}\todo{include noise in the original problem} it is clear that higher dimensionality is   achieved by representing the problem in the covariance domain. Which allows for the number of active sources to exeed the number of observartions(måske for tidligt at konkludere her).\\
 \\
-Our goal is to learn $\mathbf{D}$ and the find the associated matrix $\mathbf{A}$. When we have the dictionary matrix we can find  the mixing matrix by
-\begin{align*}
-\min_{\mathbf{a}_i} \Vert \mathbf{d}_i - \text{vech}(\mathbf{a}_i \mathbf{a}_i^T) \Vert_2^2.
-\end{align*}
+The Cov-DL method consists of two different algorithms for  recovery of $\textbf{D}$ and $\textbf{A}$ depending on the number of total sources $N$ relative to the number of observations $M$. 
 
-
-
-
-\paragraph{Introduction to Covariance Domain Transformation:}
-By the assumption of uncorrelated sources, the sample covariance source matrix is given as
-\begin{align*}
-\boldsymbol{\Sigma}_{\mathbf{X}_s} &= \frac{1}{L_s} \mathbf{X}_s \mathbf{X}_s^T \\
-&= \boldsymbol{\Lambda} + \mathbf{E},
-\end{align*}
-where $\boldsymbol{\Lambda}$ is the diagonal matrix of $\boldsymbol{\Sigma}_{\mathbf{X}_s}$. With this mindset, the linear model given in \eqref{} can then be modelled as
-\begin{align*}
-\mathbf{Y}_s \mathbf{Y}_s^T &= \mathbf{AX}_s \mathbf{X}_s^T \mathbf{A}^T \\
-\boldsymbol{\Sigma}_{\mathbf{Y}_s} &= \mathbf{A} \boldsymbol{\Sigma}_{\mathbf{X}_s} \mathbf{A}^T \\
-\boldsymbol{\Sigma}_{\mathbf{Y}_s} &= \mathbf{A} \boldsymbol{\Lambda} \mathbf{A}^T + \mathbf{E} \\
-&= \sum_{i=1}^N \boldsymbol{\Lambda}_{ii} \mathbf{a}_i \mathbf{a}_i^T + \mathbf{E}.
-\end{align*}
-As the covariance matrices are symmetric the lower triangular part can be vectorised:
-\begin{align*}
-\text{vech}(\boldsymbol{\Sigma}_{\mathbf{Y}_s}) &= \sum_{i=1}^N \boldsymbol{\Lambda}_{ii} \text{vector}(\mathbf{a}_i \mathbf{a}_i^T) + \text{vech}(\mathbf{E}) \\
-\text{vech}(\boldsymbol{\Sigma}_{\mathbf{Y}_s}) &= \sum_{i=1}^N \boldsymbol{\Lambda}_{ii} \mathbf{d}_i + \text{vech}(\mathbf{E}) \\
-\text{vech}(\boldsymbol{\Sigma}_{\mathbf{Y}_s}) &= \mathbf{D} \delta + \text{vech}(\mathbf{E}),
-\end{align*}
-where $\mathbf{d}_i = \text{vech}(\mathbf{a}_i \mathbf{a}_i^T)$. The size of the vectorised covariance matrices is $\frac{M(M+1)}{2}$.
-\\
-By use of the covariance domain it is possible to identify $\mathcal{O}(M^2)$ sources given the true dictionary matrix $\mathbf{A}$.
-
+\subsubsection*{Cov-DL1 -- overcomplete \textbf{D}}
+The case where $N > \frac{M(M+1)}{2}$ result in a overcomplete system similar to the original system being overcomplete when $N>M$....   
 
 \paragraph{Notes}
-Ting der skal uddybes:
-\begin{itemize}
-\item 
-\item
-\end{itemize}
 
-Andet:
 \begin{itemize}
 \item In the case of EEG, this allows at most k = O(M) EEG sources to be simultaneously active which limits direct applicability of dictionary learning to low-density EEG systems.
 \item We wish to handled cases where we have $\binom{N}{k}$ sources, where $1 \leq k \leq N$ can be jointly active.

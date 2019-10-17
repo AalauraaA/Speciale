@@ -40,6 +40,9 @@ def gaus_post(n_params=100, n_sample=100, mean = 0, gamma = 1, n_size=100):
     likelihood = np.array([np.product(st.norm.pdf(sample,p)) for p in params])
     likelihood = likelihood / np.sum(likelihood)
     
+    """
+    Gaussian prior with mean = 0 and variance = gamma_i
+    """
     prior_sample = np.random.normal(mean, gamma, n_size)
     prior = np.array([np.product(st.norm.pdf(prior_sample,p)) for p in params])
     prior = prior / np.sum(prior)
@@ -59,4 +62,58 @@ def gaus_post(n_params=100, n_sample=100, mean = 0, gamma = 1, n_size=100):
      
     return prior, posterior
 
-prior, posterior = gaus_post()
+
+def MSBL_post(n_params=100, n_sample=100, mean = 0, n_size=100):
+    params = np.linspace(-1, 1, n_params)
+    #gamma = Gamma(A, n, Y)
+    gamma = 1
+    
+    """
+    Likelihood
+    """
+    sample = np.random.normal(0, gamma, n_size)
+    likelihood = np.array([np.product(st.norm.pdf(sample,p)) for p in params])
+    likelihood = likelihood / np.sum(likelihood)
+    
+    """
+    Gaussian prior with mean = 0 and variance = gamma_i
+    """
+    prior_sample = np.random.normal(mean, gamma, n_size)
+    prior = np.array([np.product(st.norm.pdf(prior_sample,p)) for p in params])
+    prior = prior / np.sum(prior)
+    
+    """
+    Posterior 
+    """
+    posterior = [prior[i] * likelihood[i] for i in range(prior.shape[0])]
+    posterior = posterior / np.sum(posterior)
+     
+    """
+    Plots
+    """
+    fig, axes = plt.subplots(3, 1, sharex=True, figsize=(8,8))
+    axes[0].plot(params, likelihood)
+    axes[0].set_title("Sampling Distribution")
+    axes[1].plot(params, prior)
+    axes[1].set_title("Prior Distribution")
+    axes[2].plot(params, posterior)
+    axes[2].set_title("Posterior Distribution")
+    sns.despine()
+    plt.tight_layout()
+     
+    return prior, posterior
+
+def Sigma(A):
+    A = A
+    Lambda = np.diag(gamma)
+    I = np.identity(A.shape[0],A.shape[1])
+    sigma = 0 
+    return A * Lambda * A.T + sigma**2 * I
+
+def gamma(A, n, Y):
+    Sig = Sigma(A)
+    a = A.shape[0]
+    for i in range(10):
+        gamma[i][0] = 0
+        for k in range(10):
+            gamma[i][k+1] = gamma[i][k]/np.sqrt(a[i].T *np.linalg.inv(Sig[k]) * a[i]) * np.linalg.norm(Y.T * np.linalg.inv(Sig[k]) * a[i], ord=2)/np.sqrt(n)

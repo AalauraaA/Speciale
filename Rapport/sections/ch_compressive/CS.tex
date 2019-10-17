@@ -4,26 +4,29 @@ Compressive sensing is the theory of efficient recovery or reconstruction of a s
 \mathbf{y} = \mathbf{Ax},
 \end{align}
 where $\mathbf{y} \in \mathbb{R}^M$ is the observed data, $\mathbf{x} \in \mathbb{R}^N$ is the original signal and $\mathbf{A} \in \mathbb{R}^{M \times N}$ is a matrix which models the linear measurement process or in other word it maps from $\mathbb{R}^{N}$ to $\mathbb{R}^{M}$.\\
-In compressive sensing terminology, $\mathbf{x}$ is the signal of interest which is sought recovered by solving the linear system \eqref{eq:model}. In the typical compressive sensing case where $M<N$ the system become underdetermined and there are infinitely many solutions, provided that a solution exist. Such system is also referred to as overcomplete(as the number of basis vectors is greater than the dimension of the input). However, by enforcing certian sparsity constraints it is possible to recover the wanted signal\cite{FR}. \\ 
-And another argument; If $M<<N$, it leads to the matrix $\mathbf{A}$ being rank-deficient(but not necessarily?) which imply that $\mathbf{A}$ has a non-empty null space and this leads to infinitely many signals will yield the same solution $\mathbf{y} = \mathbf{Ax} = \mathbf{Ax'}$ \cite[p. ix]{CS}. Thus it is necessary to limit the solution space to a specific class of signals $\mathbf{x}$, for this certain  constraints on sparsity is introduced.   
+In compressive sensing terminology, $\mathbf{x}$ is the signal of interest which is sought recovered by solving the linear system \eqref{eq:model}. In the typical compressive sensing case where $M<N$ the system become underdetermined and there are infinitely many solutions, provided that a solution exist. Such system is also referred to as overcomplete\textit{(as the number of basis vectors is greater than the dimension of the input)}.\\
+However, by enforcing certian sparsity constraints it is possible to recover the wanted signal\cite{FR}, hence the term sparse signal recovery. \\ 
+\\ 
+Yet another argument; If $M<<N$, it leads to the matrix $\mathbf{A}$ being rank-deficient\textit{(but not necessarily?)} which imply that $\mathbf{A}$ has a non-empty null space and this leads to infinitely many signals which yield the same solution $\mathbf{y} = \mathbf{Ax} = \mathbf{Ax'}$ \cite[p. ix]{CS}. Thus it is necessary to limit the solution space to a specific class of signals $\mathbf{x}$, for this certain  constraints on sparseness is introduced.   
 \\ \\
+\subsection{Sparseness} 
 A signal is said to be $k$-sparse if the signal has at most $k$ non-zeros coefficient, for this purpose the $\ell_0$-norm is defined 
 \begin{align*}
 \Vert \mathbf{x} \Vert_0 := \text{card}(\text{supp}(\mathbf{x})) \leq k,
 \end{align*}
-The function $\text{card}(\cdot)$ is the cardinality and the support of $\mathbf{x}$ is giving as
+The function $\text{card}(\cdot)$ gives the cardinality of the input and the support vector of $\mathbf{x}$ is given as
 \begin{align*}
 \text{supp}(\mathbf{x}) = \{ j \in [N] \ : \ x_j \neq 0 \},
 \end{align*} 
-where $[N]$ a set of integers $\{1,2,\hdots,N\}$ \cite[p. 41]{FR}. The set of all $k$-sparse signals is denoted as
+where $[N]$ a set of integers $\{1,2,\hdots,N\}$ \cite[p. 41]{FR}. Let the support vector of $\textbf{x}$ be denoted by $S =\text{supp}(x)$ the set of all $k$-sparse signals is denoted as
 \begin{align*}
-\Sigma_k = \{ \mathbf{x} \ : \ \Vert \mathbf{x} \Vert_0 \leq k \}.
+\Omega_k = \{ \mathbf{x} \ : \ \Vert \mathbf{x} \Vert_0 \leq k \}.
 \end{align*}
 
-A signal is assumed to be $k$-sparse with $k<M$\cite[p. 8]{CS}(not found yet?)
+\subsection{Optimisation Problem} 
+The signal of interest is assumed to be $k$-sparse with $k<M$. \\
+From the desire of finding a $k$-sparse solution $\mathbf{x}$ the following optimisation problem is considered
 \\ \\
-From the desire of finding a sparse solution $\mathbf{x}$ the following optimisation problem is considered 
-
 \begin{align*}
 \min_{\mathbf{z}} \Vert \mathbf{z} \Vert_0 \quad \text{s.t} \quad \mathbf{y} = \mathbf{Az},
 \end{align*}
@@ -37,69 +40,63 @@ and instead we find the best $k$-term approximation of the signal $\mathbf{x}$.
 This method is referred to as Basis Pursuit and makes the foundation of several algorithms solving alternative versions of \eqref{eq:p1} where noise is incorporated. A different type of solution method includes greedy algorithm such as the Orthogonal Matching Pursuit.    
       
 \subsection{Conditions on the Mixing Matrix}
-The construction of the matrix $\mathbf{A}$ is of course essential for the solution of the optimisation problem. So far no one has manage to construct a matrix which is proved optimal for some compressive sensing set up. However some certain constructions have shown sufficient recovery guarantee.\\ 
-\\
-To ensure an exact or an approximate reconstruction of the sparse signal $\mathbf{x}$ some conditions associated on the matrix $\mathbf{A}$ must be satisfied.\\
-(Next section are not finished, is it necessary with the details?)
-\subsubsection{Null Space Conditions}
-The null space property (NSP) is some necessary and sufficient condition for exact recovery.
-The null space of the matrix $A$ is defined as
-\begin{align*}
-\mathcal{N}(A) = \{ z \ : \ Az = 0 \}.
-\end{align*} 
+The construction of the matrix $\mathbf{A}$ is of course essential for the solution of the optimisation problem. So far no one has manage to construct a matrix which is proved to be optimal for some compressive sensing set up. However some certain constructions have shown sufficient recovery guarantee.\\ \\
+To ensure an exact or an approximate reconstruction of the sparse signal $\mathbf{x}$ some conditions associated to the matrix $\mathbf{A}$ must be satisfied.\\
+This includes at first the null space condition, a property of the $A$ matrix which is hard to check in practise. The Restricted isometry condition is a stronger condition concerning the orthogonality of the matrix. Furthermore the coherence of a matrix is a measure of quality and is used to determine whether the matrix $A$ is a good choice for the optimisation problem.\\    
+\textit{(Is it necessary describe these conditions on A in details?)}
 
-
-
-
-%$\ell_p$ norm is given as
+%\subsubsection{Null Space Conditions}
+%The null space property (NSP) is some necessary and sufficient condition for exact recovery.
+%The null space of the matrix $A$ is defined as
 %\begin{align*}
-%\Vert x \Vert_p = \left( \sum_{i=1}^n \vert x_i \vert^p \right)^{1/p}, \quad p \in [1, \infty)
+%\mathcal{N}(A) = \{ z \ : \ Az = 0 \}.
+%\end{align*} 
+%
+%
+%
+%
+%%$\ell_p$ norm is given as
+%%\begin{align*}
+%%\Vert x \Vert_p = \left( \sum_{i=1}^n \vert x_i \vert^p \right)^{1/p}, \quad p \in [1, \infty)
+%%\end{align*}
+%%the norm is used as an measure of the strenght of a signal or as an error.
+%
+%\subsubsection{Restricted Isometry Conditions}
+%NSP do not take account for noise and we must therefore look at some stronger conditions which incoperate noise, the following restricted isometry property (RIP) %\cite[p. 19]{•}.
+%
+%\begin{definition}[Restricted Isometry Property]
+%A matrix $A$ satisfies the RIP of order $k$ if there exists a $\delta_k \in (0,1)$ such that
+%\begin{align*}
+%(1 - \delta_k) \Vert x \Vert_2^2 \leq \Vert Ax \Vert_2^2 \leq (1 + \delta_k) \Vert x \Vert_2^2,
 %\end{align*}
-%the norm is used as an measure of the strenght of a signal or as an error.
-
-\subsubsection{Restricted Isometry Conditions}
-NSP do not take account for noise and we must therefore look at some stronger conditions which incoperate noise, the following restricted isometry property (RIP) %\cite[p. 19]{•}.
-
-\begin{definition}[Restricted Isometry Property]
-A matrix $A$ satisfies the RIP of order $k$ if there exists a $\delta_k \in (0,1)$ such that
-\begin{align*}
-(1 - \delta_k) \Vert x \Vert_2^2 \leq \Vert Ax \Vert_2^2 \leq (1 + \delta_k) \Vert x \Vert_2^2,
-\end{align*}
-holds for all $x \in \Sigma_k$
-\end{definition}
-
-
-If a matrix $A$ satisfy RIP then it will also satisfy the NSP as RIP is strictly stronger than NSP.
-\begin{theorem}
-If $A$ satisfies the RIP of order $2k$ with the constant $\delta_{2k} < \sqrt{2} -1$. Then
-\begin{align*}
-C = \frac{2}{1 - (1 + \sqrt{2}) \delta_{2k}}
-\end{align*}
-\end{theorem} 
-
-\subsubsection{Coherence}
-The NSP provide a unique solution to the optimisation problem, \eqref{eq:p1}, but is unfortunately complicated to investigate. Instead an alternative measure used for sparsity is presented.
-\\%\cite[p. 24]{•}.
-Coherence is a measure of quality and determine if the matrix $A$ is a good choice for the optimisation problem \eqref{eq:p1}. A small coherence describe the performance of a recovery algorithm as good with that choice of $\mathbf{A}$. 
-\begin{definition}[Coherence]
-Coherence of the matrix $A \in \mathbb{R}^{M \times N}$, denoted as $\mu (A)$, with columns $\mathbf{a}_1, \dots, \mathbf{a}_N$ for all $i \in [N]$ is given as
-\begin{align*}
-\mu (A) = \max_{1 \leq i < j \leq n} \frac{\vert \langle a_i, a_j \rangle \vert}{\Vert a_i \Vert_2 \Vert a_j \Vert_2}.
-\end{align*}
-\end{definition}
-
+%holds for all $x \in \Sigma_k$
+%\end{definition}
+%
+%
+%If a matrix $A$ satisfy RIP then it will also satisfy the NSP as RIP is strictly stronger than NSP.
+%\begin{theorem}
+%If $A$ satisfies the RIP of order $2k$ with the constant $\delta_{2k} < \sqrt{2} -1$. Then
+%\begin{align*}
+%C = \frac{2}{1 - (1 + \sqrt{2}) \delta_{2k}}
+%\end{align*}
+%\end{theorem} 
+%
+%\subsubsection{Coherence}
+%The NSP provide a unique solution to the optimisation problem, \eqref{eq:p1}, but is unfortunately complicated to investigate. Instead an alternative measure used for sparsity is presented.
+%\\%\cite[p. 24]{•}.
+%Coherence is a measure of quality and determine if the matrix $A$ is a good choice for the optimisation problem \eqref{eq:p1}. A small coherence describe the performance of a recovery algorithm as good with that choice of $\mathbf{A}$. 
+%\begin{definition}[Coherence]
+%Coherence of the matrix $A \in \mathbb{R}^{M \times N}$, denoted as $\mu (A)$, with columns $\mathbf{a}_1, \dots, \mathbf{a}_N$ for all $i \in [N]$ is given as
+%\begin{align*}
+%\mu (A) = \max_{1 \leq i < j \leq n} \frac{\vert \langle a_i, a_j \rangle \vert}{\Vert a_i \Vert_2 \Vert a_j \Vert_2}.
+%\end{align*}
+%\end{definition}
+%
 
 \subsection{Multiple Measurement Vector Model}
-A multiple measurement vector (MMV) model consist of the source matrix $\mathbf{X} \in \mathbb{R}^{N \times L}$ which have $k < M$ rows that are non-zero (the activations of the sources), a observed mixed data matrix $\mathbf{Y} \in \mathbb{R}^{M \times L}$ and a dictionary matrix $\mathbf{A} \in \mathbb{R}^{M \times N}$:
+The linear model \eqref{eq:model} is also referred to as a single measurement model. In order to adapt the model to practical use the model is expanded to include multiple measurements and take noise into account.\\ 
+A multiple measurement vector (MMV) model consist of the source matrix $\mathbf{X} \in \mathbb{R}^{N \times L}$ which have $k < M$ rows that are non-zero, a observation matrix $\mathbf{Y} \in \mathbb{R}^{M \times L}$ and a dictionary matrix $\mathbf{A} \in \mathbb{R}^{M \times N}$:
 \begin{align*}
-\mathbf{Y} = \mathbf{AX},
+\mathbf{Y} = \mathbf{AX}+\textbf{E},
 \end{align*}
-where $L$ stand for the time samples. From the MMV model the non-zero rows of the source matrix $\mathbf{X}$ are the one of interest that are wanted recovered \cite[p. 11]{PHD}.
-
-
-\paragraph{Notes:}
-\begin{itemize}
-\item DL recover more sources than sensors $N > M$ assumning the constraint is at any time we have $k < M$. This cause problems for the use on low density system where we have low $M$.
-\item Recovery is not possible if $k \geq M$ since any random dictionary is sufficient to represent data points Y using only M basis vectors.
-\item If the source signal is sparse it is enough just to find the non-zero rows of X denoted by the set S, because then the source signal can be obtained by the psudo-inverse solution $\hat{\mathbf{X}} = \mathbf{A}_S^{perp} \mathbf{Y}$ where $\mathbf{A}_S$ is derived from the dictionary matrix $\mathbf{A}$ by deleting the columns assoicated with the zero rows of X. $S$ is called the support. (We identify the locations of sources)
-\end{itemize}
+where $L$ denote the number of observed samples each consisting of $M$ measurements and $\textbf{E} \in \mathbb{R}^{M \times L}$. From the MMV model the non-zero rows of the source matrix $\mathbf{X}$ are the ones of interest, which one want to recover \cite[p. 11]{PHD}.

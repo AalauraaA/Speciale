@@ -1,2 +1,16 @@
+break.. \\ \\
+\textit{Introduction to ICA}\\
+\textit{(it is not the intention to keep the whole section about ICA within the rapport.)}
+Independent component analysis (ICA) is a method\textit{(within sparse signal recovery?)} which can separate statistical independent sources $\textbf{X}$ and identify the mixing matrix $\textbf{A}$ given the observed measurements $\textbf{Y}$. 
 \input{sections/ch_compressive/ICA.tex}
+
+
+
+\subsection{Limitations of compressive sensing}
+\textit{(we are not yet sure where to put a section explaining the issue of $k>M$. )}
+\begin{itemize}
+\item If the source signal is sparse it is enough just to find the non-zero rows of X denoted by the set S, because then the source signal can be obtained by the psudo-inverse solution $\hat{\mathbf{X}} = \mathbf{A}_S^{perp} \mathbf{Y}$ where $\mathbf{A}_S$ is derived from the dictionary matrix $\mathbf{A}$ by deleting the columns associated with the zero rows of X. $S$ is called the support. (We identify the locations of sources)
+\item in general for $k>M$ it is not possible to recover $\textbf{x}$ as the system is underdetermined/overcomplete, furthermore we can not find the true dictionary $\textbf{A}$ by dictionary learning methods because when $k>M$, where $M$ is the dimension of $\textbf{y}$, any random dictionary can be used create $\textbf{y}$ from $\geq M$ basis vectors. that is generally the accuracy of recovery a $\textbf{A}$ increases as $k<<M$.\\
+\end{itemize}
+
 \input{sections/ch_compressive/Cov-DL.tex}

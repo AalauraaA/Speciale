@@ -1,8 +1,4 @@
 \section{Independent Component Analysis}\label{sec:ICA}
-\todo{Mangler at: \\
-- fixed-point (fastICA) \\
-- læs igennem}
-
 Independent Component Analysis (ICA) is a method which assume statistical independent between the components and nongaussiantity of the data. By those assumptions it is possible to recover the components and some mixing matrix $\mathbf{A}$ from some observed data \cite[p. 3]{ICA}. 
 \\
 Through this section the mathematical concepts of ICA will be explained and defined in the noise-less case.
@@ -25,94 +21,105 @@ p(x_1, x_2, \dots, x_n) = p_1 (x_1) p_2(x_2) \cdots p_n(x_n),
 \end{align*}
 for the random variables $x_i$.
 \\
-Furthermore it is assumed that the independent components $\mathbf{x}$ do not have gaussian distributions as this will ruin the ICA method as when introducing the algorithms of ICA, cf. section XX, the used of higher-order cumulant is used. For gaussian distribution the cumulant will be zero which not wanted in the recovering process. Thus the distribution of the independent components are unknown.
+Furthermore it is assumed that the independent components $\mathbf{x}$ do not have gaussian distributions as this will effect the recover of $\mathbf{x}$ because ICA use higher-order cumulant method. For gaussian distribution the cumulant will be zero which not wanted in the recovering process. Thus the distribution of the independent components are unknown. This will further be described in section \ref{sec:est_ica}.
 \\
-The last thing which must be assumed to the ICA work is that the mixing matrix $\mathbf{A}$ must be a square matrix -- there must be the same number of independent components and observation/mixing \cite[p. 152-153]{ICA}.
+The last assumption is that the mixing matrix $\mathbf{A}$ must be a square matrix -- there must be the same number of independent components as observation/mixing \cite[p. 152-153]{ICA}.
 \\ \\
-By the unknowing of the right-hand side of \eqref{eq:ICA_1} some statistical can not be computed such as the variance of $\mathbf{x}$. Instead ICA assume that $\mathbf{x}$ has a unit variance (=1). This of course must also applied to the mixing matrix $\mathbf{A}$ which will be restricted in the recovering method which will be described in section XX. By this addition we simplify the algorithm for ICA. Further to simplify even more, we can with out loss of generality assume that $\mathbf{y}$ and $\mathbf{x}$ have zero mean. If the observed data do not have zero mean already then by preprocessing the data by centering, zero mean can be achieved. This is done by finding the sample mean of $\mathbf{y}$ and subtract it from the data before ICA is applied:
+By the unknowing of the right-hand side of \eqref{eq:ICA_1} some statistical can not be computed e.g. the variance of $\mathbf{x}$. Instead ICA assume that $\mathbf{x}$ has a unit variance (=1). This of course must also applied to the mixing matrix $\mathbf{A}$ which will be restricted in the recovering method which will be described in section \ref{sec:est_ica}. By this addition the algorithm for ICA is simplified. Further to simplify even more, with out loss of generality assume that $\mathbb{E}[\mathbf{y}] = 0$ and $\mathbb{E}[\mathbf{x}] = 0$. 
+\\
+To achieve zero mean, the observed data $\mathbf{y}$ is preprocessed by centering the data by subtracting the mean of $\mathbf{y}$ from the data itself:
 \begin{align*}
 \mathbf{y} = \mathbf{y} - \mathbb{E}[\mathbf{y}].
 \end{align*}
 This addition do not affect the recover/estimation of $\mathbf{A}$ \cite[p. 154]{ICA}.
 \\ \\
-By preprocessing the data before applying the ICA algorithm with whiting have shown to reduce the complexity and make the recovering process more simple. Furthermore, when whiting the data $\mathbf{y}$ the independent components becomes uncorrelated and have variance equal to one.
+Another preprocessing step is to whiting the observed data $\mathbf{y}$. This ensure that the independent components $\mathbf{x}$ are uncorrelated and have variance equal 1. Furthermore, this also reduce the complexity of ICA and therefore simplify the recovering process.
 \\
-The data $\mathbf{y}$ is whited by finding the eigenvalue decomposition (EVD) of the covariance matrix of $\mathbf{y}$
+Whiting is a process which use the eigenvalue decomposition (EVD) to find the eigenvalues and associated eigenvectors of the observed data $\mathbf{y}$ covariance:
 \begin{align*}
 \mathbb{E}[\mathbf{yy}^T] = \mathbf{EDE}^T,
 \end{align*}
-where $\mathbf{D}$ is the diagonal matrix with eigenvalues of the covariance matrix in the diagonal and $\mathbf{E}$ is the associated eigenvectors. By multiplying the data $\mathbf{y}$ with a whiting matrix $\mathbf{V}$ constructed from the EVD, the data becomes whited:
+where $\mathbf{D}$ is the diagonal matrix with eigenvalues and $\mathbf{E}$ is the associated eigenvectors. With $\mathbf{E}$ and $\mathbf{D}$ a whiting matrix is constructed as
+\begin{align*}
+\mathbf{V} = \mathbf{ED}^{-1/2} \mathbf{E}^T.
+\end{align*}
+By multiplying the observed data $\mathbf{y}$ with a whiting matrix $\mathbf{V}$ the data becomes white:
 \begin{align}
-\mathbf{y}_{\text{white}} &= \mathbf{Vy}, \quad \mathbf{V} = \mathbf{ED}^{-1/2} \mathbf{E}^T, \\
+\mathbf{y}_{\text{white}} &= \mathbf{Vy}, \\
 \mathbf{y}_{\text{white}} &= \mathbf{VAx} = \mathbf{A}_{\text{white}} \mathbf{x} \nonumber
 \end{align}
-A by product of whiting $\mathbf{y}$ is that the new mixing matrix $\mathbf{A}_{\text{white}}$ become orthogonal and therefore ICA can restrict its search for $\mathbf{A}_{\text{white}}$ to the orthogonal matrix space. By computation mean this implies instead of having $n^2$ computations the orthogonal space only have $n(n-1)/2$ computations \cite[p. 159]{ICA}.
+By the whiting process the mixing matrix $\mathbf{A}_{\text{white}}$ becomes orthogonal because $\mathbb{E}[\mathbf{y}_{\text{white}} \mathbf{y}_{\text{white}}^T]$ $= \mathbf{A}_{\text{white}} \mathbb{E}[\mathbf{xx}^T] \mathbf{A}_{\text{white}}^T = \mathbf{A}_{\text{white}} \mathbf{A}_{\text{white}}^T = \mathbf{I}$. 
+\\ \\
+This mean that ICA can restrict its search for $\mathbf{A}_{\text{white}}$ to the orthogonal matrix space such that instead of estimate $n^2$ parameters ICA now estimate the orthogonal matrix which have $n(n-1)/2$ degrees of freedom \cite[p. 159]{ICA}.
 \\
-Furthermore, to support the assumption of nongaussiantity the whiting preprocessing can be used. As an orthogonal mixing matrix $\mathbf{A}_{\text{white}}$ is achieved it is not possible to distinct the pdfs of the $\mathbf{y}_{\text{white}}$ and $\mathbf{x}$ as $\mathbf{A}_{\text{white}}$ is no longer included in the pdf of $\mathbf{y}_{\text{white}}$ and therefore are the two pdfs equal \cite[p. 161-163]{ICA}.
+Furthermore, to support the assumption of nongaussiantity for an orthogonal mixing matrix $\mathbf{A}_{\text{white}}$ it is not possible to distinct the pdfs of the $\mathbf{y}_{\text{white}}$ and $\mathbf{x}$ as $\mathbf{A}_{\text{white}}$ is no longer included in the pdf of $\mathbf{y}_{\text{white}}$ and therefore are the two pdfs equal \cite[p. 161-163]{ICA}.
 
-\subsection{Estimation of Independent Components}
-A way to estimate/recover the independent components could be to take advantage of the assumption of nongaussiantity. By finding the estimate which maximise the nongaussiantity the real independent component can be found based on it must have a nongaussian distribution as mention in section XX. But before the estimation a measure of nongaussiantity must be introduce -- this could be the kurtosis.
+\subsection{Recovery of the Independent Components}\label{sec:est_ica}
+A way to recover the independent components could be to take advantage of the assumption of nongaussiantity. By finding the estimate which maximise the nongaussiantity the real independent component can be found based on it must have a nongaussian distribution as mention in section \ref{sec:ICA}. But before the estimation a measure of nongaussiantity must be introduce -- this could be the kurtosis.
 
 \subsubsection{Kurtosis}
-Kurtosis is a quantitative measure used for nongaussianity of random variables. Kurtosis of a random variable $y$ is defined as\todo{Tjek lige op denne definition}
+Kurtosis is a quantitative measure used for nongaussianity of random variables. (Excess) Kurtosis of a random variable $y$ is defined as\todo{Tjek lige op denne definition}
 \begin{align*}
-\text{kurt} (y) = \mathbb{E}[y^4] - 3 ( \mathbb{E}[y^2])^2,
+\text{kurt} (y) &= \mathbb{E} \left[ \left(\frac{y - \mu}{\sigma}\right)^4 \right] - 3 \\
+&= \mathbb{E}[y^4] - 3 ( \mathbb{E}[y^2])^2,
 \end{align*}
-which is the fourth-order cumulant of the random variable $y$. By assuming that the random variable $y$ have been normalised such that its variance $\mathbb{E}[y^2] = 1$, the kurtosis is rewritten as
+which is the fourth-order cumulant of the random variable $y$. By assuming that the random variable $y$ has variance $\mathbb{E}[y^2] = 1$, the kurtosis is rewritten as
 \begin{align*}
 \text{kurt} (y) = \mathbb{E}[y^4] - 3.
 \end{align*}
-Because of this definition the kurtosis of nongaussian random variables the kurtosis will almost always be non-zero. For gaussian random variables the fourth moment equals $3(\mathbb{E}[y^2])^2$ thus the kurtosis will then be zero \cite[p. 171]{ICA}.
+The kurtosis of nongaussian random variables will then almost always be different from zero. For gaussian random variables the fourth moment equals $3(\mathbb{E}[y^2])^2$ thus the kurtosis will then be zero \cite[p. 171]{ICA}.
 \\
 By using the absolute value of the kurtosis gaussian random variables are still zero but the nongaussian random variables will be greater than zero. In this case the random variables are called supergaussian.
 \\ \\
 One complication with kurtosis as a is that kurtosis is sensitive to outliers \cite[p. 182]{ICA}.
  
 \paragraph{The Gradient Algorithm}
-For ICA the wish is to maximise the nongaussianity and therefore maximise the absolute value of kurtosis. One way to do this is to use a gradient algorithm.
+To recover the independent components $\mathbf{x}$ the nongaussianity is wish maximised. One way to do this is to use a gradient algorithm to maximise the kurtosis of $\mathbf{y}$.
 \\ \\
-With a gradient algorithm you start from an initial vector $\mathbf{w}$ and then compute the direction. The direction is computed from the absolute kurtosis of $y = \mathbf{w}^T \mathbf{z}$ giving some samples of the mixture vector $\mathbf{z}$ -- the mixture vector $\mathbf{z}$ is the whited observed mixture vector $\mathbf{y}_{\text{white}}$. The direction which give us the highest kurtosis is the direction where $\mathbf{w}$ is moved.
+The idea behind a gradient algorithm is to move in certain directions computed from the gradient of an objective function -- in this is case it is the kurtosis -- until convergence is achieved.
 \\
-The gradient of the absolute value of kurtosis is computed as\todo{Regn lige efter}
+Let $\mathbf{w}$ be an initial vector used to compute the direction and let $y = \mathbf{w}^T \mathbf{y}_{\text{white}}$ giving some samples of the observed ad preprocessed vector. The direction $\mathbf{w}$ which provide the highest kurtosis is the new direction for the algorithm. This continues until convergence is reach for some tolerance.
+\\
+The gradient of $\vert \text{kurt}(\mathbf{w}^T \mathbf{y}_{\text{white}}) \vert$ is computed as\todo{Regn lige efter}
 \begin{align}\label{eq:kurt}
-\frac{\partial \vert \text{kurt}(\mathbf{w}^T \mathbf{x})\vert}{\partial \mathbf{w}} &= 4 \text{sign}(\text{kurt}(\mathbf{w}^T \mathbf{x})) (\mathbb{E}[\mathbf{z} (\mathbf{w}^T \mathbf{z})^3] - 3 \mathbf{w} \mathbb{E}[(\mathbf{w}^T\mathbf{z})^2] \nonumber \\
-&= 4 \text{sign}(\text{kurt}(\mathbf{w}^T \mathbf{x})) (\mathbb{E}[\mathbf{z} (\mathbf{w}^T \mathbf{z})^3] - 3 \mathbf{w} \Vert \mathbf{w} \Vert^2).
+\frac{\partial \vert \text{kurt}(\mathbf{w}^T \mathbf{y}_{\text{white}})\vert}{\partial \mathbf{w}} &= 4 \text{sign}(\text{kurt}(\mathbf{w}^T \mathbf{y}_{\text{white}})) (\mathbb{E}[\mathbf{y}_{\text{white}} (\mathbf{w}^T \mathbf{y}_{\text{white}})^3] - 3 \mathbf{w} \mathbb{E}[(\mathbf{w}^T \mathbf{y}_{\text{white}})^2] \nonumber \\
+&= 4 \text{sign}(\text{kurt}(\mathbf{w}^T \mathbf{y}_{\text{white}})) (\mathbb{E}[\mathbf{y}_{\text{white}} (\mathbf{w}^T \mathbf{y}_{\text{white}})^3] - 3 \mathbf{w} \Vert \mathbf{w} \Vert^2).
 \end{align}
-The absolute value of kurtosis is optimised onto the unit sphere, $\Vert \mathbf{w} \Vert^2 = 1$, the algorithm must project $\mathbb{w}$ onto the unit sphere in every step. This can easly be done by dividing $\mathbf{w}$ with its norm. 
+The absolute value of kurtosis is optimised onto the unit sphere, $\Vert \mathbf{w} \Vert^2 = 1$, the algorithm must project $\mathbb{w}$ onto the unit sphere in every step. This can easily be done by dividing $\mathbf{w}$ with its norm. 
 \\
-As it is the direction of $\mathbf{w}$ of interest the last part of 
-\eqref{eq:kurt} can be omitted and instead the gradient of the absolute value of kurtosis is computed as
+Furthermore, the last part of \eqref{eq:kurt} can be omitted as it do not effect the direction. The expectation operator is omitted to achieve an adaptive algorithm:
 \begin{align*}
-\frac{\partial \vert \text{kurt}(\mathbf{w}^T \mathbf{x})\vert}{\partial \mathbf{w}} = 4 \text{sign}(\text{kurt}(\mathbf{w}^T \mathbf{x})) (\mathbb{E}[\mathbf{z} (\mathbf{w}^T \mathbf{z})^3]
+\frac{\partial \vert \text{kurt}(\mathbf{w}^T \mathbf{y}_{\text{white}})\vert}{\partial \mathbf{w}} = 4 \text{sign}(\text{kurt}(\mathbf{w}^T \mathbf{y}_{\text{white}})) \mathbf{y}_{\text{white}} (\mathbf{w}^T \mathbf{y}_{\text{white}})^3
 \end{align*}
-The expectation operator from the kurtosis definition can not be omitted and must therefore be estimated. This can be done by a time-average, denoted as $\gamma$:
+The expectation operator from the definition of kurtosis can not be omitted and must therefore be estimated. This can be done by a time-average estimate, denoted as $\gamma$:
 \begin{align*}
-\gamma = ((\mathbf{w}^T \mathbf{z})^4 - 3) - \gamma
+\gamma = ((\mathbf{w}^T \mathbf{y}_{\text{white}})^4 - 3) - \gamma
 \end{align*}
-From the all above the following algorithm can be stated.
+This result in the following gradient algorithm.
 \begin{algorithm}[H]
 \caption{Gradient Algorithm with Kurtosis}
 \begin{itemize}
 \item[1.] Center the observed data to achieve zero mean
 \item[2.] Whiten the centered data
 \item[3.] Create the initial random vector $\mathbf{w}$ and the initial value for $\gamma$
-\item[4.] Compute $\mathbf{w} = \gamma \mathbf{z} \mathbb{E}[\mathbf{z} (\mathbf{w}^T \mathbf{z})^3]$
+\item[4.] Compute $\mathbf{w} = \gamma \mathbf{y}_{\text{white}} (\mathbf{w}^T \mathbf{y}_{\text{white}})^3$
 \item[5.] Normalise $\mathbf{w} = \frac{\mathbf{w}}{\Vert \mathbf{w} \Vert}$
 \item[6.] Update $\mathbf{w}$
 \item[7.] Update $\gamma = ((\mathbf{w}^T \mathbf{z})^4 - 3) - \gamma$
 \item[8.] Repeat until convergence
+\item[9.] Independent components are found as $\mathbf{x} = \mathbf{w} \mathbf{y}_{\text{white}}$
 \end{itemize}
 \end{algorithm}
 
 \paragraph{Fixed-Point Algorithm - FastICA}
-A fixed-point algorithm to maximise the nongaussity is more efficient than the gradient algorithm as the gradient algorithm converge slow as depending on the choice of $\gamma$ which could be chosen such that convergence never gonna be reach. The fixed-point algorithm is an alternative that could be used.
-By looking at the gradient of kurtosis given in \eqref{eq:kurt} and then set the equation equal with $\mathbf{w}$:
+A fixed-point algorithm to maximise the nongaussianity is more efficient than the gradient algorithm as the gradient algorithm converge slow depending on the choice of $\gamma$. The fixed-point algorithm is an alternative that could be used.
+By using the gradient given in \eqref{eq:kurt} and then set the equation equal with $\mathbf{w}$:
 \begin{align*}
-\mathbf{w} \propto ( \mathbb{E}[\mathbf{z}(\mathbf{w}^T \mathbf{z})^3] - 3 \Vert \mathbf{w} \Vert^2 \mathbf{w})
+\mathbf{w} \propto ( \mathbb{E}[\mathbf{y}_{\text{white}}(\mathbf{w}^T \mathbf{y}_{\text{white}})^3] - 3 \Vert \mathbf{w} \Vert^2 \mathbf{w})
 \end{align*}
 By this new equation, the algorithm find $\mathbf{w}$ by simply calculating the right-hand side:
 \begin{align*}
-\mathbf{w} = \mathbb{E}[\mathbf{z}(\mathbf{w}^T \mathbf{z})^3] - 3 \mathbf{w}
+\mathbf{w} = \mathbb{E}[\mathbf{y}_{\text{white}}(\mathbf{w}^T \mathbf{y}_{\text{white}})^3] - 3 \mathbf{w}
 \end{align*}
 As with the gradient algorithm the fixed-point algorithm do also divide the found $\mathbf{w}$ by its norm. Therefore is $\Vert \mathbf{w} \Vert$ omitted from the equation.
 \\
@@ -125,10 +132,11 @@ The fixed-point algorithm have been summed in the following algorithm.
 \item[1.] Center the observed data to achieve zero mean
 \item[2.] Whiten the centered data
 \item[3.] Create the initial random vector $\mathbf{w}$ 
-\item[4.] Compute $\mathbf{w} = \mathbb{E}[\mathbf{z}(\mathbf{w}^T \mathbf{z})^3] - 3 \mathbf{w}$
+\item[4.] Compute $\mathbf{w} = \mathbb{E}[\mathbf{y}_{\text{white}}(\mathbf{w}^T \mathbf{y}_{\text{white}})^3] - 3 \mathbf{w}$
 \item[5.] Normalise $\mathbf{w} = \frac{\mathbf{w}}{\Vert \mathbf{w} \Vert}$
 \item[6.] Update $\mathbf{w}$
 \item[7.] Repeat until convergence
+\item[8.] Independent components are found as $\mathbf{x} = \mathbf{w} \mathbf{y}_{\text{white}}$
 \end{itemize}
 \end{algorithm}
 The fixed-point algorithm is also called for FastICA as the algorithm has shown to converge fast and reliably, then the current and previous $\mathbf{w}$ laid in the same direction \cite[p. 179]{ICA}. 
@@ -137,11 +145,11 @@ The fixed-point algorithm is also called for FastICA as the algorithm has shown 
 \subsubsection{Negentropy}
 Another measure of nongaussianity is the negentropy which based of on the differential entropy. The differential entropy $H$ of a random variable $\mathbf{y}$ with density $p_y (\boldsymbol{\theta})$ is defined as
 \begin{align*}
-H(\mathbf{y}) = - \int p_y (\boldsymbol{\theta}) \log (p_y (\boldsymbol{\theta}) \ d\boldsymbol{\theta}.
+H(\mathbf{y}) = - \int p_y (\boldsymbol{\theta}) \log (p_y (\boldsymbol{\theta})) \ d\boldsymbol{\theta}.
 \end{align*}
-The entropy describe the information of a random variable and for variables that becomes more random the entropy becomes larger, e.g. Gaussian random variable has a high entropy, in fact Gaussian random variable has the highest entropy among the random variables of the same variance. Furthermore, the entropy is small for clustered random variables \cite[p. 182]{ICA}.
+The entropy describe the information of a random variable and for variables that becomes more random the entropy becomes larger, e.g. gaussian random variables have a high entropy, in fact gaussian random variables have the highest entropy among the random variables of the same variance \cite[p. 182]{ICA}.
 \\ \\
-To use the negentropy to define the nongaussianity within random variables, we normalised the differential entropy to obtain a entropy value equal to zero when the random variable is gaussian and non-negative otherwise. The negentropy $J$ is defined as 
+To use the negentropy to define the nongaussianity within random variables, the differential entropy is normalised to obtain a entropy value equal to zero when the random variable is gaussian and non-negative otherwise. The negentropy $J$ is defined as 
 \begin{align*}
 J(\mathbf{y}) = H(\mathbf{y}_{\text{gaus}}) - H(\mathbf{y}),
 \end{align*}
@@ -154,7 +162,7 @@ The way to approximate the negentropy is to look at the high-order cumulants usi
 \begin{align}\label{eq:approx_1}
 J(y) \approx \frac{1}{12} \mathbb{E}[y^3]^2 + \frac{1}{48} \text{kurt}(y)^2.
 \end{align}
-This is in the scalar case as in practice the approximation can be in the scalar case. The random variable $y$ has zero mean and unit variance and the kurtosis is introduced in the approximation. The approximation suffers from nonrobustness with the kurtosis and therefore a more generalised approximation is presented to avoid the nonrobustness.
+The random variable $y$ has zero mean and unit variance and the kurtosis is introduced in the approximation. The approximation suffers from nonrobustness with the kurtosis and therefore a more generalised approximation is presented to avoid the nonrobustness.
 \\ \\
 For the generalised approximation the use of expectations of nonquadratic functions is introduced. The polynomial functions $y^3$ and $y^4$ from \eqref{eq:approx_1} are replaced by $G^i$ with $i$ been an index and $G$ been some function. The approximation in \eqref{eq:approx_1} then becomes
 \begin{align*}
@@ -162,26 +170,26 @@ J(y) \approx (\mathbb{E}[G(y)] - \mathbb{E}[G(\nu)])^2.
 \end{align*}
 The choice of $G$ can lead to a better approximation than \eqref{eq:approx_1} and by choosing one with do not grow to fast more robust estimators can be obtained. The choice of $G$ could be the two following functions
 \begin{align*}
-G_1 (y) &= \frac{1}{a_1} \log (\cosh(a_1 y)), \quad 2 \leq a_1 \leq 2 \\
+G_1 (y) &= \frac{1}{a_1} \log (\cosh(a_1 y)), \quad 1 \leq a_1 \leq 2 \\
 G_2 (y) &= -\exp \left( \frac{-y^2}{2} \right)
 \end{align*}
 
 
-\subsubsection*{Gradient Algorithm with Negentropy}
-As described in section \ref{??} the gradient algorithm is used to maximising negentropy. The gradient of the approximated negentropy is given as
+\paragraph{Gradient Algorithm with Negentropy}
+As described in section \ref{sec:est_ica} the gradient algorithm is used to maximising negentropy. The gradient of the approximated negentropy is given as
 \begin{align*}
-\mathbf{w} = \gamma \mathbb{E}[\mathbf{z} g(\mathbf{w}^T \mathbf{z})]
+\mathbf{w} = \gamma \mathbf{y}_{\text{white}} g(\mathbf{w}^T \mathbf{y}_{\text{white}})
 \end{align*}
-with respect to $\mathbf{w}$ and where $\gamma = \mathbb{E}[G(\mathbf{w}^T \mathbf{z})] - \mathbb{E}[G(\nu)]$ with $\nu$ being the standardised gaussian random variable. $g$ is the derivative of the nonquadratic function $G$. To omitted the expectation $\gamma$ as we did with the sign of kurtosis, $\gamma$ is estimated as
+with respect to $\mathbf{w}$ and where $\gamma = \mathbb{E}[G(\mathbf{w}^T \mathbf{y}_{\text{white}})] - \mathbb{E}[G(\nu)]$ with $\nu$ being the standardised gaussian random variable. $g$ is the derivative of the nonquadratic function $G$. To omitted the expectation $\gamma$ as we did with the sign of kurtosis, $\gamma$ is estimated as
 \begin{align*}
-\gamma = (G(\mathbf{w}^T \mathbf{z}) - \mathbb{E}[G(\nu)]) - \gamma.
+\gamma = (G(\mathbf{w}^T \mathbf{y}_{\text{white}}) - \mathbb{E}[G(\nu)]) - \gamma.
 \end{align*}
 For the choice of $g$ the derivative of the functions presented in \eqref{eq:G} could be use to achieve a robust result. Alternative a derivative which correspond to the fourth-power as seen in the kurtosis could be used. The functions $g$ could be
-\begin{align*}
-g_1 (y) &= \tanh (a_1 y), \quad 1 \leq a_1 \leq 2  \\
-g_2 (y) &= y \exp\left( \frac{-y^2}{2} \right) \\
-g_3 (y) &= y^3
-\end{align*}
+\begin{align}\label{eq:G}
+g_1 (y) &= \tanh (a_1 y), \quad 1 \leq a_1 \leq 2 \\
+g_2 (y) &= y \exp\left( \frac{-y^2}{2} \right) \nonumber \\
+g_3 (y) &= y^3 \nonumber
+\end{align}
 
 \begin{algorithm}[H]
 \caption{Gradient Algorithm}
@@ -191,7 +199,7 @@ g_3 (y) &= y^3
 \item[3.] Create the initial random vector $\mathbf{w}$ and the initial value for $\gamma$
 \item[4.] Update
 \begin{align*}
-\mathbf{w} = \gamma \mathbf{z} g(\mathbf{w}^T \mathbf{z})
+\mathbf{w} = \gamma \mathbf{y}_{\text{white}} g(\mathbf{w}^T \mathbf{y}_{\text{white}})
 \end{align*}
 \item[5.] Normalise $\mathbf{w}$
 \begin{align*}
@@ -199,13 +207,14 @@ g_3 (y) &= y^3
 \end{align*}
 \item[6.] Check sign of $\gamma$, if not a known prior, update
 \begin{align*}
-\gamma = (G(\mathbf{w}^T \mathbf{z}) - \mathbb{E}[G(\nu)]) - \gamma
+\gamma = (G(\mathbf{w}^T \mathbf{y}_{\text{white}}) - \mathbb{E}[G(\nu)]) - \gamma
 \end{align*}
 \item[7.] Repeat until convergence
+\item[8.] Independent components are found as $\mathbf{x} = \mathbf{w} \mathbf{y}_{\text{white}}$
 \end{itemize}
 \end{algorithm}
 
-\subsubsection*{Fixed-Point Algorithm with Negentropy}
+\paragraph{Fixed-Point Algorithm with Negentropy}
 As described in the section with kurtosis, the fixed-point algorithm removed the learning parameter and compute $\mathbf{w}$ directly:
 \begin{align*}
 \mathbf{w} = \mathbb{E}[\mathbf{z} g(\mathbf{w}^T \mathbf{z})]
@@ -219,18 +228,19 @@ As described in the section with kurtosis, the fixed-point algorithm removed the
 \item[3.] Create the initial random vector $\mathbf{w}$
 \item[4.] Update
 \begin{align*}
-\mathbf{w} = \mathbb{E}[ \mathbf{z} g(\mathbf{w}^T \mathbf{z})] - \mathbb{E}[g'(\mathbf{w}^T \mathbf{z})] \mathbf{w}
+\mathbf{w} = \mathbb{E}[ \mathbf{y}_{\text{white}} g(\mathbf{w}^T \mathbf{y}_{\text{white}})] - \mathbb{E}[g'(\mathbf{w}^T \mathbf{y}_{\text{white}})] \mathbf{w}
 \end{align*}
 \item[5.] Normalise $\mathbf{w}$
 \begin{align*}
 \mathbf{w} = \frac{\mathbf{w}}{\Vert \mathbf{w} \Vert}
 \end{align*}
 \item[6.] Repeat from 4. until convergence
+\item[7.] Independent components are found as $\mathbf{x} = \mathbf{w} \mathbf{y}_{\text{white}}$
 \end{itemize}
 \end{algorithm}
 
 
-\paragraph{Notes:}
-A drawback of ICA is the system must be $N \leq M$ meaning that there must more sensors than sources which is not the case in this project where we look at low density EEG system, $M \leq N$. Furthermore, ICA need that the sources are stationary which is not the nature of EEG that are very much nonstationary \cite[p. 7-8]{PHD}.
-\\
-Instead a mixture model of ICA model where we assume that the amount of activation $k$ in $N$ sources are equal to $M$ (sensor). We can used the short time frame of the sources to make them stationary
+%\paragraph{Notes:}
+%A drawback of ICA is the system must be $N \leq M$ meaning that there must more sensors than sources which is not the case in this project where we look at low density EEG system, $M \leq N$. Furthermore, ICA need that the sources are stationary which is not the nature of EEG that are very much nonstationary \cite[p. 7-8]{PHD}.
+%\\
+%Instead a mixture model of ICA model where we assume that the amount of activation $k$ in $N$ sources are equal to $M$ (sensor). We can used the short time frame of the sources to make them stationary

@@ -6,43 +6,32 @@ In this section we assume that $\mathbf{X}$ is known but in practice a random sp
 \\
 This section is inspired by chapter 3 in \cite{phd2015} and the article \cite{Balkan2015}.
 \\ \\
-(hvor henne indgår dette afsnit?)\\ 
-In dictionary learning framework the inverse problem is defined as
-\begin{align*}
-\min_{A,X} = \frac{1}{2} \sum_{s=1}^{N_d} \Vert \mathbf{Y} - \mathbf{AX} \Vert_F^2 + \gamma \sum_{s=1}^{N_d} g(\mathbf{x}_s),
-\end{align*}
-where the function $g(\cdot)$ promotes sparsity of the source vector at time $t$ 
-The true dictionary $\mathbf{A}$ is recovered if the sources $\mathbf{x}_s$ are sparse ($k_s < M$).
-\\ \\ 
-
-\textit{
-Notes, maybe prior to this section: 
-\begin{itemize}
-\item in general for $k>M$ it is not possible to recover $\textbf{x}$ as the system is underdetermined/overcomplete, furthermore we can not find the true dictionary $\textbf{A}$ by dictionary learning methods because when $k>M$, where $M$ is the dimension of $\textbf{y}$, any random dictionary can be used create $\textbf{y}$ from $\geq M$ basis vectors. that is generally the accuracy of recovery a $\textbf{A}$ increases as $k<<M$.\\
-\item To avoid this Cov-DL was proposed by O. Balkan. Though the theory of getting from $M$ sources to $M^2$ was established in \cite{Pal2015}. saying that the design of the measurement/dictionary matrix is essential to overcome this issue, new conditions will be developed for this to be a success \cite{Pal2015},
-\item about the approach: "This will in turn lead to the development of new sampling
-schemes and justify the need for the use of nested and
-coprime sampling. Another noteworthy point is that we distinguish
-the recovery of the sparse vector from that of its support."\cite{Pal2015}. \\
-\item In \cite{Pal2015} it is in fact the support of $x$ which if found by use of the covariance domain, and this is what Balkan uses on the dictionary matrix i suppose.
-\item the assumed prior(which has not been exploited before \cite{Pal2015}): a prior on the correlation of the received signal is to assume a (pseudo)diagonal covariance matrix for the unknown signal, that is $\frac{1}{L_s}\textbf{X}_{s}\textbf{X}_s^{T}$\cite{Pal2015}, which is then under the assumption of uncorrelated sources in $x$\cite{phd2015}. This is what lead to the correlation constraint (3.3) in phd.  
-\item the conditions mentioned on the measurement/dictionary matrix in \cite{Pal2015} is: "Sparse sampling
-schemes such as nested and coprime sampling will be shown to
-satisfy these conditions". For $\textbf{A}$ we need "$O(M^2)$ Kruskal Rank for their Khatri-Rao products". This is not necessarily what Balkan uses.   
-\item The prior mentioned by Balkan is the uncorrelated sources. 
-\end{itemize}
-We know:
-\begin{itemize}
-\item Covariance matrix:(when we have several observations) $\Sigma_{\textbf{x}} = Cov(\textbf{x}) = Cov(\textbf{x},\textbf{x}) = \mathbb{E}[ \textbf{x}\textbf{x}^T ]-\mu_{x}\mu_{x^{T}}$ , symmetric and positive simidefinite.
-\item Sample covariance matrix: $'\Sigma_{\textbf{x}} = \frac{1}{L} \sum_{i=1}^{L}(\textbf{x}_i-\mathbb{E}[\textbf{x}])(\textbf{x}_i-\mathbb{E}[\textbf{x}])^T$ using unbiased estimate since we assume $\mathbb{E}[\textbf{x}]=0$
-\item this becomes $\frac{1}{L}\textbf{X}\textbf{X}^T$, where L is the length of the sample segment.  
-\item the covariance of two vectors $cor(\textbf{x},\textbf{y})$ is also referred to as the cross-correlation.
-\end{itemize}
-}
-
+%\textit{
+%Notes, maybe prior to this section: 
+%\begin{itemize}
+%\item To avoid this Cov-DL was proposed by O. Balkan. Though the theory of getting from $M$ sources to $M^2$ was established in \cite{Pal2015}. saying that the design of the measurement/dictionary matrix is essential to overcome this issue, new conditions will be developed for this to be a success \cite{Pal2015},
+%\item about the approach: "This will in turn lead to the development of new sampling
+%schemes and justify the need for the use of nested and
+%coprime sampling. Another noteworthy point is that we distinguish
+%the recovery of the sparse vector from that of its support."\cite{Pal2015}. \\
+%\item In \cite{Pal2015} it is in fact the support of $x$ which if found by use of the covariance domain, and this is what Balkan uses on the dictionary matrix i suppose.
+%\item the assumed prior(which has not been exploited before \cite{Pal2015}): a prior on the correlation of the received signal is to assume a (pseudo)diagonal covariance matrix for the unknown signal, that is $\frac{1}{L_s}\textbf{X}_{s}\textbf{X}_s^{T}$\cite{Pal2015}, which is then under the assumption of uncorrelated sources in $x$\cite{phd2015}. This is what lead to the correlation constraint (3.3) in phd.  
+%\item the conditions mentioned on the measurement/dictionary matrix in \cite{Pal2015} is: "Sparse sampling
+%schemes such as nested and coprime sampling will be shown to
+%satisfy these conditions". For $\textbf{A}$ we need "$O(M^2)$ Kruskal Rank for their Khatri-Rao products". This is not necessarily what Balkan uses.   
+%\item The prior mentioned by Balkan is the uncorrelated sources. 
+%\end{itemize}
+%We know:
+%\begin{itemize}
+%\item Covariance matrix:(when we have several observations) $\Sigma_{\textbf{x}} = Cov(\textbf{x}) = Cov(\textbf{x},\textbf{x}) = \mathbb{E}[ \textbf{x}\textbf{x}^T ]-\mu_{x}\mu_{x^{T}}$ , symmetric and positive simidefinite.
+%\item Sample covariance matrix: $'\Sigma_{\textbf{x}} = \frac{1}{L} \sum_{i=1}^{L}(\textbf{x}_i-\mathbb{E}[\textbf{x}])(\textbf{x}_i-\mathbb{E}[\textbf{x}])^T$ using unbiased estimate since we assume $\mathbb{E}[\textbf{x}]=0$
+%\item this becomes $\frac{1}{L}\textbf{X}\textbf{X}^T$, where L is the length of the sample segment.  
+%\item the covariance of two vectors $cor(\textbf{x},\textbf{y})$ is also referred to as the cross-correlation.
+%\end{itemize}
+%}
 Consider the multiple measurement vector model as above
 \begin{align*}
-\mathbf{Y} = \mathbf{AX}.
+\mathbf{Y} = \mathbf{AX}+\textbf{E}.
 \end{align*}
 Let $s$ be the index of time segments that the observed data $\mathbf{Y}\in \mathbb{R}^{M\times L}$ is divided into and let $S_f$ be the sample frequency. As such the observed data is divided into segments $\mathbf{Y}_s \in \mathbb{R}^{M \times t_s S_f}$, possibly overlapping, where $t_s$ is the length of the segments in seconds. For each segment the linear model still holds and is rewritten into
 \begin{align*}
@@ -100,30 +89,45 @@ The Cov-DL method consists of two different algorithms for  recovery of $\textbf
 \subsubsection*{Cov-DL1 -- overcomplete \textbf{D}}
 The case where $N > \frac{M(M+1)}{2}$ result in a overcomplete system similar to the original system being overcomplete when $N>M$....   
 
-\paragraph{Notes}
+\subsubsection*{Cov-DL2 -- undercomplete \textbf{D}}
 
-\begin{itemize}
-\item In the case of EEG, this allows at most k = O(M) EEG sources to be simultaneously active which limits direct applicability of dictionary learning to low-density EEG systems.
-\item We wish to handled cases where we have $\binom{N}{k}$ sources, where $1 \leq k \leq N$ can be jointly active.
-\item section 3.3.1 in phd.
-\item i phd så forstås source localisation som at finde support for x og source identification forstås som at finde værdierne i de non-zero indgange(?)
 
-\end{itemize}
+\subsection{Dictionary learning}
+\textit{(hvor skal det her afsnit indsætte?)}\\ 
+In dictionary learning framework the inverse problem is defined as
+\begin{align*}
+\min_{A,X} = \frac{1}{2} \sum_{s=1}^{N_d} \Vert \mathbf{Y} - \mathbf{AX} \Vert_F^2 + \gamma \sum_{s=1}^{N_d} g(\mathbf{x}_s),
+\end{align*}
+where the function $g(\cdot)$ promotes sparsity of the source vector at time $t$ 
+The true dictionary $\mathbf{A}$ is recovered if the sources $\mathbf{x}_s$ are sparse ($k_s < M$).
+\\  \\
+Include specific dictionary learning algorithm here.
 
-Trine indhold:
-\begin{itemize}
-\item til CS afsnit: kilde på at nok sparse giver den rigtige løsning, se [39] fra phd
-\item Dictionary learning:
-\begin{itemize}
-\item jointly solveing optimisation problem where g is introduced
-\item her siges at k<M= er nødvendigt for recovery( af x går jeg ud fra ) Fordi at enhver random dictionary kan bruges til at reprensentere y i dim M ved brug af M basis vektore i A.
-\item altså når k > M så udgør de berørte søjler i A ikke længere en basis og x kan ikke bestemmes entydigt ? derfor er k<M et krav i standard algorithmer
-\item der sættes så et nyt frame work hvor vi kan bruge standard algoritmer i vores tilfælde med k>M (forhåbenligt) 
-\end{itemize}
-\item EEG is non-stationary(afsnit 1.3.1 phd) source dynamics ændres med tiden afhængig af opave, fejlkilder kan være non stationære. så ICA dur ikke mixture model ICA var bedre til non stationær med statigvæk limited til k = M. 
-\item the contribution er så at: support for X i MMV problem kan findes for k>M, altså altal non-zero entry k i x, med sufficient conditions ved sparse bayesian learning. herefter ved brug at uncorrelation af sources i et dictionary learning frame work så kan vi recover x når k>M. 
-\end{itemize}  
-  
+
+%\paragraph{Notes}
+%
+%\begin{itemize}
+%\item In the case of EEG, this allows at most k = O(M) EEG sources to be simultaneously active which limits direct applicability of dictionary learning to low-density EEG systems.
+%\item We wish to handled cases where we have $\binom{N}{k}$ sources, where $1 \leq k \leq N$ can be jointly active.
+%\item section 3.3.1 in phd.
+%\item i phd så forstås source localisation som at finde support for x og source identification forstås som at finde værdierne i de non-zero indgange(?)
+%
+%\end{itemize}
+%
+%Trine indhold:
+%\begin{itemize}
+%\item til CS afsnit: kilde på at nok sparse giver den rigtige løsning, se [39] fra phd
+%\item Dictionary learning:
+%\begin{itemize}
+%\item jointly solveing optimisation problem where g is introduced
+%\item her siges at k<M= er nødvendigt for recovery( af x går jeg ud fra ) Fordi at enhver random dictionary kan bruges til at reprensentere y i dim M ved brug af M basis vektore i A.
+%\item altså når k > M så udgør de berørte søjler i A ikke længere en basis og x kan ikke bestemmes entydigt ? derfor er k<M et krav i standard algorithmer
+%\item der sættes så et nyt frame work hvor vi kan bruge standard algoritmer i vores tilfælde med k>M (forhåbenligt) 
+%\end{itemize}
+%\item EEG is non-stationary(afsnit 1.3.1 phd) source dynamics ændres med tiden afhængig af opave, fejlkilder kan være non stationære. så ICA dur ikke mixture model ICA var bedre til non stationær med statigvæk limited til k = M. 
+%\item the contribution er så at: support for X i MMV problem kan findes for k>M, altså altal non-zero entry k i x, med sufficient conditions ved sparse bayesian learning. herefter ved brug at uncorrelation af sources i et dictionary learning frame work så kan vi recover x når k>M. 
+%\end{itemize}  
+%  
 
 
 

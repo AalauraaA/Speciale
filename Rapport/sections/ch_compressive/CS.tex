@@ -1,24 +1,24 @@
 \section{Compressive Sensing}\label{sec:CS}
-Compressive sensing is the theory of efficient recovery or reconstruction of a signal from a minimal number of measurements. Assuming linear acquisition of the original information the relation between the measurements and the signal to be recovered is described by a linear model\cite{FR} 
+Compressive sensing is the theory of efficient recovery or reconstruction of a signal from a minimal number of observed measurements. Assuming linear acquisition of the original information the relation between the measurements and the signal to be recovered is described by a linear model\cite{FR} 
 \begin{align}\label{eq:model}
-\mathbf{y} = \mathbf{Ax},
+\mathbf{y} = \mathbf{Ax}.
 \end{align}
-where $\mathbf{y} \in \mathbb{R}^M$ is the observed data, $\mathbf{x} \in \mathbb{R}^N$ is the original signal and $\mathbf{A} \in \mathbb{R}^{M \times N}$ is a matrix which models the linear measurement process or in other word it maps from $\mathbb{R}^{N}$ to $\mathbb{R}^{M}$.\\
-In compressive sensing terminology, $\mathbf{x}$ is the signal of interest which is sought recovered by solving the linear system \eqref{eq:model}. In the typical compressive sensing case where $M<N$ the system become underdetermined and there are infinitely many solutions, provided that a solution exist. Such system is also referred to as overcomplete\textit{(as the number of basis vectors is greater than the dimension of the input)}.\\
+Here $\mathbf{y} \in \mathbb{R}^M$ is the measured data consisting of $M$ observations, $\mathbf{x} \in \mathbb{R}^N$ is the original signal consisting of $N$ possible sources. $\mathbf{A} \in \mathbb{R}^{M \times N}$ is a matrix which models the linear measurement process or in other words it projects each of the $N$ possible sources on to the $M$ observations. $\textbf{A}$ is  referred to as a dictionary or a mixing matrix .\\
+In compressive sensing terminology, $\mathbf{x}$ is the signal of interest which is sought recovered by solving the linear system \eqref{eq:model}. In the typical compressive sensing case where $M < N$ the system becomes underdetermined and there are infinitely many solutions, provided that a solution exist. Such system is also referred to as overcomplete\textit{(as the number of basis vectors is greater than the dimension of the input)}.\\
 However, by enforcing certian sparsity constraints it is possible to recover the wanted signal\cite{FR}, hence the term sparse signal recovery. \\ 
 \\ 
-Yet another argument; If $M<<N$, it leads to the matrix $\mathbf{A}$ being rank-deficient\textit{(but not necessarily?)} which imply that $\mathbf{A}$ has a non-empty null space and this leads to infinitely many signals which yield the same solution $\mathbf{y} = \mathbf{Ax} = \mathbf{Ax'}$ \cite[p. ix]{CS}. Thus it is necessary to limit the solution space to a specific class of signals $\mathbf{x}$, for this certain  constraints on sparseness is introduced.   
-\\ \\
+Yet another argument; If $M<<N$, it leads to the matrix $\mathbf{A}$ being rank-deficient\textit{(but not necessarily?)} which imply that $\mathbf{A}$ has a non-empty null space and this leads to infinitely many signals which yield the same solution $\mathbf{y} = \mathbf{Ax} = \mathbf{Ax'}$ \cite[p. ix]{CS}. Thus it is necessary to limit the solution space to a specific class of signals $\mathbf{x}$, for this a certain constraint on sparseness is introduced.   
+
 \subsection{Sparseness} 
-A signal is said to be $k$-sparse if the signal has at most $k$ non-zeros coefficient, for this purpose the $\ell_0$-norm is defined 
+A signal is said to be $k$-sparse if the signal has at most $k$ non-zero coefficients. For the purpose counting the non-zero entries of a vector representing a signal the $\ell_0$-norm is defined
 \begin{align*}
-\Vert \mathbf{x} \Vert_0 := \text{card}(\text{supp}(\mathbf{x})) \leq k,
+\Vert \mathbf{x} \Vert_0 := \text{card}(\text{supp}(\mathbf{x})) \leq k.
 \end{align*}
 The function $\text{card}(\cdot)$ gives the cardinality of the input and the support vector of $\mathbf{x}$ is given as
 \begin{align*}
 \text{supp}(\mathbf{x}) = \{ j \in [N] \ : \ x_j \neq 0 \},
 \end{align*} 
-where $[N]$ a set of integers $\{1,2,\hdots,N\}$ \cite[p. 41]{FR}. Let the support vector of $\textbf{x}$ be denoted by $S =\text{supp}(x)$ the set of all $k$-sparse signals is denoted as
+where $[N]$ a set of integers $\{1,2,\hdots,N\}$ \cite[p. 41]{FR}. Let the support vector of $\textbf{x}$ be denoted by $S =\text{supp}(x)$. The set of all $k$-sparse signals is denoted as
 \begin{align*}
 \Omega_k = \{ \mathbf{x} \ : \ \Vert \mathbf{x} \Vert_0 \leq k \}.
 \end{align*}
@@ -30,8 +30,7 @@ From the desire of finding a $k$-sparse solution $\mathbf{x}$ the following opti
 \begin{align*}
 \min_{\mathbf{z}} \Vert \mathbf{z} \Vert_0 \quad \text{s.t} \quad \mathbf{y} = \mathbf{Az},
 \end{align*}
-where $\mathbf{z}$ is all possible candidates to an $k$-sparse signal $\mathbf{x}$.
-\\
+where $\mathbf{z}$ is all possible candidates to a $k$-sparse signal $\mathbf{x}$.
 Unfortunately, this optimisation problem is non-convex due to the definition of $\ell_0$-norm and is therefore difficult to solve -- it is a NP-hard problem. Instead by replacing the $\ell_0$-norm with its convex approximation, the $\ell_1$-norm, the optimisation problem become computational feasible \cite[p. 27]{CS}
 \begin{align}\label{eq:p1}
 \min_{\mathbf{z}} \Vert \mathbf{z} \Vert_1 \quad \text{s.t} \quad \mathbf{y} = \mathbf{Az},
@@ -39,7 +38,7 @@ Unfortunately, this optimisation problem is non-convex due to the definition of 
 and instead we find the best $k$-term approximation of the signal $\mathbf{x}$.
 This method is referred to as Basis Pursuit and makes the foundation of several algorithms solving alternative versions of \eqref{eq:p1} where noise is incorporated. A different type of solution method includes greedy algorithm such as the Orthogonal Matching Pursuit.    
       
-\subsection{Conditions on the Mixing Matrix}
+\subsection{Conditions on the dictionary}
 The construction of the matrix $\mathbf{A}$ is of course essential for the solution of the optimisation problem. So far no one has manage to construct a matrix which is proved to be optimal for some compressive sensing set up. However some certain constructions have shown sufficient recovery guarantee.\\ \\
 To ensure an exact or an approximate reconstruction of the sparse signal $\mathbf{x}$ some conditions associated to the matrix $\mathbf{A}$ must be satisfied.\\
 This includes at first the null space condition, a property of the $A$ matrix which is hard to check in practise. The Restricted isometry condition is a stronger condition concerning the orthogonality of the matrix. Furthermore the coherence of a matrix is a measure of quality and is used to determine whether the matrix $A$ is a good choice for the optimisation problem.\\    
@@ -93,10 +92,22 @@ This includes at first the null space condition, a property of the $A$ matrix wh
 %\end{definition}
 %
 
+\subsubsection{Dictionary learning}\label{sec:dictionarylearning}
+In cases where the dictionary is unknown it is possible to learn the dictionary from the observed measurement provided that several observations are available $\textbf{Y}=\left[ \textbf{y}_1, \hdots ,\textbf{y}_n\right]$. 
+In dictionary learning framework the inverse problem is defined as
+\begin{align*}
+\min_{A,X} = \frac{1}{2} \sum_{s=1}^{N_d} \Vert \mathbf{Y} - \mathbf{AX} \Vert_F^2 + \gamma \sum_{s=1}^{N_d} g(\mathbf{x}_s),
+\end{align*}
+where the function $g(\cdot)$ promotes sparsity of the source vector at time $t$ 
+The true dictionary $\mathbf{A}$ is recovered if the sources $\mathbf{x}_s$ are sparse ($k_s < M$).
+\\  \\
+Include specific dictionary learning algorithm here...
+
+
 \subsection{Multiple Measurement Vector Model}
 The linear model \eqref{eq:model} is also referred to as a single measurement model. In order to adapt the model to practical use the model is expanded to include multiple measurements and take noise into account.\\ 
-A multiple measurement vector (MMV) model consist of the source matrix $\mathbf{X} \in \mathbb{R}^{N \times L}$ which have $k < M$ rows that are non-zero, a observation matrix $\mathbf{Y} \in \mathbb{R}^{M \times L}$ and a dictionary matrix $\mathbf{A} \in \mathbb{R}^{M \times N}$:
+A multiple measurement vector (MMV) model consist of the observation matrix $\mathbf{Y} \in \mathbb{R}^{M \times L}$, the source matrix $\mathbf{X} \in \mathbb{R}^{N \times L}$ which have $k \leq M$ rows that are non-zero and a dictionary matrix $\mathbf{A} \in \mathbb{R}^{M \times N}$:
 \begin{align*}
 \mathbf{Y} = \mathbf{AX}+\textbf{E},
 \end{align*}
-where $L$ denote the number of observed samples each consisting of $M$ measurements and $\textbf{E} \in \mathbb{R}^{M \times L}$. From the MMV model the non-zero rows of the source matrix $\mathbf{X}$ are the ones of interest, which one want to recover \cite[p. 11]{PHD}.
+where $L$ denote the number of observed samples each consisting of $M$ measurements and $\textbf{E} \in \mathbb{R}^{M \times L}$. From the MMV model the non-zero rows of the source matrix $\mathbf{X}$ are the ones of interest, which one want to recover \cite[p. 11]{phd2015}.

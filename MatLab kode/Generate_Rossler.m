@@ -38,10 +38,10 @@ x = x(61:end,:);
 end
 
 % Plot of the found X segments
-%plot(linspace(0,50,size(x,1)),x(:,1));
-%plot(linspace(0,50,size(x,1)),x(:,2));
-%plot(linspace(0,50,size(x,1)),x(:,3));
-%plot(linspace(0,50,size(x,1)),x(:,4));
-%plot(linspace(0,50,size(x,1)),x(:,5));
-%plot(linspace(0,50,size(x,1)),x(:,6));
+%plot(linspace(0,50,size(X,1)),X(:,1));
+%plot(linspace(0,50,size(X,1)),X(:,2));
+%plot(linspace(0,50,size(X,1)),X(:,3));
+%plot(linspace(0,50,size(X,1)),X(:,4));
+%plot(linspace(0,50,size(X,1)),X(:,5));
+%plot(linspace(0,50,size(X,1)),X(:,6));
 

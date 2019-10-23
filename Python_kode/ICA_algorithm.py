@@ -123,37 +123,37 @@ def ica(X, iterations, tolerance=1e-5):
         W[i, :] = w # Update w
         
     S = np.dot(W, X) # Source signal  
-    return S, W
+    return S
 
 # =============================================================================
 # Generating Data
 # =============================================================================
-#n_samples = 2000
-#time = np.linspace(0, 8, n_samples)
-#s1 = np.sin(2 * time)  # sinusoidal
-#s2 = np.sign(np.sin(3 * time))  # square signal
-#s3 = signal.sawtooth(2 * np.pi * time)  # saw tooth signal
-#
-#X = np.c_[s1, s2, s3]
-#A = np.array(([[1, 1, 1], [0.5, 2, 1.0], [1.5, 1.0, 2.0]])) #mix matrix
-#Y = np.dot(X, A) # Observed signal
-#Y = Y.T
-#S, A_mix = ica(Y, iterations=1000)
+n_samples = 2000
+time = np.linspace(0, 8, n_samples)
+s1 = np.sin(2 * time)  # sinusoidal
+s2 = np.sign(np.sin(3 * time))  # square signal
+s3 = signal.sawtooth(2 * np.pi * time)  # saw tooth signal
 
-#" Plots "
-#plt.figure(1)
-#plt.subplot(3, 1, 1)
-#for x in X:
-#    plt.plot(x)
-#plt.title("mixtures")
-#
-#plt.subplot(3, 1, 2)
-#for s in [s1, s2, s3]:
-#    plt.plot(s)
-#plt.title("real sources")
-#
-#plt.subplot(3,1,3)
-#for s in S:
-#    plt.plot(s)
-#plt.title("predicted sources")
-#plt.show()
+X = np.c_[s1, s2, s3]
+A = np.array(([[1, 1, 1], [0.5, 2, 1.0], [1.5, 1.0, 2.0]])) #mix matrix
+Y = np.dot(X, A) # Observed signal
+Y = Y.T
+S = ica(Y, iterations=1000)
+
+" Plots "
+plt.figure(1)
+plt.subplot(3, 1, 1)
+for x in Y:
+    plt.plot(x)
+plt.title("mixtures")
+
+plt.subplot(3, 1, 2)
+for s in [s1, s2, s3]:
+    plt.plot(s)
+plt.title("real sources")
+
+plt.subplot(3,1,3)
+for s in S:
+    plt.plot(s)
+plt.title("predicted sources")
+plt.show()

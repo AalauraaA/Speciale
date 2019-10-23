@@ -21,21 +21,20 @@ def rosslerpaper(t,y,conf,wc):
     
     Inputs: 
         t, y: parameters
-        conf: different configuration in this paper (values 1 to 6 
+        conf: different configuration in paper (values 1 to 6 
               corresponding to networks 1 to 6 in figure 1 of the paper)
         wc  : additional noise 
+     
+    Paper: Payam Shahsavari Baboukani, Ghasem Azemi, Boualem Boashash, Paul 
+               Colditz, Amir Omidvarnia.
     
-    Reference: 
-        Payam Shahsavari Baboukani, Ghasem Azemi, Boualem Boashash, Paul 
-        Colditz, Amir Omidvarnia.
-    
-        A novel multivariate phase synchrony measure: Application to 
-        multichannel newborn EEG analysis, Digital Signal Processing, 
-        Volume 84, 2019, Pages 59-68, ISSN 1051-2004, 
-        https://doi.org/10.1016/j.dsp.2018.08.019.
+           A novel multivariate phase synchrony measure: Application to 
+           multichannel newborn EEG analysis, Digital Signal Processing, 
+           Volume 84, 2019, Pages 59-68, ISSN 1051-2004, 
+           https://doi.org/10.1016/j.dsp.2018.08.019.
     """
-    w  = [1.05,1.05,1.05,1.05,1.05,1.05]  #initial condition on W
-    dy = np.zeros((18,1))                 #differential equations array
+    w  = [1.05,1.05,1.05,1.05,1.05,1.05]  #initial condition on W - a list of 6 elements
+    dy = np.zeros((18,1))                 #differential equations array - array size 18  x 1
     
     # Paramters for oscillations
     u = 1.5   # Initial condition on U
@@ -51,21 +50,21 @@ def rosslerpaper(t,y,conf,wc):
              [0, 0, 0, 0, 0, 0],
              [0, 0, 0, 0, 0, 0],
              [0, 0, 0, 0, 0, 0.5],
-             [0, 0, 0, 0, 0.5, 0]])    # Configuration 1 (1-2,5-6)
+             [0, 0, 0, 0, 0.5, 0]])    # Configuration 1, connection 1-2 and 5-6
     elif conf == 2:
         e = np.array([[0, 0, 0, 0, 0, 0.5],
              [0, 0, 0.5, 0, 0, 0],
              [0, 0.5, 0, 0, 0, 0],
              [0, 0, 0, 0, 0.5, 0],
              [0, 0, 0, 0.5, 0, 0],
-             [0.5, 0, 0, 0, 0, 0]]) # Configuration 2 (1-6, 2-3, 4-5)
+             [0.5, 0, 0, 0, 0, 0]]) # Configuration 2  connection 1-6, 2-3 and 4-5
     elif conf == 3:        
         e = np.array([[0, 0, 0, 0, 0.5, 0.5],
              [0, 0, 0.5, 0.5, 0, 0],
              [0, 0.5, 0, 0.5, 0, 0],
              [0, 0.5, 0.5, 0, 0, 0],
              [0.5, 0, 0, 0, 0, 0.5],
-             [0.5, 0, 0, 0, 0.5, 0]])  # Configuration 3 (2-3-4, 1-5-6)
+             [0.5, 0, 0, 0, 0.5, 0]])  # Configuration 3  connection 2-3-4 and 1-5-6
         
     elif conf == 4:
         e = np.array([[0, 0.5, 0, 0, 0.5, 0.5],
@@ -73,7 +72,7 @@ def rosslerpaper(t,y,conf,wc):
              [0, 0.5, 0, 0.5, 0, 0],
              [0, 0.5, 0.5, 0, 0, 0],
              [0.5, 0, 0, 0, 0, 0.5],
-             [0.5, 0, 0, 0, 0.5, 0]]) # Configuration 4 (2-3-4, 1-5-6, 1-2)
+             [0.5, 0, 0, 0, 0.5, 0]]) # Configuration 4 connection 2-3-4, 1-5-6 and 1-2
         
     elif conf == 5:
         e = np.array([[0, 0.5, 0, 0.5, 0.5, 0.5],
@@ -81,9 +80,9 @@ def rosslerpaper(t,y,conf,wc):
              [0, 0.5, 0, 0.5, 0, 0],
              [0.5, 0.5, 0.5, 0, 0.5, 0],
              [0.5, 0.5, 0, 0.5, 0, 0.5],
-             [0.5, 0, 0, 0, 0.5, 0]])  # Configuration 5 (2_3_4, 1-5-6, 1-2, 4-5, 2-5, 1-4)
+             [0.5, 0, 0, 0, 0.5, 0]])  # Configuration 5 connection 2-3-4, 1-5-6, 1-2, 4-5, 2-5 and 1-4
     elif conf == 6:
-        e = 0.5 * np.ones(6,6)         # Configuration 6 --> full
+        e = 0.5 * np.ones(6,6)         # Configuration 6 --> full connection
 
     # Roessler oscilators
     dy[0] = -w[0] * y[1] - y[2] + (e[1][0] * (y[3] - y[0]) + e[2][0] * (y[6] - y[0]) + e[3][0] * (y[9] - y[0]) + e[4][0] * (y[12] - y[0]) + e[5][0] * (y[15] - y[0])) + u * wc[0]
@@ -246,9 +245,16 @@ def generate_AR(N, A, X):
 # ICA
 # =============================================================================
 X_ori = np.c_[X1, X2, X3, X4, X5, X6]           # Original x sources
-A = MixingMatrix(X_ori.shape[0],X_ori.shape[0]) # Random mixing matrix A
-#Y = np.dot(A, X_ori)# Observed signal          # Observed signal Y
-Y = generate_AR(1000, A, X)                     # Observed signal Y -  AR process
+A = MixingMatrix(X_ori.shape[1],X_ori.shape[1]) # Random mixing matrix A
+Y = np.dot(X_ori, A)# Observed signal          # Observed signal Y
+#Y = generate_AR(1000, A, X)                     # Observed signal Y -  AR process
+
+# X_ori = 40 x 6
+# A = 6 x 6
+# y = 40 x 6
+# x_pre = 40 x 6
+# A_mix = 40 x 40
+
 
 
 " Try to use ICA "
@@ -256,7 +262,7 @@ X_pre, A_mix = ica(Y, iterations=1000)
 
 plt.figure(1)
 plt.subplot(3, 1, 1)
-for y in Y:
+for y in Y.T:
     plt.plot(y)
 
 plt.title("mixtures")

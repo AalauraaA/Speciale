@@ -4,15 +4,13 @@ Created on Thu Sep 12 08:36:20 2019
 
 @author: Mattek9b
 
-Topic: Generating Synthetic EEG Data
+Rossler Function to Making Differential Equations for 6 different cases
 """
 import numpy as np
-from scipy import integrate
-import matplotlib.pyplot as plt
-from ICA_algorithm import ica
+import scipy.io
 
 # =============================================================================
-# Rossler Paper
+# Rossler Function
 # =============================================================================
 def rosslerpaper(t,y,conf,wc):
     """
@@ -41,25 +39,31 @@ def rosslerpaper(t,y,conf,wc):
     a = 0.35  # a
     b = 0.2   # b
     c = 10    # c
-
+    
+    " 6 different configuration of connection between node 1 to 6 "
     # See Al Khassaweneh's 2015 IEEE TSP (Fig 6) and Eq. 43 for more 
     # details.
     if conf == 1:
-        e = np.array([[0, 0.5, 0, 0, 0, 0],
+        e = np.array([
+             [0, 0.5, 0, 0, 0, 0],
              [0.5, 0, 0, 0, 0, 0],
              [0, 0, 0, 0, 0, 0],
              [0, 0, 0, 0, 0, 0],
              [0, 0, 0, 0, 0, 0.5],
              [0, 0, 0, 0, 0.5, 0]])    # Configuration 1, connection 1-2 and 5-6
+    
     elif conf == 2:
-        e = np.array([[0, 0, 0, 0, 0, 0.5],
+        e = np.array([
+             [0, 0, 0, 0, 0, 0.5],
              [0, 0, 0.5, 0, 0, 0],
              [0, 0.5, 0, 0, 0, 0],
              [0, 0, 0, 0, 0.5, 0],
              [0, 0, 0, 0.5, 0, 0],
              [0.5, 0, 0, 0, 0, 0]]) # Configuration 2  connection 1-6, 2-3 and 4-5
+    
     elif conf == 3:        
-        e = np.array([[0, 0, 0, 0, 0.5, 0.5],
+        e = np.array([
+             [0, 0, 0, 0, 0.5, 0.5],
              [0, 0, 0.5, 0.5, 0, 0],
              [0, 0.5, 0, 0.5, 0, 0],
              [0, 0.5, 0.5, 0, 0, 0],
@@ -67,7 +71,8 @@ def rosslerpaper(t,y,conf,wc):
              [0.5, 0, 0, 0, 0.5, 0]])  # Configuration 3  connection 2-3-4 and 1-5-6
         
     elif conf == 4:
-        e = np.array([[0, 0.5, 0, 0, 0.5, 0.5],
+        e = np.array([
+             [0, 0.5, 0, 0, 0.5, 0.5],
              [0.5, 0, 0.5, 0.5, 0, 0],
              [0, 0.5, 0, 0.5, 0, 0],
              [0, 0.5, 0.5, 0, 0, 0],
@@ -75,16 +80,18 @@ def rosslerpaper(t,y,conf,wc):
              [0.5, 0, 0, 0, 0.5, 0]]) # Configuration 4 connection 2-3-4, 1-5-6 and 1-2
         
     elif conf == 5:
-        e = np.array([[0, 0.5, 0, 0.5, 0.5, 0.5],
+        e = np.array([
+             [0, 0.5, 0, 0.5, 0.5, 0.5],
              [0.5, 0, 0.5, 0.5, 0.5, 0],
              [0, 0.5, 0, 0.5, 0, 0],
              [0.5, 0.5, 0.5, 0, 0.5, 0],
              [0.5, 0.5, 0, 0.5, 0, 0.5],
              [0.5, 0, 0, 0, 0.5, 0]])  # Configuration 5 connection 2-3-4, 1-5-6, 1-2, 4-5, 2-5 and 1-4
+    
     elif conf == 6:
         e = 0.5 * np.ones(6,6)         # Configuration 6 --> full connection
 
-    # Roessler oscilators
+    " Rossler Oscilators - Differential Equations "
     dy[0] = -w[0] * y[1] - y[2] + (e[1][0] * (y[3] - y[0]) + e[2][0] * (y[6] - y[0]) + e[3][0] * (y[9] - y[0]) + e[4][0] * (y[12] - y[0]) + e[5][0] * (y[15] - y[0])) + u * wc[0]
     dy[1] = -w[0] * y[0] - a * y[1]
     dy[2] = b + (y[0] - c) * y[2]
@@ -108,172 +115,69 @@ def rosslerpaper(t,y,conf,wc):
     dy[15] = -w[5] * y[16] - y[17] + (e[0,5] * (y[0] - y[15]) + e[1,5] * (y[3] - y[15]) + e[2,5] * (y[6] - y[15]) + e[3,5] * (y[9] - y[15]) + e[4,5] * (y[12] - y[15])) + u * wc[5]
     dy[16] = -w[5] * y[15] - a * y[16]
     dy[17] = b + (y[15] - c) * y[17]
-    return dy
+    return dy # Return the differential equation
 
 # =============================================================================
-# Generated Rossler - X Matrix
+# Generated Rossler
 # =============================================================================
-def Generate_Rossler(N,conf):
-    """
-    It is recommended to run this code several times and average the 
-    results to show that results are not dependent on additional random 
-    noise. 
-    
+def Generate_Rossler():
+    """   
     Inputs:
         conf: is number of configuration (see rosslerpaper function).
         N:    is number of samples used.
         
     Output:
     """
-    tspan = np.linspace(0, 50, N) # 50 second and sample rate is 60 Hz
-    initial = np.array([1,1,0,1,1,0,1,1,0,1,1,0,1,1,0,1,1,0]) #initial condition for solving Rossler oscillator equation (1 x 18)
-    c = np.random.normal(3,1,(6,1)) #additional noise which is selected from random normal distibution
-    a = np.nonzero(c < 0) # Find indices of nonzero element less than zero
-    if a != 0:
-        c = np.random.normal(3,1,(6,1))
-    
+#    tspan = np.linspace(0, 50, N) # 50 second and sample rate is 60 Hz
+#    initial = np.array([1,1,0,1,1,0,1,1,0,1,1,0,1,1,0,1,1,0]) #initial condition for solving Rossler oscillator equation (1 x 18)
+#    c = np.random.normal(3,1,(6,1)) #additional noise which is selected from random normal distibution
+#    a = np.nonzero(c < 0) # Find indices of nonzero element less than zero
+#    if a != 0:
+#        c = np.random.normal(3,1,(6,1))
+#    
     #HELP
-    y = integrate.odeint(rosslerpaper(tspan,initial,conf,c), initial, tspan) # solving rossler model with s1 configuration (for more detail see rosslerpaper function)
+    #y = integrate.odeint(rosslerpaper(tspan,initial,conf,c), initial, tspan) # solving rossler model with s1 configuration (for more detail see rosslerpaper function)
     #y = integrate.ode(rosslerpaper(tspan, initial,conf,c)) # solving rossler model with s1 configuration (for more detail see rosslerpaper function)
-   
-    x = y[:][[1,4,7,10,13,16]]  # extracting X segments
-    x = x[61:-1][:]
-    return x
-
-# =============================================================================
-# Solution - X Matrix - Achieve from MatLab Code for conf = 2 and N = 100
-# =============================================================================
-X = np.array([[6.43320533318204, 10.0396975979288, 9.99658678228871, 19.9988164971632, 21.0499288860774, 7.64997256187098],
-[12.2677343098348, 9.95503170727173, 9.99513063040668, 3.08478718433149, 2.27754856320580, 10.9368056340113],
-[7.63002435942371, 10.0295340365599, 9.98962291883028, 19.1357898603527, 18.4351979615786, 9.60410928273129],
-[10.9978187919222, 9.96510012456722, 10.0003059551175, -1.60991335293677, -1.56815434278734, 9.55724562401096],
-[9.49188357283363, 10.0197944396114, 9.98593593576345, 12.4714728595453, 11.6339090194588, 11.5922058234789],
-[9.67007475732773, 9.97426829007573, 10.0027584505115, 13.3981665581996, 16.2192304204937, 8.30668197323507],
-[11.4072766358240, 10.0113267492685, 9.98446723423034, 5.57873467802873, 4.74317557057991, 12.9184655833545],
-[8.44671167303001, 9.98196495957512, 10.0034427765290, 20.9674420908621, 20.4834157745757, 7.32734403666425],
-[12.7442347819972, 10.0044594772459, 9.98439083079261, -0.497769135401125, -1.04696412225901, 13.3672404100265],
-[7.47316169045352, 9.98801888293885, 10.0030500577853, 15.1035561190921, 14.2946592844347, 6.77764555526259],
-[13.2567351077642, 9.99922874643776, 9.98512857416802, 3.91390556980317, 6.58185353553213, 13.0974346284464],
-[6.89854493933277, 9.99248629568879, 10.0020551835544, 8.32283121632290, 7.50909835244814, 6.82150594163206],
-[13.0639484805771, 9.99549742498585, 9.98629687630765, 21.2700838892020, 21.4623001090414, 12.3541704069972],
-[6.87792681565325, 9.99555494462026, 10.0007645474788, 1.77055718498074, 1.08385486473457, 7.54688578584832],
-[12.3920665686679, 9.99303465984537, 9.98764739701931, 17.7995311057813, 17.0781044059224, 11.3536884103933],
-[7.50343819661136, 9.99746532118287, 9.99937555956112, -1.03596396443246, -0.301049630694319, 8.85104455935647],
-[11.4485277144623, 9.99160683133643, 9.98904245925702, 11.2159616515077, 10.4567242628449, 10.2583107307566],
-[8.70146044619163, 9.99847178807841, 9.99801211659941, 16.8948266631557, 18.6305899145880, 10.3878578619063],
-[10.3947821852425, 9.99096530334226, 9.99036063037931, 4.55835213428972, 3.84161142922875, 9.19421602121599],
-[10.1781967558186, 9.99880308771936, 9.99675763197457, 20.2250768271860, 19.6734125682104, 11.7151893399823],
-[9.34750531014073, 9.99089480582976, 9.99154109524942, -0.937403889929978, -1.23860176393671, 8.27247387424592],
-[11.5154177198200, 9.99866138479639, 9.99566070560712, 14.2155448463993, 13.4720850652406, 12.5256857328574],
-[8.41510288302190, 9.99120664515275, 9.99254145945961, 6.58628473096920, 9.24477842803592, 7.60767488293081],
-[12.4013639865152, 9.99821805639038, 9.99475972708208, 7.61302861874816, 6.86359246196836, 12.7496334105635],
-[7.72151790594443, 9.99174463056448, 9.99334041031257, 21.2822139749366, 21.2597575999875, 7.30291676713665],
-[12.7031720134659, 9.99761304557251, 9.99406456630662, 1.28062635364421, 0.680658122968036, 12.4918675826699],
-[7.37256308445824, 9.99238751230914, 9.99393338282171, 17.2294428008806, 16.5299781661406, 7.45626281440148],
-[12.5087102696121, 9.99695340597516, 9.99357232568866, -0.439112065372413, 0.520522793952781, 11.8911769046759],
-[7.45997613660273, 9.99304449204166, 9.99433050593655, 10.7353183860348, 9.99847185181508, 8.09960797311901],
-[11.9621288409359, 9.99631698917969, 9.99326538854738, 17.8232520294165, 19.2736646923409, 11.0855114892118],
-[8.01555764054782, 9.99364894844051, 9.99455517434492, 4.25921287406629, 3.53830568048869, 9.13111237851904],
-[11.2067262342683, 9.99575511943181, 9.99311451426303, 19.9246161683970, 19.3540546894643, 10.2015097424815],
-[8.95802299406828, 9.99416244421131, 9.99463970777756, -0.92745403005340, -1.20679472442008, 10.3016519576366],
-[10.3578119754232, 9.99529422836231, 9.99308666237458, 14.0073136066750, 13.2509686166577, 9.34190675060078],
-[10.0788618200180, 9.99456636666870, 9.99461996074354, 7.10187616422472, 9.84778986062582, 11.3237111960836],
-[9.51696061036477, 9.99494654133471, 9.99314505098624, 7.55135730850389, 6.76433685509148, 8.59926215568725],
-[11.1096936273515, 9.99485907830108, 9.99453140522790, 21.1377571714953, 21.1388240411824, 11.9937806968212],
-[8.76978458788896, 9.99470682218061, 9.99325614027658, 1.42213047333933, 0.750752386403771, 8.05812509029646],
-[11.8351086536605, 9.99504944914823, 9.99440568983795, 17.2672497789887, 16.5415805537451, 12.2434738468389],
-[8.20065023350674, 9.99456262962604, 9.99339136666387, -0.455412826089201, 0.484566339669069, 7.79953593834150]]).T
-  
-"Subtract the 6 time segments from the solution space"
-X1 = X[0]
-X2 = X[1]
-X3 = X[2]
-X4 = X[3]
-X5 = X[4]
-X6 = X[5]
-
-# =============================================================================
-# Generating A Matrix (Mixing Matrix)
-# =============================================================================
-
-def MixingMatrix(M,N):
-    return np.random.randn(M,N)
-
-# =============================================================================
-# AR Data
-# =============================================================================
-"This is to generating non-linear AR data."
-
-def generate_AR(N, A, X):
-    # N is number of the time points (samples)
-    # Inital parameters
-    A1 = A[0]
-    A2 = A[1]
-    A3 = A[2]
-    A4 = A[3]
-    A5 = A[4]
-    A6 = A[5]
+    """
+    Loaded the solution (mat_sol) to the Rossler Oscillation Equation (differential 
+    equation of size 18 x 1) with configuration (conf = 4) and N = 2000 samples. 
+    The solution was computed from a time span of 50 second with a sample rate 
+    of 60 Hz.
+    """
+    mat_sol1 = scipy.io.loadmat('solution_oscillation1.mat')
+    sol1 = mat_sol1['y']  
+    mat_sol2 = scipy.io.loadmat('solution_oscillation2.mat')
+    sol2 = mat_sol2['y']
+    mat_sol3 = scipy.io.loadmat('solution_oscillation3.mat')
+    sol3 = mat_sol3['y']    
+    mat_sol4 = scipy.io.loadmat('solution_oscillation4.mat')
+    sol4 = mat_sol4['y']
+    mat_sol5 = scipy.io.loadmat('solution_oscillation5.mat')
+    sol5 = mat_sol5['y']
+    mat_sol6 = scipy.io.loadmat('solution_oscillation6.mat')
+    sol6 = mat_sol6['y']
+    """
+    X has been chosen from the solution space (size 2000x18) with indices 3 
+    step a part (1, 4, 7, 10, 13, 16 in MatLab indexes)
     
-    X1 = X[0]
-    X2 = X[1]
-    X3 = X[2]
-    X4 = X[3]
-    X5 = X[4]
-    X6 = X[5]
-
-    XX1 = np.zeros(len(X1))
-    XX2 = np.zeros(len(X2))
-    XX3 = np.zeros(len(X3))
-    XX4 = np.zeros(len(X4))
-    XX5 = np.zeros(len(X5))
-    XX6 = np.zeros(len(X6))
-
-    # Generating Synthetic AR Data
-    w = np.random.randn(6, N)
-    for j in range(2,len(X1)):
-        XX1[j-2] = A1[j-2] * X1[j-1] - A2[j-2] * X2[j-2] + w[0, j-2]
-        XX2[j-2] = A1[j-2] * X1[j-1] + A3[j-2] * X3[j-1] + w[1, j-2]
-        XX3[j-2] = A5[j-2] * X5[j-1]**2 + A3[j-2] * X3[j-1] + A2[j-2] * X2[j-1] + w[2, j-2]
-        XX4[j-2] = A4[j-2] * X4[j-1] + A1[j-2] * X1[j-1] + w[3, j-2]
-        XX5[j-2] = A2[j-2] * X2[j-1] + A6[j-2] * X6[j-1] + w[4, j-2]
-        XX6[j-2] = A6[j-2] * X6[j-1] + A1[j-2] * X1[j-1] + w[5, j-2]
-
-    F = np.vstack([XX1, XX2, XX3, XX4, XX5, XX6])
-    return F
-
-# =============================================================================
-# ICA
-# =============================================================================
-X_ori = np.c_[X1, X2, X3, X4, X5, X6]           # Original x sources
-A = MixingMatrix(X_ori.shape[1],X_ori.shape[1]) # Random mixing matrix A
-Y = np.dot(X_ori, A)# Observed signal          # Observed signal Y
-#Y = generate_AR(1000, A, X)                     # Observed signal Y -  AR process
-
-# X_ori = 40 x 6
-# A = 6 x 6
-# y = 40 x 6
-# x_pre = 40 x 6
-# A_mix = 40 x 40
-
-
-
-" Try to use ICA "
-X_pre, A_mix = ica(Y, iterations=1000)      
-
-plt.figure(1)
-plt.subplot(3, 1, 1)
-for y in Y.T:
-    plt.plot(y)
-
-plt.title("mixtures")
-
-plt.subplot(3, 1, 2)
-for x in X_ori.T:
-    plt.plot(x)
-plt.title("real sources")
-
-plt.subplot(3,1,3)
-for x in X_pre:
-    plt.plot(x)
-plt.title("predicted sources")
-plt.show()
+    X has size 1940 x 6 because we have remove the first 60 samples
+    """
+    x1 = sol1.T[0:16:3]  # Extracting 6 
+    x1 = x1.T
+    x1 = x1[59:-1]       # Remove the 60 first samples, X is now 1940 x 6
+    x2 = sol2.T[0:16:3]  # Extracting 6 
+    x2 = x2.T
+    x2 = x2[59:-1]       # Remove the 60 first samples, X is now 1940 x 6
+    x3 = sol3.T[0:16:3]  # Extracting 6 
+    x3 = x3.T
+    x3 = x3[59:-1]       # Remove the 60 first samples, X is now 1940 x 6
+    x4 = sol4.T[0:16:3]  # Extracting 6 
+    x4 = x4.T
+    x4 = x4[59:-1]       # Remove the 60 first samples, X is now 1940 x 6
+    x5 = sol5.T[0:16:3]  # Extracting 6 
+    x5 = x5.T
+    x5 = x5[59:-1]       # Remove the 60 first samples, X is now 1940 x 6
+    x6 = sol6.T[0:16:3]  # Extracting 6 
+    x6 = x6.T
+    x6 = x6[59:-1]       # Remove the 60 first samples, X is now 1940 x 6
+    return x1, x2, x3, x4, x5, x6

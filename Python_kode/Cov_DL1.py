@@ -67,7 +67,6 @@ def reverse_vec(x):
         out[C, R] = x
     return out
 
-
 A_app = np.zeros(([M, N]))
 for i in range(N):
     d = D.T[i]
@@ -81,7 +80,6 @@ for i in range(N):
     A_app.T[i] = temp.T
 
 """ prediction of X """
-
 
 
 

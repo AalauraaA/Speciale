@@ -8,6 +8,7 @@ Created on Tue Oct 22 15:23:32 2019
 import numpy as np
 from scipy import signal
 import matplotlib.pyplot as plt
+from sklearn.linear_model import OrthogonalMatchingPursuit
 np.random.seed(0)
 
 """ generation of data - Linear Mixture Model Ys = A * Xs """
@@ -51,79 +52,47 @@ np.random.seed(0)
 """ Dictionary learning K-SVD """
 
 # First a basis pursiut method to solve for initial X 
-# OMP alg fra bog. 
+# OMP algorithm form book, using clase from sklearn
 # lav toy eksemple 
 
 # Define parameters 
 
-A = np.array([[0.8, -0.6, 0, 0], [0, 0.8, 0, 0], [np.sqrt(0.8), 0, 0, 0], [0, np.sqrt(0.8), 0, 0]])
-x_real = np.array([2.5, 2.5, 0, 0])  # it is x that we want to recover from y and A
-y = np.dot(A.T, x_real)
-err = 0.005
+n_samples = 200
+duration = 8                                # duration in seconds
+time = np.linspace(0, duration, n_samples)  # 8 seconds, with n_samples
+s1 = np.sin(2 * time)                       # sinusoidal
+s2 = np.sign(np.sin(3 * time))              # square signal
+s3 = signal.sawtooth(2 * np.pi * time)      # saw tooth signal
+
+X_real = np.c_[s1, s2, s3].T                     # Column concatenation
+A_real = np.array(([[1, 1, 1], [1, 1, 1], [1, 1, 1]]))  # Mix matrix
+Y = np.dot(A_real, X_real)                            # Observed signal
+
 
 # Initialtion
-K = np.arange(100)  #possible iterations k
-x = np.zeros(3)
-res = y.T 
-supp = np.nonzero(x)
-z = np.zeros(len(A))
-sup = []
+K = 100  # possible iterations k
 
-#for k in range(10):
-#    x_pre = np.array(x)
-#    res_pre = np.array(res)
-#    
-#    for j in range(len(A)):
-#        z[j] = np.dot(A.T[j], res_pre.T)/np.linalg.norm(A.T[j])**2  # 2 norm is default
-#    print(z)
-#    j0 = np.argmin(z)
-#    print(j0)
-#    # if we get z[j0]=0 no more will change 
-#    u = 0
-#    for i in range(len(sup)):
-#        if j0 == sup[i]:
-#           u = 1 
-#    # update support set
-#    if u == 0:
-#        sup = np.append(sup,j0)
-#    print(sup)
-#    # update x
-#    x[j0] = x_pre[j0]+z[j0]
-#    # update residual
-#    res = res_pre - (z[j0]*A.T[j0])
-#    print(k, x, res)
-#    if np.linalg.norm(res) < err:
-#        break
-#
-#print(x)
+# let A = A_0 and normalizeing the columns 
+A = np.random.random(A_real.shape)
+A = A/np.linalg.norm(A, ord=2, axis=0, keepdims=True)  # normalizing the columns
+X = np.zeros(Y.shape)
 
-#eller
-A = np.array([[-0.707, 0.8, 0], [0.707, 0.6, -1]])
-x_real = np.array([-1.2, 1, 00])  # it is x that we want to recover from y and A
-y = np.dot(A, x_real)
-x = np.zeros(3)
-z = np.zeros(len(A.T))
-res = y.T 
+# update X 
+def X_update(Y, A_real): 
+    for i in range(len(Y.T)):
+        omp = OrthogonalMatchingPursuit().fit(A, Y.T[i])  # create object from class 
+        x = omp.coef_
+        X.T[i] = x
+    return X
 
-for k in range(3):
-    x_pre = np.array(x)
-    res_pre = np.array(res)
-    print(A)
-    for j in range(len(A.T)):
-        z[j] = np.dot(A.T[j], res_pre)  # 2 norm is default
-  
-    print(z)
-    j0 = np.argmax(np.abs(z))
-    print(j0)
-    res = res_pre - (z[j0]*A.T[j0])
-    A.T[j0]=0
+X = X_update(Y, A_real)
     
-    x[j0] = x_pre[j0]+z[j0]
-    # update residual
 
 
-    if np.linalg.norm(res) < err:
-        break
+
+
+
+
 
 
         

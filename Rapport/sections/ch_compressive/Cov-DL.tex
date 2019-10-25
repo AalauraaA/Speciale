@@ -100,7 +100,16 @@ To do so each column is found by the optimisation problem
 for which the global minimizer is $\textbf{a}^{\ast}_i=\sqrt{\lambda_i}\textbf{b}_i$. Here $\lambda_i$ is the largest eignevalue of $\text{vec}^{-1}(\textbf{d}_i)$ and $\textbf{b}_i$ is the corresponding eigenvector.\todo{redegørelse for resultatet her skal laves}
   
   
-
+\begin{algorithm}[H]
+\caption{Cov - DL2 undercomplete D}
+\begin{itemize}
+\item[1.] Segmentation of measurements 
+\item[2.] Transformation to covariance domain
+\item[3.] Vectorising 
+\itme[4.] Learn D, by ?
+\item[5.] Find A
+\end{itemize}
+\end{algorithm}
 
 
 

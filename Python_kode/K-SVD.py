@@ -56,9 +56,9 @@ np.random.seed(0)
 
 # Define parameters 
 
-A = np.array([[1, 0, 0], [0, 2, 0], [0, 0, 1]])
-x_real = np.array([1, 2, 3])  # it is x that we want to recover from y and A
-y = np.dot(A, x_real)
+A = np.array([[0.8, -0.6, 0, 0], [0, 0.8, 0, 0], [np.sqrt(0.8), 0, 0, 0], [0, np.sqrt(0.8), 0, 0]])
+x_real = np.array([2.5, 2.5, 0, 0])  # it is x that we want to recover from y and A
+y = np.dot(A.T, x_real)
 err = 0.005
 
 # Initialtion
@@ -67,38 +67,63 @@ x = np.zeros(3)
 res = y.T 
 supp = np.nonzero(x)
 z = np.zeros(len(A))
+sup = []
 
-for k in range(10):
+#for k in range(10):
+#    x_pre = np.array(x)
+#    res_pre = np.array(res)
+#    
+#    for j in range(len(A)):
+#        z[j] = np.dot(A.T[j], res_pre.T)/np.linalg.norm(A.T[j])**2  # 2 norm is default
+#    print(z)
+#    j0 = np.argmin(z)
+#    print(j0)
+#    # if we get z[j0]=0 no more will change 
+#    u = 0
+#    for i in range(len(sup)):
+#        if j0 == sup[i]:
+#           u = 1 
+#    # update support set
+#    if u == 0:
+#        sup = np.append(sup,j0)
+#    print(sup)
+#    # update x
+#    x[j0] = x_pre[j0]+z[j0]
+#    # update residual
+#    res = res_pre - (z[j0]*A.T[j0])
+#    print(k, x, res)
+#    if np.linalg.norm(res) < err:
+#        break
+#
+#print(x)
+
+#eller
+A = np.array([[-0.707, 0.8, 0], [0.707, 0.6, -1]])
+x_real = np.array([-1.2, 1, 00])  # it is x that we want to recover from y and A
+y = np.dot(A, x_real)
+x = np.zeros(3)
+z = np.zeros(len(A.T))
+res = y.T 
+
+for k in range(3):
     x_pre = np.array(x)
     res_pre = np.array(res)
-    ind = False
-    
-    for j in range(len(A)):
-        z[j] = np.dot(A.T[j].T, res.T)/np.linalg.norm(A.T[j])**2  # 2 norm is default
-    
-    j0 = np.argmin(z)
-    for i in range(len(supp)):
-        if j0 == supp[i]:
-            ind = True
-    # update support set
-    if ind == False:
-        supp = np.append(supp,j0)
-        
-    # update x
-    x[j0] = x_pre[j0]+z[j0]
-    
-    # update residual
+    print(A)
+    for j in range(len(A.T)):
+        z[j] = np.dot(A.T[j], res_pre)  # 2 norm is default
+  
+    print(z)
+    j0 = np.argmax(np.abs(z))
+    print(j0)
     res = res_pre - (z[j0]*A.T[j0])
+    A.T[j0]=0
     
-    print(k, x, res)
-    
+    x[j0] = x_pre[j0]+z[j0]
+    # update residual
+
+
     if np.linalg.norm(res) < err:
         break
-
-# lige nu er der ikke noget der ændre sig, tjek op på det 
-
-
-
 
 
         

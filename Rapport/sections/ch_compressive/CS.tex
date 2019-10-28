@@ -1,41 +1,64 @@
-\section{Compressive Sensing}\label{sec:CS}
-Compressive sensing is the theory of efficient recovery or reconstruction of a signal from a minimal number of observed measurements. Assuming linear acquisition of the original information the relation between the measurements and the signal to be recovered is described by a linear model\cite{FR} 
+\section{Linear Algebra}
+A relation between some observed measurements $\mathbf{y}$ can be described as a linear combinations between a coefficient matrix $A$ and some vector $\mathbf{x}$ such that
 \begin{align}\label{eq:model}
-\mathbf{y} = \mathbf{Ax}.
+\mathbf{y} &= \mathbf{Ax},
 \end{align}
-Here $\mathbf{y} \in \mathbb{R}^M$ is the measured data consisting of $M$ observations, $\mathbf{x} \in \mathbb{R}^N$ is the original signal consisting of $N$ possible sources. $\mathbf{A} \in \mathbb{R}^{M \times N}$ is a matrix which models the linear measurement process or in other words it projects each of the $N$ possible sources on to the $M$ observations. $\textbf{A}$ is  referred to as a dictionary or a mixing matrix .\\
-In compressive sensing terminology, $\mathbf{x}$ is the signal of interest which is sought recovered by solving the linear system \eqref{eq:model}. In the typical compressive sensing case where $M < N$ the system becomes underdetermined and there are infinitely many solutions, provided that a solution exist. Such system is also referred to as overcomplete\textit{(as the number of basis vectors is greater than the dimension of the input)}.\\
-However, by enforcing certian sparsity constraints it is possible to recover the wanted signal\cite{FR}, hence the term sparse signal recovery. \\ 
-\\ 
-Yet another argument; If $M<<N$, it leads to the matrix $\mathbf{A}$ being rank-deficient\textit{(but not necessarily?)} which imply that $\mathbf{A}$ has a non-empty null space and this leads to infinitely many signals which yield the same solution $\mathbf{y} = \mathbf{Ax} = \mathbf{Ax'}$ \cite[p. ix]{CS}. Thus it is necessary to limit the solution space to a specific class of signals $\mathbf{x}$, for this a certain constraint on sparseness is introduced.   
+where $\mathbf{y} \in \mathbb{R}^M$ is the observed measurement vector consisting of $M$ measurements, $\mathbf{x} \in \mathbb{R}^N$ is a vector of $N$ elements, and $\mathbf{A} \in \mathbb{R}^{M \times N}$ is a coefficient matrix which models the linear measurement process column-wise. The linear model consist of $M$ equations and $N$ unknown.
+\\ \\
+For the case of $\mathbf{A}$ been a square matrix ($M = N$) a solution can be found to the linear model if the $\mathbf{A}$ has full rank -- $\mathbf{A}$ consist of linearly independent columns or rows. For $M > N$ the matrix said to have full rank when the columns are linearly independent. For $M < N$ the matrix has full rank when the rows are linearly independent. For linearly systems/model with $M = N$ is called determined, $M > N$ overdetermined and $M < N$ underdetermined. 
+\\
+When full rank do not occur the matrix is then called rank-deficient.
+\\ \\
+By inverting $\mathbf{A}$ from \eqref{eq:model} the unknowing vector $\mathbf{x}$ can be achieved. Square matrix is invertible if an only if its has full rank or its determinant $\det(\mathbf{A}) \neq 0$. For rectangular matrices ($M > N$ and $M < N$) left-sided and right-sided inverse exists:
+\begin{itemize}
+\item Left-sided inverse ($M > N$): $(\mathbf{A} \mathbf{A})^{-1} \mathbf{A}^T \mathbf{A} = \mathbf{A}_{\text{left}}^{-1} = \mathbf{I}_N$ 
+\item Right-sided inverse ($M < N$): $\mathbf{A} \mathbf{A}^T (\mathbf{A} \mathbf{A}^T)^{-1} = \mathbf{A}_{\text{right}}^{-1} = \mathbf{I}_M$ 
+\end{itemize}
+With the left-inverse the least norm solution of \eqref{eq:model} can be found.
+\\ \\
+For an determined system there will exist a unique solution. For an overdetermined system there do not exist a solution and for underdetermined systems there exist infinitely many solutions.
+\\
+For rank-deficient matrices there do not exist an inverse and therefore \eqref{eq:model} can not be solve by inverting the model. But rank-deficient matrices  meaning have non-empty null space leading to infinitely solutions to \eqref{eq:model} \cite[p. ix]{CS}.
+\\ \\
+As described in chapter \ref{ch:motivation} the linear model of interest consist of $M$ sensors which is known and $N$ sources which is unknown. Furthermore, we also have that $M < N$ -- an underdetermined system. It is therefore of interest to find a solution in the infinitely solution set.
+
+\section{Compressive Sensing}\label{sec:CS}
+Compressive sensing is the theory of efficient recovery or reconstruction of a signal from a minimal number of observed measurements. Assuming linear acquisition of the original information the relation between the measurements and the signal to be recovered is described by the linear model giving in \eqref{eq:model} \cite{FR}.  \\ \\
+%\begin{align}\label{eq:model}
+%\mathbf{y} = \mathbf{Ax}.
+%\end{align}
+%Here $\mathbf{y} \in \mathbb{R}^M$ is the measured data consisting of $M$ observations, $\mathbf{x} \in \mathbb{R}^N$ is the original signal consisting of $N$ possible sources. $\mathbf{A} \in \mathbb{R}^{M \times N}$ is a matrix which models the linear measurement process or in other words it projects each of the $N$ possible sources on to the $M$ observations. $\textbf{A}$ is  referred to as a dictionary or a mixing matrix .\\
+In compressive sensing terminology, $\mathbf{x}$ is the signal of interest which is sought recovered by solving the linear system \eqref{eq:model}. In the typical compressive sensing case where $M < N$ the system becomes underdetermined and there are infinitely many solutions, provided that a solution exist. Such system is also referred to as overcomplete \textit{(as the number of column basis vectors is greater than the dimension of the input)}.\\
+However, by enforcing certain sparsity constraints it is possible to recover the wanted signal \cite{FR}, hence the term sparse signal recovery.
+%Yet another argument; If $M<<N$, it leads to the matrix $\mathbf{A}$ being rank-deficient\textit{(but not necessarily?)} which imply that $\mathbf{A}$ has a non-empty null space and this leads to infinitely many signals which yield the same solution $\mathbf{y} = \mathbf{Ax} = \mathbf{Ax'}$ \cite[p. ix]{CS}. Thus it is necessary to limit the solution space to a specific class of signals $\mathbf{x}$, for this a certain constraint on sparseness is introduced.   
 
 \subsection{Sparseness} 
-A signal is said to be $k$-sparse if the signal has at most $k$ non-zero coefficients. For the purpose counting the non-zero entries of a vector representing a signal the $\ell_0$-norm is defined
+A signal is said to be $k$-sparse if the signal has at most $k$ non-zero coefficients. For the purpose of counting the non-zero entries of a vector representing a signal the $\ell_0$-norm is defined
 \begin{align*}
-\Vert \mathbf{x} \Vert_0 := \text{card}(\text{supp}(\mathbf{x})) \leq k.
+\Vert \mathbf{x} \Vert_0 := \text{card}(\text{supp}(\mathbf{x})).
 \end{align*}
 The function $\text{card}(\cdot)$ gives the cardinality of the input and the support vector of $\mathbf{x}$ is given as
 \begin{align*}
 \text{supp}(\mathbf{x}) = \{ j \in [N] \ : \ x_j \neq 0 \},
 \end{align*} 
-where $[N]$ a set of integers $\{1,2,\hdots,N\}$ \cite[p. 41]{FR}. Let the support vector of $\textbf{x}$ be denoted by $S =\text{supp}(x)$. The set of all $k$-sparse signals is denoted as
+where $[N]$ a set of integers $\{1,2,\hdots,N\}$ \cite[p. 41]{FR}. The set of all $k$-sparse signals is denoted as
 \begin{align*}
 \Omega_k = \{ \mathbf{x} \ : \ \Vert \mathbf{x} \Vert_0 \leq k \}.
 \end{align*}
 
 \subsection{Optimisation Problem} 
-The signal of interest is assumed to be $k$-sparse with $k<M$. \\
+The signal of interest is assumed to be $k$-sparse with $k < M$. \\
 From the desire of finding a $k$-sparse solution $\mathbf{x}$ the following optimisation problem is considered
 \\ \\
 \begin{align*}
-\min_{\mathbf{z}} \Vert \mathbf{z} \Vert_0 \quad \text{s.t} \quad \mathbf{y} = \mathbf{Az},
+\min_{\Omega_k} \Vert \mathbf{x} \Vert_0 \quad \text{s.t} \quad \mathbf{y} = \mathbf{Ax},
 \end{align*}
-where $\mathbf{z}$ is all possible candidates to a $k$-sparse signal $\mathbf{x}$.
+where $\mathbf{x}$ is all possible candidates to a $k$-sparse signal $\mathbf{x}^\ast$.
 Unfortunately, this optimisation problem is non-convex due to the definition of $\ell_0$-norm and is therefore difficult to solve -- it is a NP-hard problem. Instead by replacing the $\ell_0$-norm with its convex approximation, the $\ell_1$-norm, the optimisation problem become computational feasible \cite[p. 27]{CS}
 \begin{align}\label{eq:p1}
-\min_{\mathbf{z}} \Vert \mathbf{z} \Vert_1 \quad \text{s.t} \quad \mathbf{y} = \mathbf{Az},
+\min_{\mathbf{x}} \Vert \mathbf{x} \Vert_1 \quad \text{s.t} \quad \mathbf{y} = \mathbf{Ax},
 \end{align} 
-and instead we find the best $k$-term approximation of the signal $\mathbf{x}$.
+and instead we find the best $k$-term approximation of the signal $\hat{\mathbf{x}}^\ast$.
 This method is referred to as Basis Pursuit and makes the foundation of several algorithms solving alternative versions of \eqref{eq:p1} where noise is incorporated. A different type of solution method includes greedy algorithm such as the Orthogonal Matching Pursuit.    
       
 \subsection{Conditions on the dictionary}

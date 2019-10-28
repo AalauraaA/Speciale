@@ -8,6 +8,7 @@ Created on Tue Oct 22 15:23:32 2019
 import numpy as np
 from scipy import signal
 import matplotlib.pyplot as plt
+from sklearn.linear_model import OrthogonalMatchingPursuit
 np.random.seed(0)
 
 """ generation of data - Linear Mixture Model Ys = A * Xs """
@@ -51,51 +52,44 @@ np.random.seed(0)
 """ Dictionary learning K-SVD """
 
 # First a basis pursiut method to solve for initial X 
-# OMP alg fra bog. 
+# OMP algorithm form book, using clase from sklearn
 # lav toy eksemple 
 
 # Define parameters 
 
-A = np.array([[1, 0, 0], [0, 2, 0], [0, 0, 1]])
-x_real = np.array([1, 2, 3])  # it is x that we want to recover from y and A
-y = np.dot(A, x_real)
-err = 0.005
+n_samples = 200
+duration = 8                                # duration in seconds
+time = np.linspace(0, duration, n_samples)  # 8 seconds, with n_samples
+s1 = np.sin(2 * time)                       # sinusoidal
+s2 = np.sign(np.sin(3 * time))              # square signal
+s3 = signal.sawtooth(2 * np.pi * time)      # saw tooth signal
+
+X_real = np.c_[s1, s2, s3].T                     # Column concatenation
+A_real = np.array(([[1, 1, 1], [1, 1, 1], [1, 1, 1]]))  # Mix matrix
+Y = np.dot(A_real, X_real)                            # Observed signal
+
 
 # Initialtion
-K = np.arange(100)  #possible iterations k
-x = np.zeros(3)
-res = y.T 
-supp = np.nonzero(x)
-z = np.zeros(len(A))
+K = 100  # possible iterations k
 
-for k in range(10):
-    x_pre = np.array(x)
-    res_pre = np.array(res)
-    ind = False
-    
-    for j in range(len(A)):
-        z[j] = np.dot(A.T[j].T, res.T)/np.linalg.norm(A.T[j])**2  # 2 norm is default
-    
-    j0 = np.argmin(z)
-    for i in range(len(supp)):
-        if j0 == supp[i]:
-            ind = True
-    # update support set
-    if ind == False:
-        supp = np.append(supp,j0)
-        
-    # update x
-    x[j0] = x_pre[j0]+z[j0]
-    
-    # update residual
-    res = res_pre - (z[j0]*A.T[j0])
-    
-    print(k, x, res)
-    
-    if np.linalg.norm(res) < err:
-        break
+# let A = A_0 and normalizeing the columns 
+A = np.random.random(A_real.shape)
+A = A/np.linalg.norm(A, ord=2, axis=0, keepdims=True)  # normalizing the columns
+X = np.zeros(Y.shape)
 
-# lige nu er der ikke noget der ændre sig, tjek op på det 
+# update X 
+def X_update(Y, A_real): 
+    for i in range(len(Y.T)):
+        omp = OrthogonalMatchingPursuit().fit(A, Y.T[i])  # create object from class 
+        x = omp.coef_
+        X.T[i] = x
+    return X
+
+X = X_update(Y, A_real)
+    
+
+
+
 
 
 

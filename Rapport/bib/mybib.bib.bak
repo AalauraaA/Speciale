@@ -34,20 +34,28 @@ Overcomplete EEG Source Identification},
   Volume                   = {22}
 }
 
-@Article{Cov-DL,
-  Title                    = {Covariance-Domain Dictionary Learning for Overcomplete EEG Source Identification},
-  Author                   = {Balkan, O. Y. and Kreutz-Delgado, K. and Makeig, S.},
-  Journal                  = {CoRR},
-  Year                     = {2015},
-  Volume                   = {abs/1512.00156}
-}
-
 @Article{Emina2019,
   Title                    = {A Tutorial on Auditory Attention Identification Methods},
   Author                   = {Alickovic, Emina and Lunner, Thomas and Gustafsson, Fredrik and Ljung, Lennart},
   Journal                  = {Front. Neurosci},
   Year                     = {2019},
   Volume                   = {13:153}
+}
+
+@Article{Friston2002,
+  Title                    = {Functional integration and inference in the brain},
+  Author                   = {Friston, Karl J.},
+  Journal                  = {Progress in Neurobiology 590},
+  Year                     = {2002},
+  Volume                   = {1-31}
+}
+
+@Article{Friston2011,
+  Title                    = {Functional and Effective Connectivity: A Review},
+  Author                   = {Friston, Karl J.},
+  Journal                  = {BRAIN CONNECTIVITY},
+  Year                     = {2011},
+  Volume                   = {1}
 }
 
 @Article{fundamentalEEG,
@@ -65,6 +73,15 @@ Overcomplete Feature Learning},
   Journal                  = {NIPS'11 International Conference on Neural Information Processing Systems
 P. 1017-1025},
   Year                     = {2011}
+}
+
+@Article{Pal2015,
+  Title                    = {Pushing the Limits of Sparse Support Recovery Using
+Correlation Information},
+  Author                   = {Pal, Piya and Vaidyanathan, P. P. },
+  Journal                  = {IEEE TRANSACTIONS ON SIGNAL PROCESSING},
+  Year                     = {2015},
+  Volume                   = {VOL. 63, NO. 3, Feb.}
 }
 
 @Article{Palmer2008,
@@ -135,5 +152,11 @@ Analysis},
   Year                     = {2015},
   Month                    = {January},
   Type                     = {Master thesis}
+}
+
+@Misc{Weberik,
+  Title                    = {Studies within Steering of hearing devices using EEG and Ear-EEG},
+  HowPublished             = {\url{https://www.eriksholm.com/research/cognitive-hearing-science/eeg-steering}},
+  Note                     = {Accessed: 2019-10-03}
 }
 

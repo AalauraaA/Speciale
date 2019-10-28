@@ -46,7 +46,7 @@ where $[N]$ a set of integers $\{1,2,\hdots,N\}$ \cite[p. 41]{FR}. The set of al
 \Omega_k = \{ \mathbf{x} \ : \ \Vert \mathbf{x} \Vert_0 \leq k \}.
 \end{align*}
 
-\subsection{Optimisation Problem} 
+\subsection{Optimisation Problem}\label{sec:opti}
 To find a solution to the linear model \eqref{eq:model} which is $k$-sparse with $k < M$ an optimisation problem can be used. An optimisation problem is defined as
 \begin{align*}
 \min f_0 (\mathbf{x}) \quad \text{s.t} \quad f_i (\mathbf{x}) \leq b_i, \quad i \in [n],
@@ -106,71 +106,104 @@ x^{n+1} &= \arg \min_{\mathbf{z} \in \mathbb{C}^N} (\Vert \mathbf{y} - \mathbf{A
 \end{algorithm}
       
       
-\subsection{Conditions on the dictionary}
-The construction of the matrix $\mathbf{A}$ is of course essential for the solution of the optimisation problem. So far no one has manage to construct a matrix which is proved to be optimal for some compressive sensing set up. However some certain constructions have shown sufficient recovery guarantee.\\ \\
-To ensure an exact or an approximate reconstruction of the sparse signal $\mathbf{x}$ some conditions associated to the matrix $\mathbf{A}$ must be satisfied.\\
-This includes at first the null space condition, a property of the $A$ matrix which is hard to check in practise. The Restricted isometry condition is a stronger condition concerning the orthogonality of the matrix. Furthermore the coherence of a matrix is a measure of quality and is used to determine whether the matrix $A$ is a good choice for the optimisation problem.\\    
-\textit{(Is it necessary describe these conditions on A in details?)}
+\subsection{Conditions on the Dictionary}
+In section \ref{sec:opti} the measurement matrix $\mathbf{A}$ was known regarding to solve the optimisation problem given in \eqref{eq:p1}. But this is not always the case and instead a dictionary is used to find the measurement matrix $\mathbf{A}$. To ensure an exact or an approximate reconstruction of the sparse signal $\mathbf{x}^\ast$ from the optimisation problem \eqref{eq:p1} some conditions associated to the matrix $\mathbf{A}$ must be satisfied.
 
-%\subsubsection{Null Space Conditions}
-%The null space property (NSP) is some necessary and sufficient condition for exact recovery.
-%The null space of the matrix $A$ is defined as
-%\begin{align*}
-%\mathcal{N}(A) = \{ z \ : \ Az = 0 \}.
-%\end{align*} 
-%
-%
-%
-%
-%%$\ell_p$ norm is given as
-%%\begin{align*}
-%%\Vert x \Vert_p = \left( \sum_{i=1}^n \vert x_i \vert^p \right)^{1/p}, \quad p \in [1, \infty)
-%%\end{align*}
-%%the norm is used as an measure of the strenght of a signal or as an error.
-%
-%\subsubsection{Restricted Isometry Conditions}
-%NSP do not take account for noise and we must therefore look at some stronger conditions which incoperate noise, the following restricted isometry property (RIP) %\cite[p. 19]{•}.
-%
-%\begin{definition}[Restricted Isometry Property]
-%A matrix $A$ satisfies the RIP of order $k$ if there exists a $\delta_k \in (0,1)$ such that
-%\begin{align*}
-%(1 - \delta_k) \Vert x \Vert_2^2 \leq \Vert Ax \Vert_2^2 \leq (1 + \delta_k) \Vert x \Vert_2^2,
-%\end{align*}
-%holds for all $x \in \Sigma_k$
-%\end{definition}
-%
-%
-%If a matrix $A$ satisfy RIP then it will also satisfy the NSP as RIP is strictly stronger than NSP.
-%\begin{theorem}
-%If $A$ satisfies the RIP of order $2k$ with the constant $\delta_{2k} < \sqrt{2} -1$. Then
-%\begin{align*}
-%C = \frac{2}{1 - (1 + \sqrt{2}) \delta_{2k}}
-%\end{align*}
-%\end{theorem} 
-%
-%\subsubsection{Coherence}
-%The NSP provide a unique solution to the optimisation problem, \eqref{eq:p1}, but is unfortunately complicated to investigate. Instead an alternative measure used for sparsity is presented.
-%\\%\cite[p. 24]{•}.
-%Coherence is a measure of quality and determine if the matrix $A$ is a good choice for the optimisation problem \eqref{eq:p1}. A small coherence describe the performance of a recovery algorithm as good with that choice of $\mathbf{A}$. 
-%\begin{definition}[Coherence]
-%Coherence of the matrix $A \in \mathbb{R}^{M \times N}$, denoted as $\mu (A)$, with columns $\mathbf{a}_1, \dots, \mathbf{a}_N$ for all $i \in [N]$ is given as
-%\begin{align*}
-%\mu (A) = \max_{1 \leq i < j \leq n} \frac{\vert \langle a_i, a_j \rangle \vert}{\Vert a_i \Vert_2 \Vert a_j \Vert_2}.
-%\end{align*}
-%\end{definition}
-%
-
-\subsubsection{Dictionary learning}\label{sec:dictionarylearning}
-In cases where the dictionary is unknown it is possible to learn the dictionary from the observed measurement provided that several observations are available $\textbf{Y}=\left[ \textbf{y}_1, \hdots ,\textbf{y}_n\right]$. 
-In dictionary learning framework the inverse problem is defined as
+\subsubsection{Null Space Condition}
+One condition of $\mathbf{A}$ is the null space property. The null space of the matrix $A$ is defined as
 \begin{align*}
-\min_{A,X} = \frac{1}{2} \sum_{s=1}^{N_d} \Vert \mathbf{Y} - \mathbf{AX} \Vert_F^2 + \gamma \sum_{s=1}^{N_d} g(\mathbf{x}_s),
-\end{align*}
-where the function $g(\cdot)$ promotes sparsity of the source vector at time $t$ 
-The true dictionary $\mathbf{A}$ is recovered if the sources $\mathbf{x}_s$ are sparse ($k_s < M$).
-\\  \\
-Include specific dictionary learning algorithm here...
+\mathcal{N}(\mathbf{A}) = \{ \mathbf{z} \ : \ \mathbf{Az} = 0 \}.
+\end{align*} 
+The null space property is defined as
+\begin{definition}[Null Space Property]
+A matrix $\mathbf{A} \in \mathbb{R}^{M \times N}$ is said to satisfy the null space property relative to a set $S \subset [N]$ if
+\begin{align}
+\Vert \textbf{v}_S \Vert_1 < \Vert \textbf{v}_{\overline{S}} \Vert_1 \quad \text{for all} \quad \textbf{v} \in \text{ker}(\mathbf{A} \setminus \lbrace \textbf{0} \rbrace),
+\end{align}
+where the vector $\mathbf{v}_S$ is the restriction of $\mathbf{v}$ to the indices in $S$. 
+\end{definition}
 
+\begin{theorem}
+Given a matrix $\textbf{A} \in \mathbb{R}^{M \times N}$, every vector $\textbf{x} \in \mathbb{R}^N$ supported on a set $S$ is the unique solution of \eqref{eq:p1}) with $\textbf{y} = \textbf{Ax}$ if and only if $\textbf{A}$ satisfies the null space property relative to $S$.
+\end{theorem}
+\begin{proof}
+$\Rightarrow:$ Given a fixed index set $S \subseteq [N]$, lets first assume that every vector $\textbf{x} \in \mathbb{R}^N$ supported on $S$ is the unique minimiser of $\Vert \textbf{z} \Vert_1$ subject to $\textbf{Az} = \textbf{Ax}$. Thus, for any $\textbf{v} \in \text{ker}(\mathbf{A}) \setminus \{\textbf{0} \}$, the vector $\textbf{v}_S$ is the unique minimizer $\Vert \textbf{z} \Vert_1$ subject to $\textbf{Az} = \textbf{Av}_S$. But we have that $\textbf{0} = \textbf{A}(\textbf{v}_S + \textbf{v}_{\overline{S}}) \implies \textbf{Av}_S = \textbf{A}(-\textbf{v}_{\overline{S}}$ and $-\textbf{v}_{\overline{S}} \neq \textbf{v}_S$ or else $\textbf{v} = \textbf{0}$. We conclude that $\Vert \textbf{v}_S \Vert_1 < \Vert \textbf{v}_{\overline{S}} \Vert_1$. This establishes the null space property relative to $S$.
+\\ \\
+$\Leftarrow:$ Conversely, lets assume that the null space property relative to $S$ holds. Then, given $S \subseteq [N]$ with null space property and a vector $\textbf{x} \in \mathbb{R}^N$ supported on $S$ and a vector $\textbf{z} \in \mathbb{R}^N$, $\textbf{z} \neq \textbf{x}$, satisfying $\textbf{Az} = \textbf{Ax}$, we consider the vector $\textbf{v} := \textbf{x} - \textbf{z} \in \text{ker}(\textbf{A}) \setminus \{ \textbf{0} \}$. In view of the null space property, we obtain
+\begin{align*}
+\Vert \textbf{x} \Vert_1 \leq \Vert \textbf{x} - \textbf{z}_S \Vert_1 &= \Vert \textbf{v}_S \Vert_1 + \Vert \textbf{z}_S \Vert_1 \\
+&< \Vert \textbf{v}_{\overline{S}} \Vert_1 + \Vert \textbf{z}_S \Vert_1 \\
+&= \Vert -\textbf{z}_{\overline{S}} \Vert_1 + \Vert \textbf{z}_S \Vert_1 = \Vert \textbf{z} \Vert_1
+\end{align*}
+This establishes the required minimality of $\Vert \textbf{x} \Vert_1$.
+\end{proof}
+Unfortunately, this is a property/condition which is hard to check in practice.
+
+\subsubsection{Coherence}
+The null space property provide a unique solution to the optimisation problem, \eqref{eq:p1}, but is unfortunately complicated to investigate. Instead an alternative measure used for sparsity is presented.
+\\
+Coherence is a measure of quality and determine if the matrix $\mathbf{A}$ is a good choice for the optimisation problem \eqref{eq:p1}. A small coherence describe the performance of a recovery algorithm as good with that choice of $\mathbf{A}$. 
+\begin{definition}[Coherence]
+Coherence of the matrix $A \in \mathbb{R}^{M \times N}$, denoted as $\mu (\mathbf{A})$, with columns $\mathbf{a}_1, \dots, \mathbf{a}_N$ for all $i \in [N]$ is given as
+\begin{align*}
+\mu (\mathbf{A}) = \max_{1 \leq i < j \leq n} \frac{\vert \langle a_i, a_j \rangle \vert}{\Vert a_i \Vert_2 \Vert a_j \Vert_2}.
+\end{align*}
+\end{definition}
+
+\subsubsection{Restricted Isometry Condition}
+Restricted isometry condition is a stronger condition concerning the orthogonality of the matrix $\mathbf{A}$.
+\begin{definition}[Restricted Isometry Property]
+A matrix $A$ satisfies the RIP of order $k$ if there exists a $\delta_k \in (0,1)$ such that
+\begin{align*}
+(1 - \delta_k) \Vert x \Vert_2^2 \leq \Vert Ax \Vert_2^2 \leq (1 + \delta_k) \Vert x \Vert_2^2,
+\end{align*}%holds for all $x \in \Sigma_k$
+\end{definition}
+
+\begin{theorem}
+Suppose that the $2s$-th restricted isometry constant of the matrix $\textbf{A} \in \mathbb{R}^{M \times N}$ satisfies
+\begin{align*}
+    \delta_{2s} < \frac{1}{3}.
+\end{align*}
+Then every $s$-sparse vector $\textbf{x}^\ast \in \mathbb{R}^N$ is the unique solution of
+$$
+\min_{\textbf{z} \in \mathbb{R}^N} \Vert \textbf{z} \Vert_1 \quad \text{subject to} \quad \textbf{Az} = \textbf{Ax}.
+$$
+\end{theorem}
+\begin{proof}
+To proof the theorem we only need to show the null space condition:
+$$
+\Vert \textbf{v} \Vert_1 < \frac{1}{2} \Vert \textbf{v} \Vert_1, \quad \forall \ \textbf{v} \in \text{ker}(\textbf{A})\setminus \{\textbf{0}\}, \ S \subseteq [N], \ \text{card}(S) \leq s.
+$$
+Cf. Cauchy-Schwarz or $\Vert \textbf{v}_S \Vert_1 \leq \Vert \textbf{v}_S \Vert_2 \sqrt{s}$, we only need to show
+\begin{align*}
+\Vert \textbf{v}_S \Vert_2 &\leq \frac{\rho}{2 \sqrt{s}} \Vert \textbf{v} \Vert_1 \\
+\rho &= \dfrac{2 \delta_{2s}}{1 - \delta_{2s}} < 1,
+\end{align*}
+whenever $\delta_{2s} < 1/3$. Given $\textbf{v} \in$ ker$(\textbf{A})\setminus \{\textbf{0}\}$, it is enough to consider an index set $S = S_0$ of $s$ largest absolute entries of the vector $\textbf{v}$. The complement $\overline{S_0}$ of $S_0$ in $[N]$ is partition as $S_0 = S_1 \cup S_2 \cup \cdots$, where
+\begin{align*}
+    S_1 \ &: \ \text{index set of } s \text{ largest absolute entries of } \textbf{v} \text{ in } \overline{S_0}, \\
+    S_2 \ &: \ \text{index set of } s \text{ largest absolute entries of } \textbf{v} \text{ in } \overline{S_0 \cup S_1}.
+\end{align*}
+With $\textbf{v} \in$ ker$(\textbf{A})$:
+$$
+\textbf{A}(\textbf{v}_{S_0}) = \textbf{A}(-\textbf{v}_{S_1} - \textbf{v}_{S_2} - \cdots),
+$$
+so that
+\begin{align}\label{eq:L9_6}
+\Vert \textbf{v}_{S_0} \Vert_2^2 &\leq \frac{1}{1 - \delta_{2s}} \Vert \textbf{A}(\textbf{v}_{S_0}) \Vert_2^2 = \frac{1}{1 - \delta_{2s}} \langle \textbf{A}(\textbf{v}_{S_0}), \textbf{A}(-\textbf{v}_{S_1}) + \textbf{A}(-\textbf{v}_{S_2}) + \cdots \rangle \nonumber \\
+    &= \frac{1}{1 - \delta_{2s}} \sum_{k \geq 1} \langle \textbf{A}(\textbf{v}_{S_0}), \textbf{A}(-\textbf{v}_{S_k}) \rangle.
+\end{align}
+According to Proposition \ref{prop:L9_1}, we also have
+\begin{align}\label{eq:L9_7}
+    \langle \textbf{A}(\textbf{v}_{S_0}), \textbf{A}(-\textbf{v}_{S_k}) \rangle. \leq \delta_{2s} \Vert \textbf{v}_{S_0} \Vert_2 \Vert \textbf{v}_{S_k} \Vert_2.
+\end{align}
+Substituting \eqref{eq:L9_7} into \eqref{eq:L9_6} and dividing by $\Vert \textbf{v}_{S_0} \Vert_2 > 0$
+\end{proof}
+
+%The construction of the matrix $\mathbf{A}$ is of course essential for the solution of the optimisation problem. So far no one has manage to construct a matrix which is proved to be optimal for some compressive sensing set up. However some certain constructions have shown sufficient recovery guarantee.\\ \\
+%To ensure an exact or an approximate reconstruction of the sparse signal $\mathbf{x}$ some conditions associated to the matrix $\mathbf{A}$ must be satisfied.\\
+%This includes at first the null space condition, a property of the $A$ matrix which is hard to check in practise. 
+%The Restricted isometry condition is a stronger condition concerning the orthogonality of the matrix. Furthermore the coherence of a matrix is a measure of quality and is used to determine whether the matrix $A$ is a good choice for the optimisation problem.\\    
 
 \subsection{Multiple Measurement Vector Model}
 The linear model \eqref{eq:model} is also referred to as a single measurement model. In order to adapt the model to practical use the model is expanded to include multiple measurements and take noise into account.\\ 
@@ -179,3 +212,15 @@ A multiple measurement vector (MMV) model consist of the observation matrix $\ma
 \mathbf{Y} = \mathbf{AX}+\textbf{E},
 \end{align*}
 where $L$ denote the number of observed samples each consisting of $M$ measurements and $\textbf{E} \in \mathbb{R}^{M \times L}$. From the MMV model the non-zero rows of the source matrix $\mathbf{X}$ are the ones of interest, which one want to recover \cite[p. 11]{phd2015}.
+
+\subsubsection{Dictionary learning}\label{sec:dictionarylearning}
+In cases where the dictionary is unknown it is possible to learn the dictionary from the observed measurement provided that several observations are available $\textbf{Y}=\left[ \textbf{y}_1, \hdots ,\textbf{y}_n\right]$. 
+In dictionary learning framework the inverse problem is defined as
+\begin{align*}
+\min_{A,X} = \frac{1}{2}\Vert \mathbf{Y} - \mathbf{AX} \Vert_F^2 + \gamma \sum_{s=1}^{N_d} g(\mathbf{x}_s),
+\end{align*}
+where the function $g(\cdot)$ promotes sparsity of the source vector at time $t$ 
+The true dictionary $\mathbf{A}$ is recovered if the sources $\mathbf{x}_s$ are sparse ($k_s < M$).
+\\  \\
+Include specific dictionary learning algorithm here...
+

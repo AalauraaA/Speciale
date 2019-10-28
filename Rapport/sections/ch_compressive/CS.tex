@@ -9,11 +9,11 @@ For the case of $\mathbf{A}$ been a square matrix ($M = N$) a solution can be fo
 \\
 When full rank do not occur the matrix is then called rank-deficient.
 \\ \\
-By inverting $\mathbf{A}$ from \eqref{eq:model} the unknowing vector $\mathbf{x}$ can be achieved. Square matrix is invertible if an only if its has full rank or its determinant $\det(\mathbf{A}) \neq 0$. For rectangular matrices ($M > N$ and $M < N$) left-sided and right-sided inverse exists:
-\begin{itemize}
-\item Left-sided inverse ($M > N$): $(\mathbf{A} \mathbf{A})^{-1} \mathbf{A}^T \mathbf{A} = \mathbf{A}_{\text{left}}^{-1} = \mathbf{I}_N$ 
-\item Right-sided inverse ($M < N$): $\mathbf{A} \mathbf{A}^T (\mathbf{A} \mathbf{A}^T)^{-1} = \mathbf{A}_{\text{right}}^{-1} = \mathbf{I}_M$ 
-\end{itemize}
+By inverting $\mathbf{A}$ from \eqref{eq:model} the unknowing vector $\mathbf{x}$ can be achieved. Square matrix is invertible if an only if its has full rank or its determinant $\det(\mathbf{A}) \neq 0$. For rectangular matrices ($M > N$ and $M < N$) left-sided and right-sided inverse exists.
+%\begin{itemize}
+%\item Left-sided inverse ($M > N$): $(\mathbf{A} \mathbf{A})^{-1} \mathbf{A}^T \mathbf{A} = \mathbf{A}_{\text{left}}^{-1} = \mathbf{I}_N$ 
+%\item Right-sided inverse ($M < N$): $\mathbf{A} \mathbf{A}^T (\mathbf{A} \mathbf{A}^T)^{-1} = \mathbf{A}_{\text{right}}^{-1} = \mathbf{I}_M$ 
+%\end{itemize}
 With the left-inverse the least norm solution of \eqref{eq:model} can be found.
 \\ \\
 For an determined system there will exist a unique solution. For an overdetermined system there do not exist a solution and for underdetermined systems there exist infinitely many solutions.
@@ -47,19 +47,64 @@ where $[N]$ a set of integers $\{1,2,\hdots,N\}$ \cite[p. 41]{FR}. The set of al
 \end{align*}
 
 \subsection{Optimisation Problem} 
-The signal of interest is assumed to be $k$-sparse with $k < M$. \\
-From the desire of finding a $k$-sparse solution $\mathbf{x}$ the following optimisation problem is considered
-\\ \\
+To find a solution to the linear model \eqref{eq:model} which is $k$-sparse with $k < M$ an optimisation problem can be used. An optimisation problem is defined as
+\begin{align*}
+\min f_0 (\mathbf{x}) \quad \text{s.t} \quad f_i (\mathbf{x}) \leq b_i, \quad i \in [n],
+\end{align*}
+where $f_0 \ : \ \mathbb{R}^N \mapsto \mathbb{R}$ is an objective function and $f_i \ : \ \mathbb{R}^N \mapsto \mathbb{R}$ are the constraint functions. 
+\\
+To find the $k$-sparse solution our optimisation problem can be written as
 \begin{align*}
 \min_{\Omega_k} \Vert \mathbf{x} \Vert_0 \quad \text{s.t} \quad \mathbf{y} = \mathbf{Ax},
 \end{align*}
-where $\mathbf{x}$ is all possible candidates to a $k$-sparse signal $\mathbf{x}^\ast$.
-Unfortunately, this optimisation problem is non-convex due to the definition of $\ell_0$-norm and is therefore difficult to solve -- it is a NP-hard problem. Instead by replacing the $\ell_0$-norm with its convex approximation, the $\ell_1$-norm, the optimisation problem become computational feasible \cite[p. 27]{CS}
+where $\mathbf{x}$ is all possible candidates to a $k$-sparse signal $\mathbf{x}^\ast$. The objective function is given by an $\ell_0$ norm with the constraint function been the linear model described in \eqref{eq:model}. Unfortunately, this optimisation problem is non-convex due to the definition of $\ell_0$-norm and is therefore difficult to solve -- it is a NP-hard problem. Instead by replacing the $\ell_0$-norm with the $\ell_1$-norm, the optimisation problem can approximated and therefore become computational feasible \cite[p. 27]{CS}
 \begin{align}\label{eq:p1}
-\min_{\mathbf{x}} \Vert \mathbf{x} \Vert_1 \quad \text{s.t} \quad \mathbf{y} = \mathbf{Ax},
+\min_{\mathbf{x}} \Vert \mathbf{x} \Vert_1 \quad \text{s.t} \quad \mathbf{y} = \mathbf{Ax}.
 \end{align} 
-and instead we find the best $k$-term approximation of the signal $\hat{\mathbf{x}}^\ast$.
-This method is referred to as Basis Pursuit and makes the foundation of several algorithms solving alternative versions of \eqref{eq:p1} where noise is incorporated. A different type of solution method includes greedy algorithm such as the Orthogonal Matching Pursuit.    
+With this optimisation problem we find the best $k$-term approximation of the signal $\hat{\mathbf{x}}^\ast$. This method is referred to as Basis Pursuit. 
+\\
+The following theorem justifies that the $\ell_1$ optimisation problem finds a sparse solution \cite[p. 62-63]{FR}.
+\begin{theorem}
+A measurement matrix $\mathbf{A}$ is defined as $\textbf{A} \in \mathbb{R}^{M \times N}$ with columns $\textbf{A} = [\textbf{a}_1, \dots, \textbf{a}_N]$. By assuming uniqueness of a solution $\textbf{x}^{\ast}$ of
+$$
+\min_{\textbf{x} \in \mathbb{R}^N} \Vert \textbf{x} \Vert_1 \quad \text{s.t} \quad \textbf{Ax} = \textbf{y},
+$$
+the system $\{ \textbf{a}_j, j \in \text{supp} ( \textbf{x}^{\ast})\}$ is linearly independent, and in particular
+$$
+\Vert \textbf{x}^{\ast} \Vert_0 = \text{card}(\text{supp} (\textbf{x}^{\ast})) \leq M.
+$$
+\end{theorem}
+To prove this theorem we need to realise that the size of the set $\{\textbf{a}_j, j \in S \} \leq M$, that we can not have more than $M$ linearly independence columns. So when $M \ll N$ then we automatically achieve a sparse signal.
+\begin{proof}
+By way of contradiction, lets assume that the set $\{\textbf{a}_j, j \in S \}$ is linearly dependent with $S =  \text{supp} (\textbf{x}^{\ast})$. This means that there exists a non-zero vector $\textbf{v} \in \mathbb{R}^N$ supported on $S$ such that $\textbf{Av} = \textbf{0}$. Then, for any $t \neq 0$,
+$$
+\Vert \textbf{x}^{\ast} \Vert_1 < \Vert \textbf{x}^{\ast} + t \textbf{v} \Vert_1 = \sum_{j \in S} \vert x_j^{\ast} + t v_j \vert = \sum_{j \in S} \text{sgn}(x_j^{\ast} + t v_j )(x_j^{\ast} + t v_j ).
+$$
+If $|t|$ is small enough, namely, $|t| < \min_{j \in S} \frac{|x_j^{\ast}|}{\Vert \textbf{v} \Vert_{\infty}}$, then
+$$
+\text{sgn}(x_j^{\ast} + t v_j) = \text{sgn}(x_j^{\ast}), \quad \forall j \in S.
+$$
+It the follows that
+$$
+\Vert \textbf{x}^{\ast} \Vert_1 < \sum_{j \in S} \text{sgn}(x_j^{\ast})(x_j^{\ast} + t v_j ) = \sum_{j \in S} \text{sgn}(x_j^{\ast})x_j^{\ast} + t \sum_{j \in S} \text{sgn}(x_j^{\ast})v_j = \Vert \textbf{x}^{\ast} \Vert_1 + t \sum_{j \in S} \text{sgn}(x_j^{\ast})v_j.
+$$
+This is a contradiction, because we can always choose a small $t \neq 0$ such that $t \sum_{j \in S} \text{sgn}(x_j^{\ast})v_j \leq 0$ and therefore the set $\{\textbf{a}_j, j \in S \}$ must be linearly independent.
+\end{proof}
+The Basis Pursuit makes the foundation of several algorithms solving alternative versions of \eqref{eq:p1} where noise is incorporated. A different type of solution method includes a greedy algorithm such as the Orthogonal Matching Pursuit \cite[P. 65]{FR}.    
+\begin{algorithm}[H]
+\caption{Orthogonal Matching Pursuit (OMP)}
+\begin{itemize}
+\item[1.] Give an measurement matrix $\mathbf{A}$ and a measurement vector $\mathbf{y}$
+\item[2.] Initial $S^0 = \emptyset$ and $x_0 = \mathbf{0}$
+\item[3.] Iterate until stopping criterion is met:
+\begin{align*}
+S^{n+1} &= S^n \cup \lbrace j_{n+1} \rbrace, \quad j_{n+1} = \arg \max_{j \in [N]} ( \vert (\mathbf{A}^\ast (\mathbf{y} - \mathbf{Ax}^n))_j\vert) \\
+x^{n+1} &= \arg \min_{\mathbf{z} \in \mathbb{C}^N} (\Vert \mathbf{y} - \mathbf{Az} \Vert_2, \text{supp}(\mathbf{z}) \subset S^{n+1})
+\end{align*}
+\item[4.] $\mathbf{x}^\ast = \mathbf{x}^n$
+\end{itemize}      
+\end{algorithm}
+      
       
 \subsection{Conditions on the dictionary}
 The construction of the matrix $\mathbf{A}$ is of course essential for the solution of the optimisation problem. So far no one has manage to construct a matrix which is proved to be optimal for some compressive sensing set up. However some certain constructions have shown sufficient recovery guarantee.\\ \\

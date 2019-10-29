@@ -11,20 +11,22 @@ np.random.seed(0)
 
 """ generation of data - Linear Mixture Model Ys = A * Xs """
 
-n_samples = 200
+n_samples = 100
 duration = 8                                # duration in seconds
 time = np.linspace(0, duration, n_samples)  # 8 seconds, with n_samples
 s1 = np.sin(2 * time)                       # sinusoidal
 s2 = np.sign(np.sin(3 * time))              # square signal
 s3 = signal.sawtooth(2 * np.pi * time)      # saw tooth signal
 s4 = np.sin(4 * time)                       # another sinusoidal
+zero_row = np.zeros(n_samples)
 
-X = np.c_[s1, s2, s3, s4].T                 # Column concatenation
-A = np.array(([[1, 1, 1, 1], [0.5, 2, 1.0, 2], [1.5, 1.0, 2.0, 1]]))  # Mix matrix
-Y = np.dot(A, X)                            # Observed signal
+X_real = np.c_[s1, zero_row, zero_row, s2, zero_row, s3, zero_row, s4].T                     # Column concatenation
+m = len(X_real)
+n = 6
+non_zero = 4
+A_real = np.random.random((n,m))                 # Mix matrix
+Y = np.dot(A_real, X_real)                       # Observed signal
 
-M = len(Y)
-N = len(X)
 
 
 # Segmentation of observations (easy way - split)
@@ -33,24 +35,29 @@ S = 10                                      # Samples pr segment
 nr_seg = n_samples/S                        # Number of segments
 
 Ys = np.split(Y, nr_seg, axis=1)            # Matrixs with segments in axis=0
-Xs = np.split(X, nr_seg, axis=1)
+Xs = np.split(X_real, nr_seg, axis=1)
 
 seg_time = np.split(time, nr_seg)
 
 """ Cov - DL """
-# now solv for 1 segment only.. Ys[0] size(10 x 3)
+# now solv for 1 segment only..
 
 # Transformation to covariance domain and vectorization
 Ys_cov = np.cov(Ys[0])                      # covariance size(3 x 3)
 Xs_cov = np.cov(Xs[0])                      # NOT diagonl ??
 
-vec_Y = np.array(list(Ys_cov[np.tril_indices(M)]))  # Vectorization og lower tri, row wise  
+vec_Y = np.array(list(Ys_cov[np.tril_indices(m)]))  # Vectorization og lower tri, row wise  
 sigma = np.diag(Xs_cov)
 
 # Dictionary learning
 
+
+
+
+
+
 # just a random D
-D = np.random.normal(size=(len(vec_Y), N))
+D = np.random.normal(size=(len(vec_Y), n))
 
 # Find A approximative
 

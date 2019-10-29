@@ -21,13 +21,24 @@ from sklearn.datasets import make_sparse_coded_signal
 #
 #n_sources, n_sensors = len(x), len(y)
 #n_nonzero_coefs = len(supp)
-x = np.array([ 0.08031541,  1.        , -0.91959799])
-y = np.array([ 0.16071742,  1.12055972, -0.71872286])
-A = np.matrix([[1. , 1. , 1. ],
+x = np.array([ 0.08031541,  1.        , 0])
+#x = x/np.linalg.norm(x)
+
+A = np.array([[1. , 1. , 1. ],
        [0.5, 2. , 1. ],
        [1.5, 1. , 2. ]])
+#A = A/np.linalg.norm(A, ord=2, axis=0, keepdims=True)
+
 supp, = x.nonzero()
-n_nonzero_coefs = len(supp)
+n_nonzero_coefs = 3
+
+y = np.array([1.08031541, 2.0401577 , 1.12047312])
+#y = np.array([ 0.05566397,  0.33987045, -0.20442359])
+
+#normalising
+#y = y/np.linalg.norm(y)
+#A = A/np.linalg.norm(A, ord=2, axis=0, keepdims=True)
+
 
 # automatic generated data
 #n_sources, n_sensors = 10, 10
@@ -46,7 +57,7 @@ plt.title("Sparse signal")
 plt.plot(x,'r')
 
 # create reconstruction of x from signal y and A
-omp = OrthogonalMatchingPursuit(n_nonzero_coefs=n_nonzero_coefs).fit(A, y)  # create object from class
+omp = OrthogonalMatchingPursuit(n_nonzero_coefs=len(y), fit_intercept = False, normalize=False ).fit(A, y)  # create object from class
                                                      # fit model by training data, return self:object?  
 x_rec = omp.coef_                                                 # coef of reconstructed x 
 supp_r1, = x_rec.nonzero()                                        # supp of reconstructed x

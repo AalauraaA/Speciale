@@ -11,8 +11,8 @@ from sklearn.linear_model import OrthogonalMatchingPursuit
 from sklearn.linear_model import OrthogonalMatchingPursuitCV
 from sklearn.datasets import make_sparse_coded_signal
 
-n_components, n_features = 10, 10
-n_nonzero_coefs = 5
+n_components, n_features = 3, 3
+n_nonzero_coefs = 3
 
 # generate the data
 
@@ -28,7 +28,7 @@ y, X, w = make_sparse_coded_signal(n_samples=1,
 idx, = w.nonzero()
 
 # distort the clean signal
-y_noisy = y + 0.05 * np.random.randn(len(y))
+#y_noisy = y + 0.05 * np.random.randn(len(y))
 
 # plot the sparse signal
 plt.figure(figsize=(7, 7))
@@ -36,7 +36,7 @@ plt.subplot(4, 1, 1)
 #plt.xlim(0, 512)
 plt.title("Sparse signal")
 #plt.stem(idx, w[idx])
-plt.stem(w)
+plt.plot(w,'r.')
 
 # plot the noise-free reconstruction
 omp = OrthogonalMatchingPursuit(n_nonzero_coefs=n_nonzero_coefs)
@@ -47,7 +47,7 @@ plt.subplot(4, 1, 2)
 #plt.xlim(0, 512)
 plt.title("Recovered signal from noise-free measurements")
 #plt.stem(idx_r, coef[idx_r])
-plt.stem(coef)
+plt.plot(coef, 'b.')
 
 # plot the noisy reconstruction
 #omp.fit(X, y_noisy)

@@ -1,34 +1,36 @@
 \section{Linear Algebra}
-A relation between some observed measurements $\mathbf{y}$ can be described as a linear combinations between a coefficient matrix $A$ and some vector $\mathbf{x}$ such that
-\begin{align}\label{eq:model}
+A relation between some observed measurements $\mathbf{y}$ can be described as a linear combinations between a coefficient matrix $\mathbf{A}$ and some vector $\mathbf{x}$ such that
+\begin{align}\label{eq:SMV_model}
 \mathbf{y} &= \mathbf{Ax},
 \end{align}
-where $\mathbf{y} \in \mathbb{R}^M$ is the observed measurement vector consisting of $M$ measurements, $\mathbf{x} \in \mathbb{R}^N$ is a vector of $N$ elements, and $\mathbf{A} \in \mathbb{R}^{M \times N}$ is a coefficient matrix which models the linear measurement process column-wise. The linear model consist of $M$ equations and $N$ unknown.
+where $\mathbf{y} \in \mathbb{R}^M$ is the observed measurement vector consisting of $M$ measurements, $\mathbf{x} \in \mathbb{R}^N$ is a source vector of $N$ elements, and $\mathbf{A} \in \mathbb{R}^{M \times N}$ is a coefficient matrix which models the linear measurement process column-wise. The linear model consist of $M$ equations and $N$ unknown.
 \\ \\
-For the case of $\mathbf{A}$ been a square matrix ($M = N$) a solution can be found to the linear model if the $\mathbf{A}$ has full rank -- $\mathbf{A}$ consist of linearly independent columns or rows. For $M > N$ the matrix said to have full rank when the columns are linearly independent. For $M < N$ the matrix has full rank when the rows are linearly independent. For linearly systems/model with $M = N$ is called determined, $M > N$ overdetermined and $M < N$ underdetermined. 
+For the case of $\mathbf{A}$ been a square matrix ($M = N$) a solution can be found to the linear model if the $\mathbf{A}$ has full rank -- $\mathbf{A}$ consist of linearly independent columns or rows. For $M > N$ the matrix said to have full rank when the columns are linearly independent. For $M < N$ the matrix has full rank when the rows are linearly independent. For linearly systems/model with $M = N$ is called determined, $M > N$ overdetermined and $M < N$ under-determined. 
 \\
 When full rank do not occur the matrix is then called rank-deficient.
 \\ \\
-By inverting $\mathbf{A}$ from \eqref{eq:model} the unknowing vector $\mathbf{x}$ can be achieved. Square matrix is invertible if an only if its has full rank or its determinant $\det(\mathbf{A}) \neq 0$. For rectangular matrices ($M > N$ and $M < N$) left-sided and right-sided inverse exists.
+By inverting $\mathbf{A}$ from \eqref{eq:SMV_model} the unknowing vector $\mathbf{x}$ can be achieved. Square matrix is invertible if an only if its has full rank or its determinant $\det(\mathbf{A}) \neq 0$. For rectangular matrices ($M > N$ and $M < N$) left-sided and right-sided inverse exists.
 %\begin{itemize}
 %\item Left-sided inverse ($M > N$): $(\mathbf{A} \mathbf{A})^{-1} \mathbf{A}^T \mathbf{A} = \mathbf{A}_{\text{left}}^{-1} = \mathbf{I}_N$ 
 %\item Right-sided inverse ($M < N$): $\mathbf{A} \mathbf{A}^T (\mathbf{A} \mathbf{A}^T)^{-1} = \mathbf{A}_{\text{right}}^{-1} = \mathbf{I}_M$ 
 %\end{itemize}
-With the left-inverse the least norm solution of \eqref{eq:model} can be found.
+With the left-inverse the least norm solution of \eqref{eq:SMV_model} can be found.
 \\ \\
-For an determined system there will exist a unique solution. For an overdetermined system there do not exist a solution and for underdetermined systems there exist infinitely many solutions.
+For an determined system there will exist a unique solution. For an overdetermined system there do not exist a solution and for under-determined systems there exist infinitely many solutions.
 \\
-For rank-deficient matrices there do not exist an inverse and therefore \eqref{eq:model} can not be solve by inverting the model. But rank-deficient matrices  meaning have non-empty null space leading to infinitely solutions to \eqref{eq:model} \cite[p. ix]{CS}.
+For rank-deficient matrices there do not exist an inverse and therefore \eqref{eq:SMV_model} can not be solve by inverting the model. But rank-deficient matrices  meaning have non-empty null space leading to infinitely solutions to \eqref{eq:SMV_model} \cite[p. ix]{CS}.
 \\ \\
-As described in chapter \ref{ch:motivation} the linear model of interest consist of $M$ sensors which is known and $N$ sources which is unknown. Furthermore, we also have that $M < N$ -- an underdetermined system. It is therefore of interest to find a solution in the infinitely solution set.
+As described in chapter \ref{ch:motivation} the linear model of interest consist of $M$ sensors which is known and $N$ sources which is unknown. Furthermore, we also have that $M < N$ -- an under-determined system. It is therefore of interest to find a solution in the infinitely solution set.
 
 \section{Compressive Sensing}\label{sec:CS}
-Compressive sensing is the theory of efficient recovery or reconstruction of a signal from a minimal number of observed measurements. Assuming linear acquisition of the original information the relation between the measurements and the signal to be recovered is described by the linear model giving in \eqref{eq:model} \cite{FR}.  \\ \\
+Compressive sensing is the theory of efficient recovery or reconstruction of a signal from a minimal number of observed measurements. Assuming linear acquisition of the original information the relation between the measurements and the signal to be recovered is described by the linear model giving in \eqref{eq:SMV_model} \cite{FR}.  
+\\ \\
 %\begin{align}\label{eq:model}
 %\mathbf{y} = \mathbf{Ax}.
 %\end{align}
 %Here $\mathbf{y} \in \mathbb{R}^M$ is the measured data consisting of $M$ observations, $\mathbf{x} \in \mathbb{R}^N$ is the original signal consisting of $N$ possible sources. $\mathbf{A} \in \mathbb{R}^{M \times N}$ is a matrix which models the linear measurement process or in other words it projects each of the $N$ possible sources on to the $M$ observations. $\textbf{A}$ is  referred to as a dictionary or a mixing matrix .\\
-In compressive sensing terminology, $\mathbf{x}$ is the signal of interest which is sought recovered by solving the linear system \eqref{eq:model}. In the typical compressive sensing case where $M < N$ the system becomes underdetermined and there are infinitely many solutions, provided that a solution exist. Such system is also referred to as overcomplete \textit{(as the number of column basis vectors is greater than the dimension of the input)}.\\
+In compressive sensing terminology, $\mathbf{x}$ is the signal of interest which is sought recovered by solving the linear system \eqref{eq:SMV_model}. In the typical compressive sensing case where $M < N$ the system becomes under-determined and there are infinitely many solutions, provided that a solution exist. Such system is also referred to as over-complete \textit{(as the number of column basis vectors is greater than the dimension of the input)}.
+\\
 However, by enforcing certain sparsity constraints it is possible to recover the wanted signal \cite{FR}, hence the term sparse signal recovery.
 %Yet another argument; If $M<<N$, it leads to the matrix $\mathbf{A}$ being rank-deficient\textit{(but not necessarily?)} which imply that $\mathbf{A}$ has a non-empty null space and this leads to infinitely many signals which yield the same solution $\mathbf{y} = \mathbf{Ax} = \mathbf{Ax'}$ \cite[p. ix]{CS}. Thus it is necessary to limit the solution space to a specific class of signals $\mathbf{x}$, for this a certain constraint on sparseness is introduced.   
 
@@ -47,7 +49,7 @@ where $[N]$ a set of integers $\{1,2,\hdots,N\}$ \cite[p. 41]{FR}. The set of al
 \end{align*}
 
 \subsection{Optimisation Problem}\label{sec:opti}
-To find a solution to the linear model \eqref{eq:model} which is $k$-sparse with $k < M$ an optimisation problem can be used. An optimisation problem is defined as
+To find a solution to the linear model \eqref{eq:SMV_model} which is $k$-sparse with $k < M$ an optimisation problem can be used. An optimisation problem is defined as
 \begin{align*}
 \min f_0 (\mathbf{x}) \quad \text{s.t} \quad f_i (\mathbf{x}) \leq b_i, \quad i \in [n],
 \end{align*}
@@ -57,8 +59,8 @@ To find the $k$-sparse solution our optimisation problem can be written as
 \begin{align*}
 \min_{\Omega_k} \Vert \mathbf{x} \Vert_0 \quad \text{s.t} \quad \mathbf{y} = \mathbf{Ax},
 \end{align*}
-where $\mathbf{x}$ is all possible candidates to a $k$-sparse signal $\mathbf{x}^\ast$. The objective function is given by an $\ell_0$ norm with the constraint function been the linear model described in \eqref{eq:model}. Unfortunately, this optimisation problem is non-convex due to the definition of $\ell_0$-norm and is therefore difficult to solve -- it is a NP-hard problem. Instead by replacing the $\ell_0$-norm with the $\ell_1$-norm, the optimisation problem can approximated and therefore become computational feasible \cite[p. 27]{CS}
-\begin{align}\label{eq:p1}
+where $\mathbf{x}$ is all possible candidates to a $k$-sparse signal $\mathbf{x}^\ast$. The objective function is given by an $\ell_0$ norm with the constraint function been the linear model described in \eqref{eq:SMV_model}. Unfortunately, this optimisation problem is non-convex due to the definition of $\ell_0$-norm and is therefore difficult to solve -- it is a NP-hard problem. Instead by replacing the $\ell_0$-norm with the $\ell_1$-norm, the optimisation problem can approximated and therefore become computational feasible \cite[p. 27]{CS}
+\begin{align}\label{eq:SMV_p1}
 \min_{\mathbf{x}} \Vert \mathbf{x} \Vert_1 \quad \text{s.t} \quad \mathbf{y} = \mathbf{Ax}.
 \end{align} 
 With this optimisation problem we find the best $k$-term approximation of the signal $\hat{\mathbf{x}}^\ast$. This method is referred to as Basis Pursuit. 
@@ -90,7 +92,7 @@ $$
 $$
 This is a contradiction, because we can always choose a small $t \neq 0$ such that $t \sum_{j \in S} \text{sgn}(x_j^{\ast})v_j \leq 0$ and therefore the set $\{\textbf{a}_j, j \in S \}$ must be linearly independent.
 \end{proof}
-The Basis Pursuit makes the foundation of several algorithms solving alternative versions of \eqref{eq:p1} where noise is incorporated. A different type of solution method includes a greedy algorithm such as the Orthogonal Matching Pursuit \cite[P. 65]{FR}.    
+The Basis Pursuit makes the foundation of several algorithms solving alternative versions of \eqref{eq:SMV_p1} where noise is incorporated. A different type of solution method includes a greedy algorithm such as the Orthogonal Matching Pursuit \cite[P. 65]{FR}.    
 \begin{algorithm}[H]
 \caption{Orthogonal Matching Pursuit (OMP)}
 \begin{itemize}
@@ -107,7 +109,7 @@ x^{n+1} &= \arg \min_{\mathbf{z} \in \mathbb{C}^N} (\Vert \mathbf{y} - \mathbf{A
       
       
 \subsection{Conditions on the Dictionary}
-In section \ref{sec:opti} the measurement matrix $\mathbf{A}$ was known regarding to solve the optimisation problem given in \eqref{eq:p1}. But this is not always the case and instead a dictionary is used to find the measurement matrix $\mathbf{A}$. To ensure an exact or an approximate reconstruction of the sparse signal $\mathbf{x}^\ast$ from the optimisation problem \eqref{eq:p1} some conditions associated to the matrix $\mathbf{A}$ must be satisfied.
+In section \ref{sec:opti} the measurement matrix $\mathbf{A}$ was known regarding to solve the optimisation problem given in \eqref{eq:SMV_p1}. But this is not always the case and instead a dictionary is used to find the measurement matrix $\mathbf{A}$. To ensure an exact or an approximate reconstruction of the sparse signal $\mathbf{x}^\ast$ from the optimisation problem \eqref{eq:SMV_p1} some conditions associated to the matrix $\mathbf{A}$ must be satisfied.
 
 \subsubsection{Null Space Condition}
 One condition of $\mathbf{A}$ is the null space property. The null space of the matrix $A$ is defined as
@@ -124,7 +126,7 @@ where the vector $\mathbf{v}_S$ is the restriction of $\mathbf{v}$ to the indice
 \end{definition}
 
 \begin{theorem}
-Given a matrix $\textbf{A} \in \mathbb{R}^{M \times N}$, every vector $\textbf{x} \in \mathbb{R}^N$ supported on a set $S$ is the unique solution of \eqref{eq:p1}) with $\textbf{y} = \textbf{Ax}$ if and only if $\textbf{A}$ satisfies the null space property relative to $S$.
+Given a matrix $\textbf{A} \in \mathbb{R}^{M \times N}$, every vector $\textbf{x} \in \mathbb{R}^N$ supported on a set $S$ is the unique solution of \eqref{eq:SMV_p1}) with $\textbf{y} = \textbf{Ax}$ if and only if $\textbf{A}$ satisfies the null space property relative to $S$.
 \end{theorem}
 \begin{proof}
 $\Rightarrow:$ Given a fixed index set $S \subseteq [N]$, lets first assume that every vector $\textbf{x} \in \mathbb{R}^N$ supported on $S$ is the unique minimiser of $\Vert \textbf{z} \Vert_1$ subject to $\textbf{Az} = \textbf{Ax}$. Thus, for any $\textbf{v} \in \text{ker}(\mathbf{A}) \setminus \{\textbf{0} \}$, the vector $\textbf{v}_S$ is the unique minimizer $\Vert \textbf{z} \Vert_1$ subject to $\textbf{Az} = \textbf{Av}_S$. But we have that $\textbf{0} = \textbf{A}(\textbf{v}_S + \textbf{v}_{\overline{S}}) \implies \textbf{Av}_S = \textbf{A}(-\textbf{v}_{\overline{S}}$ and $-\textbf{v}_{\overline{S}} \neq \textbf{v}_S$ or else $\textbf{v} = \textbf{0}$. We conclude that $\Vert \textbf{v}_S \Vert_1 < \Vert \textbf{v}_{\overline{S}} \Vert_1$. This establishes the null space property relative to $S$.
@@ -140,9 +142,9 @@ This establishes the required minimality of $\Vert \textbf{x} \Vert_1$.
 Unfortunately, this is a property/condition which is hard to check in practice.
 
 \subsubsection{Coherence}
-The null space property provide a unique solution to the optimisation problem, \eqref{eq:p1}, but is unfortunately complicated to investigate. Instead an alternative measure used for sparsity is presented.
+The null space property provide a unique solution to the optimisation problem, \eqref{eq:SMV_p1}, but is unfortunately complicated to investigate. Instead an alternative measure used for sparsity is presented.
 \\
-Coherence is a measure of quality and determine if the matrix $\mathbf{A}$ is a good choice for the optimisation problem \eqref{eq:p1}. A small coherence describe the performance of a recovery algorithm as good with that choice of $\mathbf{A}$. 
+Coherence is a measure of quality and determine if the matrix $\mathbf{A}$ is a good choice for the optimisation problem \eqref{eq:SMV_p1}. A small coherence describe the performance of a recovery algorithm as good with that choice of $\mathbf{A}$. 
 \begin{definition}[Coherence]
 Coherence of the matrix $A \in \mathbb{R}^{M \times N}$, denoted as $\mu (\mathbf{A})$, with columns $\mathbf{a}_1, \dots, \mathbf{a}_N$ for all $i \in [N]$ is given as
 \begin{align*}
@@ -206,20 +208,39 @@ Substituting \eqref{eq:L9_7} into \eqref{eq:L9_6} and dividing by $\Vert \textbf
 %The Restricted isometry condition is a stronger condition concerning the orthogonality of the matrix. Furthermore the coherence of a matrix is a measure of quality and is used to determine whether the matrix $A$ is a good choice for the optimisation problem.\\    
 
 \subsection{Multiple Measurement Vector Model}
-The linear model \eqref{eq:model} is also referred to as a single measurement model. In order to adapt the model to practical use the model is expanded to include multiple measurements and take noise into account.\\ 
-A multiple measurement vector (MMV) model consist of the observation matrix $\mathbf{Y} \in \mathbb{R}^{M \times L}$, the source matrix $\mathbf{X} \in \mathbb{R}^{N \times L}$ which have $k \leq M$ rows that are non-zero and a dictionary matrix $\mathbf{A} \in \mathbb{R}^{M \times N}$:
+The linear model \eqref{eq:SMV_model} is also referred to as a single measurement vector (SMV) model. In order to adapt the model \eqref{eq:SMV_model} to a practical use the model is expanded to include multiple measurements and take noise into account.
+\\ \\
+A multiple measurement vector (MMV) model consist of the observed measurement matrix $\mathbf{Y} \in \mathbb{R}^{M \times L}$, the source matrix $\mathbf{X} \in \mathbb{R}^{N \times L}$ with $k \leq M$ non-zero rows and the dictionary matrix $\mathbf{A} \in \mathbb{R}^{M \times N}$:
+\begin{align}\label{eq:MMV_model}
+\mathbf{Y} = \mathbf{AX}+\textbf{E}.
+\end{align}
+$L$ denote the number of observed samples each consisting of $M$ measurements and $\textbf{E} \in \mathbb{R}^{M \times L}$. For $L = 1$ the linear model will just be the SMV model \eqref{eq:SMV_model}. 
+\\
+The matrix $\mathbf{X}$ consist of $\lbrace \mathbf{x}_i \rbrace_{i=1}^L$ sparse vectors which has been stack column-wise leading to that $\mathbf{X}$ consist at most $k$ non-zero rows. As for the SMV model \eqref{eq:SMV_model} the MMV model \eqref{eq:MMV_model} is over-complete with $M \ll N$ and the number of samples is less than $M$, $L < M$ \cite[p. 42]{CS}.
+\\ \\
+The support of $\mathbf{X}$ denote the index set of non-zero rows of $\mathbf{X}$ and $\mathbf{X}$ is said to be row-sparse. As the columns in $\mathbf{X}$ are $k$-sparse and as mention before $\mathbf{X}$ has at most $k$ non-zero rows, the non-zero values occur in common location. By using this joint information it is possible to recover $\mathbf{X}$ from fewer measurements.
+\\
+By using the rank of $\mathbf{X}$ which give us information of the amount of linearly independent rows or columns and the spark of $\mathbf{A}$ the minimum set of linearly dependent columns it is possible to set some condition on the measurement to ensure recovery.
+\\
+When the support of $\mathbf{X}$ is equal to the amount of non-zero rows in $\mathbf{X}$, $\vert \text{supp}(\mathbf{X})\vert = k$ then the rank of $\mathbf{X}$ would be $\text{rank}(\mathbf{X}) \leq k$. If rank$(\mathbf{X}) = 1$ then are the $k$-sparse vectors $\lbrace \mathbf{x}_i \rbrace_{i=1}^L$ multiple of each other the joint information cannot be taken advantage of. But for large rank we can exploit the diversity of the columns in $\mathbf{X}$. This can be defined in a sufficient and necessary condition of the MMV model \eqref{eq:MMV_model} which must have
 \begin{align*}
-\mathbf{Y} = \mathbf{AX}+\textbf{E},
+\vert \text{supp}(\mathbf{X}) \vert < \frac{\text{Spark} (\mathbf{A}) - 1 + \text{rank}(\mathbf{X})}{2}
 \end{align*}
-where $L$ denote the number of observed samples each consisting of $M$ measurements and $\textbf{E} \in \mathbb{R}^{M \times L}$. From the MMV model the non-zero rows of the source matrix $\mathbf{X}$ are the ones of interest, which one want to recover \cite[p. 11]{phd2015}.
+such that $\mathbf{X}$ can uniquely be determined.
+\\
+This result lead to that row-sparse matrix $\mathbf{X}$ with large rank can be recovered from fewer measurement \cite[p. 43]{CS}.
+
 
 \subsubsection{Dictionary learning}\label{sec:dictionarylearning}
-In cases where the dictionary is unknown it is possible to learn the dictionary from the observed measurement provided that several observations are available $\textbf{Y}=\left[ \textbf{y}_1, \hdots ,\textbf{y}_n\right]$. 
+In cases where the dictionary is unknown it is possible to learn the dictionary from the observed measurement provided that several observations are available $\textbf{Y}=\left[ \textbf{y}_1, \dots ,\textbf{y}_L \right]$. 
 In dictionary learning framework the inverse problem is defined as
 \begin{align*}
-\min_{A,X} = \frac{1}{2}\Vert \mathbf{Y} - \mathbf{AX} \Vert_F^2 + \gamma \sum_{s=1}^{N_d} g(\mathbf{x}_s),
+\min_{\mathbf{A,X}} = \frac{1}{2} \sum_{i=1}^{L} \Vert \mathbf{y} _i - \mathbf{Ax}_i \Vert_F^2 + \gamma \sum_{i=1}^{L} g(\mathbf{x}_i),
 \end{align*}
-where the function $g(\cdot)$ promotes sparsity of the source vector at time $t$ 
+where the function $g(\cdot)$ promotes sparsity of the source vectors at sample $i$. $\Vert \cdot \Vert_F$ is the Frobenius norm which is a vector norm defined as 
+\begin{align*}
+\Vert \mathbf{A} \Vert_F = \sqrt{\sum_{i=1}^M \sum_{j=1}^N \vert a_{i,j} \vert^2}.
+\end{align*}
 The true dictionary $\mathbf{A}$ is recovered if the sources $\mathbf{x}_s$ are sparse ($k_s < M$).
 \\  \\
 Include specific dictionary learning algorithm here...

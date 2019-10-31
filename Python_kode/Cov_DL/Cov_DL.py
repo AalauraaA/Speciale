@@ -23,7 +23,7 @@ zero_row = np.zeros(n_samples)
 X_real = np.c_[s1, zero_row, zero_row, s2, zero_row, s3, zero_row, s4].T                     # Column concatenation
 m = len(X_real)
 n = 6
-non_zero = 4
+non_zero = 6
 A_real = np.random.random((n,m))                 # Mix matrix
 Y = np.dot(A_real, X_real)                       # Observed signal
 
@@ -51,7 +51,7 @@ sigma = np.diag(Xs_cov)
 
 # Dictionary learning
 
-
+D, X, iter_, err = K_SVD(vec_Y, n, m, non_zero, n_samples, max_iter=100)
 
 
 
@@ -74,8 +74,8 @@ def reverse_vec(x):
         out[C, R] = x
     return out
 
-A_app = np.zeros(([M, N]))
-for i in range(N):
+A_app = np.zeros(([m, n]))
+for i in range(n):
     d = D.T[i]
     matrix_d = reverse_vec(d)
     E = np.linalg.eig(matrix_d)[0]

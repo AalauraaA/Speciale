@@ -108,7 +108,7 @@ x^{n+1} &= \arg \min_{\mathbf{z} \in \mathbb{C}^N} (\Vert \mathbf{y} - \mathbf{A
 \end{algorithm}
       
       
-\subsection{Conditions on the Dictionary}
+\subsection{Conditions on the Dictionary}\label{sec:dic_conditions}
 In section \ref{sec:opti} the measurement matrix $\mathbf{A}$ was known regarding to solve the optimisation problem given in \eqref{eq:SMV_p1}. But this is not always the case and instead a dictionary is used to find the measurement matrix $\mathbf{A}$. To ensure an exact or an approximate reconstruction of the sparse signal $\mathbf{x}^\ast$ from the optimisation problem \eqref{eq:SMV_p1} some conditions associated to the matrix $\mathbf{A}$ must be satisfied.
 
 \subsubsection{Null Space Condition}
@@ -231,7 +231,19 @@ such that $\mathbf{X}$ can uniquely be determined.
 This result lead to that row-sparse matrix $\mathbf{X}$ with large rank can be recovered from fewer measurement \cite[p. 43]{CS}.
 
 
-\subsubsection{Dictionary learning}\label{sec:dictionarylearning}
+\subsection{Dictionary learning}\label{sec:dictionarylearning}
+As clarified in section \ref{sec:dic_conditions} the choice of dictionary matrix $\textbf{A}$ is essential to achieve the best recovery of a sparse signal $\textbf{x}$ from the measurements $\textbf{y}$. Pre-constructed dictionaries do exist which in many cases results in simple and fast algorithms for reconstruction of $\textbf{x}$\cite{Elad_book}. Pre-constructed dictionaries are typically fitted to a specific kind of data, for instance the discrete Fourier transform or the discrete wavelet transform are used especially for sparse representation of images\cite{Elad_book}. Hence the results of using such dictionaries depend on how well they fit the data of interest, which is creating a certain limitation. An alternative is to consider an adaptive dictionary based on a set of training data that resembles the data of interest. For this purpose learning methods are considered to empirically construct a fixed dictionary which can take part in the application. Different dictionary learning algorithms exist, one is the K-SVD which is to be elaborated in this section. The K-SVD algorithm was presented in 2006 by Elad et al. and found to outperform pre-constructed dictionaries when computational cost is of secondary interest\cite{Elad2006}. \\
+\\
+Consider now $\textbf{Y}=\left[ \textbf{y}_1, \dots ,\textbf{y}_L \right]$ as a training database, created by $\textbf{y}_i=\textbf{A}\textbf{x}_i$ for which we want to learn the best suitable dictionary $\textbf{A}$ and sparse representation $\textbf{X}=\left[ \textbf{x}_1, \dots ,\textbf{x}_L \right]$. For a known sparsity constraint $k$ this can be defined by an optimisation problem similar to the general compressive sensing problem of multiple measurements \cite{Elad_book}
+\begin{align*}
+\min_{\mathbf{A,X}} \sum_{i=1}^{L} \Vert \mathbf{y} _i - \mathbf{Ax}_i \Vert_2^2 \quad st. \Vert \textbf{x}_i\Vert_0, \ 1\leq i \leq L.
+\end{align*}  
+The learning consist of jointly solving the optimization problem on $\textbf{X}$ and $\textbf{A}$. The uniqueness of $\textbf{A}$ depends on the recovery sparsity condition. As clarified earlier recovery is only possible if $k < M$\cite{phd2015}. Furthermore, consider $\textbf{A}_0$ such that every training signal can be represented by $k_0 < \text{spark}(\textbf{A}_0)/2$ columns of $\textbf{A}_0$, then $\textbf{A}_0$ is a unique dictionary, up to scaling and permutation of columns\cite{Elad_book}\todo{fungerer disse to uniqueness parameter sammen?}. Again the $\ell_0$-norm lead to an NP-hard problem an heuristic methods are need.     
+
+\subsubsection{K-SVD}
+K-SVD is a dictionary learning algorithm where the... 
+
+______\\
 In cases where the dictionary is unknown it is possible to learn the dictionary from the observed measurement provided that several observations are available $\textbf{Y}=\left[ \textbf{y}_1, \dots ,\textbf{y}_L \right]$. 
 In dictionary learning framework the inverse problem is defined as
 \begin{align*}

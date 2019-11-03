@@ -210,7 +210,7 @@ Substituting \eqref{eq:L9_7} into \eqref{eq:L9_6} and dividing by $\Vert \textbf
 \subsection{Multiple Measurement Vector Model}
 The linear model \eqref{eq:SMV_model} is also referred to as a single measurement vector (SMV) model. In order to adapt the model \eqref{eq:SMV_model} to a practical use the model is expanded to include multiple measurements and take noise into account.
 \\ \\
-A multiple measurement vector (MMV) model consist of the observed measurement matrix $\mathbf{Y} \in \mathbb{R}^{M \times L}$, the source matrix $\mathbf{X} \in \mathbb{R}^{N \times L}$ with $k \leq M$ non-zero rows and the dictionary matrix $\mathbf{A} \in \mathbb{R}^{M \times N}$:
+A multiple measurement vector (MMV) model consist of the observed measurement matrix $\mathbf{Y} \in \mathbb{R}^{M \times L}$, the source matrix $\mathbf{X} \in \mathbb{R}^{N \times L}$ and the dictionary matrix $\mathbf{A} \in \mathbb{R}^{M \times N}$:
 \begin{align}\label{eq:MMV_model}
 \mathbf{Y} = \mathbf{AX}+\textbf{E}.
 \end{align}
@@ -237,11 +237,11 @@ In dictionary learning framework the inverse problem is defined as
 \begin{align*}
 \min_{\mathbf{A,X}} = \frac{1}{2} \sum_{i=1}^{L} \Vert \mathbf{y} _i - \mathbf{Ax}_i \Vert_F^2 + \gamma \sum_{i=1}^{L} g(\mathbf{x}_i),
 \end{align*}
-where the function $g(\cdot)$ promotes sparsity of the source vectors at sample $i$. $\Vert \cdot \Vert_F$ is the Frobenius norm which is a vector norm defined as 
+where the function $g(\cdot)$ promotes sparsity of the source vectors at sample $i$ \cite[p. 4]{phd}. $\Vert \cdot \Vert_F$ is the Frobenius norm which is a vector norm defined as 
 \begin{align*}
 \Vert \mathbf{A} \Vert_F = \sqrt{\sum_{i=1}^M \sum_{j=1}^N \vert a_{i,j} \vert^2}.
 \end{align*}
-The true dictionary $\mathbf{A}$ is recovered if the sources $\mathbf{x}_s$ are sparse ($k_s < M$).
+With the MMV model defined as a optimisation problem different dictionary learning algorithm can be used to learn the dictionary $\mathbf{A}$. One of them is the K-SVD algorithm.
 \\  \\
 Include specific dictionary learning algorithm here...
 

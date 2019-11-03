@@ -108,7 +108,7 @@ x^{n+1} &= \arg \min_{\mathbf{z} \in \mathbb{C}^N} (\Vert \mathbf{y} - \mathbf{A
 \end{algorithm}
       
       
-\subsection{Conditions on the Dictionary}
+\subsection{Conditions on the Dictionary}\label{sec:dic_conditions}
 In section \ref{sec:opti} the measurement matrix $\mathbf{A}$ was known regarding to solve the optimisation problem given in \eqref{eq:SMV_p1}. But this is not always the case and instead a dictionary is used to find the measurement matrix $\mathbf{A}$. To ensure an exact or an approximate reconstruction of the sparse signal $\mathbf{x}^\ast$ from the optimisation problem \eqref{eq:SMV_p1} some conditions associated to the matrix $\mathbf{A}$ must be satisfied.
 
 \subsubsection{Null Space Condition}
@@ -231,6 +231,8 @@ such that $\mathbf{X}$ can uniquely be determined.
 This result lead to that row-sparse matrix $\mathbf{X}$ with large rank can be recovered from fewer measurement \cite[p. 43]{CS}.
 
 
+\subsection{Dictionary learning}\label{sec:dictionarylearning}
+<<<<<<< HEAD
 \subsubsection{Dictionary learning}\label{sec:dictionarylearning}
 In cases where the dictionary is unknown it is possible to learn the dictionary from the observed measurement provided that several observations are available $\textbf{Y}=\left[ \textbf{y}_1, \dots ,\textbf{y}_L \right]$. 
 In dictionary learning framework the inverse problem is defined as
@@ -242,6 +244,46 @@ where the function $g(\cdot)$ promotes sparsity of the source vectors at sample 
 \Vert \mathbf{A} \Vert_F = \sqrt{\sum_{i=1}^M \sum_{j=1}^N \vert a_{i,j} \vert^2}.
 \end{align*}
 With the MMV model defined as a optimisation problem different dictionary learning algorithm can be used to learn the dictionary $\mathbf{A}$. One of them is the K-SVD algorithm.
-\\  \\
-Include specific dictionary learning algorithm here...
+\\ \\
+As clarified in section \ref{sec:dic_conditions} the choice of dictionary matrix $\textbf{A}$ is essential to achieve the best recovery of a sparse signal $\textbf{x}$ from the measurements $\textbf{y}$. Pre-constructed dictionaries do exist which in many cases results in simple and fast algorithms for reconstruction of $\textbf{x}$\cite{Elad_book}. Pre-constructed dictionaries are typically fitted to a specific kind of data, for instance the discrete Fourier transform or the discrete wavelet transform are used especially for sparse representation of images\cite{Elad_book}. Hence the results of using such dictionaries depend on how well they fit the data of interest, which is creating a certain limitation. An alternative is to consider an adaptive dictionary based on a set of training data that resembles the data of interest. For this purpose learning methods are considered to empirically construct a fixed dictionary which can take part in the application. Different dictionary learning algorithms exist, one is the K-SVD which is to be elaborated in this section. The K-SVD algorithm was presented in 2006 by Elad et al. and found to outperform pre-constructed dictionaries when computational cost is of secondary interest\cite{Elad2006}. \\
+\\
+Consider now $\textbf{Y}=\left[ \textbf{y}_1, \dots ,\textbf{y}_L \right]$, $\textbf{y}_i\in \mathbb{R}^{M}$ as a training database, created by $\textbf{y}_i=\textbf{A}\textbf{x}_i$ for which we want to learn the best suitable dictionary $\textbf{A}$ and sparse representation $\textbf{X}=\left[ \textbf{x}_1, \dots ,\textbf{x}_L \right]$, $\textbf{x}_i\in \mathbb{R}^{N}$. For a known sparsity constraint $k$ this can be defined by an optimisation problem similar to the general compressive sensing problem of multiple measurements \cite{Elad_book}
+\begin{align}
+\min_{\mathbf{A,X}} \sum_{i=1}^{L} \Vert \mathbf{y} _i - \mathbf{Ax}_i \Vert_2^2 \quad st. \ \Vert \textbf{x}_i\Vert_0, \ 1\leq i \leq L.\label{eq:SVD1}
+\end{align}  
+The learning consist of jointly solving the optimization problem on $\textbf{X}$ and $\textbf{A}$. The uniqueness of $\textbf{A}$ depends on the recovery sparsity condition. As clarified earlier recovery is only possible if $k < M$\cite{phd2015}. Furthermore, consider $\textbf{A}_0$ such that every training signal can be represented by $k_0 < \text{spark}(\textbf{A}_0)/2$ columns of $\textbf{A}_0$, then $\textbf{A}_0$ is a unique dictionary, up to scaling and permutation of columns\cite{Elad_book}\todo{fungerer disse to uniqueness parameter sammen?}. Again the $\ell_0$-norm lead to an NP-hard problem an heuristic methods are need.     
+
+\subsubsection{K-SVD}
+The dictionary learning algorithm K-SVD is a generalisation of the well known K-means clustering also referred to as vector quantization. In K-means clustering a set of K vectors is learned referred to as mean vectors, each signal sample is then represented by its nearest mean vector. That corresponds to the case with sparsity constrict $k=1$ and the representation reduced to a binary scalar $x={1,0}$. Further instead of computing the mean of $K$ sub-sets the K-SVD algorithm computes the SVD factorisation of the K different sub-matrices that correspond to the K columns of $\textbf{A}$\todo{maybe this should come in the end}.\\
+\\
+The dictionary learning algorithm K-SVD provide an update rule which is applied to each column of $\textbf{A}_0 = \left[ \textbf{a}_0, \hdots , \textbf{a}_N \right] $. Updating first $\textbf{a}_i$ and then the corresponding coefficients in $\textbf{X}$ which it is multiplied with, that is the $i^{\text{th}}$ row in $\textbf{X}$ denoted by $\textbf{x}_i^T$.\\
+Let $\textbf{a}_{i_{0}}$ be the column to be updated and let the remaining columns be fixed. By rewriting the objective function in \eqref{eq:SVD1} using matrix notation it is possible to isolate the contribution from $\textbf{a}_{i_{0}}$.
+\begin{align}
+\Vert \textbf{Y} - \textbf{AX} \Vert_{F}^{2} 
+&= \left\| \textbf{Y} - \sum_{i=1}^{M} \textbf{a}_i \textbf{x}_i^{T} \right\|_{F}^{2}\nonumber\\
+&= \left\| \left( \textbf{Y}- \sum_{i\neq i_{i}}^{M} \textbf{a}_i\textbf{x}_i^{T}\right) - \textbf{a}_{i_{0}}\textbf{x}_{i_{0}}^{T} \right\| _{F}^{2},\label{eq:SVD2} 
+\end{align}
+where $F$ is the Frobenius norm that works on matrices
+\begin{align*}
+\Vert \mathbf{A} \Vert_F = \sqrt{\sum_{i=1}^M \sum_{j=1}^N \vert a_{i,j} \vert^2}.
+\end{align*} 
+In \eqref{eq:SVD2} the term in the parenthesis makes the an error matrix $\textbf{E}_{i_0}$ without the contribution from $i_{0}$, hence minimising \eqref{eq:SVD2} with respect to $\textbf{a}_{i_{0}}$ and $\textbf{x}_{i_{0}}^{T}$ leads to the optimal contribution from $i_{0}$ (can I say it this way..?). 
+\begin{align}
+\min_{\textbf{a}_{i_{0}},\textbf{x}_{i_0}^{T}}\left\|\textbf{ E}_{i_{0}}-\textbf{a}_{i_{0}},\textbf{x}_{i_0}^{T} \right\|_{F}^{2}\label{eq:SVD3}
+\end{align} 
+The optimal solution to \eqref{eq:SVD3} is known to be the rank-1 approximation of $\textbf{E}_{i_{0}}$. This comes from the Eckart–Young–Mirsky theorem\cite{?} saying that a partial single value decomposition(SVD) makes the best low-rank approximation of a matrix such as $\textbf{E}_{i_0}$.\\
+That is specifically that for $\textbf{E}_{i_0}=\textbf{U}\boldsymbol{\Sigma}\textbf{V}^T\in \mathbb{R}^{M\times N},\ M \leq N$ with 
+\begin{align*}
+\textbf{U}=\left[\textbf{u}_1, \hdots, \textbf{u}_M\right] \in \mathbb{R}^{M\times M}, \quad \boldsymbol{\Sigma}=\text{diag}\left[\sigma_1, \hdots , \sigma_m \right] \in \mathbb{R}^{M\times N}, \quad \textbf{V}=\left[\textbf{v}_1, \hdots, \textbf{v}_N\right] \in \mathbb{R}^{N\times N} 
+\end{align*}  
+where $\textbf{U}$ and $\textbf{V}$ are unitary matrices, i.e. $\textbf{U}^T\textbf{U}=\textbf{UU}^T=\textbf{I}$, and $\sigma_j$ is the non-negative singular values of $\textbf{E}_{i_0}$ such that $\sigma_1\geq \sigma_2 \geq \hdots \geq 0$. The best $k$-rank approximation to $\textbf{E}_{i_0}$, with $k< rank(\textbf{E}_{i_0})$ is then given by\cite{Wiki..} 
+\begin{align*}
+\textbf{E}_{i_{0}}^{(k)}= \sum_{j=1}^{k}\sigma_j\textbf{u}_{j}\textbf{v}_{j}^T.
+\end{align*} 
+Since the outer product always have rank-1 letting $\textbf{a}_{i_0}=\textbf{u}_1$ and $\textbf{x}_{i_0}^T = \sigma_{i}\textbf{v}_{1}^T$ solves the optimisation problem \eqref{eq:SVD3}.
+However in order to preserve the sparsity in $\textbf{X}$ while optimising only the non-zero entries in $\textbf{x}_{i_0}^T$ are allowed to vary. For this purpose only a subset of columns in $\textbf{E}_{i_0}$ is considered, those how correspond to the non-zero entries of $\textbf{x}_{i_0}^T$. A matrix $\textbf{P}_{i_0}$ is defined such that $\textbf{x}_{i_0}^{T^{(R)}}=\textbf{x}_{i_0}^T\textbf{P}_{i_0} $ contain only the $M_{j_0}$ non-zero entries of $\textbf{x}_{i_0}^T$  
+\\ \\
+Low-rank approx notes:
+- rank tells the number of independent columns 
+- low rank means high redundancy, and propose that the matrix can be expressed more efficient
 

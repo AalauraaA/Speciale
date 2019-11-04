@@ -15,10 +15,25 @@ from sklearn.linear_model import orthogonal_mp
 
 def K_SVD(Y, n, m, non_zero, n_samples, max_iter=100, stop=0.005):
     """
+    Discribtion: 
+        use k-svd algorithm to learn the dictionary A and representation X, 
+        from a training database of n_sampels sampels Y. considering the 
+        optimisation problem 
+                                min A,X in Y = AX 
+                                st. non_zero <= m
+        
+        
+    INPUT:      Y,              array of size m x n_sampels
+                m,              number of sensors 
+                n,              number of sources
+                non_zero,       sparsity constraint to ensure solution, < m 
+                n_sampels,      number of sampels/training database 
+        
+    OUTPUT:     A,              array of size m x n 
     """
     # initialisation
-    A = np.random.random((n,m))  # let A = A0, random chosen
-    X = np.zeros((m,n_samples))  # let X = X0, all zero
+    A = np.random.random((m,n))  # let A = A0, random chosen
+    X = np.zeros((n,n_samples))  # let X = X0, all zero
     
     A = A/np.linalg.norm(A, ord=2, axis=0, keepdims=True)  # column normalisation 
     
@@ -31,7 +46,7 @@ def K_SVD(Y, n, m, non_zero, n_samples, max_iter=100, stop=0.005):
             X.T[i] = x
         
         # UPDATE A
-        for j in range(m): 
+        for j in range(n): 
             # identify non-zeros entries in j'te row of X 
             W = np.nonzero(X[j])
             W = W[0]
@@ -42,7 +57,7 @@ def K_SVD(Y, n, m, non_zero, n_samples, max_iter=100, stop=0.005):
             else:
                 # make G = AX without the contribution from the j0 column of A 
                 G = np.zeros(np.shape(Y))
-                idx = np.arange(m)
+                idx = np.arange(n)
                 idx = np.delete(idx,j)
                 for i in idx:
                     G = G + (np.outer(A.T[i], X[i]))

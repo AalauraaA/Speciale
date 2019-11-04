@@ -6,6 +6,9 @@ Created on Thu Sep 12 08:36:20 2019
 
 Rossler Function to Making Differential Equations for 6 different cases
 """
+import os
+data_path = os.getcwd()
+
 import numpy as np
 import scipy.io
 

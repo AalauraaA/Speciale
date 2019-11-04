@@ -4,6 +4,11 @@ Created on Mon Oct 21 09:27:46 2019
 
 @author: trine
 """
+#import os
+#data_path = os.getcwd()[:-6]
+#import sys
+#sys.path.append(data_path)  # make the right path
+
 import numpy as np
 from scipy import signal
 import matplotlib.pyplot as plt
@@ -11,28 +16,51 @@ from dictionary_learning import K_SVD
 np.random.seed(0)
 
 """ generation of data - Linear Mixture Model Ys = A * Xs """
-
-n_samples = 100
-duration = 8                                # duration in seconds
-time = np.linspace(0, duration, n_samples)  # 8 seconds, with n_samples
-s1 = np.sin(2 * time)                       # sinusoidal
-s2 = np.sign(np.sin(3 * time))              # square signal
-s3 = signal.sawtooth(2 * np.pi * time)      # saw tooth signal
-s4 = np.sin(4 * time)                       # another sinusoidal
-zero_row = np.zeros(n_samples)
+#n_samples = 100
+#duration = 8                                # duration in seconds
+#time = np.linspace(0, duration, n_samples)  # 8 seconds, with n_samples
+#s1 = np.sin(2 * time)                       # sinusoidal
+#s2 = np.sign(np.sin(3 * time))              # square signal
+#s3 = signal.sawtooth(2 * np.pi * time)      # saw tooth signal
+#s4 = np.sin(4 * time)                       # another sinusoidal
+#zero_row = np.zeros(n_samples)
 
 # Column concatenation
-X_real = np.c_[s1, zero_row, zero_row, s2, zero_row, s3, zero_row, s4].T
+#X_real = np.c_[s1, zero_row, zero_row, s2, zero_row, s3, zero_row, s4].T
+#n = len(X_real)
+#m = 6
+#non_zero = 6
+#A_real = np.random.random((m, n))                 # Random mix matrix
+#Y = np.dot(A_real, X_real)                        # Observed signal
+
+
+" Rossler Data"
+from Rossler import Generate_Rossler    # import rossler here
+X1, X2, X3, X4, X5, X6 = Generate_Rossler()
+
+#Subtract the 6 sensors/sources from the solution space
+X01 = X1.T[0]
+X02 = X1.T[1]
+X03 = X1.T[2]
+X04 = X1.T[3]
+X05 = X1.T[4]
+X06 = X1.T[5]
+
+# Måske ikke den rigtig duration (Rossler er på 50 sec før reducering)
+n_samples = len(X01)                        # 1940 samples
+duration = 8                                # duration in seconds
+time = np.linspace(0, duration, n_samples)  # 8 seconds, with n_samples
+zero_row = np.zeros(n_samples)
+
+#Generate Y Data
+X_real = np.c_[X01, zero_row, X02, zero_row, zero_row, X03, X04, zero_row, X05, X06].T      # Original X sources - 40 x 6
 n = len(X_real)
 m = 6
 non_zero = 6
 A_real = np.random.random((m, n))                 # Random mix matrix
-Y = np.dot(A_real, X_real)                       # Observed signal
-
-
+Y = np.dot(A_real, X_real)                               # Observed signal Y - 40 x 6
 
 """ Segmentation of observations (easy way - split) """
-
 fs = n_samples/duration                     # Samples pr second
 S = 5                                       # Samples pr segment
 n_seg = int(n_samples/S)                    # Number of segments

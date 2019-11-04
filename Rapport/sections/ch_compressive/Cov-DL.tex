@@ -1,6 +1,8 @@
 \section{Covariance-Domain Dictionary Learning}\label{sec:Cov-DL}
-Covariance-domain dictionary learning (Cov-DL) is an algorithm proposed in \cite{Balkan2015} which claims to be able to identify more sources $N$ than available observations $M$ for the linear model.\\
-
+Covariance-domain dictionary learning (Cov-DL) is an algorithm proposed in \cite{Balkan2015} which claims to be able to identify more sources $N$ than available observations $M$ for the linear model.
+\\
+The section is inspired by chapter 3 in \cite{phd2015} and the article \cite{Balkan2015}.
+\\ \\
 %\textit{
 %Notes, maybe prior to this section: 
 %\begin{itemize}
@@ -26,50 +28,52 @@ Covariance-domain dictionary learning (Cov-DL) is an algorithm proposed in \cite
 %}
 Consider the multiple measurement vector model as above
 \begin{align*}
-\mathbf{Y} = \mathbf{AX}+\textbf{E}.
+\mathbf{Y} = \mathbf{AX}+\textbf{E},
 \end{align*}
-Let $s$ be the index of time segments that the observed data $\mathbf{Y}\in \mathbb{R}^{M\times L}$ is divided into and let $S_f$ be the sample frequency. As such the observed data is divided into segments $\mathbf{Y}_s \in \mathbb{R}^{M \times t_s S_f}$, possibly overlapping, where $t_s$ is the length of the segments in seconds. For each segment the linear model still holds and is rewritten into
+which consist of multiple snapshots in time such that the model consist of several measurements. The observed data becomes a matrix of size $\mathbf{Y} \in \mathbb{R}^{M \times L}$, the source a matrix of size $\mathbf{X} \in \mathbb{R}^{N \times L}$ and the added noise is of size $\mathbf{E} \in \mathbb{R}^{M \times L}$ \todo{snakker vi ikke lidt dobbelt her? L er længden af vores snapshot men længere nede dele vi hvor data ind i samples rate gange tid og dropper L notationen}.
+\\
+Let $s$ be the index of time segments that the observed data $\mathbf{Y}$, is divided into and let $f_s$ be the sample frequency the observed data has been\todo{Her blev jeg i tvivl :)} sampled in. As such the observed data is divided into segments $\mathbf{Y}_s \in \mathbb{R}^{M \times t_s f_S}$, possibly overlapping, where $t_s$ is the length of the segments in seconds. For each segment the linear model still holds and is rewritten into
 \begin{align*}
 \mathbf{Y}_s = \mathbf{AX}_s + \textbf{E}_s, \quad \forall s.
 \end{align*}
-Cov-DL takes advantage of the dictionary framework and transformation into another domain -- covariance domain -- to recover the mixing matrix $\mathbf{A}$ from the observed data $\mathbf{Y}$. An important aspect of this method is the prior assumption that the sources are statistical independent within the defined time segments. This implies the entries in $\textbf{X}_s$ to be uncorrelated.\\  
+Cov-DL takes advantage of the dictionary framework and transformation into another domain -- covariance domain -- to recover the mixing matrix $\mathbf{A}$ from the observed data $\mathbf{Y}$. An important aspect of this method is the prior assumption that the sources are statistical independent between their columns within the defined time segments. This implies the entries in $\textbf{X}_s$ to be uncorrelated \todo{Lige lidt hjælp her. Kan ikke huske snakken om og det kun skulle være independnet}.\\  
 \\
-Cov-DL works together with another algorithm to find the source matrix $\mathbf{X}$, in this thesis M-SBL is used for the source recovery and is described in section \ref{sec:M-SBL}. 
+As the Cov-DL algorithm only focus on finding the mixing matrix $\mathbf{A}$ the algorithm must collaborate with another algorithm to determine the source matrix $\mathbf{X}$. In this thesis the Multiple Sparse Bayesian Learning (M-SBL) is used for the source recovery and is described in section \ref{sec:M-SBL} \todo{en ny section. Tjek lige om det er bedre formuleret}. 
+%Cov-DL works together with another algorithm to find the source matrix $\mathbf{X}$, in this thesis Multiple Sparse Bayesian Learing (M-SBL) is used for the source recovery and is described in section \ref{sec:M-SBL}. 
 \\
-In this section we assume that $\mathbf{X}$ is known but in practice a random sparse matrix will be used to represent the sources. 
-\\
-The section is inspired by chapter 3 in \cite{phd2015} and the article \cite{Balkan2015}.
+In this section we assume that $\mathbf{X}$ is known and a random sparse matrix is used to represent the sources. 
 
 
 \subsection{Covariances domain representation}
-The observed data $\textbf{Y}_s$ can be described in the covariance domain by the sample covariance matrix. Considering the observations $\textbf{Y}_s\in \mathbb{R}^{M\times L}$ the sample covariance is defined to find the covariance among the $M$ variables across the $L$ observations, that is essentially the covariance matrix averaged over all observations, resulting in a $M\times M$ matrix $\Sigma_{\textbf{Y}_s}=[\sigma_{jk}]$. Each entry is defined by[wiki?] 
+The observed data $\mathbf{Y}_s$ can be described in the covariance domain by the sample covariance matrix. Considering the observations $\mathbf{Y}_s \in \mathbb{R}^{M\times L}$ the sample covariance is defined to find the covariance among the $M$ observations across the $L$ snapshots in time\todo{Tjek lige om det er rigtig. Vi nævner jo M som værende observationer og L som snapshot (før stod der at L var observationer).}, that is essentially the covariance matrix averaged over all observations, resulting in a $M \times M$ matrix $\boldsymbol{\Sigma}_{\mathbf{Y}_s}=[\sigma_{jk}]$. Each entry is defined by[wiki?] 
 \begin{align*}
-\sigma_{jk}= \frac{1}{L}\sum_{i=1}^{L}(y_{ji}-\mathbb{E}_s[y_j])(y_{ki}-\mathbb{E}_s[y_k])
+\sigma_{jk}= \frac{1}{L}\sum_{i=1}^{L}(y_{ji}- \bar{y}_j)(y_{ki}-\bar{y}_k)
 \end{align*}
-Let the observations(argument for at vi antager zero mean på vores observationer, pre-normalisering?) be normalised resulting in zeros mean $\mathbb{E}_s[\textbf{Y}_s]=0$. \\
-Using matrix notation the sample covariance of $\textbf{Y}_s$ can be written as
+Let the observations(argument for at vi antager zero mean på vores observationer, pre-normalisering?) be normalised resulting in zeros mean $\mathbb{E}_s[\mathbf{Y}_s]=0$. \\
+Using matrix notation the sample covariance of $\mathbf{Y}_s$ can be written as
 \begin{align*}
-\Sigma_{\textbf{Y}_s}= \frac{1}{L}\textbf{Y}_s\textbf{Y}_s^T
+\hat{\boldsymbol{\Sigma}}_{\mathbf{Y}_s} = \frac{1}{L} \mathbf{Y}_s \mathbf{Y}_s^T
 \end{align*}  
-Similar the sources $\textbf{X}_s$ can be described in the covariance domain by the sample covariance matrix
+Similar the sources $\mathbf{X}_s$ can be described in the covariance domain by the sample covariance matrix
 \begin{align*}
-\boldsymbol{\Sigma}_{\mathbf{X}_s} &= \frac{1}{L_s}\textbf{X}_s\textbf{X}_s^{T}
+\hat{\boldsymbol{\Sigma}}_{\mathbf{X}_s} &= \frac{1}{L_s} \mathbf{X}_s \mathbf{X}_s^T \\
+&= \boldsymbol{\Lambda}
 \end{align*}
-From the assumption of uncorrelated sources the sample covariance matrix is expected to be nearly diagonal, thus it can be expressed as 
-\begin{align*}
-\boldsymbol{\Sigma}_{\mathbf{X}_s} &= \Lambda + \textbf{E}_s.
-\end{align*}
-where $\Lambda$ is a diagonal matrix consisting of the diagonal entries of $\Sigma_{\textbf{X}_s}$ and $\textbf{E}_s$ contains the remaining entries which is expected to be zeros or nearly zeros\cite{Balkan2015}.\\ \\
-
+From the assumption of uncorrelated sources the sample covariance matrix is expected to be nearly diagonal, thus it can be expressed as $\boldsymbol{\Lambda}$ which is a diagonal matrix consisting of the diagonal entries of $\hat{\boldsymbol{\Sigma}}_{\mathbf{X}_s}$ \cite{Balkan2015}.
+%\begin{align*}
+%\boldsymbol{\Sigma}_{\mathbf{X}_s} &= \Lambda + \textbf{E}_s.
+%\end{align*}
+%where $\Lambda$ is a diagonal matrix consisting of the diagonal entries of $\Sigma_{\textbf{X}_s}$ and $\textbf{E}_s$ contains the remaining entries which is expected to be zeros or nearly zeros\cite{Balkan2015}.
+\\ \\
 Each segment of observations can be modelled as\todo{skal vi have $\mathbb{E}_s[]$ omkring her eller ej?, wiki covariance.\\
 giver det mening at udelade $\frac{1}{L}$ på begge sider her?}
-\begin{align}
-\textbf{Y}_s\textbf{Y}_s^{T} &=(\textbf{A}\textbf{X}_s)(\textbf{A}\textbf{X}_s)^{T}\nonumber \\
-&=\textbf{AX}_s\textbf{X}_s^T\textbf{A}^T \nonumber \\
-&=\textbf{A}\Sigma_{{X}_s}\textbf{A}^T \nonumber\\
-&=\mathbf{A} \boldsymbol{\Lambda} \mathbf{A}^T + \mathbf{E}_s = \sum_{i=1}^{N}\Lambda_{ii}\textbf{a}_i\textbf{a}_i^{T}+\textbf{E}_s\label{eq:cov_model}
- \end{align}
-Remember that $N$ is the dimension of $X$ hence the number of possible sources and $k$ is the number of active sources.
+\begin{align}\label{eq:cov_model}
+\hat{\boldsymbol{\Sigma}}_{\mathbf{Y}_s} = \mathbf{Y}_s \mathbf{Y}_s^T &= \mathbf{A} \mathbf{X}_s \mathbf{X}_s^T \mathbf{A} + \mathbf{E}_s \mathbf{E}_s^T + 2 \mathbf{A} \mathbf{X}_s \mathbf{E}_s^T \nonumber \\
+&= \mathbf{A} \boldsymbol{\Sigma}_{\mathbf{X}_s} \mathbf{A}^T + \boldsymbol{\Sigma}_{\mathbf{E}_s} \nonumber \\
+&= \mathbf{A} \boldsymbol{\Sigma}_{\mathbf{X}_s} \mathbf{A}^T + \mathbf{A} \boldsymbol{\Phi_s} \mathbf{A}^T 
+%&=\mathbf{A} \boldsymbol{\Lambda} \mathbf{A}^T + \mathbf{E}_s = \sum_{i=1}^{N}\Lambda_{ii}\textbf{a}_i\textbf{a}_i^{T}+\textbf{E}_s
+\end{align}
+Remember that $N$ is the dimension of $\mathbf{X}$ hence the number of possible sources and $k$ is the number of active sources \todo{Nået her til!----}.
 It has been shown that by this model it is possible to identify $O(M^2)$ sources given the true dictionary\cite{Pal2015}(dog er vektoriseringen også includeret i resultatet - så måske flyttes udtalelsen?). The purpose of the Cov-DL algorithm is instead to find the dictionary $\textbf{A}$ from this expression and then still allow for $O(M^2)$ sources to be identified.
 
 \subsection{Determination of dictionary}

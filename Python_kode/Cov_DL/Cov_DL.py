@@ -13,7 +13,25 @@ import numpy as np
 from scipy import signal
 import matplotlib.pyplot as plt
 from dictionary_learning import K_SVD
+from sklearn.datasets import make_sparse_coded_signal
 np.random.seed(0)
+
+""" Random generated data """
+# INITIALISING PARAMETERS
+m = 6               # number of sensors
+n = 8               # number of sources
+non_zero = 6        # max number of non-zero coef. in rows of X
+n_samples = 60      # number of sampels
+
+# RANDOM GENERATION OF SPARSE DATA
+Y, A_real, X_real = make_sparse_coded_signal(n_samples=n_samples,
+                                   n_components=n,
+                                   n_features=m,
+                                   n_nonzero_coefs=non_zero,
+                                   random_state=0)
+
+
+
 
 """ generation of data - Linear Mixture Model Ys = A * Xs """
 #n_samples = 100
@@ -35,32 +53,31 @@ np.random.seed(0)
 
 
 " Rossler Data"
-from Rossler import Generate_Rossler    # import rossler here
-X1, X2, X3, X4, X5, X6 = Generate_Rossler()
+#from Rossler_copy import Generate_Rossler  # import rossler here
+#X1, X2, X3, X4, X5, X6 = Generate_Rossler()
+## we use only one of these dataset which are 1940 x 6
+#X1 = X1[:50] # only 50 samples
+#X_real = X1.T
+#n_samples = len(X_real.T)                        # 1940 samples
+#
+## Include zero row to make n larger
+#zero_row = np.zeros(n_samples)
+#X_real = np.c_[X1.T[0], zero_row, X1.T[1], zero_row, zero_row, X1.T[2],
+#               X1.T[3], zero_row, X1.T[4], X1.T[5]].T 
+#
+#n = len(X_real)
+#m = 8
+#non_zero = 5
 
-#Subtract the 6 sensors/sources from the solution space
-X01 = X1.T[0]
-X02 = X1.T[1]
-X03 = X1.T[2]
-X04 = X1.T[3]
-X05 = X1.T[4]
-X06 = X1.T[5]
+## Generate A and Y 
+#A_real = np.random.random((m, n))                 # Random mix matrix
+#Y = np.dot(A_real, X_real)                        # Observed signal Y - 40 x 6
 
-# Måske ikke den rigtig duration (Rossler er på 50 sec før reducering)
-n_samples = len(X01)                        # 1940 samples
-duration = 8                                # duration in seconds
-time = np.linspace(0, duration, n_samples)  # 8 seconds, with n_samples
-zero_row = np.zeros(n_samples)
-
-#Generate Y Data
-X_real = np.c_[X01, zero_row, X02, zero_row, zero_row, X03, X04, zero_row, X05, X06].T      # Original X sources - 40 x 6
-n = len(X_real)
-m = 6
-non_zero = 6
-A_real = np.random.random((m, n))                 # Random mix matrix
-Y = np.dot(A_real, X_real)                               # Observed signal Y - 40 x 6
 
 """ Segmentation of observations (easy way - split) """
+duration = 8                                # duration in seconds
+time = np.linspace(0, duration, n_samples)  # 8 seconds, with n_samples
+
 fs = n_samples/duration                     # Samples pr second
 S = 5                                       # Samples pr segment
 n_seg = int(n_samples/S)                    # Number of segments
@@ -89,9 +106,17 @@ for i in range(n_seg):
     n_samples = 1 
     vec_Y = vec_Y.reshape(len(vec_Y),n_samples)
     # Dictionary learning
-    D, sigma, iter_, err = K_SVD(vec_Y, n=len(vec_X), m=len(vec_Y),
-                                 non_zero=len(vec_Y), n_samples=n_samples,
+    D, sigma, iter_ = K_SVD(vec_Y, n=len(vec_X), m=len(vec_Y),
+                                 non_zero=len(vec_Y)-18, n_samples=n_samples,
                                  max_iter=100)
+    print(D.shape,sigma.shape)
+    # results for the large system
+    Ys_cov_rec = np.matmul(D,sigma)
+
+    Y_err = np.linalg.norm(vec_Y - Ys_cov_rec)
+
+    print('reconstruction error %f \nnumber of iterations %i'%(Y_err, iter_))
+
 
     # Find A approximative
     def reverse_vec(x):
@@ -119,7 +144,16 @@ for i in range(n_seg):
         A_app.T[j] = temp.T
     
     A_rec[i] = A_app
+    A_err = np.linalg.norm(A_real-A_rec[i])
+
+# works only for n=m    
+#    X_rec = np.linalg.solve(A_rec[i],Ys[i])
+#    X_err = np.linalg.norm(Xs[i]-X_rec)
     
+    print('dictionary error %f'%(A_err))
+    
+    
+
 """ prediction of X """
 
 

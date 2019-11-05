@@ -89,7 +89,7 @@ def K_SVD(Y, n, m, non_zero, n_samples, max_iter=100, stop=0.005):
             break
         
     iter_ = k
-    return A, X, iter_, err
+    return A, X, iter_
 
     
     

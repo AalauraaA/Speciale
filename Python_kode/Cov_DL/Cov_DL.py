@@ -20,7 +20,7 @@ np.random.seed(0)
 # INITIALISING PARAMETERS
 m = 6               # number of sensors
 n = 8               # number of sources
-non_zero = 6        # max number of non-zero coef. in rows of X
+non_zero = 4        # max number of non-zero coef. in rows of X
 n_samples = 60      # number of sampels
 
 # RANDOM GENERATION OF SPARSE DATA
@@ -106,8 +106,8 @@ for i in range(n_seg):
     n_samples = 1 
     vec_Y = vec_Y.reshape(len(vec_Y),n_samples)
     # Dictionary learning
-    D, sigma, iter_ = K_SVD(vec_Y, n=len(vec_X), m=len(vec_Y),
-                                 non_zero=len(vec_Y)-18, n_samples=n_samples,
+    D, sigma, iter_ = K_SVD(vec_Y, n=len(sigma), m=len(vec_Y),
+                                 non_zero=len(vec_Y), n_samples=n_samples,
                                  max_iter=100)
     print(D.shape,sigma.shape)
     # results for the large system

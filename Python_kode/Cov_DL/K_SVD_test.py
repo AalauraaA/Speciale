@@ -14,8 +14,8 @@ np.random.seed(1)
 
 # INITIALISING PARAMETERS
 m = 6               # number of sensors
-n = 8               # number of sources
-non_zero = 4        # max number of non-zero coef. in rows of X
+n = 8              # number of sources
+non_zero = 5        # max number of non-zero coef. in rows of X
 n_samples = 20      # number of sampels
 
 # RANDOM GENERATION OF SPARSE DATA
@@ -41,20 +41,6 @@ Y, A_real, X_real = make_sparse_coded_signal(n_samples=n_samples,
 #A_real = np.random.random((m,n))                 # Random mix matrix
 #Y = np.dot(A_real, X_real)                       # Observed signal
 
-# TEST DATA
-#Y = np.array([0.70509564, 0.57942377, 0.47660506, 0.70332399, 0.57813733,
-#       0.71132446, 0.66494341, 0.54655971, 0.67665673, 0.64543953,
-#       0.63693084, 0.5235195 , 0.63882834, 0.60544199, 0.57661413,
-#       0.27021547, 0.22219083, 0.26392632, 0.24708834, 0.24210971,
-#       0.10689917])
-#
-#Y = Y.reshape(21,1)
-#
-#n = 36 
-#m = len(Y)
-#n_samples = 1
-#non_zero = m
-
 ##" Rossler Data"
 #from Rossler_copy import Generate_Rossler  # import rossler here
 #X1, X2, X3, X4, X5, X6 = Generate_Rossler()
@@ -73,14 +59,14 @@ Y, A_real, X_real = make_sparse_coded_signal(n_samples=n_samples,
 #
 #n = len(X_real)
 #m = 6
-#non_zero = 5
-# Generate A and Y 
-A_real = np.random.random((m, n))                 # Random mix matrix
-Y = np.dot(A_real, X_real)                        # Observed signal Y - 40 x 6
-
-
-# PERFORM DICTIONARY LEARNING
-A, X, iter_= K_SVD(Y, n, m, non_zero, n_samples, max_iter=1000)
+#non_zero = 6
+## Generate A and Y 
+#A_real = np.random.random((m, n))                 # Random mix matrix
+#Y = np.dot(A_real, X_real)                        # Observed signal Y - 40 x 6
+#
+#
+## PERFORM DICTIONARY LEARNING
+A, X, iter_= K_SVD(Y, n, m, non_zero, n_samples, A_real, max_iter=1000)
 
 Y_rec = np.matmul(A,X)
 

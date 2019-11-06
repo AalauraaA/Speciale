@@ -281,9 +281,36 @@ where $\textbf{U}$ and $\textbf{V}$ are unitary matrices, i.e. $\textbf{U}^T\tex
 \textbf{E}_{i_{0}}^{(k)}= \sum_{j=1}^{k}\sigma_j\textbf{u}_{j}\textbf{v}_{j}^T.
 \end{align*} 
 Since the outer product always have rank-1 letting $\textbf{a}_{i_0}=\textbf{u}_1$ and $\textbf{x}_{i_0}^T = \sigma_{i}\textbf{v}_{1}^T$ solves the optimisation problem \eqref{eq:SVD3}.
-However in order to preserve the sparsity in $\textbf{X}$ while optimising only the non-zero entries in $\textbf{x}_{i_0}^T$ are allowed to vary. For this purpose only a subset of columns in $\textbf{E}_{i_0}$ is considered, those how correspond to the non-zero entries of $\textbf{x}_{i_0}^T$. A matrix $\textbf{P}_{i_0}$ is defined such that $\textbf{x}_{i_0}^{T^{(R)}}=\textbf{x}_{i_0}^T\textbf{P}_{i_0} $ contain only the $M_{j_0}$ non-zero entries of $\textbf{x}_{i_0}^T$  
-\\ \\
-Low-rank approx notes:
-- rank tells the number of independent columns 
-- low rank means high redundancy, and propose that the matrix can be expressed more efficient
+However in order to preserve the sparsity in $\textbf{X}$ while optimising, only the non-zero entries in $\textbf{x}_{i_0}^T$ are allowed to vary. For this purpose only a subset of columns in $\textbf{E}_{i_0}$ is considered, those which correspond to the non-zero entries of $\textbf{x}_{i_0}^T$. A matrix $\textbf{P}_{i_0}$ is defined such that $\textbf{x}_{i_0}^{T^{(R)}}=\textbf{x}_{i_0}^T\textbf{P}_{i_0} $ is restricted to contain only the $M_{j_0}$ non-zero entries of $\textbf{x}_{i_0}^T$. By applying SVD to the  sub-matrix $\textbf{E}_{i_0}\textbf{P}_{i_0}$ and updating $\textbf{a}_{i_0}$ and $\textbf{x}_{i_0}^{T^{(R)}}$ the rank-1 approximation is found and the original representation vector is updated as $\textbf{x}_{i_0}^{T}=\textbf{x}_{i_0}^{T^{(R)}}\textbf{P}_{i_0}^{T}$.  \\ \\
+The main steps of K-SVD is described in algorithm \ref{alg:K-SVD}. 
 
+\begin{algorithm}[H]
+\caption{K-SVD}\label{alg:K_SVD}
+\begin{algorithmic}[1]
+			\State$k = 0$			
+			\State$\text{Initialize random} \quad  \textbf{A}_{(0)}$            
+			\State$\text{Initialize} \quad \textbf{X}_{(0)}=\mathbf{0}$
+			\State
+            \Procedure{K-SVD}{$\textbf{A}_{(0)}$}    
+            \State$\text{normilize columns of} \ \textbf{A}_{(0)}$
+            \While{$error \geq limit$} 
+                \State $j = j+1$
+                \For{$j \gets 1,2,\hdots, L$} \Comment{updating each col. in $\textbf{X}_{(k)}$}
+                	\State$\hat{\textbf{x}}_{j} = \min_{\textbf{x}} \|\textbf{y}_j -\textbf{A}_{(k-1)}\textbf{x}_{j}\| \quad s.t. \quad \|\textbf{x}_{j}\| \leq k_0 $
+				\EndFor
+				\State$\textbf{X}_{(k)}=\{\hat{\textbf{x}}_{j}\}_{j=1}^{L}$
+				\For{$i_0 \gets 1,2,\hdots, N$}
+					\State$\Omega_{i_0}=\{j|1\leq j \leq L , \textbf{X}_{(k)}[i_0,j]\neq 0\}$
+					\State$\text{From} \ \Omega_{i_0} \ \text{define} \ \textbf{P}_{i_0} $
+					\State$\textbf{E}_{i_0} =  \textbf{Y}- \sum_{i\neq i_{0}}^{M} \textbf{a}_i\textbf{x}_i^{T}$
+					\State$\textbf{E}_{i_0}^R = \textbf{E}_{i_0}\textbf{P}_{i_0}$
+					\State$\textbf{E}_{i_0}^R=\textbf{U}\boldsymbol{\Sigma}\textbf{V}^T$ \Comment{perform SVD}
+					\State$\textbf{a}_{i_0}\gets \textbf{u}_{1}$ \Comment{update the $i_0$ col. in $\textbf{A}_{(k)}$}
+					\State$\left( \textbf{x}_{i_0}^T\right)^R \gets \sigma_{1}\textbf{v}_{1}$
+					\State$\textbf{x}_{i_0}^T \gets \left( \textbf{x}_{i_0}^T\right)^R \textbf{P}_{i_0}^T $ \Comment{update the $i_0$ row in $\textbf{X}_{(k)}$}
+				\EndFor
+				\State$error =\| \textbf{Y}-\textbf{A}_{(k)}\textbf{X}_{(k)}\|_{F}^2 $
+          		\EndWhile
+            \EndProcedure
+        \end{algorithmic} 
+\end{algorithm}

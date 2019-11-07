@@ -1,23 +1,31 @@
 \chapter{Independent Component Analysis}\label{sec:ICA}
 \textit{(it is not the intention to keep a whole chapter about ICA within the rapport, but rather a smaller section within the chapter of compressive sensing as a common solution method, and the rest as appendix.)}\\ \\ 
-Independent component analysis (ICA) is a method\textit{(within sparse signal recovery?)} which can separate statistical independent sources $\textbf{X}$ and identify the mixing matrix $\textbf{A}$ given the observed measurements $\textbf{Y}$. \\
-The main aspect of ICA is to assume statistical independent between the wanted components and nongaussiantity of the data. \cite[p. 3]{ICA}. 
-\\
-Through this section the mathematical concepts of ICA will be explained and defined in the noise-less case.
+%Independent component analysis (ICA) is a common method within signal processing and especially for sparse signal recovery. The intention of ICA is to separate a multivariate signal into statistical independent and non-Gaussian signals and furthermore $\textbf{X}$ and identify the mixing matrix $\textbf{A}$ given the observed measurements $\textbf{Y}$. \\
+%The main aspect of ICA is to assume statistical independent between the wanted components and nongaussiantity of the data. \cite[p. 3]{ICA}. 
+%\\
+%Through this section the mathematical concepts of ICA will be explained and defined in the noise-less case.
+%\\ \\
+%To understand what ICA is let us describe a situation where ICA could be used. Two people are having a conversation inside a room full of people which talk simultaneous with each other. The conversation between the two first mentioned people will the be affected by the surrounding conversations and noise. Such environment is often referred to as the cocktail party problem and is a difficult environment to be in as a hearing impaired.
+%\\
+%Let us describe the situation with some mathematical notations. The observed conversation which is affected by surrounding noise is denoted $\mathbf{y}$, the original individual conversations in the room is denoted by $\mathbf{x}$. All the original conversations are effected by each other and possibly noise, let us denoted this mixture by a matrix $\mathbf{A}$. We omit the time indexes and the time dependence to view the problem with random vectors. The problem can then be described as a linear model
+%\begin{align}
+%\mathbf{y} &= \mathbf{Ax} = \sum_{i=1}^n \mathbf{a}_i x_i,  \label{eq:ICA_1} \\
+%y_i &= a_{i1} x_1 + a_{i2} x_2 + \cdots + a_{in} x_n, \quad i = 1, \dots, n. \label{eq:ICA_2}
+%\end{align}
+%The only known variables in this model are the observed conversation $\mathbf{y}$, the rest are unknown. 
+%%The observation $y_i (t)$ would instead be a sample from the random vector if needed.
+
+Independent component analysis (ICA) is a method that applies to  the general problem of decomposition of a measurement vector into a source vector and a mixing matrix. The intention of ICA is to separate a multivariate signal into statistical independent and non-Gaussian signals and furthermore identify the mixing matrix $\textbf{A}$, given only the observed measurements $\textbf{Y}$.
+A well known application example of source separation is the cocktail party problem, where it is sought to listen to one specific person speaking in a room full of people having interfering conversations. 
+Let $\textbf{y}\in \mathbb{R}^{M}$ be a single measurement from $M$ microphones containing a mixture of all speak signal that are present in the room. When additional noise is not considered the problem can be described as the familiar linear model, 
+\begin{align*}
+\textbf{y}=\textbf{Ax}
+\end{align*}
+where $\textbf{x}\in \mathbb{R}^{N}$ contain the $N$ underlying speak signals and $\textbf{A}$ is a mixing matrix where the coefficients depends on the distance from the source to the microphone. As such each $y_i$ is a weighted sum of all the present sources of speak.
 \\ \\
-To understand what ICA is let us describe a situation where ICA could be used. Two people are having a conversation inside a room full of people which talk simultaneous with each other. The conversation between the two first mentioned people will the be affected by the surrounding conversations and noise. Such environment is often referred to as the cocktail party problem and is a difficult environment to be in as a hearing impaired.
-\\
-Let us describe the situation with some mathematical notations. The observed conversation which is affected by surrounding noise is denoted $\mathbf{y}$, the original individual conversations in the room is denoted by $\mathbf{x}$. All the original conversations are effected by each other and possibly noise, let us denoted this mixture by a matrix $\mathbf{A}$. We omit the time indexes and the time dependence to view the problem with random vectors. The problem can then be described as a linear model
-\begin{align}
-\mathbf{y} &= \mathbf{Ax} = \sum_{i=1}^n \mathbf{a}_i x_i,  \label{eq:ICA_1} \\
-y_i &= a_{i1} x_1 + a_{i2} x_2 + \cdots + a_{in} x_n, \quad i = 1, \dots, n. \label{eq:ICA_2}
-\end{align}
-The only known variables in this model are the observed conversation $\mathbf{y}$, the rest are unknown. 
-%The observation $y_i (t)$ would instead be a sample from the random vector if needed.
-\\ \\
-ICA is a method which can be use to recover the unknown mixture $\mathbf{A}$ and sources $\mathbf{x}$, which in the ICA aspect are the components, from the known $\mathbf{y}$. By use of the statistical properties of the components $\mathbf{x}$ it is then possible to estimate/recover the original conversations and then the mixture $\mathbf{A}$.
-\\
-One of the properties is the assumption that the components $\mathbf{x}$ are statistical independent. By independence, one means that the joint probability density function (pdf) can be factorised into the marginal pdfs of the components $\mathbf{x}$, that is
+By ICA both the mixing matrix $\textbf{A}$ and the sources $\textbf{x}$ are sought estimated from the observed measurements $\textbf{y}$. The main attribute of ICA is the assumption that the sources in $\textbf{x}$ are statistical independent and non-Gaussian distributed.\\     
+
+By independence, one means that the joint probability density function (pdf) can be factorised into the marginal pdfs of the components $\mathbf{x}$, that is
 \begin{align*}
 p(x_1, x_2, \dots, x_n) = p_1 (x_1) p_2(x_2) \cdots p_n(x_n),
 \end{align*}

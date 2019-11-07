@@ -1,11 +1,11 @@
 \section{Linear Algebra}
-A relation between some observed measurements $\mathbf{y}$ can be described as a linear combinations between a coefficient matrix $\mathbf{A}$ and some vector $\mathbf{x}$ such that
+Some observed measurement $\mathbf{y}$ can be described as a linear combinations between a coefficient matrix $\mathbf{A}$ and some vector $\mathbf{x}$ such that
 \begin{align}\label{eq:SMV_model}
 \mathbf{y} &= \mathbf{Ax},
 \end{align}
-where $\mathbf{y} \in \mathbb{R}^M$ is the observed measurement vector consisting of $M$ measurements, $\mathbf{x} \in \mathbb{R}^N$ is a source vector of $N$ elements, and $\mathbf{A} \in \mathbb{R}^{M \times N}$ is a coefficient matrix which models the linear measurement process column-wise. The linear model consist of $M$ equations and $N$ unknown.
+where $\mathbf{y} \in \mathbb{R}^M$ is the observed measurement vector consisting of $M$ measurements, $\mathbf{x} \in \mathbb{R}^N$ is a source vector of $N$ elements, and $\mathbf{A} \in \mathbb{R}^{M \times N}$ is a coefficient matrix which models the linear measurement process column-wise. The linear model consist of $M$ equations and $N$ unknown\todo{mention system of linear equations, og evt. vent med model}.
 \\ \\
-For the case of $\mathbf{A}$ been a square matrix ($M = N$) a solution can be found to the linear model if the $\mathbf{A}$ has full rank -- $\mathbf{A}$ consist of linearly independent columns or rows. For $M > N$ the matrix said to have full rank when the columns are linearly independent. For $M < N$ the matrix has full rank when the rows are linearly independent. For linearly systems/model with $M = N$ is called determined, $M > N$ overdetermined and $M < N$ under-determined. 
+For the case of $\mathbf{A}$ being a square matrix ($M = N$) a solution can be found to the linear model if the $\mathbf{A}$ has full rank -- $\mathbf{A}$ consist of linearly independent columns or rows. For $M > N$ the matrix said to have full rank when the columns are linearly independent. For $M < N$ the matrix has full rank when the rows are linearly independent. For linearly systems/model with $M = N$ is called determined, $M > N$ overdetermined and $M < N$ under-determined. 
 \\
 When full rank do not occur the matrix is then called rank-deficient.
 \\ \\
@@ -18,7 +18,7 @@ With the left-inverse the least norm solution of \eqref{eq:SMV_model} can be fou
 \\ \\
 For an determined system there will exist a unique solution. For an overdetermined system there do not exist a solution and for under-determined systems there exist infinitely many solutions.
 \\
-For rank-deficient matrices there do not exist an inverse and therefore \eqref{eq:SMV_model} can not be solve by inverting the model. But rank-deficient matrices  meaning have non-empty null space leading to infinitely solutions to \eqref{eq:SMV_model} \cite[p. ix]{CS}.
+For rank-deficient matrices there do not exist an inverse and therefore \eqref{eq:SMV_model} can not be solve by inverting the model. But rank-deficient matrices  meaning have non-empty null space leading to infinitely solutions to \eqref{eq:SMV_model} \cite[p. ix]{CS}\todo{hvad siger vi her}.
 \\ \\
 As described in chapter \ref{ch:motivation} the linear model of interest consist of $M$ sensors which is known and $N$ sources which is unknown. Furthermore, we also have that $M < N$ -- an under-determined system. It is therefore of interest to find a solution in the infinitely solution set.
 
@@ -49,7 +49,7 @@ where $[N]$ a set of integers $\{1,2,\hdots,N\}$ \cite[p. 41]{FR}. The set of al
 \end{align*}
 
 \subsection{Optimisation Problem}\label{sec:opti}
-To find a solution to the linear model \eqref{eq:SMV_model} which is $k$-sparse with $k < M$ an optimisation problem can be used. An optimisation problem is defined as
+To find a solution to the linear model \eqref{eq:SMV_model} which is $k$-sparse with $k < M$ an optimisation problem can be used. An optimisation problem is defined as\todo{mangler vi ikke at skrive hvorfor vi skal løse nummerisk og ikke analytisk. er det ikke bare at der i k-sparse tilfælde kun findes en nummerisk løsning?}
 \begin{align*}
 \min f_0 (\mathbf{x}) \quad \text{s.t} \quad f_i (\mathbf{x}) \leq b_i, \quad i \in [n],
 \end{align*}
@@ -92,7 +92,7 @@ $$
 $$
 This is a contradiction, because we can always choose a small $t \neq 0$ such that $t \sum_{j \in S} \text{sgn}(x_j^{\ast})v_j \leq 0$ and therefore the set $\{\textbf{a}_j, j \in S \}$ must be linearly independent.
 \end{proof}
-The Basis Pursuit makes the foundation of several algorithms solving alternative versions of \eqref{eq:SMV_p1} where noise is incorporated. A different type of solution method includes a greedy algorithm such as the Orthogonal Matching Pursuit \cite[P. 65]{FR}.    
+The Basis Pursuit makes the foundation of several algorithms solving alternative versions of \eqref{eq:SMV_p1} where noise is incorporated. A different type of solution method includes a greedy algorithm such as the Orthogonal Matching Pursuit\todo{er OMP ikke en basis pursuit metode} \cite[P. 65]{FR}.    
 \begin{algorithm}[H]
 \caption{Orthogonal Matching Pursuit (OMP)}
 \begin{itemize}
@@ -208,21 +208,21 @@ Substituting \eqref{eq:L9_7} into \eqref{eq:L9_6} and dividing by $\Vert \textbf
 %The Restricted isometry condition is a stronger condition concerning the orthogonality of the matrix. Furthermore the coherence of a matrix is a measure of quality and is used to determine whether the matrix $A$ is a good choice for the optimisation problem.\\    
 
 \subsection{Multiple Measurement Vector Model}
-The linear model \eqref{eq:SMV_model} is also referred to as a single measurement vector (SMV) model. In order to adapt the model \eqref{eq:SMV_model} to a practical use the model is expanded to include multiple measurements and take noise into account.
+The linear model \eqref{eq:SMV_model} is also referred to as a single measurement vector (SMV) model. In order to adapt the model \eqref{eq:SMV_model} to a practical use the model is expanded to include multiple measurement vectors and take noise into account.
 \\ \\
-A multiple measurement vector (MMV) model consist of the observed measurement matrix $\mathbf{Y} \in \mathbb{R}^{M \times L}$, the source matrix $\mathbf{X} \in \mathbb{R}^{N \times L}$ and the dictionary matrix $\mathbf{A} \in \mathbb{R}^{M \times N}$:
+A multiple measurement vector (MMV) model consist of the observed measurement matrix $\mathbf{Y} \in \mathbb{R}^{M \times L}$, the source matrix $\mathbf{X} \in \mathbb{R}^{N \times L}$, the dictionary matrix $\mathbf{A} \in \mathbb{R}^{M \times N}$ and the noise vector $\textbf{E} \in \mathbb{R}^{M \times L}$:
 \begin{align}\label{eq:MMV_model}
 \mathbf{Y} = \mathbf{AX}+\textbf{E}.
 \end{align}
-$L$ denote the number of observed samples each consisting of $M$ measurements and $\textbf{E} \in \mathbb{R}^{M \times L}$. For $L = 1$ the linear model will just be the SMV model \eqref{eq:SMV_model}. 
+$L$ denote the number of observed measurement vectors each consisting of $M$ measurements. For $L = 1$ the linear model will just be the SMV model \eqref{eq:SMV_model}. 
 \\
-The matrix $\mathbf{X}$ consist of $\lbrace \mathbf{x}_i \rbrace_{i=1}^L$ sparse vectors which has been stack column-wise leading to that $\mathbf{X}$ consist at most $k$ non-zero rows. As for the SMV model \eqref{eq:SMV_model} the MMV model \eqref{eq:MMV_model} is over-complete with $M \ll N$ and the number of samples is less than $M$, $L < M$ \cite[p. 42]{CS}.
+The matrix $\mathbf{X}$ consist of $\lbrace \mathbf{x}_i \rbrace_{i=1}^L$ sparse vectors which has been stack column-wise leading to that $\mathbf{X}$ consist of at most $k$ non-zero rows\todo{vi skal lige have styr på om vi kun antager identisk sparsness i alle søjler, og i så fald at det data vi arbejde med har den form}. As for the SMV model \eqref{eq:SMV_model} the MMV model \eqref{eq:MMV_model} is under-determined with $M \ll N$ and the number of samples is less than $M$, $L < M$\todo{hvorfor L<M?} \cite[p. 42]{CS}.
 \\ \\
 The support of $\mathbf{X}$ denote the index set of non-zero rows of $\mathbf{X}$ and $\mathbf{X}$ is said to be row-sparse. As the columns in $\mathbf{X}$ are $k$-sparse and as mention before $\mathbf{X}$ has at most $k$ non-zero rows, the non-zero values occur in common location. By using this joint information it is possible to recover $\mathbf{X}$ from fewer measurements.
 \\
 By using the rank of $\mathbf{X}$ which give us information of the amount of linearly independent rows or columns and the spark of $\mathbf{A}$ the minimum set of linearly dependent columns it is possible to set some condition on the measurement to ensure recovery.
 \\
-When the support of $\mathbf{X}$ is equal to the amount of non-zero rows in $\mathbf{X}$, $\vert \text{supp}(\mathbf{X})\vert = k$ then the rank of $\mathbf{X}$ would be $\text{rank}(\mathbf{X}) \leq k$. If rank$(\mathbf{X}) = 1$ then are the $k$-sparse vectors $\lbrace \mathbf{x}_i \rbrace_{i=1}^L$ multiple of each other the joint information cannot be taken advantage of. But for large rank we can exploit the diversity of the columns in $\mathbf{X}$. This can be defined in a sufficient and necessary condition of the MMV model \eqref{eq:MMV_model} which must have
+When the support of $\mathbf{X}$ is equal to the amount of non-zero rows in $\mathbf{X}$\todo{antal, og er det ikke altid det?}, $\vert \text{supp}(\mathbf{X})\vert = k$ then the rank of $\mathbf{X}$ would be $\text{rank}(\mathbf{X}) \leq k$. If rank$(\mathbf{X}) = 1$ then are the $k$-sparse vectors $\lbrace \mathbf{x}_i \rbrace_{i=1}^L$ multiple of each other the joint information cannot be taken advantage of. But for large rank we can exploit the diversity of the columns in $\mathbf{X}$. This can be defined in a sufficient and necessary condition of the MMV model \eqref{eq:MMV_model} which must have
 \begin{align*}
 \vert \text{supp}(\mathbf{X}) \vert < \frac{\text{Spark} (\mathbf{A}) - 1 + \text{rank}(\mathbf{X})}{2}
 \end{align*}

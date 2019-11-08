@@ -17,50 +17,62 @@
 
 Independent component analysis (ICA) is a method that applies to  the general problem of decomposition of a measurement vector into a source vector and a mixing matrix. The intention of ICA is to separate a multivariate signal into statistical independent and non-Gaussian signals and furthermore identify the mixing matrix $\textbf{A}$, given only the observed measurements $\textbf{Y}$.
 A well known application example of source separation is the cocktail party problem, where it is sought to listen to one specific person speaking in a room full of people having interfering conversations. 
-Let $\textbf{y}\in \mathbb{R}^{M}$ be a single measurement from $M$ microphones containing a mixture of all speak signal that are present in the room. When additional noise is not considered the problem can be described as the familiar linear model, 
-\begin{align*}
-\textbf{y}=\textbf{Ax}
-\end{align*}
-where $\textbf{x}\in \mathbb{R}^{N}$ contain the $N$ underlying speak signals and $\textbf{A}$ is a mixing matrix where the coefficients depends on the distance from the source to the microphone. As such each $y_i$ is a weighted sum of all the present sources of speak.
+Let $\textbf{y}\in \mathbb{R}^{M}$ be a single measurement from $M$ microphones containing a linear mixture of all the speak signal that are present in the room. When additional noise is not considered the problem can be described as the familiar linear model, 
+\begin{align}
+\textbf{y}=\textbf{Ax}\label{eq:ICA1}
+\end{align}
+where $\textbf{x}\in \mathbb{R}^{N}$ contain the $N$ underlying speak signals and $\textbf{A}$ is a mixing matrix where the coefficients depends (more og less?) on the distance from the source to the microphone. As such each $y_i$ is a weighted sum of all the present sources of speak.
 \\ \\
-By ICA both the mixing matrix $\textbf{A}$ and the sources $\textbf{x}$ are sought estimated from the observed measurements $\textbf{y}$. The main attribute of ICA is the assumption that the sources in $\textbf{x}$ are statistical independent and non-Gaussian distributed.\\     
-
-By independence, one means that the joint probability density function (pdf) can be factorised into the marginal pdfs of the components $\mathbf{x}$, that is
+By ICA both the mixing matrix $\textbf{A}$ and the sources signals $\textbf{x}$ are sought estimated from the observed measurements $\textbf{y}$. The main attribute of ICA is the assumption that the sources in $\textbf{x}$ are statistical independent and non-Gaussian distributed, hence the name independent components.\\     
+\\
+notes:\\
+For simplicity assume $\textbf{A}$ is square i.e. $M=N$. When $\textbf{A}$ has been estimated the inverse is computed an $\textbf{x}$ can be found by solving \eqref{eq:ICA1} for $\textbf{x}$.\\
+when we assume independese it is enough to solve system why?
+\\
+after whitening variance of all axis are equal and correlation of projection on every axix is 0. applying ICA onlu as to rotate whilie mini non-gausian. whiteining is a linear change of coordinates of the mixed data\url{http://arnauddelorme.com/ica_for_dummies/} "By rotating the axis and minimizing Gaussianity of the projection in the first scatter plot, ICA is able to recover the original sources which are statistically independent (this property comes from the central limit theorem which states that any linear mixture of 2 independent random variables is more Gaussian than the original variables)"\\
+\\
+\\
+By independence, one means that change in one source signal do not affect the other sources signals. Theoretically that is the joint probability density function (pdf) of $\textbf{X}$ can be factorised into the product of the marginal pdfs of the components $x_i$
 \begin{align*}
 p(x_1, x_2, \dots, x_n) = p_1 (x_1) p_2(x_2) \cdots p_n(x_n),
-\end{align*}
-for the random variables $x_i$.
+\end{align*}.
 \\
 Furthermore it is assumed that the independent components $\mathbf{x}$ do not have Gaussian distributions as this will effect the recovery of $\mathbf{x}$ due to ICA using higher-order cumulant method. For Gaussian distribution the cumulant will be zero which is not wanted in the recovery process. Thus the distribution of the independent components are unknown. This will further be described in section \ref{sec:est_ica}.
 \\
-The last assumption is that the mixing matrix $\mathbf{A}$ must be a square matrix -- there must be the same number of independent components as observation \cite[p. 152-153]{ICA}.
-\\ \\
-From the right-hand side of \eqref{eq:ICA_1} being unknown some statistics can not be computed e.g. the variance of $\mathbf{x}$. Instead ICA assume that $\mathbf{x}$ has unit variance $(=1)$. This of course must also apply to the mixing matrix $\mathbf{A}$ which will be restricted in the recovery method, described in section \ref{sec:est_ica}. By this addition the algorithm for ICA is simplified. To simplify even more, without loss of generality assume that $\mathbb{E}[\mathbf{y}] = 0$ and $\mathbb{E}[\mathbf{x}] = 0$. 
+The possibility of separating a signal into independent and non-Gaussian components originates from the central limit theorem\cite[p. 34]{ICA}. The theorem state that the distribution any linear mixture of two or more independent random variables tents toward a Gaussian distribution, under certain conditions. Hence when a non-Gaussian distribution of the independent components is achieved through optimization it must be the original sources.\\
+
+\subsection{Assumptions and Preprocessing}
+For simplicity assume $\textbf{A}$ is square i.e. $M=N$ and invertible. As such when $\textbf{A}$ has been estimated the inverse is computed the components can simply be estimated as $\textbf{x}=\textbf{A}^{-1}\textbf{y}$\cite[p. 152-153]{ICA}.
+\\ 
+As both $\textbf{A}$ and $\textbf{x}$ are unknown the variances of the independent components can not be determined. However it is reasonable to assume that $\mathbf{x}$ has unit variance, as $\textbf{A}$ is adapted to this restriction. Any scalar multiplier within a source can be cancelled out by dividing the corresponding column in $\textbf{A}$ with the same scalar.\\  
+This of course must also apply to the mixing matrix $\mathbf{A}$ which will be restricted in the recovery method, described in section \ref{sec:est_ica}.
+For further simplification it is assumed without loss of generality that $\mathbb{E}[\mathbf{y}] = 0$ and $\mathbb{E}[\mathbf{x}] = 0$\cite[p. 154]{ICA}. If this assumption is not true, the measurements can be centred by subtracting the mean as preprocessing before doing ICA.\\
+A preprocessing step central to ICA is to whiten the measurements $\mathbf{y}$. By the whitening process any correlation in the measurements are removed and unit variance is ensured. This ensures that the independent components $\mathbf{x}$ are uncorrelated and have unit variance(true?). Furthermore, this reduce the complexity of ICA and therefore simplifies the recovering process.
 \\
-To achieve zero mean, the observed data $\mathbf{y}$ is  normalised as a preprocessing.
-This addition do not affect the recover/estimation of $\mathbf{A}$ \cite[p. 154]{ICA}.
-\\ \\
-Another preprocessing step is to whiten the observed data $\mathbf{y}$. This ensures that the independent components $\mathbf{x}$ are uncorrelated and have variance equal 1. Furthermore, this also reduce the complexity of ICA and therefore simplifies the recovering process.
-\\
-Whiting is a process which uses the eigenvalue decomposition (EVD) to find the eigenvalues and associated eigenvectors from the covariance of observed data $\mathbf{y}$:
+Whitening is a linear transformation of the observed data. That is multiplying the measurement vector $\textbf{y}$ with a whitening matrix $\textbf{V}$,
 \begin{align*}
-\mathbb{E}[\mathbf{yy}^T] = \mathbf{EDE}^T,
+\textbf{y}_{white} = \textbf{V}\textbf{y}
+\end{align*} 
+to obtain a new measurement vector $\textbf{y}_{white}$ that is white. To obtain a whitening matrix the eigenvalue decomposition (EVD) of the covariance matrix can be used,
+\begin{align*}
+\mathbb{E}[\mathbf{yy}^T] = \mathbf{EDE}^T
 \end{align*}
-where $\mathbf{D}$ is a diagonal matrix of eigenvalues and $\mathbf{E}$ is the associated eigenvectors. With $\mathbf{E}$ and $\mathbf{D}$ a whiting matrix is constructed as
+here $\mathbf{D}$ is a diagonal matrix of eigenvalues and $\mathbf{E}$ is the associated eigenvectors. From $\mathbf{E}$ and $\mathbf{D}$ a whitening matrix is constructed \cite[p.159]{ICA}.
 \begin{align*}
 \mathbf{V} = \mathbf{ED}^{-1/2} \mathbf{E}^T.
 \end{align*}
-By multiplying the observed data $\mathbf{y}$ with a whiting matrix $\mathbf{V}$ the data becomes white:
+Where $\mathbf{D}^{-1/2}=diag{d_1^{-1/2},\hdots,d_n^{-1/2}}$ is a componentwise operation.\\  
+By multiplying the measurement vector $\mathbf{y}$ with a whitening matrix $\mathbf{V}$ the data becomes white
 \begin{align}
-\mathbf{y}_{\text{white}} &= \mathbf{Vy}, \\
-\mathbf{y}_{\text{white}} &= \mathbf{VAx} = \mathbf{A}_{\text{white}} \mathbf{x} \nonumber
+\mathbf{y}_{\text{white}} &= \mathbf{Vy} = \mathbf{VAx} = \mathbf{A}_{\text{white}} \mathbf{x} \nonumber
 \end{align}
-By the whiting process the mixing matrix $\mathbf{A}_{\text{white}}$ becomes orthogonal because
+Furthermore the mixing matrix $\mathbf{A}_{\text{white}}$ becomes orthogonal 
 \begin{align*}
  \mathbb{E}[\mathbf{y}_{\text{white}} \mathbf{y}_{\text{white}}^T] = \mathbf{A}_{\text{white}} \mathbb{E}[\mathbf{xx}^T] \mathbf{A}_{\text{white}}^T = \mathbf{A}_{\text{white}} \mathbf{A}_{\text{white}}^T = \mathbf{I}.
  \end{align*} 
-This mean that ICA can restrict its search for $\mathbf{A}_{\text{white}}$ to the orthogonal matrix space- That is instead of estimateing $n^2$ parameters ICA now only has to estimate an orthogonal matrix which have $n(n-1)/2$ parameters/degrees of freedom \cite[p. 159]{ICA}.
+Consequently ICA can restrict its search for the mixing matrix to the orthogonal matrix space -- That is instead of estimating $n^2$ parameters ICA now only has to estimate an orthogonal matrix which has $n(n-1)/2$ parameters/degrees of freedom \cite[p. 159]{ICA}.
 \\
+%%%%%
 Furthermore, to support the assumption of nongaussiantity for an orthogonal mixing matrix $\mathbf{A}_{\text{white}}$ it is not possible to distinct the pdfs of the $\mathbf{y}_{\text{white}}$ and $\mathbf{x}$ as $\mathbf{A}_{\text{white}}$ is no longer included in the pdf of $\mathbf{y}_{\text{white}}$ and therefore are the two pdfs equal \cite[p. 161-163]{ICA}\todo{can we elaborate this last part}.
 
 \subsection{Recovery of the Independent Components}\label{sec:est_ica}

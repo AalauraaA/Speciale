@@ -1,4 +1,4 @@
-\chapter{Independent Component Analysis}\label{sec:ICA}
+\section{Independent Component Analysis}\label{sec:ICA}
 \textit{(it is not the intention to keep a whole chapter about ICA within the rapport, but rather a smaller section within the chapter of compressive sensing as a common solution method, and the rest as appendix.)}\\ \\ 
 %Independent component analysis (ICA) is a common method within signal processing and especially for sparse signal recovery. The intention of ICA is to separate a multivariate signal into statistical independent and non-Gaussian signals and furthermore $\textbf{X}$ and identify the mixing matrix $\textbf{A}$ given the observed measurements $\textbf{Y}$. \\
 %The main aspect of ICA is to assume statistical independent between the wanted components and nongaussiantity of the data. \cite[p. 3]{ICA}. 
@@ -21,33 +21,25 @@ Let $\textbf{y}\in \mathbb{R}^{M}$ be a single measurement from $M$ microphones 
 \begin{align}
 \textbf{y}=\textbf{Ax}\label{eq:ICA1}
 \end{align}
-where $\textbf{x}\in \mathbb{R}^{N}$ contain the $N$ underlying speak signals and $\textbf{A}$ is a mixing matrix where the coefficients depends (more og less?) on the distance from the source to the microphone. As such each $y_i$ is a weighted sum of all the present sources of speak.
+where $\textbf{x}\in \mathbb{R}^{N}$ contain the $N$ underlying speak signals and $\textbf{A}$ is a mixing matrix where the coefficients depends (more or less?) on the distance from the source to the microphone. As such each $y_i$ is a weighted sum of all the present sources of speak.
 \\ \\
-By ICA both the mixing matrix $\textbf{A}$ and the sources signals $\textbf{x}$ are sought estimated from the observed measurements $\textbf{y}$. The main attribute of ICA is the assumption that the sources in $\textbf{x}$ are statistical independent and non-Gaussian distributed, hence the name independent components.\\     
-\\
-notes:\\
-For simplicity assume $\textbf{A}$ is square i.e. $M=N$. When $\textbf{A}$ has been estimated the inverse is computed an $\textbf{x}$ can be found by solving \eqref{eq:ICA1} for $\textbf{x}$.\\
-when we assume independese it is enough to solve system why?
-\\
-after whitening variance of all axis are equal and correlation of projection on every axix is 0. applying ICA onlu as to rotate whilie mini non-gausian. whiteining is a linear change of coordinates of the mixed data\url{http://arnauddelorme.com/ica_for_dummies/} "By rotating the axis and minimizing Gaussianity of the projection in the first scatter plot, ICA is able to recover the original sources which are statistically independent (this property comes from the central limit theorem which states that any linear mixture of 2 independent random variables is more Gaussian than the original variables)"\\
-\\
-\\
-By independence, one means that change in one source signal do not affect the other sources signals. Theoretically that is the joint probability density function (pdf) of $\textbf{X}$ can be factorised into the product of the marginal pdfs of the components $x_i$
+By ICA both the mixing matrix $\textbf{A}$ and the sources signals $\textbf{x}$ are sought estimated from the observed measurements $\textbf{y}$. The main attribute of ICA is the assumption that the sources in $\textbf{x}$ are statistical independent and non-Gaussian distributed, hence the name independent components\todo{when we assume independence it is enough to solve system, why?}.\\     
+By independence, one means that changes in one source signal do not affect the other source signals. Theoretically that is the joint probability density function (pdf) of $\textbf{x}$ can be factorised into the product of the marginal pdfs of the components $x_i$
 \begin{align*}
 p(x_1, x_2, \dots, x_n) = p_1 (x_1) p_2(x_2) \cdots p_n(x_n),
-\end{align*}.
-\\
-Furthermore it is assumed that the independent components $\mathbf{x}$ do not have Gaussian distributions as this will effect the recovery of $\mathbf{x}$ due to ICA using higher-order cumulant method. For Gaussian distribution the cumulant will be zero which is not wanted in the recovery process. Thus the distribution of the independent components are unknown. This will further be described in section \ref{sec:est_ica}.
-\\
-The possibility of separating a signal into independent and non-Gaussian components originates from the central limit theorem\cite[p. 34]{ICA}. The theorem state that the distribution any linear mixture of two or more independent random variables tents toward a Gaussian distribution, under certain conditions. Hence when a non-Gaussian distribution of the independent components is achieved through optimization it must be the original sources.\\
+\end{align*}
+
+%Furthermore it is assumed that the independent components $\mathbf{x}$ do not have Gaussian distribution as this will effect the recovery of $\mathbf{x}$ due to ICA using higher-order cumulant method. For Gaussian distribution the cumulant will be zero which is not wanted in the recovery process. Thus the distribution of the independent components are unknown. This will further be described in section \ref{sec:est_ica}.
+
+\todo{herover er ukommenteret et afsnit jeg ikke forstår}The possibility of separating a signal into independent and non-Gaussian components originates from the central limit theorem\cite[p. 34]{ICA}. The theorem state that the distribution any linear mixture of two or more independent random variables tents toward a Gaussian distribution, under certain conditions. Thus, when a non-Gaussian distribution of the independent components is achieved through optimization it must be the original sources.
 
 \subsection{Assumptions and Preprocessing}
 For simplicity assume $\textbf{A}$ is square i.e. $M=N$ and invertible. As such when $\textbf{A}$ has been estimated the inverse is computed the components can simply be estimated as $\textbf{x}=\textbf{A}^{-1}\textbf{y}$\cite[p. 152-153]{ICA}.
 \\ 
-As both $\textbf{A}$ and $\textbf{x}$ are unknown the variances of the independent components can not be determined. However it is reasonable to assume that $\mathbf{x}$ has unit variance, as $\textbf{A}$ is adapted to this restriction. Any scalar multiplier within a source can be cancelled out by dividing the corresponding column in $\textbf{A}$ with the same scalar.\\  
-This of course must also apply to the mixing matrix $\mathbf{A}$ which will be restricted in the recovery method, described in section \ref{sec:est_ica}.
-For further simplification it is assumed without loss of generality that $\mathbb{E}[\mathbf{y}] = 0$ and $\mathbb{E}[\mathbf{x}] = 0$\cite[p. 154]{ICA}. If this assumption is not true, the measurements can be centred by subtracting the mean as preprocessing before doing ICA.\\
-A preprocessing step central to ICA is to whiten the measurements $\mathbf{y}$. By the whitening process any correlation in the measurements are removed and unit variance is ensured. This ensures that the independent components $\mathbf{x}$ are uncorrelated and have unit variance(true?). Furthermore, this reduce the complexity of ICA and therefore simplifies the recovering process.
+As both $\textbf{A}$ and $\textbf{x}$ are unknown the variances of the independent components can not be determined. However it is reasonable to assume that $\mathbf{x}$ has unit variance, as $\textbf{A}$ will adapt to this restriction. Any scalar multiplier within a source can be cancelled out by dividing the corresponding column in $\textbf{A}$ with the same scalar.\\  
+This of course must also apply to the mixing matrix $\mathbf{A}$ which will be restricted in the recovery method, described in section \ref{sec:est_ica}\todo{check up on A restrictions}.
+For further simplification it is assumed without loss of generality that $\mathbb{E}[\mathbf{y}] = 0$ and $\mathbb{E}[\mathbf{x}] = 0$\cite[p. 154]{ICA}. In case this assumption is not true, the measurements can be centred by subtracting the mean as preprocessing before doing ICA.\\
+A preprocessing step central to ICA is to whiten\todo{whiteining is a linear change of coordinates of the mixed data\url{http://arnauddelorme.com/ica_for_dummies/} "By rotating the axis and minimizing Gaussianity of the projection in the first scatter plot, ICA is able to recover the original sources which are statistically independent} the measurements $\mathbf{y}$. By the whitening process any correlation in the measurements are removed and unit variance is ensured. This ensures that the independent components $\mathbf{x}$ are uncorrelated and have unit variance(true?). Furthermore, this reduce the complexity of ICA and therefore simplifies the recovering process.
 \\
 Whitening is a linear transformation of the observed data. That is multiplying the measurement vector $\textbf{y}$ with a whitening matrix $\textbf{V}$,
 \begin{align*}
@@ -70,29 +62,46 @@ Furthermore the mixing matrix $\mathbf{A}_{\text{white}}$ becomes orthogonal
 \begin{align*}
  \mathbb{E}[\mathbf{y}_{\text{white}} \mathbf{y}_{\text{white}}^T] = \mathbf{A}_{\text{white}} \mathbb{E}[\mathbf{xx}^T] \mathbf{A}_{\text{white}}^T = \mathbf{A}_{\text{white}} \mathbf{A}_{\text{white}}^T = \mathbf{I}.
  \end{align*} 
-Consequently ICA can restrict its search for the mixing matrix to the orthogonal matrix space -- That is instead of estimating $n^2$ parameters ICA now only has to estimate an orthogonal matrix which has $n(n-1)/2$ parameters/degrees of freedom \cite[p. 159]{ICA}.
-\\
-%%%%%
-Furthermore, to support the assumption of nongaussiantity for an orthogonal mixing matrix $\mathbf{A}_{\text{white}}$ it is not possible to distinct the pdfs of the $\mathbf{y}_{\text{white}}$ and $\mathbf{x}$ as $\mathbf{A}_{\text{white}}$ is no longer included in the pdf of $\mathbf{y}_{\text{white}}$ and therefore are the two pdfs equal \cite[p. 161-163]{ICA}\todo{can we elaborate this last part}.
+Consequently ICA can restrict its search for the mixing matrix to the orthogonal matrix space -- That is instead of estimating $n^2$ parameters ICA now only has to estimate an orthogonal matrix which has $n(n-1)/2$ parameters/degrees of freedom \cite[p. 159]{ICA}\.
+\\todo{udkommentering herunder?}
+%%%%% forstår ikke det sidste her
+%Furthermore, to support the assumption of nongaussiantity for an orthogonal mixing matrix $\mathbf{A}_{\text{white}}$ it is not possible to distinct the pdfs of the $\mathbf{y}_{\text{white}}$ and $\mathbf{x}$ as $\mathbf{A}_{\text{white}}$ is no longer included in the pdf of $\mathbf{y}_{\text{white}}$ and therefore are the two pdfs equal \cite[p. 161-163]{ICA}\todo{can we elaborate this last part}.
+% evt. læs igen side 162 nederest ICA bog, gives why the moel is well defined
 
 \subsection{Recovery of the Independent Components}\label{sec:est_ica}
-A way to recover the independent components could be to take advantage of the assumption of nongaussiantity. By finding the estimate which maximise the nongaussiantity the real independent component can be found based on the fact that it must have a nongaussian distribution as mention in section \ref{sec:ICA}. But before the estimation a measure of nongaussiantity must be introduce -- this could be the kurtosis.
-
-\subsubsection{Kurtosis}
-Kurtosis is a quantitative measure used for nongaussianity of random variables. (Excess) Kurtosis of a random variable $y$ is defined as\todo{Tjek lige op denne definition}
+Now the ICA model is established, the next step is the estimation of the mixing coefficients $a_{ij}$ and independent components $x_i$. The simple and intuitive method is to take advantage of the assumption of non-Gaussian independent components. Consider again the ICA model of a single measurement vector $\textbf{y}=\textbf{Ax}$ where the independent components can be estimated by the inverted model $\textbf{x}=\textbf{A}^{-1}\textbf{y}$. Let $\textbf{A}^{-1}=\textbf{B}$, now a single independent component can be seen as the linear combination 
+\begin{align}
+x_j = \textbf{b}_{j}^T \textbf{y} = \sum_{i}b_iy_i \label{eq:ICA_comp}
+\end{align} 
+where $\textbf{b}_{i}^T$ is the $j^{th}$ row of $\textbf{B}$. The issue is now to determined $\textbf{b}_j$ such that it equals the $j^{th}$ row from the inverse $\textbf{A}$. As $\textbf{A}$ is unknown it is not possible to determine $\textbf{b}_j$ exactly, but an estimate can be found to make a good approximation. Rewriting \eqref{eq:ICA_comp} 
 \begin{align*}
-\text{kurt} (y) &= \mathbb{E} \left[ \left(\frac{y - \mu}{\sigma}\right)^4 \right] - 3 \\
-&= \mathbb{E}[y^4] - 3 ( \mathbb{E}[y^2])^2,
+x_j = \textbf{b}_{j}^T \textbf{y} = \textbf{b}_{j}^T \textbf{Ax} = \textbf{q}^T\textbf{x} = \sum_{i=1}q_i x_i
 \end{align*}
-which is the fourth-order cumulant of the random variable $y$. By assuming that the random variable $y$ has variance $\mathbb{E}[y^2] = 1$, the kurtosis is rewritten as
+it is seen how $x_j$ is a linear combination of all $\textbf{x}_i$, thus the equality only holds true when $\textbf{q}$ consist of only one non-zero element that equals 1.  
+Due to the central limit theorem the distribution of $\textbf{q}^T\textbf{x}$ most non-Gaussian when it equals one of the independent components which was assumed non-Guassian. Then, since $\textbf{q}^T\textbf{x} = \textbf{b}_{j}^T \textbf{y}$, it is possible to vary the coefficients in $\textbf{b}$ and look at the distribution of $\textbf{b}_{j}^T \textbf{y}$. Finding the vector $\textbf{b}$ that maximize the non-Gaussianity would then corresponds to $\textbf{q}=\textbf{A}^T\textbf{b}$ having only a single non-zero element. Thus maximizing the non-Gaussianity of $\textbf{b}_{j}^T \textbf{y}$ results in one of the independent components\cite[p. 166]{ICA}. \\
+Considering the n-dimensional space of vectors $\textbf{b}$ there exist $2n$ local maxima, corresponding to $x_i$ and $-x_i$ for all $n$ independent components\cite[p. 166]{ICA}. 
+
+\subsection{Kurtosis}
+To maximize the non-gaussianity a measure for gaussianity is needed. Kurtosis is a quantitative measure used for nongaussianity of random variables. Kurtosis of a random variable $y$ is the fourth-order cumulant denotet by $\text{kurt}(y)$. For $y$ with zero mean and unit variance kurtosis reduces to \todo{uddyb og tilføj kilde til kurtosis}
 \begin{align*}
 \text{kurt} (y) = \mathbb{E}[y^4] - 3.
-\end{align*}
-The kurtosis of nongaussian random variables will then almost always be different from zero. For gaussian random variables the fourth moment equals $3(\mathbb{E}[y^2])^2$ thus the kurtosis will then be zero \cite[p. 171]{ICA}.
-\\
-By using the absolute value of the kurtosis gaussian random variables are still zero but the nongaussian random variables will be greater than zero. In this case the random variables are called supergaussian.
-\\ \\
-One complication with kurtosis as a measure is that kurtosis is sensitive to outliers \cite[p. 182]{ICA}.
+\end{align*} 
+It is seen that the kurtosis is a normalized version of the fourth-order moment defined as $\mathbb{E}[y^4]$. For a Gaussian random variable the fourth-order moment equals $3(\mathbb{E}[y^2])^2$ hence the corresponding kurtosis will be zero \cite[p. 171]{ICA}. Consequently the kurtosis of non-Gaussian random variables will almost always be different from zero.\\
+The kurtosis is a common measure for non-Gaussianity due to its simplicity  both theoretical and computational. The kurtosis can be estimated computationally by the forth-order moment of sample data when the variance is constant. However, one complication concerning kurtosis as a measure is that kurtosis is sensitive to outliers \cite[p. 182]{ICA}.       
+
+\subsection{The Gradient Algorithm}
+In practise, to recover the independent components $x_i$ and the corresponding mixing matrix $\textbf{A}$ by maximizing the kurtosis of $\textbf{b}_{j}^T \textbf{y}$, gradient optimisation methods are used.\\
+    
+
+
+\chapter{ICA Appendix}
+Intro 
+
+
+
+\subsubsection{Kurtosis}
+
+
  
 \paragraph{The Gradient Algorithm}
 To recover the independent components $\mathbf{x}$ the nongaussianity is wish maximised. One way to do this is to use a gradient algorithm to maximise the kurtosis of $\mathbf{y}$.

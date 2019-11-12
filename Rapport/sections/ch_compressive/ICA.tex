@@ -82,16 +82,63 @@ Due to the central limit theorem the distribution of $\textbf{q}^T\textbf{x}$ mo
 Considering the n-dimensional space of vectors $\textbf{b}$ there exist $2n$ local maxima, corresponding to $x_i$ and $-x_i$ for all $n$ independent components\cite[p. 166]{ICA}. 
 
 \subsection{Kurtosis}
-To maximize the non-gaussianity a measure for gaussianity is needed. Kurtosis is a quantitative measure used for nongaussianity of random variables. Kurtosis of a random variable $y$ is the fourth-order cumulant denotet by $\text{kurt}(y)$. For $y$ with zero mean and unit variance kurtosis reduces to \todo{uddyb og tilføj kilde til kurtosis}
+To maximize the non-gaussianity a measure for gaussianity is needed. Kurtosis is a quantitative measure used for nongaussianity of random variables. Kurtosis of a random variable $y$ is the fourth-order cumulant denotet by $\text{kurt}(y)$. For $y$ with zero mean and unit variance kurtosis reduces to \todo{uddyb? og tilføj kilde til kurtosis}
 \begin{align*}
 \text{kurt} (y) = \mathbb{E}[y^4] - 3.
 \end{align*} 
-It is seen that the kurtosis is a normalized version of the fourth-order moment defined as $\mathbb{E}[y^4]$. For a Gaussian random variable the fourth-order moment equals $3(\mathbb{E}[y^2])^2$ hence the corresponding kurtosis will be zero \cite[p. 171]{ICA}. Consequently the kurtosis of non-Gaussian random variables will almost always be different from zero.\\
-The kurtosis is a common measure for non-Gaussianity due to its simplicity  both theoretical and computational. The kurtosis can be estimated computationally by the forth-order moment of sample data when the variance is constant. However, one complication concerning kurtosis as a measure is that kurtosis is sensitive to outliers \cite[p. 182]{ICA}.       
+It is seen that the kurtosis is a normalized version of the fourth-order moment defined as $\mathbb{E}[y^4]$. 
+For a Gaussian random variable the fourth-order moment equals $3(\mathbb{E}[y^2])^2$ hence the corresponding kurtosis will be zero \cite[p. 171]{ICA}. Consequently the kurtosis of non-Gaussian random variables will almost always be different from zero.\\
+The kurtosis is a common measure for non-Gaussianity due to its simplicity  both theoretical and computational. The kurtosis can be estimated computationally by the forth-order moment of sample data when the variance is constant.
+Furthermore, for two independent random variables $x_1, x_2$ the following linear properties applies to the kurtosis of the sum
+\begin{align*}
+\text{kurt}(x_1 + x_2)=\text{kurt}(x_1)+ \text{kurt}(x_2) \quad \text{and} \quad \text{kurt}(\alpha x_1) = \alpha^4 \text{kurt}(x_1)
+\end{align*}  
+However, one complication concerning kurtosis as a measure is that kurtosis is sensitive to outliers \cite[p. 182]{ICA}.\\ 
+\\      
+Consider again the vector $\textbf{q} = \textbf{A}^T\textbf{b}$ such that $\textbf{b}_{j}^T \textbf{y} = \sum_{i=1}q_ix_i$. 
+By the additive property of kurtosis
+\begin{align*}
+\text{kurt}\left( \textbf{b}_{j}^T \textbf{y}\right) = \sum_{i=1}q_i^4\text{kurt}(x_i).
+\end{align*}
+Then the assumption of the independent components having unit variance results in $\mathbb{E}[x_j]= \sum_{i=1}q_i^2=1$\todo{hvordan kommer dette frem?}. That is geometrically that $\textbf{q}$ is constraint to the unit sphere, $\| \textbf{q}\|^2 = 1$. By this the optimisation problem of maximising the kurtosis of $\textbf{b}_{j}^T \textbf{y}$ is similar to maximizing $\vert \text{kurt}(x_j)\vert = \vert \sum_{i=1}q_i^4\text{kurt}(x_i) \vert $ on the unit sphere.\\
+Due to the described preprocessing $\textbf{b}$ is assumed to be white and it can be shown that $\Vert \textbf{q} \Vert = \Vert \textbf{b}_j \Vert $\cite[p. 174]{ICA}. This show that constraining   $\Vert \textbf{q} \Vert$ to one is similar to constraining $\Vert \textbf{b}_j \Vert$ to one. 
 
-\subsection{The Gradient Algorithm}
-In practise, to recover the independent components $x_i$ and the corresponding mixing matrix $\textbf{A}$ by maximizing the kurtosis of $\textbf{b}_{j}^T \textbf{y}$, gradient optimisation methods are used.\\
-    
+\subsection{The Gradient Algorithm with Kurtosis}
+In practise, to recover the mixing matrix $\textbf{A}$ by maximizing the kurtosis of $\textbf{b}_{j}^T \textbf{y}$, gradient optimisation methods are used.\\
+The general idea behind a gradient algorithm is to determine the direction for which $\text{kurt}(\textbf{b}_{j}^T \textbf{y})$ is growing the most, based on the gradient. \\
+
+The gradient of $\vert \text{kurt}(\textbf{b}_{j}^T \textbf{y}) \vert$ is computed as
+\begin{align}\label{eq:kurt}
+\frac{\partial \vert \text{kurt}(\textbf{b}_{j}^T \textbf{y})\vert}{\partial \mathbf{b}_j} &= 4 \text{sign}(\text{kurt}(\textbf{b}_{j}^T \textbf{y})) (\mathbb{E}[\mathbf{y} (\textbf{b}_{j}^T \textbf{y})^3] - 3 \mathbf{y} \mathbb{E}[(\textbf{b}_{j}^T \textbf{y})^2]) 
+\end{align} 
+As $\mathbb{E}[(\textbf{b}_{j}^T \textbf{y})^2] =\Vert \mathbf{y} \Vert^2)$ for whitened data the corresponding term does only affect the norm of $\textbf{b}_j$ within the gradient algorithm. Thus, as it is only the direction that is of interest, this term can be omitted. Because the optimisation is restricted to the unit sphere a projection of $\textbf{b}_j$ onto the unit sphere must be performed in every step of the gradient method. This is done by dividing $\textbf{b}_j$ by its norm. This gives update step 
+\begin{align*}
+\nabla &\textbf{b}_j \propto \text{sign}\left( \text{kurt}(\textbf{b}_{j}^T \textbf{y}) \right) \mathbb{E}[\textbf{y}(\textbf{b}_{j}^T \textbf{y})^3] \\
+\textbf{b}_j &\leftarrow \textbf{b}_j/\Vert \textbf{b}_j \Vert
+\end{align*}  
+The expectation operator can be omitted in order to achieve an adaptive version of the algorithm, now using every measurement $\textbf{y}$. However, the expectation operator from the definition of kurtosis can not be omitted and must therefore be estimated. This can be done by a time-average estimate, denoted as $\gamma$:
+\begin{align*}
+\nabla \gamma \propto((\textbf{b}_{j}^T \textbf{y})^4 - 3) - \gamma
+\end{align*}
+
+\subsection{Basic ICA algorithm} 
+Algorithm \ref{alg:ICA} combined the above theory, to give an overview of the ICA procedure. Estimating the mixing matrix and the corresponding independent components, from the given measurements. 
+\begin{algorithm}[H]
+\caption{Basis ICA}
+\begin{algorithmic}[1]
+			\Procedure{Pre-processing}{$\textbf{y}$}
+			\State $\text{Center measurements}$ 
+			\EndProcedure  
+            \Procedure{K-SVD}{$\textbf{A}_{(0)}$}    
+            \State$\text{normilize columns of} \ \textbf{A}_{(0)}$
+            \While{$error \geq limit$} 
+                \State $j = j+1$
+                
+          		\EndWhile
+          		\State 
+            \EndProcedure
+        \end{algorithmic} 
+\end{algorithm}
 
 
 \chapter{ICA Appendix}

@@ -28,6 +28,22 @@
 #
 #S = np.nonzero(gamma)     
 
+"""
+Algorithm Summary:
+Given Y and a dictionary A 
+1. Initialise gamma (gamma = 1)
+2. Compute Sigma and Mu (posterior moments)
+3. Update gamma with EM rule or fast fixed-point
+4. Iterate step 2 and 3 until convergence to a fixed point gamma* 
+5. Assuming a point estimate is desired for the unknown weights X_gen,
+   choose X_m-sbl = Mu* = X_gen, with Mu* = E[X|Y ; gamma*]
+6. Given that gamma* is sparse, the resultant estimator Mu* 
+   will necessarily be row sparse.
+
+Threshold = 10E-16
+"""
+
+
 from matplotlib import pyplot as plt
 import numpy as np
 import scipy.stats as st

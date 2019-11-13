@@ -1,5 +1,4 @@
 \section{Independent Component Analysis}\label{sec:ICA}
-\textit{(it is not the intention to keep a whole chapter about ICA within the rapport, but rather a smaller section within the chapter of compressive sensing as a common solution method, and the rest as appendix.)}\\ \\ 
 %Independent component analysis (ICA) is a common method within signal processing and especially for sparse signal recovery. The intention of ICA is to separate a multivariate signal into statistical independent and non-Gaussian signals and furthermore $\textbf{X}$ and identify the mixing matrix $\textbf{A}$ given the observed measurements $\textbf{Y}$. \\
 %The main aspect of ICA is to assume statistical independent between the wanted components and nongaussiantity of the data. \cite[p. 3]{ICA}. 
 %\\
@@ -151,4 +150,14 @@ Algorithm \ref{alg:basicICA} combined the above theory, to give an overview of t
         \label{alg:basicICA}
 \end{algorithm}
 
+\subsection{ICA for sparse signal recovery}
+ICA is widely used within sparse signal recovery.   
+When ICA is applied to a measurement vector $\textbf{y}\in\mathbb{R}^{M}$ it is possible to separate the mixed signal into $M$ or less independent components. However, by assuming that the  independent components makes a $k$-sparse signal it is possible to apply ICA within sparse signal recovery of cases where $M < N$ and $k \leq M$. \\
+To apply ICA to such case the independent components are obtained by the pseudo-inverse solution 
+\begin{align*}
+\hat{\mathbf{x}} = \mathbf{A}_S^{\dagger} \mathbf{y}
+\end{align*}
+where $\mathbf{A}_S$ is derived from the dictionary matrix $\mathbf{A}$ by containing only the columns associated with the non-zero entries of $\textbf{x}$, specified by the support set $S$. 
+
+ 
 

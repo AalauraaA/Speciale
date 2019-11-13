@@ -231,20 +231,7 @@ such that $\mathbf{X}$ can uniquely be determined.
 This result lead to that row-sparse matrix $\mathbf{X}$ with large rank can be recovered from fewer measurement \cite[p. 43]{CS}.
 
 
-\subsection{Dictionary learning}\label{sec:dictionarylearning}
-<<<<<<< HEAD
-\subsubsection{Dictionary learning}\label{sec:dictionarylearning}
-In cases where the dictionary is unknown it is possible to learn the dictionary from the observed measurement provided that several observations are available $\textbf{Y}=\left[ \textbf{y}_1, \dots ,\textbf{y}_L \right]$. 
-In dictionary learning framework the inverse problem is defined as
-\begin{align*}
-\min_{\mathbf{A,X}} = \frac{1}{2} \sum_{i=1}^{L} \Vert \mathbf{y} _i - \mathbf{Ax}_i \Vert_F^2 + \gamma \sum_{i=1}^{L} g(\mathbf{x}_i),
-\end{align*}
-where the function $g(\cdot)$ promotes sparsity of the source vectors at sample $i$ \cite[p. 4]{phd}. $\Vert \cdot \Vert_F$ is the Frobenius norm which is a vector norm defined as 
-\begin{align*}
-\Vert \mathbf{A} \Vert_F = \sqrt{\sum_{i=1}^M \sum_{j=1}^N \vert a_{i,j} \vert^2}.
-\end{align*}
-With the MMV model defined as a optimisation problem different dictionary learning algorithm can be used to learn the dictionary $\mathbf{A}$. One of them is the K-SVD algorithm.
-\\ \\
+\section{Dictionary learning}\label{sec:dictionarylearning}
 As clarified in section \ref{sec:dic_conditions} the choice of dictionary matrix $\textbf{A}$ is essential to achieve the best recovery of a sparse signal $\textbf{x}$ from the measurements $\textbf{y}$. Pre-constructed dictionaries do exist which in many cases results in simple and fast algorithms for reconstruction of $\textbf{x}$\cite{Elad_book}. Pre-constructed dictionaries are typically fitted to a specific kind of data, for instance the discrete Fourier transform or the discrete wavelet transform are used especially for sparse representation of images\cite{Elad_book}. Hence the results of using such dictionaries depend on how well they fit the data of interest, which is creating a certain limitation. An alternative is to consider an adaptive dictionary based on a set of training data that resembles the data of interest. For this purpose learning methods are considered to empirically construct a fixed dictionary which can take part in the application. Different dictionary learning algorithms exist, one is the K-SVD which is to be elaborated in this section. The K-SVD algorithm was presented in 2006 by Elad et al. and found to outperform pre-constructed dictionaries when computational cost is of secondary interest\cite{Elad2006}. \\
 \\
 Consider now $\textbf{Y}=\left[ \textbf{y}_1, \dots ,\textbf{y}_L \right]$, $\textbf{y}_i\in \mathbb{R}^{M}$ as a training database, created by $\textbf{y}_i=\textbf{A}\textbf{x}_i$ for which we want to learn the best suitable dictionary $\textbf{A}$ and sparse representation $\textbf{X}=\left[ \textbf{x}_1, \dots ,\textbf{x}_L \right]$, $\textbf{x}_i\in \mathbb{R}^{N}$. For a known sparsity constraint $k$ this can be defined by an optimisation problem similar to the general compressive sensing problem of multiple measurements \cite{Elad_book}
@@ -253,7 +240,7 @@ Consider now $\textbf{Y}=\left[ \textbf{y}_1, \dots ,\textbf{y}_L \right]$, $\te
 \end{align}  
 The learning consist of jointly solving the optimization problem on $\textbf{X}$ and $\textbf{A}$. The uniqueness of $\textbf{A}$ depends on the recovery sparsity condition. As clarified earlier recovery is only possible if $k < M$\cite{phd2015}. Furthermore, consider $\textbf{A}_0$ such that every training signal can be represented by $k_0 < \text{spark}(\textbf{A}_0)/2$ columns of $\textbf{A}_0$, then $\textbf{A}_0$ is a unique dictionary, up to scaling and permutation of columns\cite{Elad_book}\todo{fungerer disse to uniqueness parameter sammen?}. Again the $\ell_0$-norm lead to an NP-hard problem an heuristic methods are need.     
 
-\subsubsection{K-SVD}
+\subsection{K-SVD}
 The dictionary learning algorithm K-SVD is a generalisation of the well known K-means clustering also referred to as vector quantization. In K-means clustering a set of K vectors is learned referred to as mean vectors, each signal sample is then represented by its nearest mean vector. That corresponds to the case with sparsity constrict $k=1$ and the representation reduced to a binary scalar $x={1,0}$. Further instead of computing the mean of $K$ sub-sets the K-SVD algorithm computes the SVD factorisation of the K different sub-matrices that correspond to the K columns of $\textbf{A}$\todo{maybe this should come in the end}.\\
 \\
 The dictionary learning algorithm K-SVD provide an update rule which is applied to each column of $\textbf{A}_0 = \left[ \textbf{a}_0, \hdots , \textbf{a}_N \right] $. Updating first $\textbf{a}_i$ and then the corresponding coefficients in $\textbf{X}$ which it is multiplied with, that is the $i^{\text{th}}$ row in $\textbf{X}$ denoted by $\textbf{x}_i^T$.\\
@@ -282,7 +269,7 @@ where $\textbf{U}$ and $\textbf{V}$ are unitary matrices, i.e. $\textbf{U}^T\tex
 \end{align*} 
 Since the outer product always have rank-1 letting $\textbf{a}_{i_0}=\textbf{u}_1$ and $\textbf{x}_{i_0}^T = \sigma_{i}\textbf{v}_{1}^T$ solves the optimisation problem \eqref{eq:SVD3}.
 However in order to preserve the sparsity in $\textbf{X}$ while optimising, only the non-zero entries in $\textbf{x}_{i_0}^T$ are allowed to vary. For this purpose only a subset of columns in $\textbf{E}_{i_0}$ is considered, those which correspond to the non-zero entries of $\textbf{x}_{i_0}^T$. A matrix $\textbf{P}_{i_0}$ is defined such that $\textbf{x}_{i_0}^{T^{(R)}}=\textbf{x}_{i_0}^T\textbf{P}_{i_0} $ is restricted to contain only the $M_{j_0}$ non-zero entries of $\textbf{x}_{i_0}^T$. By applying SVD to the  sub-matrix $\textbf{E}_{i_0}\textbf{P}_{i_0}$ and updating $\textbf{a}_{i_0}$ and $\textbf{x}_{i_0}^{T^{(R)}}$ the rank-1 approximation is found and the original representation vector is updated as $\textbf{x}_{i_0}^{T}=\textbf{x}_{i_0}^{T^{(R)}}\textbf{P}_{i_0}^{T}$.  \\ \\
-The main steps of K-SVD is described in algorithm \ref{alg:K-SVD}. 
+The main steps of K-SVD is described in algorithm \ref{alg:K_SVD}. 
 
 \begin{algorithm}[H]
 \caption{K-SVD}

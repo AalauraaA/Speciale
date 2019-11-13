@@ -1,4 +1,4 @@
-\section{MSB}\label{sec:M-SBL}
+\section{Multiple Sparse Bayesian Learning (M-SBL)}\label{sec:M-SBL}
 See chapter 2 in PHD.
 \\ \\
 As described in earlier sections, the support set of sources is wish recovered. A way to recover the set is to use sparse bayesian learning (M-SBL) on the MMV model. To insure full recovery some sufficient condition must be applied on the dictionary matrix $\mathbf{A}$ and the sources. 
@@ -30,9 +30,11 @@ As mention in section XX a multiple measurement model (MMV) $\mathbf{Y} \in \mat
 \begin{align*}
 \mathbf{Y} = \mathbf{AX} + \mathbf{E},
 \end{align*}
-models the mixing of a unknown source matrix $\mathbf{X} \in \mathbb{R}^{N \times L}$ with the known (see section \ref{sec:Cov_DL}) mixing matrix $\mathbf{A} \in \mathbb{R}^{M \times N}$ with some additional noise $\mathbf{E} \in \mathbb{R}^{M \times L}$ for $L$ snapshots in time. The goal is to estimate the source matrix $\mathbf{X}$ as sparse as possible.
+models the mixing of a unknown source matrix $\mathbf{X} \in \mathbb{R}^{N \times L}$ with a mixing matrix $\mathbf{A} \in \mathbb{R}^{M \times N}$ and some additional noise $\mathbf{E} \in \mathbb{R}^{M \times L}$ for $L$ snapshots in time. The mixing matrix $\mathbf{A}$ is in this section known and is found with the Cov-DL as described in section XX \todo{Sæt reference ind til Cov-DL}. The non-zeros rows of $\mathbf{X}$ is referred to as the active sources and there are at most $k \leq M$ activations.
 \\
-The non-zero rows ($k \leq M$) of the source matrix $\mathbf{X}$ is referred to as the active sources and most be as small as possible to induce the sparsity of the matrix.
+The goal is to find a source matrix $\mathbf{X}$ which is as sparse as possible to ensure a full recovery of our MMV \eqref{eq:MMV_model}.
+\\ \\
+One way to find the source matrix $\mathbf{X}$ is by finding its estimate, e.g. from the maximum a posterior (MAP) which have priors which induce sparsity of $\mathbf{X}$ given the measurement matrix $\mathbf{Y}$ and mixing matrix $\mathbf{A}$. By maximising the likelihood $p(\mathbf{Y} \vert \mathbf{X})$ and effective solution for an estimate of $\mathbf{X}$ is achieved when $M \ll N$. It is not always the case where $\mathbf{X}$ has a smaller dimensionality than $\mathbf{Y}$ because of the wanted sparsity of $\mathbf{X}$ leading to a matrix of greater dimensionality because of the added zeros. Hence the estimation becomes complicate as the MMV model becomes under-determined -- an infinitely number of solutions with equal likelihoods.
 \\ \\
 As the optimisation problem of the MMV model is NP-hard and not guarantee a global solution we instead rewrite our MMV model in Bayesian framework. By apply an exponential function $\exp(- (\cdot))$ transformation onto our optimisation problem a Gaussian likelihood function $p(\mathbf{Y} \vert \mathbf{X})$ with a $\lambda$-dependent variance is achieved:
 \begin{align*}

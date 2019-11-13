@@ -1,0 +1,135 @@
+\chapter{Extended ICA Algorithms}\label{app:ICA}
+Intro 
+
+\section{Fixed-Point Algorithm - FastICA}
+A fixed-point algorithm to maximise the nongaussianity is more efficient than the gradient algorithm as the gradient algorithm converge slow depending on the choice of $\gamma$. The fixed-point algorithm is an alternative that could be used.
+By using the gradient given in \eqref{eq:kurt} and then set the equation equal with $\mathbf{w}$:
+\begin{align*}
+\mathbf{w} \propto ( \mathbb{E}[\mathbf{y}_{\text{white}}(\mathbf{w}^T \mathbf{y}_{\text{white}})^3] - 3 \Vert \mathbf{w} \Vert^2 \mathbf{w})
+\end{align*}
+By this new equation, the algorithm find $\mathbf{w}$ by simply calculating the right-hand side:
+\begin{align*}
+\mathbf{w} = \mathbb{E}[\mathbf{y}_{\text{white}}(\mathbf{w}^T \mathbf{y}_{\text{white}})^3] - 3 \mathbf{w}
+\end{align*}
+As with the gradient algorithm the fixed-point algorithm do also divide the found $\mathbf{w}$ by its norm. Therefore is $\Vert \mathbf{w} \Vert$ omitted from the equation.
+\\
+Instead of $\gamma$ the fixed-point algorithm compute $\mathbf{w}$ directly from previous $\mathbf{w}$.
+\\ \\
+The fixed-point algorithm have been summed in the following algorithm.
+\begin{algorithm}[H]
+\caption{Fixed-Point Algorithm with Kurtosis}
+\begin{itemize}
+\item[1.] Center the observed data to achieve zero mean
+\item[2.] Whiten the centered data
+\item[3.] Create the initial random vector $\mathbf{w}$ 
+\item[4.] Compute $\mathbf{w} = \mathbb{E}[\mathbf{y}_{\text{white}}(\mathbf{w}^T \mathbf{y}_{\text{white}})^3] - 3 \mathbf{w}$
+\item[5.] Normalise $\mathbf{w} = \frac{\mathbf{w}}{\Vert \mathbf{w} \Vert}$
+\item[6.] Update $\mathbf{w}$
+\item[7.] Repeat until convergence
+\item[8.] Independent components are found as $\mathbf{x} = \mathbf{w} \mathbf{y}_{\text{white}}$
+\end{itemize}
+\end{algorithm}
+The fixed-point algorithm is also called for FastICA as the algorithm has shown to converge fast and reliably, then the current and previous $\mathbf{w}$ laid in the same direction \cite[p. 179]{ICA}. 
+
+\subsection{Negentropy}
+Another measure of nongaussianity is the negentropy which is based  on the differential entropy. The differential entropy $H$ of a random variable/vector $\mathbf{y}$ with density $p_y (\boldsymbol{\theta})$ is defined as
+\begin{align*}
+H(\mathbf{y}) = - \int p_y (\boldsymbol{\theta}) \log (p_y (\boldsymbol{\theta})) \ d\boldsymbol{\theta}.
+\end{align*}
+The entropy describes the information of a random variable. For variables becoming more random the entropy becomes larger, e.g. gaussian random variables have a high entropy, in fact gaussian random variables have the highest entropy among the random variables of the same variance \cite[p. 182]{ICA}.
+\\ \\
+To use the negentropy to define the nongaussianity within random variables, the differential entropy is normalised to obtain a entropy value equal to zero when the random variable is gaussian and non-negative otherwise. The negentropy $J$ is defined as 
+\begin{align*}
+J(\mathbf{y}) = H(\mathbf{y}_{\text{gaus}}) - H(\mathbf{y}),
+\end{align*}
+with $\mathbf{y}_{\text{gaus}}$ being a gaussian random variable of the same covariance and correlation as $\mathbf{y}$ \cite[p. 182]{ICA}.
+\\ \\
+As the kurtosis is sensitive for outliers the negentropy is instead difficult to compute computationally as the negentropy require a estimate of the pdf. Instead it could be an idea to use an approximation of the negentropy.
+ 
+\subsection{Approximation of Negentropy}
+The way to approximate the negentropy is to look at the high-order cumulants using polynomial density expansions such that the approximation could be given as
+\begin{align}\label{eq:approx_1}
+J(y) \approx \frac{1}{12} \mathbb{E}[y^3]^2 + \frac{1}{48} \text{kurt}(y)^2.
+\end{align}
+The random variable $y$ has zero mean and unit variance and the kurtosis is introduced in the approximation. The approximation suffers from nonrobustness with the kurtosis and therefore a more generalised approximation is presented to avoid the nonrobustness.
+\\ \\
+For the generalised approximation the use of expectations of nonquadratic functions is introduced. The polynomial functions $y^3$ and $y^4$ from \eqref{eq:approx_1} are replaced by $G^i$ with $i$ being an index and $G$ being some function. The approximation in \eqref{eq:approx_1} then becomes
+\begin{align*}
+J(y) \approx (\mathbb{E}[G(y)] - \mathbb{E}[G(\nu)])^2.
+\end{align*}
+The choice of $G$ can lead to a better approximation than \eqref{eq:approx_1} and by choosing one which do not grow to fast more robust estimators can be obtained. The choice of $G$ could be the two following functions
+\begin{align*}
+G_1 (y) &= \frac{1}{a_1} \log (\cosh(a_1 y)), \quad 1 \leq a_1 \leq 2 \\
+G_2 (y) &= -\exp \left( \frac{-y^2}{2} \right)
+\end{align*}
+
+
+\subsection{Algorithm with Negentropy}
+As described in section \ref{sec:est_ica} the gradient algorithm is used to maximising negentropy. The gradient of the approximated negentropy is given as
+\begin{align*}
+\mathbf{w} = \gamma \mathbf{y}_{\text{white}} g(\mathbf{w}^T \mathbf{y}_{\text{white}})
+\end{align*}
+with respect to $\mathbf{w}$ and where $\gamma = \mathbb{E}[G(\mathbf{w}^T \mathbf{y}_{\text{white}})] - \mathbb{E}[G(\nu)]$ with $\nu$ being the standardised gaussian random variable. $g$ is the derivative of the nonquadratic function $G$. To omitted the expectation $\gamma$ as we did with the sign of kurtosis, $\gamma$ is estimated as
+\begin{align*}
+\gamma = (G(\mathbf{w}^T \mathbf{y}_{\text{white}}) - \mathbb{E}[G(\nu)]) - \gamma.
+\end{align*}
+For the choice of $g$ the derivative of the functions presented in \eqref{eq:G} could be use to achieve a robust result. Alternative a derivative which correspond to the fourth-power as seen in the kurtosis could be used. The functions $g$ could be
+\begin{align}\label{eq:G}
+g_1 (y) &= \tanh (a_1 y), \quad 1 \leq a_1 \leq 2 \\
+g_2 (y) &= y \exp\left( \frac{-y^2}{2} \right) \nonumber \\
+g_3 (y) &= y^3 \nonumber
+\end{align}
+
+\begin{algorithm}[H]
+\caption{Gradient Algorithm}
+\begin{itemize}
+\item[1.] Center the observed data to achieve zero mean
+\item[2.] Whiten 
+\item[3.] Create the initial random vector $\mathbf{w}$ and the initial value for $\gamma$
+\item[4.] Update
+\begin{align*}
+\mathbf{w} = \gamma \mathbf{y}_{\text{white}} g(\mathbf{w}^T \mathbf{y}_{\text{white}})
+\end{align*}
+\item[5.] Normalise $\mathbf{w}$
+\begin{align*}
+\mathbf{w} = \frac{\mathbf{w}}{\Vert \mathbf{w} \Vert}
+\end{align*}
+\item[6.] Check sign of $\gamma$, if not a known prior, update
+\begin{align*}
+\gamma = (G(\mathbf{w}^T \mathbf{y}_{\text{white}}) - \mathbb{E}[G(\nu)]) - \gamma
+\end{align*}
+\item[7.] Repeat until convergence
+\item[8.] Independent components are found as $\mathbf{x} = \mathbf{w} \mathbf{y}_{\text{white}}$
+\end{itemize}
+\end{algorithm}
+
+\subsection{Fixed-Point Algorithm with Negentropy}
+As described in the section with kurtosis, the fixed-point algorithm removed the learning parameter and compute $\mathbf{w}$ directly:
+\begin{align*}
+\mathbf{w} = \mathbb{E}[\mathbf{z} g(\mathbf{w}^T \mathbf{z})]
+\end{align*}
+\todo{Write the expression from this equation to the on in the algorithm}.
+\begin{algorithm}[H]
+\caption{Fixed-Point Algorithm with Negentropy (FastICA)}
+\begin{itemize}
+\item[1.] Center the observed data to achieve zero mean
+\item[2.] Whiten the centered data
+\item[3.] Create the initial random vector $\mathbf{w}$
+\item[4.] Update
+\begin{align*}
+\mathbf{w} = \mathbb{E}[ \mathbf{y}_{\text{white}} g(\mathbf{w}^T \mathbf{y}_{\text{white}})] - \mathbb{E}[g'(\mathbf{w}^T \mathbf{y}_{\text{white}})] \mathbf{w}
+\end{align*}
+\item[5.] Normalise $\mathbf{w}$
+\begin{align*}
+\mathbf{w} = \frac{\mathbf{w}}{\Vert \mathbf{w} \Vert}
+\end{align*}
+\item[6.] Repeat from 4. until convergence
+\item[7.] Independent components are found as $\mathbf{x} = \mathbf{w} \mathbf{y}_{\text{white}}$
+\end{itemize}
+\end{algorithm}
+
+
+%\paragraph{Notes:}
+%A drawback of ICA is the system must be $N \leq M$ meaning that there must more sensors than sources which is not the case in this project where we look at low density EEG system, $M \leq N$. Furthermore, ICA need that the sources are stationary which is not the nature of EEG that are very much nonstationary \cite[p. 7-8]{PHD}.
+%\\
+%Instead a mixture model of ICA model where we assume that the amount of activation $k$ in $N$ sources are equal to $M$ (sensor). We can used the short time frame of the sources to make them stationary

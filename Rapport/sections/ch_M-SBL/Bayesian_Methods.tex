@@ -15,7 +15,7 @@ The chapter is inspired by \cite{??} \todo{indsæt ref for bayesian phd}.
 }
 
 
-\section{M-SBL Algorithm}
+\section{Maximum a Posterior Estimation}
 \textit{NOTES:
 \begin{itemize}
 \item Finding sparse solutions to our optimisation problem can be view in Bayesian framework. We can find a sparse X by finding its estimates with maximum a posterior (MAP) estimation with use of a fixed and sparsity induced prior. This is also called empirical Bayesian with used a parameterized prior to encourage sparsity.
@@ -45,35 +45,38 @@ E.g. $\mathbf{X}$ could be drawn from a Gaussian prior with zero-mean and covari
 \end{align*}
 with $\lambda = \sigma_E^2 / \sigma_X^2$. With this distribution the estimate of the source matrix $\hat{\mathbf{X}}$ would have a large number of small non-zero coefficients.
 \\ \\
-
-\todo{Kommet her til}
-By apply an exponential function $\exp(- (\cdot))$ transformation onto our optimisation problem a Gaussian likelihood function $p(\mathbf{Y} \vert \mathbf{X})$ with a $\lambda$-dependent variance is achieved:
+By applying an exponential function $\exp(- (\cdot))$ transformation onto our optimisation problem a Gaussian likelihood function $p(\mathbf{Y} \vert \mathbf{X})$ with a $\lambda$-dependent variance is achieved:
 \begin{align*}
 p(\mathbf{Y} \vert \mathbf{X}) \propto \exp \left( - \frac{1}{\gamma} \Vert \mathbf{Y} - \mathbf{AX} \Vert_2^2 \right),
 \end{align*}
-with a prior distribution $p(\mathbf{X}) \propto \exp(- \Vert \mathbf{X} \Vert_0)$. The optimisation problem is the rewritten to
+with a prior distribution $p(\mathbf{X}) \propto \exp(- \Vert \mathbf{X} \Vert_0)$ \cite[p. 137]{??}. The MAP estimation problem is then rewritten to
 \begin{align*}
-\mathbf{X} (\gamma) = \hat{\mathbf{X}} &= \arg \max_{\mathbf{X}} p(\mathbf{Y} \vert \mathbf{X}) p(\mathbf{X}) \\
+\hat{\mathbf{X}} &= \arg \max_{\mathbf{X}} p(\mathbf{Y} \vert \mathbf{X}) p(\mathbf{X}) \\
 &= \arg \max_{\mathbf{X}} \frac{p(\mathbf{Y} \vert \mathbf{X}) p(\mathbf{X})}{p(\mathbf{Y)}} \quad (\text{Bayers Formular}) \\
 &= \arg \max_{\mathbf{X}} p(\mathbf{X} \vert \mathbf{Y}).
 \end{align*}
-$\mathbf{X}$ can then be estimated by the used of maximum a posterior (MAP) estimation \cite[p. 137]{??}.
 
-\subsection{Empirical Bayesian Algorithm}
+\section{Empirical Bayesian Estimation}
+From earlier MAP estimation approaches some problems occurs when using a fixed and algorithm-dependent prior as the posterior is not sparse enough if a prior is not as sparse leading to a non-recovery . In other cases the prior can become to sparse and then lead to a combinatorial problem when looking for the global optima.
+\\
+By using automatic relevance determination (ARD) the problem of using sparse prior can be overcome \todo{Skriv kort her hvad ARD er}.
+\\
+With ARD we start looking at using a empirical prior for the MAP estimation as this prior is flexible and dependent on the unknown hyperparameter $\gamma$.
+\\ \\
 Let $p(\mathbf{Y} \vert \mathbf{X})$ be a Gaussian prior with a known noise variance $\lambda$. Then for each columns in $\mathbf{Y}$ and $\mathbf{X}$ the likelihood is written as
 \begin{align*}
 p(\mathbf{y}_{\cdot j} \vert \mathbf{x}_{\cdot j}) &= \mathcal{N}(\mathbf{Ax}_{.j}, \lambda^2 \mathbf{I}) \\
 &= (2 \pi \lambda)^{-N/2} \exp \left( - \frac{1}{2 \lambda} \Vert \mathbf{y}_{\cdot j} - \mathbf{A} \mathbf{x}_{\cdot j} \Vert_2^2 \right).
 \end{align*}
-The $i$-th row of the sources matrix $\mathbf{X}$, $\mathbf{x}_{i \cdot}$, has an $L$-dimensional independent Gaussian prior with zero mean and a variance controlled by $\gamma_i$ which is unknown:
+With ARD the $i$-th row of the sources matrix $\mathbf{X}$, $\mathbf{x}_{i \cdot}$, is assigned an $L$-dimensional independent Gaussian prior with zero mean and a variance controlled by $\gamma_i$ which is unknown:
 \begin{align*}
-p (\mathbf{x}_{i \cdot} ; \gamma_i) &= \mathcal{N}(0, \gamma_i \mathbf{I})
+p (\mathbf{x}_{i \cdot} ; \gamma_i) &= \mathcal{N}(0, \gamma_i \mathbf{I}).
 \end{align*}
-By combing the two row priors 
+By combing the row priors 
 \begin{align*}
 p (\mathbf{X} \vert \boldsymbol{\gamma}) &= \prod_{j=1}^L p (\mathbf{x}_{ \cdot j} \vert \gamma_i),
 \end{align*}
-a full prior is achieved with the hyperparameter vector $\boldsymbol{\gamma} = [\gamma_1, \dots, \gamma_M]^T$. By combining the full prior and the likelihood the posterior of the $j$-th column of the source matrix $\mathbf{X}$ is defined as
+a full prior of $\mathbf{X}$ is achieved with the hyperparameter vector $\boldsymbol{\gamma} = [\gamma_1, \dots, \gamma_M]^T$. By combining the full prior and the likelihood $p(\mathbf{y}_{\cdot j} \vert \mathbf{x}_{\cdot j})$ the posterior of the $j$-th column of the source matrix $\mathbf{X}$ is defined as
 \begin{align*}
 p(\mathbf{x}_{\cdot j} \vert \mathbf{y}_{\cdot j} ; \boldsymbol{\gamma}) = \frac{p(\mathbf{x}_{\cdot j}, \mathbf{y}_{\cdot j} ; \boldsymbol{\gamma})}{\int p(\mathbf{x}_{\cdot j}, \mathbf{y}_{\cdot j} ; \boldsymbol{\gamma}) \ d \mathbf{x}_{\cdot j}} = \mathcal{N}(\boldsymbol{\mu}_{\cdot j}, \boldsymbol{\Sigma}),
 \end{align*}
@@ -89,7 +92,7 @@ The row sparsity is achieved whenever $\gamma_i = 0$ leading to that the posteri
 P(\mathbf{x}_{i \cdot} = \mathbf{0} \vert \mathbf{Y} ; \gamma_i = 0) = 1,
 \end{align*}
 which ensure that the posterior mean $\mathcal{M}$ of the $i$-th row, $\boldsymbol{\mu}_{i \cdot}$, will be zero. Instead of estimating our source matrix $\mathbf{X}$ we instead estimate the hyperparameter $\gamma_i$.
-\\
+\\ \\
 Each of the hyperparameters $\gamma_i$ correspond to different hypothesis for the prior distribution of the underlying generation of $\mathbf{Y}$. Therefore the determining of $\gamma_i$ must be seen as a model selection in with we can use the empirical Bayesian stragetry. This evolve the task of treating the unknown source matrix $\mathbf{X}$ as nuisance\todo{pestilens, plage, gene -- de brugte dette ord i phden} parameters and integrating them out.
 \\
 By integrating the unknown sources $\mathbf{X}$ the marginal likelihood of the observed mixed data $\mathbf{Y}$, $p (\mathbf{Y} ; \gamma)$ is achieved \cite[p. 146]{??}. By applying the $-2 \log (\cdot)$ transformation the marginal likelihood function is transformed to the cost function

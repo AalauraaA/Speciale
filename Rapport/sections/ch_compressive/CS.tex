@@ -207,7 +207,7 @@ Substituting \eqref{eq:L9_7} into \eqref{eq:L9_6} and dividing by $\Vert \textbf
 %This includes at first the null space condition, a property of the $A$ matrix which is hard to check in practise. 
 %The Restricted isometry condition is a stronger condition concerning the orthogonality of the matrix. Furthermore the coherence of a matrix is a measure of quality and is used to determine whether the matrix $A$ is a good choice for the optimisation problem.\\    
 
-\subsection{Multiple Measurement Vector Model}
+\subsection{Multiple Measurement Vector Model}\label{sec:MMV}
 The linear model \eqref{eq:SMV_model} is also referred to as a single measurement vector (SMV) model. In order to adapt the model \eqref{eq:SMV_model} to a practical use the model is expanded to include multiple measurement vectors and take noise into account.
 \\ \\
 A multiple measurement vector (MMV) model consist of the observed measurement matrix $\mathbf{Y} \in \mathbb{R}^{M \times L}$, the source matrix $\mathbf{X} \in \mathbb{R}^{N \times L}$, the dictionary matrix $\mathbf{A} \in \mathbb{R}^{M \times N}$ and the noise vector $\textbf{E} \in \mathbb{R}^{M \times L}$:
@@ -232,8 +232,6 @@ This result lead to that row-sparse matrix $\mathbf{X}$ with large rank can be r
 
 
 \subsection{Dictionary learning}\label{sec:dictionarylearning}
-<<<<<<< HEAD
-\subsubsection{Dictionary learning}\label{sec:dictionarylearning}
 In cases where the dictionary is unknown it is possible to learn the dictionary from the observed measurement provided that several observations are available $\textbf{Y}=\left[ \textbf{y}_1, \dots ,\textbf{y}_L \right]$. 
 In dictionary learning framework the inverse problem is defined as
 \begin{align*}

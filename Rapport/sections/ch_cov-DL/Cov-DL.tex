@@ -99,8 +99,8 @@ From \eqref{eq:cov1} we now have a problem with $N$ unknowns in the sample covar
 The Cov-DL method consists of two different algorithms for  recovery of $\mathbf{D}$ and $\mathbf{A}$ depending on the number of total sources $N$ relative to the number of observations $M$. 
 
 \subsubsection*{Cov-DL1 -- Over-complete \textbf{D}}
-The case where $N > \frac{M(M+1)}{2}$ results in an over-complete system similar to the original system being over-complete when $N>M$. 
-Though, it is again possible to solve the over-complete system if certain sparsity is withhold. Namely $\boldsymbol{\delta}_s$ being $\frac{M(M+1)}{2}$-sparse. Note that this sparsity constraint is  weaker than the original constraint $k < M$, which allows for identification of remarkably more sources than within the original domain as it is not necessarily violated when $k > M$.
+The case where $N > \frac{M(M+1)}{2}$ results in an under-determined system similar to the original system being under-determined when $N>M$. 
+Though, it is again possible to solve the under-determined system if certain sparsity is withhold. Namely $\boldsymbol{\delta}_s$ being $\frac{M(M+1)}{2}$-sparse. Note that this sparsity constraint is  weaker than the original constraint $k < M$, as it allows for identification of remarkably more sources than within the original domain as it is not necessarily violated when $k > M$.
 Assuming a sufficient sparsity on $\boldsymbol{\delta}_s$ it is possible to learn the dictionary matrix of the covariance domain $\mathbf{D}$ by traditional dictionary learning methods, as introduced in section \ref{sec:dictionarylearning}, applied to the observations represented in the covariance domain $\text{vec}(\boldsymbol{\Sigma}_{\mathbf{Y}_s})$ for all $s$. When $\mathbf{D}$ is known it is possible to find the original mixing matrix $\mathbf{A}$ through the relation $\mathbf{d}_i = \text{vec}(\mathbf{a}_i \mathbf{a}_i^T)$.
 \\
 To do so each column is found by the optimisation problem 
@@ -133,7 +133,7 @@ and $\textbf{b}_i$ is the corresponding eigenvector.\todo{redegørelse for resul
 
 
 \subsubsection*{Cov-DL2 -- undercomplete \textbf{D}}
-
+\todo{kan ve udelade denne med det argument at vi altid vil finde så mange sources som muligt. fordi vi ikke ved hvor mange der der }
 
 
 

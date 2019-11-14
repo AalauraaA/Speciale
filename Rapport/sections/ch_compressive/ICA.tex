@@ -102,7 +102,7 @@ By the additive property of kurtosis
 Then the assumption of the independent components having unit variance results in $\mathbb{E}[x_j]= \sum_{i=1}q_i^2=1$\todo{hvordan kommer dette frem?}. That is geometrically that $\textbf{q}$ is constraint to the unit sphere, $\| \textbf{q}\|^2 = 1$. By this the optimisation problem of maximising the kurtosis of $\textbf{b}_{j}^T \textbf{y}$ is similar to maximizing $\vert \text{kurt}(x_j)\vert = \vert \sum_{i=1}q_i^4\text{kurt}(x_i) \vert $ on the unit sphere.\\
 Due to the described preprocessing $\textbf{b}$ is assumed to be white and it can be shown that $\Vert \textbf{q} \Vert = \Vert \textbf{b}_j \Vert $\cite[p. 174]{ICA}. This show that constraining   $\Vert \textbf{q} \Vert$ to one is similar to constraining $\Vert \textbf{b}_j \Vert$ to one. 
 
-\subsection{The Gradient Algorithm with Kurtosis}
+\subsection{The Gradient Algorithm with Kurtosis}\label{sec:gra_kur}
 In practise, to recover the mixing matrix $\textbf{A}$ by maximizing the kurtosis of $\textbf{b}_{j}^T \textbf{y}$, gradient optimisation methods are used.\\
 The general idea behind a gradient algorithm is to determine the direction for which $\text{kurt}(\textbf{b}_{j}^T \textbf{y})$ is growing the most, based on the gradient. \\
 
@@ -115,7 +115,7 @@ As $\mathbb{E}[(\textbf{b}_{j}^T \textbf{y})^2] =\Vert \mathbf{y} \Vert^2)$ for 
 \Delta &\textbf{b}_j \propto \text{sign}\left( \text{kurt}(\textbf{b}_{j}^T \textbf{y}) \right) \mathbb{E}[\textbf{y}(\textbf{b}_{j}^T \textbf{y})^3] \\
 \textbf{b}_j &\leftarrow \textbf{b}_j/\Vert \textbf{b}_j \Vert
 \end{align*}  
-The expectation operator can be omitted in order to achieve an adaptive version of the algorithm, now using every measurement $\textbf{y}$. However, the expectation operator from the definition of kurtosis can not be omitted and must therefore be estimated. This can be done by a time-average estimate, denoted as $\gamma$:
+The expectation operator can be omitted in order to achieve an adaptive version of the algorithm, now using every measurement $\textbf{y}$. However, the expectation operator from the definition of kurtosis can not be omitted and must therefore be estimated. This can be done by a time-average estimate, denoted as $\gamma$ and serving as the learning rate of the gradient method.
 \begin{align*}
 \Delta \gamma \propto((\textbf{b}_{j}^T \textbf{y})^4 - 3) - \gamma
 \end{align*}

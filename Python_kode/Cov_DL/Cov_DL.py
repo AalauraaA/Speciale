@@ -15,13 +15,13 @@ import matplotlib.pyplot as plt
 from dictionary_learning import K_SVD
 from sklearn.datasets import make_sparse_coded_signal
 
-np.random.seed(0)
+np.random.seed(1)
 
 """ Random generated data """
 # INITIALISING PARAMETERS
-m = 3              # number of sensors
+m = 6              # number of sensors
 n = 8               # number of sources
-non_zero = 5        # max number of non-zero coef. in rows of X
+non_zero = 6        # max number of non-zero coef. in rows of X
 n_samples = 20      # number of sampels
 
 # RANDOM GENERATION OF SPARSE DATA
@@ -40,15 +40,15 @@ Y, A_real, X_real = make_sparse_coded_signal(n_samples=n_samples,
 #s3 = signal.sawtooth(2 * np.pi * time)      # saw tooth signal
 #s4 = np.sin(4 * time)                       # another sinusoidal
 #zero_row = np.zeros(n_samples)
-
-# Column concatenation
+#
+## Column concatenation
 #X_real = np.c_[s1, zero_row, zero_row, s2, zero_row, s3, zero_row, s4].T
 #n = len(X_real)
 #m = 6
-#non_zero = 6
+#non_zero = 7
 #A_real = np.random.random((m, n))                 # Random mix matrix
 #Y = np.dot(A_real, X_real)                        # Observed signal
-
+#
 
 " Rossler Data"
 #from Rossler_copy import Generate_Rossler  # import rossler here
@@ -105,7 +105,7 @@ for i in range(n_seg):
     vec_Y = vec_Y.reshape(len(vec_Y),n_samples)
     # Dictionary learning
     D, sigma, iter_ = K_SVD(vec_Y, n=len(sigma), m=len(vec_Y),
-                                 non_zero=len(vec_Y), n_samples=n_samples,
+                                 non_zero=non_zero, n_samples=n_samples,
                                  max_iter=100)
     print(D.shape,sigma.shape)
     # results for the large system
@@ -152,45 +152,53 @@ for i in range(n_seg):
     
     
 """ prediction of X """
-#def M_SBL(A, Y, n_seg, iterations = 100):
-M = m
-L = S
-N = n
-gamma = np.ones([n_seg, N, 1])
-g = np.ones([n_seg, N, 1])
-lam = np.ones(N)                 # size N x 1
-mean = np.zeros([n_seg, N, L])
-for seg in range(1):
-    Gamma = np.diag(gamma[seg])       # size iterations x 1
-    Mu = 0                            # size N x L
-    Sigma = 0                         # size N x L        
-    for i in range(N):           
-        " Making Sigma and Mu "
-        inv = np.linalg.inv(lam[i] * np.identity(M) + (A_rec[seg].dot(Gamma * A_rec[seg].T)))
-        Sigma = Gamma - Gamma * (A_rec[seg].T.dot(inv)).dot(A_rec[seg]) * Gamma
-        Mu = Gamma * (A_rec[seg].T.dot(inv)).dot(Ys[seg])
-        mean[seg] = Mu
-        
-        " Making the noise variance/trade-off parameter lambda of p(Y|X)"
-        lam_num = 1/L * np.linalg.norm(Ys[seg] - A_rec[seg].dot(Mu), ord = 'fro')  # numerator
-        lam_for = 0
-        for j in range(N):
-            lam_for += Sigma[j][j] / gamma[seg][j]
-        lam_den = M - N + lam_for                      # denominator
-        lam[i] =  lam_num / lam_den
-   
-        " Update gamma with EM and with M being Fixed-Point"
-        gam_num = 1/L * np.linalg.norm(Mu[i])
-        gam_den = 1 - gamma[seg][i] * Sigma[i][i]
-        g[seg][i] = gam_num/gam_den
-    gamma[seg] = g[seg]
-
+def M_SBL_Seg(A, Y, m, n, n_seg, non_zero, n_samples):
+    gamma = np.ones([n_seg, n, 1])        # size n_seg x N x 1
+    lam = np.ones(n)                      # size N x 1
+    mean = np.zeros([n_seg, n, S])        # size n_seg x N x L
+    
+    for seg in range(n_seg):
+        Gamma = np.diag(gamma[seg])       # size 1 x 1
+        Sigma = 0                         # size N x L        
+        for i in range(n):   
+            " Making Sigma and Mean "
+            sig = lam[i] * np.identity(m) + (A[seg].dot(Gamma * A[seg].T))
+            inv = np.linalg.inv(sig)
+            Sigma = Gamma - Gamma * (A[seg].T.dot(inv)).dot(A[seg]) * Gamma
+            mean[seg] = Gamma * (A[seg].T.dot(inv)).dot(Y[seg])
             
-#    return mean
+            " Making the noise variance/trade-off parameter lambda of p(Y|X)"
+            lam_num = 1/S * np.linalg.norm(Y[seg] - A[seg].dot(mean[seg]), 
+                                           ord = 'fro')  # numerator
+            lam_for = 0
+            for j in range(n):
+                lam_for += Sigma[j][j] / gamma[seg][j]
+            lam_den = m - n + lam_for                    # denominator
+            lam[i] =  lam_num / lam_den
+       
+            " Update gamma with EM and with M being Fixed-Point"
+            gam_num = 1/S * np.linalg.norm(mean[seg][i])
+            gam_den = 1 - gamma[seg][i] * Sigma[i][i]
+            gamma[seg][i] = gam_num/gam_den 
 
-#X_rec = M_SBL(A_rec, Ys, n_seg, iterations = 100)
+######################## IKKE FÆRDIGT ########################################        
+#    support = np.zeros([n_seg, non_zero, 1])
+#    gam = gamma[seg]
+#    for l in range(non_zero):
+#        if gamma[seg][np.argmax(gamma[seg])] != 0:
+#            support[seg][l] = np.argmax(gamma[seg])
+#        else:
+#            gamma[seg][np.argmax(gamma[seg])] = 0
+#
+#    New_mean = np.zeros([n_seg, n, S])
+#    for i in support[seg]:
+#        New_mean[seg][int(i)] = mean[seg][int(i)]
+##############################################################################
+    return mean
 
-""" Plot """
+X_rec = M_SBL_Seg(A_rec, Ys, m, n, n_seg, non_zero, S)
+#
+#""" Plot """
 #plt.figure(1)
 #plt.subplot(3, 1, 1)
 #plt.plot(seg_time[0], Ys[0].T)
@@ -202,13 +210,14 @@ for seg in range(1):
 #plt.xlabel('[sec.]')
 #plt.title("real sources")
 #
-
-plt.figure(2)
-plt.plot(Xs[0][1])
-plt.plot(mean[0][1])
-plt.show
-
+#
+#plt.figure(2)
+#plt.plot(Xs[0].T[2])
+#plt.plot(X_rec[0].T[2])
+#plt.show
+#
 #plt.subplot(3,1,3)
 #plt.plot(predicted_X)
 #plt.title("predicted sources")
 #plt.show()
+#

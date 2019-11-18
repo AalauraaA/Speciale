@@ -66,7 +66,7 @@ Y, A_real, X_real = make_sparse_coded_signal(n_samples=n_samples,
 #
 #
 ## PERFORM DICTIONARY LEARNING
-A, X, iter_= K_SVD(Y, n, m, non_zero, n_samples, A_real, max_iter=1000)
+A, X, iter_= K_SVD(Y, n, m, non_zero, n_samples, max_iter=1000)
 
 Y_rec = np.matmul(A,X)
 

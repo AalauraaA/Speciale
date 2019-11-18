@@ -8,6 +8,9 @@ import numpy as np
 from scipy import signal
 from sklearn.datasets import make_sparse_coded_signal
 import matplotlib.pyplot as plt
+
+from Cov_DL.dictionary_learning import K_SVD
+np.random.seed(1)
 """
 Algorithm Summary:
 Given Y and a dictionary A 
@@ -42,6 +45,7 @@ Y, A, X = make_sparse_coded_signal(n_samples=n_samples,
                                    n_features=m,
                                    n_nonzero_coefs=non_zero,
                                    random_state=0)
+
 
 " One type of signals "
 #time = np.linspace(0, duration, n_samples)  # 8 seconds, with n_samples
@@ -97,13 +101,22 @@ def M_SBL(A, Y, iterations = 10):
             
     return gamma, mean
 
-test, middel = M_SBL(A, Y)
+gam, X_new = M_SBL(A, Y)
+X_err = np.zeros(len(X))
+for i in range(len(X)):
+    X_err[i] = np.linalg.norm(X[i] - X_new[i])
 
-plt.figure(1)
-plt.plot(X[0])
-plt.plot(middel[0])
-plt.show
 
-plt.figure(2)
-plt.plot(X[5])
-plt.plot(middel[5])
+#
+#plt.figure(1)
+#plt.plot(X[0])
+#plt.plot(X_new[0])
+#plt.show
+#
+#plt.figure(2)
+#plt.plot(X[5])
+#plt.plot(X_new[5])
+#
+#plt.figure(3)
+#plt.plot(X)
+#plt.plot(X_new)

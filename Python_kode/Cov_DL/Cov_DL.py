@@ -14,14 +14,15 @@ from scipy import signal
 import matplotlib.pyplot as plt
 from dictionary_learning import K_SVD
 from sklearn.datasets import make_sparse_coded_signal
+
 np.random.seed(0)
 
 """ Random generated data """
 # INITIALISING PARAMETERS
-m = 6               # number of sensors
+m = 3              # number of sensors
 n = 8               # number of sources
-non_zero = 4        # max number of non-zero coef. in rows of X
-n_samples = 60      # number of sampels
+non_zero = 5        # max number of non-zero coef. in rows of X
+n_samples = 20      # number of sampels
 
 # RANDOM GENERATION OF SPARSE DATA
 Y, A_real, X_real = make_sparse_coded_signal(n_samples=n_samples,
@@ -29,9 +30,6 @@ Y, A_real, X_real = make_sparse_coded_signal(n_samples=n_samples,
                                    n_features=m,
                                    n_nonzero_coefs=non_zero,
                                    random_state=0)
-
-
-
 
 """ generation of data - Linear Mixture Model Ys = A * Xs """
 #n_samples = 100
@@ -153,23 +151,62 @@ for i in range(n_seg):
     print('dictionary error %f'%(A_err))
     
     
-
 """ prediction of X """
+#def M_SBL(A, Y, n_seg, iterations = 100):
+M = m
+L = S
+N = n
+gamma = np.ones([n_seg, N, 1])
+g = np.ones([n_seg, N, 1])
+lam = np.ones(N)                 # size N x 1
+mean = np.zeros([n_seg, N, L])
+for seg in range(1):
+    Gamma = np.diag(gamma[seg])       # size iterations x 1
+    Mu = 0                            # size N x L
+    Sigma = 0                         # size N x L        
+    for i in range(N):           
+        " Making Sigma and Mu "
+        inv = np.linalg.inv(lam[i] * np.identity(M) + (A_rec[seg].dot(Gamma * A_rec[seg].T)))
+        Sigma = Gamma - Gamma * (A_rec[seg].T.dot(inv)).dot(A_rec[seg]) * Gamma
+        Mu = Gamma * (A_rec[seg].T.dot(inv)).dot(Ys[seg])
+        mean[seg] = Mu
+        
+        " Making the noise variance/trade-off parameter lambda of p(Y|X)"
+        lam_num = 1/L * np.linalg.norm(Ys[seg] - A_rec[seg].dot(Mu), ord = 'fro')  # numerator
+        lam_for = 0
+        for j in range(N):
+            lam_for += Sigma[j][j] / gamma[seg][j]
+        lam_den = M - N + lam_for                      # denominator
+        lam[i] =  lam_num / lam_den
+   
+        " Update gamma with EM and with M being Fixed-Point"
+        gam_num = 1/L * np.linalg.norm(Mu[i])
+        gam_den = 1 - gamma[seg][i] * Sigma[i][i]
+        g[seg][i] = gam_num/gam_den
+    gamma[seg] = g[seg]
 
+            
+#    return mean
 
-
+#X_rec = M_SBL(A_rec, Ys, n_seg, iterations = 100)
 
 """ Plot """
-plt.figure(1)
-plt.subplot(3, 1, 1)
-plt.plot(seg_time[0], Ys[0].T)
-plt.xlabel('[sec.]')
-plt.title("Measurements")
+#plt.figure(1)
+#plt.subplot(3, 1, 1)
+#plt.plot(seg_time[0], Ys[0].T)
+#plt.xlabel('[sec.]')
+#plt.title("Measurements")
+#
+#plt.subplot(3, 1, 3)
+#plt.plot(seg_time[0], Xs[0].T)
+#plt.xlabel('[sec.]')
+#plt.title("real sources")
+#
 
-plt.subplot(3, 1, 3)
-plt.plot(seg_time[0], Xs[0].T)
-plt.xlabel('[sec.]')
-plt.title("real sources")
+plt.figure(2)
+plt.plot(Xs[0][1])
+plt.plot(mean[0][1])
+plt.show
 
 #plt.subplot(3,1,3)
 #plt.plot(predicted_X)

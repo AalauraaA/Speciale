@@ -14,14 +14,15 @@ from scipy import signal
 import matplotlib.pyplot as plt
 from dictionary_learning import K_SVD
 from sklearn.datasets import make_sparse_coded_signal
-np.random.seed(0)
+
+np.random.seed(1)
 
 """ Random generated data """
 # INITIALISING PARAMETERS
-m = 6               # number of sensors
+m = 6              # number of sensors
 n = 8               # number of sources
-non_zero = 4        # max number of non-zero coef. in rows of X
-n_samples = 60      # number of sampels
+non_zero = 6        # max number of non-zero coef. in rows of X
+n_samples = 20      # number of sampels
 
 # RANDOM GENERATION OF SPARSE DATA
 Y, A_real, X_real = make_sparse_coded_signal(n_samples=n_samples,
@@ -29,9 +30,6 @@ Y, A_real, X_real = make_sparse_coded_signal(n_samples=n_samples,
                                    n_features=m,
                                    n_nonzero_coefs=non_zero,
                                    random_state=0)
-
-
-
 
 """ generation of data - Linear Mixture Model Ys = A * Xs """
 #n_samples = 100
@@ -42,15 +40,15 @@ Y, A_real, X_real = make_sparse_coded_signal(n_samples=n_samples,
 #s3 = signal.sawtooth(2 * np.pi * time)      # saw tooth signal
 #s4 = np.sin(4 * time)                       # another sinusoidal
 #zero_row = np.zeros(n_samples)
-
-# Column concatenation
+#
+## Column concatenation
 #X_real = np.c_[s1, zero_row, zero_row, s2, zero_row, s3, zero_row, s4].T
 #n = len(X_real)
 #m = 6
-#non_zero = 6
+#non_zero = 7
 #A_real = np.random.random((m, n))                 # Random mix matrix
 #Y = np.dot(A_real, X_real)                        # Observed signal
-
+#
 
 " Rossler Data"
 #from Rossler_copy import Generate_Rossler  # import rossler here
@@ -107,7 +105,7 @@ for i in range(n_seg):
     vec_Y = vec_Y.reshape(len(vec_Y),n_samples)
     # Dictionary learning
     D, sigma, iter_ = K_SVD(vec_Y, n=len(sigma), m=len(vec_Y),
-                                 non_zero=len(vec_Y), n_samples=n_samples,
+                                 non_zero=non_zero, n_samples=n_samples,
                                  max_iter=100)
     print(D.shape,sigma.shape)
     # results for the large system
@@ -153,25 +151,73 @@ for i in range(n_seg):
     print('dictionary error %f'%(A_err))
     
     
-
 """ prediction of X """
+def M_SBL_Seg(A, Y, m, n, n_seg, non_zero, n_samples):
+    gamma = np.ones([n_seg, n, 1])        # size n_seg x N x 1
+    lam = np.ones(n)                      # size N x 1
+    mean = np.zeros([n_seg, n, S])        # size n_seg x N x L
+    
+    for seg in range(n_seg):
+        Gamma = np.diag(gamma[seg])       # size 1 x 1
+        Sigma = 0                         # size N x L        
+        for i in range(n):   
+            " Making Sigma and Mean "
+            sig = lam[i] * np.identity(m) + (A[seg].dot(Gamma * A[seg].T))
+            inv = np.linalg.inv(sig)
+            Sigma = Gamma - Gamma * (A[seg].T.dot(inv)).dot(A[seg]) * Gamma
+            mean[seg] = Gamma * (A[seg].T.dot(inv)).dot(Y[seg])
+            
+            " Making the noise variance/trade-off parameter lambda of p(Y|X)"
+            lam_num = 1/S * np.linalg.norm(Y[seg] - A[seg].dot(mean[seg]), 
+                                           ord = 'fro')  # numerator
+            lam_for = 0
+            for j in range(n):
+                lam_for += Sigma[j][j] / gamma[seg][j]
+            lam_den = m - n + lam_for                    # denominator
+            lam[i] =  lam_num / lam_den
+       
+            " Update gamma with EM and with M being Fixed-Point"
+            gam_num = 1/S * np.linalg.norm(mean[seg][i])
+            gam_den = 1 - gamma[seg][i] * Sigma[i][i]
+            gamma[seg][i] = gam_num/gam_den 
 
+######################## IKKE FÆRDIGT ########################################        
+#    support = np.zeros([n_seg, non_zero, 1])
+#    gam = gamma[seg]
+#    for l in range(non_zero):
+#        if gamma[seg][np.argmax(gamma[seg])] != 0:
+#            support[seg][l] = np.argmax(gamma[seg])
+#        else:
+#            gamma[seg][np.argmax(gamma[seg])] = 0
+#
+#    New_mean = np.zeros([n_seg, n, S])
+#    for i in support[seg]:
+#        New_mean[seg][int(i)] = mean[seg][int(i)]
+##############################################################################
+    return mean
 
-
-
-""" Plot """
-plt.figure(1)
-plt.subplot(3, 1, 1)
-plt.plot(seg_time[0], Ys[0].T)
-plt.xlabel('[sec.]')
-plt.title("Measurements")
-
-plt.subplot(3, 1, 3)
-plt.plot(seg_time[0], Xs[0].T)
-plt.xlabel('[sec.]')
-plt.title("real sources")
-
+X_rec = M_SBL_Seg(A_rec, Ys, m, n, n_seg, non_zero, S)
+#
+#""" Plot """
+#plt.figure(1)
+#plt.subplot(3, 1, 1)
+#plt.plot(seg_time[0], Ys[0].T)
+#plt.xlabel('[sec.]')
+#plt.title("Measurements")
+#
+#plt.subplot(3, 1, 3)
+#plt.plot(seg_time[0], Xs[0].T)
+#plt.xlabel('[sec.]')
+#plt.title("real sources")
+#
+#
+#plt.figure(2)
+#plt.plot(Xs[0].T[2])
+#plt.plot(X_rec[0].T[2])
+#plt.show
+#
 #plt.subplot(3,1,3)
 #plt.plot(predicted_X)
 #plt.title("predicted sources")
 #plt.show()
+#

@@ -10,8 +10,6 @@ from scipy import signal
 import matplotlib.pyplot as plt
 from sklearn.linear_model import orthogonal_mp
 
-# functions to include in K-SVD
-
 
 def K_SVD(Y, n, m, non_zero, n_samples, max_iter=100, stop=0.005):
     """

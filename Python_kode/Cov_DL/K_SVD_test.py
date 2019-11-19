@@ -14,7 +14,7 @@ np.random.seed(1)
 
 # INITIALISING PARAMETERS
 m = 6               # number of sensors
-n = 8              # number of sources
+n = 8               # number of sources
 non_zero = 5        # max number of non-zero coef. in rows of X
 n_samples = 20      # number of sampels
 

@@ -16,9 +16,9 @@ np.random.seed(1)
 # =============================================================================
 # Import data
 # =============================================================================
-m = 15               # number of sensors
-n = 35               # number of sources
-non_zero = 20        # max number of non-zero coef. in rows of X
+m = 35               # number of sensors
+n = 15               # number of sources
+non_zero = 10        # max number of non-zero coef. in rows of X
 n_samples = 20       # number of sampels
 duration = 8
 
@@ -81,19 +81,29 @@ n_mix = len(A_mix.T)
 X_Rec_mix = M_SBL(A_mix, Y_mix, m_mix, n_mix, n_samples)
 X_Rec_ran = M_SBL(A_ran, Y_ran, m, n, n_samples)
 
-plt.figure(1)
-plt.plot(X_mix.T[5])
-plt.plot(X_Rec_mix.T[5])
-plt.show
+Y_ros, A_ros, X_ros = data_generation.rossler_data(n_sampels=1940)
+
+n_ros = len(X_ros)
+m_ros = 8
+X_Rec_ros = M_SBL(A_ros, Y_ros, m_ros, n_ros, n_samples=1940)
+
+#plt.figure(1)
+#plt.plot(X_mix[0], 'r')
+#plt.plot(X_Rec_mix[0], 'g')
+#plt.show
 
 plt.figure(2)
-plt.plot(X_ran.T[5])
-plt.plot(X_Rec_ran.T[5])
+plt.plot(X_ran[0], 'r')
+plt.plot(X_Rec_ran[0], 'g')
 plt.show
 
-# =============================================================================
-# Segmenteret M-SBL
-# =============================================================================
+#plt.figure(3)
+#plt.plot(X_ros[0], 'r')
+#plt.plot(X_Rec_ros[0], 'g')
+#plt.show
+## =============================================================================
+## Segmenteret M-SBL
+## =============================================================================
 #def M_SBL_Seg(A, Y, m, n, n_seg, non_zero, n_samples):
 #    gamma = np.ones([n_seg, n, 1])        # size n_seg x N x 1
 #    lam = np.ones(n)                      # size N x 1

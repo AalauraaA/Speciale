@@ -28,8 +28,9 @@ n_samples = 20      # number of sampels
 
 """ DATA GENERATION """
 
-#Y, A_real, X_real = data_generation.mix_signals(n_sampels, 10)
-Y, A_real, X_real = data_generation.random_sparse_data(m, n, non_zero, n_samples)
+Y, A_real, X_real = data_generation.mix_signals(n_samples, 10)
+#A_real = A_real/np.linalg.norm(A_real, ord=2, axis=0, keepdims=True)
+#Y, A_real, X_real = data_generation.random_sparse_data(m, n, non_zero, n_samples)
 
 """ SEGMENTATION """
 L = 5               # number of sampels in one segment 
@@ -95,8 +96,9 @@ for j in range(n):
     max_vec = V[:, index[0]]        # using the column as eigen vector here
     temp = np.sqrt(max_eig)*max_vec
     A_rec.T[j] = temp.T
-    
 
+ 
+#A_rec = A_rec/np.linalg.norm(A_rec, ord=2, axis=0, keepdims=True)
 A_err = np.linalg.norm(A_real-A_rec)
     
 print('Dictionary error %f'%(A_err))
@@ -106,30 +108,30 @@ print('Dictionary error %f'%(A_err))
 # =============================================================================
 # Without Segmentation M-SBL Algorithm
 # =============================================================================
-iterations = 1000
-n_samples = 20
-A = A_rec
-#def M_SBL(A, Y, m, n, n_samples):
-gamma = np.ones([iterations, n,1])   # size iterations x n x 1
-lam = np.zeros(n)                    # size N x 1
-mean = np.zeros(n)
-Sigma = 0                            # size N x L   
-for k in range(iterations):
-    Gamma = np.diag(gamma[k])        # size N x 1
-    for i in range(n):   
-        " Making Sigma and Mu "
-        sig = lam[i] * np.identity(m) + (A.dot(Gamma * A.T))
-        inv = np.linalg.inv(sig)
-        Sigma = Gamma - Gamma * (A.T.dot(inv)).dot(A) * Gamma
-        mean = Gamma * (A.T.dot(inv)).dot(Y)
-        
-        " Making the noise variance/trade-off parameter lambda of p(Y|X)"
-        lam_num = 1/n_samples * np.linalg.norm(Y - A.dot(mean), 
-                                               ord = 'fro')  # numerator
-        lam_for = 0
-        for j in range(n):
-            lam_for += Sigma[j][j] / gamma[k][j]
-        lam_den = m - n + lam_for                            # denominator
+#iterations = 1000
+#n_samples = 20
+#A = A_rec
+##def M_SBL(A, Y, m, n, n_samples):
+#gamma = np.ones([iterations, n,1])   # size iterations x n x 1
+#lam = np.zeros(n)                    # size N x 1
+#mean = np.zeros(n)
+#Sigma = 0                            # size N x L   
+#for k in range(iterations):
+#    Gamma = np.diag(gamma[k])        # size N x 1
+#    for i in range(n):   
+#        " Making Sigma and Mu "
+#        sig = lam[i] * np.identity(m) + (A.dot(Gamma * A.T))
+#        inv = np.linalg.inv(sig)
+#        Sigma = Gamma - Gamma * (A.T.dot(inv)).dot(A) * Gamma
+#        mean = Gamma * (A.T.dot(inv)).dot(Y)
+#        
+#        " Making the noise variance/trade-off parameter lambda of p(Y|X)"
+#        lam_num = 1/n_samples * np.linalg.norm(Y - A.dot(mean), 
+#                                               ord = 'fro')  # numerator
+#        lam_for = 0
+#        for j in range(n):
+#            lam_for += Sigma[j][j] / gamma[k][j]
+#        lam_den = m - n + lam_for                            # denominator
 #        lam[i] =  lam_num / lam_den
 #       
 #        " Update gamma with EM and with M being Fixed-Point"

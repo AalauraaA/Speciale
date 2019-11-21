@@ -5,7 +5,7 @@ Y = AX,
 \end{align*}
 with $Y \in \mathbb{R}^{m \times L}$ being a known measurement matrix, $A \in \mathbb{R}^{m \times n}$ a known mixing matrix and $X \in \mathbb{R}^{n \times L}$ being the source matrix we wish to recover in this case.
 \\
-The known matrices $Y$ and $A$ has been generated from a \texttt{sklearn}-package in Python. The commando used from this package is the \texttt{make\_sparse\_coded\_signal} with the inputs \texttt{(n\_samples = L, n\_components = n, n\_features = m, n\_nonzero\_coefs = k, random\_state=0)}. The function generate a signal as a sparse combination of dictionary elements.
+The known matrices $Y$ and $A$ has been generated from a \texttt{sklearn}-package in Python. The commando used from this package is the \texttt{make\_sparse\_coded\_signal} with the inputs \texttt{(n\_samples = L, n\_components = n, n\_features = m, n\_nonzero\_coefs = k)}. The function generate a signal as a sparse combination of dictionary elements.
 \\
 The source matrix wish recovered $X$ is also generated from this function and will be used to be compared with the recovered/estimated source matrix $X_{cal}$. $X_{cal}$ will be recovered with the M-SBL Algorithm with the following variables: 
 \begin{itemize}

@@ -73,12 +73,16 @@ def mix_signals(n_samples, duration, m):
     
     return Y, A, X
 
-def rossler_data(n_sampels=1940):
+def rossler_data(n_sampels=1940, ex = 1, m=8):
     """
     - denne skal måske opdaters så vi kan vi kan ændre dimensioner 
     
     Generate rossler data with 
+    ex = 1 
     m = 8, n = 10, k = 6
+    
+    ex = 2 
+    m = 8, n = 16, k = 10 
     
     INPUT: n_sampels -> max value is 1940
     """
@@ -89,13 +93,23 @@ def rossler_data(n_sampels=1940):
     
     # Include zero rows to make n larger
     zero_row = np.zeros(n_sampels)
-    X = np.c_[X1.T[0], zero_row, X1.T[1], zero_row, zero_row, X1.T[2],
-                   X1.T[3], zero_row, X1.T[4], X1.T[5]].T 
     
+    if ex == 1:
+        X = np.c_[X1.T[0], zero_row, X1.T[1], zero_row, zero_row, X1.T[2],
+                   X1.T[3], zero_row, X1.T[4], X1.T[5]].T
+        n = len(X)
+        
+    
+    if ex == 2:
+        X = np.c_[X1.T[0], X1.T[0], zero_row, X1.T[1], zero_row, X1.T[5], zero_row, X1.T[2],
+                   X1.T[3], zero_row, X1.T[4], X1.T[5], zero_row, X1.T[2], X1.T[4], zero_row ].T
+        n = len(X)      
+              
+              
     n = len(X)
     m = 8  
     # Generate A and Y 
-    A = np.random.random((m, n))            # Random mix matrix
+    A = np.random.randn((m, n))            # Random mix matrix
     Y = np.dot(A, X)                        # Observed signal
     
     return Y, A, X

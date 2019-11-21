@@ -46,6 +46,10 @@ X_err = (np.square(X_real-X)).mean(axis=None)
 
 #
 print('reconstruction error %f,\ndictionary error %f,\nrepresentation error %f, \nnumber of iterations %i'%(Y_err, A_err, X_err, iter_))
+plt.figure(1)
+plt.plot(Y.T)
+plt.figure(2)
+plt.plot(Y_rec.T)
 
 #plt.figure(1)
 #plt.title("comparison of source signals (column)")
@@ -81,10 +85,15 @@ X = temp.transform(Y.T)
 
 #A = np.zeros([n,m])
 
-Y_rec = np.matmul(A.T,X.T).T
+Y_rec = np.matmul(A.T,X.T)
 
 Y_err = (np.square(Y-Y_rec)).mean(axis=None)
 A_err = (np.square(A_real-A.T)).mean(axis=None)
 X_err = (np.square(X_real-X.T)).mean(axis=None)
 
 print('reconstruction error %f,\ndictionary error %f,\nrepresentation error %f'%(Y_err, A_err, X_err))
+
+plt.figure(5)
+plt.plot(Y.T)
+plt.figure(6)
+plt.plot(Y_rec.T)

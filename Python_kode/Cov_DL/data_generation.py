@@ -98,13 +98,14 @@ def rossler_data(n_sampels=1940, ex = 1, m=8):
         X = np.c_[X1.T[0], zero_row, X1.T[1], zero_row, zero_row, X1.T[2],
                    X1.T[3], zero_row, X1.T[4], X1.T[5]].T
         n = len(X)
+        k = 6
         
     
     if ex == 2:
         X = np.c_[X1.T[0], X1.T[0], zero_row, X1.T[1], zero_row, X1.T[5], zero_row, X1.T[2],
                    X1.T[3], zero_row, X1.T[4], X1.T[5], zero_row, X1.T[2], X1.T[4], zero_row ].T
         n = len(X)      
-              
+        k = 10      
               
     n = len(X)
     m = 8  
@@ -112,7 +113,7 @@ def rossler_data(n_sampels=1940, ex = 1, m=8):
     A = np.random.randn((m, n))            # Random mix matrix
     Y = np.dot(A, X)                        # Observed signal
     
-    return Y, A, X
+    return Y, A, X, k
 
 #def generate_AR(N):
 #    """

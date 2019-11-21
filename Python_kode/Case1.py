@@ -32,26 +32,51 @@ n_samples = 20       # number of sampels
 iterations = 1000
 
 " Random Signals Generation - Sparse X "
-Y_ran, A_ran, X_ran = data_generation.random_sparse_data(m, n, non_zero, n_samples)
+Y, A, X = data_generation.random_sparse_data(m, n, non_zero, n_samples)
 
 # =============================================================================
 # M-SBL
 # =============================================================================
-X_Rec_ran = MSBL.M_SBL(A_ran, Y_ran, m, n, n_samples, non_zero, iterations)
+X_cal = MSBL.M_SBL(A, Y, m, n, n_samples, non_zero, iterations)
 
 # =============================================================================
 # Plot
 # =============================================================================
 plt.figure(1)
-plt.title('Plot of row 1 of X - Random Sparse Data')
-plt.plot(X_ran[1], 'r',label='Real X')
-plt.plot(X_Rec_ran[1],'g', label='Computed X')
+plt.title('Plot of row 2 of X - Random Sparse Data')
+plt.plot(X[1], 'r',label='Real X')
+plt.plot(X_cal[1],'g', label='Calculated X')
 plt.legend()
 plt.show
+plt.savefig('case1_1.png')
 
 plt.figure(2)
-plt.title('Plot of column 1 of X - Random Sparse Data')
-plt.plot(X_ran.T[1], 'r',label='Real X')
-plt.plot(X_Rec_ran.T[1],'g', label='Computed X')
+plt.title('Plot of column 2 of X - Random Sparse Data')
+plt.plot(X.T[1], 'r',label='Real X')
+plt.plot(X_cal.T[1],'g', label='Calculated X')
 plt.legend()
 plt.show
+plt.savefig('case1_2.png')
+
+for i in range(4):
+    plt.figure(3)
+    plt.title('Plot of row of X - Known X')
+    plt.plot(X[i], label=i)
+    plt.legend()
+    plt.savefig('case1_3.png')
+    plt.figure(4)
+    plt.title('Plot of row of X - Calculated X')
+    plt.plot(X_cal[i], label=i)
+    plt.legend()
+    plt.savefig('case1_4.png')
+
+
+
+summation = 0  #variable to store the summation of differences
+n = len(X) #finding total number of items in list
+for i in range (0,n):  #looping through each element of the list
+  difference = X[i] - X_cal[i]  #finding the difference between observed and predicted value
+  squared_difference = difference**2  #taking square of the differene 
+  summation = summation + squared_difference  #taking a sum of all the differences
+MSE = summation/n  #dividing summation by total values to obtain average
+print("The Mean Square Error is: " , MSE)

@@ -19,6 +19,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 from Cov_DL import data_generation
 from Cov_DL import MSBL
+from sklearn.metrics import mean_squared_error
 
 np.random.seed(1)
 
@@ -37,15 +38,17 @@ Y, A, X = data_generation.random_sparse_data(m, n, non_zero, n_samples)
 # =============================================================================
 # M-SBL
 # =============================================================================
-X_cal = MSBL.M_SBL(A, Y, m, n, n_samples, non_zero, iterations)
+X_rec = MSBL.M_SBL(A, Y, m, n, n_samples, non_zero, iterations)
 
+mse = mean_squared_error(X, X_rec)
+mse2 = (np.square(X - X_rec)).mean(axis=None) # Another way to find the error
 # =============================================================================
 # Plot
 # =============================================================================
 plt.figure(1)
 plt.title('Plot of row 2 of X - Random Sparse Data')
 plt.plot(X[1], 'r',label='Real X')
-plt.plot(X_cal[1],'g', label='Calculated X')
+plt.plot(X_rec[1],'g', label='Recovered X')
 plt.legend()
 plt.show
 plt.savefig('case1_1.png')
@@ -53,7 +56,7 @@ plt.savefig('case1_1.png')
 plt.figure(2)
 plt.title('Plot of column 2 of X - Random Sparse Data')
 plt.plot(X.T[1], 'r',label='Real X')
-plt.plot(X_cal.T[1],'g', label='Calculated X')
+plt.plot(X_rec.T[1],'g', label='Recovered X')
 plt.legend()
 plt.show
 plt.savefig('case1_2.png')
@@ -65,18 +68,7 @@ for i in range(4):
     plt.legend()
     plt.savefig('case1_3.png')
     plt.figure(4)
-    plt.title('Plot of row of X - Calculated X')
-    plt.plot(X_cal[i], label=i)
+    plt.title('Plot of row of X - Recovered X')
+    plt.plot(X_rec[i], label=i)
     plt.legend()
     plt.savefig('case1_4.png')
-
-
-
-summation = 0  #variable to store the summation of differences
-n = len(X) #finding total number of items in list
-for i in range (0,n):  #looping through each element of the list
-  difference = X[i] - X_cal[i]  #finding the difference between observed and predicted value
-  squared_difference = difference**2  #taking square of the differene 
-  summation = summation + squared_difference  #taking a sum of all the differences
-MSE = summation/n  #dividing summation by total values to obtain average
-print("The Mean Square Error is: " , MSE)

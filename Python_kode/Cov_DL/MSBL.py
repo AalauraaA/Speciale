@@ -5,43 +5,40 @@ Created on Thu Nov 14 10:03:14 2019
 @author: Laura
 """
 import numpy as np
-from scipy import signal
-from sklearn.datasets import make_sparse_coded_signal
-import matplotlib.pyplot as plt
-
-from dictionary_learning import K_SVD
-import data_generation
 np.random.seed(1)
+#from Cov_DL import data_generation
 
-# =============================================================================
-# Import data
-# =============================================================================
-m = 35               # number of sensors
-n = 15               # number of sources
-non_zero = 10        # max number of non-zero coef. in rows of X
-n_samples = 20       # number of sampels
-duration = 8
+#m = 3               # number of sensors
+#n = 4               # number of sources
+#non_zero = 4        # max number of non-zero coef. in rows of X
+#n_samples = 20       # number of sampels
+##duration = 8
+#iterations = 100
+#
+#" Random Signals Generation - Sparse X "
+#Y, A, X_ran = data_generation.random_sparse_data(m, n, non_zero, n_samples)
+#
+#"Mixed Signals Generation - Sinus, sign, saw tooth and zeros"
+##Y_mix, A_mix, X_mix = data_generation.mix_signals(n_samples, duration, m)
 
-" Random Signals Generation - Sparse X "
-Y_ran, A_ran, X_ran = data_generation.random_sparse_data(m, n, non_zero, n_samples)
-
-"Mixed Signals Generation - Sinus, sign, saw tooth and zeros"
-Y_mix, A_mix, X_mix = data_generation.mix_signals(n_samples, duration)
+#X = data_generation.generate_AR(205)
+#A = np.random.randn(m,n)
+#Y = np.dot(A, X)
 
 # =============================================================================
 # Without Segmentation M-SBL Algorithm
 # =============================================================================
-iterations = 1000
-def M_SBL(A, Y, m, n, n_samples):
-    gamma = np.ones([iterations, n,1])   # size iterations x n x 1
-    lam = np.zeros(n)                    # size N x 1
-    mean = np.zeros(n)
+def M_SBL(A, Y, m, n, n_samples, non_zero, iterations):
+    gamma = np.ones([iterations+1, n,1])   # size iterations x n x 1
+    lam = np.ones(n)                    # size N x 1
+    mean = np.ones(n)
     Sigma = 0                            # size N x L   
     for k in range(iterations):
-        Gamma = np.diag(gamma[k])        # size N x 1
+        Gamma = np.diag(gamma[k-1])        # size 1 x 1
         for i in range(n):   
             " Making Sigma and Mu "
-            sig = lam[i] * np.identity(m) + (A.dot(Gamma * A.T))
+            #sig = lam[i] * np.identity(m) + (A.dot(Gamma * A.T))
+            sig = lam[i] * np.identity(m) + (A * Gamma).dot(A.T)
             inv = np.linalg.inv(sig)
             Sigma = Gamma - Gamma * (A.T.dot(inv)).dot(A) * Gamma
             mean = Gamma * (A.T.dot(inv)).dot(Y)
@@ -51,56 +48,31 @@ def M_SBL(A, Y, m, n, n_samples):
                                                    ord = 'fro')  # numerator
             lam_for = 0
             for j in range(n):
-                lam_for += Sigma[j][j] / gamma[k][j]
+                lam_for += Sigma[j][j] / gamma[k-1][j]
             lam_den = m - n + lam_for                            # denominator
             lam[i] =  lam_num / lam_den
            
             " Update gamma with EM and with M being Fixed-Point"
             gam_num = 1/n_samples * np.linalg.norm(mean[i])
-            gam_den = 1 - gamma[k][i] * Sigma[i][i]
+            gam_den = 1 - gamma[k-1][i] * Sigma[i][i]
             gamma[k][i] = gam_num/gam_den
-    
-    " Finding the support set "    
-    support = np.zeros(non_zero)
-    gam = gamma[-1]
-    for l in range(non_zero):
-        if gam[np.argmax(gam)] != 0:
-            support[l] = np.argmax(gam)
-            gam[np.argmax(gam)] = 0
-   
-    " Create new mean with support set "
-    New_mean = np.zeros((n,n_samples))
-    for i in support:
-        New_mean[int(i)] = mean[int(i)]
+        
+        " Finding the support set "    
+        support = np.zeros(non_zero)
+        H = gamma[-2]
+        for l in range(non_zero):
+            if H[np.argmax(H)] != 0:
+                support[l] = np.argmax(H)
+                H[np.argmax(H)] = 0
+           
+        " Create new mean with support set "
+        New_mean = np.zeros((n,n_samples))
+        for i in support:
+            New_mean[int(i)] = mean[int(i)]
 
     return New_mean
 
-m_mix = len(Y_mix)
-n_mix = len(A_mix.T)
-
-X_Rec_mix = M_SBL(A_mix, Y_mix, m_mix, n_mix, n_samples)
-X_Rec_ran = M_SBL(A_ran, Y_ran, m, n, n_samples)
-
-Y_ros, A_ros, X_ros = data_generation.rossler_data(n_sampels=1940)
-
-n_ros = len(X_ros)
-m_ros = 8
-X_Rec_ros = M_SBL(A_ros, Y_ros, m_ros, n_ros, n_samples=1940)
-
-#plt.figure(1)
-#plt.plot(X_mix[0], 'r')
-#plt.plot(X_Rec_mix[0], 'g')
-#plt.show
-
-plt.figure(2)
-plt.plot(X_ran[0], 'r')
-plt.plot(X_Rec_ran[0], 'g')
-plt.show
-
-#plt.figure(3)
-#plt.plot(X_ros[0], 'r')
-#plt.plot(X_Rec_ros[0], 'g')
-#plt.show
+#X_rec = M_SBL(A, Y, m, n, n_samples, non_zero, iterations)
 ## =============================================================================
 ## Segmenteret M-SBL
 ## =============================================================================
@@ -145,5 +117,3 @@ plt.show
 #            New_mean[seg][int(i)] = mean[seg][int(i)]
 #    
 #        return New_mean, mean
-#
-#X_rec, X_old = M_SBL_Seg(A, Y, m, n, n_seg, non_zero, n_samples)

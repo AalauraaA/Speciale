@@ -42,7 +42,7 @@ def random_sparse_data(n_measurement, n_source, n_nonzero, n_samples):
                                    random_state=0)
     return Y, A, X
 
-def mix_signals(n_samples, duration):
+def mix_signals(n_samples, duration, m):
     """ 
     Generation of 4 independent signals, united in X with zero rows in 
     between for sparsity. 
@@ -64,8 +64,8 @@ def mix_signals(n_samples, duration):
     
     # Column concatenation
     X = np.c_[s1, zero_row, zero_row, s2, zero_row, s3, zero_row, s4].T
+#    X = np.c_[s1, s2, s3, s4].T
     n = len(X)
-    m = 6
     A = np.random.random((m, n))                 # Random mix matrix
     Y = np.dot(A, X)                             # Observed signal
     
@@ -97,6 +97,55 @@ def rossler_data(n_sampels=1940):
     Y = np.dot(A, X)                        # Observed signal
     
     return Y, A, X
+
+#def generate_AR(N):
+#    """
+#    Generate sources from an AR process
+#    
+#    Input:
+#        N: size of the columns
+#        
+#    Output:
+#        X: Source matrix of size 4 x N -- 4 can be change by adding more
+#           AR processes
+#    
+#    """
+##    A = np.array([[0.05, 0, 0, 0, 0, 0, 0, 0, 0],
+##                  [0, -0.05, 0, 0, 0, 0, 0, 0, 0],
+##                  [0, 0, 0.3, 0, 0, 0, 0, 0, 0],
+##                  [0, 0, 0, 0.4, 0, 0, 0, 0, 0],
+##                  [0, 0, 0, 0, 0.8, 0, 0, 0, 0],
+##                  [0, 0, 0, 0, 0, 0.06, 0, 0, 0],
+##                  [0, 0, 0, 0, 0, 0, 0.2, 0, 0],
+##                  [0, 0, 0, 0, 0, 0, 0, 0.2, 0],
+##                  [0, 0, 0, 0, 0, 0, 0, 0, 0.05]])
+##    A = MixingMatrix(N,N)    
+#    XX1 = np.zeros(N)
+#    XX2 = np.zeros(N)
+#    XX3 = np.zeros(N)
+#    XX4 = np.zeros(N)
+#    
+#    LP = 200
+#
+#    " Generating Synthetic AR Data "
+#    w = np.random.randn(4, N)
+#    for j in range(2,N):
+##        for i in range(A.shape[0]):
+##            XX1[j-2] = A[0][0] * XX1[j-1] - A[1][1] * XX1[j-2] + w[0, j-2]
+##            XX2[j-2] = A[2][2] * XX1[j-1] + A[3][3] * XX3[j-1] + w[1, j-2]
+##            XX3[j-2] = A[4][4] * XX1[j-1]**2 + A[5][5] * XX3[j-1] + A[6][6] * XX2[j-1] + w[2, j-2]
+##            XX4[j-2] = A[7][7] * XX4[j-1] + A[8][8] * XX1[j-1] + w[3, j-2]
+#            XX1[j-2] = 0.05 * XX1[j-1] - (-0.05) * XX1[j-2] + w[0, j-2]
+#            XX2[j-2] = 0.3 * XX1[j-1] + 0.4 * XX3[j-1] + w[1, j-2]
+#            XX3[j-2] = 0.8 * XX1[j-1]**2 + 0.06 *XX3[j-1] + 0.2 * XX2[j-1] + w[2, j-2]
+#            XX4[j-2] = 0.2 * XX4[j-1] + 0.05 * XX1[j-1] + w[3, j-2]
+#    XX1 = XX1[LP+1 : -1]
+#    XX2 = XX2[LP+1 : -1]
+#    XX3 = XX3[LP+1 : -1]
+#    XX4 = XX4[LP+1 : -1]
+#    
+#    X = np.vstack([XX1, XX2, XX3, XX4])
+#    return X
 
 def segmentation_split(Y, X, L, n_sampels):
     """

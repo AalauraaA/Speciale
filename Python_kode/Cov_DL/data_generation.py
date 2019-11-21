@@ -67,7 +67,7 @@ def mix_signals(n_samples, duration, m):
     X = np.c_[s1, zero_row, zero_row, s2, zero_row, s3, zero_row, s4].T
 #    X = np.c_[s1, s2, s3, s4].T
     n = len(X)
-    A = np.random.random((m, n))                 # Random mix matrix
+    A = np.random.randn(m, n)                 # Random mix matrix
     A = A/np.linalg.norm(A, ord=2, axis=0, keepdims=True)
     Y = np.dot(A, X)                             # Observed signal
     

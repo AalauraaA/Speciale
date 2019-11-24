@@ -4,14 +4,16 @@ Created on Wed Nov 20 11:33:33 2019
 
 @author: Laura
 
-Arbejdsblad - Case 1 - Simpel Sparse Signal
-m = 30
-n = 80
+Arbejdsblad - Case 1 - mixed Signals
+m = 3
+n = 8
 L = n_samples = 20
-k = non-zero = 40 (halvdelen af X)
-Y = random signal - m x L
+k = non-zero = 4 
+Y = signal - m x L
 A = Kendt mixing matrix - m x n
-X = Ukendt sparse signal - n x L 
+X = Ukendt signal - n x L 
+
+Full recovery because k < m
 
 Uden segmenentering og 1000 iterationer
 """
@@ -26,14 +28,15 @@ np.random.seed(1)
 # =============================================================================
 # Import data
 # =============================================================================
-m = 30               # number of sensors
-n = 80               # number of sources
-non_zero = 40       # max number of non-zero coef. in rows of X
+m = 3               # number of sensors
+n = 8                # number of sources
+non_zero = 4         # max number of non-zero coef. in rows of X
 n_samples = 20       # number of sampels
+duration = 8
 iterations = 1000
 
 " Random Signals Generation - Sparse X "
-Y, A, X = data_generation.random_sparse_data(m, n, non_zero, n_samples)
+Y, A, X = data_generation.mix_signals(n_samples, duration, m)
 
 # =============================================================================
 # M-SBL
@@ -46,17 +49,17 @@ mse2 = (np.square(X - X_rec)).mean(axis=None) # Another way to find the error
 # Plot
 # =============================================================================
 plt.figure(1)
-plt.title('Plot of row 2 of X - Random Sparse Data')
-plt.plot(X[1], 'r',label='Real X')
-plt.plot(X_rec[1],'g', label='Recovered X')
+plt.title('Plot of row 2 of X - Mixed Signal Data')
+plt.plot(X[5], 'r',label='Real X')
+plt.plot(X_rec[5],'g', label='Recovered X')
 plt.legend()
 plt.show
 plt.savefig('case1_1.png')
 
 plt.figure(2)
-plt.title('Plot of column 2 of X - Random Sparse Data')
-plt.plot(X.T[1], 'r',label='Real X')
-plt.plot(X_rec.T[1],'g', label='Recovered X')
+plt.title('Plot of column 2 of X - Mixed Signal Data')
+plt.plot(X.T[5], 'r',label='Real X')
+plt.plot(X_rec.T[5],'g', label='Recovered X')
 plt.legend()
 plt.show
 plt.savefig('case1_2.png')

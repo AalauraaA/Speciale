@@ -4,7 +4,7 @@ Created on Wed Nov 20 11:33:33 2019
 
 @author: Laura
 
-Arbejdsblad - Case 3 - mixed Signals
+Arbejdsblad - Case 3 - oscillation
 m = 3
 n = 4
 L = n_samples = 20
@@ -19,42 +19,54 @@ Uden segmenentering og 1000 iterationer
 """
 import numpy as np
 import matplotlib.pyplot as plt
-from Cov_DL import data_generation
+import data_generation
 from Cov_DL import MSBL
+
 
 np.random.seed(1)
 
 # =============================================================================
 # Import data
 # =============================================================================
-m = 3               # number of sensors
-n = 8                # number of sources
-non_zero = 4         # max number of non-zero coef. in rows of X
-n_samples = 20       # number of sampels
-duration = 8
+m = 8               # number of sensors
+n_samples = 1940       # number of sampels
 iterations = 1000
 
 "Mixed Signals Generation - Sinus, sign, saw tooth and zeros"
-Y_mix, A_mix, X_mix = data_generation.mix_signals(n_samples, duration, m)
-
+Y, A, X, non_zero = data_generation.rossler_data(n_sampels=1940, ex = 1, m=8)
+n = len(X)
 # =============================================================================
 # M-SBL
 # =============================================================================
-X_Rec_mix = MSBL.M_SBL(A_mix, Y_mix, m, n, n_samples, non_zero, iterations)
+X_rec = MSBL.M_SBL(A, Y, m, n, n_samples, non_zero, iterations)
 
 # =============================================================================
 # Plot
 # =============================================================================
 plt.figure(1)
-plt.title('Plot of row 5 of X - Mixed Signal Data')
-plt.plot(X_mix[5], 'r',label='Real X')
-plt.plot(X_Rec_mix[5],'g', label='Computed X')
+plt.title('Plot of row 2 of X - Mixed Signal Data')
+plt.plot(X[5], 'r',label='Real X')
+plt.plot(X_rec[5],'g', label='Recovered X')
 plt.legend()
 plt.show
+plt.savefig('case3_1.png')
 
 plt.figure(2)
-plt.title('Plot of column 5 of X - Mixed Signal Data')
-plt.plot(X_mix.T[5], 'r',label='Real X')
-plt.plot(X_Rec_mix.T[5],'g', label='Computed X')
+plt.title('Plot of column 2 of X - Mixed Signal Data')
+plt.plot(X.T[5], 'r',label='Real X')
+plt.plot(X_rec.T[5],'g', label='Recovered X')
 plt.legend()
 plt.show
+plt.savefig('case3_2.png')
+
+for i in range(4):
+    plt.figure(3)
+    plt.title('Plot of row of X - Known X')
+    plt.plot(X[i], label=i)
+    plt.legend()
+    plt.savefig('case3_3.png')
+    plt.figure(4)
+    plt.title('Plot of row of X - Recovered X')
+    plt.plot(X_rec[i], label=i)
+    plt.legend()
+    plt.savefig('case3_4.png')

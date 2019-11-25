@@ -35,8 +35,7 @@ p(x_1, x_2, \dots, x_n) = p_1 (x_1) p_2(x_2) \cdots p_n(x_n),
 \subsection{Assumptions and Preprocessing}
 For simplicity assume $\textbf{A}$ is square i.e. $M=N$ and invertible. As such when $\textbf{A}$ has been estimated the inverse is computed the components can simply be estimated as $\textbf{x}=\textbf{A}^{-1}\textbf{y}$\cite[p. 152-153]{ICA}.
 \\ 
-As both $\textbf{A}$ and $\textbf{x}$ are unknown the variances of the independent components can not be determined. However it is reasonable to assume that $\mathbf{x}$ has unit variance, as $\textbf{A}$ will adapt to this restriction. Any scalar multiplier within a source can be cancelled out by dividing the corresponding column in $\textbf{A}$ with the same scalar.\\  
-This of course must also apply to the mixing matrix $\mathbf{A}$ which will be restricted in the recovery method, described in section \ref{sec:est_ica}\todo{check up on A restrictions}.
+As both $\textbf{A}$ and $\textbf{x}$ are unknown the variances of the independent components can not be determined. However it is reasonable to assume that $\mathbf{x}$ has unit variance, as $\textbf{A}$ will adapt to this restriction. Any scalar multiplier within a source can be cancelled out by dividing the corresponding column in $\textbf{A}$ with the same scala\cite[p. 154]{ICA}.\\  
 For further simplification it is assumed without loss of generality that $\mathbb{E}[\mathbf{y}] = 0$ and $\mathbb{E}[\mathbf{x}] = 0$\cite[p. 154]{ICA}. In case this assumption is not true, the measurements can be centred by subtracting the mean as preprocessing before doing ICA.\\
 A preprocessing step central to ICA is to whiten\todo{whiteining is a linear change of coordinates of the mixed data\url{http://arnauddelorme.com/ica_for_dummies/} "By rotating the axis and minimizing Gaussianity of the projection in the first scatter plot, ICA is able to recover the original sources which are statistically independent} the measurements $\mathbf{y}$. By the whitening process any correlation in the measurements are removed and unit variance is ensured. This ensures that the independent components $\mathbf{x}$ are uncorrelated and have unit variance(true?). Furthermore, this reduces the complexity of ICA and therefore simplifies the recovering process.
 \\
@@ -157,7 +156,7 @@ To apply ICA to such case the independent components are obtained by the pseudo-
 \begin{align*}
 \hat{\mathbf{x}} = \mathbf{A}_S^{\dagger} \mathbf{y}
 \end{align*}
-where $\mathbf{A}_S$ is derived from the dictionary matrix $\mathbf{A}$ by containing only the columns associated with the non-zero entries of $\textbf{x}$, specified by the support set $S$. 
+where $\mathbf{A}_S$ is derived from the dictionary matrix $\mathbf{A}$ by containing only the columns associated with the non-zero entries of $\textbf{x}$, specified by the support set $S$\todo{henvis til appendix}. 
 
  
 

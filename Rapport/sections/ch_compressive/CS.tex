@@ -1,9 +1,9 @@
 \section{Linear Algebra}
-Some observed measurement vector $\mathbf{y}$ can be described as a linear combinations of a coefficient matrix $\mathbf{A}$ and some vector $\mathbf{x}$ such that
+Some measurement vector $\mathbf{y}$ can be described as a linear combinations of a coefficient matrix $\mathbf{A}$ and some vector $\mathbf{x}$ such that
 \begin{align}\label{eq:SMV_model}
 \mathbf{y} &= \mathbf{Ax},
 \end{align}
-where $\mathbf{y} \in \mathbb{R}^M$ is the observed measurement vector consisting of $M$ measurements, $\mathbf{x} \in \mathbb{R}^N$ is an unknown source vector of $N$ elements, and $\mathbf{A} \in \mathbb{R}^{M \times N}$ is a coefficient matrix which models the linear measurement process column-wise. The liner model makes a system of linear equations with $M$ equations and $N$ unknowns.
+where $\mathbf{y} \in \mathbb{R}^M$ is the observed measurement vector consisting of $M$ measurements, $\mathbf{x} \in \mathbb{R}^N$ is an unknown vector of $N$ elements, and $\mathbf{A} \in \mathbb{R}^{M \times N}$ is a coefficient matrix which models the linear measurement process column-wise. The liner model makes a system of linear equations with $M$ equations and $N$ unknowns.
 \\ \\
 In the case of $\mathbf{A}$ being a square matrix, $M = N$, a solution can be found to the linear model if $\mathbf{A}$ has full rank -- $\mathbf{A}$ consist of linearly independent columns or rows.
 % For $M > N$ the matrix said to have full rank when the columns are linearly independent. For $M < N$ the matrix has full rank when the rows are linearly independent. 
@@ -17,11 +17,9 @@ By inverting $\mathbf{A}$ from \eqref{eq:SMV_model} the unknown vector $\mathbf{
 %\end{itemize}
 With the left-inverse the least norm solution of \eqref{eq:SMV_model} can be found.\todo{least norm solution?}
 \\ \\
-For an determined system there will exist a unique solution. For an overdetermined system there do not exist a solution and for under-determined systems there exist infinitely many solutions.
-\\
-For rank-deficient matrices there do not exist an inverse and therefore \eqref{eq:SMV_model} can not be solve by inverting the model. But rank-deficient matrices  meaning have non-empty null space leading to infinitely solutions to \eqref{eq:SMV_model} \cite[p. ix]{CS}\todo{evt kan dette afsnit fjernes?}.
-\\ \\
-As described in chapter \ref{ch:motivation} the linear model of interest consist of $M$ sensors which is known and $N$ sources which is unknown. Furthermore, we also have that $M < N$ -- an under-determined system. It is therefore of interest to find a solution in the infinitely solution set.
+For an determined system there will exist a unique solution. For an overdetermined system there do not exist a solution and for under-determined systems there exist infinitely many solutions\cite[p. ix]{CS}.
+\\ 
+As described in chapter \ref{ch:motivation} the linear model of interest consist of $M$ sensors which makes the observed measurements $\textbf{y}$ and $N$ sources which makes the unknown vector $\textbf{x}$. Here it is of interest to find a solution to the case where the system consist of more sources than sensors -- hence a solution has to be found within the infinitely solution set.
 
 \section{Compressive Sensing}\label{sec:CS}
 Compressive sensing is the theory of efficient recovery or reconstruction of a signal from a minimal number of observed measurements. It is build upon empirical observations assuring that many signals can be approximated by remarkably sparser signals.   
@@ -31,7 +29,7 @@ Compressive sensing is the theory of efficient recovery or reconstruction of a s
 %\mathbf{y} = \mathbf{Ax}.
 %\end{align}
 %Here $\mathbf{y} \in \mathbb{R}^M$ is the measured data consisting of $M$ observations, $\mathbf{x} \in \mathbb{R}^N$ is the original signal consisting of $N$ possible sources. $\mathbf{A} \in \mathbb{R}^{M \times N}$ is a matrix which models the linear measurement process or in other words it projects each of the $N$ possible sources on to the $M$ observations. $\textbf{A}$ is  referred to as a dictionary or a mixing matrix .\\
-In compressive sensing terminology, $\mathbf{x}\in \mathbb{R}^{N}$ is the signal of interest which is sought recovered from the measurements $\textbf{y}\in \mathbb{R}^{M}$ by solving the linear system \eqref{eq:SMV_model}. The coefficient matrix $\textbf{A}$ is in the context of compressive sensing referred to as the mixing matrix or the dictionary.\\    
+In compressive sensing terminology, $\mathbf{x}\in \mathbb{R}^{N}$ is the signal of interest which is sought recovered from the measurements $\textbf{y}\in \mathbb{R}^{M}$ by solving the linear system \eqref{eq:SMV_model}. The coefficient matrix $\textbf{A}$ is in the context of compressive sensing referred to as the mixing matrix or the dictionary matrix.\\    
  In the typical compressive sensing case the system is under-determined, $M < N$,  and there exist infinitely many solutions, provided that a solution exist.
 % Such system is also referred to as over-complete \textit{(as the number of column basis vectors is greater than the dimension of the input)}.
 \\
@@ -53,9 +51,9 @@ where $[N]$ is a set of integers $\{1,2,\hdots,N\}$ \cite[p. 41]{FR}. The set of
 \end{align*}
 
 \subsection{Optimisation Problem}\label{sec:opti}
-To find a solution to the linear model \eqref{eq:SMV_model} assuming the solution is $k$-sparse with $k < M$\todo{første gang vi møder k<M, er det for tidligt?}, it can be view as an optimisation problem. An optimisation problem is defined as
+To find a solution to the linear model \eqref{eq:SMV_model} assuming the solution is $k$-sparse, it can be view as an optimisation problem. An optimisation problem is defined as
 \begin{align*}
-\min f_0 (\mathbf{x}) \quad \text{s.t} \quad f_i (\mathbf{x}) \leq b_i, \quad i \in [n],
+\min f_0 (\mathbf{x}) \quad \text{s.t} \quad f_i (\mathbf{x}) \leq b_i, \quad i = 1,2, \hdots, n ,
 \end{align*}
 where $f_0 \ : \ \mathbb{R}^N \mapsto \mathbb{R}$ is an objective function and $f_i \ : \ \mathbb{R}^N \mapsto \mathbb{R}$ are the constraint functions. 
 \\
@@ -63,11 +61,11 @@ To find the $k$-sparse solution our optimisation problem can be written as
 \begin{align*}
 \textbf{x}^\ast = \arg \min_{\textbf{x}\in \boldsymbol{\Omega_{k}}} \Vert \mathbf{x} \Vert_0 \quad \text{s.t} \quad \mathbf{y} = \mathbf{Ax},
 \end{align*}
-The objective function is given by an $\ell_0$ norm with the constraint function being the linear model \eqref{eq:SMV_model}. Unfortunately, this optimisation problem is non-convex due to the definition of $\ell_0$-norm and is therefore difficult to solve -- it is a NP-hard problem. Instead, by replacing the $\ell_0$-norm with the $\ell_1$-norm, the optimisation problem can be approximated and hence become computational feasible \cite[p. 27]{CS}
+The objective function is given by an $\ell_0$ norm with the constraint function being the linear model \eqref{eq:SMV_model}. Unfortunately, this optimisation problem is non-convex due to the definition of $\ell_0$-norm and is therefore difficult to solve -- it is a NP-hard problem. Instead, by replacing the $\ell_0$-norm with the $\ell_1$-norm, the optimisation problem can be approximated and hence become computational feasible\todo{skal vi indføre z som en approx af x, også et nyt omega eller? eller kan vi beholde x} \cite[p. 27]{CS}
 \begin{align}\label{eq:SMV_p1}
 \textbf{x}^\ast = \arg \min_{\textbf{x}\in  \boldsymbol{\Omega_{k}}} \Vert \mathbf{x} \Vert_1 \quad \text{s.t} \quad \mathbf{y} = \mathbf{Ax}.
 \end{align} 
-With this optimisation problem we find the best $k$-sparse approximation of the signal $\mathbf{x}^\ast$. This method is referred to as Basis Pursuit. 
+With this optimisation problem we find the best $k$-sparse solution $\mathbf{x}^\ast$. This method is referred to as Basis Pursuit. 
 \\
 The following theorem justifies that the $\ell_1$ optimisation problem finds a sparse solution \cite[p. 62-63]{FR}.
 \begin{theorem}
@@ -80,7 +78,7 @@ $$
 \Vert \textbf{x}^{\ast} \Vert_0 = \text{card}(\text{supp} (\textbf{x}^{\ast})) \leq M.
 $$
 \end{theorem}
-To prove this theorem we need to realise that the set $\{\textbf{a}_j, j \in S \} \leq M$, with $S = \text{supp}(\textbf{x}^\ast)$, can not have more than $M$ linearly independence columns. So when $M \ll N$ we automatically achieve a sparse signal\todo{gør vi det, det er vel bare et kort signal, det er måske en sparse repræsentation?}.
+To prove this theorem we need to realise that the set $\{\textbf{a}_j, j \in S \} \leq M$, with $S = \text{supp}(\textbf{x}^\ast)$, can not have more than $M$ linearly independence columns. So when $M \ll N$ we automatically achieve a sparse signal.
 \begin{proof}
 For the case of contradiction, assume that the set $\{\textbf{a}_j, j \in S \}$ is linearly dependent. Thus there exists a non-zero vector $\textbf{v} \in \mathbb{R}^N$ supported on $S$ such that $\textbf{Av} = \textbf{0}$. Then, for any $t \neq 0$,
 $$
@@ -118,8 +116,9 @@ The Basis Pursuit makes the foundation of several algorithms solving alternative
 
 
       
-\subsection{Conditions on the Dictionary}\label{sec:dic_conditions}
-In section \ref{sec:opti} the mixing matrix $\mathbf{A}$ was assumed known, in order to solve the optimisation problem \eqref{eq:SMV_p1}. However, in practise it is only the measurement vector $\textbf{y}$ which is known. In this case $\textbf{A}$ is often thought of as a dictionary matrix\todo{vi skrev tidligere at vi bruger en dictionary til at finde den rigtige A?}. To ensure exact or approximately reconstruction of the sparse signal $\mathbb{x}$, the dictionary matrix must be constructed with certain conditions in mind. 
+\subsection{Conditions on the Mixing Matrix}\label{sec:dic_conditions}
+In section \ref{sec:opti} the mixing matrix $\mathbf{A}$ was assumed known, in order to solve the optimisation problem \eqref{eq:SMV_p1}. However, in practise it is only the measurement vector $\textbf{y}$ which is known. In this case the mixing matrix $\textbf{A}$ is considered a estimate of the true mixing matrix. In general compressive sensing terminology  $\textbf{A}$ is also referred to as a dictionary matrix.\\
+To ensure exact or approximately reconstruction of the sparse signal $\mathbb{x}$, the mixing matrix must be constructed with certain conditions in mind. 
 % $\mathbf{x}^\ast$ from the optimisation problem \eqref{eq:SMV_p1} 
 
 
@@ -132,29 +131,29 @@ The null space property is defined as
 \begin{definition}[Null Space Property]
 A matrix $\mathbf{A} \in \mathbb{R}^{M \times N}$ is said to satisfy the null space property relative to a set $S \subset [N]$ if
 \begin{align}
-\Vert \textbf{v}_S \Vert_1 < \Vert \textbf{v}_{\overline{S}} \Vert_1 \quad \text{for all} \quad \textbf{v} \in \text{ker}(\mathbf{A} \setminus \lbrace \textbf{0} \rbrace),
+\Vert \textbf{v}_S \Vert_1 < \Vert \textbf{v}_{\overline{S}} \Vert_1 \quad \text{for all} \quad \textbf{v} \in \text{null}(\mathbf{A} \setminus \lbrace \textbf{0} \rbrace),
 \end{align}
 where the vector $\mathbf{v}_S$ is the restriction of $\mathbf{v}$ to the indices in $S$, and $\bar{S}$ is the set $[N]\setminus S$. 
 \end{definition}
-\todo{hvorfor ker? ikke null?}
+
 \begin{theorem}
 Given a matrix $\textbf{A} \in \mathbb{R}^{M \times N}$, every vector $\textbf{x} \in \mathbb{R}^N$ with $\text{supp}(\textbf{x})\subset S$ is the unique solution of \eqref{eq:SMV_p1} with $\textbf{y} = \textbf{Ax}$ if and only if $\textbf{A}$ satisfies the null space property relative to $S$.
 \end{theorem}
 \begin{proof}
-$\Rightarrow:$ Given a fixed index set $S \subseteq [N]$, assume first that every vector $\textbf{x} \in \mathbb{R}^N$ with support $\text{supp}(\textbf{x})\subset S$ is the unique minimiser of $\Vert \textbf{z} \Vert_1$ subject to $\textbf{Az} = \textbf{Ax}$. Thus, for any $\textbf{v} \in \text{ker}(\mathbf{A}) \setminus \{\textbf{0} \}$, the vector $\textbf{v}_S$ is the unique minimizer $\Vert \textbf{z} \Vert_1$ subject to $\textbf{Az} = \textbf{Av}_S$. But we have that $\textbf{0} = \textbf{A}(\textbf{v}_S + \textbf{v}_{\overline{S}}) \implies \textbf{Av}_S = \textbf{A}(-\textbf{v}_{\overline{S}})$ and $-\textbf{v}_{\overline{S}} \neq \textbf{v}_S$ or else $\textbf{v} = \textbf{0}$. We conclude that $\Vert \textbf{v}_S \Vert_1 < \Vert \textbf{v}_{\overline{S}} \Vert_1$. This establishes the null space property relative to $S$.
+$\Rightarrow:$  Let $S \subseteq [N]$ be a fixed index set. Assume that any vector $\textbf{x} \in \mathbb{R}^N$ with support $\text{supp}(\textbf{x})\subset S$ is the unique minimiser of $\Vert \textbf{z} \Vert_1$ with respect to $\textbf{Az} = \textbf{Ax}$. Thus, for any $\textbf{v} \in \text{null}(\mathbf{A}) \setminus \{\textbf{0} \}$, the vector $\textbf{v}_S$ is the unique minimizer $\Vert \textbf{z} \Vert_1$ the respect to $\textbf{Az} = \textbf{Av}_S$. But we have that $\textbf{0} = \textbf{A}(\textbf{v}_S + \textbf{v}_{\overline{S}}) \implies \textbf{Av}_S = \textbf{A}(-\textbf{v}_{\overline{S}})$ and $-\textbf{v}_{\overline{S}} \neq \textbf{v}_S$ or else $\textbf{v} = \textbf{0}$. We conclude that $\Vert \textbf{v}_S \Vert_1 < \Vert \textbf{v}_{\overline{S}} \Vert_1$. This establishes the null space property relative to $S$.
 \\ \\
-$\Leftarrow:$ Conversely, assume that the null space property relative to $S$ holds. Then, given $S \subseteq [N]$ with null space property and a vector $\textbf{x} \in \mathbb{R}^N$ with$\text{supp}(\textbf{x})\subset S$ and a vector $\textbf{z} \in \mathbb{R}^N$, $\textbf{z} \neq \textbf{x}$, satisfying $\textbf{Az} = \textbf{Ax}$, we consider the vector $\textbf{v} := \textbf{x} - \textbf{z} \in \text{ker}(\textbf{A}) \setminus \{ \textbf{0} \}$. In view of the null space property, we obtain
+$\Leftarrow:$ Conversely, assume that the null space property relative to $S$ holds. Then, given $S \subseteq [N]$ with null space property and a vector $\textbf{x} \in \mathbb{R}^N$ with $\text{supp}(\textbf{x})\subset S$ and a vector $\textbf{z} \in \mathbb{R}^N$, $\textbf{z} \neq \textbf{x}$, such that $\textbf{Az} = \textbf{Ax}$, we consider the vector $\textbf{v} := \textbf{x} - \textbf{z} \in \text{null}(\textbf{A}) \setminus \{ \textbf{0} \}$. From the null space property, the following is obtained
 \begin{align*}
 \Vert \textbf{x} \Vert_1 \leq \Vert \textbf{x} - \textbf{z}_S \Vert_1 &= \Vert \textbf{v}_S \Vert_1 + \Vert \textbf{z}_S \Vert_1 \\
 &< \Vert \textbf{v}_{\overline{S}} \Vert_1 + \Vert \textbf{z}_S \Vert_1 \\
 &= \Vert -\textbf{z}_{\overline{S}} \Vert_1 + \Vert \textbf{z}_S \Vert_1 = \Vert \textbf{z} \Vert_1
 \end{align*}
-This establishes the required minimality of $\Vert \textbf{x} \Vert_1$.
+This establishes the required sparseness of $\Vert \textbf{x} \Vert_1$.
 \end{proof}
-\todo{vi ligger meget op a FR p. 79 text her}Unfortunately, this is a property/condition which is hard to check in practice.
+Unfortunately, this is a condition which is hard to check in practice.
 
 \subsubsection{Coherence}
-The null space property provide a unique solution to the optimisation problem \eqref{eq:SMV_p1}, but it is unfortunately complicated to investigate. Instead an alternative measure used for sparsity is presented\todo{er null propertien et mål for sparsity?}.
+The null space property provide a unique solution to the optimisation problem \eqref{eq:SMV_p1}, but it is unfortunately complicated to investigate. Instead an alternative measure is presented.
 \\
 Coherence is a measure of quality, it determines whether a matrix $\mathbf{A}$ is a good choice for the optimisation problem \eqref{eq:SMV_p1}. A small coherence describes the performance of a recovery algorithm as good with that choice of $\mathbf{A}$. 
 \begin{definition}[Coherence]
@@ -228,19 +227,19 @@ A multiple measurement vector (MMV) model consist of the observed measurement ma
 \end{align}
 $L$ denote the number of observed measurement vectors each consisting of $M$ measurements, that is $L$ samples is given. For $L = 1$ the linear model will just be the SMV model \eqref{eq:SMV_model}. 
 \\
-The matrix $\mathbf{X}$ consist of $\lbrace \mathbf{x}_i \rbrace_{i=1}^L$ sparse vectors which has been stack column-wise leading to that $\mathbf{X}$ consist of at most $k$ non-zero rows\todo{vi skal lige have styr på om vi kun antager identisk sparsness i alle søjler, og i så fald at det data vi arbejde med har den form}. As for the SMV model \eqref{eq:SMV_model} the MMV model \eqref{eq:MMV_model} is under-determined with $M \ll N$ and the number of samples is less than $M$, $L < M$\todo{hvorfor L<M?} \cite[p. 42]{CS}.
+The matrix $\mathbf{X}$ consist of $\lbrace \mathbf{x}_i \rbrace_{i=1}^L$ $k$-sparse vectors which has been stacked column-wise such that $\mathbf{X}$ consist of at most $k$ non-zero rows\todo{vi skal lige have styr på om vi kun antager identisk sparsness i alle søjler, og i så fald at det data vi arbejde med har den form}. As for the SMV model \eqref{eq:SMV_model} the MMV model \eqref{eq:MMV_model} is under-determined with $M \ll N$ and $k < M$\cite[p. 42]{CS}.
 \\ \\
-The support of $\mathbf{X}$ denote the index set of non-zero rows of $\mathbf{X}$ and $\mathbf{X}$ is said to be row-sparse. As the columns in $\mathbf{X}$ are $k$-sparse and as mention before $\mathbf{X}$ has at most $k$ non-zero rows, the non-zero values occur in common location. By using this joint information it is possible to recover $\mathbf{X}$ from fewer measurements.
+The support of $\mathbf{X}$ denote the index set of non-zero rows of $\mathbf{X}$ and $\mathbf{X}$ is said to be row-sparse. As the columns in $\mathbf{X}$ are $k$-sparse and as mention before $\mathbf{X}$ has at most $k$ non-zero rows, the non-zero values occur in common location for all columns. By using this joint information it is possible to recover $\mathbf{X}$ from fewer measurements.
 \\
-By using the rank of $\mathbf{X}$ which give us information of the amount of linearly independent rows or columns and the spark of $\mathbf{A}$ the minimum set of linearly dependent columns it is possible to set some condition on the measurement to ensure recovery.
+By using the rank of $\mathbf{X}$, which give us information of the amount of linearly independent rows or columns, and the spark of $\mathbf{A}$ which is the minimum set of linearly dependent columns, it is possible to set some conditions on the system to ensure recovery.
 \\
-When the support of $\mathbf{X}$ is equal to the amount of non-zero rows in $\mathbf{X}$\todo{antal, og er det ikke altid det?}, $\vert \text{supp}(\mathbf{X})\vert = k$ then the rank of $\mathbf{X}$ would be $\text{rank}(\mathbf{X}) \leq k$. If rank$(\mathbf{X}) = 1$ then are the $k$-sparse vectors $\lbrace \mathbf{x}_i \rbrace_{i=1}^L$ multiple of each other the joint information cannot be taken advantage of. But for large rank we can exploit the diversity of the columns in $\mathbf{X}$. This can be defined in a sufficient and necessary condition of the MMV model \eqref{eq:MMV_model} which must have
+When $\vert \text{supp}(\mathbf{X})\vert = k$ then $\text{rank}(\mathbf{X}) \leq k$. If rank$(\mathbf{X}) = 1$ then are the $k$-sparse vectors $\lbrace \mathbf{x}_i \rbrace_{i=1}^L$ multiples of each other and the joint information can not be taken advantage of. But for large rank it is possible to exploit the diversity of the columns in $\mathbf{X}$. This can be defined as a sufficient and necessary condition of the MMV model \eqref{eq:MMV_model}. MMV system $\textbf{Y}=\textbf{AX}$ must have
 \begin{align*}
 \vert \text{supp}(\mathbf{X}) \vert < \frac{\text{Spark} (\mathbf{A}) - 1 + \text{rank}(\mathbf{X})}{2}
 \end{align*}
 such that $\mathbf{X}$ can uniquely be determined.
 \\
-This result lead to that row-sparse matrix $\mathbf{X}$ with large rank can be recovered from fewer measurement \cite[p. 43]{CS}.
+This result says that a row-sparse matrix $\mathbf{X}$ with large rank can be recovered from fewer\todo{"fewer" skal lige præsiseres, evt. bare M measurements?} measurement \cite[p. 43]{CS}.
 
 %\subsection{Dictionary learning}\label{sec:dictionarylearning}
 %In cases where the dictionary is unknown it is possible to learn the dictionary from the observed measurement provided that several observations are available $\textbf{Y}=\left[ \textbf{y}_1, \dots ,\textbf{y}_L \right]$. 
@@ -255,17 +254,15 @@ This result lead to that row-sparse matrix $\mathbf{X}$ with large rank can be r
 %With the MMV model defined as a optimisation problem different dictionary learning algorithm can be used to learn the dictionary $\mathbf{A}$. One of them is the K-SVD algorithm.
 
 \section{Dictionary learning}\label{sec:dictionarylearning}
-As clarified in section \ref{sec:dic_conditions} the choice of dictionary matrix $\textbf{A}$ is essential to achieve the best recovery of a sparse signal $\textbf{x}$ from the measurements $\textbf{y}$. Pre-constructed dictionaries do exist which in many cases results in simple and fast algorithms for reconstruction of $\textbf{x}$\cite{Elad_book}. Pre-constructed dictionaries are typically fitted to a specific kind of data, for instance the discrete Fourier transform or the discrete wavelet transform are used especially for sparse representation of images\cite{Elad_book}. Hence the results of using such dictionaries depend on how well they fit the data of interest, which is creating a certain limitation. An alternative is to consider an adaptive dictionary based on a set of training data that resembles the data of interest. For this purpose learning methods are considered to empirically construct a fixed dictionary which can take part in the application. Different dictionary learning algorithms exist, one is the K-SVD which is to be elaborated in this section. The K-SVD algorithm was presented in 2006 by Elad et al. and found to outperform pre-constructed dictionaries when computational cost is of secondary interest\cite{Elad2006}. \\
+As clarified in section \ref{sec:dic_conditions} the estimation of dictionary matrix $\textbf{A}$ is essential to achieve the best recovery of the sparse signal $\textbf{x}$ from the measurements $\textbf{y}$. Pre-constructed dictionaries do exist which in many cases results in simple and fast algorithms for reconstruction of $\textbf{x}$\cite{Elad_book}. Pre-constructed dictionaries are typically fitted to a specific kind of data, for instance the discrete Fourier transform or the discrete wavelet transform are used especially for sparse representation of images\cite{Elad_book}. Hence the results of using such dictionaries depend on how well they fit the data of interest, which is creating a certain limitation. An alternative is to consider an adaptive dictionary based on a set of training data that resembles the data of interest. For this purpose learning methods are considered to empirically construct a fixed dictionary which can take part in the application. Different dictionary learning algorithms exist, one is the K-SVD which is to be elaborated in this section. The K-SVD algorithm was presented in 2006 by Elad et al. and found to outperform pre-constructed dictionaries when computational cost is of secondary interest\cite{Elad2006}. \\
 \\
 Consider now $\textbf{Y}=\left[ \textbf{y}_1, \dots ,\textbf{y}_L \right]$, $\textbf{y}_i\in \mathbb{R}^{M}$ as a training database, created by $\textbf{y}_i=\textbf{A}\textbf{x}_i$ for which we want to learn the best suitable dictionary $\textbf{A}$ and sparse representation $\textbf{X}=\left[ \textbf{x}_1, \dots ,\textbf{x}_L \right]$, $\textbf{x}_i\in \mathbb{R}^{N}$. For a known sparsity constraint $k$ this can be defined by an optimisation problem similar to the general compressive sensing problem of multiple measurements \cite{Elad_book}
 \begin{align}
-\min_{\mathbf{A,X}} \sum_{i=1}^{L} \Vert \mathbf{y} _i - \mathbf{Ax}_i \Vert_2^2 \quad st. \ \Vert \textbf{x}_i\Vert_0, \ 1\leq i \leq L.\label{eq:SVD1}
+\min_{\mathbf{A,X}} \sum_{i=1}^{L} \Vert \mathbf{y} _i - \mathbf{Ax}_i \Vert_2^2 \quad st. \ \Vert \textbf{x}_i\Vert_0\leq k, \ 1\leq i \leq L.\label{eq:SVD1}
 \end{align}  
 The learning consist of jointly solving the optimization problem on $\textbf{X}$ and $\textbf{A}$. The uniqueness of $\textbf{A}$ depends on the recovery sparsity condition. As clarified earlier recovery is only possible if $k < M$\cite{phd2015}. Furthermore, consider $\textbf{A}_0$ such that every training signal can be represented by $k_0 < \text{spark}(\textbf{A}_0)/2$ columns of $\textbf{A}_0$, then $\textbf{A}_0$ is a unique dictionary, up to scaling and permutation of columns\cite{Elad_book}\todo{fungerer disse to uniqueness parameter sammen?}. Again the $\ell_0$-norm lead to an NP-hard problem an heuristic methods are need.     
 
 \subsection{K-SVD}
-The dictionary learning algorithm K-SVD is a generalisation of the well known K-means clustering also referred to as vector quantization. In K-means clustering a set of K vectors is learned referred to as mean vectors, each signal sample is then represented by its nearest mean vector. That corresponds to the case with sparsity constrict $k=1$ and the representation reduced to a binary scalar $x={1,0}$. Further instead of computing the mean of $K$ sub-sets the K-SVD algorithm computes the SVD factorisation of the K different sub-matrices that correspond to the K columns of $\textbf{A}$\todo{maybe this should come in the end}.\\
-\\
 The dictionary learning algorithm K-SVD provide an update rule which is applied to each column of $\textbf{A}_0 = \left[ \textbf{a}_0, \hdots , \textbf{a}_N \right] $. Updating first $\textbf{a}_i$ and then the corresponding coefficients in $\textbf{X}$ which it is multiplied with, that is the $i^{\text{th}}$ row in $\textbf{X}$ denoted by $\textbf{x}_i^T$.\\
 Let $\textbf{a}_{i_{0}}$ be the column to be updated and let the remaining columns be fixed. By rewriting the objective function in \eqref{eq:SVD1} using matrix notation it is possible to isolate the contribution from $\textbf{a}_{i_{0}}$.
 \begin{align}
@@ -286,7 +283,7 @@ That is specifically that for $\textbf{E}_{i_0}=\textbf{U}\boldsymbol{\Sigma}\te
 \begin{align*}
 \textbf{U}=\left[\textbf{u}_1, \hdots, \textbf{u}_M\right] \in \mathbb{R}^{M\times M}, \quad \boldsymbol{\Sigma}=\text{diag}\left[\sigma_1, \hdots , \sigma_m \right] \in \mathbb{R}^{M\times N}, \quad \textbf{V}=\left[\textbf{v}_1, \hdots, \textbf{v}_N\right] \in \mathbb{R}^{N\times N} 
 \end{align*}  
-where $\textbf{U}$ and $\textbf{V}$ are unitary matrices, i.e. $\textbf{U}^T\textbf{U}=\textbf{UU}^T=\textbf{I}$, and $\sigma_j$ is the non-negative singular values of $\textbf{E}_{i_0}$ such that $\sigma_1\geq \sigma_2 \geq \hdots \geq 0$. The best $k$-rank approximation to $\textbf{E}_{i_0}$, with $k< rank(\textbf{E}_{i_0})$ is then given by\cite{Wiki..} 
+where $\textbf{U}$ and $\textbf{V}$ are unitary matrices, i.e. $\textbf{U}^T\textbf{U}=\textbf{UU}^T=\textbf{I}$, and $\sigma_j$ is the non-negative singular values of $\textbf{E}_{i_0}$ such that $\sigma_1\geq \sigma_2 \geq \hdots \geq 0$. The best $k$-rank approximation to $\textbf{E}_{i_0}$, with $k< rank(\textbf{E}_{i_0})$ is then given \todo{find kilde}by\cite{Wiki..} 
 \begin{align*}
 \textbf{E}_{i_{0}}^{(k)}= \sum_{j=1}^{k}\sigma_j\textbf{u}_{j}\textbf{v}_{j}^T.
 \end{align*} 
@@ -326,3 +323,4 @@ The main steps of K-SVD is described in algorithm \ref{alg:K_SVD}.
         \label{alg:K_SVD}
 \end{algorithm}
 
+The dictionary learning algorithm K-SVD is a generalisation of the well known K-means clustering also referred to as vector quantization. In K-means clustering a set of K vectors is learned referred to as mean vectors, each signal sample is then represented by its nearest mean vector. That corresponds to the case with sparsity constrict $k=1$ and the representation reduced to a binary scalar $x={1,0}$. Further instead of computing the mean of $K$ sub-sets the K-SVD algorithm computes the SVD factorisation of the K different sub-matrices that correspond to the K columns of $\textbf{A}$\todo{maybe this should come in the end}.\\

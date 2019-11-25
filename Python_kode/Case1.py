@@ -36,7 +36,7 @@ duration = 8
 iterations = 1000
 
 " Random Signals Generation - Sparse X "
-Y, A, X = data_generation.mix_signals(n_samples, duration, m)
+Y, A, X = data_generation.mix_signals(n_samples, duration, m, n, non_zero)
 
 # =============================================================================
 # M-SBL
@@ -44,22 +44,22 @@ Y, A, X = data_generation.mix_signals(n_samples, duration, m)
 X_rec = MSBL.M_SBL(A, Y, m, n, n_samples, non_zero, iterations)
 
 mse = mean_squared_error(X, X_rec)
-mse2 = (np.square(X - X_rec)).mean(axis=None) # Another way to find the error
+print("This is the error of X: ", mse)
 # =============================================================================
 # Plot
 # =============================================================================
 plt.figure(1)
 plt.title('Plot of row 2 of X - Mixed Signal Data')
-plt.plot(X[5], 'r',label='Real X')
-plt.plot(X_rec[5],'g', label='Recovered X')
+plt.plot(X[1], 'r',label='Real X')
+plt.plot(X_rec[1],'g', label='Recovered X')
 plt.legend()
 plt.show
 plt.savefig('case1_1.png')
 
 plt.figure(2)
 plt.title('Plot of column 2 of X - Mixed Signal Data')
-plt.plot(X.T[5], 'r',label='Real X')
-plt.plot(X_rec.T[5],'g', label='Recovered X')
+plt.plot(X.T[1], 'r',label='Real X')
+plt.plot(X_rec.T[1],'g', label='Recovered X')
 plt.legend()
 plt.show
 plt.savefig('case1_2.png')

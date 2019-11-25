@@ -22,13 +22,12 @@ import matplotlib.pyplot as plt
 import data_generation
 from Cov_DL import MSBL
 
-
 np.random.seed(1)
 
 # =============================================================================
 # Import data
 # =============================================================================
-m = 8               # number of sensors
+m = 8                  # number of sensors
 n_samples = 1940       # number of sampels
 iterations = 1000
 

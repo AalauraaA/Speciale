@@ -41,8 +41,8 @@ Y, A, X = data_generation.mix_signals(n_samples, duration, m, n, non_zero)
 # =============================================================================
 X_rec = MSBL.M_SBL(A, Y, m, n, n_samples, non_zero, iterations)
 
-#mse = mean_squared_error(X, X_rec)
-#mse2 = (np.square(X - X_rec)).mean(axis=None) # Another way to find the error
+mse = mean_squared_error(X, X_rec)
+print("This is the error of X: ", mse)
 # =============================================================================
 # Plot
 # =============================================================================
@@ -62,14 +62,31 @@ plt.legend()
 plt.show
 plt.savefig('case2_2.png')
 
-for i in range(4):
-    plt.figure(3)
-    plt.title('Plot of row of X - Known X')
-    plt.plot(X[i], label=i)
-    plt.legend()
-    plt.savefig('case2_3.png')
-    plt.figure(4)
-    plt.title('Plot of row of X - Recovered X')
-    plt.plot(X_rec[i], label=i)
-    plt.legend()
-    plt.savefig('case2_4.png')
+plt.figure(3)
+plt.title('Plot of row 2 of X - Mixed Signal Data')
+plt.plot(X[11], 'r',label='Real X')
+plt.plot(X_rec[11],'g', label='Recovered X')
+plt.legend()
+plt.show
+plt.savefig('case2_3.png')
+
+plt.figure(4)
+plt.title('Plot of column 2 of X - Mixed Signal Data')
+plt.plot(X.T[11], 'r',label='Real X')
+plt.plot(X_rec.T[11],'g', label='Recovered X')
+plt.legend()
+plt.show
+plt.savefig('case2_4.png')
+
+"This plot is not neccessary as we only have 2 non zeros"
+#for i in range(4):
+#    plt.figure(3)
+#    plt.title('Plot of row of X - Known X')
+#    plt.plot(X[i], label=i)
+#    plt.legend()
+#    plt.savefig('case2_3.png')
+#    plt.figure(4)
+#    plt.title('Plot of row of X - Recovered X')
+#    plt.plot(X_rec[i], label=i)
+#    plt.legend()
+#    plt.savefig('case2_4.png')

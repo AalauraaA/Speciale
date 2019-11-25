@@ -1,5 +1,5 @@
-\section{Case 1}
-For case 1 the linear multiple measurement vector model
+\section{Case 2}
+For case 2 the linear multiple measurement vector model
 \begin{align*}
 \mathbf{Y} = \mathbf{AX},
 \end{align*}
@@ -9,26 +9,26 @@ The known matrices $\mathbf{Y}$ and $\mathbf{A}$ has been generated from a \text
 \\
 The source matrix wish recovered $\mathbf{X}$ is also generated from this function and will be used to be compared with the recovered/estimated source matrix $\\hat{\mathbf{X}}$. $\hat{\mathbf{X}}$ will be recovered with the M-SBL Algorithm with the following variables: 
 \begin{itemize}
-\item $m = 3$ (number of sensors)
-\item $n = 8$ (number of sources)
+\item $m = 10$ (number of sensors)
+\item $n = 15$ (number of sources)
 \item $L = 20$ (number of samples)
 \item No segmentations -- $\mathbf{Y} = \mathbf{AX}$
 \item Iterations = 1000
-\item $k = 4$ is active sources (row-wise) and is half of the rows in $\mathbf{X}$ ($k$ is the non-zeros rows.)   
+\item $k = 2$ is active sources (row-wise)($k$ is the non-zeros rows.)   
 \end{itemize}
-For the comparison we start with visualising the second row of $\mathbf{X}$ and $\hat{\mathbf{X}}$ which is one source ($n=1$) with $L = 20$ samples and the second column of $\mathbf{X}$ and $\hat{\mathbf{X}}$ which one sample $L=1$ with $n = 8$ sources.
+For the comparison we start with visualising the second row of $\mathbf{X}$ and $\hat{\mathbf{X}}$ which is one source ($n=1$) with $L = 20$ samples and the second column of $\mathbf{X}$ and $\hat{\mathbf{X}}$ which one sample $L=1$ with $n = 15$ sources.
 \begin{figure}[H]
 \centering
 \begin{subfigure}{0.49\textwidth}
 \centering
-\includegraphics[width=\textwidth]{figures/cases/case1_1.png}
+\includegraphics[width=\textwidth]{figures/cases/case2_1.png}
 \caption{}
-\label{fig:case1_1}
+\label{fig:case2_1}
 \end{subfigure}
 \begin{subfigure}{0.49\textwidth}
-\includegraphics[width=\textwidth]{figures/cases/case1_2.png}
+\includegraphics[width=\textwidth]{figures/cases/case2_2.png}
 \caption{}
-\label{fig:case1_2}
+\label{fig:case2_2}
 \end{subfigure}
 \caption{\textbf{(a)} The comparison of one source of all the samples of the real $\mathbf{X}$ and the recovered $\hat{\mathbf{X}}$. \textbf{(b)} The comparison of one samples for all sources of the real $\mathbf{X}$ and the recovered $\hat{\mathbf{X}}$.}
 \end{figure}
@@ -37,22 +37,22 @@ We have found the error between all the elements of the known/real $\mathbf{X}$ 
 \begin{align*}
 \text{MSE} = \frac{1}{L} \sum_{i=1}^L (\mathbf{X} - \hat{\mathbf{X}}_i)^2
 \end{align*}
-The MSE of case 1 was found to be $0.144$ when rounded to the nearest three decimal.
+The MSE of case 1 was found to be $0.037$ when rounded to the nearest three decimal.
 \\ \\
-For the next visualisation we look at the first 4 sources of $\mathbf{X}$ and $\hat{\mathbf{X}}$ to see how well the estimation is.
+As this case only have two active sources we provided the second plot.
 \begin{figure}[H]
 \centering
 \begin{subfigure}{0.49\textwidth}
 \centering
-\includegraphics[width=\textwidth]{figures/cases/case1_3.png}
+\includegraphics[width=\textwidth]{figures/cases/case2_3.png}
 \caption{}
-\label{fig:case1_3}
+\label{fig:case2_3}
 \end{subfigure}
 \begin{subfigure}{0.49\textwidth}
-\includegraphics[width=\textwidth]{figures/cases/case1_4.png}
+\includegraphics[width=\textwidth]{figures/cases/case2_4.png}
 \caption{}
-\label{fig:case1_4}
+\label{fig:case2_4}
 \end{subfigure}
-\caption{\textbf{(a)} The first four sources of $\mathbf{X}$ \textbf{(b)} The first four sources of $\hat{\mathbf{X}}$. Two source $0$ and $1$ are active.}
+\caption{\textbf{(a)} The comparison of one source of all the samples of the real $\mathbf{X}$ and the recovered $\hat{\mathbf{X}}$. \textbf{(b)} The comparison of one samples for all sources of the real $\mathbf{X}$ and the recovered $\hat{\mathbf{X}}$.}
 \end{figure}
 \noindent

@@ -92,6 +92,42 @@ def mix_signals(n_samples, duration, m, n, non_zero):
     
     return Y, A, X
 
+def mix_signals_det(n_samples, duration, non_zero, long=True):
+    """ 
+    Generation of 4 independent signals, united in X with zero rows in 
+    between for sparsity. 
+    Generation of random mixing matrix A and corresponding Y, such that Y = AX
+    
+    where A is (8 x 6), X is (8 x n_samples), Y is (6 x n_sampels) 
+    
+
+    RETURN: Y, A, X,
+    
+    """
+    time = np.linspace(0, duration, n_samples)  # list of time index 
+    
+    s1 = np.sin(2 * time)                       # sinusoidal
+    s2 = np.sign(np.sin(3 * time))              # square signal
+    s3 = signal.sawtooth(2 * np.pi * time)      # saw tooth signal
+    s4 = np.sin(4 * time)                       # different sinusoidal
+    zero_row = np.zeros(n_samples)
+
+    X = np.c_[s1, s2, s3, s4].T
+    n = len(X)
+    m = len(X)
+    A = np.random.randn(m, n)                 # Random mix matrix
+    #A = A/np.linalg.norm(A, ord=2, axis=0, keepdims=True)
+    Y = np.dot(A, X)                       # Observed signal
+    
+    if long==True:
+        X = np.c_[s1, zero_row, zero_row, s2, zero_row, s3, zero_row, s4].T
+        n = len(X)
+        m = 3
+        A = np.random.randn(m, n)                 # Random mix matrix
+        A = A/np.linalg.norm(A, ord=2, axis=0, keepdims=True)
+        Y = np.dot(A, X)    
+    return Y, A, X
+
 def rossler_data(n_sampels=1940, ex = 1, m=8):
     """
     - denne skal måske opdaters så vi kan vi kan ændre dimensioner 

@@ -43,29 +43,62 @@ X_rec = MSBL.M_SBL(A, Y, m, n, n_samples, non_zero, iterations)
 # Plot
 # =============================================================================
 plt.figure(1)
-plt.title('Plot of row 2 of X - Mixed Signal Data')
-plt.plot(X[5], 'r',label='Real X')
-plt.plot(X_rec[5],'g', label='Recovered X')
+plt.title('Comparison of each active source in X and corresponding reconstruction ')
+for i in range(n+1)[1:6]: 
+    print(i)
+    plt.subplot(5, 1, i)
+    plt.plot(X[i-1], 'r',label='Real X')
+    plt.plot(X_rec[i-1],'g', label='Recovered X')
+
 plt.legend()
 plt.show
-plt.savefig('case3_1.png')
+plt.savefig('case_rossler1.png')
 
 plt.figure(2)
-plt.title('Plot of column 2 of X - Mixed Signal Data')
-plt.plot(X.T[5], 'r',label='Real X')
-plt.plot(X_rec.T[5],'g', label='Recovered X')
+for i in range(n+1)[1:6 ]: 
+    plt.subplot(5, 1, i)
+    plt.plot(X[i+4], 'r',label='Real X')
+    plt.plot(X_rec[i+4],'g', label='Recovered X')
+
 plt.legend()
 plt.show
-plt.savefig('case3_2.png')
+plt.savefig('case_rossler2.png')
 
-for i in range(4):
-    plt.figure(3)
-    plt.title('Plot of row of X - Known X')
-    plt.plot(X[i], label=i)
-    plt.legend()
-    plt.savefig('case3_3.png')
-    plt.figure(4)
-    plt.title('Plot of row of X - Recovered X')
-    plt.plot(X_rec[i], label=i)
-    plt.legend()
-    plt.savefig('case3_4.png')
+plt.figure(5)
+plt.title('Plot of column 2 of X - Mixed Signal Data')
+plt.plot(X.T[2], 'r',label='Real X')
+plt.plot(X_rec.T[2],'g', label='Recovered X')
+plt.legend()
+plt.show
+plt.savefig('case1_2.png')
+
+
+
+
+#plt.figure(1)
+#plt.title('Plot of row 2 of X - Mixed Signal Data')
+#plt.plot(X[5], 'r',label='Real X')
+#plt.plot(X_rec[5],'g', label='Recovered X')
+#plt.legend()
+#plt.show
+#plt.savefig('case3_1.png')
+#
+#plt.figure(2)
+#plt.title('Plot of column 2 of X - Mixed Signal Data')
+#plt.plot(X.T[5], 'r',label='Real X')
+#plt.plot(X_rec.T[5],'g', label='Recovered X')
+#plt.legend()
+#plt.show
+#plt.savefig('case3_2.png')
+#
+#for i in range(4):
+#    plt.figure(3)
+#    plt.title('Plot of row of X - Known X')
+#    plt.plot(X[i], label=i)
+#    plt.legend()
+#    plt.savefig('case3_3.png')
+#    plt.figure(4)
+#    plt.title('Plot of row of X - Recovered X')
+#    plt.plot(X_rec[i], label=i)
+#    plt.legend()
+#    plt.savefig('case3_4.png')

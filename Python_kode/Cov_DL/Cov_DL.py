@@ -16,20 +16,22 @@ from dictionary_learning import K_SVD
 from sklearn.datasets import make_sparse_coded_signal
 import data_generation
 
+
 np.random.seed(1)
 
 """ INITIALISING PARAMETERS """
 
-m = 6               # number of sensors
+m = 3               # number of sensors
 n = 8               # number of sources
-non_zero = 6        # max number of non-zero coef. in rows of X
-n_samples = 20      # number of sampels
+non_zero = 4        # max number of non-zero coef. in rows of X
+n_samples = 100      # number of sampels
 
 
 """ DATA GENERATION """
 
-Y, A_real, X_real = data_generation.mix_signals(n_samples, 10)
-#A_real = A_real/np.linalg.norm(A_real, ord=2, axis=0, keepdims=True)
+Y, A_real, X_real = data_generation.mix_signals_det(n_samples, 8, non_zero)
+#Y, A_real, X_real = data_generation.mix_signals(n_samples, 10, m, n, non_zero)
+A_real = A_real/np.linalg.norm(A_real, ord=2, axis=0, keepdims=True)
 #Y, A_real, X_real = data_generation.random_sparse_data(m, n, non_zero, n_samples)
 
 """ SEGMENTATION """
@@ -63,7 +65,7 @@ n_samples = n_seg
 # Dictionary learning
 D, sigma, iter_ = K_SVD(Y_big, n=len(sigma), m=len(Y_big),
                                  non_zero=non_zero, n_samples=n_samples,
-                                 max_iter=100)
+                                 max_iter=1000)
 
 # results for the large system
 Y_big_rec = np.matmul(D,sigma)
@@ -91,8 +93,8 @@ for j in range(n):
     matrix_d = reverse_vec(d)
     E = np.linalg.eig(matrix_d)[0]
     V = np.linalg.eig(matrix_d)[1]
-    max_eig = np.max(E)
-    index = np.where(E == max_eig)
+    max_eig = np.max(np.abs(E))     # should it be abselut here?
+    index = np.where(np.abs(E) == max_eig)
     max_vec = V[:, index[0]]        # using the column as eigen vector here
     temp = np.sqrt(max_eig)*max_vec
     A_rec.T[j] = temp.T

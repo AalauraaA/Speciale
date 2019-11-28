@@ -36,39 +36,36 @@ Let $f$ be the sample frequency of the observed data $\mathbf{Y}$ and let $s$ de
 \mathbf{Y}_s = \mathbf{AX}_s + \textbf{E}_s, \quad \forall s.
 \end{align*}
 Cov-DL takes advantage of the covariance domain where the dimensionality is increased allowing for an enlarged number of sources to be active while the dictionary remains recoverable.  
-An important aspect of this method is the prior assumption that the sources within one segment are uncorrelated, that is the rows of $\textbf{X}_s$ being mutually uncorrelated\todo{her står noget ekstra med independent columns?}. 
-%This implies the entries in $\textbf{X}_s$ to be uncorrelated because of the independent columns.\\  
+An important aspect of this method is the prior assumption that the sources within one segment are uncorrelated, that is the rows of $\textbf{X}_s$ being mutually uncorrelated. 
 From the assumption of uncorrelated sources it can be assumed that the sample covariance of $\textbf{X}_s$ becomes nearly diagonal. This is of importance when the system is transformed to the covariance domain.    
 \\
-The Cov-DL do only recover the mixing matrix $\mathbf{A}$ given the measurements $\textbf{Y}$. Given $\textbf{A}$ the source matrix $\mathbf{X}$ is to be recovered by use of the Multiple Sparse Bayesian Learning algorithm, this is described in section \ref{sec:M-SBL} \todo{en ny section. Tjek lige om det er bedre formuleret, jeg har lavet det lidt om igen}. 
-%Cov-DL works together with another algorithm to find the source matrix $\mathbf{X}$, in this thesis Multiple Sparse Bayesian Learing (M-SBL) is used for the source recovery and is described in section \ref{sec:M-SBL}. 
-\\
-In this section we assume that $\mathbf{X}$ is known and a random sparse matrix is used to represent the sources\todo{Det gør vi vel egenligt ikke?}. 
+The Cov-DL do only recover the mixing matrix $\mathbf{A}$ given the measurements $\textbf{Y}$. Given $\textbf{A}$ the source matrix $\mathbf{X}$ is to be recovered by use of the Multiple Sparse Bayesian Learning algorithm, this is described in section \ref{ch:M-SBL} 
 
 
 \section{Covariances domain representation}
-The observed data $\mathbf{Y}_s$ can be described in the covariance domain by the sample covariance matrix. Considering the observations $\mathbf{Y}_s \in \mathbb{R}^{M\times L}$ the sample covariance is defined as the covariance among the $M$ measurements across the $L$ samples. That is a $M \times M$ matrix $\boldsymbol{\Sigma}_{\mathbf{Y}_s}=[\sigma_{jk}]$ with entries 
+Consider the covariance of a vector $\textbf{x}_i$  
+\begin{align*}
+\boldsymbol{\Sigma}=\mathbb{E}[(\textbf{x}_i-\mathbb{E}[\textbf{x}_i])(\textbf{x}_i-\mathbb{E}[\textbf{x}_i])].
+\end{align*} 
+Assume that all samples has zero mean and the same distribution within one segment. The observed measurements $\mathbf{Y}_s \in \mathbb{R}^{M\times L}$ can be described in the covariance domain by the sample covariance $\hat{\boldsymbol{\Sigma}}$ which is defined as the covariance among the $M$ measurements across the $L_s$ samples. That is a $M \times M$ matrix $\boldsymbol{\Sigma}_{\mathbf{Y}_s}=[\sigma_{jk}]$ with entries 
 \begin{align*}
 \sigma_{jk}= \frac{1}{L}\sum_{i=1}^{L}(y_{ji}- \bar{y}_j)(y_{ki}-\bar{y}_k).
 \end{align*}
-Assume that the measurements has zeros mean $\mathbb{E}[\mathbf{Y}_s] = 0$, this can be done through pre-processing. 
 Using matrix notation the sample covariance of $\mathbf{Y}_s$ can be written as
 \begin{align*}
 \hat{\boldsymbol{\Sigma}}_{\mathbf{Y}_s} = \frac{1}{L} \mathbf{Y}_s \mathbf{Y}_s^T.
 \end{align*}  
 Similar the source matrix $\mathbf{X}_s$ can be described in the covariance domain by the sample covariance matrix
 \begin{align*}
-\hat{\boldsymbol{\Sigma}}_{\mathbf{X}_s} &= \frac{1}{L} \mathbf{X}_s \mathbf{X}_s^T \approx \boldsymbol{\Lambda}_s
+\hat{\boldsymbol{\Sigma}}_{\mathbf{X}_s} &= \frac{1}{L} \mathbf{X}_s \mathbf{X}_s^T = \boldsymbol{\Lambda}_s
 \end{align*}
-From the assumption of uncorrelated sources $\mathbf{X}_s$ the sample covariance matrix is expected to be nearly diagonal, thus it can be approximated as $\boldsymbol{\Lambda}_s$ which is a diagonal matrix consisting of the diagonal entries of $\hat{\boldsymbol{\Sigma}}_{\mathbf{X}_s}$ \cite{Balkan2015}.
-%\begin{align*}
-%\boldsymbol{\Sigma}_{\mathbf{X}_s} &= \Lambda + \textbf{E}_s.
-%\end{align*}
-%where $\Lambda$ is a diagonal matrix consisting of the diagonal entries of $\Sigma_{\textbf{X}_s}$ and $\textbf{E}_s$ contains the remaining entries which is expected to be zeros or nearly zeros\cite{Balkan2015}.
+From the assumption of uncorrelated sources within $\mathbf{X}_s$ the sample covariance matrix is expected to be nearly diagonal, thus it can be writen as $\boldsymbol{\Lambda}_s + \boldsymbol{\varepsilon}$ where $\boldsymbol{\Delta}$ is a diagonal matrix consisting of the diagonal entries of $\hat{\boldsymbol{\Sigma}}_{\mathbf{X}_s}$ and $ \boldsymbol{\varepsilon}$ is the estimation error\cite{Balkan2015}.
 \\
-Each segment is then modelled as
+Each segment is then modelled in the covariance domain as
 \begin{align}\label{eq:cov_model}
-\hat{\boldsymbol{\Sigma}}_{\mathbf{Y}_s} = \frac{1}{L}\mathbf{Y}_s \mathbf{Y}_s^T &= \frac{1}{L} \left( \mathbf{A} \mathbf{X}_s \mathbf{X}_s^T \mathbf{A} + \mathbf{E}_s \mathbf{E}_s^T + 2 \mathbf{A} \mathbf{X}_s \mathbf{E}_s^T \right) \nonumber \\
+\hat{\boldsymbol{\Sigma}}_{\mathbf{Y}_s} = 
+\frac{1}{L_s}\mathbf{Y}_s \mathbf{Y}_s^T &= 
+\frac{1}{L} \left( \mathbf{A} \mathbf{X}_s + \mathbf{E}_s \right) \left( \mathbf{A} \mathbf{X}_s + \mathbf{E}_s\right) \nonumber \\ 
 &= \mathbf{A} \boldsymbol{\Lambda}_s \mathbf{A}^T + \boldsymbol{\Sigma}_{\mathbf{E}_s} \nonumber \\
 &= \mathbf{A} \boldsymbol{\Sigma}_{\mathbf{X}_s} \mathbf{A}^T + \mathbf{A} \boldsymbol{\Phi_s} \mathbf{A}^T  \nonumber \\
 &= \mathbf{A} \boldsymbol{\Lambda}_s \mathbf{A}^T + \mathbf{A} \boldsymbol{\Phi_s} \mathbf{A}^T \nonumber \\

@@ -47,14 +47,53 @@ Y, A, X = data_generation.mix_signals(n_samples, duration, m, n, non_zero)
 # =============================================================================
 # M-SBL
 # =============================================================================
-X_rec = MSBL.M_SBL(A, Y, m, n, n_samples, non_zero, iterations)
+X_rec_noise = MSBL.M_SBL(A, Y, m, n, n_samples, non_zero, iterations, noise=True)
+
+X_rec = MSBL.M_SBL(A, Y, m, n, n_samples, non_zero, iterations, noise=False)
+
+mse_noise = mean_squared_error(X, X_rec_noise)
+print("This is the error of X with noise: ", mse_noise)
 
 mse = mean_squared_error(X, X_rec)
-print("This is the error of X: ", mse)
+print("This is the error of X without: ", mse)
 # =============================================================================
 # Plot
 # =============================================================================
+plt.figure(1)
+plt.subplot(4, 1, 1)
+plt.title('Comparison of each active source in X and corresponding reconstruction ')
+plt.plot(X[0], 'r',label='Real X')
+plt.plot(X_rec_noise[0],'g', label='Recovered X')
+#plt.legend()
+#plt.show
+#plt.savefig('case1_1.png')
 
+plt.subplot(4, 1, 2)
+#plt.title('Plot of row 2 of X - Mixed Signal Data')
+plt.plot(X[1], 'r',label='Real X')
+plt.plot(X_rec_noise[1],'g', label='Recovered X')
+#plt.legend()
+#plt.show
+#plt.savefig('case1_1.png')
+
+plt.subplot(4, 1, 3)
+#plt.title('Plot of row 4 of X - Mixed Signal Data')
+plt.plot(X[4], 'r',label='Real X')
+plt.plot(X_rec_noise[4],'g', label='Recovered X')
+#plt.legend()
+#plt.show
+#plt.savefig('case1_1.png')
+
+
+plt.subplot(4, 1, 4)
+#plt.title('Plot of row 8 of X - Mixed Signal Data')
+plt.plot(X[7], 'r',label='Real X')
+plt.plot(X_rec_noise[7],'g', label='Recovered X')
+plt.legend()
+plt.show
+#plt.savefig('case1_1.png')
+
+plt.figure(2)
 plt.subplot(4, 1, 1)
 plt.title('Comparison of each active source in X and corresponding reconstruction ')
 plt.plot(X[0], 'r',label='Real X')
@@ -86,16 +125,17 @@ plt.plot(X[7], 'r',label='Real X')
 plt.plot(X_rec[7],'g', label='Recovered X')
 plt.legend()
 plt.show
-plt.savefig('case1_1.png')
+#plt.savefig('case1_1.png')
 
-plt.figure(5)
-plt.title('Plot of column 2 of X - Mixed Signal Data')
-plt.plot(X.T[2], 'r',label='Real X')
-plt.plot(X_rec.T[2],'g', label='Recovered X')
-plt.legend()
-plt.show
-plt.savefig('case1_2.png')
 
+#plt.figure(5)
+#plt.title('Plot of column 2 of X - Mixed Signal Data')
+#plt.plot(X.T[2], 'r',label='Real X')
+#plt.plot(X_rec.T[2],'g', label='Recovered X')
+#plt.legend()
+#plt.show
+#plt.savefig('case1_2.png')
+#
 
 #for i in range(8):
 #    plt.figure(3)

@@ -28,35 +28,45 @@ np.random.seed(1)
 # =============================================================================
 # Without Segmentation M-SBL Algorithm
 # =============================================================================
-def M_SBL(A, Y, m, n, n_samples, non_zero, iterations):
+def M_SBL(A, Y, m, n, n_samples, non_zero, iterations, noise):
     gamma = np.ones([iterations+1, n,1])   # size iterations x n x 1
-    lam = np.ones(n)                    # size N x 1
+    lam = np.ones(n)                       # size N x 1
     mean = np.ones(n)
-    Sigma = 0                            # size N x L   
+    Sigma = 0                              # size N x L                            
     for k in range(iterations):
         Gamma = np.diag(gamma[k-1])        # size 1 x 1
-        for i in range(n):   
-            " Making Sigma and Mu "
-            #sig = lam[i] * np.identity(m) + (A.dot(Gamma * A.T))
-            sig = lam[i] * np.identity(m) + (A * Gamma).dot(A.T)
-            inv = np.linalg.inv(sig)
-            Sigma = Gamma - Gamma * (A.T.dot(inv)).dot(A) * Gamma
-            mean = Gamma * (A.T.dot(inv)).dot(Y)
+        if noise == True:  
+            for i in range(n):   
+                " Making Sigma and Mu "
+                sig = lam[i] * np.identity(m) + (A * Gamma).dot(A.T)
+                inv = np.linalg.inv(sig)
+                Sigma = Gamma - Gamma * (A.T.dot(inv)).dot(A) * Gamma
+                mean = Gamma * (A.T.dot(inv)).dot(Y)
+                
+                " Making the noise variance/trade-off parameter lambda of p(Y|X)"
+                lam_num = 1/n_samples * np.linalg.norm(Y - A.dot(mean), 
+                                                       ord = 'fro')  # numerator
+                lam_for = 0
+                for j in range(n):
+                    lam_for += Sigma[j][j] / gamma[k-1][j]
+                lam_den = m - n + lam_for                            # denominator
+                lam[i] =  lam_num / lam_den
+               
+                " Update gamma with EM and with M being Fixed-Point"
+                gam_num = 1/n_samples * np.linalg.norm(mean[i])
+                gam_den = 1 - gamma[k-1][i] * Sigma[i][i]
+                gamma[k][i] = gam_num/gam_den
+        if noise == False:
+            for i in range(n):   
+                " Making Sigma and Mu "
+                Sigma = (np.identity(n) - np.sqrt(Gamma) * np.linalg.pinv(A * np.sqrt(Gamma)).dot(A)) * Gamma
+                mean = np.sqrt(Gamma) * np.linalg.pinv(A * np.sqrt(Gamma)).dot(Y)
+                
+                " Update gamma with EM and with M being Fixed-Point"
+                gam_num = 1/n_samples * np.linalg.norm(mean[i])
+                gam_den = 1 - gamma[k-1][i] * Sigma[i][i]
+                gamma[k][i] = gam_num/gam_den
             
-            " Making the noise variance/trade-off parameter lambda of p(Y|X)"
-            lam_num = 1/n_samples * np.linalg.norm(Y - A.dot(mean), 
-                                                   ord = 'fro')  # numerator
-            lam_for = 0
-            for j in range(n):
-                lam_for += Sigma[j][j] / gamma[k-1][j]
-            lam_den = m - n + lam_for                            # denominator
-            lam[i] =  lam_num / lam_den
-           
-            " Update gamma with EM and with M being Fixed-Point"
-            gam_num = 1/n_samples * np.linalg.norm(mean[i])
-            gam_den = 1 - gamma[k-1][i] * Sigma[i][i]
-            gamma[k][i] = gam_num/gam_den
-        
         " Finding the support set "    
         support = np.zeros(non_zero)
         H = gamma[-2]

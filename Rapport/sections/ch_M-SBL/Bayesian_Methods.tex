@@ -74,7 +74,7 @@ p (\mathbf{x}_{i \cdot} ; \gamma_i) &= \mathcal{N}(0, \gamma_i \mathbf{I}).
 \end{align*}
 By combing the row priors 
 \begin{align*}
-p (\mathbf{X} \vert \boldsymbol{\gamma}) &= \prod_{j=1}^L p (\mathbf{x}_{ \cdot j} \vert \gamma_i),
+p (\mathbf{X} ; \boldsymbol{\gamma}) &= \prod_{j=1}^L p (\mathbf{x}_{ \cdot j} ; \gamma_i),
 \end{align*}
 a full prior of $\mathbf{X}$ is achieved with the hyperparameter vector $\boldsymbol{\gamma} = [\gamma_1, \dots, \gamma_M]^T$. By combining the full prior and the likelihood $p(\mathbf{y}_{\cdot j} \vert \mathbf{x}_{\cdot j})$ the posterior of the $j$-th column of the source matrix $\mathbf{X}$ is defined as
 \begin{align*}
@@ -85,7 +85,7 @@ with the mean and covariance given as
 \boldsymbol{\Sigma} &= \text{Cov}(\mathbf{x}_{\cdot j} \vert \mathbf{y}_{\cdot j} ; \boldsymbol{\gamma}) = \boldsymbol{\Gamma} - \boldsymbol{\Gamma} \mathbf{A}^T \left( \lambda \mathbf{I} + \mathbf{A} \boldsymbol{\Gamma} \mathbf{A}^T\right)^{-1} \mathbf{A} \boldsymbol{\Gamma}, \quad \forall j = 1, \dots, L \\
 \mathcal{M} &= [\boldsymbol{\mu}_{\cdot 1}, \dots, \boldsymbol{\mu}_{\cdot L}] = \mathbb{E}[\mathbf{X} \vert \mathbf{Y} ; \boldsymbol{\gamma}] = \boldsymbol{\Gamma} \mathbf{A}^T \left( \lambda \mathbf{I} + \mathbf{A} \boldsymbol{\Gamma} \mathbf{A}^T\right)^{-1} \mathbf{Y},
 \end{align}
-where $\boldsymbol{\Gamma} = \text{diag}(\boldsymbol{\gamma})$. 
+where $\boldsymbol{\Gamma} = \text{diag}(\boldsymbol{\gamma})$ \todo{Skriv her at mean kan bruges som et initial udgangspunkt for X}. 
 \\ \\
 The row sparsity is achieved whenever $\gamma_i = 0$ leading to that the posterior must have the following probability
 \begin{align*}

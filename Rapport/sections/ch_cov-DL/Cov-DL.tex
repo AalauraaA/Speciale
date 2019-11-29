@@ -121,6 +121,33 @@ and $\textbf{b}_i$ is the corresponding eigenvector.\todo{redegørelse for resul
 \end{itemize}
 \end{algorithm}
 
+measurements. 
+\begin{algorithm}[H]
+\caption{Basis ICA}
+\begin{algorithmic}[1]
+			\Procedure{Segmentation}{$\textbf{Y}$}
+			\State $\text{define lengt of segments} L_s$
+			\State $ $
+			\EndProcedure  
+			\State
+            \Procedure{ICA}{$\textbf{y}$}    
+			\State$k=0$            
+            
+            \For{$j \gets 1,2, \hdots ,N$ }
+            
+            	\While{$\text{convergance critia not meet}$} 
+               		\State $k = k+1$
+                	\State $\textbf{b}_{j(k)} \gets \text{sign}\gamma_{(k-1)} \textbf{y}(\textbf{b}_{j}^T \textbf{y})^3$
+                	\State $\textbf{b}_{j(k)} \gets \textbf{b}_j/\Vert \textbf{b}_j \Vert $ 
+                	\State $\gamma_{(k)} \gets ((\textbf{b}_{j}^T \textbf{y})^4 - 3) - \gamma_{(k-1)} $
+          		\EndWhile
+          		\State $x_{j} = \textbf{b}_{j}^T\textbf{y}$
+          	\EndFor
+          	
+            \EndProcedure
+        \end{algorithmic} 
+        \label{alg:basicICA}
+\end{algorithm}
 
 \subsubsection*{Cov-DL2 -- undercomplete \textbf{D}}
 \todo{kan ve udelade denne med det argument at vi altid vil finde så mange sources som muligt. fordi vi ikke ved hvor mange der der }

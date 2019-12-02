@@ -81,8 +81,8 @@ p(\mathbf{x}_{\cdot j} \vert \mathbf{y}_{\cdot j} ; \boldsymbol{\gamma}) = \frac
 \end{align*}
 with the mean and covariance given as
 \begin{align}\label{eq:moments}
-\boldsymbol{\Sigma} &= \text{Cov}(\mathbf{x}_{\cdot j} \vert \mathbf{y}_{\cdot j} ; \boldsymbol{\gamma}) = \boldsymbol{\Gamma} - \boldsymbol{\Gamma} \mathbf{A}^T \left( \lambda \mathbf{I} + \mathbf{A} \boldsymbol{\Gamma} \mathbf{A}^T\right)^{-1} \mathbf{A} \boldsymbol{\Gamma}, \quad \forall j = 1, \dots, L \\
-\mathcal{M} &= [\boldsymbol{\mu}_{\cdot 1}, \dots, \boldsymbol{\mu}_{\cdot L}] = \mathbb{E}[\mathbf{X} \vert \mathbf{Y} ; \boldsymbol{\gamma}] = \boldsymbol{\Gamma} \mathbf{A}^T \left( \lambda \mathbf{I} + \mathbf{A} \boldsymbol{\Gamma} \mathbf{A}^T\right)^{-1} \mathbf{Y},
+\boldsymbol{\Sigma} &= \text{Cov}(\mathbf{x}_{\cdot j} \vert \mathbf{y}_{\cdot j} ; \boldsymbol{\gamma}) = \boldsymbol{\Gamma} - \boldsymbol{\Gamma} \mathbf{A}^T \left( \sigma^2 \mathbf{I} + \mathbf{A} \boldsymbol{\Gamma} \mathbf{A}^T\right)^{-1} \mathbf{A} \boldsymbol{\Gamma}, \quad \forall j = 1, \dots, L \\
+\mathcal{M} &= [\boldsymbol{\mu}_{\cdot 1}, \dots, \boldsymbol{\mu}_{\cdot L}] = \mathbb{E}[\mathbf{X} \vert \mathbf{Y} ; \boldsymbol{\gamma}] = \boldsymbol{\Gamma} \mathbf{A}^T \left( \sigma^2 \mathbf{I} + \mathbf{A} \boldsymbol{\Gamma} \mathbf{A}^T\right)^{-1} \mathbf{Y},
 \end{align}
 where $\boldsymbol{\Gamma} = \text{diag}(\boldsymbol{\gamma})$. The posterior mean is the point estimate for $\mathbf{X}$ without involving the support set $S$.
 \\

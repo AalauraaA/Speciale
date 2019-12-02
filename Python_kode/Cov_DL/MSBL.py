@@ -29,56 +29,73 @@ np.random.seed(1)
 # Without Segmentation M-SBL Algorithm
 # =============================================================================
 def M_SBL(A, Y, m, n, n_samples, non_zero, iterations, noise):
-    gamma = np.ones([iterations+1, n,1])   # size iterations x n x 1
-    lam = np.ones(n)                       # size N x 1
-    mean = np.ones(n)
-    Sigma = 0                              # size N x L                            
-    for k in range(iterations):
-        Gamma = np.diag(gamma[k-1])        # size 1 x 1
-        if noise == True:  
+    if noise == False: 
+        gamma = np.ones([iterations+2, n,1])   
+        Gamma = np.ones([iterations+1, 1, 1])
+        mean = np.ones([iterations+1, n, n_samples])
+        Sigma = np.zeros([iterations+1, n, n]) 
+        k = 0                                                       
+        while gamma[k].any() >= 10E-16:
+            Gamma[k] = np.diag(gamma[k])        # size 1 x 1
             for i in range(n):   
                 " Making Sigma and Mu "
-                sig = lam[i] * np.identity(m) + (A * Gamma).dot(A.T)
+                Sigma[k] = (np.identity(n) - np.sqrt(Gamma[k]) * np.matmul(np.linalg.pinv(A * np.sqrt(Gamma[k])),A)) * Gamma[k]
+                mean[k] = np.sqrt(Gamma[k]) * np.matmul(np.linalg.pinv(A * np.sqrt(Gamma[k])), Y)
+                
+                " Update gamma with EM and with M being Fixed-Point"
+                gam_num = 1/n_samples * np.linalg.norm(mean[k][i])
+                gam_den = 1 - gamma[k][i] * Sigma[k][i][i]
+                gamma[k+1][i] = gam_num/gam_den
+                    
+            if k == iterations:
+                break            
+            k += 1
+                
+    elif noise == True:
+        gamma = np.ones([iterations+2, n,1])   
+        Gamma = np.ones([iterations+1, 1, 1])
+        mean = np.ones([iterations+1, n, n_samples])
+        Sigma = np.zeros([iterations+1, n, n]) 
+        k = 0 
+        lam = np.ones([iterations+1, n, 1])     # size N x 1
+        while gamma[k].any() >= 10E-16:
+            for i in range(n):   
+                " Making Sigma and Mu "
+                sig = lam[k][i] * np.identity(n) + (A * Gamma[k]).dot(A.T)
                 inv = np.linalg.inv(sig)
-                Sigma = Gamma - Gamma * (A.T.dot(inv)).dot(A) * Gamma
-                mean = Gamma * (A.T.dot(inv)).dot(Y)
+                Sigma[k] = Gamma[k] - Gamma[k] * (A.T.dot(inv)).dot(A) * Gamma[k]
+                mean[k] = Gamma[k] * (A.T.dot(inv)).dot(Y)
                 
                 " Making the noise variance/trade-off parameter lambda of p(Y|X)"
-                lam_num = 1/n_samples * np.linalg.norm(Y - A.dot(mean), 
+                lam_num = 1/n_samples * np.linalg.norm(Y - A.dot(mean[k]), 
                                                        ord = 'fro')  # numerator
                 lam_for = 0
                 for j in range(n):
-                    lam_for += Sigma[j][j] / gamma[k-1][j]
+                    lam_for += Sigma[k][j][j] / gamma[k][j]
                 lam_den = m - n + lam_for                            # denominator
-                lam[i] =  lam_num / lam_den
+                lam[k][i] =  lam_num / lam_den
                
                 " Update gamma with EM and with M being Fixed-Point"
-                gam_num = 1/n_samples * np.linalg.norm(mean[i])
-                gam_den = 1 - gamma[k-1][i] * Sigma[i][i]
-                gamma[k][i] = gam_num/gam_den
-        if noise == False:
-            for i in range(n):   
-                " Making Sigma and Mu "
-                Sigma = (np.identity(n) - np.sqrt(Gamma) * np.linalg.pinv(A * np.sqrt(Gamma)).dot(A)) * Gamma
-                mean = np.sqrt(Gamma) * np.linalg.pinv(A * np.sqrt(Gamma)).dot(Y)
-                
-                " Update gamma with EM and with M being Fixed-Point"
-                gam_num = 1/n_samples * np.linalg.norm(mean[i])
-                gam_den = 1 - gamma[k-1][i] * Sigma[i][i]
-                gamma[k][i] = gam_num/gam_den
-            
-        " Finding the support set "    
-        support = np.zeros(non_zero)
-        H = gamma[-2]
-        for l in range(non_zero):
-            if H[np.argmax(H)] != 0:
-                support[l] = np.argmax(H)
-                H[np.argmax(H)] = 0
+                gam_num = 1/n_samples * np.linalg.norm(mean[k][i])
+                gam_den = 1 - gamma[k][i] * Sigma[k][i][i]
+                gamma[k+1][i] = gam_num/gam_den
+                    
+                if k == iterations:
+                    break           
+                k += 1
+
+    " Finding the support set "    
+    support = np.zeros(non_zero)
+    H = gamma[-2]
+    for l in range(non_zero):
+        if H[np.argmax(H)] != 0:
+            support[l] = np.argmax(H)
+            H[np.argmax(H)] = 0
            
-        " Create new mean with support set "
-        New_mean = np.zeros((n,n_samples))
-        for i in support:
-            New_mean[int(i)] = mean[int(i)]
+    " Create new mean with support set "
+    New_mean = np.zeros([n,n_samples])
+    for i in support:
+        New_mean[int(i)] = mean[-1][int(i)]
 
     return New_mean
 

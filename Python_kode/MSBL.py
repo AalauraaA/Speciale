@@ -76,7 +76,7 @@ def M_SBL(A, Y, m, n, n_samples, non_zero, iterations, noise):
                 H[np.argmax(H)] = 0
            
         " Create new mean with support set "
-        New_mean = np.zeros((n,n_samples))
+        New_mean = np.zeros([n,n_samples])
         for i in support:
             New_mean[int(i)] = mean[int(i)]
 

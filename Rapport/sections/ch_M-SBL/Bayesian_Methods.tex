@@ -4,11 +4,9 @@ For the multiple measurement vector model (MMV)
 \begin{align*}
 \mathbf{Y} = \mathbf{AX} + \mathbf{E},
 \end{align*}
-the unknown matrices $\mathbf{A} \in \mathbb{R}^{M \times N}$ and $\mathbf{X} \in \mathbb{R}^{N \times L}$ are wished recovered from the known measurement matrix $\mathbf{Y} \in \mathbb{R}^{M \times L}$ with $M < N$. In chapter XX\todo{COV ref} the mixing matrix $\mathbf{A}$ was found. In this chapter, a method to recover the source matrix $\mathbf{X}$ is sought. A way to do this is to find the support set $S$ of the non-zeros rows $k$ (the active sources) of $\mathbf{X}$ which corresponds to localisation of the active and non-active sources. There must be at most $k \leq M$ activations \cite{??}.
+the unknown matrices $\mathbf{A} \in \mathbb{R}^{M \times N}$ and $\mathbf{X} \in \mathbb{R}^{N \times L}$ are wished recovered from the known measurement matrix $\mathbf{Y} \in \mathbb{R}^{M \times L}$ with $M < N$. In chapter XX\todo{COV ref} the mixing matrix $\mathbf{A}$ was found. In this chapter, a method to recover the source matrix $\mathbf{X}$ is sought. A way to do this is to find the support set $S$ of the non-zeros rows $k$ (the active sources) of $\mathbf{X}$ which corresponds to localisation of the active and non-active sources.
 \\
-The chapter is inspired by \cite{??} and the article \cite{??} \todo{indsæt ref for bayesian phd og artikel}.
-
-
+The chapter is inspired by \cite{phd_wipf} and the articles \cite{article_wipf}, \cite{Balkan2014}.
 %\textit{
 %\begin{itemize}
 %\item $M \leq N$ (more sources than sensors)
@@ -48,7 +46,7 @@ By applying an exponential function $\exp(- (\cdot))$ transformation onto our op
 \begin{align*}
 p(\mathbf{Y} \vert \mathbf{X}) \propto \exp \left( - \frac{1}{\gamma} \Vert \mathbf{Y} - \mathbf{AX} \Vert_2^2 \right),
 \end{align*}
-with a prior distribution $p(\mathbf{X}) \propto \exp(- \Vert \mathbf{X} \Vert_0)$ \cite[p. 137]{??}. The MAP estimation problem is then rewritten to
+with a prior distribution $p(\mathbf{X}) \propto \exp(- \Vert \mathbf{X} \Vert_0)$ \cite[p. 137]{phd_wipf}. The MAP estimation problem is then rewritten to
 \begin{align*}
 \hat{\mathbf{X}} &= \arg \max_{\mathbf{X}} p(\mathbf{Y} \vert \mathbf{X}) p(\mathbf{X}) \\
 &= \arg \max_{\mathbf{X}} \frac{p(\mathbf{Y} \vert \mathbf{X}) p(\mathbf{X})}{p(\mathbf{Y)}} \quad (\text{Bayers Formular}) \\
@@ -58,7 +56,7 @@ with a prior distribution $p(\mathbf{X}) \propto \exp(- \Vert \mathbf{X} \Vert_0
 \section{Empirical Bayesian Estimation}
 From earlier MAP estimation approaches some problems occurs when using a fixed and algorithm-dependent prior as the posterior is not sparse enough if a prior is not as sparse leading to a non-recovery . In other cases the prior can become to sparse and then lead to a combinatorial problem when looking for the global optima.
 \\
-By using automatic relevance determination (ARD) the problem of using sparse prior can be overcome. ARD is a method where a prior is introduced to determine the relevance of a parameter. The rest will become zero. This can also be view as a regularisation of the solution space which has been narrowed because of the prior and only consist of the relevance information \cite{??}.
+By using automatic relevance determination (ARD) the problem of using sparse prior can be overcome. ARD is a method where a prior is introduced to determine the relevance of a parameter. The rest will become zero. This can also be view as a regularisation of the solution space which has been narrowed because of the prior and only consist of the relevance information \cite{ARD}.
 \\
 An empirical prior can be used with ARD as the empirical prior is flexible and dependent on the unknown hyperparameter $\gamma$ and therefore more data-dependent -- the prior can be controlled to induce sparsity.
 \\ \\
@@ -94,10 +92,10 @@ which ensure that the posterior mean $\mathcal{M}$ of the $i$-th row, $\boldsymb
 \\ \\
 Each of the hyperparameters $\gamma_i$ correspond to different hypothesis for the prior distribution of the underlying generation of $\mathbf{Y}$. Therefore the determining of $\gamma_i$ must be seen as a model selection in with we can use the empirical Bayesian stragetry. This evolve the task of treating the unknown source matrix $\mathbf{X}$ as nuisance\todo{pestilens, plage, gene -- de brugte dette ord i phden} parameters and integrating them out.
 \\
-By integrating the unknown sources $\mathbf{X}$ the marginal likelihood of the observed mixed data $\mathbf{Y}$, $p (\mathbf{Y} ; \gamma)$ is achieved \cite[p. 146]{??}. By applying the $-2 \log (\cdot)$ transformation the marginal likelihood function is transformed to the cost function
+By integrating the unknown sources $\mathbf{X}$ the marginal likelihood of the observed mixed data $\mathbf{Y}$, $p (\mathbf{Y} ; \boldsymbol{\gamma})$ is achieved \cite[p. 146]{phd_wipf}. By applying the $-2 \log (\cdot)$ transformation the marginal likelihood function is transformed to the cost function
 \begin{align*}
-\mathcal{L}(\gamma) &= - 2 \log(p (\mathbf{Y} ; \boldsymbol{\gamma})) = -2 \log \left( \int p (\mathbf{Y}  \vert \mathbf{X}) p (\mathbf{X} ; \boldsymbol{\gamma}) \ d\mathbf{X} \right) \\
-&= \log ( \vert \lambda \mathbf{I} + \mathbf{A} \boldsymbol{\Gamma} \mathbf{A}^T \vert) + \frac{1}{L} \sum_{j=1}^L \mathbf{y}_{.j}^T \left( \lambda \mathbf{I} + \mathbf{A} \boldsymbol{\Gamma} \mathbf{A}^T\right)^{-1} \mathbf{y}_{.j}
+\mathcal{L}(\boldsymbol{\gamma}) &= - 2 \log(p (\mathbf{Y} ; \boldsymbol{\gamma})) = -2 \log \left( \int p (\mathbf{Y}  \vert \mathbf{X}) p (\mathbf{X} ; \boldsymbol{\gamma}) \ d\mathbf{X} \right) \\
+&= \log ( \vert \sigma^2 \mathbf{I} + \mathbf{A} \boldsymbol{\Gamma} \mathbf{A}^T \vert) + \frac{1}{L} \sum_{j=1}^L \mathbf{y}_{.j}^T \left( \sigma^2 \mathbf{I} + \mathbf{A} \boldsymbol{\Gamma} \mathbf{A}^T\right)^{-1} \mathbf{y}_{.j}
 \end{align*}
 To minimise the marginal likelihood $\mathcal{L}(\boldsymbol{\gamma})$ with respect to $\boldsymbol{\gamma}$ the evidence maximisation (EM) algorithm can be used. The E-step of the EM algorithm is to compute the posterior moments as mention in \eqref{eq:moments} while the M-step is a update rule of $\gamma_i$:
 \begin{align*}
@@ -122,7 +120,7 @@ which give the non-zero indexes of the final posterior mean $\mathcal{M}^\ast$. 
 
 
 \begin{algorithm}[H]
-\caption{M-SBL -- See page 148 in PHD}
+\caption{M-SBL}
 \begin{itemize}
 \item[1.] Given $\mathbf{Y}$ and a dictionary matrix $\mathbf{A}$.
 \item[2.] Initialise $\boldsymbol{\gamma}$, e.g $\boldsymbol{\gamma} = \mathbf{1}$.

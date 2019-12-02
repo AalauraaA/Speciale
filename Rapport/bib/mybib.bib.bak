@@ -2,12 +2,29 @@
 % Encoding: Cp1252
 
 
+@Article{ARD,
+  Title                    = {A New View of Automatic Relevance Determination},
+  Author                   = {Wipf, D. P. and Nagarajan, S. S.},
+  Journal                  = {Advances in Neural Information Processing Systems 20, MIT Press},
+  Year                     = {2008}
+}
+
 @Article{Arnaud2012,
   Title                    = {Blind separation of auditory event-related brain responses intoindependent components},
   Author                   = {Delorme, Arnaud and Palmer, Jason and Onton, Julie and Oostenveld, Robert and Makeig, Scott},
   Journal                  = {PLoS ONE},
   Year                     = {2012},
   Volume                   = {7(2)}
+}
+
+@Article{article_wipf,
+  Title                    = {An Empirical Bayesian Strategy for Solving the Simultaneous Sparse Approximation Problem},
+  Author                   = {Wipf, D. P. and Rao, B. D.},
+  Journal                  = {IEEE TRANSACTIONS ON SIGNAL PROCESSING},
+  Year                     = {2007},
+  Month                    = {July},
+  Number                   = {No. 7},
+  Volume                   = {Vol. 55}
 }
 
 @Article{Balkan2014,
@@ -32,6 +49,14 @@ Overcomplete EEG Source Identification},
   Journal                  = {Trends Hear, SAGE},
   Year                     = {2018},
   Volume                   = {22}
+}
+
+@Article{Elad2006,
+  Title                    = {K-SVD: An Algorithm for Designing Overcomplete Dictionaries for Sparse Representation},
+  Author                   = {Aharon,M. and Elad, M. and Bruckstein, A.},
+  Journal                  = {IEEE TRansactions on signal processing},
+  Year                     = {2006},
+  Volume                   = {Vol. 54, No. 11 }
 }
 
 @Article{Emina2019,
@@ -78,7 +103,7 @@ P. 1017-1025},
 @Article{Pal2015,
   Title                    = {Pushing the Limits of Sparse Support Recovery Using
 Correlation Information},
-  Author                   = {Pal, Piya and Vaidyanathan, P. P. },
+  Author                   = {Pal, Piya and Vaidyanathan, P. P.},
   Journal                  = {IEEE TRANSACTIONS ON SIGNAL PROCESSING},
   Year                     = {2015},
   Volume                   = {VOL. 63, NO. 3, Feb.}
@@ -130,6 +155,13 @@ Analysis},
   Year                     = {2007}
 }
 
+@Book{Elad_book,
+  Title                    = {Sparse and Redundant Representations},
+  Author                   = {Elad, M},
+  Publisher                = {Springer},
+  Year                     = {2010}
+}
+
 @Book{FR,
   Title                    = {A Mathematical Introduction to Compressive Sensing},
   Author                   = {Foucart, Simon and Rauhut, Hoger},
@@ -145,18 +177,25 @@ Analysis},
   Year                     = {2001}
 }
 
-@MastersThesis{phd2015,
+@Misc{Weberik,
+  Title                    = {Studies within Steering of hearing devices using EEG and Ear-EEG},
+  HowPublished             = {\url{https://www.eriksholm.com/research/cognitive-hearing-science/eeg-steering}},
+  Note                     = {Accessed: 2019-10-03}
+}
+
+@PhdThesis{phd_wipf,
+  Title                    = {Bayesian Methods for Finding Sparse Representations},
+  Author                   = {Wipf, D. P.},
+  School                   = {UNIVERSITY OF CALIFORNIA, SAN DIEGO},
+  Year                     = {2006}
+}
+
+@PhdThesis{phd2015,
   Title                    = {Support Recovery and Dictionary Learning for Uncorrelated EEG Sources},
   Author                   = {Balkan, Ozgur Yigit},
   School                   = {University of California, San Diego},
   Year                     = {2015},
   Month                    = {January},
   Type                     = {Master thesis}
-}
-
-@Misc{Weberik,
-  Title                    = {Studies within Steering of hearing devices using EEG and Ear-EEG},
-  HowPublished             = {\url{https://www.eriksholm.com/research/cognitive-hearing-science/eeg-steering}},
-  Note                     = {Accessed: 2019-10-03}
 }
 

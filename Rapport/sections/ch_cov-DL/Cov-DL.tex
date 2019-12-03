@@ -123,27 +123,15 @@ and $\textbf{b}_i$ is the corresponding eigenvector.\todo{redegørelse for resul
 
 measurements. 
 \begin{algorithm}[H]
-\caption{Basis ICA}
+\caption{Cov-DL1}
 \begin{algorithmic}[1]
-			\Procedure{Segmentation}{$\textbf{Y}$}
-			\State $\text{define lengt of segments} L_s$
-			\State $ $
-			\EndProcedure  
-			\State
-            \Procedure{ICA}{$\textbf{y}$}    
+%			\Procedure{Segmentation}{$\textbf{Y}$}
+%			\State $\text{define lengt of segments}\ L_s$
+%			\State $n_{seg} = L/L_S$
+%			\State $\text{split Y into } \ n_{seg} \ \text{segments of length} \ L_s$
+%			\EndProcedure  
+            \Procedure{Cov-DL1}{$\textbf{Y}_s$}    
 			\State$k=0$            
-            
-            \For{$j \gets 1,2, \hdots ,N$ }
-            
-            	\While{$\text{convergance critia not meet}$} 
-               		\State $k = k+1$
-                	\State $\textbf{b}_{j(k)} \gets \text{sign}\gamma_{(k-1)} \textbf{y}(\textbf{b}_{j}^T \textbf{y})^3$
-                	\State $\textbf{b}_{j(k)} \gets \textbf{b}_j/\Vert \textbf{b}_j \Vert $ 
-                	\State $\gamma_{(k)} \gets ((\textbf{b}_{j}^T \textbf{y})^4 - 3) - \gamma_{(k-1)} $
-          		\EndWhile
-          		\State $x_{j} = \textbf{b}_{j}^T\textbf{y}$
-          	\EndFor
-          	
             \EndProcedure
         \end{algorithmic} 
         \label{alg:basicICA}

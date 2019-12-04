@@ -33,7 +33,7 @@ np.random.seed(1)
 m = 3               # number of sensors
 n = 8              # number of sources
 non_zero = 4         # max number of non-zero coef. in rows of X
-n_samples = 1000       # number of sampels
+n_samples = 100       # number of sampels
 duration = 8
 iterations = 1000
 

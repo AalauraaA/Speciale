@@ -9,23 +9,34 @@ import numpy as np
 from sklearn.datasets import make_sparse_coded_signal
 from sklearn.metrics import mean_squared_error
 import matplotlib.pyplot as plt
-#
-#A =np.array([[1,2,3,4],
-#  [6,7,8,9],
-#  [10,9,8,4],])
-#x = np.array([[1,0,1,0],[2,0,3,0]])
-#y = np.matmul(A,x.T) 
+import data_generation
 
-k_list = np.array([10])
-err_listA = np.zeros(len(k_list))
-for i in range(len(k_list)):
-    print(k_list[i])
-    Y, A, X = make_sparse_coded_signal(n_samples=50,
-                                       n_components=50,
-                                       n_features=25,
-                                       n_nonzero_coefs=k_list[i],
-                                       random_state=0)
+
+# vary parameters
+#list_ = np.arange(2,60,2)
+list_ = np.array([6])
+err_listA = np.zeros(len(list_))
+for i in range(len(list_)):
+    print(list_[i])
     
+    m = 6
+    n = 10
+    k = list_[i]
+    L = 100
+    
+    # import data
+#    Y, A, X = make_sparse_coded_signal(n_samples=L,
+#                                       n_components=n,
+#                                       n_features=m,
+#                                       n_nonzero_coefs=k,
+#                                       random_state=0)
+    
+    #Y, A, X = data_generation.rossler_data(L, 1, m )[:3]
+    
+    Y, A, X = data_generation.mix_signals(L, 10, m)
+    n = len(X)
+    m = len(Y)
+
     
     Y = Y.T
     
@@ -34,14 +45,11 @@ for i in range(len(k_list)):
         test the DL method
         :return: None
         '''
-        #print("before transform:",Y)
-        dct=DictionaryLearning(n_components=n_com,transform_algorithm='omp',transform_n_nonzero_coefs=non_zero)
+        dct=DictionaryLearning(n_components=n_com,transform_algorithm='omp',transform_n_nonzero_coefs=non_zero, max_iter=500)
         dct.fit(Y)
-#        print("components is :",dct.components_)
-#        print("after transform:",dct.transform(Y)) 
         return dct
     
-    dic = test_DictionaryLearning(Y,50,k_list[i])
+    dic = test_DictionaryLearning(Y,n,k)
     
     A_new = dic.components_
     #A_new = np.zeros(np.shape(A)).T
@@ -52,17 +60,23 @@ for i in range(len(k_list)):
     err_X = mean_squared_error(X,X_new.T)
     err_Y = mean_squared_error(Y.T,Y_new)
 #     
-    plt.figure(1)
-    plt.plot(Y.T[0])
-    #plt.figure(2)
-    plt.plot(Y_new[0])
+    
     
     err_listA[i] = err_A
 #
-#plt.figure(2)
-#plt.plot(k_list,err_listA)
+    
+#plt.figure(1)
+#    plt.plot(Y.T[0])
+#    #plt.figure(2)
+#    plt.plot(Y_new[0])
 
-
+plt.figure(1)
+plt.plot(list_,err_listA)
+plt.title('Varying k - M = 50, N = 100, L = 100, iteration = 500')
+plt.xlabel('non-zeros')
+plt.ylabel('MSE')
+plt.savefig('Resultater/K-SVD/3.png')
+plt.show()
     
 
 

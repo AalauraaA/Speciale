@@ -132,33 +132,35 @@ def rossler_data(n_sampels=1940, ex = 1, m=8):
     """
     - denne skal måske opdaters så vi kan vi kan ændre dimensioner 
     
-    Generate rossler data with 
+    Generates rossler data with 
     ex = 1 
-    m = 8, n = 10, k = 6
+    m = 8, n = 16, k = 6
     
     ex = 2 
     m = 8, n = 16, k = 10 
     
     INPUT: n_sampels -> max value is 1940
     """
-    from Rossler_copy import Generate_Rossler  # import rossler here
+    from Rossler_generation import Generate_Rossler  # import rossler here
     X1, X2, X3, X4, X5, X6 = Generate_Rossler()
     # we use only one of these dataset which are 1940 x 6
-    X1 = X1[:n_sampels] # max 1940 samples
+    X1 = X1[:n_sampels] # input max 1940 samples
     
     # Include zero rows to make n larger
     zero_row = np.zeros(n_sampels)
     
     if ex == 1:
-        X = np.c_[X1.T[0], zero_row, X1.T[1], zero_row, zero_row, X1.T[2],
-                   X1.T[3], zero_row, X1.T[4], X1.T[5]].T
+        X = np.c_[X1.T[0], zero_row, X1.T[1], zero_row, zero_row, zero_row,
+                  X1.T[2], X1.T[3], zero_row, zero_row, X1.T[4], zero_row, 
+                  zero_row, X1.T[5], zero_row, zero_row,].T
         n = len(X)
         k = 6
         
     
     if ex == 2:
-        X = np.c_[X1.T[0], X1.T[0], zero_row, X1.T[1], zero_row, X1.T[5], zero_row, X1.T[2],
-                   X1.T[3], zero_row, X1.T[4], X1.T[5], zero_row, X1.T[2], X1.T[4], zero_row ].T
+        X = np.c_[X1.T[0], X1.T[0], zero_row, X1.T[1], zero_row, X1.T[5], 
+                  zero_row, X1.T[2], X1.T[3], zero_row, X1.T[4], X1.T[5], 
+                  zero_row, X1.T[2], X1.T[4], zero_row ].T
         n = len(X)      
         k = 10      
               
@@ -219,7 +221,7 @@ def rossler_data(n_sampels=1940, ex = 1, m=8):
 #    X = np.vstack([XX1, XX2, XX3, XX4])
 #    return X
 
-def segmentation_split(Y, X, L, n_sampels):
+def segmentation_split(Y, X, Ls, n_sampels):
     """
     Segmentation of data by split into segments of length L. 
     The last segment is removed if too small.  
@@ -229,12 +231,12 @@ def segmentation_split(Y, X, L, n_sampels):
         Xs -> array of size (n_seg, n, L), with segments in axis 0 
         n_seg -> number of segments
     """ 
-    n_seg = int(n_sampels/L)               # Number of segments
-    X = X[:n_seg*L]                        # remove last segement if too small
-    Y = Y[:n_seg*L]
+    n_seg = int(n_sampels/Ls)               # Number of segments
+    X = X.T[:n_seg*Ls]                        # remove last segement if too small
+    Y = Y.T[:n_seg*Ls]
     
-    Ys = np.split(Y, n_seg, axis=1)        # Matrixs with segments in axis=0
-    Xs = np.split(X, n_seg, axis=1)
+    Ys = np.split(Y.T, n_seg, axis=1)        # Matrixs with segments in axis=0
+    Xs = np.split(X.T, n_seg, axis=1)
     
     return Ys, Xs, n_seg
 

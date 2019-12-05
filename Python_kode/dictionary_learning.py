@@ -9,6 +9,7 @@ import numpy as np
 from scipy import signal
 import matplotlib.pyplot as plt
 from sklearn.linear_model import orthogonal_mp
+from sklearn.decomposition import DictionaryLearning
 
 
 def K_SVD(Y, n, m, non_zero, n_samples, max_iter=100, stop=0.005):
@@ -89,7 +90,19 @@ def K_SVD(Y, n, m, non_zero, n_samples, max_iter=100, stop=0.005):
     iter_ = k
     return A, X, iter_
 
+
+def DL(Y,n,k,iter_=1000):
+    dct = DictionaryLearning(n_components=n,transform_algorithm='omp',transform_n_nonzero_coefs=k, max_iter=iter_)
+    dct.fit(Y)
+    A_new = dct.components_
+    X_new = dct.transform(Y)
+    Y_new = np.matmul(A_new.T,X_new.T)
     
+    Y_new = Y_new.T
+    A_new = A_new.T
+    X_new = X_new.T
+    
+    return Y_new, A_new, X_new 
     
     
     

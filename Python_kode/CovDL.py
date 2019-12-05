@@ -22,13 +22,12 @@ def reverse_vec(x):
     return out
 
 
-def Cov_DL(Y, A, X, m, n, L, k, ):
+def Cov_DL1(Y, A, X, m, n, cov_seg, L, k, ):
     """ 
     """
-    ## segmetation 
+    ## internal segmetation for training examples
     
-    Ls = 100               # number of sampels in one segment 
-    Ys, Xs, n_seg = data_generation.segmentation_split(Y, X, Ls, L)
+    Ys, Xs, n_seg = data_generation.segmentation_split(Y, X, cov_seg, L)
     
     ## Covariance Domain Tranformation
     
@@ -40,7 +39,8 @@ def Cov_DL(Y, A, X, m, n, L, k, ):
         X_cov = np.cov(Xs[i])                      # NOT diagonl ??
         
         # Vectorization of lower tri, row wise  
-        vec_Y = np.array(list(Y_cov[np.tril_indices(m)]))
+        vec_Y = Y_cov[np.tril_indices(m)]
+        
         sigma = np.diagonal(X_cov)
     
         Y_big.T[i] = vec_Y
@@ -61,7 +61,6 @@ def Cov_DL(Y, A, X, m, n, L, k, ):
         d = D.T[j]
         matrix_d = reverse_vec(d)
         E = np.linalg.eig(matrix_d)[0]
-        print(E)
         V = np.linalg.eig(matrix_d)[1]
         max_eig = np.max(np.abs(E))     # should it be abselut here?
         index = np.where(np.abs(E) == max_eig)
@@ -73,4 +72,4 @@ def Cov_DL(Y, A, X, m, n, L, k, ):
         
     print('Dictionary error %f'%(A_err))
     
-    return
+    return A_rec, A_err

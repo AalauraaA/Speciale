@@ -50,7 +50,7 @@ Y, A, X = data_generation.mix_signals(n_samples, duration, m, n, non_zero)
 X_rec = MSBL.M_SBL(A, Y, m, n, n_samples, non_zero, iterations, noise=False)
 
 mse = mean_squared_error(X, X_rec)
-print("This is the error of X without: ", mse)
+print("This is the error of X without noise: ", mse)
 # =============================================================================
 # Plot
 # =============================================================================

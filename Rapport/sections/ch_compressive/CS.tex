@@ -3,7 +3,7 @@ Some measurement vector $\mathbf{y}$ can be described as a linear combinations o
 \begin{align}\label{eq:SMV_model}
 \mathbf{y} = \mathbf{Ax},
 \end{align}
-where $\mathbf{y} \in \mathbb{R}^M$ is the observed measurement vector consisting of $M$ measurements, $\mathbf{x} \in \mathbb{R}^N$ is an unknown vector of $N$ elements, and $\mathbf{A} \in \mathbb{R}^{M \times N}$ is a coefficient matrix which models the linear measurement process column-wise\todo{column-wise or row-wise?}. 
+where $\mathbf{y} \in \mathbb{R}^M$ is the observed measurement vector consisting of $M$ measurements, $\mathbf{x} \in \mathbb{R}^N$ is an unknown vector of $N$ elements, and $\mathbf{A} \in \mathbb{R}^{M \times N}$ is a coefficient matrix which models the linear measurement process column-wise. 
 The linear model makes a system of linear equations with $M$ equations and $N$ unknowns.
 \\ \\
 In the case of $\mathbf{A}$ being a square matrix, $M = N$, a solution can be found to the linear model if $\mathbf{A}$ has full rank -- $\mathbf{A}$ consist of linearly independent columns or rows.
@@ -18,7 +18,7 @@ For rectangular matrices, $M > N$ and $M < N$, left-sided and right-sided invers
 %\item Left-sided inverse ($M > N$): $(\mathbf{A} \mathbf{A})^{-1} \mathbf{A}^T \mathbf{A} = \mathbf{A}_{\text{left}}^{-1} = \mathbf{I}_N$ 
 %\item Right-sided inverse ($M < N$): $\mathbf{A} \mathbf{A}^T (\mathbf{A} \mathbf{A}^T)^{-1} = \mathbf{A}_{\text{right}}^{-1} = \mathbf{I}_M$ 
 %\end{itemize}
-With the left-inverse the least norm solution of \eqref{eq:SMV_model} can be found\todo{least norm solution?}.
+%With the left-inverse the least norm solution of \eqref{eq:SMV_model} can be found\todo{least norm solution?}.
 \\ \\
 For an determined system there will exist a unique solution.
 For an over-determined system there do not exist a solution and for under-determined systems there exist infinitely many solutions \cite[p. ix]{CS}.
@@ -74,7 +74,7 @@ To find the $k$-sparse solution the optimisation problem can be written as
 \end{align*}
 The objective function is given by an $\ell_0$ norm with the constraint function being the linear model \eqref{eq:SMV_model}. 
 Unfortunately, this optimisation problem is non-convex due to the definition of $\ell_0$-norm and is therefore difficult to solve -- it is a NP-hard problem. 
-Instead, by replacing the $\ell_0$-norm with the $\ell_1$-norm, the optimisation problem can be approximated and hence become computational feasible\todo{skal vi indføre z som en approx af x, også et nyt omega eller? eller kan vi beholde x} \cite[p. 27]{CS}
+Instead, by replacing the $\ell_0$-norm with the $\ell_1$-norm, the optimisation problem can be approximated and hence become computational feasible\todo{3.2: skal vi indfør z som en approximation til x. og så et nyt omega eller? eller kan vi beholde x} \cite[p. 27]{CS}
 \begin{align}\label{eq:SMV_p1}
 \mathbf{x}^\ast = \arg \min_{\mathbf{x} \in  \boldsymbol{\Omega_{k}}} \Vert \mathbf{x} \Vert_1 \quad \text{subject to} \quad \mathbf{y} = \mathbf{Ax}.
 \end{align} 
@@ -113,15 +113,15 @@ This is a contradiction, because one can always choose a small $t \neq 0$ such t
 \begin{align*}
 t \sum_{j \in S} \text{sgn}(x_j^\ast)v_j \leq 0,
 \end{align*}
-and therefore the set $\lbrace \mathbf{a}_j, j \in S \rbrace$ must be linearly independent\todo{kan vi lige gennemgå dette.}.
+and therefore the set $\lbrace \mathbf{a}_j, j \in S \rbrace$ must be linearly independent.
 \end{proof}
 The Basis Pursuit makes the foundation of several algorithms solving alternative versions of \eqref{eq:SMV_p1} where noise is incorporated. 
 An alternative solution method includes greedy algorithms such as the Orthogonal Matching Pursuit(OMP) \cite[P. 65]{FR}. 
 At each iteration of the OMP algorithm an index set $S$ is updated by adding the index corresponding to the column in $\mathbf{A}$ that best describes the residual, hence greedy.
 That is the part of $\mathbf{y}$ that is not yet explained by $\mathbf{Ax}$ is included. 
-Then $\mathbf{x}$ is updated as the vector, supported by $S$, which minimize the residual, that is also the orthogonal projection of $\mathbf{y}$ onto the span$\lbrace a_j \ \vert \ j \in S \rbrace$ \todo{skal aj ikkke være fed da det er en søjle i A?}\todo{Tjek algoritmen. Vi introducere the komplekse rum C men har ikke nævnt det andre steder}. 
+Then $\mathbf{x}$ is updated as the vector, supported by $S$, which minimize the residual, that is also the orthogonal projection of $\mathbf{y}$ onto the span$\lbrace \mathbf{a}_j \ \vert \ j \in S \rbrace$ \todo{Kan vi benytte $\mathbb{C}$ i algoritmen}. The algorithm for OMP can be seen in \ref{alg:OMP} where $\mathbf{A}^\ast$ be the adjoint of a matrix $\mathbf{A}$.
 \begin{algorithm}[H]
-\caption{Orthogonal Matching Pursuit (OMP)}
+\caption{Orthogonal Matching Pursuit (OMP)}\label{alg:OMP}
 \begin{algorithmic}[1]
 			\State$k = 0$			
 			\State$\text{Initialize} \quad S_{(0)} =\emptyset$ 
@@ -267,7 +267,7 @@ A multiple measurement vector (MMV) model consist of the observed measurement ma
 \end{align}
 $L$ denote the number of observed measurement vectors each consisting of $M$ measurements, that is $L$ samples is given. For $L = 1$ the linear model will just be the SMV model \eqref{eq:SMV_model}. 
 \\
-The matrix $\mathbf{X}$ consist of $\lbrace \mathbf{x}_i \rbrace_{i=1}^L$ $k$-sparse vectors which has been stacked column-wise such that $\mathbf{X}$ consist of at most $k$ non-zero rows\todo{vi skal lige have styr på om vi kun antager identisk sparsness i alle søjler, og i så fald at det data vi arbejde med har den form}. As for the SMV model \eqref{eq:SMV_model} the MMV model \eqref{eq:MMV_model} is under-determined with $M \ll N$ and $k < M$\cite[p. 42]{CS}.
+The matrix $\mathbf{X}$ consist of $\lbrace \mathbf{x}_i \rbrace_{i=1}^L$ $k$-sparse vectors which has been stacked column-wise such that $\mathbf{X}$ consist of at most $k$ non-zero rows. As for the SMV model \eqref{eq:SMV_model} the MMV model \eqref{eq:MMV_model} is under-determined with $M \ll N$ and $k < M$\cite[p. 42]{CS}.
 \\ \\
 The support of $\mathbf{X}$ denote the index set of non-zero rows of $\mathbf{X}$ and $\mathbf{X}$ is said to be row-sparse. As the columns in $\mathbf{X}$ are $k$-sparse and as mention before $\mathbf{X}$ has at most $k$ non-zero rows, the non-zero values occur in common location for all columns. By using this joint information it is possible to recover $\mathbf{X}$ from fewer measurements.
 \\
@@ -279,7 +279,7 @@ When $\vert \text{supp}(\mathbf{X})\vert = k$ then $\text{rank}(\mathbf{X}) \leq
 \end{align*}
 such that $\mathbf{X}$ can uniquely be determined.
 \\
-This result says that a row-sparse matrix $\mathbf{X}$ with large rank can be recovered from fewer\todo{"fewer" skal lige præsiseres, evt. bare M measurements?} measurement \cite[p. 43]{CS}.
+This result says that a row-sparse matrix $\mathbf{X}$ with large rank can be recovered from fewer\todo{Skal "fewer" udspecificeres yderligere?} measurement \cite[p. 43]{CS}.
 
 %\subsection{Dictionary learning}\label{sec:dictionarylearning}
 %In cases where the dictionary is unknown it is possible to learn the dictionary from the observed measurement provided that several observations are available $\textbf{Y}=\left[ \textbf{y}_1, \dots ,\textbf{y}_L \right]$. 

@@ -140,13 +140,16 @@ Then $\mathbf{x}$ is updated as the vector, supported by $S$, which minimize the
 \end{algorithm}
 
 \subsection{Conditions on the Mixing Matrix}\label{sec:dic_conditions}
-In section \ref{sec:opti} the mixing matrix $\mathbf{A}$ was assumed known, in order to solve the optimisation problem \eqref{eq:SMV_p1}. However, in practise it is only the measurement vector $\textbf{y}$ which is known. In this case the mixing matrix $\textbf{A}$ is considered a estimate of the true mixing matrix. In general compressive sensing terminology  $\textbf{A}$ is also referred to as a dictionary matrix.\\
-To ensure exact or approximately reconstruction of the sparse signal $\mathbb{x}$, the mixing matrix must be constructed with certain conditions in mind. 
-% $\mathbf{x}^\ast$ from the optimisation problem \eqref{eq:SMV_p1} 
-
+In section \ref{sec:opti} the mixing matrix $\mathbf{A}$ was assumed known, in order to solve the optimisation problem \eqref{eq:SMV_p1}. 
+However, in practise it is only the measurement vector $\mathbf{y}$ which is known. 
+In this case the mixing matrix $\mathbf{A}$ is considered a estimate of the true mixing matrix. 
+In general compressive sensing terminology $\mathbf{A}$ is also referred to as a dictionary matrix.
+\\
+To ensure exact or approximately reconstruction of the sparse signal $\mathbf{x}$, the mixing matrix must be constructed with certain conditions in mind. 
 
 \subsubsection{Null Space Condition}
-The the null space property is a necessary and sufficient condition to $\mathbf{A}$ for exact reconstruction of every sparse signal $\textbf{x}$ that solves the optimisation problem \eqref{eq:SMV_p1}\cite[p. 77]{FR}. The null space of the matrix $A$ is defined as
+The the null space property is a necessary and sufficient condition to $\mathbf{A}$ for exact reconstruction of every sparse signal $\mathbf{x}$ that solves the optimisation problem \eqref{eq:SMV_p1}\cite[p. 77]{FR}. 
+The null space of the matrix $\mathbf{A}$ is defined as
 \begin{align*}
 \mathcal{N}(\mathbf{A}) = \{ \mathbf{z} \ : \ \mathbf{Az} = \textbf{0} \}.
 \end{align*} 
@@ -154,86 +157,100 @@ The null space property is defined as
 \begin{definition}[Null Space Property]
 A matrix $\mathbf{A} \in \mathbb{R}^{M \times N}$ is said to satisfy the null space property relative to a set $S \subset [N]$ if
 \begin{align}
-\Vert \textbf{v}_S \Vert_1 < \Vert \textbf{v}_{\overline{S}} \Vert_1 \quad \text{for all} \quad \textbf{v} \in \text{null}(\mathbf{A} \setminus \lbrace \textbf{0} \rbrace),
+\Vert \mathbf{v}_S \Vert_1 < \Vert \mathbf{v}_{\overline{S}} \Vert_1 \quad \text{for all} \quad \mathbf{v} \in \text{null}(\mathbf{A} \setminus \lbrace \mathbf{0} \rbrace),
 \end{align}
-where the vector $\mathbf{v}_S$ is the restriction of $\mathbf{v}$ to the indices in $S$, and $\bar{S}$ is the set $[N]\setminus S$. 
+where the vector $\mathbf{v}_S$ is the restriction of $\mathbf{v}$ to the indices in $S$, and $\bar{S}$ is the set $[N] \setminus S$. 
 \end{definition}
 
 \begin{theorem}
-Given a matrix $\textbf{A} \in \mathbb{R}^{M \times N}$, every vector $\textbf{x} \in \mathbb{R}^N$ with $\text{supp}(\textbf{x})\subset S$ is the unique solution of \eqref{eq:SMV_p1} with $\textbf{y} = \textbf{Ax}$ if and only if $\textbf{A}$ satisfies the null space property relative to $S$.
+Given a matrix $\mathbf{A} \in \mathbb{R}^{M \times N}$, every vector $\mathbf{x} \in \mathbb{R}^N$ with $\text{supp}(\mathbf{x}) \subset S$ is the unique solution of \eqref{eq:SMV_p1} with $\mathbf{y} = \mathbf{Ax}$ if and only if $\mathbf{A}$ satisfies the null space property relative to $S$.
 \end{theorem}
 \begin{proof}
-$\Rightarrow:$  Let $S \subseteq [N]$ be a fixed index set. Assume that any vector $\textbf{x} \in \mathbb{R}^N$ with support $\text{supp}(\textbf{x})\subset S$ is the unique minimiser of $\Vert \textbf{z} \Vert_1$ with respect to $\textbf{Az} = \textbf{Ax}$. Thus, for any $\textbf{v} \in \text{null}(\mathbf{A}) \setminus \{\textbf{0} \}$, the vector $\textbf{v}_S$ is the unique minimizer $\Vert \textbf{z} \Vert_1$ the respect to $\textbf{Az} = \textbf{Av}_S$. But we have that $\textbf{0} = \textbf{A}(\textbf{v}_S + \textbf{v}_{\overline{S}}) \implies \textbf{Av}_S = \textbf{A}(-\textbf{v}_{\overline{S}})$ and $-\textbf{v}_{\overline{S}} \neq \textbf{v}_S$ or else $\textbf{v} = \textbf{0}$. We conclude that $\Vert \textbf{v}_S \Vert_1 < \Vert \textbf{v}_{\overline{S}} \Vert_1$. This establishes the null space property relative to $S$.
-\\ \\
-$\Leftarrow:$ Conversely, assume that the null space property relative to $S$ holds. Then, given $S \subseteq [N]$ with null space property and a vector $\textbf{x} \in \mathbb{R}^N$ with $\text{supp}(\textbf{x})\subset S$ and a vector $\textbf{z} \in \mathbb{R}^N$, $\textbf{z} \neq \textbf{x}$, such that $\textbf{Az} = \textbf{Ax}$, we consider the vector $\textbf{v} := \textbf{x} - \textbf{z} \in \text{null}(\textbf{A}) \setminus \{ \textbf{0} \}$. From the null space property, the following is obtained
+$\Rightarrow:$  \\
+Let $S \subseteq [N]$ be a fixed index set. Assume that any vector $\mathbf{x} \in \mathbb{R}^N$ with support $\text{supp}(\mathbf{x})\subset S$ is the unique minimizer of $\Vert \mathbf{z} \Vert_1$ with respect to $\mathbf{Az} = \mathbf{Ax}$. 
+Thus, for any vector $\mathbf{v} \in \text{null}(\mathbf{A}) \setminus \{\mathbf{0} \}$, the vector $\mathbf{v}_S$ is the unique minimizer of $\Vert \mathbf{z} \Vert_1$ with respect to $\mathbf{Az} = \mathbf{Av}_S$. 
+But 
 \begin{align*}
-\Vert \textbf{x} \Vert_1 \leq \Vert \textbf{x} - \textbf{z}_S \Vert_1 &= \Vert \textbf{v}_S \Vert_1 + \Vert \textbf{z}_S \Vert_1 \\
-&< \Vert \textbf{v}_{\overline{S}} \Vert_1 + \Vert \textbf{z}_S \Vert_1 \\
-&= \Vert -\textbf{z}_{\overline{S}} \Vert_1 + \Vert \textbf{z}_S \Vert_1 = \Vert \textbf{z} \Vert_1
+\mathbf{0} = \mathbf{A}(\mathbf{v}_S + \mathbf{v}_{\overline{S}}) \implies \mathbf{Av}_S = \mathbf{A}(-\mathbf{v}_{\overline{S}}), \quad \text{with} \ -\mathbf{v}_{\overline{S}} \neq \mathbf{v}_S,
 \end{align*}
-This establishes the required sparseness of $\Vert \textbf{x} \Vert_1$.
+or else $\mathbf{v} = \mathbf{0}$. 
+It is concluded that $\Vert \mathbf{v}_S \Vert_1 < \Vert \mathbf{v}_{\overline{S}} \Vert_1$. 
+This establishes the null space property relative to $S$.
+\\ \\
+$\Leftarrow:$ \\  
+Conversely, assume that the null space property relative to $S$ holds. 
+Given an index set $S \subseteq [N]$ with null space property and a vector $\mathbf{x} \in \mathbb{R}^N$ with $\text{supp}(\mathbf{x})\subset S$. Furthermore, given a vector $\mathbf{z} \in \mathbb{R}^N$ where $\mathbf{z} \neq \mathbf{x}$, such that $\mathbf{Az} = \mathbf{Ax}$. Consider then a vector $\mathbf{v}$ given by $\mathbf{v} := \mathbf{x} - \mathbf{z} \in \text{null}(\mathbf{A}) \setminus \{ \mathbf{0} \}$. 
+From the null space property, the following is obtained:
+\begin{align*}
+\Vert \mathbf{x} \Vert_1 \leq \Vert \mathbf{x} - \mathbf{z}_S \Vert_1 &= \Vert \mathbf{v}_S \Vert_1 + \Vert \mathbf{z}_S \Vert_1 \\
+&< \Vert \mathbf{v}_{\overline{S}} \Vert_1 + \Vert \mathbf{z}_S \Vert_1 \\
+&= \Vert -\mathbf{z}_{\overline{S}} \Vert_1 + \Vert \mathbf{z}_S \Vert_1 = \Vert \mathbf{z} \Vert_1.
+\end{align*}
+This establishes the required sparseness of $\Vert \mathbf{x} \Vert_1$.
 \end{proof}
 Unfortunately, this is a condition which is hard to check in practice.
 
 \subsubsection{Coherence}
-The null space property provide a unique solution to the optimisation problem \eqref{eq:SMV_p1}, but it is unfortunately complicated to investigate. Instead an alternative measure is presented.
+The null space property provide a unique solution to the optimisation problem \eqref{eq:SMV_p1}, but it is unfortunately complicated to investigate. 
+Instead an alternative measure is presented.
 \\
-Coherence is a measure of quality, it determines whether a matrix $\mathbf{A}$ is a good choice for the optimisation problem \eqref{eq:SMV_p1}. A small coherence describes the performance of a recovery algorithm as good with that choice of $\mathbf{A}$. 
+Coherence is a measure of quality, it determines whether a matrix $\mathbf{A}$ is a good choice for the optimisation problem \eqref{eq:SMV_p1}. 
+A small coherence describes the performance of a recovery algorithm as good with that choice of $\mathbf{A}$. 
 \begin{definition}[Coherence]
-Coherence of the matrix $A \in \mathbb{R}^{M \times N}$, denoted as $\mu (\mathbf{A})$, with columns $\mathbf{a}_1, \dots, \mathbf{a}_N$ for all $i \in [N]$ is given as
+Coherence of the matrix $\mathbf{A} \in \mathbb{R}^{M \times N}$, denoted as $\mu (\mathbf{A})$, with columns $\mathbf{a}_1, \dots, \mathbf{a}_N$ for all $i \in [N]$ is given as
 \begin{align*}
-\mu (\mathbf{A}) = \max_{1 \leq i < j \leq n} \frac{\vert \langle a_i, a_j \rangle \vert}{\Vert a_i \Vert_2 \Vert a_j \Vert_2}.
+\mu (\mathbf{A}) = \max_{1 \leq i < j \leq n} \frac{\vert \langle \mathbf{a}_i, \mathbf{a}_j \rangle \vert}{\Vert \mathbf{a}_i \Vert_2 \Vert \mathbf{a}_j \Vert_2}.
 \end{align*}
 \end{definition}
 
 \subsubsection{Restricted Isometry Condition}
 Restricted isometry condition is a stronger condition concerning the orthogonality of the matrix $\mathbf{A}$.
-\begin{definition}[Restricted Isometry Property]
-A matrix $A$ satisfies the RIP of order $k$ if there exists a $\delta_k \in (0,1)$ such that
+\begin{definition}[Restricted Isometry Property (RIP)]
+A matrix $\mathbf{A}$ satisfies the RIP of order $k$ if there exists a $\delta_k \in (0,1)$ such that
 \begin{align*}
-(1 - \delta_k) \Vert x \Vert_2^2 \leq \Vert Ax \Vert_2^2 \leq (1 + \delta_k) \Vert x \Vert_2^2,
-\end{align*}%holds for all $x \in \Sigma_k$
+(1 - \delta_k) \Vert \mathbf{x} \Vert_2^2 \leq \Vert \mathbf{Ax} \Vert_2^2 \leq (1 + \delta_k) \Vert \mathbf{x} \Vert_2^2,
+\end{align*}
 \end{definition}
 
 \begin{theorem}
-Suppose that the $2s$-th restricted isometry constant of the matrix $\textbf{A} \in \mathbb{R}^{M \times N}$ satisfies
+Suppose that the $2s$-th restricted isometry constant of the matrix $\mathbf{A} \in \mathbb{R}^{M \times N}$ satisfies
 \begin{align*}
     \delta_{2s} < \frac{1}{3}.
 \end{align*}
-Then every $s$-sparse vector $\textbf{x}^\ast \in \mathbb{R}^N$ is the unique solution of
+Then every $s$-sparse vector $\mathbf{x}^\ast \in \mathbb{R}^N$ is the unique solution of
 $$
-\min_{\textbf{z} \in \mathbb{R}^N} \Vert \textbf{z} \Vert_1 \quad \text{subject to} \quad \textbf{Az} = \textbf{Ax}.
+\min_{\mathbf{z} \in \mathbb{R}^N} \Vert \mathbf{z} \Vert_1 \quad \text{subject to} \quad \mathbf{Az} = \mathbf{Ax}.
 $$
 \end{theorem}
 \begin{proof}
-To proof the theorem we only need to show the null space condition:
-$$
-\Vert \textbf{v} \Vert_1 < \frac{1}{2} \Vert \textbf{v} \Vert_1, \quad \forall \ \textbf{v} \in \text{ker}(\textbf{A})\setminus \{\textbf{0}\}, \ S \subseteq [N], \ \text{card}(S) \leq s.
-$$
-Cf. Cauchy-Schwarz or $\Vert \textbf{v}_S \Vert_1 \leq \Vert \textbf{v}_S \Vert_2 \sqrt{s}$, we only need to show
+To proof the theorem one only need to show the null space condition:
 \begin{align*}
-\Vert \textbf{v}_S \Vert_2 &\leq \frac{\rho}{2 \sqrt{s}} \Vert \textbf{v} \Vert_1 \\
+\Vert \mathbf{v} \Vert_1 < \frac{1}{2} \Vert \mathbf{v} \Vert_1, \quad \forall \ \mathbf{v} \in \text{ker}(\mathbf{A})\setminus \{\mathbf{0}\}, \ S \subseteq [N], \ \text{card}(S) \leq s.
+\end{align*}
+Cf. Cauchy-Schwarz or $\Vert \mathbf{v}_S \Vert_1 \leq \Vert \mathbf{v}_S \Vert_2 \sqrt{s}$, one only need to show
+\begin{align*}
+\Vert \mathbf{v}_S \Vert_2 &\leq \frac{\rho}{2 \sqrt{s}} \Vert \mathbf{v} \Vert_1 \\
 \rho &= \dfrac{2 \delta_{2s}}{1 - \delta_{2s}} < 1,
 \end{align*}
-whenever $\delta_{2s} < 1/3$. Given $\textbf{v} \in$ ker$(\textbf{A})\setminus \{\textbf{0}\}$, it is enough to consider an index set $S = S_0$ of $s$ largest absolute entries of the vector $\textbf{v}$. The complement $\overline{S_0}$ of $S_0$ in $[N]$ is partition as $S_0 = S_1 \cup S_2 \cup \cdots$, where
+whenever $\delta_{2s} < 1/3$. Given $\mathbf{v} \in$ ker$(\mathbf{A})\setminus \{\mathbf{0}\}$, it is enough to consider an index set $S = S_0$ of $s$ largest absolute entries of the vector $\mathbf{v}$. The complement $\overline{S_0}$ of $S_0$ in $[N]$ is partition as $S_0 = S_1 \cup S_2 \cup \cdots$, where
 \begin{align*}
     S_1 \ &: \ \text{index set of } s \text{ largest absolute entries of } \textbf{v} \text{ in } \overline{S_0}, \\
     S_2 \ &: \ \text{index set of } s \text{ largest absolute entries of } \textbf{v} \text{ in } \overline{S_0 \cup S_1}.
 \end{align*}
-With $\textbf{v} \in$ ker$(\textbf{A})$:
-$$
-\textbf{A}(\textbf{v}_{S_0}) = \textbf{A}(-\textbf{v}_{S_1} - \textbf{v}_{S_2} - \cdots),
-$$
+With $\mathbf{v} \in$ ker$(\mathbf{A})$:
+\begin{align*}
+\mathbf{A}(\mathbf{v}_{S_0}) = \mathbf{A}(-\mathbf{v}_{S_1} - \mathbf{v}_{S_2} - \cdots),
+\end{align*}
 so that
 \begin{align}\label{eq:L9_6}
 \Vert \textbf{v}_{S_0} \Vert_2^2 &\leq \frac{1}{1 - \delta_{2s}} \Vert \textbf{A}(\textbf{v}_{S_0}) \Vert_2^2 = \frac{1}{1 - \delta_{2s}} \langle \textbf{A}(\textbf{v}_{S_0}), \textbf{A}(-\textbf{v}_{S_1}) + \textbf{A}(-\textbf{v}_{S_2}) + \cdots \rangle \nonumber \\
     &= \frac{1}{1 - \delta_{2s}} \sum_{k \geq 1} \langle \textbf{A}(\textbf{v}_{S_0}), \textbf{A}(-\textbf{v}_{S_k}) \rangle.
 \end{align}
-According to Proposition \ref{prop:L9_1}, we also have
+According to Proposition 6.3 \cite[p. 135]{FR}, one also have
 \begin{align}\label{eq:L9_7}
-    \langle \textbf{A}(\textbf{v}_{S_0}), \textbf{A}(-\textbf{v}_{S_k}) \rangle. \leq \delta_{2s} \Vert \textbf{v}_{S_0} \Vert_2 \Vert \textbf{v}_{S_k} \Vert_2.
+\langle \textbf{A}(\textbf{v}_{S_0}), \textbf{A}(-\textbf{v}_{S_k}) \rangle. \leq \delta_{2s} \Vert \textbf{v}_{S_0} \Vert_2 \Vert \textbf{v}_{S_k} \Vert_2.
 \end{align}
-Substituting \eqref{eq:L9_7} into \eqref{eq:L9_6} and dividing by $\Vert \textbf{v}_{S_0} \Vert_2 > 0$
+Substituting \eqref{eq:L9_7} into \eqref{eq:L9_6} and dividing by $\Vert \mathbf{v}_{S_0} \Vert_2 > 0$
 \end{proof}
 
 %The construction of the matrix $\mathbf{A}$ is of course essential for the solution of the optimisation problem. So far no one has manage to construct a matrix which is proved to be optimal for some compressive sensing set up. However some certain constructions have shown sufficient recovery guarantee.\\ \\

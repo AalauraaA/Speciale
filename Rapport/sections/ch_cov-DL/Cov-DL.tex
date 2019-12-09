@@ -109,27 +109,27 @@ d_{N1} & d_{N2} & \cdots & d_{NN}
 \end{align*}
 and $\textbf{b}_i$ is the corresponding eigenvector.\todo{redegørelse for resultatet her skal laves}
   
-\begin{algorithm}[H]
-\caption{Cov-DL1}
-\begin{algorithmic}[1]
+%\begin{algorithm}[H]
+%\caption{Cov-DL1}
+%\begin{algorithmic}[1]
 %			\Procedure{Segmentation}{$\textbf{Y}$}
 %			\State $\text{define lengt of segments}\ L_s$
 %			\State $n_{seg} = L/L_S$
 %			\State $\text{split Y into } \ n_{seg} \ \text{segments of length} \ L_s$
 %			\EndProcedure  
-            \Procedure{Cov-DL1}{$\textbf{Y}_s$}    
-			\For{ $s \gets 1,\hdots, \text{n_seg}$ }			
-				\State$\text{compute sample covariance matrix}\ \widehat{\boldsymbol{\Sigma}}_{\textbf{Y}_s} $
-				\State$\textbf{y}_s = \text{vec}(\widehat{\boldsymbol{\Sigma}}_{\textbf{Y}_s})$	
-			\EndFor			
-			\State$\textbf{Y}_cov = \{\textbf{y}_s\}_{s=1}^{\text{n\_seg}}$		
-			\State$k=0$
-			\Procedure{K-SVD}()
-			\EndProcedure            
-            \EndProcedure
-        \end{algorithmic} 
-        \label{alg:basicICA}
-\end{algorithm}
+%            \Procedure{Cov-DL1}{$\textbf{Y}_s$}    
+%			\For{ $s \gets 1,\hdots, \text{n_seg}$ }			
+%				\State$\text{compute sample covariance matrix}\ \widehat{\boldsymbol{\Sigma}}_{\textbf{Y}_s} $
+%				\State$\textbf{y}_s = \text{vec}(\widehat{\boldsymbol{\Sigma}}_{\textbf{Y}_s})$	
+%			\EndFor			
+%			\State$\textbf{Y}_cov = \{\textbf{y}_s\}_{s=1}^{\text{n\_seg}}$		
+%			\State$k=0$
+%			\Procedure{K-SVD}()
+%			\EndProcedure            
+%           \EndProcedure
+%        \end{algorithmic} 
+%        \label{alg:basicICA}
+%\end{algorithm}
 
 \subsubsection*{Cov-DL2 -- undercomplete \textbf{D}}
 \todo{kan ve udelade denne med det argument at vi altid vil finde så mange sources som muligt. fordi vi ikke ved hvor mange der der }

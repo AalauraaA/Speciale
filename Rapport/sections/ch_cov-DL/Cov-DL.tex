@@ -115,24 +115,31 @@ and $\textbf{b}_i$ is the corresponding eigenvector.\todo{redegørelse for resul
            \Procedure{Cov-DL1}{$\textbf{Y}_s$}    
 			\For{$s \gets 1,\hdots, \text{n\_seg}$}			
 				\State$\text{compute sample covariance matrix}\ \widehat{\boldsymbol{\Sigma}}_{\textbf{Y}_s} $
-				\State$\textbf{y}_s = \text{vec}(\widehat{\boldsymbol{\Sigma}}_{\textbf{Y}_s})$	
+				\State$\textbf{y}_{\text{cov}_s} = \text{vec}(\widehat{\boldsymbol{\Sigma}}_{\textbf{Y}_s})$	
 			\EndFor			
-			\State$\textbf{Y}_{\text{cov}} = \{\textbf{y}_s\}_{s=1}^{\text{n\_seg}}$		
-			\Procedure{K-SVD}{$\textbf{D}$}
-			\State$k=1$
-			\EndProcedure            
+			\State$\textbf{Y}_{\text{cov}} = \{\textbf{y}_{\text{cov}_s}\}_{s=1}^{\text{n\_seg}}$		
+			\Procedure{K-SVD}{$\textbf{Y}_{\text{cov}}$}
+			\State$\text{returns} \ \textbf{D} \in \mathbb{R}^{M(M+1)/2}\times N$
+			\EndProcedure
+			\For{$i \gets 1, \hdots, N$}
+			\State$\textbf{T} = \text{vec}^{-1}(d_i)$            
+			\State$\lambda_i\gets \max\{eigenvalue(\textbf{T})\}$
+			\State$\textbf{b}_i \gets \ eigenvector(\lambda_i)$
+			\State$\textbf{a}_i \gets \sqrt{\lambda_i}\textbf{b}_i$
+			\EndFor
+			\State$\textbf{A} = \{\textbf{a}_i\}_{i=1}^N$
            \EndProcedure
         \end{algorithmic} 
         \label{alg:Cov1}
 \end{algorithm}
 
 \subsubsection*{Cov-DL2 -- undercomplete \textbf{D}}
-\todo{kan ve udelade denne med det argument at vi altid vil finde så mange sources som muligt. fordi vi ikke ved hvor mange der der }
+In the case of $N < \frac{M(M+1)}{2}$
 
 
 
 %\paragraph{Notes}
-%
+% 
 %\begin{itemize}
 %\item In the case of EEG, this allows at most k = O(M) EEG sources to be simultaneously active which limits direct applicability of dictionary learning to low-density EEG systems.
 %\item We wish to handled cases where we have $\binom{N}{k}$ sources, where $1 \leq k \leq N$ can be jointly active.

@@ -22,7 +22,7 @@ np.random.seed(1)
 m = 8                         # number of sensors
 n = 50                        # number of sources
 k = 4                         # max number of non-zero coef. in rows of X
-L = 10000                     # number of sampels
+L = 100                       # number of sampels
 
 
 Y_real, A_real, X_real = data_generation.mix_signals(L, 10, m, n, k)
@@ -76,21 +76,21 @@ for i in range(len(Ys)): # loop over segments
  
 plt.figure(1)
 plt.subplot(4, 1, 1)
-plt.title('Comparison of each active source in X and corresponding reconstruction ')
+plt.title('Comparison of each active source in X and corresponding reconstruction')
 plt.plot(X_real[0], 'r',label='Real X')
-plt.plot(X_rec[0],'g', label='Recovered X')
+plt.plot(X_rec[11],'g', label='Recovered X')
 
 plt.subplot(4, 1, 2)
 plt.plot(X_real[1], 'r',label='Real X')
-plt.plot(X_rec[1],'g', label='Recovered X')
+plt.plot(X_rec[12],'g', label='Recovered X')
 
 plt.subplot(4, 1, 3)
 plt.plot(X_real[15], 'r',label='Real X')
-plt.plot(X_rec[15],'g', label='Recovered X')
+plt.plot(X_rec[16],'g', label='Recovered X')
 
 plt.subplot(4, 1, 4)
 plt.plot(X_real[16], 'r',label='Real X')
-plt.plot(X_rec[16],'g', label='Recovered X')
+plt.plot(X_rec[17],'g', label='Recovered X')
 plt.legend()
 plt.show
 #plt.savefig('case1_1.png')

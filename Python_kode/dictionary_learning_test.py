@@ -33,7 +33,7 @@ for i in range(len(list_)):
     
     #Y, A, X = data_generation.rossler_data(L, 1, m )[:3]
     
-    Y, A, X = data_generation.mix_signals(L, 10, m, n, k)
+    Y, A, X = data_generation.mix_signals(L, 10, m)
     n = len(X)
     m = len(Y)
 
@@ -75,7 +75,7 @@ plt.plot(list_,err_listA)
 plt.title('Varying k - M = 50, N = 100, L = 100, iteration = 500')
 plt.xlabel('non-zeros')
 plt.ylabel('MSE')
-#plt.savefig('Resultater/K-SVD/3.png')
+plt.savefig('Resultater/K-SVD/3.png')
 plt.show()
     
 

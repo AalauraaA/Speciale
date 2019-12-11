@@ -108,63 +108,36 @@ d_{N1} & d_{N2} & \cdots & d_{NN}
 \end{bmatrix}, \quad i \in [N]
 \end{align*}
 and $\textbf{b}_i$ is the corresponding eigenvector.\todo{redegørelse for resultatet her skal laves}
+  
+%\begin{algorithm}[H]
+%\caption{Cov-DL1}
+%\begin{algorithmic}[1]
+%			\Procedure{Segmentation}{$\textbf{Y}$}
+%			\State $\text{define lengt of segments}\ L_s$
+%			\State $n_{seg} = L/L_S$
+%			\State $\text{split Y into } \ n_{seg} \ \text{segments of length} \ L_s$
+%			\EndProcedure  
+%            \Procedure{Cov-DL1}{$\textbf{Y}_s$}    
+%			\For{ $s \gets 1,\hdots, \text{n_seg}$ }			
+%				\State$\text{compute sample covariance matrix}\ \widehat{\boldsymbol{\Sigma}}_{\textbf{Y}_s} $
+%				\State$\textbf{y}_s = \text{vec}(\widehat{\boldsymbol{\Sigma}}_{\textbf{Y}_s})$	
+%			\EndFor			
+%			\State$\textbf{Y}_cov = \{\textbf{y}_s\}_{s=1}^{\text{n\_seg}}$		
+%			\State$k=0$
+%			\Procedure{K-SVD}()
+%			\EndProcedure            
+%           \EndProcedure
+%        \end{algorithmic} 
+%        \label{alg:basicICA}
+%\end{algorithm}
 
 \subsubsection*{Cov-DL2 -- undercomplete \textbf{D}}
-In the case of $N < \frac{M(M+1)}{2}$ an over-determined system is achieved and it is not possible to find $\textbf{D}$ by dictionary learning methods.\\
-By assuming that $\frac{M(M+1)}{2}$ will be close to $N$, because $N>M$ is given,\todo{how else can they live on the same space??} then the measurements in the covariance domain $\text{vec}(\boldsymbol{\Sigma}_{\textbf{Y}_s})$ will live on or near a subspace of dimension $N$. This subspace is spanned by the columns of $\textbf{D}$, and is denoted as $\mathcal{r}(\textbf{D})$. To learn $\mathcal{R}(\textbf{D})$ without having to impose any sparsity constraint on $\boldsymbol{\delta}_s$ it is possible to use Principal Component Analysis(PCA)\todo{evt. teoretisk beskrivelse af PCA i appendix?}. By use of PCA a set of basis vectors $\textbf{U}$ is achieved such that $\mathcal{R}(\textbf{U})=\mathcal{R}(\textbf{D})$. This however do not imply that $\textbf{D}=\textbf{U}$. \\ 
-In the case of two sets of basis vectors span the same space, namely $\mathcal{R}(\textbf{U})=\mathcal{R}(\textbf{D})$, the projection operator of the given subset must be unique. Which is true if and only if $\textbf{D}(\textbf{D}^T\textbf{D})^{-1}\textbf{D}^T=\textbf{U}(\textbf{U}^T\textbf{U})^{-1}\textbf{U}^T$\todo{kilde foruden phd p. 51?}. 
-Remember from the above derivation the condition that $\textbf{d}_i = \text{vec}(\textbf{a}_i\textbf{a}_i^T)$. From this it is possible to obtain $\textbf{A}$ through the optimisation problem 
-\begin{align*}
-\min_{\textbf{a}_i}\Vert  \textbf{D}(\textbf{D}^T\textbf{D})^{-1}\textbf{D}^T &- \textbf{U}(\textbf{U}^T\textbf{U})^{-1}\textbf{U}^T \Vert_{F}^{2} \\
-\text{s.t.} \ \textbf{d}_i&=\text{vec}(\textbf{a}_i\textbf{a}_i^T)
-\end{align*}      
-where $\textbf{U}$ is learned by use of PCA performed on $\text{vec}(\boldsymbol{\Sigma}_{\textbf{Y}_s})$.\\ 
-To solve this optimization problem the gradient of the cost function is computed with respect to $\textbf{A}$ by use of the chain rule \\
-... \\
-then the cost function is minimized by use of quasi-Newton optimization methods
+\todo{kan ve udelade denne med det argument at vi altid vil finde så mange sources som muligt. fordi vi ikke ved hvor mange der der }
 
-\subsection{Pseudo Code of the Cov-DL Algorithm}
-\begin{algorithm}[H]
-\caption{Cov-DL}
-\begin{algorithmic}[1]
-           \Procedure{Cov-DL}{$\textbf{Y}_s$}    
-			\For{$s \gets 1,\hdots, \text{n\_seg}$}			
-				\State$\text{compute sample covariance matrix}\ \widehat{\boldsymbol{\Sigma}}_{\textbf{Y}_s} $
-				\State$\textbf{y}_{\text{cov}_s} = \text{vec}(\widehat{\boldsymbol{\Sigma}}_{\textbf{Y}_s})$	
-			\EndFor			
-			\State$\textbf{Y}_{\text{cov}} = \{\textbf{y}_{\text{cov}_s}\}_{s=1}^{\text{n\_seg}}$
-			
-			\If{$N > \frac{M(M+1)}{2}$}		
-			\Procedure{K-SVD}{$\textbf{Y}_{\text{cov}}$}
-			\State$\text{returns} \ \textbf{D} \in \mathbb{R}^{M(M+1)/2}\times N$
-			\EndProcedure
-			\For{$i \gets 1, \hdots, N$}
-			\State$\textbf{T} = \text{vec}^{-1}(d_i)$            
-			\State$\lambda_i\gets \max\{eigenvalue(\textbf{T})\}$
-			\State$\textbf{b}_i \gets \ eigenvector(\lambda_i)$
-			\State$\textbf{a}_i \gets \sqrt{\lambda_i}\textbf{b}_i$
-			\EndFor
-			\State$\textbf{A} = \{\textbf{a}_i\}_{i=1}^N$
-			\EndIf
-			\If{$N < \frac{M(M+1)}{2}$}
-			\State$...$
-			\EndIf
-           \EndProcedure
-        \end{algorithmic} 
-        \label{alg:Cov1}
-\end{algorithm}
-
-\subsection{Remarks to be considered and investigated in he code}
-\begin{itemize}
-\item the number of samples for dictionary learning is reduced remarkably when Cov-DL is used, this is mentioned above. increasing overlap will improved this. 
-\item the effect of the length of segments $L_s$. it will effect the diagonality of $cov(X)$
-\item the values of the individual sources must not be constant over time, that is the power of the sourced, it will not be at problem for EEG data. 
-\item for Cov-DL2 the solution tends to be unique when $M<N<M(M+1)/2$, that is the found cost function may have a local minima. for this it is recommended to use several random initial point.  
-\end{itemize}
 
 
 %\paragraph{Notes}
-% 
+%
 %\begin{itemize}
 %\item In the case of EEG, this allows at most k = O(M) EEG sources to be simultaneously active which limits direct applicability of dictionary learning to low-density EEG systems.
 %\item We wish to handled cases where we have $\binom{N}{k}$ sources, where $1 \leq k \leq N$ can be jointly active.

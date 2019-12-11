@@ -19,8 +19,8 @@ from dictionary_learning import DL
 np.random.seed(1)
 
 # vary parameters
-list_ = np.arange(10,40,2)
-#list_ = np.array([20])
+#list_ = np.arange(10,40,2)
+list_ = np.array([20])
 err_listA = np.zeros((len(list_),2))
 for i in range(len(list_)): 
     print(i)
@@ -28,7 +28,7 @@ for i in range(len(list_)):
     m = list_[i]              # number of sensors
     n = 50               # number of sources
     k = 25       # max number of non-zero coef. in rows of X
-    L = 1000      # number of sampels
+    L = 100      # number of sampels
     
     # RANDOM GENERATION OF SPARSE DATA
     #Y, A_real, X_real = data_generation.mix_signals(n_samples, 10, 8)
@@ -37,8 +37,9 @@ for i in range(len(list_)):
     #non_zero = 4
     
     #Y, A, X = data_generation.random_sparse_data(m, n, k, L)
+    Y, A, X = data_generation.generate_AR_v2(n, m, L, k)
      
-    Y, A, X = data_generation.mix_signals(L, 10, m, n, k)
+#    Y, A, X = data_generation.mix_signals(L, 10, m, n, k)
     n = len(X)
     m = len(Y)
     
@@ -68,21 +69,21 @@ for i in range(len(list_)):
     err_listA[i,1] = A_err_sk
 
 #plt.figure(2)
-#plt.title("comparison of source signals (column)")
-#plt.plot(X[11],'-b', label="orig.")    
-#plt.plot(X_rec[11],'-r', label="rec.")
-#plt.legend()
+plt.title("comparison of source signals (column)")
+plt.plot(X[11],'-b', label="orig.")    
+plt.plot(X_rec[11],'-r', label="rec.")
+plt.legend()
 
 #plot mse of A 
-plt.figure(1)
-plt.plot(list_,err_listA.T[0], '-r', label='k-svd error')
-plt.plot(list_,err_listA.T[1], '-b', label='sklearn error')
-plt.title('Varying M - k = 30, N = 50, L = 1000, iteration = 500')
-plt.xlabel('non-zeros')
-plt.ylabel('MSE')
-plt.legend()
-plt.savefig('Resultater/Dictionary Learning/comparison/varyM_mix.png')
-plt.show()
+#plt.figure(1)
+#plt.plot(list_,err_listA.T[0], '-r', label='k-svd error')
+#plt.plot(list_,err_listA.T[1], '-b', label='sklearn error')
+#plt.title('Varying M - k = 30, N = 50, L = 1000, iteration = 500')
+#plt.xlabel('non-zeros')
+#plt.ylabel('MSE')
+#plt.legend()
+#plt.savefig('Resultater/Dictionary Learning/comparison/varyM_mix.png')
+#plt.show()
 
 
 

@@ -172,54 +172,92 @@ def rossler_data(n_sampels=1940, ex = 1, m=8):
     
     return Y, A, X, k
 
-#def generate_AR(N):
-#    """
-#    Generate sources from an AR process
-#    
-#    Input:
-#        N: size of the columns
-#        
-#    Output:
-#        X: Source matrix of size 4 x N -- 4 can be change by adding more
-#           AR processes
-#    
-#    """
-##    A = np.array([[0.05, 0, 0, 0, 0, 0, 0, 0, 0],
-##                  [0, -0.05, 0, 0, 0, 0, 0, 0, 0],
-##                  [0, 0, 0.3, 0, 0, 0, 0, 0, 0],
-##                  [0, 0, 0, 0.4, 0, 0, 0, 0, 0],
-##                  [0, 0, 0, 0, 0.8, 0, 0, 0, 0],
-##                  [0, 0, 0, 0, 0, 0.06, 0, 0, 0],
-##                  [0, 0, 0, 0, 0, 0, 0.2, 0, 0],
-##                  [0, 0, 0, 0, 0, 0, 0, 0.2, 0],
-##                  [0, 0, 0, 0, 0, 0, 0, 0, 0.05]])
-##    A = MixingMatrix(N,N)    
-#    XX1 = np.zeros(N)
-#    XX2 = np.zeros(N)
-#    XX3 = np.zeros(N)
-#    XX4 = np.zeros(N)
-#    
-#    LP = 200
-#
-#    " Generating Synthetic AR Data "
-#    w = np.random.randn(4, N)
-#    for j in range(2,N):
-##        for i in range(A.shape[0]):
-##            XX1[j-2] = A[0][0] * XX1[j-1] - A[1][1] * XX1[j-2] + w[0, j-2]
-##            XX2[j-2] = A[2][2] * XX1[j-1] + A[3][3] * XX3[j-1] + w[1, j-2]
-##            XX3[j-2] = A[4][4] * XX1[j-1]**2 + A[5][5] * XX3[j-1] + A[6][6] * XX2[j-1] + w[2, j-2]
-##            XX4[j-2] = A[7][7] * XX4[j-1] + A[8][8] * XX1[j-1] + w[3, j-2]
-#            XX1[j-2] = 0.05 * XX1[j-1] - (-0.05) * XX1[j-2] + w[0, j-2]
-#            XX2[j-2] = 0.3 * XX1[j-1] + 0.4 * XX3[j-1] + w[1, j-2]
-#            XX3[j-2] = 0.8 * XX1[j-1]**2 + 0.06 *XX3[j-1] + 0.2 * XX2[j-1] + w[2, j-2]
-#            XX4[j-2] = 0.2 * XX4[j-1] + 0.05 * XX1[j-1] + w[3, j-2]
-#    XX1 = XX1[LP+1 : -1]
-#    XX2 = XX2[LP+1 : -1]
-#    XX3 = XX3[LP+1 : -1]
-#    XX4 = XX4[LP+1 : -1]
-#    
-#    X = np.vstack([XX1, XX2, XX3, XX4])
-#    return X
+def generate_AR_v1(N, M, L, non_zero):
+    """
+    Generate sources from an AR process
+    
+    Input:
+        N: size of the rows (amount of sources)
+        L: size of the columns (amount of samples)
+        
+    Output:
+        X: Source matrix of size N x L     
+    """
+    A = np.random.uniform(-1,1, (N,L))
+    X = np.zeros([N, L+2])
+    W = np.random.randn(N, L)
+    for i in range(N):
+        for j in range(2,L):
+            X[i][j] = A[i][j-1] * X[i][j-1] + A[i][j-2] * X[i][j-2] + W[i][j]
+    
+    " Making zero and non-zero rows "
+    Real_X = np.zeros([N, L+2])
+    ind = np.random.random(non_zero)
+    for i in range(len(ind)):
+        temp = np.random.randint(0,N)
+        while temp in ind:
+            temp = np.random.randint(0,N)
+        ind[i] = temp
+    
+    for j in ind:
+        k = np.random.choice(len(X))
+        Real_X[int(j)] = X[k]
+    
+    Real_X = Real_X.T[2:].T  
+    
+    " System "
+    A_Real = np.random.randn(M,N)
+    Y_Real = np.dot(A_Real, Real_X)    
+    return Y_Real, A_Real, Real_X
+
+def generate_AR_v2(N, M, L, non_zero):
+    """
+    Generate sources from an AR process
+    
+    Input:
+        N: size of the rows (amount of sources)
+        L: size of the columns (amount of samples)
+        
+    Output:
+        X: Source matrix of size N x L     
+    """
+    A = np.random.uniform(-1,1, (N,L))
+    X = np.zeros([N, L+2])
+    W = np.random.randn(N, L)
+    for i in range(N):
+        ind = np.random.randint(1,4)
+        for j in range(2,L):
+            if ind == 1:
+                X[i][j] = A[i][j-1] * X[i][j-1] + A[i][j-2] * X[i][j-2] + W[i][j]
+            
+            elif ind == 2: 
+                X[i][j] = A[i][j-1] * X[i-1][j-1] + A[i][j-2] * X[i][j-1] + W[i][j]
+                
+            elif ind == 3:
+                X[i][j] = A[i][j] * X[i-2][j-1] + A[i][j-1] * X[i][j-1] + A[i][j-2] * X[i-1][j-1] + W[i][j]
+            
+            elif ind == 4:
+                X[i][j] = A[i][j-1] * X[i][j-1] + A[i][j-2] * X[i-3][j-1] + W[i][j]
+    
+    " Making zero and non-zero rows "
+    Real_X = np.zeros([N, L+2])
+    ind = np.random.random(non_zero)
+    for i in range(len(ind)):
+        temp = np.random.randint(0,N)
+        while temp in ind:
+            temp = np.random.randint(0,N)
+        ind[i] = temp
+    
+    for j in ind:
+        k = np.random.choice(len(X))
+        Real_X[int(j)] = X[k]
+    
+    Real_X = Real_X.T[2:].T  
+
+    " System "
+    A_Real = np.random.randn(M,N)
+    Y_Real = np.dot(A_Real, Real_X)    
+    return Y_Real, A_Real, Real_X
 
 def segmentation_split(Y, X, Ls, n_sampels):
     """

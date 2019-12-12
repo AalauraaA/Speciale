@@ -15,20 +15,23 @@ import MSBL
 
 np.random.seed(1)
 
-# choose datageneration method ... 
-
-""" DATA GENERATION - MIX OF DETERMINISTIC SIGNALS """
-
+# choose datageneration method ...
+""" DATA GENERATION - AUTO-REGRESSIVE SIGNAL """
 m = 8                         # number of sensors
 n = 50                        # number of sources
 k = 4                         # max number of non-zero coef. in rows of X
 L = 100                       # number of sampels
 
+Y_real, A_real, X_real = data_generation.generate_AR_v2(n, m, L, k) 
 
-Y_real, A_real, X_real = data_generation.mix_signals(L, 10, m, n, k)
-
-
-
+#""" DATA GENERATION - MIX OF DETERMINISTIC SIGNALS """
+#m = 8                         # number of sensors
+#n = 50                        # number of sources
+#k = 4                         # max number of non-zero coef. in rows of X
+#L = 100                       # number of sampels
+#
+#Y_real, A_real, X_real = data_generation.mix_signals(L, 10, m, n, k)
+#
 #""" DATA GENERATION - ROSSLER DATA """
 #
 #L = 1940                        # number of sampels, max value is 1940
@@ -77,20 +80,20 @@ for i in range(len(Ys)): # loop over segments
 plt.figure(1)
 plt.subplot(4, 1, 1)
 plt.title('Comparison of each active source in X and corresponding reconstruction')
-plt.plot(X_real[0], 'r',label='Real X')
-plt.plot(X_rec[11],'g', label='Recovered X')
+plt.plot(X_real[2], 'r',label='Real X')
+plt.plot(X_rec[2],'g', label='Recovered X')
 
 plt.subplot(4, 1, 2)
-plt.plot(X_real[1], 'r',label='Real X')
-plt.plot(X_rec[12],'g', label='Recovered X')
+plt.plot(X_real[7], 'r',label='Real X')
+plt.plot(X_rec[31],'g', label='Recovered X')
 
 plt.subplot(4, 1, 3)
-plt.plot(X_real[15], 'r',label='Real X')
-plt.plot(X_rec[16],'g', label='Recovered X')
+plt.plot(X_real[34], 'r',label='Real X')
+plt.plot(X_rec[36],'g', label='Recovered X')
 
 plt.subplot(4, 1, 4)
-plt.plot(X_real[16], 'r',label='Real X')
-plt.plot(X_rec[17],'g', label='Recovered X')
+plt.plot(X_real[37], 'r',label='Real X')
+plt.plot(X_rec[37],'g', label='Recovered X')
 plt.legend()
 plt.show
 #plt.savefig('case1_1.png')

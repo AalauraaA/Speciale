@@ -93,13 +93,13 @@ Thus, it is again possible to solve the under-determined system if certain spars
 Assuming the sufficient sparsity on $\boldsymbol{\delta}_s$ is withhold it is possible to learn the dictionary matrix of the covariance domain $\mathbf{D}$ by traditional dictionary learning methods applied to the observations represented in the covariance domain $\text{vec}(\boldsymbol{\Sigma}_{\mathbf{Y}_s})$ for all $s$.
 For this K-SVD algorithm, described in section \ref{sec:dictionarylearning} is used. 
 Note here that the number of samples that are used to learn the dictionary is remarkable reduces as one segment effectively corresponds to one sample in the covariance domain.  \\ 
-When $\mathbf{D}$ is learned it is possible to find the original mixing matrix $\mathbf{A}$ that generated $\textbf{D}$ through the relation $\mathbf{d}_i = \text{vec}(\mathbf{a}_i \mathbf{a}_i^T)$. Here each column is found by the optimisation problem 
+When $\mathbf{D}$ is learned it is possible to find the original mixing matrix $\mathbf{A}$ that generated $\textbf{D}$ through the relation $\mathbf{d}_j = \text{vec}(\mathbf{a}_j \mathbf{a}_j^T)$. Here each column is found by the optimisation problem 
 \begin{align*}
-\min_{\textbf{a}_i} \| \text{vec}^{-1}(\textbf{d}_i) -\textbf{a}_i\textbf{a}_i^T\|_2^2, 
+\min_{\textbf{a}_j} \| \text{vec}^{-1}(\textbf{d}_j) -\textbf{a}_j\textbf{a}_j^T\|_2^2, 
 \end{align*}
-for which the global minimizer is $\mathbf{a}^{\ast}_i=\sqrt{\lambda_i} \textbf{b}_i$. Here $\lambda_i$ is the largest eigenvalue of $\text{vec}^{-1}(\textbf{d}_i)$,
+for which the global minimizer is $\mathbf{a}^{\ast}_j=\sqrt{\lambda_j} \textbf{b}_j$. Here $\lambda_j$ is the largest eigenvalue of $\text{vec}^{-1}(\textbf{d}_j)$,
 \begin{align*}
-\text{vec}^{-1}(\textbf{d}_i) = 
+\text{vec}^{-1}(\textbf{d}_j) = 
 \begin{bmatrix}
 d_{11} & d_{12} & \cdots & d_{1N} \\
 d_{21} & d_{22} & \cdots & d_{2N} \\
@@ -107,25 +107,22 @@ d_{21} & d_{22} & \cdots & d_{2N} \\
 d_{N1} & d_{N2} & \cdots & d_{NN}
 \end{bmatrix}, \quad i \in [N]
 \end{align*}
-and $\textbf{b}_i$ is the corresponding eigenvector.\todo{redegørelse for resultatet her skal laves}
+and $\textbf{b}_j$ is the corresponding eigenvector.\todo{redegørelse for resultatet her skal laves}
 
 \subsubsection*{Over-determined \textbf{D}}
 In the case of $N < \frac{M(M+1)}{2}$ an over-determined system is achieved and it is not possible to find $\textbf{D}$ by dictionary learning methods.\\
 By assuming that $\frac{M(M+1)}{2}$ will be close to $N$, because $N>M$ is given,\todo{how else can they live on the same space??} then the measurements in the covariance domain $\text{vec}(\boldsymbol{\Sigma}_{\textbf{Y}_s})$ will live on or near a subspace of dimension $N$. This subspace is spanned by the columns of $\textbf{D}$, and is denoted as $\mathcal{r}(\textbf{D})$. To learn $\mathcal{R}(\textbf{D})$ without having to impose any sparsity constraint on $\boldsymbol{\delta}_s$ it is possible to use Principal Component Analysis(PCA)\todo{evt. teoretisk beskrivelse af PCA i appendix?}. By use of PCA a set of basis vectors $\textbf{U}$ is achieved such that $\mathcal{R}(\textbf{U})=\mathcal{R}(\textbf{D})$. This however do not imply that $\textbf{D}=\textbf{U}$. \\ 
 In the case of two sets of basis vectors span the same space, namely $\mathcal{R}(\textbf{U})=\mathcal{R}(\textbf{D})$, the projection operator of the given subset must be unique. Which is true if and only if $\textbf{D}(\textbf{D}^T\textbf{D})^{-1}\textbf{D}^T=\textbf{U}(\textbf{U}^T\textbf{U})^{-1}\textbf{U}^T$\todo{kilde foruden phd p. 51?}. 
 Remember from the above derivation the condition that $\textbf{d}_i = \text{vec}(\textbf{a}_i\textbf{a}_i^T)$. From this it is possible to obtain $\textbf{A}$ through the optimisation problem 
-\begin{align*}
-\min_{\textbf{a}_i}\Vert  \textbf{D}(\textbf{D}^T\textbf{D})^{-1}\textbf{D}^T &- \textbf{U}(\textbf{U}^T\textbf{U})^{-1}\textbf{U}^T \Vert_{F}^{2} \\
-\text{s.t.} \ \textbf{d}_i&=\text{vec}(\textbf{a}_i\textbf{a}_i^T)
-\end{align*}      
+\begin{align}
+\min_{\textbf{a}_i}\Vert  \textbf{D}(\textbf{D}^T\textbf{D})^{-1}\textbf{D}^T &- \textbf{U}(\textbf{U}^T\textbf{U})^{-1}\textbf{U}^T \Vert_{F}^{2} \nonumber \\
+\text{s.t.} \ \textbf{d}_i&=\text{vec}(\textbf{a}_i\textbf{a}_i^T)\label{eq:Cov_DL2}
+\end{align}      
 where $\textbf{U}$ is learned by use of PCA performed on $\text{vec}(\boldsymbol{\Sigma}_{\textbf{Y}_s})$.\\ 
-To solve this optimization problem the gradient of the cost function is computed with respect to $\textbf{A}$ by use of the chain rule \\
-... \\
-then the cost function is minimized by use of quasi-Newton optimization methods.
-
-
-\subsubsection*{Principal Component Analysis}
-
+To solve this optimization problem 
+%the gradient of the cost function is computed with respect to $\textbf{A}$ by use of the chain rule \\
+the cost function is minimized by use of quasi-Newton optimization methods. Several specific quasi-Newton methods exist but the basic principal will be presented here. The Newton optimization method is a multidimensional gradient method. The method is based on a quadratic approximation of the optimization problem by use of the Taylor series, which is elaborated in \cite[p. 29]{Optimization2007}.
+Let $f(\textbf{x})$ be the cost function and $\boldsymbol{\delta}$ be the change in $\textbf{X}$. By differentiating the Taylor approximation of $f(\textbf{x}+\boldsymbol{\delta})$ and setting it equal to zero, the optimal change in $\textbf{x}$ is found to be $\boldsymbol{\delta} = -\textbf{H}^{-1}\textbf{g}$. Where $\textbf{g}$ is the gradient and $\textbf{H}$ is the Hessian. The quasi-Newton methods deviate from the basic Newton method by letting the direction search be based on a positive semi-definite matrix $\textbf{S}$ which is generated from available data in order to approximate $\textbf{H}^{-1}$. Details of the method is found in \cite[p. 175]{Optimization2007}    
 
 \subsection{Pseudo Code of the Cov-DL Algorithm}
 \begin{algorithm}[H]
@@ -142,17 +139,22 @@ then the cost function is minimized by use of quasi-Newton optimization methods.
 			\Procedure{K-SVD}{$\textbf{Y}_{\text{cov}}$}
 			\State$\text{returns} \ \textbf{D} \in \mathbb{R}^{M(M+1)/2}\times N$
 			\EndProcedure
-			\For{$i \gets 1, \hdots, N$}
-			\State$\textbf{T} = \text{vec}^{-1}(d_i)$            
-			\State$\lambda_i\gets \max\{eigenvalue(\textbf{T})\}$
-			\State$\textbf{b}_i \gets \ eigenvector(\lambda_i)$
-			\State$\textbf{a}_i \gets \sqrt{\lambda_i}\textbf{b}_i$
+			\For{$j \gets 1, \hdots, N$}
+			\State$\textbf{T} = \text{vec}^{-1}(d_j)$            
+			\State$\lambda_j\gets \max\{eigenvalue(\textbf{T})\}$
+			\State$\textbf{b}_j \gets \ eigenvector(\lambda_j)$
+			\State$\textbf{a}_j \gets \sqrt{\lambda_j}\textbf{b}_j$
 			\EndFor
-			\State$\textbf{A} = \{\textbf{a}_i\}_{i=1}^N$
+			\State$\textbf{A} = \{\textbf{a}_j\}_{j=1}^N$
 			\EndIf
 			\State
 			\If{$N < \frac{M(M+1)}{2}$}
-			\State$...$
+				\Procedure{PCA}{$\text{vec}(\boldsymbol{\Sigma}_{\textbf{Y}_s})$}
+				\State$\text{returns} \ \textbf{U}\in \mathbb{R}^{M(M+1)/2\times N}$
+				\EndProcedure
+				\Procedure{Quasi-Newton}{problem  \eqref{eq:Cov_DL2}}
+				\State$\text{returns}\ \textbf{A}= \{\textbf{a}_j\}_{j=1}^{N}$
+				\EndProcedure
 			\EndIf
            \EndProcedure
         \end{algorithmic} 

@@ -59,3 +59,26 @@ Maximization of negentropy by use of the fixed-point algorithm is now presented,
         \end{algorithmic} 
         \label{alg:fastICA}
 \end{algorithm}
+
+
+\section{OMP}
+$\mathbf{A}^\ast$ is the adjoint of a matrix $\mathbf{A}$.
+\begin{algorithm}[H]
+\caption{Orthogonal Matching Pursuit (OMP)}\label{alg:OMP}
+\begin{algorithmic}[1]
+			\State$k = 0$			
+			\State$\text{Initialize} \quad S_{(0)} =\emptyset$ 
+			\State$\text{Initialize} \quad x_{(0)} =\mathbf{0}$
+            \Procedure{OMP}{$\mathbf{A}, \mathbf{y}$}    
+            \While{$\text{stopping criteria not meet}$} 
+                \State$k = k + 1$
+				\State$j_{(k)} = \arg \max_{j \in [N]} \lbrace \vert (\mathbf{A}^\ast (\mathbf{y} - \mathbf{Ax}_{(k-1)}))_j \vert \rbrace$				
+				\State$S_{(k)} = S_{(k-1)} \cup \lbrace j_{(k)} \rbrace$ 
+				\State$\mathbf{x}_{(k)} = \arg \min_{\mathbf{z} \in \mathbb{C}^N} \lbrace \Vert \mathbf{y} - \mathbf{Az} \Vert_2 \  \vert \ \text{supp}(\mathbf{z}) \subset S_{(k)} \rbrace$
+          		\EndWhile
+          		\State$\mathbf{x}^\ast = \mathbf{x}_{(k)}$
+            \EndProcedure
+        \end{algorithmic} 
+        \label{alg:OMP}
+\end{algorithm}
+

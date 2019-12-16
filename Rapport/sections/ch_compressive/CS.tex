@@ -61,20 +61,23 @@ The set of all $k$-sparse signals is denoted as
 \end{align*}
 
 \subsection{Optimisation Problem}\label{sec:opti}
-To find a solution to the linear model \eqref{eq:SMV_model} assuming the solution is $k$-sparse, it can be view as an optimisation problem. 
-An optimisation problem is defined as
+To find a solution to the linear model \eqref{eq:SMV_model} assuming the solution is $k$-sparse, it can be viewed as an optimisation problem. 
+The optimisation problem is defined as
+%\begin{align*}
+%\min f_0 (\mathbf{x}) \quad \text{subject to} \quad f_i (\mathbf{x}) \leq b_i, \quad i = 1,2, \hdots, n ,
+%\end{align*}
+%where $f_0 \ : \ \mathbb{R}^N \mapsto \mathbb{R}$ is an objective function and $f_i \ : \ \mathbb{R}^N \mapsto \mathbb{R}$ are the constraint functions. 
+%\\
+%To find the $k$-sparse solution the optimisation problem can be written as
 \begin{align*}
-\min f_0 (\mathbf{x}) \quad \text{subject to} \quad f_i (\mathbf{x}) \leq b_i, \quad i = 1,2, \hdots, n ,
+\mathbf{x}^\ast = \arg \min_{\mathbf{x} \in \boldsymbol{\Omega_{k}}} \Vert \mathbf{x} \Vert_0 \quad \text{subject to} \quad \mathbf{y} = \mathbf{Ax}.
 \end{align*}
-where $f_0 \ : \ \mathbb{R}^N \mapsto \mathbb{R}$ is an objective function and $f_i \ : \ \mathbb{R}^N \mapsto \mathbb{R}$ are the constraint functions. 
-\\
-To find the $k$-sparse solution the optimisation problem can be written as
 \begin{align*}
-\mathbf{x}^\ast = \arg \min_{\mathbf{x} \in \boldsymbol{\Omega_{k}}} \Vert \mathbf{x} \Vert_0 \quad \text{subject to} \quad \mathbf{y} = \mathbf{Ax},
+\mathbf{x}^\ast = \arg \min_{\mathbf{x} \in \boldsymbol{\Omega_{k}}} \Vert \mathbf{y} - \mathbf{Ax} \Vert_0 \quad \text{subject to} \quad \Vert \mathbf{x} \Vert_0 \leq k.
 \end{align*}
 The objective function is given by an $\ell_0$ norm with the constraint function being the linear model \eqref{eq:SMV_model}. 
-Unfortunately, this optimisation problem is non-convex due to the definition of $\ell_0$-norm and is therefore difficult to solve -- it is a NP-hard problem. 
-Instead, by replacing the $\ell_0$-norm with the $\ell_1$-norm, the optimisation problem can be approximated and hence become computational feasible\todo{3.2: skal vi indfør z som en approximation til x. og så et nyt omega eller? eller kan vi beholde x} \cite[p. 27]{CS}
+Unfortunately, this optimisation problem is non-convex due to the definition of $\ell_0$-norm and is therefore difficult to solve -- it is an NP-hard problem. 
+Instead, by replacing the $\ell_0$-norm with the $\ell_1$-norm, the optimisation problem can be approximated and hence becomes computationally feasible\todo{3.2: skal vi indfør z som en approximation til x. og så et nyt omega eller? eller kan vi beholde x} \cite[p. 27]{CS}
 \begin{align}\label{eq:SMV_p1}
 \mathbf{x}^\ast = \arg \min_{\mathbf{x} \in  \boldsymbol{\Omega_{k}}} \Vert \mathbf{x} \Vert_1 \quad \text{subject to} \quad \mathbf{y} = \mathbf{Ax}.
 \end{align} 
@@ -93,7 +96,7 @@ the system $\lbrace \mathbf{a}_j, j \in \text{supp}( \mathbf{x}^\ast) \rbrace$ i
 \Vert \mathbf{x}^\ast \Vert_0 = \text{card}(\text{supp} (\mathbf{x}^\ast)) \leq M.
 \end{align*}
 \end{theorem}
-To prove this theorem one need to realise that the set $\lbrace \mathbf{a}_j, j \in S \rbrace \leq M$, with $S = \text{supp}(\mathbf{x}^\ast)$, can not have more than $M$ linearly independence columns. 
+To prove this theorem one needs to realise that the set $\lbrace \mathbf{a}_j, j \in S \rbrace \leq M$, with $S = \text{supp}(\mathbf{x}^\ast)$, can not have more than $M$ linearly independence columns. 
 So when $M \ll N$ a sparse signal is automatically achieved.
 \begin{proof}
 For the case of contradiction, assume that the set $\lbrace \mathbf{a}_j, j \in S \rbrace$ is linearly dependent. 
@@ -115,40 +118,21 @@ t \sum_{j \in S} \text{sgn}(x_j^\ast)v_j \leq 0,
 \end{align*}
 and therefore the set $\lbrace \mathbf{a}_j, j \in S \rbrace$ must be linearly independent.
 \end{proof}
-The Basis Pursuit makes the foundation of several algorithms solving alternative versions of \eqref{eq:SMV_p1} where noise is incorporated. 
-An alternative solution method includes greedy algorithms such as the Orthogonal Matching Pursuit(OMP) \cite[P. 65]{FR}. 
-At each iteration of the OMP algorithm an index set $S$ is updated by adding the index corresponding to the column in $\mathbf{A}$ that best describes the residual, hence greedy.
+The Basis Pursuit algorithm makes the foundation of several algorithms solving alternative versions of \eqref{eq:SMV_p1} where noise is incorporated. 
+An alternative solution method includes greedy algorithms such as the Orthogonal Matching Pursuit (OMP) \cite[P. 65]{FR}. 
+At each iteration of the OMP algorithm an index set $S$ is updated by adding the index corresponding to a column in $\mathbf{A}$ that best describes the residual, hence greedy.
 That is the part of $\mathbf{y}$ that is not yet explained by $\mathbf{Ax}$ is included. 
-Then $\mathbf{x}$ is updated as the vector, supported by $S$, which minimize the residual, that is also the orthogonal projection of $\mathbf{y}$ onto the span$\lbrace \mathbf{a}_j \ \vert \ j \in S \rbrace$ \todo{Kan vi benytte $\mathbb{C}$ i algoritmen}. The algorithm for OMP can be seen in \ref{alg:OMP} where $\mathbf{A}^\ast$ be the adjoint of a matrix $\mathbf{A}$.
-\begin{algorithm}[H]
-\caption{Orthogonal Matching Pursuit (OMP)}\label{alg:OMP}
-\begin{algorithmic}[1]
-			\State$k = 0$			
-			\State$\text{Initialize} \quad S_{(0)} =\emptyset$ 
-			\State$\text{Initialize} \quad x_{(0)} =\mathbf{0}$
-            \Procedure{OMP}{$\mathbf{A}, \mathbf{y}$}    
-            \While{$\text{stopping criteria not meet}$} 
-                \State$k = k + 1$
-				\State$j_{(k)} = \arg \max_{j \in [N]} \lbrace \vert (\mathbf{A}^\ast (\mathbf{y} - \mathbf{Ax}_{(k-1)}))_j \vert \rbrace$				
-				\State$S_{(k)} = S_{(k-1)} \cup \lbrace j_{(k)} \rbrace$ 
-				\State$\mathbf{x}_{(k)} = \arg \min_{\mathbf{z} \in \mathbb{C}^N} \lbrace \Vert \mathbf{y} - \mathbf{Az} \Vert_2 \  \vert \ \text{supp}(\mathbf{z}) \subset S_{(k)} \rbrace$
-          		\EndWhile
-          		\State$\mathbf{x}^\ast = \mathbf{x}_{(k)}$
-            \EndProcedure
-        \end{algorithmic} 
-        \label{alg:OMP}
-\end{algorithm}
+Then $\mathbf{x}$ is updated as the vector, supported by $S$, which minimize the residual, that is also the orthogonal projection of $\mathbf{y}$ onto the span$\lbrace \mathbf{a}_j \ \vert \ j \in S \rbrace$. The algorithm for OMP can be found in the appendix \ref{alg:OMP}.
 
 \subsection{Conditions on the Mixing Matrix}\label{sec:dic_conditions}
 In section \ref{sec:opti} the mixing matrix $\mathbf{A}$ was assumed known, in order to solve the optimisation problem \eqref{eq:SMV_p1}. 
 However, in practise it is only the measurement vector $\mathbf{y}$ which is known. 
 In this case the mixing matrix $\mathbf{A}$ is considered a estimate of the true mixing matrix. 
-In general compressive sensing terminology $\mathbf{A}$ is also referred to as a dictionary matrix.
 \\
 To ensure exact or approximately reconstruction of the sparse signal $\mathbf{x}$, the mixing matrix must be constructed with certain conditions in mind. 
 
 \subsubsection{Null Space Condition}
-The the null space property is a necessary and sufficient condition to $\mathbf{A}$ for exact reconstruction of every sparse signal $\mathbf{x}$ that solves the optimisation problem \eqref{eq:SMV_p1}\cite[p. 77]{FR}. 
+The null space property is a necessary and sufficient condition on $\mathbf{A}$ for exact reconstruction of every sparse signal $\mathbf{x}$ that solves the optimisation problem \eqref{eq:SMV_p1} \cite[p. 77]{FR}. 
 The null space of the matrix $\mathbf{A}$ is defined as
 \begin{align*}
 \mathcal{N}(\mathbf{A}) = \{ \mathbf{z} \ : \ \mathbf{Az} = \textbf{0} \}.
@@ -157,13 +141,13 @@ The null space property is defined as
 \begin{definition}[Null Space Property]
 A matrix $\mathbf{A} \in \mathbb{R}^{M \times N}$ is said to satisfy the null space property relative to a set $S \subset [N]$ if
 \begin{align}
-\Vert \mathbf{v}_S \Vert_1 < \Vert \mathbf{v}_{\overline{S}} \Vert_1 \quad \text{for all} \quad \mathbf{v} \in \text{null}(\mathbf{A} \setminus \lbrace \mathbf{0} \rbrace),
+\Vert \mathbf{v}_S \Vert_1 < \Vert \mathbf{v}_{\overline{S}} \Vert_1 \quad \text{for all} \quad \mathbf{v} \in \text{null}(\mathbf{A}) \setminus \lbrace \mathbf{0} \rbrace,
 \end{align}
 where the vector $\mathbf{v}_S$ is the restriction of $\mathbf{v}$ to the indices in $S$, and $\bar{S}$ is the set $[N] \setminus S$. 
 \end{definition}
 
 \begin{theorem}
-Given a matrix $\mathbf{A} \in \mathbb{R}^{M \times N}$, every vector $\mathbf{x} \in \mathbb{R}^N$ with $\text{supp}(\mathbf{x}) \subset S$ is the unique solution of \eqref{eq:SMV_p1} with $\mathbf{y} = \mathbf{Ax}$ if and only if $\mathbf{A}$ satisfies the null space property relative to $S$.
+Given a matrix $\mathbf{A} \in \mathbb{R}^{M \times N}$, any vector $\mathbf{x} \in \mathbb{R}^N$ with $\text{supp}(\mathbf{x}) \subset S$ is the unique solution of \eqref{eq:SMV_p1} with $\mathbf{y} = \mathbf{Ax}$ if and only if $\mathbf{A}$ satisfies the null space property relative to $S$.
 \end{theorem}
 \begin{proof}
 $\Rightarrow:$  \\
@@ -188,71 +172,71 @@ From the null space property, the following is obtained:
 \end{align*}
 This establishes the required sparseness of $\Vert \mathbf{x} \Vert_1$.
 \end{proof}
-Unfortunately, this is a condition which is hard to check in practice.
+Unfortunately, this is a condition which is hard to check in practice. Instead coherence can be used as a measure on $\mathbf{A}$ where a small coherence lead to a good choice of $\mathbf{A}$. Another condition which can be used in practice is the restricted isometry property (RIP) \cite{??}.
 
-\subsubsection{Coherence}
-The null space property provide a unique solution to the optimisation problem \eqref{eq:SMV_p1}, but it is unfortunately complicated to investigate. 
-Instead an alternative measure is presented.
-\\
-Coherence is a measure of quality, it determines whether a matrix $\mathbf{A}$ is a good choice for the optimisation problem \eqref{eq:SMV_p1}. 
-A small coherence describes the performance of a recovery algorithm as good with that choice of $\mathbf{A}$. 
-\begin{definition}[Coherence]
-Coherence of the matrix $\mathbf{A} \in \mathbb{R}^{M \times N}$, denoted as $\mu (\mathbf{A})$, with columns $\mathbf{a}_1, \dots, \mathbf{a}_N$ for all $i \in [N]$ is given as
-\begin{align*}
-\mu (\mathbf{A}) = \max_{1 \leq i < j \leq n} \frac{\vert \langle \mathbf{a}_i, \mathbf{a}_j \rangle \vert}{\Vert \mathbf{a}_i \Vert_2 \Vert \mathbf{a}_j \Vert_2}.
-\end{align*}
-\end{definition}
-
-\subsubsection{Restricted Isometry Condition}
-Restricted isometry condition is a stronger condition concerning the orthogonality of the matrix $\mathbf{A}$.
-\begin{definition}[Restricted Isometry Property (RIP)]
-A matrix $\mathbf{A}$ satisfies the RIP of order $k$ if there exists a $\delta_k \in (0,1)$ such that
-\begin{align*}
-(1 - \delta_k) \Vert \mathbf{x} \Vert_2^2 \leq \Vert \mathbf{Ax} \Vert_2^2 \leq (1 + \delta_k) \Vert \mathbf{x} \Vert_2^2,
-\end{align*}
-\end{definition}
-
-\begin{theorem}
-Suppose that the $2s$-th restricted isometry constant of the matrix $\mathbf{A} \in \mathbb{R}^{M \times N}$ satisfies
-\begin{align*}
-    \delta_{2s} < \frac{1}{3}.
-\end{align*}
-Then every $s$-sparse vector $\mathbf{x}^\ast \in \mathbb{R}^N$ is the unique solution of
-$$
-\min_{\mathbf{z} \in \mathbb{R}^N} \Vert \mathbf{z} \Vert_1 \quad \text{subject to} \quad \mathbf{Az} = \mathbf{Ax}.
-$$
-\end{theorem}
-\begin{proof}
-To proof the theorem one only need to show the null space condition:
-\begin{align*}
-\Vert \mathbf{v} \Vert_1 < \frac{1}{2} \Vert \mathbf{v} \Vert_1, \quad \forall \ \mathbf{v} \in \text{ker}(\mathbf{A})\setminus \{\mathbf{0}\}, \ S \subseteq [N], \ \text{card}(S) \leq s.
-\end{align*}
-Cf. Cauchy-Schwarz or $\Vert \mathbf{v}_S \Vert_1 \leq \Vert \mathbf{v}_S \Vert_2 \sqrt{s}$, one only need to show
-\begin{align*}
-\Vert \mathbf{v}_S \Vert_2 &\leq \frac{\rho}{2 \sqrt{s}} \Vert \mathbf{v} \Vert_1 \\
-\rho &= \dfrac{2 \delta_{2s}}{1 - \delta_{2s}} < 1,
-\end{align*}
-whenever $\delta_{2s} < 1/3$. Given $\mathbf{v} \in$ ker$(\mathbf{A})\setminus \{\mathbf{0}\}$, it is enough to consider an index set $S = S_0$ of $s$ largest absolute entries of the vector $\mathbf{v}$. The complement $\overline{S_0}$ of $S_0$ in $[N]$ is partition as $S_0 = S_1 \cup S_2 \cup \cdots$, where
-\begin{align*}
-    S_1 \ &: \ \text{index set of } s \text{ largest absolute entries of } \textbf{v} \text{ in } \overline{S_0}, \\
-    S_2 \ &: \ \text{index set of } s \text{ largest absolute entries of } \textbf{v} \text{ in } \overline{S_0 \cup S_1}.
-\end{align*}
-With $\mathbf{v} \in$ ker$(\mathbf{A})$:
-\begin{align*}
-\mathbf{A}(\mathbf{v}_{S_0}) = \mathbf{A}(-\mathbf{v}_{S_1} - \mathbf{v}_{S_2} - \cdots),
-\end{align*}
-so that
-\begin{align}\label{eq:L9_6}
-\Vert \textbf{v}_{S_0} \Vert_2^2 &\leq \frac{1}{1 - \delta_{2s}} \Vert \textbf{A}(\textbf{v}_{S_0}) \Vert_2^2 = \frac{1}{1 - \delta_{2s}} \langle \textbf{A}(\textbf{v}_{S_0}), \textbf{A}(-\textbf{v}_{S_1}) + \textbf{A}(-\textbf{v}_{S_2}) + \cdots \rangle \nonumber \\
-    &= \frac{1}{1 - \delta_{2s}} \sum_{k \geq 1} \langle \textbf{A}(\textbf{v}_{S_0}), \textbf{A}(-\textbf{v}_{S_k}) \rangle.
-\end{align}
-According to Proposition 6.3 \cite[p. 135]{FR}, one also have
-\begin{align}\label{eq:L9_7}
-\langle \textbf{A}(\textbf{v}_{S_0}), \textbf{A}(-\textbf{v}_{S_k}) \rangle. \leq \delta_{2s} \Vert \textbf{v}_{S_0} \Vert_2 \Vert \textbf{v}_{S_k} \Vert_2.
-\end{align}
-Substituting \eqref{eq:L9_7} into \eqref{eq:L9_6} and dividing by $\Vert \mathbf{v}_{S_0} \Vert_2 > 0$
-\end{proof}
-
+%\subsubsection{Coherence}
+%The null space property provide a unique solution to the optimisation problem \eqref{eq:SMV_p1}, but it is unfortunately complicated to investigate. 
+%Instead an alternative measure is presented.
+%\\
+%Coherence is a measure of quality, it determines whether a matrix $\mathbf{A}$ is a good choice for the optimisation problem \eqref{eq:SMV_p1}. 
+%A small coherence describes the performance of a recovery algorithm as good with that choice of $\mathbf{A}$. 
+%\begin{definition}[Coherence]
+%Coherence of the matrix $\mathbf{A} \in \mathbb{R}^{M \times N}$, denoted as $\mu (\mathbf{A})$, with columns $\mathbf{a}_1, \dots, \mathbf{a}_N$ for all $i \in [N]$ is given as
+%\begin{align*}
+%\mu (\mathbf{A}) = \max_{1 \leq i < j \leq n} \frac{\vert \langle \mathbf{a}_i, \mathbf{a}_j \rangle \vert}{\Vert \mathbf{a}_i \Vert_2 \Vert \mathbf{a}_j \Vert_2}.
+%\end{align*}
+%\end{definition}
+%
+%\subsubsection{Restricted Isometry Condition}
+%Restricted isometry condition is a stronger condition concerning the orthogonality of the matrix $\mathbf{A}$.
+%\begin{definition}[Restricted Isometry Property (RIP)]
+%A matrix $\mathbf{A}$ satisfies the RIP of order $k$ if there exists a $\delta_k \in (0,1)$ such that
+%\begin{align*}
+%(1 - \delta_k) \Vert \mathbf{x} \Vert_2^2 \leq \Vert \mathbf{Ax} \Vert_2^2 \leq (1 + \delta_k) \Vert \mathbf{x} \Vert_2^2,
+%\end{align*}
+%\end{definition}
+%
+%\begin{theorem}
+%Suppose that the $2s$-th restricted isometry constant of the matrix $\mathbf{A} \in \mathbb{R}^{M \times N}$ satisfies
+%\begin{align*}
+%    \delta_{2s} < \frac{1}{3}.
+%\end{align*}
+%Then every $s$-sparse vector $\mathbf{x}^\ast \in \mathbb{R}^N$ is the unique solution of
+%$$
+%\min_{\mathbf{z} \in \mathbb{R}^N} \Vert \mathbf{z} \Vert_1 \quad \text{subject to} \quad \mathbf{Az} = \mathbf{Ax}.
+%$$
+%\end{theorem}
+%\begin{proof}
+%To proof the theorem one only need to show the null space condition:
+%\begin{align*}
+%\Vert \mathbf{v} \Vert_1 < \frac{1}{2} \Vert \mathbf{v} \Vert_1, \quad \forall \ \mathbf{v} \in \text{ker}(\mathbf{A})\setminus \{\mathbf{0}\}, \ S \subseteq [N], \ \text{card}(S) \leq s.
+%\end{align*}
+%Cf. Cauchy-Schwarz or $\Vert \mathbf{v}_S \Vert_1 \leq \Vert \mathbf{v}_S \Vert_2 \sqrt{s}$, one only need to show
+%\begin{align*}
+%\Vert \mathbf{v}_S \Vert_2 &\leq \frac{\rho}{2 \sqrt{s}} \Vert \mathbf{v} \Vert_1 \\
+%\rho &= \dfrac{2 \delta_{2s}}{1 - \delta_{2s}} < 1,
+%\end{align*}
+%whenever $\delta_{2s} < 1/3$. Given $\mathbf{v} \in$ ker$(\mathbf{A})\setminus \{\mathbf{0}\}$, it is enough to consider an index set $S = S_0$ of $s$ largest absolute entries of the vector $\mathbf{v}$. The complement $\overline{S_0}$ of $S_0$ in $[N]$ is partition as $S_0 = S_1 \cup S_2 \cup \cdots$, where
+%\begin{align*}
+%    S_1 \ &: \ \text{index set of } s \text{ largest absolute entries of } \textbf{v} \text{ in } \overline{S_0}, \\
+%    S_2 \ &: \ \text{index set of } s \text{ largest absolute entries of } \textbf{v} \text{ in } \overline{S_0 \cup S_1}.
+%\end{align*}
+%With $\mathbf{v} \in$ ker$(\mathbf{A})$:
+%\begin{align*}
+%\mathbf{A}(\mathbf{v}_{S_0}) = \mathbf{A}(-\mathbf{v}_{S_1} - \mathbf{v}_{S_2} - \cdots),
+%\end{align*}
+%so that
+%\begin{align}\label{eq:L9_6}
+%\Vert \textbf{v}_{S_0} \Vert_2^2 &\leq \frac{1}{1 - \delta_{2s}} \Vert \textbf{A}(\textbf{v}_{S_0}) \Vert_2^2 = \frac{1}{1 - \delta_{2s}} \langle \textbf{A}(\textbf{v}_{S_0}), \textbf{A}(-\textbf{v}_{S_1}) + \textbf{A}(-\textbf{v}_{S_2}) + \cdots \rangle \nonumber \\
+%    &= \frac{1}{1 - \delta_{2s}} \sum_{k \geq 1} \langle \textbf{A}(\textbf{v}_{S_0}), \textbf{A}(-\textbf{v}_{S_k}) \rangle.
+%\end{align}
+%According to Proposition 6.3 \cite[p. 135]{FR}, one also have
+%\begin{align}\label{eq:L9_7}
+%\langle \textbf{A}(\textbf{v}_{S_0}), \textbf{A}(-\textbf{v}_{S_k}) \rangle. \leq \delta_{2s} \Vert \textbf{v}_{S_0} \Vert_2 \Vert \textbf{v}_{S_k} \Vert_2.
+%\end{align}
+%Substituting \eqref{eq:L9_7} into \eqref{eq:L9_6} and dividing by $\Vert \mathbf{v}_{S_0} \Vert_2 > 0$
+%\end{proof}
+%
 %The construction of the matrix $\mathbf{A}$ is of course essential for the solution of the optimisation problem. So far no one has manage to construct a matrix which is proved to be optimal for some compressive sensing set up. However some certain constructions have shown sufficient recovery guarantee.\\ \\
 %To ensure an exact or an approximate reconstruction of the sparse signal $\mathbf{x}$ some conditions associated to the matrix $\mathbf{A}$ must be satisfied.\\
 %This includes at first the null space condition, a property of the $A$ matrix which is hard to check in practise. 

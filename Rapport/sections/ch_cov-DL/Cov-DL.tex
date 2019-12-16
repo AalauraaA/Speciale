@@ -122,6 +122,8 @@ where $\textbf{U}$ is learned by use of PCA performed on $\text{vec}(\boldsymbol
 To solve this optimization problem the gradient of the cost function is computed with respect to $\textbf{A}$ by use of the chain rule \\
 ... \\
 then the cost function is minimized by use of quasi-Newton optimization methods.
+
+
 \subsubsection*{Principal Component Analysis}
 
 
@@ -148,6 +150,7 @@ then the cost function is minimized by use of quasi-Newton optimization methods.
 			\EndFor
 			\State$\textbf{A} = \{\textbf{a}_i\}_{i=1}^N$
 			\EndIf
+			\State
 			\If{$N < \frac{M(M+1)}{2}$}
 			\State$...$
 			\EndIf

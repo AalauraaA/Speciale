@@ -4,15 +4,15 @@ Some measurement vector $\mathbf{y}$ can be described as a linear combinations o
 \mathbf{y} = \mathbf{Ax},
 \end{align}
 where $\mathbf{y} \in \mathbb{R}^M$ is the observed measurement vector consisting of $M$ measurements, $\mathbf{x} \in \mathbb{R}^N$ is an unknown vector of $N$ elements, and $\mathbf{A} \in \mathbb{R}^{M \times N}$ is a coefficient matrix which models the linear measurement process column-wise. 
-The linear model makes a system of linear equations with $M$ equations and $N$ unknowns.
+\ref{eq:SMV_model} makes a system of linear equations with $M$ equations and $N$ unknowns and will be referred to as a linear model for the rest of the report.
 \\ \\
-In the case of $\mathbf{A}$ being a square matrix, $M = N$, a solution can be found to the linear model if $\mathbf{A}$ has full rank -- $\mathbf{A}$ consist of linearly independent columns or rows.
+In the case of $\mathbf{A}$ being a square matrix, $M = N$, a solution can be found to the linear model, provided that a solution exist, if $\mathbf{A}$ has full rank -- $\mathbf{A}$ consist of linearly independent columns or rows.
 % For $M > N$ the matrix said to have full rank when the columns are linearly independent. For $M < N$ the matrix has full rank when the rows are linearly independent. 
-A linear systems with $M = N$ is called determined, $M > N$ over-determined and $M < N$ under-determined. 
-When full rank do not occur the matrix is then called rank-deficient.
+A linear model with $M = N$ is called determined, $M > N$ over-determined and $M < N$ under-determined. 
+When full rank does not occur the matrix is called rank-deficient.
 \\ \\
 By inverting $\mathbf{A}$ from \eqref{eq:SMV_model} the unknown vector $\mathbf{x}$ can be achieved. 
-Square matrix is invertible if an only if its has full rank or its determinant $\det(\mathbf{A}) \neq 0$. 
+A square matrix is invertible if an only if it has full rank or equivalent its determinant $\det(\mathbf{A}) \neq 0$. 
 For rectangular matrices, $M > N$ and $M < N$, left-sided and right-sided inverse exists.
 %\begin{itemize}
 %\item Left-sided inverse ($M > N$): $(\mathbf{A} \mathbf{A})^{-1} \mathbf{A}^T \mathbf{A} = \mathbf{A}_{\text{left}}^{-1} = \mathbf{I}_N$ 
@@ -20,11 +20,11 @@ For rectangular matrices, $M > N$ and $M < N$, left-sided and right-sided invers
 %\end{itemize}
 %With the left-inverse the least norm solution of \eqref{eq:SMV_model} can be found\todo{least norm solution?}.
 \\ \\
-For an determined system there will exist a unique solution.
-For an over-determined system there do not exist a solution and for under-determined systems there exist infinitely many solutions \cite[p. ix]{CS}.
+For a determined system there will exist a unique solution.
+For an over-determined system there does not exist a solution and for under-determined systems there exist infinitely many solutions \cite[p. ix]{CS}.
 \\ 
-As described in chapter \ref{ch:motivation} the linear model of interest consist of $M$ sensors which makes the observed measurements $\textbf{y}$ and $N$ sources which makes the unknown vector $\textbf{x}$. 
-Here it is of interest to find a solution to the case where the system consist of more sources than sensors -- hence a solution has to be found within the infinitely solution set.
+As described in chapter \ref{ch:motivation} the linear model of interest consists of $M$ sensors which make the observed measurements $\mathbf{y}$ and $N$ sources which make the unknown vector $\mathbf{x}$. 
+Here it is of interest to find a solution to the case where the system consist of more sources than sensors -- hence a solution has to be found within the infinite solution set.
 
 \section{Compressive Sensing}\label{sec:CS}
 Compressive sensing is the theory of efficient recovery or reconstruction of a signal from a minimal number of observed measurements. 
@@ -36,11 +36,9 @@ Assume linear acquisition of the original measurements, then the relation betwee
 %\end{align}
 %Here $\mathbf{y} \in \mathbb{R}^M$ is the measured data consisting of $M$ observations, $\mathbf{x} \in \mathbb{R}^N$ is the original signal consisting of $N$ possible sources. $\mathbf{A} \in \mathbb{R}^{M \times N}$ is a matrix which models the linear measurement process or in other words it projects each of the $N$ possible sources on to the $M$ observations. $\textbf{A}$ is  referred to as a dictionary or a mixing matrix .\\
 In compressive sensing terminology, $\mathbf{x} \in \mathbb{R}^N$ is the signal of interest which is sought recovered from the measurements $\mathbf{y} \in \mathbb{R}^M$ by solving the linear system \eqref{eq:SMV_model}. 
-The coefficient matrix $\mathbf{A}$ is in the context of compressive sensing referred to as the mixing matrix or the dictionary matrix.
-\\    
+The coefficient matrix $\mathbf{A}$ is in the context of compressive sensing referred to as the mixing matrix or the dictionary matrix.  
 In the typical compressive sensing case the system is under-determined, $M < N$,  and there exist infinitely many solutions, provided that a solution exist.
 % Such system is also referred to as over-complete \textit{(as the number of column basis vectors is greater than the dimension of the input)}.
-\\
 However, by enforcing certain sparsity constraints it is possible to recover the wanted signal, hence the term sparse signal recovery \cite{FR}.
 %Yet another argument; If $M<<N$, it leads to the matrix $\mathbf{A}$ being rank-deficient\textit{(but not necessarily?)} which imply that $\mathbf{A}$ has a non-empty null space and this leads to infinitely many signals which yield the same solution $\mathbf{y} = \mathbf{Ax} = \mathbf{Ax'}$ \cite[p. ix]{CS}. Thus it is necessary to limit the solution space to a specific class of signals $\mathbf{x}$, for this a certain constraint on sparseness is introduced.   
 
@@ -96,33 +94,38 @@ the system $\lbrace \mathbf{a}_j, j \in \text{supp}( \mathbf{x}^\ast) \rbrace$ i
 \Vert \mathbf{x}^\ast \Vert_0 = \text{card}(\text{supp} (\mathbf{x}^\ast)) \leq M.
 \end{align*}
 \end{theorem}
-To prove this theorem one needs to realise that the set $\lbrace \mathbf{a}_j, j \in S \rbrace \leq M$, with $S = \text{supp}(\mathbf{x}^\ast)$, can not have more than $M$ linearly independence columns. 
+To prove this theorem one needs to realise that the set $\lbrace \mathbf{a}_j, j \in S \rbrace \leq M$, with $S = \text{supp}(\mathbf{x}^\ast)$, can not have more than $M$ linearly independence columns. This will be done by a contradiction.
 So when $M \ll N$ a sparse signal is automatically achieved.
 \begin{proof}
-For the case of contradiction, assume that the set $\lbrace \mathbf{a}_j, j \in S \rbrace$ is linearly dependent. 
-Thus there exists a non-zero vector $\mathbf{v} \in \mathbb{R}^N$ supported on $S$ such that $\mathbf{Av} = \textbf{0}$. Then, for any $t \neq 0$,
+Assume that the set $\lbrace \mathbf{a}_l, l \in S \rbrace$ is linearly dependent with the support $S = \text{supp}(\mathbf{x}^\ast)$.
+Thus a non-zero vector $\mathbf{v} \in \mathbb{R}^N$ supported on $S$ exists such that $\mathbf{Av} = \textbf{0}$ -- the system is linear dependent. The unique solution $\mathbf{x}^\ast$ can then be written as, for any $t \neq 0$,
+\begin{align}\label{eq:non_zero_t}
+\Vert \mathbf{x}^\ast \Vert_1 < \Vert \mathbf{x}^\ast + t \mathbf{v} \Vert_1 = \sum_{l \in S} \vert x_l^\ast + t v_l \vert = \sum_{l \in S} \text{sgn}(x_l^\ast + t v_l )(x_l^\ast + t v_l ).
+\end{align}
+For a small $|t|$
 \begin{align*}
-\Vert \mathbf{x}^\ast \Vert_1 < \Vert \mathbf{x}^\ast + t \mathbf{v} \Vert_1 = \sum_{j \in S} \vert x_j^\ast + t v_j \vert = \sum_{j \in S} \text{sgn}(x_j^\ast + t v_j )(x_j^\ast + t v_j ).
+|t| < \min_{l \in S} \frac{\vert x_l^\ast \vert}{\Vert \mathbf{v} \Vert_{\infty}},
 \end{align*}
-If $|t|$ is small enough, namely, $|t| < \min_{j \in S} \frac{\vert x_j^\ast \vert}{\Vert \mathbf{v} \Vert_{\infty}}$, then
+then the sign function become
 \begin{align*}
-\text{sgn}(x_j^\ast + t v_j) = \text{sgn}(x_j^\ast), \quad \forall j \in S.
+\text{sgn}(x_l^\ast + t v_l) = \text{sgn}(x_l^\ast), \quad \forall l \in S.
 \end{align*}
-It then follows that
+By including this result in \eqref{eq:non_zero_t} and remembering $t \neq 0$:
 \begin{align*}
-\Vert \textbf{x}^{\ast} \Vert_1 < \sum_{j \in S} \text{sgn}(x_j^{\ast})(x_j^{\ast} + t v_j ) = \sum_{j \in S} \text{sgn}(x_j^{\ast})x_j^{\ast} + t \sum_{j \in S} \text{sgn}(x_j^{\ast})v_j = \Vert \textbf{x}^{\ast} \Vert_1 + t \sum_{j \in S} \text{sgn}(x_j^{\ast})v_j.
+\Vert \textbf{x}^{\ast} \Vert_1 < \sum_{l \in S} \text{sgn}(x_l^{\ast})(x_l^{\ast} + t v_l ) = \sum_{l \in S} \text{sgn}(x_l^{\ast})x_l^{\ast} + t \sum_{l \in S} \text{sgn}(x_l^{\ast})v_l = \Vert \textbf{x}^{\ast} \Vert_1 + t \sum_{l \in S} \text{sgn}(x_l^{\ast})v_l.
 \end{align*}
-This is a contradiction, because one can always choose a small $t \neq 0$ such that 
+From this it can be seen that it is always possible to choose $t \neq 0$ small enough such that 
 \begin{align*}
-t \sum_{j \in S} \text{sgn}(x_j^\ast)v_j \leq 0,
+t \sum_{l \in S} \text{sgn}(x_l^\ast)v_l \leq 0,
 \end{align*}
-and therefore the set $\lbrace \mathbf{a}_j, j \in S \rbrace$ must be linearly independent.
+which contradicts that $\mathbf{v}$ make the columns of $\mathbf{A}$ linear dependent. 
+Therefore, the set $\lbrace \mathbf{a}_l, l \in S \rbrace$ must be linearly independent.
 \end{proof}
 The Basis Pursuit algorithm makes the foundation of several algorithms solving alternative versions of \eqref{eq:SMV_p1} where noise is incorporated. 
 An alternative solution method includes greedy algorithms such as the Orthogonal Matching Pursuit (OMP) \cite[P. 65]{FR}. 
 At each iteration of the OMP algorithm an index set $S$ is updated by adding the index corresponding to a column in $\mathbf{A}$ that best describes the residual, hence greedy.
 That is the part of $\mathbf{y}$ that is not yet explained by $\mathbf{Ax}$ is included. 
-Then $\mathbf{x}$ is updated as the vector, supported by $S$, which minimize the residual, that is also the orthogonal projection of $\mathbf{y}$ onto the span$\lbrace \mathbf{a}_j \ \vert \ j \in S \rbrace$. The algorithm for OMP can be found in the appendix \ref{alg:OMP}.
+Then $\mathbf{x}$ is updated as the vector, supported by $S$, which minimize the residual, that is also the orthogonal projection of $\mathbf{y}$ onto the span$\lbrace \mathbf{a}_l \ \vert \ l \in S \rbrace$. The algorithm for OMP can be found in the appendix \ref{alg:OMP}.
 
 \subsection{Conditions on the Mixing Matrix}\label{sec:dic_conditions}
 In section \ref{sec:opti} the mixing matrix $\mathbf{A}$ was assumed known, in order to solve the optimisation problem \eqref{eq:SMV_p1}. 
@@ -145,25 +148,23 @@ A matrix $\mathbf{A} \in \mathbb{R}^{M \times N}$ is said to satisfy the null sp
 \end{align}
 where the vector $\mathbf{v}_S$ is the restriction of $\mathbf{v}$ to the indices in $S$, and $\bar{S}$ is the set $[N] \setminus S$. 
 \end{definition}
-
+\todo{Kom med en beskrivelse af nulrumsbetingelsen}
 \begin{theorem}
-Given a matrix $\mathbf{A} \in \mathbb{R}^{M \times N}$, any vector $\mathbf{x} \in \mathbb{R}^N$ with $\text{supp}(\mathbf{x}) \subset S$ is the unique solution of \eqref{eq:SMV_p1} with $\mathbf{y} = \mathbf{Ax}$ if and only if $\mathbf{A}$ satisfies the null space property relative to $S$.
+For a matrix $\mathbf{A} \in \mathbb{R}^{M \times N}$ with $S \subset [N]$, a vector $\mathbf{x} \in \mathbb{R}^N$ with $\text{supp}(\mathbf{x}) \subset S$ is the unique solution of \eqref{eq:SMV_p1} with $\mathbf{y} = \mathbf{Ax}$ if and only if $\mathbf{A}$ satisfies the null space property relative to $S$.
 \end{theorem}
 \begin{proof}
 $\Rightarrow:$  \\
-Let $S \subseteq [N]$ be a fixed index set. Assume that any vector $\mathbf{x} \in \mathbb{R}^N$ with support $\text{supp}(\mathbf{x})\subset S$ is the unique minimizer of $\Vert \mathbf{z} \Vert_1$ with respect to $\mathbf{Az} = \mathbf{Ax}$. 
+Let $S \subseteq [N]$ be a fixed index set. Assume that a vector $\mathbf{x} \in \mathbb{R}^N$ with the support $\text{supp}(\mathbf{x})\subset S$ is the unique minimizer of $\Vert \mathbf{z} \Vert_1$ with respect to $\mathbf{Az} = \mathbf{Ax}$. 
 Thus, for any vector $\mathbf{v} \in \text{null}(\mathbf{A}) \setminus \{\mathbf{0} \}$, the vector $\mathbf{v}_S$ is the unique minimizer of $\Vert \mathbf{z} \Vert_1$ with respect to $\mathbf{Az} = \mathbf{Av}_S$. 
 But 
 \begin{align*}
 \mathbf{0} = \mathbf{A}(\mathbf{v}_S + \mathbf{v}_{\overline{S}}) \implies \mathbf{Av}_S = \mathbf{A}(-\mathbf{v}_{\overline{S}}), \quad \text{with} \ -\mathbf{v}_{\overline{S}} \neq \mathbf{v}_S,
 \end{align*}
 or else $\mathbf{v} = \mathbf{0}$. 
-It is concluded that $\Vert \mathbf{v}_S \Vert_1 < \Vert \mathbf{v}_{\overline{S}} \Vert_1$. 
-This establishes the null space property relative to $S$.
+It is then concluded that $\Vert \mathbf{v}_S \Vert_1 < \Vert \mathbf{v}_{\overline{S}} \Vert_1$ which establishes the null space property relative to $S$.
 \\ \\
 $\Leftarrow:$ \\  
-Conversely, assume that the null space property relative to $S$ holds. 
-Given an index set $S \subseteq [N]$ with null space property and a vector $\mathbf{x} \in \mathbb{R}^N$ with $\text{supp}(\mathbf{x})\subset S$. Furthermore, given a vector $\mathbf{z} \in \mathbb{R}^N$ where $\mathbf{z} \neq \mathbf{x}$, such that $\mathbf{Az} = \mathbf{Ax}$. Consider then a vector $\mathbf{v}$ given by $\mathbf{v} := \mathbf{x} - \mathbf{z} \in \text{null}(\mathbf{A}) \setminus \{ \mathbf{0} \}$. 
+Conversely, given an index set $S \subseteq [N]$ assume that the null space property relative to $S$ holds. Given a vector $\mathbf{x} \in \mathbb{R}^N$ with $\text{supp}(\mathbf{x})\subset S$ and a vector $\mathbf{z} \in \mathbb{R}^N$ where $\mathbf{z} \neq \mathbf{x}$, such that $\mathbf{Az} = \mathbf{Ax}$. Consider then a vector $\mathbf{v}$ given by $\mathbf{v} := \mathbf{x} - \mathbf{z} \in \text{null}(\mathbf{A}) \setminus \{ \mathbf{0} \}$. 
 From the null space property, the following is obtained:
 \begin{align*}
 \Vert \mathbf{x} \Vert_1 \leq \Vert \mathbf{x} - \mathbf{z}_S \Vert_1 &= \Vert \mathbf{v}_S \Vert_1 + \Vert \mathbf{z}_S \Vert_1 \\

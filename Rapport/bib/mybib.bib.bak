@@ -20,7 +20,7 @@
 @Article{article_wipf,
   Title                    = {An Empirical Bayesian Strategy for Solving the Simultaneous Sparse Approximation Problem},
   Author                   = {Wipf, D. P. and Rao, B. D.},
-  Journal                  = {IEEE TRANSACTIONS ON SIGNAL PROCESSING},
+  Journal                  = {IEEE Transactions on Signal Processing},
   Year                     = {2007},
   Month                    = {July},
   Number                   = {No. 7},
@@ -54,7 +54,7 @@ Overcomplete EEG Source Identification},
 @Article{Elad2006,
   Title                    = {K-SVD: An Algorithm for Designing Overcomplete Dictionaries for Sparse Representation},
   Author                   = {Aharon,M. and Elad, M. and Bruckstein, A.},
-  Journal                  = {IEEE TRansactions on signal processing},
+  Journal                  = {IEEE Transactions on signal processing},
   Year                     = {2006},
   Volume                   = {Vol. 54, No. 11 }
 }
@@ -78,7 +78,7 @@ Overcomplete EEG Source Identification},
 @Article{Friston2011,
   Title                    = {Functional and Effective Connectivity: A Review},
   Author                   = {Friston, Karl J.},
-  Journal                  = {BRAIN CONNECTIVITY},
+  Journal                  = {Brain Connectivity},
   Year                     = {2011},
   Volume                   = {1}
 }
@@ -104,7 +104,7 @@ P. 1017-1025},
   Title                    = {Pushing the Limits of Sparse Support Recovery Using
 Correlation Information},
   Author                   = {Pal, Piya and Vaidyanathan, P. P.},
-  Journal                  = {IEEE TRANSACTIONS ON SIGNAL PROCESSING},
+  Journal                  = {IEEE Transactions on Signal Processing},
   Year                     = {2015},
   Volume                   = {VOL. 63, NO. 3, Feb.}
 }
@@ -177,6 +177,13 @@ Analysis},
   Year                     = {2001}
 }
 
+@Book{Optimization2007,
+  Title                    = {Practical Optimization, Algorithms and Engineering Applications},
+  Author                   = {Antoniou, A. and Lu, W-S.},
+  Publisher                = {Springer},
+  Year                     = {2007}
+}
+
 @Misc{Weberik,
   Title                    = {Studies within Steering of hearing devices using EEG and Ear-EEG},
   HowPublished             = {\url{https://www.eriksholm.com/research/cognitive-hearing-science/eeg-steering}},
@@ -186,7 +193,7 @@ Analysis},
 @PhdThesis{phd_wipf,
   Title                    = {Bayesian Methods for Finding Sparse Representations},
   Author                   = {Wipf, D. P.},
-  School                   = {UNIVERSITY OF CALIFORNIA, SAN DIEGO},
+  School                   = {University of California, San Diego},
   Year                     = {2006}
 }
 

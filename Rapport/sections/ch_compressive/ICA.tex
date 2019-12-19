@@ -78,7 +78,7 @@ Furthermore the mixing matrix $\mathbf{A}_{\text{white}}$ becomes orthogonal
 \begin{align*}
  \mathbb{E}[\mathbf{y}_{\text{white}} \mathbf{y}_{\text{white}}^T] = \mathbf{A}_{\text{white}} \mathbb{E}[\mathbf{xx}^T] \mathbf{A}_{\text{white}}^T = \mathbf{A}_{\text{white}} \mathbf{A}_{\text{white}}^T = \mathbf{I},
  \end{align*} 
-where $\mathbb{E}[\mathbf{xx}^T] = \mathbf{I}$ because uncorrelation and zero mean. Consequently ICA can restrict its search for the mixing matrix to the orthogonal matrix space -- that is instead of estimating $N^2$ parameters ICA one now only has to estimate an orthogonal matrix which has $N(N-1)/2$ parameters/degrees of freedom \cite[p. 159]{ICA}
+where $\mathbb{E}[\mathbf{xx}^T] = \mathbf{I}$ because of assumed uncorrelation and zero mean. Consequently ICA can restrict its search for the mixing matrix to the orthogonal matrix space -- that is instead of estimating $N^2$ parameters ICA one now only has to estimate an orthogonal matrix which has $N(N-1)/2$ parameters/degrees of freedom \cite[p. 159]{ICA}
 \todo{se udkommentering herunder?}.
 %%%%% forstår ikke det sidste her
 %Furthermore, to support the assumption of nongaussiantity for an orthogonal mixing matrix $\mathbf{A}_{\text{white}}$ it is not possible to distinct the pdfs of the $\mathbf{y}_{\text{white}}$ and $\mathbf{x}$ as $\mathbf{A}_{\text{white}}$ is no longer included in the pdf of $\mathbf{y}_{\text{white}}$ and therefore are the two pdfs equal \cite[p. 161-163]{ICA}\todo{can we elaborate this last part}.
@@ -90,19 +90,19 @@ The simple and intuitive method is to take advantage of the assumption of non-Ga
 Consider again the ICA model of a single measurement vector $\textbf{y}=\textbf{Ax}$ where the independent components can be estimated by the inverted model $\textbf{x}=\textbf{A}^{-1}\textbf{y}$. \todo{Herfra og ned til kurtosis skal lige tjekkes i gennem og rettes til} 
 Let $\textbf{A}^{-1}=\textbf{B}$, now a single independent component can be seen as the linear combination 
 \begin{align}
-x_j = \textbf{b}_{j}^T \textbf{y} = \sum_{i}b_iy_i \label{eq:ICA_comp}
+x_i = \textbf{b}_{i \bullet} \textbf{y} = \sum_k b_k y_k \label{eq:ICA_comp}
 \end{align} 
-where $\textbf{b}_{j}^T$ is the $j^{th}$ row of $\textbf{B}$. 
-The issue is now to determine $\textbf{b}_j$ such that it equals the $j^{th}$ row from the inverse $\textbf{A}$. 
-As $\textbf{A}$ is unknown it is not possible to determine $\textbf{b}_j$ exactly, but an estimate can be found to make a good approximation. Rewriting \eqref{eq:ICA_comp} 
+where $\textbf{b}_{i \bullet}$ is the $i$-th row of $\textbf{B}$. 
+The issue is now to determine $\textbf{b}_{j}$ (the $j$-th column) such that it equals the $i$-th row from the inverse $\textbf{A}$. 
+As $\textbf{A}$ is unknown it is not possible to determine $\textbf{b}_{j}$ exactly, but an estimate can be found to make a good approximation. Rewriting \eqref{eq:ICA_comp} 
 \begin{align*}
-x_j = \textbf{b}_{j}^T \textbf{y} = \textbf{b}_{j}^T \textbf{Ax} = \textbf{q}^T\textbf{x} = \sum_{i=1}q_i x_i
+x_i = \textbf{b}_{i \bullet} \textbf{y} = \textbf{b}_{i \bullet} \textbf{Ax} = \textbf{q}^T \textbf{x} = \sum_{k=1} q_k x_k
 \end{align*}
-it is seen how $x_j$ is a linear combination of all $\textbf{x}_i$, thus the equality only holds true when $\textbf{q}$ consist of only one non-zero element that equals 1.  
+it is seen how $x_i$ is a linear combination of all $x_k$, thus the equality only holds true when $\textbf{q}$ consist of only one non-zero element that equals 1.  
 Due to the central limit theorem the distribution of $\textbf{q}^T\textbf{x}$ is most non-Gaussian when it equals one of the independent components which was assumed non-Gaussian. 
-Then, since $\textbf{q}^T\textbf{x} = \textbf{b}_{j}^T \textbf{y}$, it is possible to vary the coefficients in $\textbf{b}$ and look at the distribution of $\textbf{b}_{j}^T \textbf{y}$. 
-Finding the vector $\textbf{b}$ that maximizes the non-Gaussianity would then correspond to $\textbf{q}=\textbf{A}^T\textbf{b}$ having only a single non-zero element. 
-Thus maximizing the non-Gaussianity of $\textbf{b}_{j}^T \textbf{y}$ results in one of the independent components \cite[p. 166]{ICA}. 
+Then, since $\textbf{q}^T \textbf{x} = \textbf{b}_{i \bullet} \textbf{y}$, it is possible to vary the coefficients in $\textbf{b}$ and look at the distribution of $\textbf{b}_{i \bullet} \textbf{y}$. 
+Finding the vector $\textbf{b}$ that maximizes the non-Gaussianity would then correspond to $\textbf{q} = \textbf{A}^T \textbf{b}$ having only a single non-zero element. 
+Thus maximizing the non-Gaussianity of $\textbf{b}_{i \bullet} \textbf{y}$ results in one of the independent components \cite[p. 166]{ICA}. 
 \\
 Considering the $N$-dimensional space of vectors $\textbf{b}$ there exist $2N$ local maxima, corresponding to $x_i$ and $-x_i$ for all $n$ independent components \cite[p. 166]{ICA}. 
 
@@ -125,41 +125,41 @@ Furthermore, for two independent random variables $x_1, x_2$ the following linea
 \end{align*}  
 However, one complication concerning kurtosis as a measure is that kurtosis is sensitive to outliers \cite[p. 182]{ICA}.
 \\ \\      
-Consider again the vector $\textbf{q} = \textbf{A}^T\textbf{b}$ such that $\textbf{b}_{j}^T \textbf{y} = \sum_{i=1}q_ix_i$. 
+Consider again the vector $\textbf{q} = \textbf{A}^T\textbf{b}$ such that $\textbf{b}_{i \bullet} \textbf{y} = \sum_{k=1} q_k x_k$. 
 By the additive property of kurtosis
 \begin{align*}
-\text{kurt}\left( \textbf{b}_{j}^T \textbf{y}\right) = \sum_{i=1}q_i^4\text{kurt}(x_i).
+\text{kurt} \left( \textbf{b}_{i \bullet} \textbf{y} \right) = \sum_{k=1}q_k^4 \text{kurt}(x_k).
 \end{align*}
-Then the assumption of the independent components having unit variance results in $\mathbb{E}[x_j^2]= \sum_{i=1}q_i^2=1$\todo{hvordan kommer dette frem?}. 
+Then the assumption of the independent components having unit variance results in $\mathbb{E}[x_i^2]= \sum_{k=1}q_k^2=1$\todo{hvordan kommer dette frem?}. 
 That is geometrically that $\textbf{q}$ is constrained to the unit sphere, $\| \textbf{q}\|^2 = 1$. 
-By this the optimisation problem of maximising the kurtosis of $\textbf{b}_{j}^T \textbf{y}$ is similar to maximizing $\vert \text{kurt}(x_j)\vert = \vert \sum_{i=1}q_i^4\text{kurt}(x_i) \vert $ on the unit sphere.
+By this the optimisation problem of maximising the kurtosis of $\textbf{b}_{i \bullet} \textbf{y}$ is similar to maximizing $\vert \text{kurt}(x_i)\vert = \vert \sum_{k=1}q_k^4 \text{kurt}(x_k) \vert $ on the unit sphere.
 \\
 Due to the described preprocessing $\textbf{b}$ is assumed to be white and it can be shown that $\Vert \textbf{q} \Vert = \Vert \textbf{b}_j \Vert$ \cite[p. 174]{ICA}. 
 This shows that constraining $\Vert \textbf{q} \Vert$ to one is similar to constraining $\Vert \textbf{b}_j \Vert$ to one. 
 
 \subsection{The Gradient Algorithm with Kurtosis}\label{sec:gra_kur}
-In practise, to recover the mixing matrix $\textbf{A}$ by maximizing the kurtosis of $\textbf{b}_{j}^T \textbf{y}$, gradient optimisation methods are used.
+In practise, to recover the mixing matrix $\textbf{A}$ by maximizing the kurtosis of $\textbf{b}_{i \bullet} \textbf{y}$, gradient optimisation methods are used.
 \\
-The general idea behind a gradient algorithm is to determine the direction for which $\text{kurt}(\textbf{b}_{j}^T \textbf{y})$ is growing the most, based on the gradient. 
+The general idea behind a gradient algorithm is to determine the direction for which $\text{kurt}(\textbf{b}_{i \bullet} \textbf{y})$ is growing the most, based on the gradient. 
 \\
-The gradient of $\vert \text{kurt}(\textbf{b}_{j}^T \textbf{y}) \vert$ is computed as
+The gradient of $\vert \text{kurt}(\textbf{b}_{i \bullet} \textbf{y}) \vert$ is computed as
 \begin{align}\label{eq:kurt}
-\frac{\partial \vert \text{kurt}(\textbf{b}_{j}^T \textbf{y})\vert}{\partial \mathbf{b}_j} &= 4 \text{sign}(\text{kurt}(\textbf{b}_{j}^T \textbf{y})) (\mathbb{E}[\mathbf{y} (\textbf{b}_{j}^T \textbf{y})^3] - 3 \mathbf{y} \mathbb{E}[(\textbf{b}_{j}^T \textbf{y})^2]) 
+\frac{\partial \vert \text{kurt}(\textbf{b}_{i \bullet} \textbf{y})\vert}{\partial \mathbf{b}_j} &= 4 \text{sign}(\text{kurt}(\textbf{b}_{i \bullet} \textbf{y})) (\mathbb{E}[\mathbf{y} (\textbf{b}_{i \bullet} \textbf{y})^3] - 3 \mathbf{y} \mathbb{E}[(\textbf{b}_{i \bullet} \textbf{y})^2]) 
 \end{align} 
-As $\mathbb{E}[(\textbf{b}_{j}^T \textbf{y})^2] =\Vert \mathbf{y} \Vert^2$ for whitened data the corresponding term does only affect the norm of $\textbf{b}_j$ within the gradient algorithm. 
+As $\mathbb{E}[(\textbf{b}_{i \bullet}^T \textbf{y})^2] =\Vert \mathbf{y} \Vert^2$ for whitened data the corresponding term does only affect the norm of $\textbf{b}_j$ within the gradient algorithm. 
 Thus, as it is only the direction that is of interest, this term can be omitted. 
 Because the optimisation is restricted to the unit sphere a projection of $\textbf{b}_j$ onto the unit sphere must be performed in every step of the gradient method. 
 This is done by dividing $\textbf{b}_j$ by its norm. 
 This gives update step 
 \begin{align*}
-\Delta &\textbf{b}_j \propto \text{sign}\left( \text{kurt}(\textbf{b}_{j}^T \textbf{y}) \right) \mathbb{E}[\textbf{y}(\textbf{b}_{j}^T \textbf{y})^3] \\
+\Delta &\textbf{b}_j \propto \text{sign}\left( \text{kurt}(\textbf{b}_{i \bullet} \textbf{y}) \right) \mathbb{E}[\textbf{y}(\textbf{b}_{i \bullet}^T \textbf{y})^3] \\
 \textbf{b}_j &\leftarrow \textbf{b}_j/\Vert \textbf{b}_j \Vert
 \end{align*}  
 The expectation operator can be omitted in order to achieve an adaptive version of the algorithm, now using every measurement $\textbf{y}$. 
 However, the expectation operator from the definition of kurtosis can not be omitted and must therefore be estimated. 
 This can be done by $\gamma$ by serving it as the learning rate of the gradient method.
 \begin{align*}
-\Delta \gamma \propto((\textbf{b}_{j}^T \textbf{y})^4 - 3) - \gamma
+\Delta \gamma \propto((\textbf{b}_{i \bullet} \textbf{y})^4 - 3) - \gamma
 \end{align*}
 
 \subsection{Basic ICA algorithm} 
@@ -181,11 +181,11 @@ Algorithm \ref{alg:basicICA} combines the above theory, to give an overview of t
             
             	\While{$\text{convergence critia not meet}$} 
                		\State $k = k+1$
-                	\State $\textbf{b}_{j(k)} \gets \text{sign}\gamma_{(k-1)} \textbf{y}(\textbf{b}_{j}^T \textbf{y})^3$
+                	\State $\textbf{b}_{j(k)} \gets \text{sign}\gamma_{(k-1)} \textbf{y}(\textbf{b}_{i \bullet} \textbf{y})^3$
                 	\State $\textbf{b}_{j(k)} \gets \textbf{b}_j/\Vert \textbf{b}_j \Vert $ 
-                	\State $\gamma_{(k)} \gets ((\textbf{b}_{j}^T \textbf{y})^4 - 3) - \gamma_{(k-1)} $
+                	\State $\gamma_{(k)} \gets ((\textbf{b}_{i \bullet} \textbf{y})^4 - 3) - \gamma_{(k-1)} $
           		\EndWhile
-          		\State $x_{j} = \textbf{b}_{j}^T\textbf{y}$
+          		\State $x_{j} = \textbf{b}_{i \bullet}\textbf{y}$
           	\EndFor
           	
             \EndProcedure

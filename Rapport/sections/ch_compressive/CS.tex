@@ -1,18 +1,18 @@
-\section{Linear Algebra}
+\section{Basic Linear Algebra}
 Some measurement vector $\mathbf{y}$ can be described as a linear combinations of a coefficient matrix $\mathbf{A}$ and some vector $\mathbf{x}$ such that
 \begin{align}\label{eq:SMV_model}
 \mathbf{y} = \mathbf{Ax},
 \end{align}
 where $\mathbf{y} \in \mathbb{R}^M$ is the observed measurement vector consisting of $M$ measurements, $\mathbf{x} \in \mathbb{R}^N$ is an unknown vector of $N$ elements, and $\mathbf{A} \in \mathbb{R}^{M \times N}$ is a coefficient matrix which models the linear measurement process column-wise. 
-\ref{eq:SMV_model} makes a system of linear equations with $M$ equations and $N$ unknowns and will be referred to as a linear model for the rest of the report.
+\ref{eq:SMV_model} makes a system of linear equations with $M$ equations and $N$ unknowns and will be referred to as a linear system for the rest of the report.
 \\ \\
-In the case of $\mathbf{A}$ being a square matrix, $M = N$, a solution can be found to the linear model, provided that a solution exist, if $\mathbf{A}$ has full rank -- $\mathbf{A}$ consist of linearly independent columns or rows.
+In the case of $\mathbf{A}$ being a square matrix, $M = N$, a solution can be found to the linear system, provided that a solution exist, if $\mathbf{A}$ has full rank -- $\mathbf{A}$ consist of linearly independent columns or rows.
 % For $M > N$ the matrix said to have full rank when the columns are linearly independent. For $M < N$ the matrix has full rank when the rows are linearly independent. 
 A linear model with $M = N$ is called determined, $M > N$ over-determined and $M < N$ under-determined. 
 When full rank does not occur the matrix is called rank-deficient.
 \\ \\
 By inverting $\mathbf{A}$ from \eqref{eq:SMV_model} the unknown vector $\mathbf{x}$ can be achieved. 
-A square matrix is invertible if an only if it has full rank or equivalent its determinant $\det(\mathbf{A}) \neq 0$. 
+A square matrix is invertible if an only if it has full rank or equivalent that its determinant $\det(\mathbf{A}) \neq 0$. 
 For rectangular matrices, $M > N$ and $M < N$, left-sided and right-sided inverse exists.
 %\begin{itemize}
 %\item Left-sided inverse ($M > N$): $(\mathbf{A} \mathbf{A})^{-1} \mathbf{A}^T \mathbf{A} = \mathbf{A}_{\text{left}}^{-1} = \mathbf{I}_N$ 
@@ -21,15 +21,15 @@ For rectangular matrices, $M > N$ and $M < N$, left-sided and right-sided invers
 %With the left-inverse the least norm solution of \eqref{eq:SMV_model} can be found\todo{least norm solution?}.
 \\ \\
 For a determined system there will exist a unique solution.
-For an over-determined system there does not exist a solution and for under-determined systems there exist infinitely many solutions \cite[p. ix]{CS}.
+For an over-determined system there does not exist a solution and for under-determined systems there exist infinitely many solutions, provided that one solution exist \cite[p. ix]{CS}.
 \\ 
-As described in chapter \ref{ch:motivation} the linear model of interest consists of $M$ sensors which make the observed measurements $\mathbf{y}$ and $N$ sources which make the unknown vector $\mathbf{x}$. 
+\todo{evt. uddyb sammenhængen med EEG her}As described in chapter \ref{ch:motivation} the linear system of interest consists of $M$ sensors which make the observed measurements $\mathbf{y}$ and $N$ sources which make the unknown vector $\mathbf{x}$. 
 Here it is of interest to find a solution to the case where the system consist of more sources than sensors -- hence a solution has to be found within the infinite solution set.
 
 \section{Compressive Sensing}\label{sec:CS}
-Compressive sensing is the theory of efficient recovery or reconstruction of a signal from a minimal number of observed measurements. 
+Compressive sensing is the theory of efficient recovery of a signal from a minimal number of observed measurements. 
 It is build upon empirical observations assuring that many signals can be approximated by remarkably sparser signals.   
-Assume linear acquisition of the original measurements, then the relation between the measurements and the signal to be recovered can be described by the linear model \eqref{eq:SMV_model} \cite{FR}.  
+Assume linear acquisition of the original measurements, then the relation between the measurements and the signal to be recovered can be modelled by the linear system \eqref{eq:SMV_model} \cite{FR}.  
 \\ 
 %\begin{align}\label{eq:model}
 %\mathbf{y} = \mathbf{Ax}.

@@ -1,50 +1,46 @@
 \defcounter {refsection}{0}\relax 
-\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ (number of sources? or datapoints)}{8}{section*.7}
+\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ note: Evt. kunne vi lave en figur der lidt ala mindmap s\IeC {\ae }tte et system overblik op og s\IeC {\r a} highlighte de "bokse" vi v\IeC {\ae }lger at arbejde med.}{9}{section*.7}
 \defcounter {refsection}{0}\relax 
-\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ (?)}{8}{section*.8}
+\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ evt. uddyb sammenh\IeC {\ae }ngen med EEG her}{14}{section*.8}
 \defcounter {refsection}{0}\relax 
-\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ Find ud af hvad forkortelsen st\IeC {\r a}r for}{9}{section*.9}
+\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ 3.2: skal vi indf\IeC {\o }r z som en approximation til x. og s\IeC {\r a} et nyt omega eller? eller kan vi beholde x}{15}{section*.9}
 \defcounter {refsection}{0}\relax 
-\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ note: Evt. kunne vi lave en figur der lidt ala mindmap s\IeC {\ae }tte et system overblik op og s\IeC {\r a} highlighte de "bokse" vi v\IeC {\ae }lger at arbejde med.}{9}{section*.10}
+\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ Kom med en beskrivelse af nulrumsbetingelsen}{17}{section*.11}
 \defcounter {refsection}{0}\relax 
-\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ 3.2: skal vi indf\IeC {\o }r z som en approximation til x. og s\IeC {\r a} et nyt omega eller? eller kan vi beholde x}{15}{section*.11}
+\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ when we assume independence it is enough to solve system, why?}{18}{section*.12}
 \defcounter {refsection}{0}\relax 
-\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ Kom med en beskrivelse af nulrumsbetingelsen}{17}{section*.13}
+\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ herover er ukommenteret et afsnit jeg ikke forst\IeC {\r a}r}{18}{section*.13}
 \defcounter {refsection}{0}\relax 
-\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ when we assume independence it is enough to solve system, why?}{18}{section*.14}
+\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ whiteining is a linear change of coordinates of the mixed data\url {http://arnauddelorme.com/ica_for_dummies/} "By rotating the axis and minimizing Gaussianity of the projection in the first scatter plot, ICA is able to recover the original sources which are statistically independent}{19}{section*.14}
 \defcounter {refsection}{0}\relax 
-\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ herover er ukommenteret et afsnit jeg ikke forst\IeC {\r a}r}{18}{section*.15}
+\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ se udkommentering herunder?}{19}{section*.15}
 \defcounter {refsection}{0}\relax 
-\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ whiteining is a linear change of coordinates of the mixed data\url {http://arnauddelorme.com/ica_for_dummies/} "By rotating the axis and minimizing Gaussianity of the projection in the first scatter plot, ICA is able to recover the original sources which are statistically independent}{19}{section*.16}
+\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ Herfra og ned til kurtosis skal lige tjekkes i gennem og rettes til}{20}{section*.16}
 \defcounter {refsection}{0}\relax 
-\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ se udkommentering herunder?}{19}{section*.17}
+\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ uddyb? og tilf\IeC {\o }j kilde til kurtosis}{20}{section*.17}
 \defcounter {refsection}{0}\relax 
-\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ Herfra og ned til kurtosis skal lige tjekkes i gennem og rettes til}{20}{section*.18}
+\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ hvordan kommer dette frem?}{21}{section*.18}
 \defcounter {refsection}{0}\relax 
-\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ uddyb? og tilf\IeC {\o }j kilde til kurtosis}{20}{section*.19}
+\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ henvis til appendix}{23}{section*.19}
 \defcounter {refsection}{0}\relax 
-\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ hvordan kommer dette frem?}{21}{section*.20}
+\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ skal dette argumenteres yderligere, som v\IeC {\ae }rende uafh\IeC {\ae }ngig af motivations kapitlet?}{23}{section*.20}
 \defcounter {refsection}{0}\relax 
-\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ henvis til appendix}{23}{section*.21}
+\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ Tjek nedenst\IeC {\r a}ende udledning. a og x er ikke lige lange da $a_j$ er M lang mens $x_{i \bullet }$ er L lang}{26}{section*.21}
 \defcounter {refsection}{0}\relax 
-\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ skal dette argumenteres yderligere, som v\IeC {\ae }rende uafh\IeC {\ae }ngig af motivations kapitlet?}{23}{section*.22}
+\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ kilde}{27}{section*.22}
 \defcounter {refsection}{0}\relax 
-\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ Tjek nedenst\IeC {\r a}ende udledning. a og x er ikke lige lange da $a_j$ er M lang mens $x_{i \bullet }$ er L lang}{26}{section*.23}
+\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ f er samples pr sek., L er antal sampels i alt, Ls er antal samples pr segment og ts er l\IeC {\ae }ngen pr segment i sekunder}{29}{section*.23}
 \defcounter {refsection}{0}\relax 
-\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ kilde}{27}{section*.24}
+\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ er yderligere argumentation n\IeC {\o }dvendig her?}{31}{section*.24}
 \defcounter {refsection}{0}\relax 
-\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ f er samples pr sek., L er antal sampels i alt, Ls er antal samples pr segment og ts er l\IeC {\ae }ngen pr segment i sekunder}{29}{section*.25}
+\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ redeg\IeC {\o }relse for resultatet her skal laves}{32}{section*.25}
 \defcounter {refsection}{0}\relax 
-\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ er yderligere argumentation n\IeC {\o }dvendig her?}{31}{section*.26}
+\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ how else can they live on the same space??}{32}{section*.26}
 \defcounter {refsection}{0}\relax 
-\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ redeg\IeC {\o }relse for resultatet her skal laves}{32}{section*.27}
+\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ evt. teoretisk beskrivelse af PCA i appendix?}{32}{section*.27}
 \defcounter {refsection}{0}\relax 
-\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ how else can they live on the same space??}{32}{section*.28}
+\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ kilde foruden phd p. 51?}{32}{section*.28}
 \defcounter {refsection}{0}\relax 
-\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ evt. teoretisk beskrivelse af PCA i appendix?}{32}{section*.29}
+\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ inds\IeC {\ae }t her hvad tanken bag Bayesian egenligt er}{37}{section*.29}
 \defcounter {refsection}{0}\relax 
-\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ kilde foruden phd p. 51?}{32}{section*.30}
-\defcounter {refsection}{0}\relax 
-\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ inds\IeC {\ae }t her hvad tanken bag Bayesian egenligt er}{37}{section*.31}
-\defcounter {refsection}{0}\relax 
-\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ wiki: The fixed point is stable if the absolute value of the derivative of \textbf {w} at the point is strictly less than 1?}{45}{section*.34}
+\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ wiki: The fixed point is stable if the absolute value of the derivative of \textbf {w} at the point is strictly less than 1?}{45}{section*.32}

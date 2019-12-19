@@ -35,7 +35,6 @@ p(x_1, x_2, \dots, x_n) = p_1(x_1) p_2(x_2) \cdots p_n(x_n).
 
 %Furthermore it is assumed that the independent components $\mathbf{x}$ do not have Gaussian distribution as this will effect the recovery of $\mathbf{x}$ due to ICA using higher-order cumulant method. For Gaussian distribution the cumulant will be zero which is not wanted in the recovery process. Thus the distribution of the independent components are unknown. This will further be described in section \ref{sec:est_ica}.
 
-\todo{herover er ukommenteret et afsnit jeg ikke forstår}
 The possibility of separating a signal into independent and non-Gaussian components originates from the central limit theorem \cite[p. 34]{ICA}. 
 The theorem states that the distribution of any linear mixture of two or more independent random variables tends toward a Gaussian distribution, under certain conditions. 
 %Thus, when a non-Gaussian distribution of the independent components is achieved through optimization it must be the original sources.
@@ -90,21 +89,21 @@ The simple and intuitive method is to take advantage of the assumption of non-Ga
 Consider again the ICA model of a single measurement vector $\textbf{y}=\textbf{Ax}$ where the independent components can be estimated by the inverted model $\textbf{x}=\textbf{A}^{-1}\textbf{y}$. \todo{Herfra og ned til kurtosis skal lige tjekkes i gennem og rettes til} 
 Let $\textbf{A}^{-1}=\textbf{B}$, now a single independent component can be seen as the linear combination 
 \begin{align}
-x_i = \textbf{b}_{i \bullet} \textbf{y} = \sum_k b_k y_k \label{eq:ICA_comp}
+x_i = \textbf{b}_{i \cdot} \textbf{y} = \sum_k b_k y_k \label{eq:ICA_comp}
 \end{align} 
-where $\textbf{b}_{i \bullet}$ is the $i$-th row of $\textbf{B}$. 
-The issue is now to determine $\textbf{b}_{j}$ (the $j$-th column) such that it equals the $i$-th row from the inverse $\textbf{A}$. 
-As $\textbf{A}$ is unknown it is not possible to determine $\textbf{b}_{j}$ exactly, but an estimate can be found to make a good approximation. Rewriting \eqref{eq:ICA_comp} 
+where $\textbf{b}_{i \cdot}$ is the $i$-th row of $\textbf{B}$. 
+The issue is now to determine $\textbf{b}_{i\cdot}$ such that it equals the $i$-th row from the inverse $\textbf{A}$, as it is assumed. 
+As $\textbf{A}$ is unknown it is not possible to determine $\textbf{b}_{i \cdot}$ exactly, but an estimate can be found to make a good approximation. Rewriting \eqref{eq:ICA_comp} 
 \begin{align*}
-x_i = \textbf{b}_{i \bullet} \textbf{y} = \textbf{b}_{i \bullet} \textbf{Ax} = \textbf{q}^T \textbf{x} = \sum_{k=1} q_k x_k
+x_i = \textbf{b}_{i \cdot} \textbf{y} = \textbf{b}_{i \cdot} \textbf{Ax} = \textbf{q}^T \textbf{x} = \sum_{k=1} q_k x_k
 \end{align*}
 it is seen how $x_i$ is a linear combination of all $x_k$, thus the equality only holds true when $\textbf{q}$ consist of only one non-zero element that equals 1.  
 Due to the central limit theorem the distribution of $\textbf{q}^T\textbf{x}$ is most non-Gaussian when it equals one of the independent components which was assumed non-Gaussian. 
-Then, since $\textbf{q}^T \textbf{x} = \textbf{b}_{i \bullet} \textbf{y}$, it is possible to vary the coefficients in $\textbf{b}$ and look at the distribution of $\textbf{b}_{i \bullet} \textbf{y}$. 
-Finding the vector $\textbf{b}$ that maximizes the non-Gaussianity would then correspond to $\textbf{q} = \textbf{A}^T \textbf{b}$ having only a single non-zero element. 
-Thus maximizing the non-Gaussianity of $\textbf{b}_{i \bullet} \textbf{y}$ results in one of the independent components \cite[p. 166]{ICA}. 
+Then, since $\textbf{q}^T \textbf{x} = \textbf{b}_{i \cdot} \textbf{y}$, it is possible to vary the coefficients in $\textbf{b}$ and look at the distribution of $\textbf{b}_{i \cdot} \textbf{y}$. 
+Finding the vector $\textbf{b}_{i\cdot}^T$ that maximizes the non-Gaussianity would then correspond to $\textbf{q} = \textbf{A}^T \textbf{b}_{i\cdot}^T$ having only a single non-zero element. 
+Thus maximizing the non-Gaussianity of $\textbf{b}_{i \cdot} \textbf{y}$ results in one of the independent components \cite[p. 166]{ICA}. 
 \\
-Considering the $N$-dimensional space of vectors $\textbf{b}$ there exist $2N$ local maxima, corresponding to $x_i$ and $-x_i$ for all $n$ independent components \cite[p. 166]{ICA}. 
+Considering the $N$-dimensional space of vectors $\textbf{b}_{i\cdot}^T$ there exist $2N$ local maxima, corresponding to $x_i$ and $-x_i$ for all $n$ independent components \cite[p. 166]{ICA}. 
 
 \subsection{Kurtosis}
 To maximize the non-Gaussianity a measure for Gaussianity is needed. Kurtosis is a quantitative measure used for non-Gaussianity of random variables. 
@@ -125,41 +124,41 @@ Furthermore, for two independent random variables $x_1, x_2$ the following linea
 \end{align*}  
 However, one complication concerning kurtosis as a measure is that kurtosis is sensitive to outliers \cite[p. 182]{ICA}.
 \\ \\      
-Consider again the vector $\textbf{q} = \textbf{A}^T\textbf{b}$ such that $\textbf{b}_{i \bullet} \textbf{y} = \sum_{k=1} q_k x_k$. 
+Consider again the vector $\textbf{q} = \textbf{A}^T\textbf{b}$ such that $\textbf{b}_{i \cdot} \textbf{y} = \sum_{k=1} q_k x_k$. 
 By the additive property of kurtosis
 \begin{align*}
-\text{kurt} \left( \textbf{b}_{i \bullet} \textbf{y} \right) = \sum_{k=1}q_k^4 \text{kurt}(x_k).
+\text{kurt} \left( \textbf{b}_{i \cdot} \textbf{y} \right) = \sum_{k=1}q_k^4 \text{kurt}(x_k).
 \end{align*}
 Then the assumption of the independent components having unit variance results in $\mathbb{E}[x_i^2]= \sum_{k=1}q_k^2=1$\todo{hvordan kommer dette frem?}. 
 That is geometrically that $\textbf{q}$ is constrained to the unit sphere, $\| \textbf{q}\|^2 = 1$. 
-By this the optimisation problem of maximising the kurtosis of $\textbf{b}_{i \bullet} \textbf{y}$ is similar to maximizing $\vert \text{kurt}(x_i)\vert = \vert \sum_{k=1}q_k^4 \text{kurt}(x_k) \vert $ on the unit sphere.
+By this the optimisation problem of maximising the kurtosis of $\textbf{b}_{i \cdot} \textbf{y}$ is similar to maximizing $\vert \text{kurt}(x_i)\vert = \vert \sum_{k=1}q_k^4 \text{kurt}(x_k) \vert $ on the unit sphere.
 \\
-Due to the described preprocessing $\textbf{b}$ is assumed to be white and it can be shown that $\Vert \textbf{q} \Vert = \Vert \textbf{b}_j \Vert$ \cite[p. 174]{ICA}. 
-This shows that constraining $\Vert \textbf{q} \Vert$ to one is similar to constraining $\Vert \textbf{b}_j \Vert$ to one. 
+Due to the described preprocessing $\textbf{b}_{i \cdot}^T$ is assumed to be white and it can be shown that $\Vert \textbf{q} \Vert = \Vert \textbf{b}_{i \cdot}^T \Vert$ \cite[p. 174]{ICA}. 
+This shows that constraining $\Vert \textbf{q} \Vert$ to one is similar to constraining $\Vert \textbf{b}_{i \cdot}^T \Vert$ to one. 
 
 \subsection{The Gradient Algorithm with Kurtosis}\label{sec:gra_kur}
-In practise, to recover the mixing matrix $\textbf{A}$ by maximizing the kurtosis of $\textbf{b}_{i \bullet} \textbf{y}$, gradient optimisation methods are used.
+In practise, to recover the mixing matrix $\textbf{A}$ by maximizing the kurtosis of $\textbf{b}_{i \cdot} \textbf{y}$, gradient optimisation methods are used.
 \\
-The general idea behind a gradient algorithm is to determine the direction for which $\text{kurt}(\textbf{b}_{i \bullet} \textbf{y})$ is growing the most, based on the gradient. 
+The general idea behind a gradient algorithm is to determine the direction for which $\text{kurt}(\textbf{b}_{i \cdot} \textbf{y})$ is growing the most, based on the gradient. 
 \\
-The gradient of $\vert \text{kurt}(\textbf{b}_{i \bullet} \textbf{y}) \vert$ is computed as
+The gradient of $\vert \text{kurt}(\textbf{b}_{i \cdot} \textbf{y}) \vert$ is computed as
 \begin{align}\label{eq:kurt}
-\frac{\partial \vert \text{kurt}(\textbf{b}_{i \bullet} \textbf{y})\vert}{\partial \mathbf{b}_j} &= 4 \text{sign}(\text{kurt}(\textbf{b}_{i \bullet} \textbf{y})) (\mathbb{E}[\mathbf{y} (\textbf{b}_{i \bullet} \textbf{y})^3] - 3 \mathbf{y} \mathbb{E}[(\textbf{b}_{i \bullet} \textbf{y})^2]) 
+\frac{\partial \vert \text{kurt}(\textbf{b}_{i \cdot} \textbf{y})\vert}{\partial \mathbf{b}_j} &= 4 \text{sign}(\text{kurt}(\textbf{b}_{i \cdot} \textbf{y})) (\mathbb{E}[\mathbf{y} (\textbf{b}_{i \cdot} \textbf{y})^3] - 3 \mathbf{y} \mathbb{E}[(\textbf{b}_{i \cdot} \textbf{y})^2]) 
 \end{align} 
-As $\mathbb{E}[(\textbf{b}_{i \bullet}^T \textbf{y})^2] =\Vert \mathbf{y} \Vert^2$ for whitened data the corresponding term does only affect the norm of $\textbf{b}_j$ within the gradient algorithm. 
+As $\mathbb{E}[(\textbf{b}_{i \cdot} \textbf{y})^2] =\Vert \mathbf{y} \Vert^2$ for whitened data the corresponding term does only affect the norm of $\textbf{b}_{i \cdot}$ within the gradient algorithm. 
 Thus, as it is only the direction that is of interest, this term can be omitted. 
-Because the optimisation is restricted to the unit sphere a projection of $\textbf{b}_j$ onto the unit sphere must be performed in every step of the gradient method. 
-This is done by dividing $\textbf{b}_j$ by its norm. 
+Because the optimisation is restricted to the unit sphere a projection of $\textbf{b}_{i \cdot}^T$ onto the unit sphere must be performed in every step of the gradient method. 
+This is done by dividing $\textbf{b}_{i \cdot}^T$ by its norm. 
 This gives update step 
 \begin{align*}
-\Delta &\textbf{b}_j \propto \text{sign}\left( \text{kurt}(\textbf{b}_{i \bullet} \textbf{y}) \right) \mathbb{E}[\textbf{y}(\textbf{b}_{i \bullet}^T \textbf{y})^3] \\
-\textbf{b}_j &\leftarrow \textbf{b}_j/\Vert \textbf{b}_j \Vert
+\Delta &\textbf{b}_{i \cdot}^T \propto \text{sign}\left( \text{kurt}(\textbf{b}_{i \cdot} \textbf{y}) \right) \mathbb{E}[\textbf{y}(\textbf{b}_{i \cdot} \textbf{y})^3] \\
+\textbf{b}_{i \cdot}^T &\leftarrow \textbf{b}_{i \cdot}^T/\Vert \textbf{b}_{i \cdot}^T \Vert
 \end{align*}  
 The expectation operator can be omitted in order to achieve an adaptive version of the algorithm, now using every measurement $\textbf{y}$. 
 However, the expectation operator from the definition of kurtosis can not be omitted and must therefore be estimated. 
 This can be done by $\gamma$ by serving it as the learning rate of the gradient method.
 \begin{align*}
-\Delta \gamma \propto((\textbf{b}_{i \bullet} \textbf{y})^4 - 3) - \gamma
+\Delta \gamma \propto((\textbf{b}_{i \cdot} \textbf{y})^4 - 3) - \gamma
 \end{align*}
 
 \subsection{Basic ICA algorithm} 
@@ -175,17 +174,17 @@ Algorithm \ref{alg:basicICA} combines the above theory, to give an overview of t
 			\State
             \Procedure{ICA}{$\textbf{y}$}    
 			\State$k=0$            
-            \State$\text{Initialise random vector} \quad \textbf{b}_{j(k)}$ \Comment{unit norm}
+            \State$\text{Initialise random vector} \quad \textbf{b}_{i \cdot(k)}$ \Comment{unit norm}
             \State$\text{Initialise random value} \quad \gamma_{(k)}$
             \For{$j \gets 1,2, \hdots ,N$ }
             
             	\While{$\text{convergence critia not meet}$} 
                		\State $k = k+1$
-                	\State $\textbf{b}_{j(k)} \gets \text{sign}\gamma_{(k-1)} \textbf{y}(\textbf{b}_{i \bullet} \textbf{y})^3$
-                	\State $\textbf{b}_{j(k)} \gets \textbf{b}_j/\Vert \textbf{b}_j \Vert $ 
-                	\State $\gamma_{(k)} \gets ((\textbf{b}_{i \bullet} \textbf{y})^4 - 3) - \gamma_{(k-1)} $
+                	\State $\textbf{b}_{i \cdot(k)} \gets \text{sign}\gamma_{(k-1)} \textbf{y}(\textbf{b}_{i \cdot} \textbf{y})^3$
+                	\State $\textbf{b}_{i \cdot(k)} \gets \textbf{b}_{i \cdot(k)}/\Vert \textbf{b}_{i \cdot(k)} \Vert $ 
+                	\State $\gamma_{(k)} \gets ((\textbf{b}_{i \cdot} \textbf{y})^4 - 3) - \gamma_{(k-1)} $
           		\EndWhile
-          		\State $x_{j} = \textbf{b}_{i \bullet}\textbf{y}$
+          		\State $x_{j} = \textbf{b}_{i \cdot}\textbf{y}$
           	\EndFor
           	
             \EndProcedure

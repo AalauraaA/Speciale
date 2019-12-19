@@ -77,13 +77,13 @@ Let the likelihood $p(\mathbf{Y} \vert \mathbf{X})$ be Gaussian, with known nois
 p(\mathbf{y}_{j} \vert \mathbf{x}_{j}) &= \mathcal{N}(\mathbf{Ax}_{j}, \sigma^2 \mathbf{I}) \\
 &= (2 \pi \sigma^2)^{-N/2} \exp \left( - \frac{1}{2 \sigma^2} \Vert \mathbf{y}_{j} - \mathbf{A} \mathbf{x}_{j} \Vert_2^2 \right).
 \end{align*}
-With the use of ARD the $i$-th row of the sources matrix $\mathbf{X}$, $\mathbf{x}_{i \bullet}$, is assigned an $L$-dimensional independent Gaussian prior with zero mean and a variance controlled by $\gamma_i$ which is unknown:
+With the use of ARD the $i$-th row of the sources matrix $\mathbf{X}$, $\mathbf{x}_{i \cdot}$, is assigned an $L$-dimensional independent Gaussian prior with zero mean and a variance controlled by $\gamma_i$ which is unknown:
 \begin{align*}
-p (\mathbf{x}_{i \bullet} ; \gamma_i) &= \mathcal{N}(0, \gamma_i \mathbf{I}).
+p (\mathbf{x}_{i \cdot} ; \gamma_i) &= \mathcal{N}(0, \gamma_i \mathbf{I}).
 \end{align*}
 By combing the row priors
 \begin{align*}
-p (\mathbf{X} ; \boldsymbol{\gamma}) &= \prod_{j=1}^L p (\mathbf{x}_{i \bullet} ; \gamma_i),
+p (\mathbf{X} ; \boldsymbol{\gamma}) &= \prod_{j=1}^L p (\mathbf{x}_{i \cdot} ; \gamma_i),
 \end{align*}
 a full prior of $\mathbf{X}$ is achieved modulated by the hyperparameter vector $\boldsymbol{\gamma} = [\gamma_1, \dots, \gamma_M]^T$. By combining the full prior and the likelihood $p(\mathbf{y}_{j} \vert \mathbf{x}_{j})$ the posterior of the $j$-th column of the source matrix $\mathbf{X}$ becomes
 \begin{align*}
@@ -92,7 +92,7 @@ p(\mathbf{x}_{j} \vert \mathbf{y}_{j} ; \boldsymbol{\gamma}) = \frac{p(\mathbf{x
 with mean and covariance given as
 \begin{align}
 \boldsymbol{\Sigma} &= \text{Cov}(\mathbf{x}_{j} \vert \mathbf{y}_{j} ; \boldsymbol{\gamma}) = \boldsymbol{\Gamma} - \boldsymbol{\Gamma} \mathbf{A}^T \boldsymbol{\Sigma}_y^{-1} \mathbf{A} \boldsymbol{\Gamma}, \quad \forall j = 1, \dots, L \nonumber \\
-\mathcal{M} &= [\boldsymbol{\mu}_{1 \bullet}, \dots, \boldsymbol{\mu}_{ L \bullet}] = \mathbb{E}[\mathbf{X} \vert \mathbf{Y} ; \boldsymbol{\gamma}] = \boldsymbol{\Gamma} \mathbf{A}^T \boldsymbol{\Sigma}_y^{-1} \mathbf{Y}, \label{eq:moments}
+\mathcal{M} &= [\boldsymbol{\mu}_{1 \cdot}, \dots, \boldsymbol{\mu}_{ L \cdot}] = \mathbb{E}[\mathbf{X} \vert \mathbf{Y} ; \boldsymbol{\gamma}] = \boldsymbol{\Gamma} \mathbf{A}^T \boldsymbol{\Sigma}_y^{-1} \mathbf{Y}, \label{eq:moments}
 \end{align}
 where $\boldsymbol{\Gamma} = \text{diag}(\boldsymbol{\gamma})$ and $\boldsymbol{\Sigma}_y = \sigma^2 \mathbf{I} + \mathbf{A} \boldsymbol{\Gamma} \mathbf{A}^T$. Let now the posterior mean serve as the point estimate for $\mathbf{X}$ without involving the support set $S$.
 \\
@@ -100,7 +100,7 @@ It is clear that row sparsity is achieved whenever $\gamma_i = 0$. From this the
 \begin{align*}
 P(\mathbf{x}_{i \cdot} = \mathbf{0} \vert \mathbf{Y} ; \gamma_i = 0) = 1,
 \end{align*}
-which ensure that the posterior mean $\mathcal{M}$ of the $i$-th row, $\boldsymbol{\mu}_{i \bullet}$, will be zero. Now, instead of estimating the support set?/sparsity profile of our source matrix $\mathbf{X}$ it is sufficient to estimate the hyperparameters $\gamma_i$\cite[p. 147]{phd_wipf}.
+which ensure that the posterior mean $\mathcal{M}$ of the $i$-th row, $\boldsymbol{\mu}_{i \cdot}$, will be zero. Now, instead of estimating the support set?/sparsity profile of our source matrix $\mathbf{X}$ it is sufficient to estimate the hyperparameters $\gamma_i$\cite[p. 147]{phd_wipf}.
 \\
 Each different hyperparameter $\boldsymbol{\gamma}$ correspond to different hypothesis for the prior distribution of the underlying generation of $\mathbf{Y}$. Therefore the determination of $\boldsymbol{\gamma}$ is seen as a model selection for which an empirical Bayesian strategy can be used. By the empirical Bayesian strategy the unknown weights, making the source matrix $\textbf{X}$, are treated as nuisance parameters and are integrated out.
 \\
@@ -112,11 +112,11 @@ By integrating the likelihood of $\textbf{Y}$ with respect to the unknown source
 \end{align*}
 To minimise the marginal log likelihood $\mathcal{l}(\boldsymbol{\gamma})$ with respect to $\boldsymbol{\gamma}$ the evidence maximisation (EM) algorithm can be used. The E-step of the EM algorithm is to compute the posterior moments using \eqref{eq:moments} while the M-step is the following update rule of $\gamma_i$:
 \begin{align*}
-\gamma_i^{(k+1)} = \frac{1}{L} \Vert \boldsymbol{\mu}_{i \bullet} \Vert_2^2 + \Sigma_{ii}, \quad \forall i = 1, \dots, M.
+\gamma_i^{(k+1)} = \frac{1}{L} \Vert \boldsymbol{\mu}_{i \cdot} \Vert_2^2 + \Sigma_{ii}, \quad \forall i = 1, \dots, M.
 \end{align*}
 The M-step is very slow on large data. Instead one could use a fixed point update to fasten the convergence on large data, however convergence is no longer ensured. The fixed point updating step is achieved by taking the derivative of the marginal log likelihood $\mathcal{l}(\boldsymbol{\gamma})$ with respect to $\boldsymbol{\gamma}$ and equating it with zero. This lead to the following update equation which can replace the above M-step in the EM-algorithm:
 \begin{align*}
-\gamma_i^{(k+1)} = \frac{\frac{1}{L} \Vert \boldsymbol{\mu}_{i \bullet} \Vert_2^2}{1 - \gamma_i^{-1 (k)} \Sigma_{ii}}, \quad \forall i = 1, \dots, M.
+\gamma_i^{(k+1)} = \frac{\frac{1}{L} \Vert \boldsymbol{\mu}_{i \cdot} \Vert_2^2}{1 - \gamma_i^{-1 (k)} \Sigma_{ii}}, \quad \forall i = 1, \dots, M.
 \end{align*}
 Empirically this alternative update rule have shown use full in highly under-determined large scale cases by driving many hyper parameters toward zero allowing for the corresponding weight in the source matrix to be discarded. For simultaneous sparse approximation problems this is the process referred to as multiple sparse Bayesian learning, M-SBL.\\
 From the resulting $\boldsymbol{\gamma}^\ast$ the support set $S$ of the source matrix $\textbf{X}$ can be extracted, 
@@ -129,8 +129,8 @@ For identification of the active sources the estimate of the source matrix $\tex
 \begin{align*}
 \mathbf{X}^\ast = 
 \begin{cases}
-\mathbf{x}_{i\bullet} = \boldsymbol{\mu}_{i \bullet}^\ast, & i \in S \\
-\mathbf{x}_{i\bullet} = \mathbf{0}, & i \not \in S
+\mathbf{x}_{i\cdot} = \boldsymbol{\mu}_{i \cdot}^\ast, & i \in S \\
+\mathbf{x}_{i\cdot} = \mathbf{0}, & i \not \in S
 \end{cases}
 \end{align*}
 
@@ -149,7 +149,7 @@ For identification of the active sources the estimate of the source matrix $\tex
 \end{itemize}
 \end{algorithm}
 
-\paragraph{Notes:}
-\begin{itemize}
-\item Bayesian replace the troublesome prior with a distribution that, while still encouraging sparsity, is somehow more computationally convenient. Bayesian approaches to the sparse approximation problem that follow this route have typically been divided into two categories: (i) maximum a posteriori (MAP) estimation using a fixed, computationally tractable family of priors and, (ii) empirical Bayesian approaches that employ a flexible, parameterized prior that is ‘learned’ from the data
-\end{itemize}
+%\paragraph{Notes:}
+%\begin{itemize}
+%\item Bayesian replace the troublesome prior with a distribution that, while still encouraging sparsity, is somehow more computationally convenient. Bayesian approaches to the sparse approximation problem that follow this route have typically been divided into two categories: (i) maximum a posteriori (MAP) estimation using a fixed, computationally tractable family of priors and, (ii) empirical Bayesian approaches that employ a flexible, parameterized prior that is ‘learned’ from the data
+%\end{itemize}

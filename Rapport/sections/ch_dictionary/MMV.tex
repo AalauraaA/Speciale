@@ -35,28 +35,28 @@ The support of $\mathbf{X}$ denotes the index set of non-zero rows of $\mathbf{X
 \section{K-SVD}\label{sec:dictionarylearning}
 Consider $\mathbf{Y} = \left[ \mathbf{y}_1, \dots, \mathbf{y}_L \right]$, $\mathbf{y}_j \in \mathbb{R}^M$ as a training database, created by $\mathbf{y}_j = \mathbf{A}\mathbf{x}_j$ for which one want to learn the best suitable dictionary $\mathbf{A}$ and sparse representation $\mathbf{X} = \left[ \mathbf{x}_1, \dots, \mathbf{x}_L  \right]$, $\mathbf{x}_j \in \mathbb{R}^N$. For a known sparsity constraint $k$ this can be defined by an optimisation problem similar to the general compressive sensing problem of multiple measurements \cite{Elad_book}
 \begin{align}\label{eq:SVD1}
-\min_{\mathbf{A,X}} \sum_{j=1}^{L} \Vert \mathbf{y}_j - \mathbf{Ax}_j \Vert_2^2 \quad \text{subject to} \quad \Vert \textbf{x}_j \Vert_0 \leq k, \ 1 \leq j \leq L.
+\min_{\mathbf{A,X}} \sum_{j=1}^{L} \Vert \mathbf{y}_j - \mathbf{Ax}_j \Vert_2^2 \quad \text{subject to} \quad \Vert \textbf{x}_j \Vert_1 \leq k, \ 1 \leq j \leq L.
 \end{align}  
-The learning consists of jointly solving the optimization problem on $\mathbf{X}$ and $\mathbf{A}$. The uniqueness of $\mathbf{A}$ depends on the recovery sparsity condition. As clarified earlier recovery is only possible if $k < M$ \cite{phd2015}. 
+\todo{gør opmærksom på at i forhold til det tildligere defineret P1 problem har vi nu støj derfor er de byttet rund}The learning consists of jointly solving the optimization problem on $\mathbf{X}$ and $\mathbf{A}$. The uniqueness of $\mathbf{A}$ depends on the recovery sparsity condition. As clarified earlier recovery is only possible if $k < M$ \cite{phd2015}. 
 %Furthermore, consider $\textbf{A}_0$ as a initial dictionary matrix such that every training signal can be represented by $k_0 < \text{spark}(\textbf{A}_0)/2$ columns of $\textbf{A}_0$, then $\textbf{A}_0$ is a unique dictionary, up to scaling and permutation of columns\cite{Elad_book}\todo{fungerer disse to uniqueness parameter sammen?}. Again the $\ell_0$-norm lead to an NP-hard problem an heuristic methods are need.     
 
 \subsection{K-SVD Algorithm}
-The dictionary learning algorithm K-SVD provides an updating rule which is applied to each column of $\mathbf{A}_0 = \left[ \mathbf{a}_0, \dots, \mathbf{a}_N \right] $ where $\mathbf{A}_0$ being a random initial dictionary matrix. Updating first $\mathbf{a}_j$ and then the corresponding coefficients in $\mathbf{X}$ which it is multiplied with the $i$-th row in $\mathbf{X}$ denoted by $\mathbf{x}_{i \bullet}$.
+The dictionary learning algorithm K-SVD provides an updating rule which is applied to each column of $\mathbf{A}_0 = \left[ \mathbf{a}_0, \dots, \mathbf{a}_N \right] $ where $\mathbf{A}_0$ being a random initial dictionary matrix. Updating first $\mathbf{a}_j$ and then the corresponding coefficients in $\mathbf{X}$ which it is multiplied with the $i$-th row in $\mathbf{X}$ denoted by $\mathbf{x}_{i \cdot}$.
 \\
-Let $\mathbf{a}_{j_{0}}$ be the column to be updated and let the remaining columns be fixed. By rewriting the objective function in \eqref{eq:SVD1} using matrix notation it is possible to isolate the contribution from $\mathbf{a}_{j_{0}}$ \todo{Tjek nedenstående udledning. a og x er ikke lige lange da $a_j$ er M lang mens $x_{i \bullet}$ er L lang}.
+Let $\mathbf{a}_{j_{0}}$ be the column to be updated and let the remaining columns be fixed. By rewriting the objective function in \eqref{eq:SVD1} using matrix notation it is possible to isolate the contribution from $\mathbf{a}_{j_{0}}$ \todo{Tjek nedenstående udledning. a og x er ikke lige lange da $a_j$ er M lang mens $x_{i \cdot}$ er L lang}.
 \begin{align}\label{eq:SVD2} 
 \Vert \textbf{Y} - \textbf{AX} \Vert_{F}^{2} 
-&= \left\| \textbf{Y} - \sum_{j=1}^{N} \textbf{a}_j \textbf{x}_{i \bullet} \right\|_{F}^{2} \nonumber \\
-&= \left\| \left( \textbf{Y}- \sum_{j \neq j_0}^{N} \textbf{a}_j \textbf{x}_{i \bullet} \right) - \textbf{a}_{j_{0}} \textbf{x}_{i_0 \bullet} \right\| _{F}^{2},
+&= \left\| \textbf{Y} - \sum_{j=1}^{N} \textbf{a}_j \textbf{x}_{i \cdot} \right\|_{F}^{2} \nonumber \\
+&= \left\| \left( \textbf{Y}- \sum_{j \neq j_0}^{N} \textbf{a}_j \textbf{x}_{i \cdot} \right) - \textbf{a}_{j_{0}} \textbf{x}_{i_0 \cdot} \right\| _{F}^{2},
 \end{align}
 where $i = j$, $i_0 = j_0$ and where $F$ is the Frobenius norm that works on matrices
 \begin{align*}
 \Vert \mathbf{A} \Vert_F = \sqrt{\sum_{i=1}^M \sum_{j=1}^N \vert a_{ij} \vert^2}.
 \end{align*} 
-In \eqref{eq:SVD2} the term in the parenthesis is denoted by $\textbf{E}_{j_0}$, an error matrix, and hence by minimising \eqref{eq:SVD2} with respect to $\mathbf{a}_{j_0}$ and $\mathbf{x}_{i_0 \bullet}$ leads to the optimal contribution from $j_0$
+In \eqref{eq:SVD2} the term in the parenthesis is denoted by $\textbf{E}_{j_0}$, an error matrix, and hence by minimising \eqref{eq:SVD2} with respect to $\mathbf{a}_{j_0}$ and $\mathbf{x}_{i_0 \cdot}$ leads to the optimal contribution from $j_0$
 %In \eqref{eq:SVD2} the term in the parenthesis makes the an error matrix $\textbf{E}_{i_0}$ without the contribution from $i_{0}$, hence minimising \eqref{eq:SVD2} with respect to $\textbf{a}_{i_{0}}$ and $\textbf{x}_{i_{0}}^{T}$ leads to the optimal contribution from $i_{0}$ (can I say it this way..?). 
 \begin{align}\label{eq:SVD3}
-\min_{\textbf{a}_{j_{0}}, \textbf{x}_{i_0 \bullet}}\left\|\textbf{ E}_{j_{0}} - \textbf{a}_{j_{0}} \textbf{x}_{i_0 \bullet} \right\|_{F}^{2}.
+\min_{\textbf{a}_{j_{0}}, \textbf{x}_{i_0 \cdot}}\left\|\textbf{ E}_{j_{0}} - \textbf{a}_{j_{0}} \textbf{x}_{i_0 \cdot} \right\|_{F}^{2}.
 \end{align} 
 The optimal solution to \eqref{eq:SVD3} is known to be the rank-1 approximation of $\textbf{E}_{j_{0}}$. This comes from the Eckart–Young–Mirsky theorem \cite{?} saying that a partial single value decomposition (SVD) makes the best low-rank approximation of a matrix such as $\textbf{E}_{j_0}$. The SVD is given as
 \begin{align*}
@@ -68,12 +68,12 @@ The best $k$-rank approximation to $\textbf{E}_{j_0}$, with $k < \text{rank}(\te
 \begin{align*}
 \textbf{E}_{j_{0}}^{(k)} = \sum_{j=1}^{k} \boldsymbol{\sigma}_j \textbf{u}_{j} \textbf{v}_{j}^T.
 \end{align*} 
-Since the outer product always have rank-1 letting $\textbf{a}_{j_0} = \textbf{u}_1$ and $\textbf{x}_{i_0 \bullet} = \boldsymbol{\sigma}_{j} \textbf{v}_{1}^T$ solves the optimisation problem \eqref{eq:SVD3}.
-However in order to preserve the sparsity in $\textbf{X}$ while optimising, only the non-zero entries in $\textbf{x}_{i_0 \bullet}$ are allowed to vary. For this purpose only a subset of columns in $\textbf{E}_{j_0}$ is considered, those which correspond to the non-zero entries of $\textbf{x}_{i_0 \bullet}$. A matrix $\textbf{P}_{i_0}$ is defined to restrict $\textbf{x}_{i_0 \bullet}$ to only contain the non-zero-rows corresponding to $N_{j_0}$ non-zero rows:
+Since the outer product always have rank-1 letting $\textbf{a}_{j_0} = \textbf{u}_1$ and $\textbf{x}_{i_0 \cdot} = \boldsymbol{\sigma}_{j} \textbf{v}_{1}^T$ solves the optimisation problem \eqref{eq:SVD3}.
+However in order to preserve the sparsity in $\textbf{X}$ while optimising, only the non-zero entries in $\textbf{x}_{i_0 \cdot}$ are allowed to vary. For this purpose only a subset of columns in $\textbf{E}_{j_0}$ is considered, those which correspond to the non-zero entries of $\textbf{x}_{i_0 \cdot}$. A matrix $\textbf{P}_{i_0}$ is defined to restrict $\textbf{x}_{i_0 \cdot}$ to only contain the non-zero-rows corresponding to $N_{j_0}$ non-zero rows:
 \begin{align*}
-\textbf{x}_{i_0 \bullet}^{(R)} = \textbf{x}_{i_0 \bullet} \textbf{P}_{i_0}
+\textbf{x}_{i_0 \cdot}^{(R)} = \textbf{x}_{i_0 \cdot} \textbf{P}_{i_0}
 \end{align*}
-where $R$ denoted the restriction. By applying the SVD to the error matrix which has been restricted $\textbf{E}_{j_0}^{(R)} = \textbf{E}_{j_0} \textbf{P}_{i_0}$ and updating $\textbf{a}_{j_0}$ and $\textbf{x}_{i_0 \bullet}^{(R)}$ the rank-1 approximation is found and the original representation vector is updated as $\textbf{x}_{i_0 \bullet} = \textbf{x}_{i_0 \bullet}^{(R)} \textbf{P}_{i_0}^{T}$.  
+where $R$ denoted the restriction. By applying the SVD to the error matrix which has been restricted $\textbf{E}_{j_0}^{(R)} = \textbf{E}_{j_0} \textbf{P}_{i_0}$ and updating $\textbf{a}_{j_0}$ and $\textbf{x}_{i_0 \cdot}^{(R)}$ the rank-1 approximation is found and the original representation vector is updated as $\textbf{x}_{i_0 \cdot} = \textbf{x}_{i_0 \cdot}^{(R)} \textbf{P}_{i_0}^{T}$.  
 \\ \\
 The main steps of K-SVD is described in algorithm \ref{alg:K_SVD}. 
 \begin{algorithm}[H]
@@ -94,12 +94,12 @@ The main steps of K-SVD is described in algorithm \ref{alg:K_SVD}.
 				\For{$j_0 \gets 1, 2, \hdots, N$}
 					\State$\Omega_{j_0} = \lbrace j \ \vert \ 1 \leq j \leq L, \textbf{X}_{(k)} [j_0, j]\neq 0\rbrace$
 					\State$\text{From} \ \Omega_{j_0} \ \text{define} \ \textbf{P}_{i_0} $
-					\State$\textbf{E}_{j_0} =  \textbf{Y} - \sum_{j \neq j_{0}}^{N} \textbf{a}_j \textbf{x}_{i \bullet}$
+					\State$\textbf{E}_{j_0} =  \textbf{Y} - \sum_{j \neq j_{0}}^{N} \textbf{a}_j \textbf{x}_{i \cdot}$
 					\State$\textbf{E}_{j_0}^{(R)} =  \textbf{E}_{j_0} \textbf{P}_{i_0}$
 					\State$\textbf{E}_{j_0}^{(R)} =\textbf{U} \boldsymbol{\Sigma} \textbf{V}^T$ \Comment{perform SVD}
 					\State$\textbf{a}_{j_0} \gets \textbf{u}_{1}$ \Comment{update the $j_0$ col. in $\textbf{A}_{(k)}$}
-					\State$\left( \textbf{x}_{i_0 \bullet} \right)^{(R)} \gets \boldsymbol{\sigma}_{1} \textbf{v}_{1}$
-					\State$\textbf{x}_{i_0 \bullet} \gets \left( \textbf{x}_{i_0 \bullet} \right)^{(R)} \textbf{P}_{i_0}^T $ \Comment{update the $i_0$ row in $\textbf{X}_{(k)}$}
+					\State$\left( \textbf{x}_{i_0 \cdot} \right)^{(R)} \gets \boldsymbol{\sigma}_{1} \textbf{v}_{1}$
+					\State$\textbf{x}_{i_0 \cdot} \gets \left( \textbf{x}_{i_0 \cdot} \right)^{(R)} \textbf{P}_{i_0}^T $ \Comment{update the $i_0$ row in $\textbf{X}_{(k)}$}
 				\EndFor
 				\State$\text{error} = \Vert \textbf{Y} - \textbf{A}_{(k)} \textbf{X}_{(k)} \Vert_{F}^2 $
           		\EndWhile

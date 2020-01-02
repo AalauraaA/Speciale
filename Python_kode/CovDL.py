@@ -22,7 +22,7 @@ def reverse_vec(x):
     return out
 
 
-def Cov_DL1(Y, A, X, m, n, cov_seg, L, k, ):
+def Cov_DL1(Y, A, X, m, n, cov_seg, L, k):
     """ 
     """
     ## internal segmetation for training examples
@@ -71,5 +71,34 @@ def Cov_DL1(Y, A, X, m, n, cov_seg, L, k, ):
     A_err = np.linalg.norm(A-A_rec)
         
     print('Dictionary error %f'%(A_err))
+    
+    return A_rec, A_err
+
+def Cov_DL2(Y, A, X, m, n, cov_seg, L, k):
+    """ 
+    """
+    ## internal segmetation for training examples
+    
+    Ys, Xs, n_seg = data_generation.segmentation_split(Y, X, cov_seg, L)
+    
+    ## Covariance Domain Tranformation
+    
+    Y_big = np.zeros([int(m*(m+1)/2.),n_seg])
+    for i in range(n_seg):              # loop over all segments
+        
+        # Transformation to covariance domain and vectorization
+        Y_cov = np.cov(Ys[i])                      # covariance 
+        X_cov = np.cov(Xs[i])                      # NOT diagonl ??
+        print(X_cov)
+        # Vectorization of lower tri, row wise  
+        vec_Y = Y_cov[np.tril_indices(m)]
+        
+        sigma = np.diagonal(X_cov)
+    
+        Y_big.T[i] = vec_Y
+    
+    ## Dictionary Learning on Transformed System
+    L = n_seg 
+    
     
     return A_rec, A_err

@@ -17,21 +17,21 @@ np.random.seed(1)
 
 # choose datageneration method ...
 """ DATA GENERATION - AUTO-REGRESSIVE SIGNAL """
-m = 8                         # number of sensors
-n = 50                        # number of sources
+m = 10                        # number of sensors
+n = 60                        # number of sources
 k = 4                         # max number of non-zero coef. in rows of X
-L = 100                       # number of sampels
+L = 1000                       # number of sampels
 
 Y_real, A_real, X_real = data_generation.generate_AR_v2(n, m, L, k) 
 
 #""" DATA GENERATION - MIX OF DETERMINISTIC SIGNALS """
-#m = 8                         # number of sensors
-#n = 50                        # number of sources
+#m = 6                         # number of sensors
+#n = 8                        # number of sources
 #k = 4                         # max number of non-zero coef. in rows of X
 #L = 100                       # number of sampels
 #
 #Y_real, A_real, X_real = data_generation.mix_signals(L, 10, m, n, k)
-#
+##
 #""" DATA GENERATION - ROSSLER DATA """
 #
 #L = 1940                        # number of sampels, max value is 1940
@@ -58,42 +58,40 @@ for i in range(len(Ys)): # loop over segments
     cov_seg = 100
     
     if n <= (m*(m+1))/2.:
-        raise SystemExit('D is over-determined')
+        A_rec, A_err = CovDL.Cov_DL1(Y_real, A_real, X_real, m, n, cov_seg, L, k)
+      #  raise SystemExit('D is over-determined')
 # input        A_rec, A_err = CovDL.Cov_DL2(Y_real, A_real, X_real, m, n, cov_seg, L, k)
         
     elif k <= (m*(m+1))/2.:
         A_rec, A_err = CovDL.Cov_DL1(Y_real, A_real, X_real, m, n, cov_seg, L, k)
     
     elif k > (m*(m+1))/2.:
-        raise SystemExit('X is not sparse enogh (k > (m*(m+1))/2)')
+        A_rec, A_err = CovDL.Cov_DL1(Y_real, A_real, X_real, m, n, cov_seg, L, k)
+       # raise SystemExit('X is not sparse enogh (k > (m*(m+1))/2)')
         
      
     X_rec = MSBL.M_SBL(A_real, Y_real, m, n, Ls, k, iterations=1000, noise=False)
     
-    mse = mean_squared_error(X_real, X_rec)
+    mse = mean_squared_error (X_real, X_rec)
     print("Representation error (without noise): ", mse)   
-    
+
     
 
 """ PLOTS """
  
 plt.figure(1)
-plt.subplot(4, 1, 1)
 plt.title('Comparison of each active source in X and corresponding reconstruction')
-plt.plot(X_real[2], 'r',label='Real X')
-plt.plot(X_rec[2],'g', label='Recovered X')
 
-plt.subplot(4, 1, 2)
-plt.plot(X_real[7], 'r',label='Real X')
-plt.plot(X_rec[31],'g', label='Recovered X')
-
-plt.subplot(4, 1, 3)
-plt.plot(X_real[34], 'r',label='Real X')
-plt.plot(X_rec[36],'g', label='Recovered X')
-
-plt.subplot(4, 1, 4)
-plt.plot(X_real[37], 'r',label='Real X')
-plt.plot(X_rec[37],'g', label='Recovered X')
+nr_plot=0
+for i in range(len(X_real.T[0])):
+    if np.any(X_real[i]!=0) or np.any(X_rec[i]!=0):
+        
+        nr_plot += 1
+        print(nr_plot)
+        plt.subplot(k*2, 1, nr_plot)
+        plt.plot(X_real[i], 'r',label='Real X')
+        plt.plot(X_rec[i],'g', label='Recovered X')
+        
 plt.legend()
 plt.show
 #plt.savefig('case1_1.png')

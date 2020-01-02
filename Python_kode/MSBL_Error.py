@@ -21,18 +21,18 @@ np.random.seed(2)
 # =============================================================================
 # Initial Conditions and known signals
 # =============================================================================
-m = 8                # number of sensors
-n = 8                # number of sources
-non_zero = 4        # max number of non-zero coef. in rows of X
-n_samples = 100   # number of sampels
-#duration = 8
-iterations = 1000
-noise = False
-
-Y, A, X = data_generation.generate_AR_v1(n, m, n_samples, non_zero)
-X_rec = MSBL.M_SBL(A, Y, m, n, n_samples, non_zero, iterations, noise)
-
-norm = mean_squared_error(X/len(X), X_rec/len(X_rec))
+#m = 8                # number of sensors
+#n = 8                # number of sources
+#non_zero = 4        # max number of non-zero coef. in rows of X
+#n_samples = 100   # number of sampels
+##duration = 8
+#iterations = 1000
+#noise = False
+#
+#Y, A, X = data_generation.generate_AR_v1(n, m, n_samples, non_zero)
+#X_rec = MSBL.M_SBL(A, Y, m, n, n_samples, non_zero, iterations, noise)
+#
+#norm = mean_squared_error(X/len(X), X_rec/len(X_rec))
 
 #plt.figure(1)
 #plt.subplot(4, 1, 1)
@@ -107,7 +107,7 @@ norm = mean_squared_error(X/len(X), X_rec/len(X_rec))
 #plt.ylabel('norm')
 #plt.savefig('varying_samples.png')
 #plt.show()
-#
+
 ## =============================================================================
 ## Finding X - Varying N sources
 ## =============================================================================
@@ -125,7 +125,7 @@ norm = mean_squared_error(X/len(X), X_rec/len(X_rec))
 #    Y, A, X = data_generation.generate_AR_v2(int(n_vary[i]), m, n_samples, non_zero)
 #    X_rec_N = MSBL.M_SBL(A, Y, m, int(n_vary[i]), n_samples, non_zero, iterations, noise)
 #    mse[i] = mean_squared_error(X, X_rec_N)
-#    norm[i] = mean_squared_error(X/np.max(X), X_rec_N/np.max(X_rec_N))
+#    norm[i] = np.linalg.norm(X - X_rec_N)/len(n_vary)
 ##    temp = X - X_rec_N
 ##    norm[i] = temp/np.max(temp)
 #
@@ -141,27 +141,27 @@ norm = mean_squared_error(X/len(X), X_rec/len(X_rec))
 ## =============================================================================
 ## Finding X - Varying k non-zero rows
 ## =============================================================================
-#k_vary = np.linspace(1,50,26)
-#m = 25
-#n = 50
-#n_samples = 10
-#duration = 8
-#iterations = 10
-#noise = False
-#mse = np.zeros(len(k_vary))
-#norm = np.zeros(len(k_vary))
-#for i in range(len(k_vary)):
-#    #print(i)
-#    Y, A, X = data_generation.generate_AR_v2(m, n, n_samples, int(k_vary[i]))
-#    X_rec_k = MSBL.M_SBL(A, Y, m, n, n_samples, int(k_vary[i]), iterations, noise)
-#    mse[i] = mean_squared_error(X, X_rec_k)
-#    norm[i] = np.linalg.norm(X - X_rec_k)/len(k_vary)
-#
-#plt.figure(3)
-##plt.plot(k_vary, mse)
-#plt.plot(k_vary, norm)
-#plt.title('Varying k - M = 25, N = 50, L = 10, iteration = 10')
-#plt.xlabel('non-zeros')
-#plt.ylabel('Norm')
-#plt.savefig('varying_non_zeros.png')
-#plt.show()
+k_vary = np.linspace(1,50,26)
+m = 25
+n = 50
+n_samples = 10
+duration = 8
+iterations = 10
+noise = False
+mse = np.zeros(len(k_vary))
+norm = np.zeros(len(k_vary))
+for i in range(len(k_vary)):
+    #print(i)
+    Y, A, X = data_generation.generate_AR_v2(m, n, n_samples, int(k_vary[i]))
+    X_rec_k = MSBL.M_SBL(A, Y, m, n, n_samples, int(k_vary[i]), iterations, noise)
+    mse[i] = mean_squared_error(X, X_rec_k)
+    norm[i] = np.linalg.norm(X - X_rec_k)/len(k_vary)
+
+plt.figure(3)
+#plt.plot(k_vary, mse)
+plt.plot(k_vary, norm)
+plt.title('Varying k - M = 25, N = 50, L = 10, iteration = 10')
+plt.xlabel('non-zeros')
+plt.ylabel('Norm')
+plt.savefig('varying_non_zeros.png')
+plt.show()

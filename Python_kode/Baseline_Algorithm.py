@@ -17,10 +17,10 @@ np.random.seed(1)
 
 # choose datageneration method ...
 """ DATA GENERATION - AUTO-REGRESSIVE SIGNAL """
-m = 10                        # number of sensors
-n = 60                        # number of sources
-k = 4                         # max number of non-zero coef. in rows of X
-L = 1000                       # number of sampels
+m = 16                        # number of sensors
+n = 64                        # number of sources
+k = 6                         # max number of non-zero coef. in rows of X
+L = 100                       # number of sampels
 
 Y_real, A_real, X_real = data_generation.generate_AR_v2(n, m, L, k) 
 
@@ -57,18 +57,18 @@ for i in range(len(Ys)): # loop over segments
     
     cov_seg = 100
     
-    if n <= (m*(m+1))/2.:
-        A_rec, A_err = CovDL.Cov_DL1(Y_real, A_real, X_real, m, n, cov_seg, L, k)
-      #  raise SystemExit('D is over-determined')
-# input        A_rec, A_err = CovDL.Cov_DL2(Y_real, A_real, X_real, m, n, cov_seg, L, k)
-        
-    elif k <= (m*(m+1))/2.:
-        A_rec, A_err = CovDL.Cov_DL1(Y_real, A_real, X_real, m, n, cov_seg, L, k)
-    
-    elif k > (m*(m+1))/2.:
-        A_rec, A_err = CovDL.Cov_DL1(Y_real, A_real, X_real, m, n, cov_seg, L, k)
-       # raise SystemExit('X is not sparse enogh (k > (m*(m+1))/2)')
-        
+#    if n <= (m*(m+1))/2.:
+#        A_rec, A_err = CovDL.Cov_DL1(Y_real, A_real, X_real, m, n, cov_seg, L, k)
+#      #  raise SystemExit('D is over-determined')
+## input        A_rec, A_err = CovDL.Cov_DL2(Y_real, A_real, X_real, m, n, cov_seg, L, k)
+#        
+#    elif k <= (m*(m+1))/2.:
+#        A_rec, A_err = CovDL.Cov_DL1(Y_real, A_real, X_real, m, n, cov_seg, L, k)
+#    
+#    elif k > (m*(m+1))/2.:
+#        A_rec, A_err = CovDL.Cov_DL1(Y_real, A_real, X_real, m, n, cov_seg, L, k)
+#       # raise SystemExit('X is not sparse enogh (k > (m*(m+1))/2)')
+#        
      
     X_rec = MSBL.M_SBL(A_real, Y_real, m, n, Ls, k, iterations=1000, noise=False)
     
@@ -87,7 +87,6 @@ for i in range(len(X_real.T[0])):
     if np.any(X_real[i]!=0) or np.any(X_rec[i]!=0):
         
         nr_plot += 1
-        print(nr_plot)
         plt.subplot(k*2, 1, nr_plot)
         plt.plot(X_real[i], 'r',label='Real X')
         plt.plot(X_rec[i],'g', label='Recovered X')

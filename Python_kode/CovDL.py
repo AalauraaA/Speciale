@@ -37,7 +37,7 @@ def Cov_DL1(Y, A, X, m, n, cov_seg, L, k):
         # Transformation to covariance domain and vectorization
         Y_cov = np.cov(Ys[i])                      # covariance 
         X_cov = np.cov(Xs[i])                      # NOT diagonl ??
-        print(X_cov)
+        
         # Vectorization of lower tri, row wise  
         vec_Y = Y_cov[np.tril_indices(m)]
         

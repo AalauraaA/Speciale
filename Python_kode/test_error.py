@@ -15,9 +15,9 @@ np.random.seed(1)
 
 """ Lists for variation """
 #list_ = np.array([6]) # for a single konstant
-#list_ = np.arange(5,55+1,10)#range(1,50+1)   # k vary
+list_ = np.arange(5,40,5)   # k vary
 #list_ = np.arange(15,60+1,5)  # n vary
-list_ = np.arange(4,32+1,4)   # m vary
+#list_ = np.arange(4,32+1,4)   # m vary
 
 err_listA = np.zeros(len(list_))
 err_listX = np.zeros(len(list_))
@@ -28,9 +28,9 @@ for i in range(len(list_)):
     L = 1000
     
     " Case 1 "
-#    k = list_[i]
-#    m = 16
-#    n = 64
+    k = list_[i]
+    m = 16
+    n = 40
    
     " Case 3 "
 #    n = list_[i]        # Case 3
@@ -40,9 +40,9 @@ for i in range(len(list_)):
   #  k = 20       # Case 3
     
     " Case 4 "
-    m = list_[i]        # Case 4
-    n = 64       # Case 4
-    k = 20       # Case 4
+#    m = list_[i]        # Case 4
+#    n = 64       # Case 4
+#    k = 20       # Case 4
 
     
     """ Generate AR data and Dividing in Segments """
@@ -53,7 +53,6 @@ for i in range(len(list_)):
                         # return list of arrays -> segments in axis = 0
     
     sum_X = 0
-    sum_Y = 0
     for k in range(len(Ys)): # loop over segments 
         Y_real = Ys[k]
         X_real = Xs[k]
@@ -73,43 +72,28 @@ for i in range(len(list_)):
 #           # raise SystemExit('X is not sparse enogh (k > (m*(m+1))/2)')
 #        
 #     
-        X_rec = MSBL.M_SBL(A_real, Y_real, m, n, Ls, k, iterations=1000, noise=False)
-        Y_rec = np.matmul(A_real,X_rec)
-        
-        mse_X = mean_squared_error(X_real, X_rec)
-        sum_X += mse_X
+        X_rec = MSBL.M_SBL(A_real, Y_real, m, n, Ls, k, iterations=500, noise=False)
+        print(X_rec)
+        print(np.count_nonzero(X_rec))
+        sum_X += data_generation.norm_mse(X_real, X_rec)
         print(sum_X)
     
-        mse_Y = mean_squared_error(Y_real, Y_rec)
-        sum_Y += mse_Y
-        print(sum_Y)
     
     avg_err_X = sum_X/len(Ys) 
     print(avg_err_X)
-    avg_err_Y = sum_Y/len(Ys) 
-    print(avg_err_Y)
     
 #    
 #    err_listA[i] = err_A
     err_listX[i] = avg_err_X
-    err_listY[i] = avg_err_Y
-    
+
 # print - change title ! 
     
 plt.figure(1)
 
 plt.plot(list_, err_listX)
-plt.title('X error- vary M, N = 64, k = 20, Ls = 100')
-plt.xlabel('N')
-plt.ylabel('mse of recovered X')
-plt.savefig('Resultater/X_varying_M.png')
+plt.title('X error- vary k, N = 40, M = 16, Ls = 100, n_seg = 10')
+plt.xlabel('k')
+plt.ylabel('Norm. mse of recovered X')
+plt.savefig('Resultater/X_varying_k.png')
 plt.show()
 
-plt.figure(2)
-
-plt.plot(list_, err_listY)
-plt.title('Y error- vary M, N = 64, k = 20, Ls = 100')
-plt.xlabel('k')
-plt.ylabel('mse of recovered Y')
-plt.savefig('Resultater/Y_varying_M.png')
-plt.show()   

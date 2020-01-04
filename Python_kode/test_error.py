@@ -14,7 +14,7 @@ import MSBL
 np.random.seed(1)
 
 """ Lists for variation """
-#list_ = np.array([6]) # for a single konstant
+#list_ = np.array([5]) # for a single konstant
 list_ = np.arange(5,40,5)   # k vary
 #list_ = np.arange(15,60+1,5)  # n vary
 #list_ = np.arange(4,32+1,4)   # m vary
@@ -53,9 +53,9 @@ for i in range(len(list_)):
                         # return list of arrays -> segments in axis = 0
     
     sum_X = 0
-    for k in range(len(Ys)): # loop over segments 
-        Y_real = Ys[k]
-        X_real = Xs[k]
+    for j in range(len(Ys)): # loop over segments 
+        Y_real = Ys[j]
+        X_real = Xs[j]
     
         cov_seg = 100
 #        
@@ -73,7 +73,8 @@ for i in range(len(list_)):
 #        
 #     
         X_rec = MSBL.M_SBL(A_real, Y_real, m, n, Ls, k, iterations=500, noise=False)
-        print(X_rec)
+        X_real = X_real.T[:-2]
+        X_real = X_real.T
         print(np.count_nonzero(X_rec))
         sum_X += data_generation.norm_mse(X_real, X_rec)
         print(sum_X)
@@ -82,10 +83,10 @@ for i in range(len(list_)):
     avg_err_X = sum_X/len(Ys) 
     print(avg_err_X)
     
-#    
-#    err_listA[i] = err_A
+##    
+##    err_listA[i] = err_A
     err_listX[i] = avg_err_X
-
+#
 # print - change title ! 
     
 plt.figure(1)

@@ -93,4 +93,4 @@ def M_SBL(A, Y, m, n, n_samples, non_zero, iterations, noise):
     for i in support:
         New_mean[int(i)] = mean[-1][int(i)]
 
-    return New_mean, support
+    return New_mean

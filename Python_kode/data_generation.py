@@ -22,10 +22,10 @@ def norm_mse(X_real,X_rec):
 #    X_real = X_real/np.linalg.norm(X_real, ord=2, axis=0, keepdims=True)
 #    X_rec = X_rec/np.linalg.norm(X_rec, ord=2, axis=0, keepdims=True)
     
-    temp = np.sum(((np.abs(X_real1-X_rec1))**2),axis=0)/len(X_real1)
-    print(temp)
-    if np.any(temp == 0) or np.any(np.isnan(temp)):
-        raise SystemExit('temp = 0')
+    temp = np.sum(((np.abs(X_real1-X_rec1))**2),axis=0)/len(X_rec1)
+
+#    if np.any(temp == 0) or np.any(np.isnan(temp)):
+#        raise SystemExit('temp = 0')
     nmse = np.average(temp)
     return nmse
 

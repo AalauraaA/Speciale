@@ -15,7 +15,19 @@ from scipy import signal
 # k -> number og non-zeros entries in x, aktive sources 
 # n_samples -> number of samples 
 
-
+def norm_mse(X_real,X_rec):
+    X_real1 = X_real/np.max(X_real)
+    X_rec1 = X_rec/np.max(X_rec)
+    
+#    X_real = X_real/np.linalg.norm(X_real, ord=2, axis=0, keepdims=True)
+#    X_rec = X_rec/np.linalg.norm(X_rec, ord=2, axis=0, keepdims=True)
+    
+    temp = np.sum(((np.abs(X_real1-X_rec1))**2),axis=0)/len(X_real1)
+    print(temp)
+    if np.any(temp == 0) or np.any(np.isnan(temp)):
+        raise SystemExit('temp = 0')
+    nmse = np.average(temp)
+    return nmse
 
 def random_sparse_data(n_measurement, n_source, n_nonzero, n_samples):
     """
@@ -183,6 +195,7 @@ def generate_AR_v1(N, M, L, non_zero):
     Output:
         X: Source matrix of size N x L     
     """
+    np.random.seed(123)
     A = np.random.uniform(-1,1, (N,L))
     X = np.zeros([N, L+2])
     W = np.random.randn(N, L)
@@ -221,6 +234,7 @@ def generate_AR_v2(N, M, L, non_zero):
     Output:
         X: Source matrix of size N x L     
     """
+    np.random.seed(123)
     A = np.random.uniform(-1,1, (N,L))
     X = np.zeros([N, L+2])
     W = np.random.randn(N, L)

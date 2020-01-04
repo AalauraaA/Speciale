@@ -18,7 +18,7 @@ np.random.seed(1)
 # choose datageneration method ...
 """ DATA GENERATION - AUTO-REGRESSIVE SIGNAL """
 m = 16                        # number of sensors
-n = 64                        # number of sources
+n = 32                        # number of sources
 k = 6                         # max number of non-zero coef. in rows of X
 L = 100                       # number of sampels
 
@@ -72,7 +72,7 @@ for i in range(len(Ys)): # loop over segments
      
     X_rec = MSBL.M_SBL(A_real, Y_real, m, n, Ls, k, iterations=1000, noise=False)
     
-    mse = mean_squared_error (X_real, X_rec)
+    mse = data_generation.norm_mse(X_real, X_rec)
     print("Representation error (without noise): ", mse)   
 
     

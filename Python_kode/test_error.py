@@ -16,8 +16,8 @@ np.random.seed(1)
 """ Lists for variation """
 #list_ = np.array([6]) # for a single konstant
 #list_ = np.arange(5,55+1,10)#range(1,50+1)   # k vary
-list_ = np.arange(15,60+1,5)  # n vary
-#list_ = range(4,32)   # m vary
+#list_ = np.arange(15,60+1,5)  # n vary
+list_ = np.arange(4,32+1,4)   # m vary
 
 err_listA = np.zeros(len(list_))
 err_listX = np.zeros(len(list_))
@@ -33,16 +33,16 @@ for i in range(len(list_)):
 #    n = 64
    
     " Case 3 "
-    n = list_[i]        # Case 3
-    m = 16
-    k = int((list_[i]/3)*2)  # Case 3
+#    n = list_[i]        # Case 3
+#    m = 16
+#    k = int((list_[i]/3)*2)  # Case 3
   #  k = 4        # Case 3
   #  k = 20       # Case 3
     
     " Case 4 "
-#    m = i        # Case 4
-#    n = 64       # Case 4
-#    k = 20       # Case 4
+    m = list_[i]        # Case 4
+    n = 64       # Case 4
+    k = 20       # Case 4
 
     
     """ Generate AR data and Dividing in Segments """
@@ -99,17 +99,17 @@ for i in range(len(list_)):
 plt.figure(1)
 
 plt.plot(list_, err_listX)
-plt.title('X error- vary N, M = 16, k = N2/3, Ls = 100')
+plt.title('X error- vary M, N = 64, k = 20, Ls = 100')
 plt.xlabel('N')
 plt.ylabel('mse of recovered X')
-plt.savefig('Resultater/X_varying_N.png')
+plt.savefig('Resultater/X_varying_M.png')
 plt.show()
 
 plt.figure(2)
 
 plt.plot(list_, err_listY)
-plt.title('Y error- vary N, M = 16, k = N2/3, Ls = 100')
+plt.title('Y error- vary M, N = 64, k = 20, Ls = 100')
 plt.xlabel('k')
 plt.ylabel('mse of recovered Y')
-plt.savefig('Resultater/Y_varying_N.png')
+plt.savefig('Resultater/Y_varying_M.png')
 plt.show()   

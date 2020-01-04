@@ -15,9 +15,9 @@ np.random.seed(1)
 
 """ Lists for variation """
 #list_ = np.array([5]) # for a single konstant
-list_ = np.arange(5,40,5)   # k vary
+#list_ = np.arange(5,40,5)   # k vary
 #list_ = np.arange(15,60+1,5)  # n vary
-#list_ = np.arange(4,32+1,4)   # m vary
+list_ = np.arange(4,32+1,4)   # m vary
 
 err_listA = np.zeros(len(list_))
 err_listX = np.zeros(len(list_))
@@ -28,21 +28,21 @@ for i in range(len(list_)):
     L = 1000
     
     " Case 1 "
-    k = list_[i]
-    m = 16
-    n = 40
-   
+#    k = list_[i]
+#    m = 16
+#    n = 40
+#   
     " Case 3 "
 #    n = list_[i]        # Case 3
 #    m = 16
 #    k = int((list_[i]/3)*2)  # Case 3
-  #  k = 4        # Case 3
-  #  k = 20       # Case 3
+#    k = 4        # Case 3
+#    k = 20       # Case 3 - kan ikke køre den rigtig
     
     " Case 4 "
-#    m = list_[i]        # Case 4
-#    n = 64       # Case 4
-#    k = 20       # Case 4
+    m = list_[i]        # Case 4
+    n = 64       # Case 4
+    k = 20       # Case 4
 
     
     """ Generate AR data and Dividing in Segments """
@@ -75,9 +75,9 @@ for i in range(len(list_)):
         X_rec = MSBL.M_SBL(A_real, Y_real, m, n, Ls, k, iterations=500, noise=False)
         X_real = X_real.T[:-2]
         X_real = X_real.T
-        print(np.count_nonzero(X_rec))
+#        print(np.count_nonzero(X_rec))
         sum_X += data_generation.norm_mse(X_real, X_rec)
-        print(sum_X)
+#        print(sum_X)
     
     
     avg_err_X = sum_X/len(Ys) 
@@ -92,9 +92,9 @@ for i in range(len(list_)):
 plt.figure(1)
 
 plt.plot(list_, err_listX)
-plt.title('X error- vary k, N = 40, M = 16, Ls = 100, n_seg = 10')
-plt.xlabel('k')
+plt.title('X error- vary M, k = 20, N = 64, Ls = 100, n_seg = 10')
+plt.xlabel('M')
 plt.ylabel('Norm. mse of recovered X')
-plt.savefig('Resultater/X_varying_k.png')
+plt.savefig('Resultater/X_varying_M.png')
 plt.show()
 

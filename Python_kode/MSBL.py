@@ -6,24 +6,16 @@ Created on Thu Nov 14 10:03:14 2019
 """
 import numpy as np
 np.random.seed(1)
-#from Cov_DL import data_generation
+import data_generation
 
-#m = 3               # number of sensors
-#n = 4               # number of sources
-#non_zero = 4        # max number of non-zero coef. in rows of X
-#n_samples = 20       # number of sampels
-##duration = 8
-#iterations = 100
-#
-#" Random Signals Generation - Sparse X "
-#Y, A, X_ran = data_generation.random_sparse_data(m, n, non_zero, n_samples)
-#
-#"Mixed Signals Generation - Sinus, sign, saw tooth and zeros"
-##Y_mix, A_mix, X_mix = data_generation.mix_signals(n_samples, duration, m)
+m = 16               # number of sensors
+n = 40               # number of sources
+non_zero = 5        # max number of non-zero coef. in rows of X
+n_samples = 100       # number of sampels
+#duration = 8
+iterations = 500
 
-#X = data_generation.generate_AR(205)
-#A = np.random.randn(m,n)
-#Y = np.dot(A, X)
+Y, A, X = data_generation.generate_AR_v2(n, m, n_samples, non_zero)
 
 # =============================================================================
 # Without Segmentation M-SBL Algorithm

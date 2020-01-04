@@ -22,9 +22,11 @@ Y, A, X = data_generation.generate_AR_v2(n, m, n_samples, non_zero)
 # =============================================================================
 def M_SBL(A, Y, m, n, n_samples, non_zero, iterations, noise):
     if noise == False: 
+        Y = Y.T[:-2]
+        Y = Y.T
         gamma = np.ones([iterations+2, n,1])   
         Gamma = np.ones([iterations+1, 1, 1])
-        mean = np.ones([iterations+1, n, n_samples])
+        mean = np.ones([iterations+1, n, n_samples-2])
         Sigma = np.zeros([iterations+1, n, n]) 
         k = 0                                                       
         while gamma[k].any() >= 10E-16:
@@ -44,6 +46,8 @@ def M_SBL(A, Y, m, n, n_samples, non_zero, iterations, noise):
             k += 1
                 
     elif noise == True:
+        Y = Y.T[:-2]
+        Y = Y.T
         gamma = np.ones([iterations+2, n,1])   
         Gamma = np.ones([iterations+1, 1, 1])
         mean = np.ones([iterations+1, n, n_samples])
@@ -85,8 +89,8 @@ def M_SBL(A, Y, m, n, n_samples, non_zero, iterations, noise):
             H[np.argmax(H)] = 0
            
     " Create new mean with support set "
-    New_mean = np.zeros([n,n_samples])
+    New_mean = np.zeros([n,n_samples-2])
     for i in support:
         New_mean[int(i)] = mean[-1][int(i)]
 
-    return New_mean
+    return New_mean, support

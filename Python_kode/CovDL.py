@@ -68,7 +68,7 @@ def Cov_DL1(Y, A, X, m, n, cov_seg, L, k):
         temp = np.sqrt(max_eig)*max_vec
         A_rec.T[j] = temp.T
 
-    A_err = np.linalg.norm(A-A_rec)
+    A_err = data_generation.norm_mse(A,A_rec)
         
     print('Dictionary error %f'%(A_err))
     

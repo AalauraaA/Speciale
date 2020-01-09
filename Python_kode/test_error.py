@@ -14,12 +14,19 @@ import MSBL
 np.random.seed(1)
 
 """ Lists for variation """
+<<<<<<< HEAD
 list_ = np.array([16]) # for a single konstant
 #list_ = np.arange(5,40,5)   # k vary
 #list_ = np.arange(15,60+1,5)  # n vary
 #list_ = np.arange(4,32+1,4)   # m vary
 
 L_list = np.arange(10,10000,100)
+=======
+#list_ = np.array([5]) # for a single konstant
+list_ = np.arange(5,40,5)   # k vary
+#list_ = np.arange(15,60+1,5)  # n vary
+#list_ = np.arange(4,32+1,4)   # m vary
+>>>>>>> 285d68cd4f8f25afe4bcaaf5b375fc147d208191
 
 err_listA = np.zeros(len(list_))
 err_listX = np.zeros(len(list_))
@@ -27,6 +34,7 @@ err_listY = np.zeros(len(list_))
 
 for i in range(len(list_)):
     print(list_[i]) 
+<<<<<<< HEAD
     plot_list = np.zeros(len(L_list))
     
     for g in range(len(L_list)):
@@ -99,17 +107,45 @@ for i in range(len(list_)):
     ##    
         err_listA[i] = avg_err_A
      #   err_listX[i] = avg_err_X
+=======
+    L = 1000
+    
+    " Case 1 "
+    k = list_[i]
+    m = 16
+    n = 40
+#   
+    " Case 3 "
+#    n = list_[i]        # Case 3
+#    m = 16
+#    k = int((list_[i]/3)*2)  # Case 3
+#    k = 4        # Case 3
+#    k = 20       # Case 3 - kan ikke køre den rigtig
+    
+    " Case 4 "
+#    m = list_[i]        # Case 4
+#    n = 64       # Case 4
+#    k = 20       # Case 4
+>>>>>>> 285d68cd4f8f25afe4bcaaf5b375fc147d208191
 
         plot_list[g] = sum_L/10
 # print - change title ! 
     
 plt.figure(1)
 
+<<<<<<< HEAD
 plt.plot(L_list, plot_list, '-o')
 plt.title('A error- vary L, M = 8, N = 64')
 plt.xlabel('L')
 plt.ylabel('Norm. mse of recovered A')
 plt.legend()
 plt.savefig('Resultater/A_varying_L.png')
+=======
+plt.plot(list_, err_listX)
+plt.title('X error- vary k, M = 16, N = 40, Ls = 100, n_seg = 10')
+plt.xlabel('k')
+plt.ylabel('Norm. mse of recovered X')
+plt.savefig('Resultater/X_varying_k.png')
+>>>>>>> 285d68cd4f8f25afe4bcaaf5b375fc147d208191
 plt.show()
 

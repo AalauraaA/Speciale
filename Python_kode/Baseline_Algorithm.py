@@ -17,9 +17,9 @@ np.random.seed(1)
 
 # choose datageneration method ...
 """ DATA GENERATION - AUTO-REGRESSIVE SIGNAL """
-m = 16                        # number of sensors
-n = 40                        # number of sources
-k = 5                         # max number of non-zero coef. in rows of X
+m = 6                        # number of sensors
+n = 10                        # number of sources
+k = 8                         # max number of non-zero coef. in rows of X
 L = 100                       # number of sampels
 
 Y_real, A_real, X_real = data_generation.generate_AR_v2(n, m, L, k) 
@@ -29,7 +29,7 @@ Y_real, A_real, X_real = data_generation.generate_AR_v2(n, m, L, k)
 #n = 8                        # number of sources
 #k = 4                         # max number of non-zero coef. in rows of X
 #L = 100                       # number of sampels
-#
+
 #Y_real, A_real, X_real = data_generation.mix_signals(L, 10, m, n, k)
 ##
 #""" DATA GENERATION - ROSSLER DATA """
@@ -74,28 +74,31 @@ for i in range(len(Ys)): # loop over segments
     X_real = X_real.T[:-2]
     X_real = X_real.T
     
-#    mse = data_generation.norm_mse(X_real, X_rec)
-#    print("Representation error (without noise): ", mse)   
-#
-#    
-#
-#""" PLOTS """
-# 
-#plt.figure(1)
+    mse = data_generation.norm_mse(X_real, X_rec)
+    print("Representation error (without noise): ", mse)   
+
+    
+
+""" PLOTS """
+ 
+plt.figure(1)
 #plt.title('Comparison of each active source in X and corresponding reconstruction')
-#
-#nr_plot=0
-#for i in range(len(X_real.T[0])):
-#    if np.any(X_real[i]!=0) or np.any(X_rec[i]!=0):
-#        
-#        nr_plot += 1
-#        plt.subplot(k*2, 1, nr_plot)
-#        plt.plot(X_real[i], 'r',label='Real X')
-#        plt.plot(X_rec[i],'g', label='Recovered X')
-#        
-#plt.legend()
-#plt.show
-##plt.savefig('case1_1.png')
+
+nr_plot=0
+for i in range(len(X_real.T[0])):
+    if np.any(X_real[i]!=0) or np.any(X_rec[i]!=0):
+        
+        nr_plot += 1
+        plt.subplot(k*2, 1, nr_plot)
+       
+        plt.plot(X_real[i], 'r',label='Real X')
+        plt.plot(X_rec[i],'g', label='Recovered X')
+
+       
+plt.legend()
+plt.xlabel('sample')
+plt.show
+#plt.savefig('case1_1.png')
 #
 #
 

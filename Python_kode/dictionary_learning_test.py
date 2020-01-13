@@ -10,97 +10,59 @@ from sklearn.datasets import make_sparse_coded_signal
 from sklearn.metrics import mean_squared_error
 import matplotlib.pyplot as plt
 import data_generation
-
-
-# vary parameters
-#list_ = np.arange(2,60,2)
-list_ = np.array([6])
-err_listA = np.zeros(len(list_))
-for i in range(len(list_)):
-    print(list_[i])
-    
-    m = 6
-    n = 10
-    k = list_[i]
-    L = 100
-    
-    # import data
-#    Y, A, X = make_sparse_coded_signal(n_samples=L,
-#                                       n_components=n,
-#                                       n_features=m,
-#                                       n_nonzero_coefs=k,
-#                                       random_state=0)
-    
-    #Y, A, X = data_generation.rossler_data(L, 1, m )[:3]
-    
-    Y, A, X = data_generation.mix_signals(L, 10, m, n, k)
-    n = len(X)
-    m = len(Y)
-
-    
-    Y = Y.T
-    
-    def test_DictionaryLearning(Y,n_com,non_zero):
+import dictionary_learning
+np.random.seed(1)
+  
+def test_DictionaryLearning(Y,n_com,non_zero):
         '''
         test the DL method
         :return: None
         '''
-        dct=DictionaryLearning(n_components=n_com,transform_algorithm='omp',transform_n_nonzero_coefs=non_zero, max_iter=500)
+        dct = DictionaryLearning(n_components=n_com,transform_algorithm='omp',transform_n_nonzero_coefs=non_zero, max_iter=1000)
         dct.fit(Y)
         return dct
+
+#list_ = np.array([2]) # for a single konstant
+list_ = np.arange(2,10,1)   # k vary
+#list_ = np.arange(15,60+1,5)  # n vary
+#list_ = np.arange(4,32+1,4)   # m vary
+
+err_listA = np.zeros(len(list_))
+
+for i in range(len(list_)):
+    print(list_[i]) 
+    L = 1000
+  
+    m = 10
+    n = 10
+    k = list_[i]
+
     
-    dic = test_DictionaryLearning(Y,n,k)
     
-    A_new = dic.components_
-    #A_new = np.zeros(np.shape(A)).T
-    X_new = dic.transform(Y)
-    Y_new = np.matmul(A_new.T,X_new.T)
+    """ Generate AR data and Dividing in Segments """
+    Y, A, X = data_generation.generate_AR_v2(n, m, L, k) 
     
-    err_A = mean_squared_error(A,A_new.T)
-    err_X = mean_squared_error(X,X_new.T)
-    err_Y = mean_squared_error(Y.T,Y_new)
-#     
+    Ls = 100             # number of sampels per segment (L -> no segmentation) 
+    Ys, Xs, n_seg = data_generation.segmentation_split(Y, X, Ls, L)
+                          # return list of arrays -> segments in axis = 0
     
+    sum_A = 0
+    for j in range(len(Ys)):
+        Y = Ys[j]
+        X = Xs[j]
+        
+        Y_new, A_new, X_new = dictionary_learning.DL(Y.T,n,k,iter_=500)
+        
+        sum_A += data_generation.norm_mse(A,A_new)
     
-    err_listA[i] = err_A
-#
-    
-#plt.figure(1)
-#    plt.plot(Y.T[0])
-#    #plt.figure(2)
-#    plt.plot(Y_new[0])
+    avg_err_A = sum_A/len(Ys) 
+    err_listA[i] = avg_err_A
 
 plt.figure(1)
 plt.plot(list_,err_listA)
-plt.title('Varying k - M = 50, N = 100, L = 100, iteration = 500')
-plt.xlabel('non-zeros')
-plt.ylabel('MSE')
-#plt.savefig('Resultater/K-SVD/3.png')
+plt.title('Varying k - M = 10, N = 10, Ls = 100, L = 1000, iter = 500 ')
+plt.xlabel('k')
+plt.ylabel('norm MSE of dictionary')
+plt.savefig('Resultater/Dictionary_1_omp.png')
 plt.show()
     
-
-
-
-#def test_DictionaryLearning():
-#    '''
-#    test the DL method
-#    :return: None
-#    '''
-#    X=np.array([[1,2,3,4,5],
-#       [6,7,8,9,10],
-#       [10,9,8,7,6,],
-#       [5,4,3,2,1] ])
-#    print("before transform:",X)
-#    dct=DictionaryLearning(n_components=3)
-#    dct.fit(X)
-#    print("components is :",dct.components_)
-#    print("after transform:",dct.transform(X)) 
-#    return dct,X
-#dic,X = test_DictionaryLearning()
-#
-#X_new = dic.transform(X)
-#A_new = dic.components_
-#
-#err_Y = mean_squared_error(X.T,np.matmul(A_new.T,X_new.T))
-#
-#    

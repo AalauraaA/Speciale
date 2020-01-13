@@ -1,0 +1,96 @@
+\section{Basic Linear Algebra}
+Some measurement vector $\mathbf{y} \in \mathbb{R}^M$ can be described as a linear combinations of a coefficient matrix $\mathbf{A} \in \mathbb{R}^{M \times N}$ and some vector $\mathbf{x} \in \mathbb{R}^N$ such that
+\begin{align}\label{eq:SMV_model}
+\mathbf{y} = \mathbf{Ax}.
+\end{align}
+The measurement vector $\mathbf{y}$ consist of $M$ measurements, $\mathbf{x}$ is an unknown vector of $N$ elements, and the coefficient matrix $\mathbf{A}$ models the linear measurement process column-wise. 
+\ref{eq:SMV_model} makes a system of linear equations with $M$ equations and $N$ unknowns and will be referred to as a linear system for the rest of the report.
+\\ \\
+To solve the linear system one must look at the different cases that occurs for the number of equations $M$ and unknowns $N$.
+In the case where the number of equations equal the number of unknowns, $M = N$, the coefficient matrix $\mathbf{A}$ becomes a square matrix. A solution for $\mathbf{x}$ can be found to the linear system, provided that a solution exist, if the square coefficient matrix $\mathbf{A}$ has full rank -- $\mathbf{A}$ consist of linearly independent columns or rows -- as the square matrix can be inverted and the solution is achieved by $\mathbf{x} = \mathbf{A}^{-1} \mathbf{y}$.
+Such linear system, when $M = N$, is called determined and there will exist a unique solution, provided that a solution exist. 
+In the cases where $M > N$ and $M < N$ the linear system is called over-determined and under-determined, respectively. 
+For an over-determined system there does not exist a solution and for under-determined systems there exist infinitely many solutions, provided that one solution exist \cite[p. ix]{CS} \todo{Her skal vi være opmærksom på at dette ikke altid gælder. At der godt kan være en løsning i over-determined tilfælde (I følge Rasmus) - Laura}.
+\\ \\
+From chapter \ref{ch:motivation} the linear system of interest consists of a observed EEG measurements vector $\mathbf{y} \in \mathbb{R}^M$ with $M$ sensors and a unknown source vector $\mathbf{x} \in \mathbb{R}^N$ with $N$ sources. The matrix $\mathbf{A} \in \mathbb{R}^{M \times N}$ is the mixing matrix.
+As described, the case of interest is an under-determined linear system, $M < N$, as the EEG measurements have less sensors than sources -- hence a solution has to be found within the infinite solution set.
+
+\section{Compressive Sensing}\label{sec:CS}
+Compressive sensing is the theory of efficient recovery of a signal from a minimal number of observed measurements. 
+It is build upon empirical observations assuring that many signals can be approximated by remarkably sparser signals.   
+Assume linear acquisition of the original measurements, then the relation between the measurements and the signal to be recovered can be modelled by the linear system \eqref{eq:SMV_model} \cite{FR}.  
+\\ 
+In compressive sensing terminology, $\mathbf{x} \in \mathbb{R}^N$ is the signal of interest which is sought recovered from the measurements $\mathbf{y} \in \mathbb{R}^M$ by solving the linear system \eqref{eq:SMV_model}. 
+The coefficient matrix $\mathbf{A}$ is in the context of compressive sensing referred to as the mixing matrix.  
+In the typical compressive sensing case the system is under-determined, $M < N$,  and there exist infinitely many solutions, provided that one solution exist.
+However, by enforcing certain sparsity constraints it is possible to recover the wanted signal, hence the term sparse signal recovery \cite{FR}.
+
+\subsection{Sparseness} 
+A signal is said to be $k$-sparse if the signal has at most $k$ non-zero coefficients. 
+For the purpose of counting the non-zero entries of a vector representing a signal the $\ell_0$-norm is defined
+\begin{align*}
+\Vert \mathbf{x} \Vert_0 := \text{card}(\text{supp}(\mathbf{x})).
+\end{align*}
+The function $\text{card}(\cdot)$ gives the cardinality of the input and the support vector of $\mathbf{x}$ consisting of the non-zeros entries is given as
+\begin{align*}
+\text{supp}(\mathbf{x}) = \{ j \in [N] \ : \ x_j \neq 0 \},
+\end{align*} 
+where $[N]$ is a set of integers $\lbrace 1, 2, \hdots, N \rbrace$ \cite[p. 41]{FR}. 
+
+\subsection{Optimisation Problem}\label{sec:opti}
+For the linear system \eqref{eq:SMV_model} a solution, which is $k$-sparse, is sought recovered from the observed measurements. This can be written as a optimisation problem where the solution for a vector $\mathbf{x}$ is sought minimised to achieve a $k$-sparse solution.
+This can be viewed as the following optimisation problem:
+\begin{align}\label{eq:SMV_p0}
+\mathbf{x}^\ast = \arg \min_{\mathbf{x} \in \mathbb{C}} \Vert \mathbf{x} \Vert_0 \quad \text{subject to} \quad \mathbf{Ax} = \mathbf{y}.
+\end{align}
+Unfortunately, this optimisation problem is non-convex due to the definition of the $\ell_0$-norm and is therefore difficult to solve -- it is an NP-hard problem. 
+Instead, by replacing the $\ell_0$-norm with the $\ell_1$-norm, the optimisation problem \eqref{eq:SMV_p0} can be approximated and hence becomes computationally feasible: \todo{3.2: skal vi indfør z som en approximation til x. og så et nyt omega eller? eller kan vi lade x* være løslingen til både P0 og P1}
+\begin{align}\label{eq:SMV_p1}
+\mathbf{x}^\ast = \arg \min_{\mathbf{x} \in \mathbb{C}} \Vert \mathbf{x} \Vert_1 \quad \text{subject to} \quad \mathbf{Ax} = \mathbf{y}.
+\end{align} 
+hence an approximation for $k$-sparse solution is recovered -- the best $k$-sparse solution $\mathbf{x}^\ast$ \cite[p. 27]{CS}. The approximative optimisation problem \eqref{eq:SMV_p1} is also mentioned as Basis Pursuit. 
+\\ \\
+The following theorem justifies that the $\ell_1$ optimisation problem finds a sparse solution \cite[p. 62-63]{FR}.
+\begin{theorem}
+A mixing matrix $\mathbf{A} \in \mathbb{R}^{M \times N}$ is defined with columns $\mathbf{A} = [\mathbf{a}_1, \dots, \mathbf{a}_N]$. 
+By assuming uniqueness of a solution $\mathbf{x}^{\ast}$ to
+\begin{align*}
+\min_{\mathbf{x} \in \mathbb{R}^N} \Vert \mathbf{x} \Vert_1 \quad \text{subject to} \quad \mathbf{Ax} = \mathbf{y},
+\end{align*}
+the system $\lbrace \mathbf{a}_j, j \in \text{supp}( \mathbf{x}^\ast) \rbrace$ is linearly independent, and in particular
+\begin{align*}
+\Vert \mathbf{x}^\ast \Vert_0 = \text{card}(\text{supp} (\mathbf{x}^\ast)) \leq M.
+\end{align*}
+\end{theorem}
+To prove this theorem one needs to realise that the set $\lbrace \mathbf{a}_j, j \in S \rbrace \leq M$, with $S = \text{supp}(\mathbf{x}^\ast)$, can not have more than $M$ linearly independence columns. This will be done by a contradiction.
+So when $M \ll N$ a sparse signal is automatically achieved.
+\begin{proof}
+Assume that the set $\lbrace \mathbf{a}_l, l \in S \rbrace$ is linearly dependent with the support $S = \text{supp}(\mathbf{x}^\ast)$.
+Thus a non-zero vector $\mathbf{v} \in \mathbb{R}^N$ supported on $S$ exists such that $\mathbf{Av} = \textbf{0}$ -- the system is linear dependent. The unique solution $\mathbf{x}^\ast$ can then be written as, for any $t \neq 0$,
+\begin{align}\label{eq:non_zero_t}
+\Vert \mathbf{x}^\ast \Vert_1 < \Vert \mathbf{x}^\ast + t \mathbf{v} \Vert_1 = \sum_{l \in S} \vert x_l^\ast + t v_l \vert = \sum_{l \in S} \text{sgn}(x_l^\ast + t v_l )(x_l^\ast + t v_l ).
+\end{align}
+For a small $|t|$
+\begin{align*}
+|t| < \min_{l \in S} \frac{\vert x_l^\ast \vert}{\Vert \mathbf{v} \Vert_{\infty}},
+\end{align*}
+then the sign function become
+\begin{align*}
+\text{sgn}(x_l^\ast + t v_l) = \text{sgn}(x_l^\ast), \quad \forall l \in S.
+\end{align*}
+By including this result in \eqref{eq:non_zero_t} and remembering $t \neq 0$:
+\begin{align*}
+\Vert \textbf{x}^{\ast} \Vert_1 < \sum_{l \in S} \text{sgn}(x_l^{\ast})(x_l^{\ast} + t v_l ) = \sum_{l \in S} \text{sgn}(x_l^{\ast})x_l^{\ast} + t \sum_{l \in S} \text{sgn}(x_l^{\ast})v_l = \Vert \textbf{x}^{\ast} \Vert_1 + t \sum_{l \in S} \text{sgn}(x_l^{\ast})v_l.
+\end{align*}
+From this it can be seen that it is always possible to choose $t \neq 0$ small enough such that 
+\begin{align*}
+t \sum_{l \in S} \text{sgn}(x_l^\ast)v_l \leq 0,
+\end{align*}
+which contradicts that $\mathbf{v}$ make the columns of $\mathbf{A}$ linear dependent. 
+Therefore, the set $\lbrace \mathbf{a}_l, l \in S \rbrace$ must be linearly independent.
+\end{proof}
+The Basis Pursuit algorithm makes the foundation of several algorithms solving alternative versions of \eqref{eq:SMV_p1} where noise is incorporated. 
+An alternative solution method includes greedy algorithms such as the Orthogonal Matching Pursuit (OMP) \cite[P. 65]{FR}. 
+At each iteration of the OMP algorithm an index set $S$ is updated by adding the index corresponding to a column in $\mathbf{A}$ that best describes the residual, hence greedy.
+That is the part of $\mathbf{y}$ that is not yet explained by $\mathbf{Ax}$ is included. 
+Then $\mathbf{x}$ is updated as the vector, supported by $S$, which minimize the residual, that is also the orthogonal projection of $\mathbf{y}$ onto the span$\lbrace \mathbf{a}_l \ \vert \ l \in S \rbrace$. The algorithm for OMP can be found in the appendix \ref{alg:OMP}.

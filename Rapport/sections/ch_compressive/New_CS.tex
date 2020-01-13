@@ -44,13 +44,13 @@ This can be viewed as the following optimisation problem:
 \mathbf{x}^\ast = \arg \min_{\mathbf{x} \in \mathbb{C}} \Vert \mathbf{x} \Vert_0 \quad \text{subject to} \quad \mathbf{Ax} = \mathbf{y}.
 \end{align}
 Unfortunately, this optimisation problem is non-convex due to the definition of the $\ell_0$-norm and is therefore difficult to solve -- it is an NP-hard problem. 
-Instead, by replacing the $\ell_0$-norm with the $\ell_1$-norm, the optimisation problem \eqref{eq:SMV_p0} can be approximated and hence becomes computationally feasible: \todo{3.2: skal vi indfør z som en approximation til x. og så et nyt omega eller? eller kan vi lade x* være løslingen til både P0 og P1}
+Instead, by replacing the $\ell_0$-norm with the $\ell_1$-norm, the optimisation problem \eqref{eq:SMV_p0} can be approximated and hence becomes computationally feasible: \todo{3.3: skal vi indfør z som en approximation til x. og så et nyt omega eller? eller kan vi lade x* være løslingen til både P0 og P1}
 \begin{align}\label{eq:SMV_p1}
 \mathbf{x}^\ast = \arg \min_{\mathbf{x} \in \mathbb{C}} \Vert \mathbf{x} \Vert_1 \quad \text{subject to} \quad \mathbf{Ax} = \mathbf{y}.
 \end{align} 
-hence an approximation for $k$-sparse solution is recovered -- the best $k$-sparse solution $\mathbf{x}^\ast$ \cite[p. 27]{CS}. The approximative optimisation problem \eqref{eq:SMV_p1} is also mentioned as Basis Pursuit. 
+hence an approximation for a $k$-sparse solution is recovered -- the best $k$-sparse solution $\mathbf{x}^\ast$ \cite[p. 27]{CS}. The approximative optimisation problem \eqref{eq:SMV_p1} is also mentioned as Basis Pursuit. 
 \\ \\
-The following theorem justifies that the $\ell_1$ optimisation problem finds a sparse solution \cite[p. 62-63]{FR}.
+The following theorem justifies that the $\ell_1$ optimisation problem \eqref{eq:SMV_p1} finds a sparse solution \cite[p. 62-63]{FR}.
 \begin{theorem}
 A mixing matrix $\mathbf{A} \in \mathbb{R}^{M \times N}$ is defined with columns $\mathbf{A} = [\mathbf{a}_1, \dots, \mathbf{a}_N]$. 
 By assuming uniqueness of a solution $\mathbf{x}^{\ast}$ to

@@ -1,36 +1,39 @@
 \chapter*{Introduction}\label{ch:introduction}
 \addcontentsline{toc}{chapter}{Introduction}
-Introduktion til hele projektet, skal kunne læses som en appetitvækker til resten af rapporten, det vi skriver her skal så uddybes senere. Brug dog stadigvæk kilder.
-
-\begin{itemize}
-\item[-] kort intro a EEG og den brede anveldelse, anvendelse indenfor høreapperat. 
-\item[-] intro af model, problem med overbestemt system
-\item[-] Seneste forslag til at løse dette 
-\item[-] vi vil efterviser dette og udvide til realtime tracking
-\item[-] opbygningen af rapporten
-\end{itemize}
-seneste tanker:\\
-appetitvækker, der ligger større fokus på hvad vi arbejder med og hvordan rapporten er bygget op omkring det. -- skal resultater fremgå?   \\ \\
-
----------------------------klade-----------------------------\\ \\
-
-The problem that is addressed throughout this thesis arise from the increasing use of electroencephalographic measurements for a wide range of scientific purposes, especially within the medical field. 
+%\addcontentsline{toc}{chapter}{Introduction}
+%Introduktion til hele projektet, skal kunne læses som en appetitvækker til resten af rapporten, det vi skriver her skal så uddybes senere. Brug dog stadigvæk kilder.
+%
+%\begin{itemize}
+%\item[-] kort intro a EEG og den brede anveldelse, anvendelse indenfor høreapperat. 
+%\item[-] intro af model, problem med overbestemt system
+%\item[-] Seneste forslag til at løse dette 
+%\item[-] vi vil efterviser dette og udvide til realtime tracking
+%\item[-] opbygningen af rapporten
+%\end{itemize}
+%seneste tanker:\\
+%appetitvækker, der ligger større fokus på hvad vi arbejder med og hvordan rapporten er bygget op omkring det. -- skal resultater fremgå?   \\ \\
+%
+%---------------------------klade-----------------------------\\ \\
+The problem addressed throughout this thesis arise from the increasing use of electroencephalographic measurements for a wide range of scientific purposes, especially within the medical field. 
 An electroencephalography captures electric signals caused by activity within the brain. The signals from the brain is recorded over time by multiple sensors placed on the scalp.
 One essential issue concerning an electroencephalography is to  
-find the exact sources of the captured brain activity. This is of interest when studying correlation among activities in different parts of the brain, referred to as functional integration.  
+extract the exact sources of the captured brain activity. This is of interest when studying correlation among activities in different parts of the brain, referred to as functional integration.  
 The recorded signal from one sensor is basically a mixture of electric signals released from a various number of active neurons within the brain, forming one or several sources. 
-Furthermore, this mixture is distorted as it travels through the scalp. The need for source seperation and localisation is confirmed by studies showing how analysis performed on electroencephalographic measurements differs significantly from analysis performed on source level\cite{Friston2002}.
+Furthermore, this mixture is distorted as it travels through the scalp. The need for source extraction is confirmed by studies showing how analysis performed on electroencephalographic measurements differs significantly from similar analysis performed directly on the original source\cite{Friston2002}.
 
-Considering this issue from a mathematical perspective the electroencephalographic measurements can be modelled as a linear system of equations, from which it is possible to extract a limited number of sources under certain conditions. However, it is a general acknowledged issue that the true number of sources is unknown.
+Considering this issue of source extraction from a mathematical perspective the electroencephalographic measurements can be modelled by a linear system of equations, from which it is possible to extract a limited number of sources under certain conditions. However, it is a general acknowledged issue that the true number of sources is unknown.
 The task complexity of extracting the sources from the linear system is increased in cases where the number of sources exceeds the number of electrodes providing measurements.
 
-This thesis explores the state of the art mathematical method for source extraction embracing the case of more sources than sensors. Overall this method consist of two steps, finding receptively the mixture the signals have undergone and then the source signals. The two steps originates from two different approach...
-The main goal of the thesis is to present and unite the theory of the two steps into one algorithm with the purpose of verifying the current results. Furthermore the problem is connected to an current application within the hearing aid industry. Here the intention is to reduce the amount of energy spent by the hearing aid user, by  basically identifying the listing direction intended by the user from analysis of the active sources measured on the user.
+This thesis explores the state of the art mathematical method for source extraction embracing the case of more sources than sensors. Overall this method, published in 2015, consist of two steps, that is finding receptively the mixture the signals have undergone and then extracting the source signals. The two steps originates from two different approaches considering the mathematical orientation. 
+The main goal of the thesis is to explore and unite the necessary theory into one algorithm. The practical aspect will include an implementation of the algorithm to be tested on new electroencephalographic measurements with the purpose of supporting(?) the current results. Furthermore the problem is connected to an current application within the hearing aid industry. Here the intention is to reduce the amount of energy spent by the hearing aid user. Basically, this is attempted by identifying the listening direction intended by the user, from analysis of the active sources measured on the user.
 In this thesis the number of active sources are sought related to the amount of energy used by the hearing aid user   
 this includes considerations upon the issue of the true number of active sources being unknown. 
 
-The thesis begins by a motivation to the topic of interest by a description of electroencephalography, and its usage within research leading to the issue of source extraction from the EEG measurements. ...
-
+(følgende kan skrives bedre hvis ikke det skal være et andet sted)The thesis consist of a motivational part introducing  electroencephalography and the potential use within research especially in the hearing aid industry. Furthermore, existing literature considering different mathematical approaches for source extraction are examined. The Motivational part is concluded by the problem statement specifying the objective of the thesis.
+Next is the theoretical part. The system model is specified and the solution approach are presented. The necessary theory are introduced leading to the state of the art algorithms for source extraction.   
+The theoretical part is followed by implementation and test of the algorithm for verification. 
+Next is..
+Finally discussion and conclusion upon the achieved results are presented followed by a consideration upon further studies.    
        
       
 

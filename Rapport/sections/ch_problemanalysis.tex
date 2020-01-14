@@ -1,14 +1,15 @@
 \chapter{Motivation}\label{ch:motivation}
-This chapter examines existing literature concerning source recovery from Electroencephalography (EEG) measurements. 
-At first a motivation for the source recovery problem is given, considering the application within the hearing aid industry. 
-Further, the state of the art methods are presented followed by a description of the contribution proposed in this thesis.
+This chapter accounts for the motivation behind source extraction from an Electroencephalography (EEG). The concept of EEG is introduced along with its application. The potential and importance of source extraction are considered and related to the hearing aid industry. The commonly applied mathematical model for EEG measurements is presented. Currently applied methods for source extraction are considered leading to a presentation of the current state of the art methods which succeeds to overcome the limitations of previous methods. Lastly the contribution provided in this thesis is presented.          
+
+%This chapter examines existing literature concerning source recovery from Electroencephalography (EEG) measurements. 
+%At first a motivation for the source recovery problem is given, considering the application within the hearing aid industry. 
+%Further, the state of the art methods are presented followed by a description of the contribution proposed in this thesis.
 
 \section{EEG Measurements}\label{sec:EEG}
 EEG is a technique used within the medical field. 
-It is an imaging technique measuring electric signals on the scalp, caused by brain activity. 
+It is an ''imaging'' technique measuring electric signals on the scalp, caused by brain activity. 
 The human brain consist of an enormous amounts of cells, called neurons. 
-These neurons are mutually connected in neural nets and when a neuron is activated, for instance by a physical stimuli, local current flows are produced \cite{fundamentalEEG}. This is also considered as a neural interaction across different parts of the human brain.   
-\\ 
+These neurons are mutually connected in neural nets. When a neuron is activated, for instance by a physical stimuli, local current flows are produced \cite{fundamentalEEG}. This is considered as a neural interaction across different parts of the human brain.   
 EEG measurements are provided by a number of metal electrodes, referred to as sensors, carefully placed on a human scalp. 
 Each sensor reads the present electrical signals over time.
 \\
@@ -64,7 +65,7 @@ It is essentially the well known but unsolved cocktail problem which is sought i
 %(Furthermore, a real-time application to provide feedback from EEG measurements would be essential.)\todo{?}. 
 
 
-\subsection{Modelling}
+\section{Modelling}
 Consider the issue of localizing activated sources from EEG measurements. A known approach is to model the observed data by the following linear system 
 \begin{align*}
 \mathbf{Y} = \mathbf{AX}.

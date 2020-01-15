@@ -1,30 +1,30 @@
 \chapter{Motivation}\label{ch:motivation}
-This chapter accounts for the motivation behind source extraction from an Electroencephalography (EEG). The concept of EEG is introduced along with its application. The potential and importance of source extraction are considered and related to the hearing aid industry. The commonly applied mathematical model for EEG measurements is presented. Currently applied methods for source extraction are considered leading to a presentation of the current state of the art methods which succeeds to overcome the limitations of previous methods. Lastly the contribution provided in this thesis is presented.          
+ This chapter accounts for the motivation behind source extraction from an Electroencephalography (EEG). The concept of EEG is introduced along with its application. The potential and importance of source extraction are considered and related to the hearing aid industry. The commonly applied mathematical model for EEG measurements is presented. Currently applied methods for source extraction are considered leading to a presentation of the current state of the art methods which succeeds to overcome the limitations of previous methods. Lastly the contribution provided in this thesis is presented.          
 
 %This chapter examines existing literature concerning source recovery from Electroencephalography (EEG) measurements. 
 %At first a motivation for the source recovery problem is given, considering the application within the hearing aid industry. 
 %Further, the state of the art methods are presented followed by a description of the contribution proposed in this thesis.
 
 \section{EEG Measurements}\label{sec:EEG}
-EEG is a technique used within the medical field. 
-It is an ''imaging'' technique measuring electric signals on the scalp, caused by brain activity. 
-The human brain consist of an enormous amounts of cells, called neurons. 
-These neurons are mutually connected in neural nets. When a neuron is activated, for instance by a physical stimuli, local current flows are produced \cite{fundamentalEEG}. This is considered as a neural interaction across different parts of the human brain.   
-EEG measurements are provided by a number of metal electrodes, referred to as sensors, carefully placed on a human scalp. 
+EEG is an imaging technique used within the medical field. EEG is measuring electric signals on the scalp, caused by brain activity. 
+The human brain consist of an enormous amounts of cells, called neurons, which are mutually connected in neural nets. 
+When a neuron is activated, for instance by a physical stimuli, local current flows are produced among the neurons. 
+This is considered as neural interaction across different parts of the human brain\cite{fundamentalEEG}.   
+
+EEG measurements are provided by a number of metal electrodes, referred to as sensors, carefully placed on the human scalp. 
 Each sensor reads the present electrical signals over time.
-\\
-It takes a large amount of active neurons to generate an electrical signal that is recordable on the scalp as the current have to penetrate the skull, skin and several other thin layers.
-Hence it is clear that the EEG measurements from a single sensor do not correspond to the activity of one specific neuron in the brain, but rather a collection of many activities within the range of the one sensor.
-Nor is the range of a single sensor separated from the other sensors. Thus the same activity can easily be measured by two or more sensors.
+It takes a large amount of simultaneous active neurons to generate an electrical signal that is recordable on the scalp. Such signal is considered as one \textit{ source} of neural activity. 
+The current has to penetrate the skull, skin and several other thin layers causing a reduced signal to reach the sensor.
+It is possible that the measurement of one sensor is a sum of multiple signals from different sources.
+Nor is the range of a single sensor separated from the other sensors. Thus the same signal can easily be measured by two or more sensors.
 Furthermore, interfering signals can occur in the measurements resulting from physical movement of e.g. eyes and jawbone \cite{fundamentalEEG}. 
-Lastly, the transmission of the electric field through the biological tissue to the sensor has an unknown mixing effect on the signal. This process is called volume conduction \cite[p. 68]{EEGsignalprocessing} \cite{Van2019}.
-\\
-This clarifies the mixture of electrical signals with noise that form the EEG measurements. 
+Lastly, the transmission of the electric signal through the biological tissue to the sensor has an unknown mixing effect on the signal. This process is called volume conduction \cite[p. 68]{EEGsignalprocessing} \cite{Van2019}.
+This clarifies the mixture of fluctuating electrical signals with noise that forms the EEG measurements. 
 The concept is sought illustrated on figure \ref{fig:volumeconduction}. 
-\\
-It will be clear later that it is of interest to separate and localize the sources of the neural activities measured on the scalp.  
-\\ 
-The waves resulting from EEG measurements are classified within four groups according to the dominant frequency. 
+%\\
+%It will be clear later that it is of interest to separate and localize the sources of the neural activities measured on the scalp.  
+%\\ 
+The resulting EEG measurements are classified within four groups according to the dominant frequency. 
 The delta wave ($0.5-4$ Hz) is observed from infants and sleeping adults, the theta wave ($4-8$ Hz) is observed from children and sleeping adults, the alpha wave ($8-13$ Hz) is the most extensively studied brain rhythm, which is induced by an adult laying down with closed eyes. 
 Lastly, the beta wave ($13-30$ Hz) is considered the normal brain wave for adults, associated with active thinking, active attention or solving concrete problems \cite[p. 11]{EEGsignalprocessing}. 
 An example of EEG measurements within the four categories is illustrated by figure \ref{fig:EEG_example}.        
@@ -42,40 +42,43 @@ An example of EEG measurements within the four categories is illustrated by figu
     \end{minipage}
 \end{figure}
 \noindent
-EEG is widely used in the medical field, especially within research of the cognitive processes in the brain. 
-Diagnosis and management of neurological disorders such as epilepsy is one example of application.
-\\
+EEG performed on humans and animals have a great number of applications with both clinical and research purposes. 
+Examples of clinical applications covers diagnosis and management of neurological disorders such as epilepsy and monitor alertness regarding coma or brain death.
 EEG capitalizes on the procedure being non-invasive and fast.
-Neural activity can be measured within fractions of a second after a stimuli has been provided \cite[p. 3]{fundamentalEEG}. 
-When a person is exposed to a certain stimulus, e.g. visual or audible, the measured activity is said to result from evoked potential.
-Over the past two decades, functional integration has become an area of interest \cite{Friston2011}. 
-Within neurobiology functional integration refers to the study of the correlation among activities in different regions of the brain. 
-In other words, how do different parts of the brain work together to process information and conduct a response \cite{Friston2002}.     
-For this purpose separation and localization of the single sources which contribute to the EEG measurement is of interest. 
-An article from 2016 \cite{Van2019} points out the importance of performing analysis regarding functional integration at source level rather than at EEG level. 
-It is argued through experiments that analysis at EEG level does not allow interpretations about the interaction between sources.  
-\\ 
+Neural activity can be measured within fractions of a second after a stimuli has been provided. 
+These advantages contributes to the wide range of applications within research of the neural processes involved in or resulting from actions, emotions or  cognition. Today such neural research are use in many different fields\cite[p. 4]{fundamentalEEG}.
+% such as neuromarketing, biofeedback(optimisation of learning) and brain computer interface.  
 The hearing aid industry is one example where this research is highly prioritized. 
 At Eriksholm research center, which is a part of the hearing aid manufacturer Oticon, cognitive hearing science is a research area within fast development \cite{Weberik}. 
-One main purpose at Eriksholm is to make it possible for a hearing aid to identify the user-inttended sound source and thereby exclude noise from elsewhere \cite{Emina2019} \cite{Bech2018}. 
-This is where EEG and occasionally so called in-ear EEG is interesting, especially in conjunction with the technology of beamforming. With beamforming it is possible for a hearing aid to receive only signals from a specific direction. 
+One main purpose at Eriksholm is to make it possible for a hearing aid to identify the user-intended sound source from real time EEG measurements and thereby exclude noise from elsewhere \cite{Emina2019} \cite{Bech2018}. 
 It is essentially the well known but unsolved cocktail problem which is sought improved by use of EEG. 
+This is where EEG and occasionally so called in-ear EEG is interesting. In conjunction with the technology of beamforming it is possible for a hearing aid to receive only signals from a specific direction. 
+
+Over the past two decades, functional integration has become an area of interest regarding EEG research \cite{Friston2011}. 
+Within neurobiology functional integration refers to the study of the correlation among activities in different regions of the brain. 
+In other words, how do different parts of the brain work together to process information and conduct a response \cite{Friston2002}.     
+For this purpose separation and localization of the original sources which contribute to the EEG measurement is of interest. 
+An article from 2016 \cite{Van2019} points out the importance of performing analysis regarding functional integration at source level rather than at EEG level. 
+It is argued through experiments that analysis at EEG level does not allow interpretations about the interaction between sources. 
+This emphasize a potential for improving results within a wide range of EEG research, if the original active sources can be extracted from a specific EEG measurements.    
+
+     
 %However, the focus of this research is the correlation between EEG measurements and the sound source rather than localization of the activated source from the EEG \cite{Emina2019}. 
 %Hence a source localization approach could potentially be of interest regarding hearing aids in order to improve the results.
 %(Furthermore, a real-time application to provide feedback from EEG measurements would be essential.)\todo{?}. 
 
 
 \section{Modelling}
-Consider the issue of localizing activated sources from EEG measurements. A known approach is to model the observed data by the following linear system 
+Consider the issue of extracting the activated sources from EEG measurements. A known approach is to model the observed data by the following linear system 
 \begin{align*}
 \mathbf{Y} = \mathbf{AX}.
 \end{align*}
-$\mathbf{Y} \in \mathbb{R}^{M \times L}$ is the EEG measurements where $L$ is samples over time each consisting of $M$ measurements, one for each sensor. $\mathbf{X} \in \mathbb{R}^{N \times L}$ makes the $N$ sources within the brain over $L$ samples. The non-zero entries of a column in $\textbf{X}$ represent the active sources at the time of the sample. $\mathbf{A} \in \mathbb{R}^{M \times N}$ is an unknown mixing matrix. 
-The $i$-th column of $\mathbf{A}$ represents the relative projection weights from the $i$-th source to every sensor \cite{phd2015}. 
+$\mathbf{Y} \in \mathbb{R}^{M \times L}$ is the EEG measurements where $L$ is the number of samples over time with each sample consisting of $M$ measurements, one for each sensor. $\mathbf{X} \in \mathbb{R}^{N \times L}$ makes $L$ samples of $N$ possible sources within the brain. The non-zero entries of a column in $\textbf{X}$ represent the active sources at the time of the sample. $\mathbf{A} \in \mathbb{R}^{M \times N}$ is an unknown mixing matrix. 
+The $i^{th}$ column of $\mathbf{A}$ represents the relative projection weights from the $i^{th}$ source to every sensor \cite{phd2015}. 
 This is in general referred to as a multiple measurement vector model. 
 The aim in this case is to identify both $\mathbf{A}$ and $\mathbf{X}$ given the measurements $\mathbf{Y}$. 
-For this specific set up is referred to as the EEG inverse problem.  
-\\ \\
+This specific set up is referred to as the EEG inverse problem.  
+\todo{her burde vi rise dictionarylearning of alm løsning af ligning system op}
 To solve the EEG inverse problem the concept of sparse signal recovery makes a solid foundation, including compressive sensing and dictionary learning. 
 Independent Component Analysis (ICA) is a commonly applied method to solve the inverse problem \cite{Scott1996}, \cite{Scott1997}. Here statistical independence between the active sources is the essential assumption. 
 \\

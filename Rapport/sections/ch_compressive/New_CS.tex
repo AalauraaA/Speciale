@@ -36,9 +36,18 @@ As the EEG measurements vary over time multiple measurement vectors are achieved
 \begin{align}\label{eq:MMV_model}
 \mathbf{Y} = \mathbf{AX}+\textbf{E},
 \end{align}
-where $\mathbf{Y} \in \mathbb{R}^{M \times L}$ is the observed measurement matrix, $\mathbf{X} \in \mathbb{R}^{N \times L}$ is the source matrix, and $\mathbf{A} \in \mathbb{R}^{M \times N}$ is the mixing matrix. By expanding the system to include multiple measurement vectors some noise will occur. This is added to the linear system as noise matrix $\textbf{E} \in \mathbb{R}^{M \times L}$. $L$ denotes the number of observed measurement vectors each consisting of $M$ measurements, that is $L$ samples are given. For $L = 1$ the linear system \eqref{eq:MMV_model} will just be the SMV model \eqref{eq:SMV_model}. \todo{Inkludere segmentering her så ledes at vi kan sige at vi har at most k activation i rækkerne af X}.
+where $\mathbf{Y} \in \mathbb{R}^{M \times L}$ is the observed measurement matrix, $\mathbf{X} \in \mathbb{R}^{N \times L}$ is the source matrix, and $\mathbf{A} \in \mathbb{R}^{M \times N}$ is the mixing matrix. By expanding the system to include multiple measurement vectors some noise will occur. This is added to the linear system as a noise matrix $\textbf{E} \in \mathbb{R}^{M \times L}$. $L$ denotes the number of observed measurement vectors each consisting of $M$ measurements, that is $L$ samples given. For $L = 1$ the linear system \eqref{eq:MMV_model} will just be the SMV model \eqref{eq:SMV_model} \todo{Inkludere segmentering her så ledes at vi kan sige at vi har at most k activation i rækkerne af X}.
 
-Let $f$ be the sample frequency of the observed data $\mathbf{Y}$ and let $s$ denoted a segment index\todo{f er samples pr sek., L er antal sampels i alt, Ls er antal samples pr segment og ts er længen pr segment i sekunder}.. As such the observed data can be divided into segments $\mathbf{Y}_s \in \mathbb{R}^{M \times t_s f}$, possibly overlapping, where $t_s$ is the length of the segments in seconds. For each segment the linear model still holds and is rewritten into
+
+
+
+
+
+
+
+
+
+Let $f$ be the sample frequency of the observed data $\mathbf{Y}$ and let $s$ denoted a segment index\todo{f er samples pr sek., L er antal sampels i alt, Ls er antal samples pr segment og ts er længen pr segment i sekunder}. As such the observed data can be divided into segments $\mathbf{Y}_s \in \mathbb{R}^{M \times t_s f}$, possibly overlapping, where $t_s$ is the length of the segments in seconds. For each segment the linear model still holds and is rewritten into
 \begin{align*}
 \mathbf{Y}_s = \mathbf{AX}_s + \textbf{E}_s, \quad \forall s.
 \end{align*}

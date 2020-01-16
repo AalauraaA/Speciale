@@ -4,20 +4,22 @@ Some measurement vector $\mathbf{y} \in \mathbb{R}^M$ can be described as a line
 \mathbf{y} = \mathbf{Ax}.
 \end{align}
 The measurement vector $\mathbf{y}$ consist of $M$ measurements, $\mathbf{x}$ is an unknown vector of $N$ elements, and the coefficient matrix $\mathbf{A}$ models the linear measurement process column-wise. 
-\ref{eq:SMV_model} makes a system of linear equations with $M$ equations and $N$ unknowns and will be referred to as a linear system for the rest of the master thesis. In other literature the linear system is also denoted as a single measurement vector (SMV) model.
+\ref{eq:SMV_model} makes a system of linear equations with $M$ equations and $N$ unknowns and will be referred to as a linear system for the rest of the master thesis. In other literature, the linear system is also referred to as a single measurement vector (SMV) model.
 
-To solve the linear system one must look at the different cases that occurs for the number of equations $M$ and unknowns $N$.
+To solve the linear system one must look at the different cases that occurs for the number of $M$ equations and $N$ unknowns.
 In the case where the number of equations equal the number of unknowns, $M = N$, the coefficient matrix $\mathbf{A}$ becomes a square matrix. 
-A solution for $\mathbf{x}$ can be found to the linear system, provided that a solution exist, if the square coefficient matrix $\mathbf{A}$ has full rank -- $\mathbf{A}$ consist of linearly independent columns or rows -- as the square matrix can be inverted and the solution is achieved by 
+A solution for the linear system, $\mathbf{x}^\ast$, can be found, provided that a solution exist, if the square coefficient matrix $\mathbf{A}$ has full rank -- $\mathbf{A}$ consists of linearly independent columns or rows -- as the square matrix can be inverted and the solution is achieved by 
 $$
-\mathbf{x} = \mathbf{A}^{-1} \mathbf{y}.
+\mathbf{x}^\ast = \mathbf{A}^{-1} \mathbf{y}.
 $$
 Such linear system, when $M = N$, is called determined and there will exist a unique solution, provided that a solution exist. 
 In the cases where $M > N$ and $M < N$ the linear system is called over-determined and under-determined, respectively. 
 For an over-determined system there does not exist a solution and for under-determined systems there exist infinitely many solutions, provided that one solution exist \cite[p. ix]{CS} \todo{Her skal vi være opmærksom på at dette ikke altid gælder. At der godt kan være en løsning i over-determined tilfælde (I følge Rasmus) - Laura}.
 
-From chapter \ref{ch:motivation} the linear system of interest consists of a observed EEG measurements vector $\mathbf{y} \in \mathbb{R}^M$ with $M$ sensors and a unknown source vector $\mathbf{x} \in \mathbb{R}^N$ with $N$ sources. The matrix $\mathbf{A} \in \mathbb{R}^{M \times N}$ is the mixing matrix.
-As described in chapter \ref{ch:motivation}, the case of interest is an under-determined linear system, $M < N$, as the EEG measurements have less sensors than sources -- hence a solution has to be found within the infinite solution set. For the source vector $\mathbf{x}$ the activation of the sources is denoted by $k$ and there are at most $k \leq N$ activations in the EEG measurements. 
+From chapter \ref{ch:motivation} the linear system of interest consists of a observed EEG measurement vector $\mathbf{y} \in \mathbb{R}^M$ with $M$ sensors and a unknown source vector $\mathbf{x} \in \mathbb{R}^N$ with $N$ sources. 
+The matrix $\mathbf{A} \in \mathbb{R}^{M \times N}$ is the mixing matrix.
+As described in chapter \ref{ch:motivation}, the case of interest is an under-determined linear system, $M < N$, as the EEG measurement have less sensors than sources -- hence a solution has to be found within the infinite solution set. 
+For the source vector $\mathbf{x}$ the activation of the sources is denoted by $k$ and there are at most $k \leq N$ activations in the EEG measurements. 
 To find the solution of the linear system \eqref{eq:SMV_model} the number of activations $k$ must also be included in the recovering.
 
 The number of $k$ active source in the source vector $\mathbf{x} \in \mathbb{R}^N$ can be view as non-zeros -- the non-activations are described by zeros. To count non-zeros entries of a vector the $\ell_0$-norm can be used:
@@ -30,36 +32,47 @@ The function $\text{card}(\cdot)$ gives the cardinality of the input and the sup
 \end{align*} 
 where $[N]$ is a set of integers $\lbrace 1, 2, \hdots, N \rbrace$ \cite[p. 41]{FR}. 
 
+\todo{Nu nævner vi jo herover at vi skal finde en løsning i det uendelige løsningsrum men vi går egenligt ikke videre med det da vi i stedet introducer k og MMV. Går der for lang til fra at det er nævnt til at man kommer med et bud? Vi kommer jo først til at nævne det i næste sektion "solution method".}
 
 \section{Multiple Measurement Vector Model}\label{sec:MMV}
-As the EEG measurements vary over time multiple measurement vectors are achieved. Therefore, to provided a practical use of the linear system the system is expanded to include the multiple measurement vectors, such that the linear system now becomes a multiple measurement vector (MMV) model:
+As the EEG measurements vary over time multiple EEG measurement vectors are achieved. 
+Therefore, to provided a practical use of the linear system the linear system is expanded to include the multiple measurement vectors, such that the linear system now becomes a multiple measurement vector (MMV) model:
 \begin{align}\label{eq:MMV_model}
 \mathbf{Y} = \mathbf{AX}+\textbf{E},
 \end{align}
-where $\mathbf{Y} \in \mathbb{R}^{M \times L}$ is the observed measurement matrix, $\mathbf{X} \in \mathbb{R}^{N \times L}$ is the source matrix, and $\mathbf{A} \in \mathbb{R}^{M \times N}$ is the mixing matrix. By expanding the system to include multiple measurement vectors some noise will occur. This is added to the linear system as a noise matrix $\textbf{E} \in \mathbb{R}^{M \times L}$. $L$ denotes the number of observed measurement vectors each consisting of $M$ measurements, that is $L$ samples given. For $L = 1$ the linear system \eqref{eq:MMV_model} will just be the SMV model \eqref{eq:SMV_model} \todo{Inkludere segmentering her så ledes at vi kan sige at vi har at most k activation i rækkerne af X}.
+where $\mathbf{Y} \in \mathbb{R}^{M \times L}$ is the observed measurement matrix, $\mathbf{X} \in \mathbb{R}^{N \times L}$ is the source matrix, and $\mathbf{A} \in \mathbb{R}^{M \times N}$ is the mixing matrix. 
+By expanding the system to include multiple measurement vectors some noise will occur. 
+This is added to the linear system as a noise matrix $\textbf{E} \in \mathbb{R}^{M \times L}$. 
+$L$ denotes the number of observed EEG measurement vectors each consisting of $M$ measurements, that is $L$ samples given. 
+For $L = 1$ the linear system \eqref{eq:MMV_model} will just be the SMV model \eqref{eq:SMV_model}.
+As for the linear system \eqref{eq:SMV_model} the MMV model \eqref{eq:MMV_model} is under-determined with $M < N$ and $k < M$ \cite[p. 42]{CS}.
 
+As the EEG measurements are non-stationary it can be hard to say something about the activations in the source matrix $\mathbf{X}$ as the sources fluctuates between be active and non-active.
+Therefore it is of interest that the EEG measurements becomes stationary.
+This could possibly be done by segmentation of the EEG measurements as the measurements becomes stationary in short time period.
 
-
-
-
-
-
-
-
-
-Let $f$ be the sample frequency of the observed data $\mathbf{Y}$ and let $s$ denoted a segment index\todo{f er samples pr sek., L er antal sampels i alt, Ls er antal samples pr segment og ts er længen pr segment i sekunder}. As such the observed data can be divided into segments $\mathbf{Y}_s \in \mathbb{R}^{M \times t_s f}$, possibly overlapping, where $t_s$ is the length of the segments in seconds. For each segment the linear model still holds and is rewritten into
-\begin{align*}
+Let $f$ be the sample frequency of the observed EEG measurements $\mathbf{Y}$ and let $s$ denoted a segment index \todo{f er samples pr sek., L er antal sampels i alt, Ls er antal samples pr segment og ts er længen pr segment i sekunder}.
+As such the observed EEG measurements can be divided into segments $\mathbf{Y}_s \in \mathbb{R}^{M \times t_s f}$, possibly overlapping, where $t_s$ is the length of the segments in seconds. For each segment the MMV model \eqref{eq:MMV_model} still holds and is rewritten into
+\begin{align}\label{eq:MMV_seg}
 \mathbf{Y}_s = \mathbf{AX}_s + \textbf{E}_s, \quad \forall s.
-\end{align*}
-Cov-DL takes advantage of the covariance domain where the dimensionality is increased allowing for an enlarged number of sources to be active while the dictionary remains recoverable.  
-An important aspect of this method is the prior assumption that the sources within one segment are uncorrelated, that is the rows of $\textbf{X}_s$ being mutually uncorrelated. 
-From the assumption of uncorrelated sources it can be assumed that the sample covariance of $\textbf{X}_s$ becomes nearly diagonal. This is of importance when the system is transformed to the covariance domain.    
+\end{align}
+As the segmented EEG measurement matrix $\mathbf{Y}_s$ now consists of stationary measurement, the segmented source matrix $\mathbf{X}_s$, consisting of the vectors $\mathbf{x}_{s1}, \dots, \mathbf{x}_{sL}$ which have been stacked column-wise, will now consists of at most $k$ non-zero rows -- the activations of sources. 
+The support of segmented source matrix $\mathbf{X}_s$ denotes the index set of non-zero rows of $\mathbf{X}_s$. 
+As mentioned before, $\mathbf{X}_s$ has at most $k$ non-zero rows, the non-zero values occur in common location for all columns. 
+By using this joint information it is possible to recover $\mathbf{X}_s$ from fewer measurements \cite[p. 43]{CS}.
 
-The Cov-DL do only recover the mixing matrix $\mathbf{A}$ given the measurements $\textbf{Y}$. Given $\textbf{A}$ the source matrix $\mathbf{X}$ is to be recovered by use of the Multiple Sparse Bayesian Learning algorithm, this is described in section \ref{ch:M-SBL} 
+\section{Solution Methods}\todo{Mangler dette afsnit - Laura}
+For the EEG measurements the MMV model is an under-determined linear system with less sensors than sources, $M < N$, and therefore a solution must be found in the infinitely solution space, provided one solution exists.
 
-The source matrix $\mathbf{X}$ consists of the vectors $\mathbf{x}_1, \dots, \mathbf{x}_L$ which have been stacked column-wise such that $\mathbf{X}$ consist of at most $k$ non-zero rows -- the activations of sources. As for the SMV model \eqref{eq:SMV_model} the MMV model \eqref{eq:MMV_model} is under-determined with $M \ll N$ and $k < M$ \cite[p. 42]{CS}.
+O. Balkan \cite{Balkan2015} proposed in 2015 a method which can recover a mixing matrix $\mathbf{A}$ from a under-determined segmented MMV model.
+The background of this method is take a part of compressive sensing. 
+Compressive sensing is method which can recover the unknown signals and mixing matrix from under-determined linear systems. 
+With this method a new term is introduce as sparsity. Sparsity can be view as the number of activation within the sources $k$ -- the number of non-zeros indices in $\mathbf{x}$.
+One thing which is necessary for compressive sensing is the the number of activations $k$ is limited by the number of sensors, $k \leq M$, to ensure uniquely recovery of $\mathbf{x}$.
+This is not always the case in the EEG measurements as more activations than sensors occurs when using low-density equipment to measure the EEG measurements.
+To overcome this problem O. Balkan transform the compressive sensing problem to covariance domain to increase the dimensionality of the problem -- instead the number of activations $k$ is now limited by $k \leq \frac{M(M+1)}{2}$ which allows us to have $k \geq M$.
+
+O. Balkan \cite{Balkan2014} did also proposed another method which could identify the sources of the MMV model \eqref{eq:MMV_model} -- the non-segmented linear system.
 
 
-
-The support of $\mathbf{X}$ denotes the index set of non-zero rows of $\mathbf{X}$ and $\mathbf{X}$ is said to be row-sparse. As the columns in $\mathbf{X}$ are $k$-sparse and as mentioned before, $\mathbf{X}$ has at most $k$ non-zero rows, the non-zero values occur in common location for all columns. By using this joint information it is possible to recover $\mathbf{X}$ from fewer measurements \cite[p. 43]{CS}.
 

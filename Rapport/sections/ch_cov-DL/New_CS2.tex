@@ -1,4 +1,17 @@
-\section{Compressive Sensing}\label{sec:CS}
+\section{Introduction}
+Covariance-domain dictionary learning (Cov-DL) is an algorithm proposed by O. Balkan \cite{Balkan2015}, claiming to successfully identify more active sources $k$ than available measurements $M$ from the segmented multiple measurement vector model 
+\begin{align*}
+\mathbf{Y}_s = \mathbf{A}_s \mathbf{X}_s + \textbf{E}_s.
+\end{align*}
+where $\mathbf{Y}_s \in \mathbb{R}^{M \times t_s f}$ is the observed segmented EEG measurement matrix, $\mathbf{X}_s \in \mathbb{R}^{N \times t_s f}$ the segmented source matrix and $\mathbf{E}_s \in \mathbb{R}^{M \times t_s f}$ is the additional segmented noise matrix.
+\\
+Cov-DL takes advantage of the covariance domain where the dimensionality is increased allowing for an enlarged number of sources to be active while the dictionary remains recoverable.  
+An important aspect of this method is the prior assumption that the sources within one segment are uncorrelated, that is the rows of $\textbf{X}_s$ being mutually uncorrelated. 
+From the assumption of uncorrelated sources it can be assumed that the sample covariance of $\textbf{X}_s$ becomes nearly diagonal. This is of importance when the system is transformed to the covariance domain.    
+\\
+The Cov-DL do only recover the mixing matrix $\mathbf{A}$ given the measurements $\textbf{Y}$. Given $\textbf{A}$ the source matrix $\mathbf{X}$ is to be recovered by use of the Multiple Sparse Bayesian Learning algorithm, this is described in section \ref{ch:M-SBL} 
+
+\subsection{Compressive Sensing}\label{sec:CS}
 Compressive sensing is the theory of efficient recovery of a signal from a minimal number of observed measurements. 
 It is build upon empirical observations assuring that many signals can be approximated by remarkably sparser signals.   
 Assume linear acquisition of the original measurements, then the relation between the measurements and the signal to be recovered can be modelled by the linear system \eqref{eq:SMV_model} \cite{FR}.  

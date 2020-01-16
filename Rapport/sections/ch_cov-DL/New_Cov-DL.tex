@@ -1,47 +1,5 @@
 The section is inspired by chapter 3 in \cite{phd2015} and the article \cite{Balkan2015}. INTRO.. 
 
-\section{Introduction}
-Covariance-domain dictionary learning (Cov-DL) is an algorithm proposed by O. Balkan \cite{Balkan2015}, claiming to successfully identify more active sources $k$ than available measurements $M$ from the multiple measurement vector model 
-
-%\textit{
-%Notes, maybe prior to this section: 
-%\begin{itemize}
-%\item To avoid this Cov-DL was proposed by O. Balkan. Though the theory of getting from $M$ sources to $M^2$ was established in \cite{Pal2015}. saying that the design of the measurement/dictionary matrix is essential to overcome this issue, new conditions will be developed for this to be a success \cite{Pal2015},
-%\item about the approach: "This will in turn lead to the development of new sampling
-%schemes and justify the need for the use of nested and
-%coprime sampling. Another noteworthy point is that we distinguish
-%the recovery of the sparse vector from that of its support."\cite{Pal2015}. \\
-%\item In \cite{Pal2015} it is in fact the support of $x$ which if found by use of the covariance domain, and this is what Balkan uses on the dictionary matrix i suppose.
-%\item the assumed prior(which has not been exploited before \cite{Pal2015}): a prior on the correlation of the received signal is to assume a (pseudo)diagonal covariance matrix for the unknown signal, that is $\frac{1}{L_s}\textbf{X}_{s}\textbf{X}_s^{T}$\cite{Pal2015}, which is then under the assumption of uncorrelated sources in $x$\cite{phd2015}. This is what lead to the correlation constraint (3.3) in phd.  
-%\item the conditions mentioned on the measurement/dictionary matrix in \cite{Pal2015} is: "Sparse sampling
-%schemes such as nested and coprime sampling will be shown to
-%satisfy these conditions". For $\textbf{A}$ we need "$O(M^2)$ Kruskal Rank for their Khatri-Rao products". This is not necessarily what Balkan uses.   
-%\item The prior mentioned by Balkan is the uncorrelated sources. 
-%\end{itemize}
-%We know:
-%\begin{itemize}
-%\item Covariance matrix:(when we have several observations) $\Sigma_{\textbf{x}} = Cov(\textbf{x}) = Cov(\textbf{x},\textbf{x}) = \mathbb{E}[ \textbf{x}\textbf{x}^T ]-\mu_{x}\mu_{x^{T}}$ , symmetric and positive simidefinite.
-%\item Sample covariance matrix: $'\Sigma_{\textbf{x}} = \frac{1}{L} \sum_{i=1}^{L}(\textbf{x}_i-\mathbb{E}[\textbf{x}])(\textbf{x}_i-\mathbb{E}[\textbf{x}])^T$ using unbiased estimate since we assume $\mathbb{E}[\textbf{x}]=0$
-%\item this becomes $\frac{1}{L}\textbf{X}\textbf{X}^T$, where L is the length of the sample segment.  
-%\item the covariance of two vectors $cor(\textbf{x},\textbf{y})$ is also referred to as the cross-correlation.
-%\end{itemize}
-%}
-\begin{align*}
-\mathbf{Y} = \mathbf{AX}+\textbf{E}.
-\end{align*}
-where $\mathbf{Y} \in \mathbb{R}^{M \times L}$ is the observed  measurement matrix, $\mathbf{X} \in \mathbb{R}^{N \times L}$ the the source matrix and $\mathbf{E} \in \mathbb{R}^{M \times L}$ is the additional noise matrix \todo{f er samples pr sek., L er antal sampels i alt, Ls er antal samples pr segment og ts er længen pr segment i sekunder}.
-\\
-Let $f$ be the sample frequency of the observed data $\mathbf{Y}$ and let $s$ denoted a segment index. As such the observed data can be divided into segments $\mathbf{Y}_s \in \mathbb{R}^{M \times t_s f}$, possibly overlapping, where $t_s$ is the length of the segments in seconds. For each segment the linear model still holds and is rewritten into
-\begin{align*}
-\mathbf{Y}_s = \mathbf{AX}_s + \textbf{E}_s, \quad \forall s.
-\end{align*}
-Cov-DL takes advantage of the covariance domain where the dimensionality is increased allowing for an enlarged number of sources to be active while the dictionary remains recoverable.  
-An important aspect of this method is the prior assumption that the sources within one segment are uncorrelated, that is the rows of $\textbf{X}_s$ being mutually uncorrelated. 
-From the assumption of uncorrelated sources it can be assumed that the sample covariance of $\textbf{X}_s$ becomes nearly diagonal. This is of importance when the system is transformed to the covariance domain.    
-\\
-The Cov-DL do only recover the mixing matrix $\mathbf{A}$ given the measurements $\textbf{Y}$. Given $\textbf{A}$ the source matrix $\mathbf{X}$ is to be recovered by use of the Multiple Sparse Bayesian Learning algorithm, this is described in section \ref{ch:M-SBL} 
-
-
 \section{Covariances domain representation}
 Consider the covariance of a vector $\textbf{x}_i$  
 \begin{align*}

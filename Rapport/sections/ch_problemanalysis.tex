@@ -1,9 +1,9 @@
 \chapter{Motivation}\label{ch:motivation}
  This chapter accounts for the motivation behind source extraction from an Electroencephalography (EEG). The concept of EEG is introduced along with its application. The potential and importance of source extraction are considered and related to the hearing aid industry. The commonly applied mathematical model for EEG measurements is presented. Currently applied methods for source extraction are considered leading to a presentation of the current state of the art methods which succeeds to overcome the limitations of previous methods. Lastly the contribution provided in this thesis is presented.          
 
-%This chapter examines existing literature concerning source recovery from Electroencephalography (EEG) measurements. 
-%At first a motivation for the source recovery problem is given, considering the application within the hearing aid industry. 
-%Further, the state of the art methods are presented followed by a description of the contribution proposed in this thesis.
+%%This chapter examines existing literature concerning source recovery from Electroencephalography (EEG) measurements. 
+%%At first a motivation for the source recovery problem is given, considering the application within the hearing aid industry. 
+%%Further, the state of the art methods are presented followed by a description of the contribution proposed in this thesis.
 
 \section{EEG Measurements}\label{sec:EEG}
 EEG is an imaging technique used within the medical field. EEG is measuring electric signals on the scalp, caused by brain activity. 
@@ -25,9 +25,9 @@ The concept is sought illustrated on figure \ref{fig:volumeconduction}.
 %It will be clear later that it is of interest to separate and localize the sources of the neural activities measured on the scalp.  
 %\\ 
 The resulting EEG measurements are classified within four groups according to the dominant frequency. 
-The delta wave ($0.5-4$ Hz) is observed from infants and sleeping adults, the theta wave ($4-8$ Hz) is observed from children and sleeping adults, the alpha wave ($8-13$ Hz) is the most extensively studied brain rhythm, which is induced by an adult laying down with closed eyes. 
+The delta wave ($0.5-4$ Hz) is observed from infants and sleeping adults, the theta wave ($4-8$ Hz) is observed from children and sleeping adults, the alpha wave ($8-13$ Hz) is the most extensively studied brain rhythm, which is induced by an adult laying down with closed eyes\todo{tilføj beskrivelse af stationaitet}. 
 Lastly, the beta wave ($13-30$ Hz) is considered the normal brain wave for adults, associated with active thinking, active attention or solving concrete problems \cite[p. 11]{EEGsignalprocessing}. 
-An example of EEG measurements within the four categories is illustrated by figure \ref{fig:EEG_example}.        
+An example of EEG measurements within the four categories is illustrated by figure \ref{fig:EEG_example}.
 \begin{figure}[H]
     \begin{minipage}[t]{.45\textwidth}
         \centering
@@ -41,7 +41,7 @@ An example of EEG measurements within the four categories is illustrated by figu
         \caption{Example of time dependent EEG measurements within the four defined categories, source: \cite{EEGsignalprocessing}}\label{fig:EEG_example}
     \end{minipage}
 \end{figure}
-\noindent
+
 EEG performed on humans and animals have a great number of applications with both clinical and research purposes. 
 Examples of clinical applications covers diagnosis and management of neurological disorders such as epilepsy and monitor alertness regarding coma or brain death.
 EEG capitalizes on the procedure being non-invasive and fast.
@@ -62,63 +62,74 @@ An article from 2016 \cite{Van2019} points out the importance of performing anal
 It is argued through experiments that analysis at EEG level does not allow interpretations about the interaction between sources. 
 This emphasize a potential for improving results within a wide range of EEG research, if the original active sources can be extracted from a specific EEG measurements.    
 
-     
+%     
 %However, the focus of this research is the correlation between EEG measurements and the sound source rather than localization of the activated source from the EEG \cite{Emina2019}. 
 %Hence a source localization approach could potentially be of interest regarding hearing aids in order to improve the results.
 %(Furthermore, a real-time application to provide feedback from EEG measurements would be essential.)\todo{?}. 
 
 
 \section{Modelling}
-Consider the issue of extracting the activated sources from EEG measurements. A known approach is to model the observed data by the following linear system 
+Consider the issue of extracting the activated sources from EEG measurements. A known approach is to model the observed data by a linear system 
 \begin{align*}
 \mathbf{Y} = \mathbf{AX}.
 \end{align*}
-$\mathbf{Y} \in \mathbb{R}^{M \times L}$ is the EEG measurements where $L$ is the number of samples over time with each sample consisting of $M$ measurements, one for each sensor. $\mathbf{X} \in \mathbb{R}^{N \times L}$ makes $L$ samples of $N$ possible sources within the brain. The non-zero entries of a column in $\textbf{X}$ represent the active sources at the time of the sample. $\mathbf{A} \in \mathbb{R}^{M \times N}$ is an unknown mixing matrix. 
+$\mathbf{Y} \in \mathbb{R}^{M \times L}$ is the EEG measurements where $L$ is the number of samples over time with each sample consisting of $M$ measurements, one for each sensor. $\mathbf{X} \in \mathbb{R}^{N \times L}$ makes $L$ samples of $N$ possible sources within the brain. The non-zero entries of a column in $\textbf{X}$ represent the active sources at the time of the sample. $\mathbf{A} \in \mathbb{R}^{M \times N}$ is an unknown mixing matrix, resembling the volume conduction. 
 The $i^{th}$ column of $\mathbf{A}$ represents the relative projection weights from the $i^{th}$ source to every sensor \cite{phd2015}. 
-This is in general referred to as a multiple measurement vector model. 
-The aim in this case is to identify both $\mathbf{A}$ and $\mathbf{X}$ given the measurements $\mathbf{Y}$. 
-This specific set up is referred to as the EEG inverse problem.  
-\todo{her burde vi rise dictionarylearning of alm løsning af ligning system op}
-To solve the EEG inverse problem the concept of sparse signal recovery makes a solid foundation, including compressive sensing and dictionary learning. 
-Independent Component Analysis (ICA) is a commonly applied method to solve the inverse problem \cite{Scott1996}, \cite{Scott1997}. Here statistical independence between the active sources is the essential assumption. 
-\\
-Application of ICA has shown great results regarding source separation of high-density EEG. 
-%Furthermore, an enhanced signal-to-noise ratio of the unmixed independent source time series processes allow essential study of the behaviour and relationships between multiple EEG source processes \cite{Arnaud2012}. 
-However, a significant flaw to this method is that the EEG measurements are only separated into a number of sources that are equal to or less than the number of sensors \cite{Balkan2015}.
-This means that the EEG inverse problem may not form an under-determined system, which is the case when the number of unknown sources exceeds the number of sensors. 
-That is an assumption which undermines the reliability and usability of ICA, as the number of simultaneous active sources easily exceed the number of sensors \cite{phd2015}. 
-This is especially a drawback when low-density EEG are considered. Low-density EEG measurements are collected from equipment with less than 32 sensors. 
-However, improved capabilities of low-density EEG devices are desirable due to their relative low cost, mobility and ease to use. 
-\\
-The above argumentation gives rise to further investigation of existing work considering the under-determined inverse EEG problem. 
+Due to the input $\textbf{Y}$ being a matrix of multiple samples vectors of measurements the linear system is in general referred to as a multiple measurement vector model. 
+Only the measurements $\textbf{Y}$ are known hence it is not possible to solve the linear system with respect to $\textbf{X}$ using basic linear algebra.   
+The task in this case is to identify both $\mathbf{A}$ and then $\mathbf{X}$, given the measurements $\mathbf{Y}$. This problem is referred to as the inverse problem of EEG. 
+Finding $\textbf{X}$ from the inverse problem if referred to as source separation and localization. Separation is to find the signal from each active source and localization is to place each active source signal at the right position within the source vector of dimension $N$, where $N$ is the maximum number of sources to be active.      
 
-\section{Related Work and Our Contribution} 
-As mentioned above ICA has been a solid method for source localization in the case where a separation into a number of sources equal to the number of sensors was adequate. The issue occurs in cases where the number of sources $N$ exceeds the number of sensors $M$.  
+Independent Component Analysis (ICA) is one commonly applied method to solve the inverse problem of EEG \cite{Scott1996}, \cite{Scott1997}. ICA is a technique to find the matrix $A$ such that the column wise elements of $X$ is statistically independent. Thus statistical independence between the active sources is the essential assumption, which in the case of EEG are considered valid due to the volume conduction being effectively instantaneous\cite[p. 3]{Scott1997}. 
+Application of ICA has shown great results regarding source separation of high-density EEG. 
+However, a significant flaw to this method is that the EEG measurements are only separated into a number of sources that is equal to or less than the number of sensors \cite{Balkan2015}.
+Meaning that the EEG inverse problem can not form an under-determined system, which is the case when the maximum number of unknown sources $N$ exceeds the number of sensors $M$. 
+Such assumption undermines the reliability and usability of ICA, as the number of active sources easily exceed the number of sensors \cite{phd2015}. 
+This is especially a drawback when low-density EEG are considered. Low-density EEG measurements are collected from equipment with less than 32 sensors, increasing the changes of $M$ being less that $N$. 
+However, improved capabilities of low-density EEG devices are desirable due to their relative low cost, mobility and ease to use. 
+
+This argues the importance of considering the inverse problem of EEG in the under-determined case where $N>M$. In the next section existing work considering the under-determined inverse problem of EEG is investigated further. 
+
+\section{Related Work and Our Objective} 
+As mentioned above ICA is a solid method for source separation in the case where separation into a number of sources equal to the number of sensors is adequate. The issue occurs in cases where the number of sources $N$ exceeds the number of sensors $M$.  
 To overcome this issue an extension of ICA was suggested, referred to as the ICA mixture model \cite{Balkan2015}.
 Instead of identifying one overcomplete mixing matrix $\mathbf{A} \in \mathbb{R}^{M \times N}$ this approach learns $N_{\text{model}}$ different mixing matrices $\mathbf{A}_i \in \mathbb{R}^{M\times M}$, to make computations more tractable. 
-The method was further adapted into the Adaptive Mixture ICA (AMICA) which showed successful results regarding identification of more sources than available sensors \cite{Palmer2008}. 
-However, the successful results relies on the assumption that no more than $M$ sources is simultaneously active. This assumption is still an essential limitation to the frame work, especially when considering low-density EEG. 
-Other types of overcomplete ICA algorithms have been proposed to overcome the problem of learning over-complete systems. 
-One is the Restricted ICA (RICA), an efficient method used for unsupervised learning in neural networks \cite{Le2011}.\\ 
+This method was further adapted into the Adaptive Mixture ICA (AMICA) which showed successful results regarding identification of more sources than sensors \cite{Palmer2008}. 
+However, the successful results relies on the assumption that no more than $M$ out of $N$ possible sources is simultaneously active. That is explicit that the source vector of dimension $N$ has at most $M$ non-zero entries.
+This assumption is still an essential limitation to the frame work, especially when considering low-density EEG. 
+Other types of ICA algorithms for under-determined systems have been proposed, without overcoming the limitation of jointly active sources exceeding the number of sensors.
+%One is the Restricted ICA (RICA), an efficient method used for unsupervised learning in neural networks \cite{Le2011}.\\ 
 
-In 2015 O. Balkan et. al., \cite{Balkan2015}, suggested a new approach also targeting the identification of more sources than sensors regarding EEG. 
-The suggested method, referred to as Cov-DL, is a covariance-domain based dictionary learning algorithm. 
-The point is to transfer the EEG measurements into the covariance domain, for which higher dimensionality can be achieved compared to the original EEG sensor domain of size $M$. 
-This transformation can be done when assuming the scalp mixing is linear and under the assumption of no correlation between the sources within a certain time-window. 
-The Cov-DL algorithm stands out from the other straight forward dictionary learning methods as it does not relay on the sparsity of active sources. This is an essential advantage when low-density EEG is considered. 
-Cov-DL was tested and found to outperform both AMICA and RICA \cite{Balkan2015}. Thus it is considered the state of the art within the area of source recovery. 
-\\ \\
-It is essential to note that the Cov-DL algorithm only learns the mixing matrix $\mathbf{A}$, the projection of sources to the scalp sensors, and not the explicit source activity time series $\mathbf{X}$.
-\\
-For purpose of recovering $\textbf{X}$, from $\textbf{Y}$ and $\textbf{A}$ found by Cov-DL, a multiple measurement sparse Bayesian learning (M-SBL) algorithm was proposed in \cite{Balkan2014} by O. Balkan et. al. This methos is also targeting the case of more active sources than sensors. 
-The method was proven to outperform the previously used algorithm, even when the defined recovery conditions regarding the found mixing matrix $\textbf{A}$ was not fulfilled\cite{Balkan2014}.  
-\\ \\
-The two state of the art methods for source recovery makes the foundation of this thesis. 
-This thesis proposes an algorithm with the purpose of solving the EEG inverse problem using the presented methods on EEG measurements. 
-To extend the existing results the algorithm is expanded into a real-time application, in order to provide feedback based on the source activity.
-\\
-The intention of the feedback is to allow a hearing aid to react when the user is using an unnecessary amount of energy in order to listen to some signal which could be dominated by noise. Here the amount of energy is based on the number of active sources within the brain. A reaction from the hearing aid could be to adjust the direction of the microphone beam within the hearing aid.    
-For this, the application is tested within a simulation environment where the receiving direction of the test person can be adjusted in real-time. 
-The quality of the final results is measured by the capability of improving the listener experience and the time used to provide useful feedback. 
-\\ \\
-As such our contribution \textit{(hopefully)} consists of tests of existing methods on real-time measurements and furthermore include a feedback to control the microphone beam on a hearing aid. \todo{note: Evt. kunne vi lave en figur der lidt ala mindmap sætte et system overblik op og så highlighte de "bokse" vi vælger at arbejde med.}
+In 2015 O. Balkan et. al. suggested a new approach also targeting the identification of more active sources than sensors regarding EEG measurements. One method is proposed for learning $\textbf{A}$ from $\textbf{Y}$\cite{Balkan2015} and a different method is proposed for finding $\textbf{X}$ given $\textbf{Y}$ and $\textbf{A}$\cite{Balkan2014}.
+
+To learn $\textbf{A}$ the suggested method, referred to as Cov-DL, is a covariance-domain based dictionary learning algorithm. 
+The method is based upon theory of dictionary learning and compressive sensing, dictating a framework for solving an under-determined system when $\textbf{X}$ is sufficiently sparse. 
+The point is to transfer the EEG measurements into the covariance domain, for which higher dimensionality can be achieved compared to the original EEG sensor domain of size $M$.
+The transformation can be done when assuming the volume conduction is linear and that sources are uncorrelated.
+As a result the he theory of compressive sensing is found to  apply, allowing to learn $\textbf{A}$ through dictionary learning and an inverse transformation.
+The Cov-DL algorithm stands out from other straight forward dictionary learning methods as it does not relay on the sparsity of active sources. This is an essential advantage when low-density EEG is considered. 
+Cov-DL was tested and found to outperform AMICA \cite{Balkan2015}.  
+As mentioned, the Cov-DL algorithm only learns the mixing matrix $\mathbf{A}$, resembling the volume conduction, and not the explicit source activity $\mathbf{X}$.
+
+For the purpose of recovering $\textbf{X}$, from $\textbf{Y}$ and $\textbf{A}$, a multiple measurement sparse Bayesian learning (M-SBL) algorithm is proposed. This method is also targeting the case of more active sources than sensors. ...(lidt nærmere tilkendegivelse af grundlæggende teori)...
+The method was proven to outperform the previously used algorithms, even when the defined recovery conditions regarding the found mixing matrix $\textbf{A}$ was not fulfilled\cite{Balkan2014}.
+
+One drawback which is not fully considered in the referred literature is that the two methods rely on the the number of active sources being given. 
+In practise this is not the case 
+
+\todo{test lige kode igen hvor forkert k angives}  
+
+The two state of the art methods resulting in source separation and localization makes the foundation of this thesis. 
+The aim of this thesis is to investigate and fully understand the two methods in order to implement and test a joint algorithm. 
+
+Furthermore it is of interest to consider the practical application of the results within a hearing aid.  
+As described in section \ref{sec:EEG} it is of interest to reduce the amount of energy it takes to listen to a specific sound source surrounded by noise.
+For this purpose we want to relate the found number of active sources to the level of concentration that the test person is experiencing.  
+
+or 
+
+Vi får lidt meget ny information her til sidst måske:
+vi kender ikke antal aktive sources eller source overhoved i praksis, eller gør vi ?
+
+
+ 

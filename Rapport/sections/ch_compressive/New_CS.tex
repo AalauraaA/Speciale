@@ -64,7 +64,8 @@ By using this joint information it is possible to recover $\mathbf{X}_s$ from fe
 \section{Solution Methods}
 For the EEG measurements the MMV model is an under-determined linear system with less sensors than sources, $M < N$, and therefore a solution must be found in the infinitely solution space, provided one solution exists -- simple linear algebra can not be used.
 
-O. Balkan \cite{Balkan2015} proposed in 2015 a method which can recover a mixing matrix $\mathbf{A}$ from a under-determined segmented MMV model.
+O. Balkan \cite{Balkan2015} proposed in 2015 a method which can recover a mixing matrix $\mathbf{A}$ from a under-determined segmented MMV model. 
+The method is called covariance-domain dictionary learning (Cov-DL).
 The background of this method take a part of compressive sensing. 
 Compressive sensing is method which can recover the unknown signals and mixing matrix from under-determined linear systems. 
 With this method a new term is introduce as sparsity. Sparsity can be view as the number of activation within the sources $k$ -- the number of non-zeros indices in $\mathbf{x}$.
@@ -72,7 +73,8 @@ One thing which is necessary for compressive sensing is the the number of activa
 This is not always the case in the EEG measurements as more activations than sensors occurs when using low-density equipment to measure the EEG measurements.
 To overcome this problem O. Balkan transform the compressive sensing problem to covariance domain to increase the dimensionality of the problem -- instead the number of activations $k$ is now limited by $k \leq \frac{M(M+1)}{2}$ which allows us to have $k \geq M$.
 
-O. Balkan \cite{Balkan2014} did also, in 2014, proposed another method which could identify the sources of a non-segmented MMV model.
+O. Balkan \cite{Balkan2014} did also, in 2014, proposed another method which could identify the sources of a non-segmented MMV model. 
+This method is called multiple sparse bayesian learning (M-SBL).
 The method take advantage of a Bayesian approach as O. Balkan constructs a variance dependent log-likelihood which as been induce by a empirical prior that ensure sparsity of the likelihood. 
 By minimisation of the variance of the log-likelihood an estimate for the source matrix can be drawn from the log-likelihood.
 

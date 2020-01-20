@@ -114,22 +114,16 @@ As mentioned, the Cov-DL algorithm only learns the mixing matrix $\mathbf{A}$, r
 For the purpose of recovering $\textbf{X}$, from $\textbf{Y}$ and $\textbf{A}$, a multiple measurement sparse Bayesian learning (M-SBL) algorithm is proposed. This method is also targeting the case of more active sources than sensors. ...(lidt nærmere tilkendegivelse af grundlæggende teori)...
 The method was proven to outperform the previously used algorithms, even when the defined recovery conditions regarding the found mixing matrix $\textbf{A}$ was not fulfilled\cite{Balkan2014}.
 
-One drawback which is not fully considered in the referred literature is that the two methods rely on the the number of active sources being given. 
-In practise this is not the case 
-
-\todo{test lige kode igen hvor forkert k angives}  
+One drawback, which is not fully covered in the referred literature, is that the two methods rely on the number of active sources being known. 
+In practise this is not the case. 
+Hence an estimation of the number of active sources has to be considered for the algorithm to be useful in practice \todo{test lige kode igen hvor forkert k angives}. To address this issue a simple approach is to optimise the result with respect to the number active source, provided that some prior assumption of the expected result can be made\todo{kan vi undersøge dette yderligere ovenfor først}.      
 
 The two state of the art methods resulting in source separation and localization makes the foundation of this thesis. 
 The aim of this thesis is to investigate and fully understand the two methods in order to implement and test a joint algorithm. 
-
-Furthermore it is of interest to consider the practical application of the results within a hearing aid.  
+Secondary it is of interest to consider the practical application of the results within a hearing aid.  
 As described in section \ref{sec:EEG} it is of interest to reduce the amount of energy it takes to listen to a specific sound source surrounded by noise.
-For this purpose we want to relate the found number of active sources to the level of concentration that the test person is experiencing.  
-
-or 
-
-Vi får lidt meget ny information her til sidst måske:
-vi kender ikke antal aktive sources eller source overhoved i praksis, eller gør vi ?
+For this purpose we want to relate the found number of active sources to the level of concentration that the test person is experiencing. 
+As described this will include an estimation of the number of active sources through
 
 
  

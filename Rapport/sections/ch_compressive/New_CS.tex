@@ -35,8 +35,8 @@ where $[N]$ is a set of integers $\lbrace 1, 2, \hdots, N \rbrace$ \cite[p. 41]{
 \todo{Nu nævner vi jo herover at vi skal finde en løsning i det uendelige løsningsrum men vi går egenligt ikke videre med det da vi i stedet introducer k og MMV. Går der for lang til fra at det er nævnt til at man kommer med et bud? Vi kommer jo først til at nævne det i næste sektion "solution method".}
 
 \section{Multiple Measurement Vector Model}\label{sec:MMV}
-As the EEG measurements vary over time multiple EEG measurement vectors are achieved. 
-Therefore, to provided a practical use of the linear system the linear system is expanded to include the multiple measurement vectors, such that the linear system now becomes a multiple measurement vector (MMV) model:
+As EEG measurements vary over time multiple EEG measurement vectors are achieved. 
+Therefore, to provided a practical use of the linear system the system \eqref{eq:SMV_model} is expanded to include the multiple measurement vectors, such that the linear system now becomes a multiple measurement vector (MMV) model:
 \begin{align}\label{eq:MMV_model}
 \mathbf{Y} = \mathbf{AX}+\textbf{E},
 \end{align}
@@ -45,11 +45,11 @@ By expanding the system to include multiple measurement vectors some noise will 
 This is added to the linear system as a noise matrix $\textbf{E} \in \mathbb{R}^{M \times L}$. 
 $L$ denotes the number of observed EEG measurement vectors each consisting of $M$ measurements, that is $L$ samples given. 
 For $L = 1$ the linear system \eqref{eq:MMV_model} will just be the SMV model \eqref{eq:SMV_model}.
-As for the linear system \eqref{eq:SMV_model} the MMV model \eqref{eq:MMV_model} is under-determined with $M < N$ and $k < M$ \cite[p. 42]{CS}.
+As for the linear system \eqref{eq:SMV_model} the MMV model \eqref{eq:MMV_model} is under-determined with $M < N$ \cite[p. 42]{CS}.
 
-As the EEG measurements are non-stationary it can be hard to say something about the activations in the source matrix $\mathbf{X}$ as the sources fluctuates between be active and non-active.
+As the EEG measurements are non-stationary it can be hard to say something about the activations in the source matrix $\mathbf{X}$ as the sources fluctuates between be active and non-active -- depending on the situation the EEG measurements are measured in.
 Therefore it is of interest that the EEG measurements becomes stationary.
-This could possibly be done by segmentation of the EEG measurements as the measurements becomes stationary in short time period.
+This could possibly be done by segmentation of the EEG measurements as the measurements becomes stationary in short time period \todo{ref eller er det almen kendt}.
 
 Let $f$ be the sample frequency of the observed EEG measurements $\mathbf{Y}$ and let $s$ denoted a segment index \todo{f er samples pr sek., L er antal sampels i alt, Ls er antal samples pr segment og ts er længen pr segment i sekunder}.
 As such the observed EEG measurements can be divided into segments $\mathbf{Y}_s \in \mathbb{R}^{M \times t_s f}$, possibly overlapping, where $t_s$ is the length of the segments in seconds. For each segment the MMV model \eqref{eq:MMV_model} still holds and is rewritten into
@@ -57,22 +57,24 @@ As such the observed EEG measurements can be divided into segments $\mathbf{Y}_s
 \mathbf{Y}_s = \mathbf{AX}_s + \textbf{E}_s, \quad \forall s.
 \end{align}
 As the segmented EEG measurement matrix $\mathbf{Y}_s$ now consists of stationary measurement, the segmented source matrix $\mathbf{X}_s$, consisting of the vectors $\mathbf{x}_{s1}, \dots, \mathbf{x}_{sL}$ which have been stacked column-wise, will now consists of at most $k$ non-zero rows -- the activations of sources. 
-The support of segmented source matrix $\mathbf{X}_s$ denotes the index set of non-zero rows of $\mathbf{X}_s$. 
+The support of the segmented source matrix $\mathbf{X}_s$ denotes the index set of non-zero rows of $\mathbf{X}_s$. 
 As mentioned before, $\mathbf{X}_s$ has at most $k$ non-zero rows, the non-zero values occur in common location for all columns. 
 By using this joint information it is possible to recover $\mathbf{X}_s$ from fewer measurements \cite[p. 43]{CS}.
 
-\section{Solution Methods}\todo{Mangler dette afsnit - Laura}
-For the EEG measurements the MMV model is an under-determined linear system with less sensors than sources, $M < N$, and therefore a solution must be found in the infinitely solution space, provided one solution exists.
+\section{Solution Methods}
+For the EEG measurements the MMV model is an under-determined linear system with less sensors than sources, $M < N$, and therefore a solution must be found in the infinitely solution space, provided one solution exists -- simple linear algebra can not be used.
 
 O. Balkan \cite{Balkan2015} proposed in 2015 a method which can recover a mixing matrix $\mathbf{A}$ from a under-determined segmented MMV model.
-The background of this method is take a part of compressive sensing. 
+The background of this method take a part of compressive sensing. 
 Compressive sensing is method which can recover the unknown signals and mixing matrix from under-determined linear systems. 
 With this method a new term is introduce as sparsity. Sparsity can be view as the number of activation within the sources $k$ -- the number of non-zeros indices in $\mathbf{x}$.
 One thing which is necessary for compressive sensing is the the number of activations $k$ is limited by the number of sensors, $k \leq M$, to ensure uniquely recovery of $\mathbf{x}$.
 This is not always the case in the EEG measurements as more activations than sensors occurs when using low-density equipment to measure the EEG measurements.
 To overcome this problem O. Balkan transform the compressive sensing problem to covariance domain to increase the dimensionality of the problem -- instead the number of activations $k$ is now limited by $k \leq \frac{M(M+1)}{2}$ which allows us to have $k \geq M$.
 
-O. Balkan \cite{Balkan2014} did also proposed another method which could identify the sources of the MMV model \eqref{eq:MMV_model} -- the non-segmented linear system.
+O. Balkan \cite{Balkan2014} did also, in 2014, proposed another method which could identify the sources of a non-segmented MMV model.
+The method take advantage of a Bayesian approach as O. Balkan constructs a variance dependent log-likelihood which as been induce by a empirical prior that ensure sparsity of the likelihood. 
+By minimisation of the variance of the log-likelihood an estimate for the source matrix can be drawn from the log-likelihood.
 
 
 

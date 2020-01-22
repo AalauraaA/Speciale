@@ -82,9 +82,14 @@ and make it easy to quickly overview what occurs during a trial.
 # epochs.plot(n_epochs=1)
 
 " Print the first epoch with 32 channel and 385 frames/samples "
-epc = []
-for ep in epochs[0]: # Highest value is 79 corresponding to epoch number 80
-    epc = ep
+def eeg(epoch):
+    " 
+    epc = []
+    for ep in epochs[epoch]: # Highest value is 79 corresponding to epoch number 80
+        epc = ep
+    return epc
+
+epc = eeg(0)
 
 " Plots "
 plt.figure(1)

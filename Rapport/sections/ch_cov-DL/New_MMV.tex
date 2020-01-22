@@ -1,7 +1,29 @@
-As clarified in section \ref{sec:dic_conditions} the estimation of the dictionary matrix $\mathbf{A}$ is essential to achieve the best recovery of the sparse signal $\mathbf{x}$ from the measurements $\mathbf{y}$. Pre-constructed dictionaries do exist which in many cases results in simple and fast algorithms for reconstruction of $\mathbf{x}$ \cite{Elad_book}. Pre-constructed dictionaries are typically fitted to a specific kind of data. For instance the discrete Fourier transform or the discrete wavelet transform are used especially for sparse representation of images \cite{Elad_book}. Hence the results of using such dictionaries depend on how well they fit the data of interest, which is creating a certain limitation. An alternative is to consider an adaptive dictionary based on a set of training data that resembles the data of interest. For this purpose learning methods are considered to empirically construct a fixed dictionary which can take part in the application. Different dictionary learning algorithms exist. One is the K-SVD which is to be elaborated in this chapter. The K-SVD algorithm was presented in 2006 by Elad et al. and found to outperform pre-constructed dictionaries when computational cost is of secondary interest \cite{Elad2006}. Before the K-SVD algorithm can be investigated the linear model \eqref{eq:SMV_model} must be expanded to be considering sets of training data.
+\subsection{Dictionary Learning}
+As clarified from the proof of theorem \ref{th:CS_A} the estimation of the mixing matrix $\mathbf{A}$ is essential to achieve the best recovery of the sparse source vector $\mathbf{x}$ from the EEG measurement $\mathbf{y}$. 
+For the estimation one could choose a dictionary as choice for the mixing matrix $\mathbf{A}$.
 
+Pre-constructed dictionaries do exist which in many cases results in simple and fast algorithms for reconstruction of $\mathbf{x}$ \cite{Elad_book}. 
+Pre-constructed dictionaries are typically fitted to a specific kind of data. 
+For instance the discrete Fourier transform or the discrete wavelet transform are used especially for sparse representation of images \cite{Elad_book}. 
+Hence the results of using such dictionaries depend on how well they fit the data of interest, which is creating a certain limitation. 
+An alternative is to consider an adaptive dictionary based on a set of training data that resembles the data of interest. 
+For this purpose learning methods are considered to empirically construct a fixed dictionary which can take part in the application. 
+Different dictionary learning algorithms exist. 
+One is the K-SVD which is to be elaborated in this chapter. The K-SVD algorithm was presented in 2006 by Elad et al. and found to outperform pre-constructed dictionaries when computational cost is of secondary interest \cite{Elad2006}. 
+
+For the K-SVD algorithm several measurements vectors $\mathbf{y}$ must used to learn the dictionary $\mathbf{A}$. Therefore, the K-SVD algorithm will be used on the multiple measurement vector (MMV) model as described in \eqref{eq:MMV_model}.
 
 \section{K-SVD}\label{sec:dictionarylearning}
+Consider the EEG measurement matrix $\mathbf{Y} \in \mathbb{R}^M$ consisting of $\lbrace \mathbf{y}_j \rbrace_j^L$ measurement vectors constructed from the linear system
+$$
+\mathbf{y}_j = \mathbf{A}\mathbf{x}_j.
+$$ 
+By divided $\mathbf{Y}$ into segment of samples summing up to $L$ samples total a training database is created which one can learn a suitable dictionary $\mathbf{A}$ from and the sparse representation of the source matrix $\mathbf{X} = \lbrace \mathbf{x}_j \rbrace_j^L \in \mathbb{R}^N$.
+
+From the sparsity constraint $k$, which is a known variable in this, 
+
+
+
 Consider $\mathbf{Y} = \left[ \mathbf{y}_1, \dots, \mathbf{y}_L \right]$, $\mathbf{y}_j \in \mathbb{R}^M$ as a training database, created by $\mathbf{y}_j = \mathbf{A}\mathbf{x}_j$ for which one want to learn the best suitable dictionary $\mathbf{A}$ and sparse representation $\mathbf{X} = \left[ \mathbf{x}_1, \dots, \mathbf{x}_L  \right]$, $\mathbf{x}_j \in \mathbb{R}^N$. For a known sparsity constraint $k$ this can be defined by an optimisation problem similar to the general compressive sensing problem of multiple measurements \cite{Elad_book}
 \begin{align}\label{eq:SVD1}
 \min_{\mathbf{A,X}} \sum_{j=1}^{L} \Vert \mathbf{y}_j - \mathbf{Ax}_j \Vert_2^2 \quad \text{subject to} \quad \Vert \textbf{x}_j \Vert_1 \leq k, \ 1 \leq j \leq L.

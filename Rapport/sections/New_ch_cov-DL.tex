@@ -1,5 +1,22 @@
 \chapter{Covariance-Domain Dictionary Learning}\label{ch:Cov-DL}
-Through this chapter a method to recover the mixing matrix $\mathbf{A}$ from the multiple measurement vector (MMV) model \eqref{eq:MMV_model} will be presented...
+Through this chapter a method to recover the mixing matrix $\mathbf{A}$ from the multiple measurement vector (MMV) model \eqref{eq:MMV_model} will be presented along with the necessary theory such as compressive sensing, dictionary learning and the dictionary learning method K-SVD. 
+
+Covariance-domain dictionary learning (Cov-DL) is an algorithm proposed by O. Balkan \cite{Balkan2015}, claiming to successfully identify more active sources $k$ than available measurements $M$ by transforming the segmented multiple measurement vector model 
+\begin{align*}
+\mathbf{Y}_s = \mathbf{A}_s \mathbf{X}_s + \textbf{E}_s,
+\end{align*}
+into the covariance domain and the bypass the limitation of compressive sensing.
+
+
+
+$\mathbf{Y}_s \in \mathbb{R}^{M \times t_s f}$ is the observed segmented EEG measurement matrix, $\mathbf{X}_s \in \mathbb{R}^{N \times t_s f}$ the segmented source matrix and $\mathbf{E}_s \in \mathbb{R}^{M \times t_s f}$ is the additional segmented noise matrix.
+\\
+Cov-DL takes advantage of the covariance domain where the dimensionality is increased allowing for an enlarged number of sources to be active while the dictionary remains recoverable.  
+An important aspect of this method is the prior assumption that the sources within one segment are uncorrelated, that is the rows of $\textbf{X}_s$ being mutually uncorrelated. 
+From the assumption of uncorrelated sources it can be assumed that the sample covariance of $\textbf{X}_s$ becomes nearly diagonal. 
+This is of importance when the system is transformed to the covariance domain.    
+\\
+The Cov-DL do only recover the mixing matrix $\mathbf{A}$ given the measurements $\textbf{Y}$. Given $\textbf{A}$ the source matrix $\mathbf{X}$ is to be recovered by use of the Multiple Sparse Bayesian Learning algorithm, this is described in section \ref{ch:M-SBL} 
 
 \input{sections/ch_cov-DL/New_CS2.tex}
 \input{sections/ch_cov-DL/New_MMV.tex}

@@ -235,11 +235,12 @@ def generate_AR_v2(N, M, L, non_zero):
         X: Source matrix of size N x L     
     """
     np.random.seed(123)
-    A = np.random.uniform(-1,1, (N,L))
     X = np.zeros([N, L+2])
-    W = np.random.randn(N, L)
+    
     for i in range(N):
         ind = np.random.randint(1,4)
+        W = np.random.randn(N, L)
+        A = np.random.uniform(-1,1, (N,L))
         for j in range(2,L):
             if ind == 1:
                 X[i][j] = A[i][j-1] * X[i][j-1] + A[i][j-2] * X[i][j-2] + W[i][j]
@@ -263,8 +264,7 @@ def generate_AR_v2(N, M, L, non_zero):
         ind[i] = temp
     
     for j in ind:
-        k = np.random.choice(len(X))
-        Real_X[int(j)] = X[k]
+        Real_X[int(j)] = X[int(j)]
     
     Real_X = Real_X.T[2:].T  
 

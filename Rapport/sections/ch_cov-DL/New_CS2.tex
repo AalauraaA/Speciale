@@ -3,7 +3,7 @@ Compressive sensing is the theory of efficient recovery of a signal from a minim
 It is build upon empirical observations assuring that many signals can be approximated by remarkably sparser signals.   
 Assume linear acquisition of the observed measurements, then the relation between the measurements and the signal to be recovered can be modelled by the multiple measurement vector (MMV) model \eqref{eq:MMV_model} \cite{FR}. 
 
-Through this section the introduction of the theory behind compressive sensing will be presented for one measurement vector of \eqref{eq:MMV_model}, $\mathbf{y}$, such that the theory is based on the linear system \eqref{eq:SMV_model}. This will be done for simplicity but the theory will still apply for the extend linear system.
+Through this section the introduction of the theory behind compressive sensing will be presented for one measurement vector of \eqref{eq:MMV_model}, $\mathbf{y}$, such that the theory is based on the linear system \eqref{eq:SMV_model}. This will be done for simplicity but the theory will still apply for the extend linear system \eqref{eq:MMV_model}.
 
 In compressive sensing terminology, $\mathbf{x} \in \mathbb{R}^N$ is the signal of interest which is sought recovered from the EEG measurement $\mathbf{y} \in \mathbb{R}^M$ by solving the linear system \eqref{eq:SMV_model}. 
 In the typical compressive sensing case the system is under-determined, $M < N$, and there will therefore exist infinitely many solutions, provided that one solution exist.
@@ -34,8 +34,8 @@ the system $\lbrace \mathbf{a}_j, j \in \text{supp}( \mathbf{x}^\ast) \rbrace$ i
 \Vert \mathbf{x}^\ast \Vert_0 = \text{card}(\text{supp} (\mathbf{x}^\ast)) \leq M.
 \end{align*}
 \end{theorem}
-To prove this theorem one needs to realise that the set $\lbrace \mathbf{a}_j, j \in S \rbrace \leq M$, with $S = \text{supp}(\mathbf{x}^\ast)$, can not have more than $M$ linearly independence columns. This will be done by a contradiction.
-So when $M \ll N$ a sparse signal is automatically achieved.
+%To prove this theorem one needs to realise that the set $\lbrace \mathbf{a}_j, j \in S \rbrace$, with $S = \text{supp}(\mathbf{x}^\ast)$, can not have more than $M$ linearly independence columns. This will be done by a contradiction.
+%So when $M \ll N$ a sparse signal is automatically achieved.
 \begin{proof}
 Assume that the set $\lbrace \mathbf{a}_l, l \in S \rbrace$ of $l$ columns from matrix $\mathbf{A} \in \mathbb{R}^{M \times N}$ is linearly dependent with the support $S = \text{supp}(\mathbf{x}^\ast)$.
 Thus a non-zero vector $\mathbf{v} \in \mathbb{R}^N$ supported on $S$ exists such that $\mathbf{Av} = \textbf{0}$ -- the system is linear dependent. The unique solution $\mathbf{x}^\ast$ can then be written as, for any $t \neq 0$,
@@ -61,7 +61,9 @@ t \sum_{l \in S} \text{sgn}(x_l^\ast)v_l \leq 0,
 which contradicts that $\mathbf{v}$ make the columns of $\mathbf{A}$ linear dependent. 
 Therefore, the set $\lbrace \mathbf{a}_l, l \in S \rbrace$ must be linearly independent.
 \end{proof}
+From the theorem is must be conclude that the choice of the mixing matrix $\mathbf{A}$ has a significant impact on whenever a unique solution $\mathbf{x}^\ast$ exist for the $\ell_1$ optimisation problem \eqref{eq:SMV_p1}. Therefore, when recovering $\mathbf{A}$, some considerations regarding the recovering process of $\mathbf{A}$ must be taken into account. A method for the recovering of $\mathbf{A}$ could be to use a dictionary. This will be explain in the following section \ref{sec:dictionarylearning}.
 %The $\ell_1$ optimisation makes the foundation of several algorithms solving alternative versions of \eqref{eq:SMV_p1} where noise is incorporated. 
+
 An alternative solution method to the $\ell_1$ optimisation includes greedy algorithms such as the Orthogonal Matching Pursuit (OMP) \cite[P. 65]{FR}. 
 The OMP algorithm is an iteration process where an index set $S$ is updated -- at each iteration -- by adding indices corresponding to the columns of $\mathbf{A}$ which describe the residual best possible, hence greedy.
 The vector $\mathbf{x}$ is then updated by a vector supported on $S$ which minimise the residual, that is the orthogonal projection of $\mathbf{y}$ onto the span$\lbrace \mathbf{a}_l \ \vert \ l \in S \rbrace$.

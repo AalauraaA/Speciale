@@ -56,12 +56,12 @@ As such the observed EEG measurements can be divided into segments $\mathbf{Y}_s
 \begin{align}\label{eq:MMV_seg}
 \mathbf{Y}_s = \mathbf{AX}_s + \textbf{E}_s, \quad \forall s.
 \end{align}
-As the segmented EEG measurement matrix $\mathbf{Y}_s$ now consists of stationary measurement, the segmented source matrix $\mathbf{X}_s$, consisting of the vectors $\mathbf{x}_{s1}, \dots, \mathbf{x}_{sL}$ which have been stacked column-wise, will now consists of at most $k$ non-zero rows -- the activations of sources. 
+As the segmented EEG measurement matrix $\mathbf{Y}_s$ now consists of stationary measurement, the segmented source matrix $\mathbf{X}_s$, consisting of the vectors $\mathbf{x}_{s1}, \dots, \mathbf{x}_{sL_s}$ which have been stacked column-wise, will now consists of at most $k$ non-zero rows -- the activations of sources. With the segmentation the number of samples within a one segment is denoted by $L_s$ while $L$ is the number of samples of all segments combined. 
 The support of the segmented source matrix $\mathbf{X}_s$ denotes the index set of non-zero rows of $\mathbf{X}_s$. 
 As mentioned before, $\mathbf{X}_s$ has at most $k$ non-zero rows, the non-zero values occur in common location for all columns. 
 By using this joint information it is possible to recover $\mathbf{X}_s$ from fewer measurements \cite[p. 43]{CS}.
 
-\section{Solution Methods}
+\section{Solution Methods}\label{sec:sol_met}
 For the EEG measurements the MMV model is an under-determined linear system with less sensors than sources, $M < N$, and therefore a solution must be found in the infinitely solution space, provided one solution exists -- simple linear algebra can not be used.
 
 O. Balkan \cite{Balkan2015} proposed in 2015 a method which can recover a mixing matrix $\mathbf{A}$ from a under-determined segmented MMV model. 

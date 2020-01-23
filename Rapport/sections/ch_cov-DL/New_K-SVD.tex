@@ -5,16 +5,14 @@ $$
 $$ 
 By divided $\mathbf{Y}$ into segment of samples summing up to $L$ samples total a training database is created which one can learn a suitable dictionary $\hat{\mathbf{A}}$, and the sparse representation of the source matrix $\hat{\mathbf{X}} \in \mathbb{R}^N$ with the source vectors $\lbrace \hat{\mathbf{x}}_j \rbrace_j^L$.
 
-For a known sparsity constraint $k$ the dictionary learing can be defined by an optimisation problem similar to the $\ell_1$ optimisation problem defined in \eqref{eq:SMV_p1} instead of multiple measurements \cite{Elad_book}
+For a known sparsity constraint $k$ the dictionary learing can be defined by an optimisation problem similar to the $\ell_1$ optimisation problem defined in \eqref{eq:SMV_p1} instead of multiple measurements \todo{gør opmærksom på at i forhold til det tildligere defineret P1 problem har vi nu støj derfor er de byttet rund}\cite{Elad_book}
 \begin{align}\label{eq:SVD1}
 \min_{\mathbf{A}, \mathbf{X}} \sum_{j=1}^{L} \Vert \mathbf{y}_j - \mathbf{A} \mathbf{x}_j \Vert_2^2 \quad \text{subject to} \quad \Vert \textbf{x}_j \Vert_1 \leq k, \ 1 \leq j \leq L.
 \end{align}  
-\todo{gør opmærksom på at i forhold til det tildligere defineret P1 problem har vi nu støj derfor er de byttet rund}
 The learning consists of jointly solving the optimization problem on $\mathbf{X}$ and $\mathbf{A}$. The uniqueness of $\mathbf{A}$ depends on the recovery sparsity condition. As clarified earlier in \ref{sec:sol_met} the recovery of a unique solution $\mathbf{X}^\ast$ is only possible if $k < M$ \cite{phd2015}.
     
 \subsubsection{K-SVD Algorithm}
 The dictionary learning algorithm K-SVD provides an updating rule which is applied to each column of $\mathbf{A}_0 = \left[ \mathbf{a}_0, \dots, \mathbf{a}_N \right] $ where $\mathbf{A}_0$ being a random initial dictionary matrix. Updating first $\mathbf{a}_j$ and then the corresponding coefficients in $\mathbf{X}$ which it is multiplied with the $i$-th row in $\mathbf{X}$ denoted by $\mathbf{x}_{i \cdot}$.
-\\
 Let $\mathbf{a}_{j_{0}}$ be the column to be updated and let the remaining columns be fixed. By rewriting the objective function in \eqref{eq:SVD1} using matrix notation it is possible to isolate the contribution from $\mathbf{a}_{j_{0}}$ \todo{Tjek nedenstående udledning. a og x er ikke lige lange da $a_j$ er M lang mens $x_{i \cdot}$ er L lang}.
 \begin{align}\label{eq:SVD2} 
 \Vert \textbf{Y} - \textbf{AX} \Vert_{F}^{2} 
@@ -26,7 +24,6 @@ where $i = j$, $i_0 = j_0$ and where $F$ is the Frobenius norm that works on mat
 \Vert \mathbf{A} \Vert_F = \sqrt{\sum_{i=1}^M \sum_{j=1}^N \vert a_{ij} \vert^2}.
 \end{align*} 
 In \eqref{eq:SVD2} the term in the parenthesis is denoted by $\textbf{E}_{j_0}$, an error matrix, and hence by minimising \eqref{eq:SVD2} with respect to $\mathbf{a}_{j_0}$ and $\mathbf{x}_{i_0 \cdot}$ leads to the optimal contribution from $j_0$
-%In \eqref{eq:SVD2} the term in the parenthesis makes the an error matrix $\textbf{E}_{i_0}$ without the contribution from $i_{0}$, hence minimising \eqref{eq:SVD2} with respect to $\textbf{a}_{i_{0}}$ and $\textbf{x}_{i_{0}}^{T}$ leads to the optimal contribution from $i_{0}$ (can I say it this way..?). 
 \begin{align}\label{eq:SVD3}
 \min_{\textbf{a}_{j_{0}}, \textbf{x}_{i_0 \cdot}}\left\|\textbf{ E}_{j_{0}} - \textbf{a}_{j_{0}} \textbf{x}_{i_0 \cdot} \right\|_{F}^{2}.
 \end{align} 

@@ -3,7 +3,6 @@ The Cov-DL algorithm takes advantage of the covariance domain where the dimensio
 An important aspect of this method is the prior assumption that the sources within one segment are uncorrelated, that is the rows of $\textbf{X}_s$ being mutually uncorrelated. 
 
 The Cov-DL algorithm do only recover the mixing matrix $\mathbf{A}$ given the measurements $\textbf{Y}_s$. Given $\textbf{A}$ the non-segmented source matrix $\mathbf{X}$ is to be recovered by use of the Multiple Sparse Bayesian Learning algorithm, this is described in chapter \ref{ch:M-SBL} 
-
 The section is inspired by chapter 3 in \cite{phd2015} and the article \cite{Balkan2015}.
 
 \subsection{Covariances domain representation}
@@ -11,23 +10,22 @@ Consider the covariance of a vector $\textbf{x}_i$
 \begin{align*}
 \boldsymbol{\Sigma}=\mathbb{E}[(\textbf{x}_i-\mathbb{E}[\textbf{x}_i])(\textbf{x}_i-\mathbb{E}[\textbf{x}_i])].
 \end{align*} 
-Assume that all samples has zero mean and the same distribution within one segment. The observed segmented EEG measurements matrix $\mathbf{Y}_s \in \mathbb{R}^{M \times L_s}$ can be described in the covariance domain by the sample covariance $\hat{\boldsymbol{\Sigma}}$ which is defined as the covariance among the $M$ measurements across the $L_s$ samples. That is a $M \times M$ matrix $\boldsymbol{\Sigma}_{\mathbf{Y}_s}=[\sigma_{jk}]$ with entries 
+Assume that all samples has zero mean and the same distribution within one segment. The observed segmented EEG measurements matrix $\mathbf{Y}_s \in \mathbb{R}^{M \times L_s}$ can be described in the covariance domain by the sample covariance $\widehat{\boldsymbol{\Sigma}}$ which is defined as the covariance among the $M$ measurements across the $L_s$ samples. That is a $M \times M$ matrix $\boldsymbol{\Sigma}_{\mathbf{Y}_s}=[\sigma_{jk}]$ with entries 
 \begin{align*}
 \sigma_{jk}= \frac{1}{L_s}\sum_{i=1}^{L_s} y_{ji} y_{ki}.
 \end{align*}
 Using matrix notation the sample covariance of $\mathbf{Y}_s$ can be written as
 \begin{align*}
-\hat{\boldsymbol{\Sigma}}_{\mathbf{Y}_s} = \frac{1}{L_s} \mathbf{Y}_s \mathbf{Y}_s^T.
+\widehat{\boldsymbol{\Sigma}}_{\mathbf{Y}_s} = \frac{1}{L_s} \mathbf{Y}_s \mathbf{Y}_s^T.
 \end{align*}  
 Similar the source matrix $\mathbf{X}_s$ can be described in the covariance domain by the sample covariance matrix.
 \begin{align*}
-\hat{\boldsymbol{\Sigma}}_{\mathbf{X}_s} &= \frac{1}{L_s} \mathbf{X}_s \mathbf{X}_s^T = \boldsymbol{\Lambda}_s + \boldsymbol{\varepsilon} 
+\widehat{\boldsymbol{\Sigma}}_{\mathbf{X}_s} &= \frac{1}{L_s} \mathbf{X}_s \mathbf{X}_s^T = \boldsymbol{\Lambda}_s + \boldsymbol{\varepsilon} 
 \end{align*}
-From the assumption of uncorrelated sources within $\mathbf{X}_s$ the sample covariance matrix is expected to be nearly diagonal, thus it can be written as $\boldsymbol{\Lambda}_s + \boldsymbol{\varepsilon}$ where $\boldsymbol{\Lambda}_s$ is a diagonal matrix consisting of the diagonal entries of $\hat{\boldsymbol{\Sigma}}_{\mathbf{X}_s}$ and $ \boldsymbol{\varepsilon}$ is the estimation error\cite{Balkan2015}.
-\\
+From the assumption of uncorrelated sources within $\mathbf{X}_s$ the sample covariance matrix is expected to be nearly diagonal, thus it can be written as $\boldsymbol{\Lambda}_s + \boldsymbol{\varepsilon}$ where $\boldsymbol{\Lambda}_s$ is a diagonal matrix consisting of the diagonal entries of $\widehat{\boldsymbol{\Sigma}}_{\mathbf{X}_s}$ and $ \boldsymbol{\varepsilon}$ is the estimation error\cite{Balkan2015}.
 Each segment is then modelled in the covariance domain as
 \begin{align} 
-\hat{\boldsymbol{\Sigma}}_{\mathbf{Y}_s} = \frac{1}{L_s}\mathbf{Y}_s \mathbf{Y}_s^T &= \frac{1}{L_s} \left( \mathbf{A} \mathbf{X}_s + \mathbf{E}_s \right) \left( \mathbf{A} \mathbf{X}_s + \mathbf{E}_s\right)^T \nonumber \\ 
+\widehat{\boldsymbol{\Sigma}}_{\mathbf{Y}_s} = \frac{1}{L_s}\mathbf{Y}_s \mathbf{Y}_s^T &= \frac{1}{L_s} \left( \mathbf{A} \mathbf{X}_s + \mathbf{E}_s \right) \left( \mathbf{A} \mathbf{X}_s + \mathbf{E}_s\right)^T \nonumber \\ 
 \mathbf{Y}_s \mathbf{Y}_s^T &= (\textbf{AX}_s)(\textbf{AX}_s)^T + \textbf{E}_s \textbf{E}_s^T + \textbf{E}_s (\textbf{AX}_s)^T + \textbf{AX}_s \textbf{E}_s^T \nonumber \\
 &= \textbf{AX}_s \textbf{X}_s^T \textbf{A}^T + \textbf{E}_s \textbf{E}_s^T + \textbf{E}_s \textbf{X}_s^T \textbf{A}^T + \textbf{AX}_s \textbf{E}_s^T \nonumber \\
 &= \textbf{A}(\boldsymbol{\Lambda}_s +\boldsymbol{\varepsilon}) \textbf{A}^T + \textbf{E}_s \textbf{E}_s^T + \textbf{E}_s \textbf{X}_s^T \textbf{A}^T + \textbf{AX}_s \textbf{E}_s^T \nonumber \\
@@ -36,19 +34,19 @@ Each segment is then modelled in the covariance domain as
 \end{align}
 From \eqref{eq:noise1} to \eqref{eq:noise2} all terms where noise is included are defined as a united noise term $\widetilde{\textbf{E}}$ \todo{er yderligere argumentation nødvendig her?}. 
 By vector notation \eqref{eq:noise2} is rewritten to be vectorized. 
-Because the covariance matrix $\hat{\boldsymbol{\Sigma}}_{\mathbf{Y}_s}$ is symmetric it is sufficient to vectorize only the lower triangular parts, including the diagonal. 
+Because the covariance matrix $\widehat{\boldsymbol{\Sigma}}_{\mathbf{Y}_s}$ is symmetric it is sufficient to vectorize only the lower triangular parts, including the diagonal. 
 For this the function $\text{vec}(\cdot)$ is defined to map a symmetric $M \times M$ matrix into a vector of size $\frac{M(M+1)}{2}$ making a row-wise vectorization of its upper triangular part. 
 Furthermore, let vec$^{-1}(\cdot)$ be the inverse function for de-vectorisation. 
 This results in the following model        
 \begin{align}
-\hat{\boldsymbol{\Sigma}}_{\mathbf{Y}_s} &= \sum_{i=1}^{N}  \textbf{a}_i \boldsymbol{\Lambda}_{s_{ii}} \textbf{a}_i^{T} + \widetilde{\textbf{E}} \nonumber \\
+\widehat{\boldsymbol{\Sigma}}_{\mathbf{Y}_s} &= \sum_{i=1}^{N}  \textbf{a}_i \boldsymbol{\Lambda}_{s_{ii}} \textbf{a}_i^{T} + \widetilde{\textbf{E}} \nonumber \\
 & \nonumber \\
-\text{vec}(\hat{\boldsymbol{\Sigma}}_{\mathbf{Y}_s}) &= \sum_{i=1}^N \text{vec}(\mathbf{a}_i \mathbf{a}_i^T) \boldsymbol{\Lambda}_{s_{ii}} + \text{vec}( \widetilde{\textbf{E}}) \nonumber \\
+\text{vec}(\widehat{\boldsymbol{\Sigma}}_{\mathbf{Y}_s}) &= \sum_{i=1}^N \text{vec}(\mathbf{a}_i \mathbf{a}_i^T) \boldsymbol{\Lambda}_{s_{ii}} + \text{vec}( \widetilde{\textbf{E}}) \nonumber \\
 &= \sum_{i=1}^N \mathbf{d}_i \boldsymbol{\Lambda}_{s_{ii}} + \text{vec}( \widetilde{\textbf{E}}) \nonumber \nonumber \\
 &= \mathbf{D} \boldsymbol{\delta}_s + \text{vec}( \widetilde{\textbf{E}}), \quad \forall s. \label{eq:cov1}
 \end{align}
 Here $\boldsymbol{\delta}_s \in \mathbb{R}^{N}$ contains the diagonal entries of the source sample-covariance matrix $\boldsymbol{\Lambda}_s$
-and the matrix $\mathbf{D} \in \mathbb{R}^{(M(M+1))/2 \times N}$ consists of the columns $\mathbf{d}_i = \text{vec}(\mathbf{a}_i \mathbf{a}_i^T)$. Note that $\mathbf{D}$ and $\boldsymbol{\delta}_s$ are unknown while $\text{vec}(\boldsymbol{\Sigma}_{\mathbf{Y}_s})$ is known from the observed data.
+and the matrix $\mathbf{D} \in \mathbb{R}^{(M(M+1))/2 \times N}$ consists of the columns $\mathbf{d}_i = \text{vec}(\mathbf{a}_i \mathbf{a}_i^T)$. Note that $\mathbf{D}$ and $\boldsymbol{\delta}_s$ are unknown while $\text{vec}(\widehat{\boldsymbol{\Sigma}}_{\mathbf{Y}_s})$ is known from the observed data.
 By this transformation to the covariance domain one segments is now represented as the single measurement model with $M(M+1)/2$ ''measurements''. It has been shown that this model allow for identification of $k\leq M(M+1)/2$ active sources \cite{Pal2015}, which is a much weaker sparsity constraint than the original sparsity constraint $k\leq M$. 
 The purpose of the Cov-DL algorithm is to leverage this model to find the dictionary $\textbf{A}$ from $\textbf{D}$ and then still allow for $k\leq M(M+1)/2$ active sources to be identified. That is the number of active sources are allowed to exceed the number of observations as intended.
 
@@ -56,12 +54,14 @@ The purpose of the Cov-DL algorithm is to leverage this model to find the dictio
 The goal is now to learn first $\textbf{D}$ and then the associated mixing matrix $\textbf{A}$. Two methods are considered relying on the relation of $M$ and $N$.   
 
 \subsubsection*{Under-determined \textbf{D}}
-In the case of $N > \frac{M(M+1)}{2}$ $\textbf{D}$ becomes under-determined. This is  similar to the original system being under-determined when $N>M$. 
-Thus, it is again possible to solve the under-determined system if certain sparsity is withhold. Namely $\boldsymbol{\delta}_s$ being $\frac{M(M+1)}{2}$-sparse.
-Assuming the sufficient sparsity on $\boldsymbol{\delta}_s$ is withhold it is possible to learn the dictionary matrix of the covariance domain $\mathbf{D}$ by traditional dictionary learning methods applied to the observations represented in the covariance domain $\text{vec}(\boldsymbol{\Sigma}_{\mathbf{Y}_s})$ for all $s$.
+In the case of $N > \frac{M(M+1)}{2}$ the matrix $\textbf{D}$ becomes under-determined. 
+This is similar to the MMV model \eqref{eq:MMV_model} being under-determined when $N > M$. 
+Thus, it is again possible to solve the under-determined system if certain sparsity is withhold. 
+Namely $\boldsymbol{\delta}_s$ being $\frac{M(M+1)}{2}$-sparse.
+Assuming the sufficient sparsity on $\boldsymbol{\delta}_s$ is withhold it is possible to learn the dictionary matrix of the covariance domain $\mathbf{D}$ by traditional dictionary learning methods applied to the observations represented in the covariance domain $\text{vec}(\widehat{\boldsymbol{\Sigma}}_{\mathbf{Y}_s})$ for all segments $s$.
 For this K-SVD algorithm, described in section \ref{sec:dictionarylearning} is used. 
-Note here that the number of samples that are used to learn the dictionary is remarkable reduces as one segment effectively corresponds to one sample in the covariance domain.  \\ 
-When $\mathbf{D}$ is learned it is possible to find the original mixing matrix $\mathbf{A}$ that generated $\textbf{D}$ through the relation $\mathbf{d}_j = \text{vec}(\mathbf{a}_j \mathbf{a}_j^T)$. Here each column is found by the optimisation problem 
+Note here that the number of samples that are used to learn the dictionary is remarkable reduces as one segment effectively corresponds to one sample in the covariance domain.  
+When $\mathbf{D}$ is learned it is possible to find an estimate of the mixing matrix $\mathbf{A}$ that generated $\textbf{D}$ through the relation $\mathbf{d}_j = \text{vec}(\mathbf{a}_j \mathbf{a}_j^T)$. Here each column is found by the optimisation problem 
 \begin{align*}
 \min_{\textbf{a}_j} \| \text{vec}^{-1}(\textbf{d}_j) -\textbf{a}_j\textbf{a}_j^T\|_2^2, 
 \end{align*}
@@ -73,24 +73,34 @@ d_{11} & d_{12} & \cdots & d_{1N} \\
 d_{21} & d_{22} & \cdots & d_{2N} \\
 \vdots & \vdots & \ddots & \vdots \\
 d_{N1} & d_{N2} & \cdots & d_{NN}
-\end{bmatrix}, \quad i \in [N]
+\end{bmatrix}, \quad j \in [N]
 \end{align*}
 and $\textbf{b}_j$ is the corresponding eigenvector.\todo{redegørelse for resultatet her skal laves}
 
 \subsubsection*{Over-determined \textbf{D}}
-In the case of $N < \frac{M(M+1)}{2}$ an over-determined system is achieved and it is not possible to find $\textbf{D}$ by dictionary learning methods.\\
-By assuming that $\frac{M(M+1)}{2}$ will be close to $N$, because $N>M$ is given,\todo{how else can they live on the same space??} then the measurements in the covariance domain $\text{vec}(\boldsymbol{\Sigma}_{\textbf{Y}_s})$ will live on or near a subspace of dimension $N$. This subspace is spanned by the columns of $\textbf{D}$, and is denoted as $\mathcal{r}(\textbf{D})$. To learn $\mathcal{R}(\textbf{D})$ without having to impose any sparsity constraint on $\boldsymbol{\delta}_s$ it is possible to use Principal Component Analysis(PCA)\todo{evt. teoretisk beskrivelse af PCA i appendix?}. By use of PCA a set of basis vectors $\textbf{U}$ is achieved such that $\mathcal{R}(\textbf{U})=\mathcal{R}(\textbf{D})$. This however do not imply that $\textbf{D}=\textbf{U}$. \\ 
-In the case of two sets of basis vectors span the same space, namely $\mathcal{R}(\textbf{U})=\mathcal{R}(\textbf{D})$, the projection operator of the given subset must be unique. Which is true if and only if $\textbf{D}(\textbf{D}^T\textbf{D})^{-1}\textbf{D}^T=\textbf{U}(\textbf{U}^T\textbf{U})^{-1}\textbf{U}^T$\todo{kilde foruden phd p. 51?}. 
-Remember from the above derivation the condition that $\textbf{d}_i = \text{vec}(\textbf{a}_i\textbf{a}_i^T)$. From this it is possible to obtain $\textbf{A}$ through the optimisation problem 
+In the case of $N < \frac{M(M+1)}{2}$ an over-determined system is achieved and it is not possible to find $\textbf{D}$ by dictionary learning methods.
+By assuming that $\frac{M(M+1)}{2}$ will be close to $N$, because $N > M$ is given,\todo{how else can they live on the same space??} then the measurements in the covariance domain $\text{vec}(\widehat{\boldsymbol{\Sigma}}_{\textbf{Y}_s})$ will live on or near a subspace of dimension $N$. 
+This subspace is spanned by the columns of $\textbf{D}$, and is denoted as $\mathcal{r}(\textbf{D})$. 
+To learn $\mathcal{R}(\textbf{D})$ without having to impose any sparsity constraint on $\boldsymbol{\delta}_s$ it is possible to use Principal Component Analysis(PCA)\todo{evt. teoretisk beskrivelse af PCA i appendix?}. 
+By use of PCA a set of basis vectors $\textbf{U}$ is achieved such that $\mathcal{R}(\textbf{U})=\mathcal{R}(\textbf{D})$. 
+This however do not imply that $\textbf{D}=\textbf{U}$. 
+In the case of two sets of basis vectors span the same space, namely $\mathcal{R}(\textbf{U})=\mathcal{R}(\textbf{D})$, the projection operator of the given subset must be unique. 
+Which is true if and only if $\textbf{D}(\textbf{D}^T\textbf{D})^{-1}\textbf{D}^T=\textbf{U}(\textbf{U}^T\textbf{U})^{-1}\textbf{U}^T$\todo{kilde foruden phd p. 51?}. 
+Remember from the above derivation the condition that $\textbf{d}_i = \text{vec}(\textbf{a}_i\textbf{a}_i^T)$. 
+From this it is possible to obtain $\textbf{A}$ through the optimisation problem 
 \begin{align}
 \min_{\textbf{a}_i}\Vert  \textbf{D}(\textbf{D}^T\textbf{D})^{-1}\textbf{D}^T &- \textbf{U}(\textbf{U}^T\textbf{U})^{-1}\textbf{U}^T \Vert_{F}^{2} \nonumber \\
 \text{s.t.} \ \textbf{d}_i&=\text{vec}(\textbf{a}_i\textbf{a}_i^T)\label{eq:Cov_DL2}
 \end{align}      
-where $\textbf{U}$ is learned by use of PCA performed on $\text{vec}(\boldsymbol{\Sigma}_{\textbf{Y}_s})$.\\ 
-To solve this optimization problem 
-%the gradient of the cost function is computed with respect to $\textbf{A}$ by use of the chain rule \\
-the cost function is minimized by use of quasi-Newton optimization methods. Several specific quasi-Newton methods exist but the basic principal will be presented here. The Newton optimization method is a multidimensional gradient method. The method is based on a quadratic approximation of the optimization problem by use of the Taylor series, which is elaborated in \cite[p. 29]{Optimization2007}.
-Let $f(\textbf{x})$ be the cost function and $\boldsymbol{\delta}$ be the change in $\textbf{X}$. By differentiating the Taylor approximation of $f(\textbf{x}+\boldsymbol{\delta})$ and setting it equal to zero, the optimal change in $\textbf{x}$ is found to be $\boldsymbol{\delta} = -\textbf{H}^{-1}\textbf{g}$. Where $\textbf{g}$ is the gradient and $\textbf{H}$ is the Hessian. The quasi-Newton methods deviate from the basic Newton method by letting the direction search be based on a positive semi-definite matrix $\textbf{S}$ which is generated from available data in order to approximate $\textbf{H}^{-1}$. Details of the method is found in \cite[p. 175]{Optimization2007}    
+where $\textbf{U}$ is learned by use of PCA performed on $\text{vec}(\widehat{\boldsymbol{\Sigma}}_{\textbf{Y}_s})$.
+To solve this optimization problem the cost function is minimized by use of quasi-Newton optimization methods.
+Several specific quasi-Newton methods exist but the basic principal will be presented here. 
+The Newton optimization method is a multidimensional gradient method. 
+The method is based on a quadratic approximation of the optimization problem by use of the Taylor series, which is elaborated in \cite[p. 29]{Optimization2007}.
+Let $f(\textbf{x})$ be the cost function and $\boldsymbol{\delta}$ be the change in $\textbf{X}$. 
+By differentiating the Taylor approximation of $f(\textbf{x}+\boldsymbol{\delta})$ and setting it equal to zero, the optimal change in $\textbf{x}$ is found to be $\boldsymbol{\delta} = -\textbf{H}^{-1}\textbf{g}$. 
+Where $\textbf{g}$ is the gradient and $\textbf{H}$ is the Hessian. The quasi-Newton methods deviate from the basic Newton method by letting the direction search be based on a positive semi-definite matrix $\textbf{S}$ which is generated from available data in order to approximate $\textbf{H}^{-1}$. 
+Details of the method is found in \cite[p. 175]{Optimization2007}    
 
 \subsection{Pseudo Code of the Cov-DL Algorithm}
 \begin{algorithm}[H]
@@ -105,12 +115,12 @@ Let $f(\textbf{x})$ be the cost function and $\boldsymbol{\delta}$ be the change
 			
 			\If{$N > \frac{M(M+1)}{2}$}		
 			\Procedure{K-SVD}{$\textbf{Y}_{\text{cov}}$}
-			\State$\text{returns} \ \textbf{D} \in \mathbb{R}^{M(M+1)/2}\times N$
+			\State$\text{returns} \ \textbf{D} \in \mathbb{R}^{(M(M+1))/2}\times N$
 			\EndProcedure
 			\For{$j \gets 1, \hdots, N$}
 			\State$\textbf{T} = \text{vec}^{-1}(d_j)$            
-			\State$\lambda_j\gets \max\{eigenvalue(\textbf{T})\}$
-			\State$\textbf{b}_j \gets \ eigenvector(\lambda_j)$
+			\State$\lambda_j\gets \max\{\text{eigenvalue}(\textbf{T})\}$
+			\State$\textbf{b}_j \gets \ \text{eigenvector}(\lambda_j)$
 			\State$\textbf{a}_j \gets \sqrt{\lambda_j}\textbf{b}_j$
 			\EndFor
 			\State$\textbf{A} = \{\textbf{a}_j\}_{j=1}^N$
@@ -118,7 +128,7 @@ Let $f(\textbf{x})$ be the cost function and $\boldsymbol{\delta}$ be the change
 			\State
 			\If{$N < \frac{M(M+1)}{2}$}
 				\Procedure{PCA}{$\text{vec}(\boldsymbol{\Sigma}_{\textbf{Y}_s})$}
-				\State$\text{returns} \ \textbf{U}\in \mathbb{R}^{M(M+1)/2\times N}$
+				\State$\text{returns} \ \textbf{U}\in \mathbb{R}^{(M(M+1))/2\times N}$
 				\EndProcedure
 				\Procedure{Quasi-Newton}{problem  \eqref{eq:Cov_DL2}}
 				\State$\text{returns}\ \textbf{A}= \{\textbf{a}_j\}_{j=1}^{N}$

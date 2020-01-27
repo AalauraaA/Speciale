@@ -5,25 +5,27 @@
 %%At first a motivation for the source recovery problem is given, considering the application within the hearing aid industry. 
 %%Further, the state of the art methods are presented followed by a description of the contribution proposed in this thesis.
 
-\section{EEG Measurements}\label{sec:EEG}
+\section{Introduction to EEG Measurements}\label{sec:EEG}
 EEG is an imaging technique used within the medical field. EEG is measuring electric signals on the scalp, caused by brain activity. 
-The human brain consist of an enormous amounts of cells, called neurons, which are mutually connected in neural nets. 
-When a neuron is activated, for instance by a physical stimuli, local current flows are produced among the neurons. 
-This is considered as neural interaction across different parts of the human brain\cite{fundamentalEEG}.   
-
+The human central nerve system consist of various nerve cells connecting the neurons within the brain. Nerve cells respond to certain stimuli, for instance a physical stimuli, and transmit informations between neurons.
+Generally speaking these activities induce local currents that are transferred throughout the nerve system. 
+Several nearby simultaneous activations result in local potential fields, referred to as one signal \textit{source}\cite{EEGsignalprocessing}. 
 EEG measurements are provided by a number of metal electrodes, referred to as sensors, carefully placed on the human scalp. 
 Each sensor reads the present electrical signals over time.
-It takes a large amount of simultaneous active neurons to generate an electrical signal that is recordable on the scalp. Such signal is considered as one \textit{ source} of neural activity. 
-The current has to penetrate the skull, skin and several other thin layers causing a reduced signal to reach the sensor.
-It is possible that the measurement of one sensor is a sum of multiple signals from different sources.
-Nor is the range of a single sensor separated from the other sensors. Thus the same signal can easily be measured by two or more sensors.
-Furthermore, interfering signals can occur in the measurements resulting from physical movement of e.g. eyes and jawbone \cite{fundamentalEEG}. 
-Lastly, the transmission of the electric signal through the biological tissue to the sensor has an unknown mixing effect on the signal. This process is called volume conduction \cite[p. 68]{EEGsignalprocessing} \cite{Van2019}.
-This clarifies the mixture of fluctuating electrical signals with noise that forms the EEG measurements. 
+For the source signal to reach a sensor it has to penetrate the skull, skin and several other thin layers of biological tissue. 
+This causes an unknown distortion and reduction of a signal.
+It is most likely that the measurement of one sensor is a sum of multiple signals from different sources.
+Nor is the range of a single sensor separated from the other sensors. 
+Thus the same signal can easily be measured by two or more sensors.
+The process of distorsion and mixing of signals is called volume conduction \cite[p. 68]{EEGsignalprocessing} \cite{Van2019}. 
+From this it is is clarified that EEG measurements  
+is a mixture of fluctuating electrical signals originating from brain activities.
 The concept is sought illustrated on figure \ref{fig:volumeconduction}. 
+Furthermore, EEG is a subject for interfering noise. Noise signals can occur in the measurements resulting from physical movement of e.g. eyes and jawbone \cite{fundamentalEEG}. 
 %\\
 %It will be clear later that it is of interest to separate and localize the sources of the neural activities measured on the scalp.  
 %\\ 
+\todo{input burde komme her}
 The resulting EEG measurements are classified within four groups according to the dominant frequency. 
 The delta wave ($0.5-4$ Hz) is observed from infants and sleeping adults, the theta wave ($4-8$ Hz) is observed from children and sleeping adults, the alpha wave ($8-13$ Hz) is the most extensively studied brain rhythm, which is induced by an adult laying down with closed eyes\todo{tilføj beskrivelse af stationaitet}. 
 Lastly, the beta wave ($13-30$ Hz) is considered the normal brain wave for adults, associated with active thinking, active attention or solving concrete problems \cite[p. 11]{EEGsignalprocessing}. 
@@ -42,6 +44,7 @@ An example of EEG measurements within the four categories is illustrated by figu
     \end{minipage}
 \end{figure}
 
+\subsection{Application}
 EEG performed on humans and animals have a great number of applications with both clinical and research purposes. 
 Examples of clinical applications covers diagnosis and management of neurological disorders such as epilepsy and monitor alertness regarding coma or brain death.
 EEG capitalizes on the procedure being non-invasive and fast.
@@ -68,7 +71,7 @@ This emphasize a potential for improving results within a wide range of EEG rese
 %(Furthermore, a real-time application to provide feedback from EEG measurements would be essential.)\todo{?}. 
 
 
-\section{Modelling}
+\subsection{Modelling}
 Consider the issue of extracting the activated sources from EEG measurements. A known approach is to model the observed data by a linear system 
 \begin{align*}
 \mathbf{Y} = \mathbf{AX}.

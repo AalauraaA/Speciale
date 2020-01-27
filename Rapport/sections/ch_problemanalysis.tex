@@ -25,9 +25,9 @@ Furthermore, EEG is a subject for interfering noise. Noise signals can occur in 
 %\\
 %It will be clear later that it is of interest to separate and localize the sources of the neural activities measured on the scalp.  
 %\\ 
-\todo{input burde komme her}
+\todo{input burde komme her, kan vi sige noget om om vi kan antage noget om k. samt stationaritet. evt. fjerne frekvens beskrivelsen}
 The resulting EEG measurements are classified within four groups according to the dominant frequency. 
-The delta wave ($0.5-4$ Hz) is observed from infants and sleeping adults, the theta wave ($4-8$ Hz) is observed from children and sleeping adults, the alpha wave ($8-13$ Hz) is the most extensively studied brain rhythm, which is induced by an adult laying down with closed eyes\todo{tilføj beskrivelse af stationaitet}. 
+The delta wave ($0.5-4$ Hz) is observed from infants and sleeping adults, the theta wave ($4-8$ Hz) is observed from children and sleeping adults, the alpha wave ($8-13$ Hz) is the most extensively studied brain rhythm, which is induced by an adult laying down with closed eyes. 
 Lastly, the beta wave ($13-30$ Hz) is considered the normal brain wave for adults, associated with active thinking, active attention or solving concrete problems \cite[p. 11]{EEGsignalprocessing}. 
 An example of EEG measurements within the four categories is illustrated by figure \ref{fig:EEG_example}.
 \begin{figure}[H]
@@ -74,14 +74,16 @@ This emphasize a potential for improving results within a wide range of EEG rese
 \subsection{Modelling}
 Consider the issue of extracting the activated sources from EEG measurements. A known approach is to model the observed data by a linear system 
 \begin{align*}
-\mathbf{Y} = \mathbf{AX}.
+\mathbf{y} = \mathbf{Ax}.
 \end{align*}
-$\mathbf{Y} \in \mathbb{R}^{M \times L}$ is the EEG measurements where $L$ is the number of samples over time with each sample consisting of $M$ measurements, one for each sensor. $\mathbf{X} \in \mathbb{R}^{N \times L}$ makes $L$ samples of $N$ possible sources within the brain. The non-zero entries of a column in $\textbf{X}$ represent the active sources at the time of the sample. $\mathbf{A} \in \mathbb{R}^{M \times N}$ is an unknown mixing matrix, resembling the volume conduction. 
+$\mathbf{y} \in \mathbb{R}^{M}$ is the EEG measurement of one time sample containing $M$ sensor measurements. $\mathbf{x} \in \mathbb{R}^{N}$ is the corresponding $N$ sources within the brain. 
+The non-zero entries of $\textbf{x}$ represent the active sources at the time of the measurement. 
+$\mathbf{A} \in \mathbb{R}^{M \times N}$ is an unknown transformation matrix, also referred to as the mixing matrix resembling the volume conduction. 
 The $i^{th}$ column of $\mathbf{A}$ represents the relative projection weights from the $i^{th}$ source to every sensor \cite{phd2015}. 
-Due to the input $\textbf{Y}$ being a matrix of multiple samples vectors of measurements the linear system is in general referred to as a multiple measurement vector model. 
-Only the measurements $\textbf{Y}$ are known hence it is not possible to solve the linear system with respect to $\textbf{X}$ using basic linear algebra.   
-The task in this case is to identify both $\mathbf{A}$ and then $\mathbf{X}$, given the measurements $\mathbf{Y}$. This problem is referred to as the inverse problem of EEG. 
-Finding $\textbf{X}$ from the inverse problem if referred to as source separation and localization. Separation is to find the signal from each active source and localization is to place each active source signal at the right position within the source vector of dimension $N$, where $N$ is the maximum number of sources to be active.      
+Representing one time sample the linear system is in general referred to as a single measurement vector model. 
+Only the measurement $\textbf{y}$ is known hence it is not possible to solve the linear system with respect to $\textbf{x}$ using basic linear algebra.   
+The task in this case is to identify both $\mathbf{A}$ and then $\mathbf{x}$, given the measurement vector $\mathbf{y}$. This problem is referred to as the inverse problem of EEG. 
+Finding $\textbf{x}$ from the inverse problem if referred to as source separation and localization. Separation is to find the signal of each active source and localization is to place each active source signal at the right position within the source vector of dimension $N$, where $N$ is the maximum number of sources to be active.      
 
 Independent Component Analysis (ICA) is one commonly applied method to solve the inverse problem of EEG \cite{Scott1996}, \cite{Scott1997}. ICA is a technique to find the matrix $A$ such that the column wise elements of $X$ is statistically independent. Thus statistical independence between the active sources is the essential assumption, which in the case of EEG are considered valid due to the volume conduction being effectively instantaneous\cite[p. 3]{Scott1997}. 
 Application of ICA has shown great results regarding source separation of high-density EEG. 
@@ -119,7 +121,7 @@ The method was proven to outperform the previously used algorithms, even when th
 
 One drawback, which is not fully covered in the referred literature, is that the two methods rely on the number of active sources being known. 
 In practise this is not the case. 
-Hence an estimation of the number of active sources has to be considered for the algorithm to be useful in practice \todo{test lige kode igen hvor forkert k angives}. To address this issue a simple approach is to optimise the result with respect to the number active source, provided that some prior assumption of the expected result can be made\todo{kan vi undersøge dette yderligere ovenfor først}.      
+Hence an estimation of the number of active sources has to be considered for the algorithm to be useful in practice. To address this issue a simple approach is to optimise the result with respect to the number active source, provided that some prior assumption of the expected result can be made.      
 
 The two state of the art methods resulting in source separation and localization makes the foundation of this thesis. 
 The aim of this thesis is to investigate and fully understand the two methods in order to implement and test a joint algorithm. 

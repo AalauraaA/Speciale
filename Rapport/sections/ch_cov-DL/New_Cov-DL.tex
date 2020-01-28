@@ -139,51 +139,14 @@ Details of the method is found in \cite[p. 175]{Optimization2007}
         \label{alg:Cov1}
 \end{algorithm}
 
-\subsection{Remarks to be considered and investigated in he code}
-\begin{itemize}
-\item the number of samples for dictionary learning is reduced remarkably when Cov-DL is used, this is mentioned above. increasing overlap will improved this. 
-\item the effect of the length of segments $L_s$. it will effect the diagonality of $cov(X)$
-\item the values of the individual sources must not be constant over time, that is the power of the sourced, it will not be at problem for EEG data. 
-\item for Cov-DL2 the solution tends to be unique when $M<N<M(M+1)/2$, that is the found cost function may have a local minima. for this it is recommended to use several random initial point.  
-\end{itemize}
+\section{Considerations and Remarks}
+Through this chapter different theory aspects haven been investigated to create a foundation to present one method to be use in the localisation of the sources from EEG measurements -- the recovering of the mixing matrix $\mathbf{A}$ -- yet one method is still to be presented.
+Before the method to recover the source matrix $\mathbf{X}$ from the found mixing matrix $\mathbf{A}$ and EEG measurements $\mathbf{Y}$ will be introduced some considerations and remarks regarding the Cov-DL algorithm must be taken -- this will be used in the implementation of the algorithm which will be described in chapter \ref{ch:implementation}.
 
+The length of each segment determined whenever the covariance of the source matrix $\mathbf{X}$ can be described as a diagonal matrix $\boldsymbol{\Lambda}$. That is a segment of $L_s$ samples becomes stationary and therefore the sources within that segment becomes uncorrelated -- the covariance of the source can be described by a diagonal matrix. The number of samples $L_s$ used in one segment affect whenever the segment is stationary or not. This must be taken into account in the preprocessing part of the baseline algorithm when the EEG measurements are divided into segments.
 
-%\paragraph{Notes}
-% 
-%\begin{itemize}
-%\item In the case of EEG, this allows at most k = O(M) EEG sources to be simultaneously active which limits direct applicability of dictionary learning to low-density EEG systems.
-%\item We wish to handled cases where we have $\binom{N}{k}$ sources, where $1 \leq k \leq N$ can be jointly active.
-%\item section 3.3.1 in phd.
-%\item i phd så forstås source localisation som at finde support for x og source identification forstås som at finde værdierne i de non-zero indgange(?)
-%
-%\end{itemize}
-%
-%Trine indhold:
-%\begin{itemize}
-%\item til CS afsnit: kilde på at nok sparse giver den rigtige løsning, se [39] fra phd
-%\item Dictionary learning:
-%\begin{itemize}
-%\item jointly solveing optimisation problem where g is introduced
-%\item her siges at k<M= er nødvendigt for recovery( af x går jeg ud fra ) Fordi at enhver random dictionary kan bruges til at reprensentere y i dim M ved brug af M basis vektore i A.
-%\item altså når k > M så udgør de berørte søjler i A ikke længere en basis og x kan ikke bestemmes entydigt ? derfor er k<M et krav i standard algorithmer
-%\item der sættes så et nyt frame work hvor vi kan bruge standard algoritmer i vores tilfælde med k>M (forhåbenligt) 
-%\end{itemize}
-%\item EEG is non-stationary(afsnit 1.3.1 phd) source dynamics ændres med tiden afhængig af opave, fejlkilder kan være non stationære. så ICA dur ikke mixture model ICA var bedre til non stationær med statigvæk limited til k = M. 
-%\item the contribution er så at: support for X i MMV problem kan findes for k>M, altså altal non-zero entry k i x, med sufficient conditions ved sparse bayesian learning. herefter ved brug at uncorrelation af sources i et dictionary learning frame work så kan vi recover x når k>M. 
-%\end{itemize}  
-%  
+For the Cov-DL algorithm when $\mathbf{D}$ is under-determined a dictionary learning algorithm K-SVD is used to learn the matrix $\mathbf{D}$ and by that an estimate for the mixing matrix $\hat{\mathbf{A}}$. Because of the segmentation the number of samples used in the dictionary learning are reduced remarkably and will affect the learning process. This is another point which must be taken into account in the preprocessing part of the code. To improved the dictionary learning the overlapping of the segments can be look into as each segment will have some similarity and therefore learn towards one direction.
 
+For the Cov-DL algorithm when $\mathbf{D}$ is over-determined the solution tends to be unique when $M < N < (M(M+1))/2$ from testing the solution. That is the cost function tends toward a local minima and therefore an unique solution occur in first run of one trial. For the baseline algorithm it would therefore be necessary to include several random initial points when finding the mixing matrix $\mathbf{A}$ for $\mathbf{D}$ being over-determined.
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+For a general perspective the sources within the source matrix $\mathbf{X}$ must not be constant over time when using the MMV model \eqref{eq:MMV_model} \todo{Find lige kilde på dette argument}...

@@ -1,22 +1,23 @@
-\todo{Husk: Skriv om hvorfor nu skriver ud fra bayesian teori}.
-Consider the multiple measurement vector model (MMV)
+From \cite{phd2015}, O. Balkan referred to an approach to identify the unknown sources from the multiple measurement vector (MMV) model given in \ref{eq:MMV_model} by creating a support set of the indices of $\mathbf{X}$. The method of interest is called multiple sparse Bayesian learning (M-SBL) algorithm.
+The method, M-SBL, differs from the covariance-domain dictionary learning (Cov-DL) method presented in chapter \ref{ch:Cov-DL} as M-SBL works in the time domain and for the non-segmented MMV model. O. Balkan suggest using a different approach to recover $\mathbf{X}$ from the MMV -- a Bayesian approach.
+
+In this chapter M-SBL will be use as the approach of this thesis to identifies the sources. This include a introduction to M-SBL and some theory of its Bayesian background. The chapter is inspired by \cite{phd_wipf} and the articles \cite{article_wipf}, \cite{Balkan2014}.
+
+Consider MMV model for the non-segmented case
 \begin{align*}
 \mathbf{Y} = \mathbf{AX} + \mathbf{E},
 \end{align*}
-where the unknown mixing matrix $\mathbf{A} \in \mathbb{R}^{M \times N}$ and source matrix $\mathbf{X} \in \mathbb{R}^{N \times L}$ are wished recovered from the known EEG measurement matrix $\mathbf{Y} \in \mathbb{R}^{M \times L}$ in the case of $M < N$. 
-In chapter \ref{ch:Cov-DL} the mixing matrix $\mathbf{A}$ was found. 
-In this chapter, a method to recover the source matrix $\mathbf{X}$ is sought. 
-The approach is to find the support set $S$ of $\textbf{X}$ providing the non-zeros rows of $\mathbf{X}$ which corresponds to localization of the active sources. 
-By ... the active sources are identified in order to fully recover $\textbf{X}$.
-The chapter is inspired by \cite{phd_wipf} and the articles \cite{article_wipf}, \cite{Balkan2014}.
+with the mixing matrix $\mathbf{A} \in \mathbb{R}^{M \times N}$ which is in this chapter known and source matrix $\mathbf{X} \in \mathbb{R}^{N \times L}$ which is wished recovered from the known EEG measurement matrix $\mathbf{Y} \in \mathbb{R}^{M \times L}$ in the case of $M < N$. 
+The approach is to find the support set $S$ of $\textbf{X}$ providing the non-zeros rows of $\mathbf{X}$ which corresponds to localization of the active sources. The support set $S$ is constructed from a minimisation of a log-likelihood function defined from Bayesian framework.
 
-\section{Maximum a Posterior Estimation}
+\section{Bayesian Interference}
+From Bayesian interference theory a posterior distribution is constructed to predict a new distribution of a unknown data sample such that a distribution of the unknown samples are return. The optimum sample estimate of a parameter -- for the posterior distribution -- can be found by e.g. maximum a posterior (MAP) estimation \todo{Kilde (WIKI): This has the disadvantage that it does not account for any uncertainty in the value of the parameter, and hence will underestimate the variance of the predictive distribution}.
+
 With the knowledge of $\mathbf{A}$ and $\mathbf{Y}$ it is possible to find maximum likelihood estimate of $\textbf{X}$. 
 By maximising the likelihood $p(\mathbf{Y} \vert \mathbf{X})$ an estimate of $\mathbf{X}$ can be achieved in the case of more sensors than sources, $M > N$. 
 But in the desired case where $M < N$ the estimation becomes complicate as the MMV model becomes under-determined and potentially an infinitely number of solutions exist with equal likelihoods.
 As the optimisation problem of the MMV model is NP-hard another estimation method must be used.
 
-Bayesian probability \todo{indsæt her hvad tanken bag Bayesian egenligt er} ... 
 Within this Bayesian framework the source matrix $\mathbf{X}$ is seen as a variable which is drawn from some distribution $p(\mathbf{X})$ such that it is possible to narrow down the infinitely solution space. 
 Assuming a prior belief that $\textbf{Y}$ is generated from a sparse coefficient matrix, that is the distribution from where $\textbf{X}$ is drawn has a sharp, possibly infinite, spike at zero surrounded by fat tails.     
 
@@ -125,4 +126,40 @@ This leads to the following estimate
 \item[7.] Extract support set $S$
 \item[8.] Set source matrix estimate $\hat{\mathbf{X}}^\ast = \mathcal{M}^\ast_S$
 \end{itemize}
+\end{algorithm}
+
+\begin{algorithm}[H]
+\caption{Cov-DL}
+\begin{algorithmic}[1]
+\Procedure{M-SBL}{$\textbf{Y}, \textbf{A}$}
+\State Initialise $\boldsymbol{\gamma}$, e.g $\boldsymbol{\gamma} = \mathbf{1}$.
+\While{$\boldsymbol{\gamma} \geq 10^{-16}$} 
+\EndWhile
+		
+			\State$\textbf{Y}_{\text{cov}} = \{\textbf{y}_{\text{cov}_s}\}_{s=1}^{\text{n\_seg}}$
+			
+			\If{$N > \frac{M(M+1)}{2}$}		
+			\Procedure{K-SVD}{$\textbf{Y}_{\text{cov}}$}
+			\State$\text{returns} \ \textbf{D} \in \mathbb{R}^{(M(M+1))/2}\times N$
+			\EndProcedure
+			\For{$j \gets 1, \hdots, N$}
+			\State$\textbf{T} = \text{vec}^{-1}(d_j)$            
+			\State$\lambda_j\gets \max\{\text{eigenvalue}(\textbf{T})\}$
+			\State$\textbf{b}_j \gets \ \text{eigenvector}(\lambda_j)$
+			\State$\textbf{a}_j \gets \sqrt{\lambda_j}\textbf{b}_j$
+			\EndFor
+			\State$\textbf{A} = \{\textbf{a}_j\}_{j=1}^N$
+			\EndIf
+			\State
+			\If{$N < \frac{M(M+1)}{2}$}
+				\Procedure{PCA}{$\text{vec}(\boldsymbol{\Sigma}_{\textbf{Y}_s})$}
+				\State$\text{returns} \ \textbf{U}\in \mathbb{R}^{(M(M+1))/2\times N}$
+				\EndProcedure
+				\Procedure{Quasi-Newton}{problem  \eqref{eq:Cov_DL2}}
+				\State$\text{returns}\ \textbf{A}= \{\textbf{a}_j\}_{j=1}^{N}$
+				\EndProcedure
+			\EndIf
+           \EndProcedure
+        \end{algorithmic} 
+        \label{alg:Cov1}
 \end{algorithm}

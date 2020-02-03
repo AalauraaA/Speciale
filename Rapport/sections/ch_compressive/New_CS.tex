@@ -1,5 +1,5 @@
 \section{Single Measurement Vector Model}\label{sec:SMV}
-Some measurement vector $\mathbf{y} \in \mathbb{R}^M$ can be described as a linear combinations of a coefficient matrix $\mathbf{A} \in \mathbb{R}^{M \times N}$ and some vector $\mathbf{x} \in \mathbb{R}^N$ such that
+Some measurement vector $\mathbf{y} \in \mathbb{R}^M$ can be described as a linear combination of a coefficient matrix $\mathbf{A} \in \mathbb{R}^{M \times N}$ and some vector $\mathbf{x} \in \mathbb{R}^N$ such that
 \begin{align}\label{eq:SMV_model}
 \mathbf{y} = \mathbf{Ax}.
 \end{align}
@@ -16,7 +16,7 @@ Such linear system, when $M = N$, is called determined and there will exist a un
 In the cases where $M > N$ and $M < N$ the linear system is called over-determined and under-determined, respectively. 
 For an over-determined system there does not exist a solution and for under-determined systems there exist infinitely many solutions, provided that one solution exist \cite[p. ix]{CS} \todo{Her skal vi være opmærksom på at dette ikke altid gælder. At der godt kan være en løsning i over-determined tilfælde (I følge Rasmus) - Laura}.
 
-From chapter \ref{ch:motivation} the linear system of interest consists of a observed EEG measurement vector $\mathbf{y} \in \mathbb{R}^M$ with $M$ sensors and a unknown source vector $\mathbf{x} \in \mathbb{R}^N$ with $N$ sources. 
+From chapter \ref{ch:motivation} the linear system of interest consists of an observed EEG measurement vector $\mathbf{y} \in \mathbb{R}^M$ with $M$ sensors and a unknown source vector $\mathbf{x} \in \mathbb{R}^N$ with $N$ sources. 
 The matrix $\mathbf{A} \in \mathbb{R}^{M \times N}$ is the mixing matrix.
 As described in chapter \ref{ch:motivation}, the case of interest is an under-determined linear system, $M < N$, as the EEG measurement have less sensors than sources -- hence a solution has to be found within the infinite solution set. 
 For the source vector $\mathbf{x}$ the activation of the sources is denoted by $k$ and there are at most $k \leq N$ activations in the EEG measurements. 

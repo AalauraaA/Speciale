@@ -1,5 +1,5 @@
 \chapter{Motivation}\label{ch:motivation}
- This chapter accounts for the motivation behind source extraction from an Electroencephalography (EEG). The concept of EEG is introduced along with its application. The potential and importance of source extraction are considered and related to the hearing aid industry. The commonly applied mathematical model for EEG measurements is presented. Currently applied methods for source extraction are considered leading to a presentation of the current state of the art methods which succeeds to overcome the limitations of previous methods. Lastly the contribution provided in this thesis is presented.          
+ This chapter accounts for the motivation behind source extraction from an Electroencephalography (EEG). The concept of EEG is introduced along with current applications. The potential and importance of source extraction are considered and related to the hearing aid industry. The commonly applied mathematical model for EEG measurements is presented. Currently applied methods for source extraction are considered leading to a presentation of the current state of the art methods which succeeds to overcome the limitations of previous methods. Lastly the objective of this thesis is specified.          
 
 %%This chapter examines existing literature concerning source recovery from Electroencephalography (EEG) measurements. 
 %%At first a motivation for the source recovery problem is given, considering the application within the hearing aid industry. 
@@ -18,28 +18,27 @@ It is most likely that the measurement of one sensor is a sum of multiple signal
 Nor is the range of a single sensor separated from the other sensors. 
 Thus the same signal can easily be measured by two or more sensors.
 The process of distorsion and mixing of signals is called volume conduction \cite[p. 68]{EEGsignalprocessing} \cite{Van2019}. 
-From this it is is clarified that EEG measurements  
-is a mixture of fluctuating electrical signals originating from brain activities.
-The concept is sought illustrated on figure \ref{fig:volumeconduction}. 
-Furthermore, EEG is a subject for interfering noise. Noise signals can occur in the measurements resulting from physical movement of e.g. eyes and jawbone \cite{fundamentalEEG}. 
-%\\
-%It will be clear later that it is of interest to separate and localize the sources of the neural activities measured on the scalp.  
-%\\ 
-\todo{input burde komme her, kan vi sige noget om om vi kan antage noget om k. samt stationaritet. evt. fjerne frekvens beskrivelsen}
-The resulting EEG measurements are classified within four groups according to the dominant frequency. 
+From this it is clarified that EEG measurements  
+is a mixture of fluctuating electrical signals originating from brain activities. Due to the mixing and the nature of the signals the true number of sources is generally considered unknown\cite{EEGsignalprocessing}.  
+Furthermore, EEG is a subject for interfering noise. Noise signals can occur in the measurements resulting from physical movement of e.g. eyes and jawbone \cite{fundamentalEEG}. The concept of volume conduction is sought illustrated on figure \ref{fig:volumeconduction}.
+
+The source signals are classified within four groups according to the dominant frequency. 
 The delta wave ($0.5-4$ Hz) is observed from infants and sleeping adults, the theta wave ($4-8$ Hz) is observed from children and sleeping adults, the alpha wave ($8-13$ Hz) is the most extensively studied brain rhythm, which is induced by an adult laying down with closed eyes. 
 Lastly, the beta wave ($13-30$ Hz) is considered the normal brain wave for adults, associated with active thinking, active attention or solving concrete problems \cite[p. 11]{EEGsignalprocessing}. 
-An example of EEG measurements within the four categories is illustrated by figure \ref{fig:EEG_example}.
+An example of EEG measurements within the four categories is illustrated by figure \ref{fig:EEG_example}.   
+
+Generally, the distribution of EEG measurements of multiple sensors are considered multivariant Gaussian\todo{does this comply to the non-gaussian assumption of ICA?} \cite[p. 50]{EEGsignalprocessing}. Though the mean and covariance properties generally changes over time. Therefore EEG measurements are considered quasistationary i.e. stationary only within small intervals. This motivates the need for segmentation of the EEG measurements to achieve signals with similar characteristics. 
+
 \begin{figure}[H]
     \begin{minipage}[t]{.45\textwidth}
         \centering
-        \includegraphics[width=\textwidth]{figurs/scalp.png}
-        \caption{Illustration of volume conduction, source: \cite{phd2015}(we will make our own figure here instead)}\label{fig:volumeconduction}
+        \includegraphics[width=\textwidth]{figures/EEG/volumeconduction.png}
+        \caption{Illustration of volume conduction}\label{fig:volumeconduction}
     \end{minipage} 
     \hfill
     \begin{minipage}[t]{.45\textwidth}
         \centering
-        \includegraphics[width=\textwidth]{figurs/EEG_example.png}
+        \includegraphics[width=\textwidth]{figures/EEG/EEG_example.png}
         \caption{Example of time dependent EEG measurements within the four defined categories, source: \cite{EEGsignalprocessing}}\label{fig:EEG_example}
     \end{minipage}
 \end{figure}
@@ -129,7 +128,6 @@ Secondary it is of interest to consider the practical application of the results
 As described in section \ref{sec:EEG} it is of interest to reduce the amount of energy it takes to listen to a specific sound source surrounded by noise.
 For this purpose we want to relate the found number of active sources to the level of concentration that the test person is experiencing. 
 As described this will include an estimation of the number of active sources through
-\\ \\
-Noter: \\
-hjerne bølgerne er ikke de vi ser på EEG med de signaler vi prøver at seperere til [EEGproc p. 33] 
+
+
  

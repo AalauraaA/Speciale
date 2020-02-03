@@ -17,23 +17,23 @@ np.random.seed(100)
 
 # choose datageneration method ...
 """ DATA GENERATION - AUTO-REGRESSIVE SIGNAL """
-m = 6                         # number of sensors
-n = 10                       # number of sources
-k = 6                         # max number of non-zero coef. in rows of X
+m = 8                         # number of sensors
+n = 8                         # number of sources
+k = 8                         # max number of non-zero coef. in rows of X
 L = 100                       # number of sampels
-k_true = k 
+k_true = 4 
 
 Y_real, A_real, X_real = data_generation.generate_AR_v2(n, m, L, k_true) 
 
 """ DATA GENERATION - MIX OF DETERMINISTIC SIGNALS """
 #m = 6                         # number of sensors
-#n = 7                         # number of sources
+#n = 6                         # number of sources
 #k = 6                         # max number of non-zero coef. in rows of X
 #L = 100                       # number of sampels
-#k_true = 4
+#k_true = 6
 #
 #Y_real, A_real, X_real = data_generation.mix_signals(L, 10, m, n, k_true)
-#
+
 #""" DATA GENERATION - ROSSLER DATA """
 #
 #L = 1940                        # number of sampels, max value is 1940
@@ -54,20 +54,20 @@ Ys, Xs, n_seg = data_generation.segmentation_split(Y_real, X_real, Ls, L)
 """ COV - DL and M-SBL """
 #
 for i in range(len(Ys)): # loop over segments 
-    Y_real = Ys[i]
-    X_real = Xs[i]
-    
-    cov_seg = 100
-    
-    if n <= (m*(m+1))/2.:
-        raise SystemExit('D is over-determined use cov-DL 2')
-# input        A_rec, A_err = CovDL.Cov_DL2(Y_real, A_real, X_real, m, n, cov_seg, L, k)
-        
-    elif k <= (m*(m+1))/2.:
-        A_rec, A_err = CovDL.Cov_DL1(Y_real, A_real, X_real, m, n, cov_seg, L, k)
-    
-    elif k > (m*(m+1))/2.:
-        raise SystemExit('X is not sparse enogh (k > (m*(m+1))/2)')
+#    Y_real = Ys[i]
+#    X_real = Xs[i]
+#    
+#    cov_seg = 100
+#    
+#    if n <= (m*(m+1))/2.:
+#        raise SystemExit('D is over-determined use cov-DL 2')
+## input        A_rec, A_err = CovDL.Cov_DL2(Y_real, A_real, X_real, m, n, cov_seg, L, k)
+#        
+#    elif k <= (m*(m+1))/2.:
+#        A_rec, A_err = CovDL.Cov_DL1(Y_real, A_real, X_real, m, n, cov_seg, L, k)
+#    
+#    elif k > (m*(m+1))/2.:
+#        raise SystemExit('X is not sparse enogh (k > (m*(m+1))/2)')
         
      
     X_rec = MSBL.M_SBL(A_real, Y_real, m, n, Ls, k, iterations=500, noise=False)
@@ -80,7 +80,7 @@ for i in range(len(Ys)): # loop over segments
 
 """ PLOTS """
  
-plt.figure(1)
+plt.figure(2)
 #plt.title('Comparison of each active source in X and corresponding reconstruction')
 
 nr_plot=0
@@ -88,7 +88,7 @@ for i in range(len(X_real.T[0])):
     if np.any(X_real[i]!=0) or np.any(X_rec[i]!=0):
         
         nr_plot += 1
-        plt.subplot(k_true*2, 1, nr_plot)
+        plt.subplot(k*2, 1, nr_plot)
        
         plt.plot(X_real[i], 'r',label='Real X')
         plt.plot(X_rec[i],'g', label='Recovered X')

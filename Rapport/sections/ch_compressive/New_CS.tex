@@ -1,62 +1,63 @@
-\section{Single Measurement Vector Model}\label{sec:SMV}
-Some measurement vector $\mathbf{y} \in \mathbb{R}^M$ can be described as a linear combination of a coefficient matrix $\mathbf{A} \in \mathbb{R}^{M \times N}$ and some vector $\mathbf{x} \in \mathbb{R}^N$ such that
+\section{System of Linear Equations}\label{sec:SMV}
+Let $\mathbf{y} \in \mathbb{R}^M$ be some vector. By basic linear algebra $\mathbf{y}$ can be described as a linear combination of a coefficient matrix $\mathbf{A} \in \mathbb{R}^{M \times N}$ and some scalar vector $\mathbf{x} \in \mathbb{R}^N$ such that
 \begin{align}\label{eq:SMV_model}
-\mathbf{y} = \mathbf{Ax}.
+\mathbf{y} = \mathbf{Ax},
 \end{align}
-The measurement vector $\mathbf{y}$ consist of $M$ measurements, $\mathbf{x}$ is an unknown vector of $N$ elements, and the coefficient matrix $\mathbf{A}$ models the linear measurement process column-wise. 
-\ref{eq:SMV_model} makes a system of linear equations with $M$ equations and $N$ unknowns and will be referred to as a linear system for the rest of the master thesis. In other literature, the linear system is also referred to as a single measurement vector (SMV) model.
+%The measurement vector $\mathbf{y}$ consist of $M$ measurements, $\mathbf{x}$ is an unknown vector of $N$ elements, and the coefficient matrix $\mathbf{A}$ models the linear measurement process column-wise.
+Let $\mathbf{y}$ and $\mathbf{A}$ be known, then  
+\ref{eq:SMV_model} makes a system of $M$ linear equations with $N$ unknowns, referred to as a linear system. 
 
-To solve the linear system one must look at the different cases that occurs for the number of $M$ equations and $N$ unknowns.
-In the case where the number of equations equal the number of unknowns, $M = N$, the coefficient matrix $\mathbf{A}$ becomes a square matrix. 
-A solution for the linear system, $\mathbf{x}^\ast$, can be found, provided that a solution exist, if the square coefficient matrix $\mathbf{A}$ has full rank -- $\mathbf{A}$ consists of linearly independent columns or rows -- as the square matrix can be inverted and the solution is achieved by 
-$$
-\mathbf{x}^\ast = \mathbf{A}^{-1} \mathbf{y}.
-$$
-Such linear system, when $M = N$, is called determined and there will exist a unique solution, provided that a solution exist. 
-In the cases where $M > N$ and $M < N$ the linear system is called over-determined and under-determined, respectively. 
-For an over-determined system there does not exist a solution and for under-determined systems there exist infinitely many solutions, provided that one solution exist \cite[p. ix]{CS} \todo{Her skal vi være opmærksom på at dette ikke altid gælder. At der godt kan være en løsning i over-determined tilfælde (I følge Rasmus) - Laura}.
-
-From chapter \ref{ch:motivation} the linear system of interest consists of an observed EEG measurement vector $\mathbf{y} \in \mathbb{R}^M$ with $M$ sensors and a unknown source vector $\mathbf{x} \in \mathbb{R}^N$ with $N$ sources. 
-The matrix $\mathbf{A} \in \mathbb{R}^{M \times N}$ is the mixing matrix.
-As described in chapter \ref{ch:motivation}, the case of interest is an under-determined linear system, $M < N$, as the EEG measurement have less sensors than sources -- hence a solution has to be found within the infinite solution set. 
-For the source vector $\mathbf{x}$ the activation of the sources is denoted by $k$ and there are at most $k \leq N$ activations in the EEG measurements. 
-To find the solution of the linear system \eqref{eq:SMV_model} the number of activations $k$ must also be included in the recovering.
-
-The number of $k$ active source in the source vector $\mathbf{x} \in \mathbb{R}^N$ can be view as non-zeros -- the non-activations are described by zeros. To count non-zeros entries of a vector the $\ell_0$-norm can be used:
+To solve the linear system \ref{eq:SMV_model} with respect to $\textbf{x}$ one must look at the three different cases that can occur, depending on the relation between the number of equations $M$ and the number of unknowns $N$.
+For $M = N$, the system has in general one unique solution, provided that a solution exist(?).  
+If the square coefficient matrix $\mathbf{A}$ has full rank the solution can be found by inverting $\mathbf{A}$.
+%-- $\mathbf{A}$ consists of linearly independent columns or rows -- 
 \begin{align*}
-\Vert \mathbf{x} \Vert_0 := \text{card}(\text{supp}(\mathbf{x})).
+\mathbf{x} = \mathbf{A}^{-1} \mathbf{y}.
 \end{align*}
-The function $\text{card}(\cdot)$ gives the cardinality of the input and the support of $\mathbf{x}$, consisting of the non-zeros entries, is given as
-\begin{align*}
-\text{supp}(\mathbf{x}) = \{ j \in [N] \ : \ x_j \neq 0 \},
-\end{align*} 
-where $[N]$ is a set of integers $\lbrace 1, 2, \hdots, N \rbrace$ \cite[p. 41]{FR}. 
 
-\todo{Nu nævner vi jo herover at vi skal finde en løsning i det uendelige løsningsrum men vi går egenligt ikke videre med det da vi i stedet introducer k og MMV. Går der for lang til fra at det er nævnt til at man kommer med et bud? Vi kommer jo først til at nævne det i næste sektion "solution method".}
+For $M > N$ the system is over-determined. In general there is no solution to an over-detemined. An/The exception occur when the system contains enough linearly dependent equations.    
+For $M < N$ the system is under-determined. There exist infinitely many solutions to an under-determined system, provided that one solution exist\todo{note: skal vi nævne løsnings metoder for underdetermined system her?} \cite[p. ix]{CS}.  
 
-\section{Multiple Measurement Vector Model}\label{sec:MMV}
-As EEG measurements vary over time multiple EEG measurement vectors are achieved. 
-Therefore, to provided a practical use of the linear system the system \eqref{eq:SMV_model} is expanded to include the multiple measurement vectors, such that the linear system now becomes a multiple measurement vector (MMV) model:
+Consider now $\mathbf{y} \in \mathbb{R}^M$ as observed measurements from $M$ EEG sensors at time $t$. 
+The linear system \ref{eq:SMV_model} is then considered as a single measurement vector (SMV) model.
+Remember from chapter \ref{ch:motivation} that EEG measurements basically is a mixture of original brain signals affected by volumen condiction.  
+Modelling the EEG measurements by the SMV model embody the following assumptions/interpretations. $\textbf{x}$ is seen as the original brain signal sources, each entry representing the signal of one source. 
+Thus, $\textbf{x}$ is $\textbf{A}$ referred to as the source vector. $N$ is considered the maximum number of sources, however zero-entries may occur. Hence let $k$ denote the number of non-zero entries in $\textbf{x}$ referred to as the active sources at time $t$.   
+The coefficient matrix $\textbf{A}$ models the volume conduction by mapping the source vector from $\mathbb{R}^N$ to $\mathbb{R}^M$. $\textbf{A}$ is $\textbf{A}$ referred to a the mixing matrix.             
+
+\section{Multiple Measurement Vector Model of EEG}\label{sec:MMV}
+In practise EEG measurements are sampled over time by a certain sample frequency. 
+Thus multiple EEG measurement vectors are achieved.
+Let $L$ be the total number of samples. Now the  
+the SMV model is expanded to include $L$ measurement vectors:
 \begin{align}\label{eq:MMV_model}
 \mathbf{Y} = \mathbf{AX}+\textbf{E},
 \end{align}
-where $\mathbf{Y} \in \mathbb{R}^{M \times L}$ is the observed measurement matrix, $\mathbf{X} \in \mathbb{R}^{N \times L}$ is the source matrix, and $\mathbf{A} \in \mathbb{R}^{M \times N}$ is the mixing matrix. 
-By expanding the system to include multiple measurement vectors some noise will occur. 
-This is added to the linear system as a noise matrix $\textbf{E} \in \mathbb{R}^{M \times L}$. 
-$L$ denotes the number of observed EEG measurement vectors each consisting of $M$ measurements, that is $L$ samples given. 
-For $L = 1$ the linear system \eqref{eq:MMV_model} will just be the SMV model \eqref{eq:SMV_model}.
-As for the linear system \eqref{eq:SMV_model} the MMV model \eqref{eq:MMV_model} is under-determined with $M < N$ \cite[p. 42]{CS}.
+now $\mathbf{Y} \in \mathbb{R}^{M \times L}$ is the observed measurement matrix, $\mathbf{X} \in \mathbb{R}^{N \times L}$ is the source matrix, and $\mathbf{A} \in \mathbb{R}^{M \times N}$ is the mixing matrix. 
+Furthermore $\textbf{E} \in \mathbb{R}^{M \times L}$ is consider an additional noise matrix, to be expected from psychical measurements.  
+The model is now referred to as the multiple measurement vector (MMV) model.
+As for \eqref{eq:SMV_model} the solution set of the linear system \eqref{eq:MMV_model} depends on the relation between $N$ and $M$ \cite[p. 42]{CS}. 
 
-As the EEG measurements are non-stationary it can be hard to say something about the activations in the source matrix $\mathbf{X}$ as the sources fluctuates between be active and non-active -- depending on the situation the EEG measurements are measured in.
-Therefore it is of interest that the EEG measurements becomes stationary.
-This could possibly be done by segmentation of the EEG measurements as the measurements becomes stationary in short time period \todo{ref eller er det almen kendt}.
+In chapter \ref{ch:motivation} it is specified that the case of more sources than sensors, $N>M$, is the case of interest in this thesis.  
+%flytte sidste del?
 
-Let $f$ be the sample frequency of the observed EEG measurements $\mathbf{Y}$ and let $s$ denoted a segment index \todo{f er samples pr sek., L er antal sampels i alt, Ls er antal samples pr segment og ts er længen pr segment i sekunder}.
-As such the observed EEG measurements can be divided into segments $\mathbf{Y}_s \in \mathbb{R}^{M \times t_s f}$, possibly overlapping, where $t_s$ is the length of the segments in seconds. For each segment the MMV model \eqref{eq:MMV_model} still holds and is rewritten into
+\subsection{Segmentation}
+In\todo{man ikke teoritisk modellere de non-stationære tilfælde?} chapter \ref{ch:motivation} is it argued that EEG measurements are only stationary with small segments. 
+Hence the following segmentation is considered.   
+%As the EEG measurements are non-stationary it can be hard to say something about the activations in the source matrix $\mathbf{X}$ as the sources fluctuates between be active and non-active -- depending on the situation the EEG measurements are measured in.
+%Therefore it is of interest that the EEG measurements becomes stationary.
+%This could possibly be done by segmentation of the EEG measurements as the measurements becomes stationary in short time period.
+
+Let $f$ be the sample frequency of the observed EEG measurements $\mathbf{Y}$ and let $s$ denoted a segment index.
+As such the observed EEG measurements can be divided into segments  $\mathbf{Y}_s \in \mathbb{R}^{M \times L_s}$, possibly overlapping. Here $L_s = t_{s}f$ where $t_s$ is the length of the segment in seconds\todo{her er t_s ikke konstant med afhængig af index s, ikke?}. For each segment the MMV model \eqref{eq:MMV_model} holds and is rewritten into
 \begin{align}\label{eq:MMV_seg}
 \mathbf{Y}_s = \mathbf{AX}_s + \textbf{E}_s, \quad \forall s.
 \end{align}
-As the segmented EEG measurement matrix $\mathbf{Y}_s$ now consists of stationary measurement, the segmented source matrix $\mathbf{X}_s$, consisting of the vectors $\mathbf{x}_{s1}, \dots, \mathbf{x}_{sL_s}$ which have been stacked column-wise, will now consists of at most $k$ non-zero rows -- the activations of sources. With the segmentation the number of samples within a one segment is denoted by $L_s$ while $L$ is the number of samples of all segments combined. 
+Due to a segment being stationary it is assumed that each source remains either active or non-active throughout the segment -- a non-active source gives a zero-row in $\textbf{X}$.
+Thus, $\mathbf{X}_s$, consists of $k$ non-zero rows -- the active sources.
+
+.....
+
 The support of the segmented source matrix $\mathbf{X}_s$ denotes the index set of non-zero rows of $\mathbf{X}_s$. 
 As mentioned before, $\mathbf{X}_s$ has at most $k$ non-zero rows, the non-zero values occur in common location for all columns. 
 By using this joint information it is possible to recover $\mathbf{X}_s$ from fewer measurements \cite[p. 43]{CS}.
@@ -79,4 +80,20 @@ The method take advantage of a Bayesian approach as O. Balkan constructs a varia
 By minimisation of the variance of the log-likelihood an estimate for the source matrix can be drawn from the log-likelihood.
 
 
+fjernet indhold:
+From chapter \ref{ch:motivation} the linear system of interest consists of an observed EEG measurement vector $\mathbf{y} \in \mathbb{R}^M$ with $M$ sensors and a unknown source vector $\mathbf{x} \in \mathbb{R}^N$ with $N$ sources. 
+The matrix $\mathbf{A} \in \mathbb{R}^{M \times N}$ is the mixing matrix.
+As described in chapter \ref{ch:motivation}, the case of interest is an under-determined linear system, $M < N$, as the EEG measurement have less sensors than sources -- hence a solution has to be found within the infinite solution set. 
+For the source vector $\mathbf{x}$ the activation of the sources is denoted by $k$ and there are at most $k \leq N$ activations in the EEG measurements. 
+To find the solution of the linear system \eqref{eq:SMV_model} the number of activations $k$ must also be included in the recovering.
+
+The number of $k$ active source in the source vector $\mathbf{x} \in \mathbb{R}^N$ can be view as non-zeros -- the non-activations are described by zeros. To count non-zeros entries of a vector the $\ell_0$-norm can be used:
+\begin{align*}
+\Vert \mathbf{x} \Vert_0 := \text{card}(\text{supp}(\mathbf{x})).
+\end{align*}
+The function $\text{card}(\cdot)$ gives the cardinality of the input and the support of $\mathbf{x}$, consisting of the non-zeros entries, is given as
+\begin{align*}
+\text{supp}(\mathbf{x}) = \{ j \in [N] \ : \ x_j \neq 0 \},
+\end{align*} 
+where $[N]$ is a set of integers $\lbrace 1, 2, \hdots, N \rbrace$ \cite[p. 41]{FR}. 
 

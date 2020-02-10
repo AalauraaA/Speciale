@@ -49,7 +49,7 @@ Hence the following segmentation is considered.
 %This could possibly be done by segmentation of the EEG measurements as the measurements becomes stationary in short time period.
 
 Let $f$ be the sample frequency of the observed EEG measurements $\mathbf{Y}$ and let $s$ denoted a segment index.
-As such the observed EEG measurements can be divided into segments  $\mathbf{Y}_s \in \mathbb{R}^{M \times L_s}$, possibly overlapping. Here $L_s = t_{s}f$ where $t_s$ is the length of the segment in seconds\todo{her er t_s ikke konstant med afhængig af index s, ikke?}. For each segment the MMV model \eqref{eq:MMV_model} holds and is rewritten into
+As such the observed EEG measurements can be divided into segments  $\mathbf{Y}_s \in \mathbb{R}^{M \times L_s}$, possibly overlapping. Here $L_s = t_{s}f$ where $t_s$ is the length of the segment in seconds\todo{her er t\_s ikke konstant med afhængig af index s, ikke?}. For each segment the MMV model \eqref{eq:MMV_model} holds and is rewritten into
 \begin{align}\label{eq:MMV_seg}
 \mathbf{Y}_s = \mathbf{AX}_s + \textbf{E}_s, \quad \forall s.
 \end{align}

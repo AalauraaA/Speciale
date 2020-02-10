@@ -15,15 +15,15 @@ If the square coefficient matrix $\mathbf{A}$ has full rank the solution can be 
 \mathbf{x} = \mathbf{A}^{-1} \mathbf{y}.
 \end{align*}
 
-For $M > N$ the system is over-determined. In general there is no solution to an over-detemined system. An/The exception occur when the system contains a sufficient amount of linearly dependent equations.    
+For $M > N$ the system is over-determined. In general there is no solution to an over-detemined. An/The exception occur when the system contains enough linearly dependent equations.    
 For $M < N$ the system is under-determined. There exist infinitely many solutions to an under-determined system, provided that one solution exist\todo{note: skal vi nævne løsnings metoder for underdetermined system her?} \cite[p. ix]{CS}.  
 
-Consider now $\mathbf{y} \in \mathbb{R}^M$ as the observed measurements from $M$ EEG sensors at time $t$. 
+Consider now $\mathbf{y} \in \mathbb{R}^M$ as observed measurements from $M$ EEG sensors at time $t$. 
 The linear system \ref{eq:SMV_model} is then considered as a single measurement vector (SMV) model.
-Remember from chapter \ref{ch:motivation} that EEG measurements basically is mixture of original brain signals affected by volume conduction.  
+Remember from chapter \ref{ch:motivation} that EEG measurements basically is a mixture of original brain signals affected by volumen condiction.  
 Modelling the EEG measurements by the SMV model embody the following assumptions/interpretations. $\textbf{x}$ is seen as the original brain signal sources, each entry representing the signal of one source. 
-Thus, $\textbf{x}\in \mathbb{R}^N$ is referred to as the source vector. $N$ is considered the maximum number of sources, however zero-entries may occur. Let $k$ denote the number of non-zero entries in $\textbf{x}$, referred to as the active sources at time $t$.   
-The coefficient matrix $\textbf{A}$ models the volume conduction by mapping the source vector from $\mathbb{R}^N$ to $\mathbb{R}^M$. $\textbf{A}$ is referred to as the mixing matrix.             
+Thus, $\textbf{x}$ is $\textbf{A}$ referred to as the source vector. $N$ is considered the maximum number of sources, however zero-entries may occur. Hence let $k$ denote the number of non-zero entries in $\textbf{x}$ referred to as the active sources at time $t$.   
+The coefficient matrix $\textbf{A}$ models the volume conduction by mapping the source vector from $\mathbb{R}^N$ to $\mathbb{R}^M$. $\textbf{A}$ is $\textbf{A}$ referred to a the mixing matrix.             
 
 \section{Multiple Measurement Vector Model of EEG}\label{sec:MMV}
 In practise EEG measurements are sampled over time by a certain sample frequency. 
@@ -42,20 +42,18 @@ In chapter \ref{ch:motivation} it is specified that the case of more sources tha
 %flytte sidste del?
 
 \subsection{Segmentation}
-In\todo{man kan ikke teoritisk modellere de non-stationære tilfælde?} chapter \ref{ch:motivation} it is argued that EEG measurements are only stationary within small segments. 
+In\todo{man ikke teoritisk modellere de non-stationære tilfælde?} chapter \ref{ch:motivation} is it argued that EEG measurements are only stationary with small segments. 
 Hence the following segmentation is considered.   
 %As the EEG measurements are non-stationary it can be hard to say something about the activations in the source matrix $\mathbf{X}$ as the sources fluctuates between be active and non-active -- depending on the situation the EEG measurements are measured in.
 %Therefore it is of interest that the EEG measurements becomes stationary.
 %This could possibly be done by segmentation of the EEG measurements as the measurements becomes stationary in short time period.
 
-Let $f$ be the sample frequency of the observed EEG measurements $\mathbf{Y}$ and let $t_s$ be the length of a segment. 
-Here $s$ is the segment index. 
-As such the observed EEG measurements can be divided into segments  $\mathbf{Y}_s \in \mathbb{R}^{M \times L_{s}}$, possibly overlapping, where $L_s = t_{s}f$ \todo{her er ts ikke konstant med afhængig af index s, ikke?}. 
-For each segment the MMV model \eqref{eq:MMV_model} holds and is rewritten into
+Let $f$ be the sample frequency of the observed EEG measurements $\mathbf{Y}$ and let $s$ denoted a segment index.
+As such the observed EEG measurements can be divided into segments  $\mathbf{Y}_s \in \mathbb{R}^{M \times L_s}$, possibly overlapping. Here $L_s = t_{s}f$ where $t_s$ is the length of the segment in seconds\todo{her er t\_s ikke konstant med afhængig af index s, ikke?}. For each segment the MMV model \eqref{eq:MMV_model} holds and is rewritten into
 \begin{align}\label{eq:MMV_seg}
 \mathbf{Y}_s = \mathbf{AX}_s + \textbf{E}_s, \quad \forall s.
 \end{align}
-Due to a segment being stationary it is assumed that each source remains either active or non-active throughout the segment -- a non-active source gives a zero-row in $\textbf{X}_s$.
+Due to a segment being stationary it is assumed that each source remains either active or non-active throughout the segment -- a non-active source gives a zero-row in $\textbf{X}$.
 Thus, $\mathbf{X}_s$, consists of $k$ non-zero rows -- the active sources.
 
 .....

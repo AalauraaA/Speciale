@@ -42,7 +42,7 @@ In chapter \ref{ch:motivation} it is specified that the case of more sources tha
 %flytte sidste del?
 
 \subsection{Segmentation}
-In\todo{man kan ikke teoritisk modellere de non-stationære tilfælde?} chapter \ref{ch:motivation} it is argued that EEG measurements are only stationary within small segments. 
+In\todo{man kan ikke teoretisk modellere de non-stationære tilfælde med samme model?} chapter \ref{ch:motivation} it is argued that EEG measurements are only stationary within small segments. 
 Hence the following segmentation is considered.   
 %As the EEG measurements are non-stationary it can be hard to say something about the activations in the source matrix $\mathbf{X}$ as the sources fluctuates between be active and non-active -- depending on the situation the EEG measurements are measured in.
 %Therefore it is of interest that the EEG measurements becomes stationary.
@@ -69,12 +69,20 @@ To count the non-zeros row of a matrix the $\ell_0$-norm is defined:
 \Vert \mathbf{X} \Vert_0 := \text{card}(\text{supp}(\mathbf{X})),
 \end{align*}
 where the function $\text{card}(\cdot)$ gives the cardinality of the input set. 
-
-
-By using this joint information it is possible to recover $\mathbf{X}_s$ from fewer measurements \cite[p. 43]{CS}.
+$\textbf{X}_s$ is said to be $k$-sparse if it contains at most $k$ non-zeros rows:
+\begin{align*}
+\Vert \mathbf{X}_s \Vert_0 \leq k
+\end{align*}
+A model for the EEG measurements is now established.
+From the model the aim is to recover the source matrix $\textbf{X}_s \forall s$, which gives us the separated original brain signals as intended by the problem statement.      
+In the next section our solution method is presented and discussed before the algorithms are established in the next chapters.    
 
 \section{Solution Methods}\label{sec:sol_met}
-For the EEG measurements the MMV model is an under-determined linear system with less sensors than sources, $M < N$, and therefore a solution must be found in the infinitely solution space, provided one solution exists -- simple linear algebra can not be used.
+It is now justified that the EEG measurements can be modelled by the multiple measurement vector model defined by the system of linear equations \eqref{eq:MMV_seg}, including an additional noise.
+From the problem statement cf. chapter \ref{ch:problemstatement} it is given that the aim is to recover the source vector $\textbf{X}$, in the case where the number of sensors is less than the number of sources, $M < N$. That is recovering $\textbf{X}$ from an under-determined system. Therefore, a solution must be found in the infinitely solution space, provided that one solution exists -- simple linear algebra can not be used.
+
+       
+
 
 O. Balkan \cite{Balkan2015} proposed in 2015 a method which can recover a mixing matrix $\mathbf{A}$ from a under-determined segmented MMV model. 
 The method is called covariance-domain dictionary learning (Cov-DL).
@@ -95,4 +103,6 @@ fjernet indhold:
 
 
 The number of $k$ active source in the source vector $\mathbf{x} \in \mathbb{R}^N$ can be view as non-zeros -- the non-activations are described by zeros. 
+
+By using this joint information it is possible to recover $\mathbf{X}_s$ from fewer measurements \cite[p. 43]{CS}.
 

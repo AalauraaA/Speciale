@@ -1,13 +1,14 @@
-From \cite{phd2015}, O. Balkan referred to an approach to identify the unknown sources from the multiple measurement vector (MMV) model given in \ref{eq:MMV_model} by creating a support set of the indices of $\mathbf{X}$. The method of interest is called multiple sparse Bayesian learning (M-SBL) algorithm.
-The method, M-SBL, differs from the covariance-domain dictionary learning (Cov-DL) method presented in chapter \ref{ch:Cov-DL} as M-SBL works in the time domain and for the non-segmented MMV model. O. Balkan suggest using a different approach to recover $\mathbf{X}$ from the MMV -- a Bayesian approach.
+From \cite{phd2015}, O. Balkan referred to an approach to identify the unknown sources from the multiple measurement vector (MMV) model, \ref{eq:MMV_model}, by creating a support set $S$ which indices are used in the recovering of $\mathbf{X}$. 
+The approach is a method called multiple sparse Bayesian learning (M-SBL) which take advantage of Bayesian theory.
+The method, M-SBL, differs from the covariance-domain dictionary learning (Cov-DL) method presented in chapter \ref{ch:Cov-DL} as M-SBL take place in the time domain and the use of a non-segmented MMV model. 
 
-In this chapter M-SBL will be use as the approach of this thesis to identifies the sources. This include a introduction to M-SBL and some theory of its Bayesian background. The chapter is inspired by \cite{phd_wipf} and the articles \cite{article_wipf}, \cite{Balkan2014}.
+In this chapter the approach M-SBL will be use to identifies the sources of EEG measurements. This include a introduction to M-SBL and some theory of its Bayesian background. The chapter is inspired by \cite{phd_wipf} and the articles \cite{article_wipf}, \cite{Balkan2014}.
 
-Consider MMV model for the non-segmented case
+Let first consider the MMV model for the non-segmented case
 \begin{align*}
 \mathbf{Y} = \mathbf{AX} + \mathbf{E},
 \end{align*}
-with the mixing matrix $\mathbf{A} \in \mathbb{R}^{M \times N}$ which is in this chapter known and source matrix $\mathbf{X} \in \mathbb{R}^{N \times L}$ which is wished recovered from the known EEG measurement matrix $\mathbf{Y} \in \mathbb{R}^{M \times L}$ in the case of $M < N$. 
+with the mixing matrix $\mathbf{A} \in \mathbb{R}^{M \times N}$ which is in this chapter a known matrix and source matrix $\mathbf{X} \in \mathbb{R}^{N \times L}$ which is wished recovered from the known EEG measurement matrix $\mathbf{Y} \in \mathbb{R}^{M \times L}$ in the case of $M < N$. 
 The approach is to find the support set $S$ of $\textbf{X}$ providing the non-zeros rows of $\mathbf{X}$ which corresponds to localization of the active sources. The support set $S$ is constructed from a minimisation of a log-likelihood function defined from Bayesian framework.
 
 \section{Bayesian Interference}
@@ -40,7 +41,7 @@ Some problems have shown to occur when using a fixed and algorithm-dependent pri
 Another issue is that a combinatorial number of suboptimal local solutions can occur.  
 By use of automatic relevance determination (ARD) the problems related to the sparse prior can be avoided. 
 ARD is a method where a prior is introduced to determine the relevance of a parameter. 
-This prior is modulated by a vector of hyperparameters affecting the prior variance of each row in $X$.
+This prior is modulated by a vector of hyperparameters affecting the prior variance of each row in $\mathbf{X}$.
 This can also be view as a regularisation of the solution space which is narrowed to consist only of relevant information \cite{ARD}.
 An empirical prior can be used with ARD as the empirical prior is flexible and depends on the unknown hyperparameter $\boldsymbol{\gamma}$ and therefore more data-dependent -- such prior can be controlled to induce sparsity.
 
@@ -50,7 +51,7 @@ Then for each column in $\mathbf{Y}$ and $\mathbf{X}$ the likelihood is written 
 p(\mathbf{y}_{j} \vert \mathbf{x}_{j}) &= \mathcal{N}(\mathbf{Ax}_{j}, \sigma^2 \mathbf{I}) \\
 &= (2 \pi \sigma^2)^{-N/2} \exp \left( - \frac{1}{2 \sigma^2} \Vert \mathbf{y}_{j} - \mathbf{A} \mathbf{x}_{j} \Vert_2^2 \right).
 \end{align*}
-With the use of ARD the $i$-th row of the sources matrix $\mathbf{X}$, $\mathbf{x}_{i \cdot}$, is assigned an $L$-dimensional independent Gaussian prior with zero mean and a variance controlled by $\gamma_i$ which is unknown:
+With the use of ARD the $i$-th row of the source matrix $\mathbf{X}$, $\mathbf{x}_{i \cdot}$, is assigned an $L$-dimensional independent Gaussian prior with zero mean and a variance controlled by $\gamma_i$ which is unknown:
 \begin{align*}
 p (\mathbf{x}_{i \cdot} ; \gamma_i) &= \mathcal{N}(0, \gamma_i \mathbf{I}).
 \end{align*}
@@ -59,7 +60,7 @@ By combing the row priors
 p (\mathbf{X} ; \boldsymbol{\gamma}) &= \prod_{j=1}^L p (\mathbf{x}_{i \cdot} ; \gamma_i),
 \end{align*}
 a full prior of $\mathbf{X}$ is achieved modulated by the hyperparameter vector $\boldsymbol{\gamma} = [\gamma_1, \dots, \gamma_M]^T$. 
-By combining the full prior and the likelihood $p(\mathbf{y}_{j} \vert \mathbf{x}_{j})$ the posterior of the $j$-th column of the source matrix $\mathbf{X}$ becomes
+By combining the full prior and the likelihood $p(\mathbf{y}_{j} \vert \mathbf{x}_{j})$ the posterior of the $j$-th column of the source matrix $\mathbf{X}$ becomes \todo{Er ved at finde ud af hvorfor vi kan sætte dem sammen på denne måde}
 \begin{align*}
 p(\mathbf{x}_{j} \vert \mathbf{y}_{j} ; \boldsymbol{\gamma}) = \frac{p(\mathbf{x}_{j}, \mathbf{y}_{j} ; \boldsymbol{\gamma})}{\int p(\mathbf{x}_{j}, \mathbf{y}_{j} ; \boldsymbol{\gamma}) \ d \mathbf{x}_{j}} = \mathcal{N}(\boldsymbol{\mu}_{j}, \boldsymbol{\Sigma}),
 \end{align*}
@@ -68,30 +69,31 @@ with mean and covariance given as
 \boldsymbol{\Sigma} &= \text{Cov}(\mathbf{x}_{j} \vert \mathbf{y}_{j} ; \boldsymbol{\gamma}) = \boldsymbol{\Gamma} - \boldsymbol{\Gamma} \mathbf{A}^T \boldsymbol{\Sigma}_y^{-1} \mathbf{A} \boldsymbol{\Gamma}, \quad \forall j = 1, \dots, L \nonumber \\
 \mathcal{M} &= [\boldsymbol{\mu}_{1 \cdot}, \dots, \boldsymbol{\mu}_{ L \cdot}] = \mathbb{E}[\mathbf{X} \vert \mathbf{Y} ; \boldsymbol{\gamma}] = \boldsymbol{\Gamma} \mathbf{A}^T \boldsymbol{\Sigma}_y^{-1} \mathbf{Y}, \label{eq:moments}
 \end{align}
-where $\boldsymbol{\Gamma} = \text{diag}(\boldsymbol{\gamma})$ and $\boldsymbol{\Sigma}_y = \sigma^2 \mathbf{I} + \mathbf{A} \boldsymbol{\Gamma} \mathbf{A}^T$. Let now the posterior mean serve as the point estimate for $\mathbf{X}$ without involving the support set $S$.
+where $\boldsymbol{\Gamma} = \text{diag}(\boldsymbol{\gamma})$ and $\boldsymbol{\Sigma}_y = \sigma^2 \mathbf{I} + \mathbf{A} \boldsymbol{\Gamma} \mathbf{A}^T$ \todo{Er det nemt at se at de to sigmaer vi bruger ikke er den samme? Den ene er en kovarianse mens den anden er en variable}. 
+Let the posterior mean $\mathcal{M}$ serve as the point estimate for $\mathbf{X}$ without involving the support set $S$.
 It is clear that row sparsity is achieved whenever $\gamma_i = 0$. 
 From this the posterior must satisfy the following 
 \begin{align*}
 P(\mathbf{x}_{i \cdot} = \mathbf{0} \vert \mathbf{Y} ; \gamma_i = 0) = 1,
 \end{align*}
-which ensure that the posterior mean $\mathcal{M}$ of the $i$-th row, $\boldsymbol{\mu}_{i \cdot}$, will be zero. Now, instead of estimating the support set?/sparsity profile of our source matrix $\mathbf{X}$ it is sufficient to estimate the hyperparameters $\gamma_i$\cite[p. 147]{phd_wipf}.
+which ensure that the posterior mean $\mathcal{M}$ of the $i$-th row, $\boldsymbol{\mu}_{i \cdot}$, will be zero. Now, instead of estimating the sparsity profile of our source matrix $\mathbf{X}$ it is sufficient to estimate the hyperparameters $\gamma_i$\cite[p. 147]{phd_wipf}.
 Each different hyperparameter $\boldsymbol{\gamma}$ correspond to different hypothesis for the prior distribution of the underlying generation of $\mathbf{Y}$. Therefore the determination of $\boldsymbol{\gamma}$ is seen as a model selection for which an empirical Bayesian strategy can be used. 
 By the empirical Bayesian strategy the unknown weights, making the source matrix $\textbf{X}$, are treated as nuisance parameters and are integrated out.
 By integrating the likelihood of $\textbf{Y}$ with respect to the unknown sources $\mathbf{X}$ the marginal likelihood of the observed mixed data $\mathbf{Y}$, $p (\mathbf{Y} ; \boldsymbol{\gamma})$ is achieved \cite[p. 146]{phd_wipf}. 
 By applying the $-2 \log (\cdot)$ transformation the marginal likelihood function is transformed to a cost function
 \begin{align*}
-\mathcal{l}(\boldsymbol{\gamma}) &= -2 \log \left( \int p (\mathbf{Y}  \vert \mathbf{X}) p (\mathbf{X} ; \boldsymbol{\gamma}) \ d\mathbf{X} \right) \\
+\ell(\boldsymbol{\gamma}) &= -2 \log \left( \int p (\mathbf{Y}  \vert \mathbf{X}) p (\mathbf{X} ; \boldsymbol{\gamma}) \ d\mathbf{X} \right) \\
 &= - 2 \log(p (\mathbf{Y} ; \boldsymbol{\gamma}))\\
 &= \log ( \vert \boldsymbol{\Sigma}_y \vert) + \frac{1}{L} \sum_{j=1}^L \mathbf{y}_{j}^T \boldsymbol{\Sigma}_y ^{-1} \mathbf{y}_{j}
 \end{align*}
-To minimise the marginal log likelihood $\mathcal{l}(\boldsymbol{\gamma})$ with respect to $\boldsymbol{\gamma}$ the evidence maximisation (EM) algorithm can be used. 
+To minimise the marginal log likelihood $\ell(\boldsymbol{\gamma})$ with respect to $\boldsymbol{\gamma}$ the evidence maximisation (EM) \todo{Tjek lige om det er evidence eller expectation} algorithm can be used. 
 The E-step of the EM algorithm is to compute the posterior moments using \eqref{eq:moments} while the M-step is the following update rule of $\gamma_i$:
 \begin{align*}
 \gamma_i^{(k+1)} = \frac{1}{L} \Vert \boldsymbol{\mu}_{i \cdot} \Vert_2^2 + \Sigma_{ii}, \quad \forall i = 1, \dots, M.
 \end{align*}
 The M-step is very slow on large data. 
 Instead one could use a fixed point update to fasten the convergence on large data, however convergence is no longer ensured. 
-The fixed point updating step is achieved by taking the derivative of the marginal log likelihood $\mathcal{l}(\boldsymbol{\gamma})$ with respect to $\boldsymbol{\gamma}$ and equating it with zero. 
+The fixed point updating step is achieved by taking the derivative of the marginal log likelihood $\ell(\boldsymbol{\gamma})$ with respect to $\boldsymbol{\gamma}$ and equating it with zero. 
 This lead to the following update equation which can replace the above M-step in the EM-algorithm:
 \begin{align*}
 \gamma_i^{(k+1)} = \frac{\frac{1}{L} \Vert \boldsymbol{\mu}_{i \cdot} \Vert_2^2}{1 - \gamma_i^{-1 (k)} \Sigma_{ii}}, \quad \forall i = 1, \dots, M.

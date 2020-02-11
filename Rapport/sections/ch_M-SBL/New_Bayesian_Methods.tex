@@ -118,50 +118,39 @@ This leads to the following estimate
 
 \begin{algorithm}[H]
 \caption{M-SBL}
-\begin{itemize}
-\item[1.] Given $\mathbf{Y}$ and a dictionary matrix $\mathbf{A}$.
-\item[2.] Initialise $\boldsymbol{\gamma}$, e.g $\boldsymbol{\gamma} = \mathbf{1}$.
-\item[3.] Compute the posterior moments $\boldsymbol{\Sigma}$ and $\mathcal{M}$.
-\item[4.] Update $\boldsymbol{\gamma}$ using EM or fixed-point.
-\item[5.] Repeat step 3 and 4 until convergence to a fixed point $\boldsymbol{\gamma}^\ast$.
-\item[6.] Update the posterior moments $\boldsymbol{\Sigma}^\ast$ and $\mathcal{M}^\ast$ with $\gamma^\ast$.
-\item[7.] Extract support set $S$
-\item[8.] Set source matrix estimate $\hat{\mathbf{X}}^\ast = \mathcal{M}^\ast_S$
-\end{itemize}
-\end{algorithm}
-
-\begin{algorithm}[H]
-\caption{Cov-DL}
 \begin{algorithmic}[1]
-\Procedure{M-SBL}{$\textbf{Y}, \textbf{A}$}
-\State Initialise $\boldsymbol{\gamma}$, e.g $\boldsymbol{\gamma} = \mathbf{1}$.
+\Procedure{M-SBL}{$\textbf{Y}, \textbf{A}, $ iterations}
+\State $\boldsymbol{\gamma} = \mathbf{1} \in \mathbb{R}^{\text{iterations} + 2 \times N \times 1}$
+\State $k = 0$
 \While{$\boldsymbol{\gamma} \geq 10^{-16}$} 
+	\State $\boldsymbol{\Gamma} = \text{diag}(\boldsymbol{\gamma}^k)$
+	\For{$i = 1, \dots, N$}
+		\State $\boldsymbol{\Sigma} = \boldsymbol{\Gamma} - \boldsymbol{\Gamma} \mathbf{A}^T \boldsymbol{\Sigma}_y^{-1} \mathbf{A} \boldsymbol{\Gamma}$
+		\State $\mathcal{M} = \boldsymbol{\Gamma} \mathbf{A}^T \boldsymbol{\Sigma}_y^{-1} \mathbf{Y}$
+		\State $\gamma_i^{(k+1)} = \dfrac{\frac{1}{L} \Vert \boldsymbol{\mu}_{i \cdot} \Vert_2^2}{1 - \gamma_i^{-1 (k)} \Sigma_{ii}}$
+	\EndFor
+	\If{$k =$ iterations}
+		\State Break
+	\EndIf
+	\State $k += 1$
 \EndWhile
-		
-			\State$\textbf{Y}_{\text{cov}} = \{\textbf{y}_{\text{cov}_s}\}_{s=1}^{\text{n\_seg}}$
-			
-			\If{$N > \frac{M(M+1)}{2}$}		
-			\Procedure{K-SVD}{$\textbf{Y}_{\text{cov}}$}
-			\State$\text{returns} \ \textbf{D} \in \mathbb{R}^{(M(M+1))/2}\times N$
-			\EndProcedure
-			\For{$j \gets 1, \hdots, N$}
-			\State$\textbf{T} = \text{vec}^{-1}(d_j)$            
-			\State$\lambda_j\gets \max\{\text{eigenvalue}(\textbf{T})\}$
-			\State$\textbf{b}_j \gets \ \text{eigenvector}(\lambda_j)$
-			\State$\textbf{a}_j \gets \sqrt{\lambda_j}\textbf{b}_j$
-			\EndFor
-			\State$\textbf{A} = \{\textbf{a}_j\}_{j=1}^N$
-			\EndIf
-			\State
-			\If{$N < \frac{M(M+1)}{2}$}
-				\Procedure{PCA}{$\text{vec}(\boldsymbol{\Sigma}_{\textbf{Y}_s})$}
-				\State$\text{returns} \ \textbf{U}\in \mathbb{R}^{(M(M+1))/2\times N}$
-				\EndProcedure
-				\Procedure{Quasi-Newton}{problem  \eqref{eq:Cov_DL2}}
-				\State$\text{returns}\ \textbf{A}= \{\textbf{a}_j\}_{j=1}^{N}$
-				\EndProcedure
-			\EndIf
-           \EndProcedure
-        \end{algorithmic} 
-        \label{alg:Cov1}
+\State Return $\mathcal{M}^\ast, \boldsymbol{\gamma}^\ast$
+\EndProcedure
+\Procedure{Support}{$\mathcal{M}^\ast, \boldsymbol{\gamma}^\ast$, non\_zero}
+\State Support = $\mathbf{0} \in \mathbb{R}^{\text{non\_zero}}$
+\State $\boldsymbol{\gamma}_{\text{value}} = \boldsymbol{\gamma}^\ast (-2)$
+\For{$j$ in range(non\_zero)}	
+	\If{$\boldsymbol{\gamma}_{\text{value}} (\arg \max (\boldsymbol{\gamma}_{\text{value}}))$ != $0$}
+		\State Support($j$) = $\arg \max (\boldsymbol{\gamma}_{\text{value}}$)
+		\State $\boldsymbol{\gamma}_{\text{value}}(\arg \max (\boldsymbol{\gamma}_{\text{value}})) = 0$
+	\EndIf
+
+\EndFor
+\State $\mathbf{X} = \mathbf{0} \in \mathbb{R}^{N \times L-2}$
+\For{$i$ in Support}
+	\State $\mathbf{X}(i) = \mathcal{M}^\ast(-1)(i)$
+\EndFor
+\State Return $\mathbf{X}$
+\EndProcedure
+\end{algorithmic}
 \end{algorithm}

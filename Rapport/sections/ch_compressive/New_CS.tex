@@ -15,15 +15,15 @@ If the square coefficient matrix $\mathbf{A}$ has full rank the solution can be 
 \mathbf{x} = \mathbf{A}^{-1} \mathbf{y}.
 \end{align*}
 
-For $M > N$ the system is over-determined. In general there is no solution to an over-detemined. An/The exception occur when the system contains enough linearly dependent equations.    
+For $M > N$ the system is over-determined. In general there is no solution to an over-detemined system. An/The exception occur when the system contains a sufficient amount of linearly dependent equations.    
 For $M < N$ the system is under-determined. There exist infinitely many solutions to an under-determined system, provided that one solution exist\todo{note: skal vi nævne løsnings metoder for underdetermined system her?} \cite[p. ix]{CS}.  
 
-Consider now $\mathbf{y} \in \mathbb{R}^M$ as observed measurements from $M$ EEG sensors at time $t$. 
+Consider now $\mathbf{y} \in \mathbb{R}^M$ as the observed measurements from $M$ EEG sensors at time $t$. 
 The linear system \ref{eq:SMV_model} is then considered as a single measurement vector (SMV) model.
-Remember from chapter \ref{ch:motivation} that EEG measurements basically is a mixture of original brain signals affected by volumen condiction.  
+Remember from chapter \ref{ch:motivation} that EEG measurements basically is mixture of original brain signals affected by volume conduction.  
 Modelling the EEG measurements by the SMV model embody the following assumptions/interpretations. $\textbf{x}$ is seen as the original brain signal sources, each entry representing the signal of one source. 
-Thus, $\textbf{x}$ is $\textbf{A}$ referred to as the source vector. $N$ is considered the maximum number of sources, however zero-entries may occur. Hence let $k$ denote the number of non-zero entries in $\textbf{x}$ referred to as the active sources at time $t$.   
-The coefficient matrix $\textbf{A}$ models the volume conduction by mapping the source vector from $\mathbb{R}^N$ to $\mathbb{R}^M$. $\textbf{A}$ is $\textbf{A}$ referred to a the mixing matrix.             
+Thus, $\textbf{x}\in \mathbb{R}^N$ is referred to as the source vector. $N$ is considered the maximum number of sources, however zero-entries may occur. Let $k$ denote the number of non-zero entries in $\textbf{x}$, referred to as the active sources at time $t$.   
+The coefficient matrix $\textbf{A}$ models the volume conduction by mapping the source vector from $\mathbb{R}^N$ to $\mathbb{R}^M$. $\textbf{A}$ is referred to as the mixing matrix.             
 
 \section{Multiple Measurement Vector Model of EEG}\label{sec:MMV}
 In practise EEG measurements are sampled over time by a certain sample frequency. 
@@ -42,28 +42,47 @@ In chapter \ref{ch:motivation} it is specified that the case of more sources tha
 %flytte sidste del?
 
 \subsection{Segmentation}
-In\todo{man ikke teoritisk modellere de non-stationære tilfælde?} chapter \ref{ch:motivation} is it argued that EEG measurements are only stationary with small segments. 
+In\todo{man kan ikke teoretisk modellere de non-stationære tilfælde med samme model?} chapter \ref{ch:motivation} it is argued that EEG measurements are only stationary within small segments. 
 Hence the following segmentation is considered.   
 %As the EEG measurements are non-stationary it can be hard to say something about the activations in the source matrix $\mathbf{X}$ as the sources fluctuates between be active and non-active -- depending on the situation the EEG measurements are measured in.
 %Therefore it is of interest that the EEG measurements becomes stationary.
 %This could possibly be done by segmentation of the EEG measurements as the measurements becomes stationary in short time period.
 
-Let $f$ be the sample frequency of the observed EEG measurements $\mathbf{Y}$ and let $s$ denoted a segment index.
-As such the observed EEG measurements can be divided into segments  $\mathbf{Y}_s \in \mathbb{R}^{M \times L_s}$, possibly overlapping. Here $L_s = t_{s}f$ where $t_s$ is the length of the segment in seconds\todo{her er t\_s ikke konstant med afhængig af index s, ikke?}. For each segment the MMV model \eqref{eq:MMV_model} holds and is rewritten into
+Let $f$ be the sample frequency of the observed EEG measurements $\mathbf{Y}$ and let $t_s$ be the length of a segment. 
+Here $s$ is the segment index. 
+As such the observed EEG measurements can be divided into stationary segments  $\mathbf{Y}_s \in \mathbb{R}^{M \times L_{s}}$, possibly overlapping, where $L_s = t_{s}f$ \todo{her er ts ikke konstant med afhængig af index s, ikke?}. 
+For each segment the MMV model \eqref{eq:MMV_model} holds and is rewritten into
 \begin{align}\label{eq:MMV_seg}
 \mathbf{Y}_s = \mathbf{AX}_s + \textbf{E}_s, \quad \forall s.
 \end{align}
-Due to a segment being stationary it is assumed that each source remains either active or non-active throughout the segment -- a non-active source gives a zero-row in $\textbf{X}$.
+Due to a segment being stationary it is assumed that each source remains either active or non-active throughout the segment.
 Thus, $\mathbf{X}_s$, consists of $k$ non-zero rows -- the active sources.
 
-.....
-
-The support of the segmented source matrix $\mathbf{X}_s$ denotes the index set of non-zero rows of $\mathbf{X}_s$. 
-As mentioned before, $\mathbf{X}_s$ has at most $k$ non-zero rows, the non-zero values occur in common location for all columns. 
-By using this joint information it is possible to recover $\mathbf{X}_s$ from fewer measurements \cite[p. 43]{CS}.
+In order to characterise the source matrix with respect the amount of non-zero rows the term row sparseness is considered.  
+By common definition the support of the segmented source matrix $\text{supp}(\mathbf{X}_s)$ denotes the index set of non-zero rows of $\mathbf{X}_s$.
+%\begin{align*}
+%\text{supp}(\mathbf{X}) = \{ j \in [N] \ : \ X_j\cdot \neq 0 \}.
+%\end{align*}
+%where $[N]$ is a set of integers $\lbrace 1, 2, \hdots, N \rbrace$ \cite[p. 41]{FR}.  
+To count the non-zeros row of a matrix the $\ell_0$-norm is defined:
+\begin{align*}
+\Vert \mathbf{X} \Vert_0 := \text{card}(\text{supp}(\mathbf{X})),
+\end{align*}
+where the function $\text{card}(\cdot)$ gives the cardinality of the input set. 
+$\textbf{X}_s$ is said to be $k$-sparse if it contains at most $k$ non-zeros rows:
+\begin{align*}
+\Vert \mathbf{X}_s \Vert_0 \leq k
+\end{align*}
+A model for the EEG measurements is now established.
+From the model the aim is to recover the source matrix $\textbf{X}_s \forall s$, which gives us the separated original brain signals as intended by the problem statement.      
+In the next section our solution method is presented and discussed before the algorithms are established in the next chapters.    
 
 \section{Solution Methods}\label{sec:sol_met}
-For the EEG measurements the MMV model is an under-determined linear system with less sensors than sources, $M < N$, and therefore a solution must be found in the infinitely solution space, provided one solution exists -- simple linear algebra can not be used.
+It is now justified that the EEG measurements can be modelled by the multiple measurement vector model defined by the system of linear equations \eqref{eq:MMV_seg}, including an additional noise.
+From the problem statement cf. chapter \ref{ch:problemstatement} it is given that the aim is to recover the source vector $\textbf{X}$, in the case where the number of sensors is less than the number of sources, $M < N$. That is recovering $\textbf{X}$ from an under-determined system. Therefore, a solution must be found in the infinitely solution space, provided that one solution exists -- simple linear algebra can not be used.
+
+       
+
 
 O. Balkan \cite{Balkan2015} proposed in 2015 a method which can recover a mixing matrix $\mathbf{A}$ from a under-determined segmented MMV model. 
 The method is called covariance-domain dictionary learning (Cov-DL).
@@ -81,19 +100,9 @@ By minimisation of the variance of the log-likelihood an estimate for the source
 
 
 fjernet indhold:
-From chapter \ref{ch:motivation} the linear system of interest consists of an observed EEG measurement vector $\mathbf{y} \in \mathbb{R}^M$ with $M$ sensors and a unknown source vector $\mathbf{x} \in \mathbb{R}^N$ with $N$ sources. 
-The matrix $\mathbf{A} \in \mathbb{R}^{M \times N}$ is the mixing matrix.
-As described in chapter \ref{ch:motivation}, the case of interest is an under-determined linear system, $M < N$, as the EEG measurement have less sensors than sources -- hence a solution has to be found within the infinite solution set. 
-For the source vector $\mathbf{x}$ the activation of the sources is denoted by $k$ and there are at most $k \leq N$ activations in the EEG measurements. 
-To find the solution of the linear system \eqref{eq:SMV_model} the number of activations $k$ must also be included in the recovering.
 
-The number of $k$ active source in the source vector $\mathbf{x} \in \mathbb{R}^N$ can be view as non-zeros -- the non-activations are described by zeros. To count non-zeros entries of a vector the $\ell_0$-norm can be used:
-\begin{align*}
-\Vert \mathbf{x} \Vert_0 := \text{card}(\text{supp}(\mathbf{x})).
-\end{align*}
-The function $\text{card}(\cdot)$ gives the cardinality of the input and the support of $\mathbf{x}$, consisting of the non-zeros entries, is given as
-\begin{align*}
-\text{supp}(\mathbf{x}) = \{ j \in [N] \ : \ x_j \neq 0 \},
-\end{align*} 
-where $[N]$ is a set of integers $\lbrace 1, 2, \hdots, N \rbrace$ \cite[p. 41]{FR}. 
+
+The number of $k$ active source in the source vector $\mathbf{x} \in \mathbb{R}^N$ can be view as non-zeros -- the non-activations are described by zeros. 
+
+By using this joint information it is possible to recover $\mathbf{X}_s$ from fewer measurements \cite[p. 43]{CS}.
 

@@ -44,7 +44,7 @@ ved at sige de lever på samme underrum, estimere vi så faktisk et complete sys
 tanker: 
 kunne man flytte hele compressive sensing ud til løsnings forslag igen 
 
-
+emner der skal med 
 
 
 opbygnign:
@@ -52,5 +52,13 @@ basic lin alg. linear system
 3 cases kort. 
 relatere til EEG model
 udvid til MMV
+forklaring a sparse som en karaktestik 
+afslutning der siger vi nu har en model 
 
+solution methoods
+specificering af den case vi kigger på 
+vi kender ikke A -  bruger CS, evt. henvis til billag men indrag focus på dictionary learning.  
+dog ved vi ikke noget om sparseness så hvorfor ikke N=k 
+når vi har A kan vi finde X, men det passer ikke ind i CS så ser på løsnings methoden fra phd 
+anvender Baysian learning i stedet. 
  

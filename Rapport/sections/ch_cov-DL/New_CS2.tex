@@ -66,3 +66,70 @@ From the theorem is must be conclude that the choice of the mixing matrix $\math
 An alternative solution method to the $\ell_1$ optimisation includes greedy algorithms such as the Orthogonal Matching Pursuit (OMP) \cite[P. 65]{FR}. 
 The OMP algorithm is an iteration process where an index set $S$ is updated -- at each iteration -- by adding indices corresponding to the columns of $\mathbf{A}$ which describe the residual best possible, hence greedy.
 The vector $\mathbf{x}$ is then updated by a vector supported on $S$ which minimise the residual, that is the orthogonal projection of $\mathbf{y}$ onto the span$\lbrace \mathbf{a}_l \ \vert \ l \in S \rbrace$.
+
+% ekstra input 
+\subsubsection{K-SVD Algorithm}
+The dictionary learning algorithm K-SVD provides an updating rule which is applied to each column of $\mathbf{A}_0 = \left[ \mathbf{a}_0, \dots, \mathbf{a}_N \right] $ where $\mathbf{A}_0$ being a random initial dictionary matrix. Updating first $\mathbf{a}_j$ and then the corresponding coefficients in $\mathbf{X}$ which it is multiplied with the $i$-th row in $\mathbf{X}$ denoted by $\mathbf{x}_{i \cdot}$.
+Let $\mathbf{a}_{j_{0}}$ be the column to be updated and let the remaining columns be fixed. By rewriting the objective function in \eqref{eq:SVD1} using matrix notation it is possible to isolate the contribution from $\mathbf{a}_{j_{0}}$ \todo{Tjek nedenstående udledning. a og x er ikke lige lange da $a_j$ er M lang mens $x_{i \cdot}$ er L lang}.
+\begin{align}\label{eq:SVD2} 
+\Vert \textbf{Y} - \textbf{AX} \Vert_{F}^{2} 
+&= \left\| \textbf{Y} - \sum_{j=1}^{N} \textbf{a}_j \textbf{x}_{i \cdot} \right\|_{F}^{2} \nonumber \\
+&= \left\| \left( \textbf{Y}- \sum_{j \neq j_0}^{N} \textbf{a}_j \textbf{x}_{i \cdot} \right) - \textbf{a}_{j_{0}} \textbf{x}_{i_0 \cdot} \right\| _{F}^{2},
+\end{align}
+where $i = j$, $i_0 = j_0$ and where $F$ is the Frobenius norm that works on matrices
+\begin{align*}
+\Vert \mathbf{A} \Vert_F = \sqrt{\sum_{i=1}^M \sum_{j=1}^N \vert a_{ij} \vert^2}.
+\end{align*} 
+In \eqref{eq:SVD2} the term in the parenthesis is denoted by $\textbf{E}_{j_0}$, an error matrix, and hence by minimising \eqref{eq:SVD2} with respect to $\mathbf{a}_{j_0}$ and $\mathbf{x}_{i_0 \cdot}$ leads to the optimal contribution from $j_0$
+\begin{align}\label{eq:SVD3}
+\min_{\textbf{a}_{j_{0}}, \textbf{x}_{i_0 \cdot}}\left\|\textbf{ E}_{j_{0}} - \textbf{a}_{j_{0}} \textbf{x}_{i_0 \cdot} \right\|_{F}^{2}.
+\end{align} 
+The optimal solution to \eqref{eq:SVD3} is known to be the rank-1 approximation of $\textbf{E}_{j_{0}}$. This comes from the Eckart–Young–Mirsky theorem \cite{?} saying that a partial single value decomposition (SVD) makes the best low-rank approximation of a matrix such as $\textbf{E}_{j_0}$. The SVD is given as
+\begin{align*}
+\mathbf{E}_{j_0} = \textbf{U} \boldsymbol{\Sigma} \textbf{V}^T \in \mathbb{R}^{M\times N},
+\end{align*}
+with $\textbf{U} \in \mathbb{R}^{M\times M}$ and $\textbf{V} \in \mathbb{R}^{N\times N}$ being unitary matrices\footnote{Unitary matrix: $\textbf{U}^T\textbf{U}=\textbf{UU}^T=\textbf{I}$} and $\boldsymbol{\Sigma} = \text{diag}\left[\boldsymbol{\sigma}_1, \dots, \boldsymbol{\sigma}_M \right] \in \mathbb{R}^{M \times N}$ a diagonal matrix. $\boldsymbol{\sigma}_j$ are the non-negative singular values of $\textbf{E}_{j_0}$. 
+%such that $\sigma_1 \geq \sigma_2 \geq \hdots \geq 0$. 
+The best $k$-rank approximation to $\textbf{E}_{j_0}$, with $k < \text{rank}(\textbf{E}_{j_0})$ is then given by \todo{kilde}: 
+\begin{align*}
+\textbf{E}_{j_{0}}^{(k)} = \sum_{j=1}^{k} \boldsymbol{\sigma}_j \textbf{u}_{j} \textbf{v}_{j}^T.
+\end{align*} 
+Since the outer product always have rank-1 letting $\textbf{a}_{j_0} = \textbf{u}_1$ and $\textbf{x}_{i_0 \cdot} = \boldsymbol{\sigma}_{j} \textbf{v}_{1}^T$ solves the optimisation problem \eqref{eq:SVD3}.
+However in order to preserve the sparsity in $\textbf{X}$ while optimising, only the non-zero entries in $\textbf{x}_{i_0 \cdot}$ are allowed to vary. For this purpose only a subset of columns in $\textbf{E}_{j_0}$ is considered, those which correspond to the non-zero entries of $\textbf{x}_{i_0 \cdot}$. A matrix $\textbf{P}_{i_0}$ is defined to restrict $\textbf{x}_{i_0 \cdot}$ to only contain the non-zero-rows corresponding to $N_{j_0}$ non-zero rows:
+\begin{align*}
+\textbf{x}_{i_0 \cdot}^{(R)} = \textbf{x}_{i_0 \cdot} \textbf{P}_{i_0}
+\end{align*}
+where $R$ denoted the restriction. By applying the SVD to the error matrix which has been restricted $\textbf{E}_{j_0}^{(R)} = \textbf{E}_{j_0} \textbf{P}_{i_0}$ and updating $\textbf{a}_{j_0}$ and $\textbf{x}_{i_0 \cdot}^{(R)}$ the rank-1 approximation is found and the original representation vector is updated as $\textbf{x}_{i_0 \cdot} = \textbf{x}_{i_0 \cdot}^{(R)} \textbf{P}_{i_0}^{T}$.  
+\\ \\
+The main steps of K-SVD is described in algorithm \ref{alg:K_SVD}. 
+\begin{algorithm}[H]
+\caption{K-SVD}
+\begin{algorithmic}[1]
+			\State$k = 0$			
+			\State$\text{Initialize random} \quad  \textbf{A}_{(0)}$            
+			\State$\text{Initialize} \quad \textbf{X}_{(0)}=\mathbf{0}$
+			\State
+            \Procedure{K-SVD}{$\textbf{A}_{(0)}$}    
+            \State$\text{Normalize columns of} \ \textbf{A}_{(0)}$
+            \While{$\text{error} \geq \text{limit}$} 
+                \State $j = j+1$
+                \For{$j \gets 1,2,\dots, L$} \Comment{updating each col. in $\textbf{X}_{(k)}$}
+                	\State$\hat{\textbf{x}}_{j} = \min_{\textbf{x}} \|\textbf{y}_j -\textbf{A}_{(k-1)}\textbf{x}_{j}\| \quad \text{subject to} \quad \|\textbf{x}_{j}\| \leq k $ \Comment{use Basis Pursuit}
+				\EndFor
+				\State$\textbf{X}_{(k)} = \lbrace \hat{\textbf{x}}_{j} \rbrace_{j=1}^{L}$
+				\For{$j_0 \gets 1, 2, \hdots, N$}
+					\State$\Omega_{j_0} = \lbrace j \ \vert \ 1 \leq j \leq L, \textbf{X}_{(k)} [j_0, j]\neq 0\rbrace$
+					\State$\text{From} \ \Omega_{j_0} \ \text{define} \ \textbf{P}_{i_0} $
+					\State$\textbf{E}_{j_0} =  \textbf{Y} - \sum_{j \neq j_{0}}^{N} \textbf{a}_j \textbf{x}_{i \cdot}$
+					\State$\textbf{E}_{j_0}^{(R)} =  \textbf{E}_{j_0} \textbf{P}_{i_0}$
+					\State$\textbf{E}_{j_0}^{(R)} =\textbf{U} \boldsymbol{\Sigma} \textbf{V}^T$ \Comment{perform SVD}
+					\State$\textbf{a}_{j_0} \gets \textbf{u}_{1}$ \Comment{update the $j_0$ col. in $\textbf{A}_{(k)}$}
+					\State$\left( \textbf{x}_{i_0 \cdot} \right)^{(R)} \gets \boldsymbol{\sigma}_{1} \textbf{v}_{1}$
+					\State$\textbf{x}_{i_0 \cdot} \gets \left( \textbf{x}_{i_0 \cdot} \right)^{(R)} \textbf{P}_{i_0}^T $ \Comment{update the $i_0$ row in $\textbf{X}_{(k)}$}
+				\EndFor
+				\State$\text{error} = \Vert \textbf{Y} - \textbf{A}_{(k)} \textbf{X}_{(k)} \Vert_{F}^2 $
+          		\EndWhile
+            \EndProcedure
+        \end{algorithmic} 
+        \label{alg:K_SVD}
+\end{algorithm}

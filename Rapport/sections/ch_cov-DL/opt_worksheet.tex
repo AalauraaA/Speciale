@@ -1,1 +1,20 @@
-\chapter{Optimization Worksheet}
+\chapter*{Optimization Worksheet}
+noter fra møde:
+\begin{itemize}
+\item augmented Lagransian
+\item semidefinite relaxzation 
+\end{itemize}
+
+noter:
+\begin{itemize}
+\item any matrix $\textbf{A}\in \mathbb{R}^{M\times N}$ is called \textbf{over complete} if one or more columns is a linear combination of the others -- this must be the case when $N>M$ which is also an \textbf{under-determined} system (så det der står i rapporten er rigtig dog skal vi nok ikke kalde D-underdetermined, men systemet med D.)
+\end{itemize}
+
+noter til optimeringsproblemet: 
+\begin{itemize}
+\item we are dealing with in constraint optimization problem
+\item when constraints are included it means that we not necessarily can search for the solution along the direction of the negative gradient, but must use methods to determine the feasible search directions given the constraints.
+\item an important concept within constrained optimization is lagrange multipliers. 
+\item furthermore, we have the 1. order necessary condition (KKT) for $x*$ to be a solution to a constraint problem. and the 2. order conditions.
+\item we have a set of linear constraints. for a vector to be a regular point(possible solution?)to the constraints is has to be a solution to the constraint and the jacobian of the constraints jacobian matrisen er $p \times n $ hvor $p<n$ skal gælde 
+\end{itemize}

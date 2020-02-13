@@ -8,6 +8,12 @@ Covariance-domain dictionary learning (Cov-DL) is an algorithm proposed by O. Ba
 into the covariance domain and then bypass the limitation of compressive sensing as mentioned in section \ref{sec:sol_met}. 
 To get a deeper understanding of the Cov-DL algorithm the theory of compressive sensing will be introduce in section \ref{sec:CS}. 
 With the knowledge of compressive sensing Cov-DL will be further described regarding how the transformation of a compressive sensing related model overcomes the limitation of having less or equal activation of sources than sensors, $k \leq M$, as described in section \ref{sec:sol_met}. This will be done in section \ref{sec:cov}.
+%ekstra input nedefra
+The Cov-DL algorithm takes advantage of the covariance domain where the dimensionality is increased allowing for an enlarged number of sources to be active. 
+An important aspect of this method is the prior assumption that the sources within one segment are uncorrelated, that is the rows of $\textbf{X}_s$ being mutually uncorrelated. 
+
+The Cov-DL algorithm do only recover the mixing matrix $\mathbf{A}$ given the measurements $\textbf{Y}_s$. Given $\textbf{A}$ the non-segmented source matrix $\mathbf{X}$ is to be recovered by use of the Multiple Sparse Bayesian Learning algorithm, this is described in chapter \ref{ch:M-SBL} 
+The section is inspired by chapter 3 in \cite{phd2015} and the article \cite{Balkan2015}.
 
 
 \input{sections/ch_cov-DL/New_MMV.tex}

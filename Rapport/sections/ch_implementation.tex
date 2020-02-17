@@ -1,5 +1,14 @@
-\chapter{Implementation of Baseline Algorithm}\label{ch:implementation}
+\chapter{Baseline Algorithm}\label{ch:implementation}
+Through the first 6 chapters a motivation behind investigation the identification of sources from EEG measurement with more sources than sensors as been exploit. From the linear multiple measurement vector (MMV) model
+\begin{align*}
+\mathbf{Y} = \mathbf{AX},
+\end{align*}
+the theory and methods behind recovering the mixing matrix $\mathbf{A}$ and the source matrix $\mathbf{X}$ have being investigated leading to two algorithms -- covariance-domain dictionary learning (Cov-DL) algorithm and multiple sparse Bayesian learning (M-SBL) algorithm -- which recover the mixing matrix and source matrix from the EEG measurements with more sources than sensors.
 
+Through this chapter the two algorithm will be implemented into one algorithm -- the baseline algorithm -- with the purpose to be tested to investigate how good the recovering process is. 
+For the testing different data sets will be used. Some data sets will be synthetic to investigate whenever a solution occur and then the baseline algorithm will be tested on realistic data sets.
+
+First and all, a discussing whenever to use $k$ or $N$ as a parameter for the number of active sources within the brain, as this number is unknown the realistic case, will be starting this chapter.
 
 \input{sections/ch_implementation/parameter.tex}
 

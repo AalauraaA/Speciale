@@ -24,9 +24,10 @@ h = cvx.matrix(np.array([0.0,0.0,-15.0,100.0,80.0]), tc='d')
 
 sol = cvx.solvers.qp(P,q,G,h) #sol is a dictionary 
 
+
+# new example
 def f(x):
     return 3*x**2+0*x+10
-
 
 fig = plt.figure()
 xline = np.linspace(-10, 10, 100)

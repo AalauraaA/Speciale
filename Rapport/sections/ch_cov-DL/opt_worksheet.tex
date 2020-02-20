@@ -3,7 +3,7 @@
 \subsection{Over-determined \textbf{D}}
 In the case of $N < \frac{M(M+1)}{2}$ an over-determined system is achieved and it is not possible to find $\textbf{D}$ by dictionary learning methods.
 By assuming that $\frac{M(M+1)}{2}$ will be close to $N$, because $N > M$ is given,\todo{how else can they live on the same space??} then the measurements in the covariance domain $\text{vec}(\widehat{\boldsymbol{\Sigma}}_{\textbf{Y}_s})$ will live on or near a subspace of dimension $N$. 
-This subspace is spanned by the columns of $\textbf{D}$, and is denoted as $\mathcal{r}(\textbf{D})$. 
+This subspace is spanned by the columns of $\textbf{D}$, and is denoted as $\mathcal{R}(\textbf{D})$. 
 To learn $\mathcal{R}(\textbf{D})$ without having to impose any sparsity constraint on $\boldsymbol{\delta}_s$ it is possible to use Principal Component Analysis(PCA)\todo{evt. teoretisk beskrivelse af PCA i appendix?}. 
 By use of PCA a set of basis vectors $\textbf{U}$ is achieved such that $\mathcal{R}(\textbf{U})=\mathcal{R}(\textbf{D})$. 
 This however do not imply that $\textbf{D}=\textbf{U}$. 
@@ -33,6 +33,19 @@ Now a classic quadratic programming problem is achieved      for which effective
 
 \section{Theory for appendix}
 \begin{itemize}
+\item notes for driving optimization problem\\
+We have the matrix of measurements $\text{vec}(\widehat{\boldsymbol{\Sigma}}_{\textbf{Y}_s})\in \mathbb{R}^{\frac{m(m+1)}{2}} \forall s$. from the model we know that the matrix $\textbf{D}$ makes a basis of the measurements vectors, denoted $\mathcal{R}(\textbf{D})$, that is a basis of dimension N, provided that $N < \frac{M(M+1)}{2}$ which is the case where the system is over-determined(more equation than variables, which has no solution. hence no ordinary dictionary learning). 
+we want to learn D, but first we can estimate $\mathcal{R}(\textbf{D})$. 
+we know we can do that by PCA of the set of all $\text{vec}(\widehat{\boldsymbol{\Sigma}}_{\textbf{Y}_s})$. but why:\\
+PCA is a method for dimensionality reduction. \\
+we represent the measurements by its first $N$ principal components. 
+each found component is linear combination of the measurements, and has the highest possible variance constraint by being ortogonal to the previously found components. the found components makes an uncorrelated orthogonal basis set $\textbf{U}$. 
+thus  $\mathcal{R}(\textbf{D}) = \mathcal{R}(\textbf{U})$ must be true. however this does not imply that $\textbf{D}=\textbf{U}$.  
+
+      
+
+
+
 \item convex quadratic objective function
 \item convex solution set/ feasible set 
 

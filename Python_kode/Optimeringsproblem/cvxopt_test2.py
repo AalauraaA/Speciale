@@ -34,7 +34,7 @@ def test_cost(x):
     y = np.array([1,2,3,4,5,6])
     d = x
     lam = 1
-    return np.linalg.norm(d-y)**2+np.dot(lam,(d-x))
+    return np.linalg.norm(d-y)**2#+np.dot(lam,(d-x))
 
 
 

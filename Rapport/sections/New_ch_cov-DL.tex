@@ -1,22 +1,14 @@
-\chapter{Covariance-Domain Dictionary \\ Learning}\label{ch:Cov-DL}
-Through this chapter the method covariance-domain dictionary learning to recover the mixing matrix $\mathbf{A}$ from the multiple measurement vector (MMV) model \eqref{eq:MMV_model} will be presented along with the necessary theory such as compressive sensing and dictionary learning.
+\chapter{Covariance-Domain Dictionary Learning}\label{ch:Cov-DL}
+Through this chapter the method ''covariance-domain dictionary learning (Cov-DL)'' is presented. Along the presentation of the general method, necessary computational details are derived for the practical solution.
+The purpose is to recover the mixing matrix $\textbf{A}$ from the MMV model, derived in chapter \ref{ch:system_model}, in the over-determined case.   
 
-Covariance-domain dictionary learning (Cov-DL) is an algorithm proposed by O. Balkan \cite{Balkan2015}, claiming to successfully identify more active sources $k$ than available measurements $M$, $k \geq M$, by transforming the segmented MMV model of the EEG measurements
-\begin{align*}
-\mathbf{Y}_s = \mathbf{A} \mathbf{X}_s + \textbf{E}_s,
-\end{align*}
-into the covariance domain and then bypass the limitation of compressive sensing as mentioned in section \ref{sec:sol_met}. 
-To get a deeper understanding of the Cov-DL algorithm the theory of compressive sensing will be introduce in section \ref{sec:CS}. 
-With the knowledge of compressive sensing Cov-DL will be further described regarding how the transformation of a compressive sensing related model overcomes the limitation of having less or equal activation of sources than sensors, $k \leq M$, as described in section \ref{sec:sol_met}. This will be done in section \ref{sec:cov}.
-%ekstra input nedefra
-The Cov-DL algorithm takes advantage of the covariance domain where the dimensionality is increased allowing for an enlarged number of sources to be active. 
+Cov-DL is an algorithm proposed by O. Balkan \cite{Balkan2015}, leveraging the increased dimensionality of the covariance domain. The method have shown successful recovering of the mixing matrix $\textbf{A}$, even in the over-determined case with more active sources $k$ than available measurements $M$, $k \geq M$. 
+In short the algorithm consist of three steps. 
+First the segmented MMV model of the EEG measurements is transformed into the covariance domain. Then, by the increased dimensionality of the covariance domain, it is possible to learn the mixing matrix of the covariance domain, denoted by $\textbf{D}$, based on the theory of compressive sensing. Here two different cases will appear dependent on the relation between the number of sources $N$ and the found dimension of the covariance domain, which of course depends on the number of measurements $M$. Lastly, an inverse transformation is performed on the found mixing matrix of the covariance domain $\textbf{D}$, in order to obtain the wanted mixing matrix $\textbf{A}$. 
 An important aspect of this method is the prior assumption that the sources within one segment are uncorrelated, that is the rows of $\textbf{X}_s$ being mutually uncorrelated. 
+%Notice that the Cov-DL algorithm do only recover the mixing matrix $\mathbf{A}$ given the measurements $\textbf{Y}_s$. Given $\textbf{A}$ the non-segmented source matrix $\mathbf{X}$ is to be recovered by use of the Multiple Sparse Bayesian Learning algorithm, this is described in chapter \ref{ch:M-SBL} 
 
-The Cov-DL algorithm do only recover the mixing matrix $\mathbf{A}$ given the measurements $\textbf{Y}_s$. Given $\textbf{A}$ the non-segmented source matrix $\mathbf{X}$ is to be recovered by use of the Multiple Sparse Bayesian Learning algorithm, this is described in chapter \ref{ch:M-SBL} 
-The section is inspired by chapter 3 in \cite{phd2015} and the article \cite{Balkan2015}.
+The section is inspired by chapter 3 in \cite{phd2015} and the article \cite{Balkan2015}. Selected general theory supporting essential parts of the method is elaborated in appendix \ref{app:Cov-DL}.
 
-
-\input{sections/ch_cov-DL/New_MMV.tex}
-\input{sections/ch_cov-DL/New_K-SVD.tex}
 \input{sections/ch_cov-DL/New_Cov-DL.tex}
 \input{sections/ch_cov-DL/opt_worksheet.tex}

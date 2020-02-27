@@ -1,4 +1,6 @@
-\chapter{Introduction to Compressive Sensing}\label{sec:CS}
+\chapter{Supplementary theory for chapter \ref{ch:Cov-DL}}\label{app:Cov-DL}
+description of content of the chapter.
+\section{Introduction to Compressive Sensing}\label{app_sec:CS}
 Compressive sensing is the theory of efficient recovery of a signal from a minimal number of observed measurements. 
 It is build upon empirical observations assuring that many signals can be approximated by remarkably sparser signals.   
 Assume linear acquisition of the observed measurements, then the relation between the measurements and the signal to be recovered can be modelled by the multiple measurement vector (MMV) model \eqref{eq:MMV_model} \cite{FR}. 
@@ -67,8 +69,7 @@ An alternative solution method to the $\ell_1$ optimisation includes greedy algo
 The OMP algorithm is an iteration process where an index set $S$ is updated -- at each iteration -- by adding indices corresponding to the columns of $\mathbf{A}$ which describe the residual best possible, hence greedy.
 The vector $\mathbf{x}$ is then updated by a vector supported on $S$ which minimise the residual, that is the orthogonal projection of $\mathbf{y}$ onto the span$\lbrace \mathbf{a}_l \ \vert \ l \in S \rbrace$.
 
-% ekstra input 
-\subsubsection{K-SVD Algorithm}
+\section{K-SVD Algorithm}\label{app_sec:K-SVD_alg}
 The dictionary learning algorithm K-SVD provides an updating rule which is applied to each column of $\mathbf{A}_0 = \left[ \mathbf{a}_0, \dots, \mathbf{a}_N \right] $ where $\mathbf{A}_0$ being a random initial dictionary matrix. Updating first $\mathbf{a}_j$ and then the corresponding coefficients in $\mathbf{X}$ which it is multiplied with the $i$-th row in $\mathbf{X}$ denoted by $\mathbf{x}_{i \cdot}$.
 Let $\mathbf{a}_{j_{0}}$ be the column to be updated and let the remaining columns be fixed. By rewriting the objective function in \eqref{eq:SVD1} using matrix notation it is possible to isolate the contribution from $\mathbf{a}_{j_{0}}$ \todo{Tjek nedenstående udledning. a og x er ikke lige lange da $a_j$ er M lang mens $x_{i \cdot}$ er L lang}.
 \begin{align}\label{eq:SVD2} 
@@ -133,3 +134,7 @@ The main steps of K-SVD is described in algorithm \ref{alg:K_SVD}.
         \end{algorithmic} 
         \label{alg:K_SVD}
 \end{algorithm}
+
+\section{Principal Component Analysis}\label{app_sec:PCA}
+
+\section{General Optimation Theory...or more specific what?}

@@ -1,0 +1,24 @@
+\subsection{Over-determined \textbf{D}}
+In the case of $N < \frac{M(M+1)}{2}$ an over-determined system is achieved and it is not possible to find $\textbf{D}$ by dictionary learning methods.
+By assuming that $\frac{M(M+1)}{2}$ will be close to $N$, because $N > M$ is given,\todo{how else can they live on the same space??} then the measurements in the covariance domain $\text{vec}(\widehat{\boldsymbol{\Sigma}}_{\textbf{Y}_s})$ will live on or near a subspace of dimension $N$. 
+This subspace is spanned by the columns of $\textbf{D}$, and is denoted as $\mathcal{r}(\textbf{D})$. 
+To learn $\mathcal{R}(\textbf{D})$ without having to impose any sparsity constraint on $\boldsymbol{\delta}_s$ it is possible to use Principal Component Analysis(PCA)\todo{evt. teoretisk beskrivelse af PCA i appendix?}. 
+By use of PCA a set of basis vectors $\textbf{U}$ is achieved such that $\mathcal{R}(\textbf{U})=\mathcal{R}(\textbf{D})$. 
+This however do not imply that $\textbf{D}=\textbf{U}$. 
+In the case of two sets of basis vectors span the same space, namely $\mathcal{R}(\textbf{U})=\mathcal{R}(\textbf{D})$, the projection operator of the given subset must be unique. 
+Which is true if and only if $\textbf{D}(\textbf{D}^T\textbf{D})^{-1}\textbf{D}^T=\textbf{U}(\textbf{U}^T\textbf{U})^{-1}\textbf{U}^T$\todo{kilde foruden phd p. 51?}. 
+Remember from the above derivation the condition that $\textbf{d}_i = \text{vec}(\textbf{a}_i\textbf{a}_i^T)$. 
+From this it is possible to obtain $\textbf{A}$ through the optimisation problem 
+\begin{align}
+\min_{\textbf{a}_i}\Vert  \textbf{D}(\textbf{D}^T\textbf{D})^{-1}\textbf{D}^T &- \textbf{U}(\textbf{U}^T\textbf{U})^{-1}\textbf{U}^T \Vert_{F}^{2} \nonumber \\
+\text{s.t.} \ \textbf{d}_i&=\text{vec}(\textbf{a}_i\textbf{a}_i^T)\label{eq:Cov_DL2}
+\end{align}      
+where $\textbf{U}$ is learned by use of PCA performed on $\text{vec}(\widehat{\boldsymbol{\Sigma}}_{\textbf{Y}_s})$.
+To solve this optimization problem the cost function is minimized by use of quasi-Newton optimization methods.
+Several specific quasi-Newton methods exist but the basic principal will be presented here. 
+The Newton optimization method is a multidimensional gradient method. 
+The method is based on a quadratic approximation of the optimization problem by use of the Taylor series, which is elaborated in \cite[p. 29]{Optimization2007}.
+Let $f(\textbf{x})$ be the cost function and $\boldsymbol{\delta}$ be the change in $\textbf{X}$. 
+By differentiating the Taylor approximation of $f(\textbf{x}+\boldsymbol{\delta})$ and setting it equal to zero, the optimal change in $\textbf{x}$ is found to be $\boldsymbol{\delta} = -\textbf{H}^{-1}\textbf{g}$. 
+Where $\textbf{g}$ is the gradient and $\textbf{H}$ is the Hessian. The quasi-Newton methods deviate from the basic Newton method by letting the direction search be based on a positive semi-definite matrix $\textbf{S}$ which is generated from available data in order to approximate $\textbf{H}^{-1}$. 
+Details of the method is found in \cite[p. 175]{Optimization2007}    

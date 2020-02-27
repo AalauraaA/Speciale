@@ -17,12 +17,12 @@ from mpl_toolkits import mplot3d
 # no equality constrint hence no A and b parameter 
 # lists has to contain real numbers (doubles, 'd') instead of integers
 # convert to type matrix for cvx 
-P = cvx.matrix(np.array([[1.0,0.0],[0.0,0.0]]), tc='d')
-q = cvx.matrix(np.array([3.0,4.0]), tc='d')
-G = cvx.matrix(np.array([[-1,0],[0,-1],[-1,-3],[2,5],[3,4]]), tc='d')
-h = cvx.matrix(np.array([0.0,0.0,-15.0,100.0,80.0]), tc='d')
-
-sol = cvx.solvers.qp(P,q,G,h) #sol is a dictionary 
+#P = cvx.matrix(np.array([[1.0,0.0],[0.0,0.0]]), tc='d')
+#q = cvx.matrix(np.array([3.0,4.0]), tc='d')
+#G = cvx.matrix(np.array([[-1,0],[0,-1],[-1,-3],[2,5],[3,4]]), tc='d')
+#h = cvx.matrix(np.array([0.0,0.0,-15.0,100.0,80.0]), tc='d')
+#
+#sol = cvx.solvers.qp(P,q,G,h) #sol is a dictionary 
 
 #
 ## new example - unconstraint optimization 
@@ -30,15 +30,15 @@ sol = cvx.solvers.qp(P,q,G,h) #sol is a dictionary
 from scipy.optimize import minimize
 #
 ##multiple varibles
-def rosen(x):
-     """The Rosenbrock function"""
-     return sum(100.0*(x[1:]-x[:-1]**2.0)**2.0 + (1-x[:-1])**2.0)
-
-x0 = np.array([1.3, 0.7, 0.8, 1.9, 1.2])
-res = minimize(rosen, x0, method='nelder-mead',
-                options={'xatol': 1e-8, 'disp': True})
-print(res.x)
+#def rosen(x):
+#     """The Rosenbrock function"""
+#     return sum(100.0*(x[1:]-x[:-1]**2.0)**2.0 + (1-x[:-1])**2.0)
 #
+#x0 = np.array([1.3, 0.7, 0.8, 1.9, 1.2])
+#res = minimize(rosen, x0, method='nelder-mead',
+#                options={'xatol': 1e-8, 'disp': True})
+#print(res.x)
+##
 ## only one variable
 #def f(x):
 #    return 3*x**2+2*x+10
@@ -99,9 +99,9 @@ cost = Lagrange(A)
 
 #while cost > limit:
 #iter_ += 1
-#res = minimize(Lagrange, A, args=(u,), method='nelder-mead',
-#            options={'xatol': 1e-8, 'disp': True})
-#res.x
+res = minimize(f, A, args=(u), method='nelder-mead',
+            options={'xatol': 1e-8, 'disp': True})
+res.x
 
 
 #### next 

@@ -36,11 +36,15 @@ Now a classic quadratic programming problem is achieved      for which effective
 \item notes for driving optimization problem\\
 We have the matrix of measurements $\text{vec}(\widehat{\boldsymbol{\Sigma}}_{\textbf{Y}_s})\in \mathbb{R}^{\frac{m(m+1)}{2}} \forall s$. from the model we know that the matrix $\textbf{D}$ makes a basis of the measurements vectors, denoted $\mathcal{R}(\textbf{D})$, that is a basis of dimension N, provided that $N < \frac{M(M+1)}{2}$ which is the case where the system is over-determined(more equation than variables, which has no solution. hence no ordinary dictionary learning). 
 we want to learn D, but first we can estimate $\mathcal{R}(\textbf{D})$. 
-we know we can do that by PCA of the set of all $\text{vec}(\widehat{\boldsymbol{\Sigma}}_{\textbf{Y}_s})$. but why:\\
+we know we can do that by PCA of the set of all $\text{vec}(\widehat{\boldsymbol{\Sigma}}_{\textbf{Y}_s})$. 
+But why:\\
 PCA is a method for dimensionality reduction. \\
 we represent the measurements by its first $N$ principal components. 
-each found component is linear combination of the measurements, and has the highest possible variance constraint by being ortogonal to the previously found components. the found components makes an uncorrelated orthogonal basis set $\textbf{U}$. 
-thus  $\mathcal{R}(\textbf{D}) = \mathcal{R}(\textbf{U})$ must be true. however this does not imply that $\textbf{D}=\textbf{U}$.  
+each found component is linear a combination of the measurements, and has the highest possible variance constraint by being ortogonal to the previously found components. the found components makes an uncorrelated orthogonal basis set $\textbf{U}$. 
+thus  $\mathcal{R}(\textbf{D}) = \mathcal{R}(\textbf{U})$ must be true. however this does not imply that $\textbf{D}=\textbf{U}$. 
+$j$ principal components is the first $j$ eigenvectors(can be shown) of the covariance matrix, from the $L$ samples it is possible to determined the sample-mean(to be subtracted from the samples) and the covariance matrix(from which to determine the eigenvalues).[p. 125, ICA book]
+note that it is important to perform the PCA on the found segments where the covariance matrix is stationary. on-line/real time PCA is discussed on page 132[ICA book].	 
+ 
 
       
 

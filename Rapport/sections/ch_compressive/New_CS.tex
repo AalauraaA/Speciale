@@ -82,34 +82,27 @@ It is now justified that the EEG measurements can be modelled by the multiple me
 From the problem statement cf. chapter \ref{ch:problemstatement} it is given that the aim is to recover the source vector $\textbf{X}$, in the case where the number of sensors is less than the number of sources, $M < N$. That is recovering $\textbf{X}$ from an under-determined system. Therefore, the solution must be found in the infinite solution space, provided that one solution exists -- simple linear algebra can not be used. 
 By considering numerical methods it is possible to restrict the solution by some constraints and then find the unique solution which is optimal with respect to some cost function.
 
-One approach ...
-
-
-
-
-
-       
-
-
-O. Balkan \cite{Balkan2015} proposed in 2015 a method which can recover a mixing matrix $\mathbf{A}$ from a under-determined segmented MMV model. 
-The method is called covariance-domain dictionary learning (Cov-DL).
-The background of this method take a part of compressive sensing. 
-Compressive sensing is method which can recover the unknown signals and mixing matrix from under-determined linear systems. 
-With this method a new term is introduce as sparsity. Sparsity can be view as the number of activation within the sources $k$ -- the number of non-zeros indices in $\mathbf{x}$.
-One thing which is necessary for compressive sensing is the the number of activations $k$ is limited by the number of sensors, $k \leq M$, to ensure uniquely recovery of $\mathbf{x}$.
-This is not always the case in the EEG measurements as more activations than sensors occurs when using low-density equipment to measure the EEG measurements.
+One approach is the covariance-domain dictionary learning (Cov-DL) method which was proposed in 2015 by O. Balkan \cite{Balkan2015}. 
+The background of this method take a part of compressive sensing which is method that recovers unknown signals and mixing matrices from under-determined linear systems. 
+With this method a new term is introduce as sparsity. 
+Sparsity can be view as the number of activation within the sources $k$ -- the number of non-zeros indices in $\mathbf{X}$.
+One thing which is necessary for compressive sensing is the number of activations $k$ is limited by the number of sensors, $k \leq M$, to ensure uniquely recovery of $\mathbf{X}$.
+This is not always the case in the EEG measurements as more activations than sensors, $k \geq M$, occurs when using low-density equipment to measure the EEG measurements.
 To overcome this problem O. Balkan transform the compressive sensing problem to covariance domain to increase the dimensionality of the problem -- instead the number of activations $k$ is now limited by $k \leq \frac{M(M+1)}{2}$ which allows us to have $k \geq M$.
+A problem comes with the transformation into the covariance-domain.
+With the recovering process taking place in the covariance-domain only the mixing matrix $\mathbf{A}$ is recoverable as it can transformed back to the time-domain without losing its characteristics. 
+As the activations are increase in the covariance-domain, the source matrix $\mathbf{X}$ recovered are not the true source matrix as it cannot be transformed back to the time-domain without losing the sparsity and therefore not be a unique recovering.
 
-O. Balkan \cite{Balkan2014} did also, in 2014, proposed another method which could identify the sources of a non-segmented MMV model. 
-This method is called multiple sparse bayesian learning (M-SBL).
-The method take advantage of a Bayesian approach as O. Balkan constructs a variance dependent log-likelihood which as been induce by a empirical prior that ensure sparsity of the likelihood. 
-By minimisation of the variance of the log-likelihood an estimate for the source matrix can be drawn from the log-likelihood.
+To the recovering of $\mathbf{X}$ another method must be used and one which ensure that the sparsity holds.
+O. Balkan \cite{Balkan2014} did also, in 2014, proposed a method which could identify the sources, in the time-domain, by creating a likelihood which ensure the wanted sparsity of the source matrix $\mathbf{X}$ and controlled by some variance. This method is called multiple sparse Bayesian learning (M-SBL) and takes advantage of a Bayesian approach. 
+In \cite{Balkan2014} a variance dependent log-likelihood which has been induce by a empirical prior that ensure sparsity of the likelihood has been constructed to be minimised with respect to the variance. 
+From the log-likelihood an estimate for the source matrix $\mathbf{X}$ is drawn with respect to the support set $S$ which has been influence by variance used in the minimization.
+
+%With these two methods the recovering of $\mathbf{A}$ and $\mathbf{X}$ can be done from the EEG measurements $\mathbf{Y}$ uniquely.
 
 
-fjernet indhold:
 
-
-The number of $k$ active source in the source vector $\mathbf{x} \in \mathbb{R}^N$ can be view as non-zeros -- the non-activations are described by zeros. 
-
-By using this joint information it is possible to recover $\mathbf{X}_s$ from fewer measurements \cite[p. 43]{CS}.
+%fjernet indhold:
+%The number of $k$ active source in the source vector $\mathbf{x} \in \mathbb{R}^N$ can be view as non-zeros -- the non-activations are described by zeros. 
+%By using this joint information it is possible to recover $\mathbf{X}_s$ from fewer measurements \cite[p. 43]{CS}.
 

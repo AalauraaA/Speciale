@@ -1,10 +1,9 @@
-From \cite{phd2015}, O. Balkan referred to an approach to identify the unknown sources from the multiple measurement vector (MMV) model, \ref{eq:MMV_model}, by creating a support set $S$ which indices are used in the recovering of $\mathbf{X}$. 
-The approach is a method called multiple sparse Bayesian learning (M-SBL) which take advantage of Bayesian theory.
-The method, M-SBL, differs from the covariance-domain dictionary learning (Cov-DL) method presented in chapter \ref{ch:Cov-DL} as M-SBL take place in the time domain and the use of a non-segmented MMV model. 
+As described in section \ref{sec:sol_met} the covariance-domain dictionary learning (Cov-DL) is not a fitted method to use in the recovering of the source matrix $\mathbf{X}$ as the found source matrix is not the true recovering. 
+Instead a different method, multiple sparse Bayesian Learning (M-SBL), is used for the recovering process of the last element of the multiple measurement model (MMV) \ref{eq:MMV_model}.
 
 In this chapter the approach M-SBL will be use to identifies the sources of EEG measurements. This include a introduction to M-SBL and some theory of its Bayesian background. The chapter is inspired by \cite{phd_wipf} and the articles \cite{article_wipf}, \cite{Balkan2014}.
 
-Let first consider the MMV model for the non-segmented case
+Let first consider the MMV model for a non-segmented case
 \begin{align*}
 \mathbf{Y} = \mathbf{AX} + \mathbf{E},
 \end{align*}

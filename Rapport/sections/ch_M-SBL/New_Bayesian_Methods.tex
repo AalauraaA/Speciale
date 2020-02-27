@@ -1,7 +1,7 @@
 As described in section \ref{sec:sol_met} the covariance-domain dictionary learning (Cov-DL) is not a fitted method to use in the recovering of the source matrix $\mathbf{X}$ as the found source matrix is not the true recovering. 
 Instead a different method, multiple sparse Bayesian Learning (M-SBL), is used for the recovering process of the last element of the multiple measurement model (MMV) \ref{eq:MMV_model}.
 
-In this chapter the approach M-SBL will be use to identifies the sources of EEG measurements. This include a introduction to M-SBL and some theory of its Bayesian background. The chapter is inspired by \cite{phd_wipf} and the articles \cite{article_wipf}, \cite{Balkan2014}.
+This chapter will include a introduction to M-SBL and some theory of its Bayesian background. The chapter is inspired by \cite{phd_wipf} and the articles \cite{article_wipf}, \cite{Balkan2014}.
 
 Let first consider the MMV model for a non-segmented case
 \begin{align*}
@@ -18,21 +18,30 @@ By maximising the likelihood $p(\mathbf{Y} \vert \mathbf{X})$ an estimate of $\m
 But in the desired case where $M < N$ the estimation becomes complicate as the MMV model becomes under-determined and potentially an infinitely number of solutions exist with equal likelihoods.
 As the optimisation problem of the MMV model is NP-hard another estimation method must be used.
 
-Within this Bayesian framework the source matrix $\mathbf{X}$ is seen as a variable which is drawn from some distribution $p(\mathbf{X})$ such that it is possible to narrow down the infinitely solution space. 
-Assuming a prior belief that $\textbf{Y}$ is generated from a sparse coefficient matrix, that is the distribution from where $\textbf{X}$ is drawn has a sharp, possibly infinite, spike at zero surrounded by fat tails.     
+Within this Bayesian framework the source matrix $\mathbf{X}$ can be seen as a variable which is drawn from some distribution $p(\mathbf{X})$ such that it is possible to narrow down the infinitely solution space. 
+Assuming a prior belief that $\textbf{Y}$ is generated from a sparse coefficient matrix, that is the distribution from where $\textbf{X}$ is drawn has a sharp, possibly infinite, spike at zero surrounded by fat tails. 
 
-By applying an exponential function $\exp(- (\cdot))$ transformation onto our optimisation problem a Gaussian likelihood function $p(\mathbf{Y} \vert \mathbf{X})$ with a $\lambda$-dependent variance is achieved:
-\begin{align*}
-p(\mathbf{Y} \vert \mathbf{X}) \propto \exp \left( - \frac{1}{\gamma} \Vert \mathbf{Y} - \mathbf{AX} \Vert_2^2 \right),
-\end{align*}
-with a prior distribution $p(\mathbf{X}) \propto \exp(- \Vert \mathbf{X} \Vert_0)$ \cite[p. 137]{phd_wipf}. 
-The optimisation problem is then rewritten by Bayers formula 
+The MAP estimation of the MMV can then be view as 
 \begin{align*}
 \hat{\mathbf{X}} &= \arg \max_{\mathbf{X}} p(\mathbf{Y} \vert \mathbf{X}) p(\mathbf{X}) \\
 &= \arg \max_{\mathbf{X}} \frac{p(\mathbf{Y} \vert \mathbf{X}) p(\mathbf{X})}{p(\mathbf{Y)}} \quad (\text{Bayers Formular}) \\
 &= \arg \max_{\mathbf{X}} p(\mathbf{X} \vert \mathbf{Y}).
 \end{align*}
-From this it it possible to view the optimization problem as a MAP estimation challenge.
+with a prior distribution $p(\mathbf{X}) \propto \Vert \mathbf{X} \Vert_0$. From this it it possible to view the optimization problem as a MAP estimation challenge.
+
+ 
+%By applying an exponential function $\exp(- (\cdot))$ transformation onto our optimisation problem a Gaussian likelihood function $p(\mathbf{Y} \vert \mathbf{X})$ with a $\lambda$-dependent variance is achieved:
+%\begin{align*}
+%p(\mathbf{Y} \vert \mathbf{X}) \propto \exp \left( - \frac{1}{\gamma} \Vert \mathbf{Y} - \mathbf{AX} \Vert_2^2 \right),
+%\end{align*}
+%with a prior distribution $p(\mathbf{X}) \propto \exp(- \Vert \mathbf{X} \Vert_0)$ \cite[p. 137]{phd_wipf}. 
+%The optimisation problem is then rewritten by Bayers formula 
+%\begin{align*}
+%\hat{\mathbf{X}} &= \arg \max_{\mathbf{X}} p(\mathbf{Y} \vert \mathbf{X}) p(\mathbf{X}) \\
+%&= \arg \max_{\mathbf{X}} \frac{p(\mathbf{Y} \vert \mathbf{X}) p(\mathbf{X})}{p(\mathbf{Y)}} \quad (\text{Bayers Formular}) \\
+%&= \arg \max_{\mathbf{X}} p(\mathbf{X} \vert \mathbf{Y}).
+%\end{align*}
+%From this it it possible to view the optimization problem as a MAP estimation challenge.
 
 \section{Empirical Bayesian Estimation}
 Different MAP estimation approaches exists separated by the choice of sparsity inducing prior and optimization method. 

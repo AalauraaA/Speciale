@@ -45,25 +45,36 @@ np.random.seed(5)
 #        D.T[i] = d_vec
 
 m = 3
-n = 4
+n = 3
+m_ = int(m*(m+1)/2.)
 
-U = np.random.randint(1,10,size=(m,m))
+U = np.random.randint(1,10,size=(m_,n))
+
+#D = np.array([[A[0][0]**2,A[1][0]*A[0][0],A[1][0]**2,A[2][0]*A[0][0],A[2][0]*A[1][0],A[2][0]**2],
+#              [A[0][1]**2,A[1][1]*A[0][1],A[1][1]**2,A[2][1]*A[0][1],A[2][1]*A[1][1],A[2][1]**2], 
+#              [A[0][2]**2,A[1][2]*A[0][2],A[1][2]**2,A[2][2]*A[0][2],A[2][2]*A[1][2],A[2][2]**2]]).T
+
+
 print(U)
 
 # Define and solve the CVXPY problem.
-D = cp.Variable((m,m))
-A = cp.Variable((m,m))
-cost = cp.sum_squares(D - U)
+#D = cp.Variable((m_,m_))
+A = cp.Variable((m,n))
+cost = cp.sum_squares(np.array([[A[0][0]**2,A[1][0]*A[0][0],A[1][0]**2,A[2][0]*A[0][0],A[2][0]*A[1][0],A[2][0]**2],
+              [A[0][1]**2,A[1][1]*A[0][1],A[1][1]**2,A[2][1]*A[0][1],A[2][1]*A[1][1],A[2][1]**2], 
+              [A[0][2]**2,A[1][2]*A[0][2],A[1][2]**2,A[2][2]*A[0][2],A[2][2]*A[1][2],A[2][2]**2]]).T - U)
 
-constraints = [D[i] == np.outer(A.T[i],A.T[i])[np.tril_indices(m)] for i in range(m)]
+#constraints = [D[i] == np.outer(A.T[i],A.T[i])[np.tril_indices(m)] for i in range(m)
 
-prob = cp.Problem(cp.Minimize(cost), constraints)
+#constraints = [D.T[i] == np.array([A[0][i]**2,A[1][i]*A[0][i],A[1][i]**2,A[2][i]*A[0][i],A[2][i]*A[1][i],A[2][i]**2]) for i in range(n)]
+
+prob = cp.Problem(cp.Minimize(cost))
 prob.solve()
 
 # Print result.
 print("\nThe optimal value is", prob.value)
 print("The optimal x is")
-print(D.value)
+print(A.value)
 print("The norm of the residual is ", cp.norm(D - U, p=2).value)
 
 ## augmented lagrangian exsempel 

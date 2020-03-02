@@ -29,19 +29,6 @@ np.random.seed(5)
 # =============================================================================
 # Define D
 # =============================================================================
-m = 3
-n = 3
-
-#A = np.random.randint(1,10, size=(m,m))
-#A = np.array([[2, 3, 8],
-#       [1, 6, 1],
-#       [1, 5, 5]])
-#
-#D1 = np.array([[A[0][0]**2, A[1][0]*A[0][0], A[1][0]**2, A[2][0]*A[0][0], A[2][0]*A[1][0], A[2][0]**2],
-#              [A[0][1]**2,A[1][1]*A[0][1],A[1][1]**2,A[2][1]*A[0][1],A[2][1]*A[1][1],A[2][1]**2], 
-#              [A[0][2]**2,A[1][2]*A[0][2],A[1][2]**2,A[2][2]*A[0][2],A[2][2]*A[1][2],A[2][2]**2]]).T
-#
-
 def D_matrix(m, n):
     """
     Construct the D matrix when m = 3 and for a given A
@@ -57,32 +44,33 @@ def D_matrix(m, n):
         D = D.T
     return D
 
-D = D_matrix(m,n)
 
+# =============================================================================
+# Define 
+# =============================================================================
 def cost_func(theta, x, y):
     """
     Cost function is the MSE
     """
     m = len(y)
-    pred = x.dot(theta)
-    cost = (1/2 * m) * np.sum(np.square(pred - y))
+    cost = (1/2 * m) * np.sum(np.square(x.dot(theta) - y))
     return cost
+
+def derivative_cost(theta, x, y):
+    derivative = (x.T.dot((x.dot(theta) - y)))
+    return derivative
 
 def Gradient_Descent(x, y, theta, learning_rate, iterations):
     m = len(y)
-    cost_history = np.zeros(iterations)
+    cost = np.zeros(iterations)
     for it in range(iterations):
-        pred = np.dot(x, theta)
-        
-        theta = theta - (1/m) * learning_rate * (x.T.dot((pred - y)))
-        cost_history[it] = cost_func(theta, x, y)
-    return theta, cost_history
-
+        theta = theta - (1/m) * learning_rate * derivative_cost(theta, x, y)
+        cost[it] = cost_func(theta, x, y)
+    return theta, cost
 
 def Stoch_Gradient_Descent(x, y, theta, learning_rate, iterations):
     m = len(y)
-    cost = np.zeros(iterations)
-    
+    cost = np.zeros(iterations)  
     for it in range(iterations):
         cst = 0.0
         for i in range(m):
@@ -90,24 +78,36 @@ def Stoch_Gradient_Descent(x, y, theta, learning_rate, iterations):
             xi = x[rand, :].reshape(1, x.shape[1])
             yi = y[rand, :].reshape(1, y.shape[1])
             
-            pred = np.dot(xi, theta)
-            theta = theta - (1/m) * learning_rate * (xi.T.dot((pred - yi)))
+            theta = theta - (1/m) * learning_rate * derivative_cost(theta, xi, yi)
             cst += cost_func(theta, xi, yi)
             
         cost[it] = cst
     return theta, cost
 
+# =============================================================================
+# Perform GD and SGD
+# =============================================================================
+lr = 0.01          # Learning Rate
+n_iter = 10        # Iterations
 
-lr = 0.001
-n_iter = 30
+m = 3              # Rows
+n = 3              # Columns
+D = D_matrix(m,n)  # D matrix --> find A from
 
-theta = np.random.randn(3,1)
+theta = np.random.randn(3,1) # Initial guess
 
-A = np.random.randint(1,10, size=(m*2,1))
-A_b = np.c_[np.ones((len(A),1)), A, A*2]
+#A = np.random.randint(1,10, size=(m*2,1))
+#A_b = np.c_[np.ones((len(A),1)), A, A*2]   # Start point
 
-theta1 ,cost1 = Gradient_Descent(A_b, D, theta, lr, n_iter)
-theta2 ,cost2 = Stoch_Gradient_Descent(A_b, D, theta, lr, n_iter)
+Start = np.c_[np.ones(6), D.T[0], D.T[1]]
+
+U = np.random.randint(1, 10, size=(m*2,m))
+
+theta1 ,cost1 = Gradient_Descent(Start, U, theta, lr, n_iter)
+theta2 ,cost2 = Stoch_Gradient_Descent(Start, U, theta, lr, n_iter)
+
+print('The value of D:')
+print(D)
 
 MSE1 = cost1[-1]
 print('MSE of GD:', MSE1)

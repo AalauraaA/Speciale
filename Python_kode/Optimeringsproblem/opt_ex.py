@@ -50,6 +50,7 @@ m_ = int(m*(m+1)/2.)
 
 U = np.random.randint(1,10,size=(m_,n))
 
+#for m=3 og n=3
 #D = np.array([[A[0][0]**2,A[1][0]*A[0][0],A[1][0]**2,A[2][0]*A[0][0],A[2][0]*A[1][0],A[2][0]**2],
 #              [A[0][1]**2,A[1][1]*A[0][1],A[1][1]**2,A[2][1]*A[0][1],A[2][1]*A[1][1],A[2][1]**2], 
 #              [A[0][2]**2,A[1][2]*A[0][2],A[1][2]**2,A[2][2]*A[0][2],A[2][2]*A[1][2],A[2][2]**2]]).T
@@ -57,15 +58,15 @@ U = np.random.randint(1,10,size=(m_,n))
 
 print(U)
 
-# Define and solve the CVXPY problem.
-#D = cp.Variable((m_,m_))
+#Define and solve the CVXPY problem.
+D = cp.Variable((m_,m_))
 A = cp.Variable((m,n))
-cost = cp.sum_squares(np.array([[A[0][0]**2,A[1][0]*A[0][0],A[1][0]**2,A[2][0]*A[0][0],A[2][0]*A[1][0],A[2][0]**2],
-              [A[0][1]**2,A[1][1]*A[0][1],A[1][1]**2,A[2][1]*A[0][1],A[2][1]*A[1][1],A[2][1]**2], 
-              [A[0][2]**2,A[1][2]*A[0][2],A[1][2]**2,A[2][2]*A[0][2],A[2][2]*A[1][2],A[2][2]**2]]).T - U)
+cost = cp.sum_squares(np.array([[cp.power(A[0,0],2),A[1,0]*A[0,0],cp.power(A[1,0],2),A[2,0]*A[0,0],A[2,0]*A[1,0],cp.power(A[2,0],2)],
+                                [cp.power(A[0,1],2),A[1,1]*A[0,1],cp.power(A[1,1],2),A[2,1]*A[0,1],A[2,1]*A[1,1],cp.power(A[2,1],2)], 
+                                [cp.power(A[0,2],2),A[1,2]*A[0,2],cp.power(A[1,2],2),A[2,2]*A[0,2],A[2,2]*A[1,2],cp.power(A[2,2],2)]]).T - U)
 
 #constraints = [D[i] == np.outer(A.T[i],A.T[i])[np.tril_indices(m)] for i in range(m)
-
+#
 #constraints = [D.T[i] == np.array([A[0][i]**2,A[1][i]*A[0][i],A[1][i]**2,A[2][i]*A[0][i],A[2][i]*A[1][i],A[2][i]**2]) for i in range(n)]
 
 prob = cp.Problem(cp.Minimize(cost))
@@ -104,4 +105,18 @@ print("The norm of the residual is ", cp.norm(D - U, p=2).value)
 #for t in range(MAX_ITERS):
 #    cp.Problem(cp.Minimize(aug_lagr)).solve()
 #    y.value += rho*resid.value
+
+
+#### nyt forsøg
+#from scipy.optimize import minimize
+#
+#def cost(A, U=U):
+#    return np.linalg.norm(np.array([[A[0][0]**2,A[1][0]*A[0][0],A[1][0]**2,A[2][0]*A[0][0],A[2][0]*A[1][0],A[2][0]**2],
+#                    [A[0][1]**2,A[1][1]*A[0][1],A[1][1]**2,A[2][1]*A[0][1],A[2][1]*A[1][1],A[2][1]**2], 
+#                    [A[0][2]**2,A[1][2]*A[0][2],A[1][2]**2,A[2][2]*A[0][2],A[2][2]*A[1][2],A[2][2]**2]]).T.flatten() - U.flatten())**2
+#
+#A0 = np.random.randint(1,10,size=(m,n))
 #    
+#res = minimize(cost, A0, method='nelder-mead',
+#                options={'xatol': 1e-8, 'disp': True})
+#print(res.x)

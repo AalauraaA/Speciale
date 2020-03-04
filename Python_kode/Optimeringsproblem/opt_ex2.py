@@ -14,7 +14,9 @@ subject to
 
 import numpy as np
 import matplotlib.pyplot as plt
-np.random.seed(5)
+np.random.seed(1)
+#first use seed = 5 -> 0.4
+#second use seed = 1 -> 0.24
 
 # hardcoded toy example with m = 3 n = 3
 
@@ -25,7 +27,7 @@ m_ = int(m*(m+1)/2.)
 A = np.random.randint(1,5,size=(m,n)) # initial A 
 a = np.reshape(A,(A.size)) # vectorization of initial A
 
-U = np.random.randint(1,10,size=(m_,n))
+U = np.random.randint(1,20,size=(m_,n))
 
 # originale indexer for A 
 #D_array = np.array([[A[0][0]**2,A[1][0]*A[0][0],A[1][0]**2,A[2][0]*A[0][0],A[2][0]*A[1][0],A[2][0]**2],
@@ -48,12 +50,19 @@ def cost1(a):
     return np.linalg.norm(D_term(a)-U_term())
 
 # predefined optimization method, without defined the gradient og the cost. 
-from scipy.optimize import minimize
-res = minimize(cost1, a, method='nelder-mead',
+import scipy.optimize as so
+res = so.minimize(cost1, a, method='Nelder-Mead',
             options={'xatol': 1e-8, 'disp': True})
-a_new = res.x
 
+
+
+a_new = res.x
 A_new = np.reshape(a_new,(m,m)) 
+
+# Print result.
+print("\nThe optimal function value is", res.fun)
+print("The optimal A is")
+print(A_new)
 
 
 

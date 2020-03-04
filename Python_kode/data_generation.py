@@ -275,12 +275,12 @@ def generate_AR_v2(N, M, L, non_zero):
 
 def segmentation_split(Y, X, Ls, n_sampels):
     """
-    Segmentation of data by split into segments of length L. 
+    Segmentation of data by split into segments of length Ls. 
     The last segment is removed if too small.  
     
     OUTPUT:
-        Ys -> array of size (n_seg, m, L), with segments in axis 0 
-        Xs -> array of size (n_seg, n, L), with segments in axis 0 
+        Ys -> array of size (n_seg, m, Ls), with segments in axis 0 
+        Xs -> array of size (n_seg, n, Ls), with segments in axis 0 
         n_seg -> number of segments
     """ 
     n_seg = int(n_sampels/Ls)               # Number of segments

@@ -7,6 +7,7 @@ Created on Wed Dec  4 13:34:43 2019
 import numpy as np
 import data_generation
 import dictionary_learning
+from sklearn.decomposition import PCA
 
 
 def reverse_vec(x):
@@ -74,6 +75,11 @@ def Cov_DL1(Y, A, X, m, n, cov_seg, L, k):
     
     return A_rec, A_err
 
+
+## funktion til brug i DL2:
+
+
+
 def Cov_DL2(Y, A, X, m, n, cov_seg, L, k):
     """ 
     """
@@ -89,7 +95,7 @@ def Cov_DL2(Y, A, X, m, n, cov_seg, L, k):
         # Transformation to covariance domain and vectorization
         Y_cov = np.cov(Ys[i])                      # covariance 
         X_cov = np.cov(Xs[i])                      # NOT diagonl ??
-        print(X_cov)
+#        print(X_cov)
         # Vectorization of lower tri, row wise  
         vec_Y = Y_cov[np.tril_indices(m)]
         
@@ -100,5 +106,37 @@ def Cov_DL2(Y, A, X, m, n, cov_seg, L, k):
     ## Dictionary Learning on Transformed System
     L = n_seg 
     
+    pca = PCA(n_components=n, svd_solver='randomized',
+          whiten=True) 
+    pca.fit(Y_big.T)
+    U = pca.components_.T
     
+    A = np.random.randint(1,5,size=(m,n)) # random initial A 
+    a = np.reshape(A,(A.size)) # vectorization of initial A
+    
+    def D_(a):
+        D = np.zeros((int(m*(m+1)/2),n))
+        for i in range(n):
+            A_tilde = np.outer(a[m*i:m*i+m],a[m*i:m*i+m].T)
+            D.T[i] = A_tilde[np.tril_indices(m)]
+        return D
+    
+    def D_term(a):
+        return np.dot(np.dot(D_(a),(np.linalg.inv(np.dot(D_(a).T,D_(a))))),D_(a).T)
+    
+    def U_term():
+        return np.dot(np.dot(U,(np.linalg.inv(np.dot(U.T,U)))),U.T)
+    
+    def cost1(a):
+        return np.linalg.norm(D_term(a)-U_term())
+        
+    
+    # predefined optimization method, without defined the gradient og the cost. 
+    from scipy.optimize import minimize
+    res = minimize(cost1, a, method='nelder-mead',
+                options={'xatol': 1e-8, 'disp': True})
+    a_new = res.x
+    A_rec = np.reshape(a_new,(m,n)) 
+ 
+    A_err = data_generation.norm_mse(A,A_rec)
     return A_rec, A_err

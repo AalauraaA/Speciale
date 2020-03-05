@@ -195,7 +195,7 @@ def generate_AR_v1(N, M, L, non_zero):
     Output:
         X: Source matrix of size N x L     
     """
-    np.random.seed(123)
+    #np.random.seed(123)
     A = np.random.uniform(-1,1, (N,L))
     X = np.zeros([N, L+2])
     W = np.random.randn(N, L)
@@ -234,7 +234,7 @@ def generate_AR_v2(N, M, L, non_zero):
     Output:
         X: Source matrix of size N x L     
     """
-    np.random.seed(123)
+    #np.random.seed(123)
     X = np.zeros([N, L+2])
     
     for i in range(N):

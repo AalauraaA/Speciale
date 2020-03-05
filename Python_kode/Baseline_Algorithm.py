@@ -13,7 +13,7 @@ import CovDL
 import MSBL
 
 
-np.random.seed(100)
+np.random.seed(12)
 
 # choose datageneration method ...
 """ DATA GENERATION - AUTO-REGRESSIVE SIGNAL """
@@ -69,7 +69,7 @@ for i in range(len(Ys)): # loop over segments
         raise SystemExit('X is not sparse enogh (k > (m*(m+1))/2)')
         
      
-    X_rec = MSBL.M_SBL(A_real, Y_real, m, n, Ls, k, iterations=500, noise=False)
+    X_rec = MSBL.M_SBL(A_rec, Y_real, m, n, Ls, k, iterations=500, noise=False)
     X_real = X_real.T[:-2]
     X_real = X_real.T
     

@@ -111,7 +111,7 @@ def Cov_DL2(Y, A, X, m, n, cov_seg, L, k):
     pca.fit(Y_big.T)
     U = pca.components_.T
     
-    A = np.random.randint(1,5,size=(m,n)) # random initial A 
+    A = np.random.random((m,n)) # random initial A 
     a = np.reshape(A,(A.size)) # vectorization of initial A
     
     def D_(a):

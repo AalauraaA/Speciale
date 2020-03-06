@@ -104,7 +104,7 @@ def Cov_DL2(Y, A, X, m, n, cov_seg, L, k):
         Y_big.T[i] = vec_Y
     
     ## Dictionary Learning on Transformed System
-    L = n_seg 
+    L = n_seg  
     
     pca = PCA(n_components=n, svd_solver='randomized',
           whiten=True) 

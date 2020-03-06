@@ -20,7 +20,7 @@ np.random.seed(12)
 m = 7                         # number of sensors
 n = 8                         # number of sources
 k = 8                         # max number of non-zero coef. in rows of X
-L = 100                       # number of sampels
+L = 1000                       # number of sampels
 k_true = 8 
 
 Y_real, A_real, X_real = data_generation.generate_AR_v2(n, m, L, k_true) 
@@ -57,7 +57,7 @@ for i in range(len(Ys)): # loop over segments
     Y_real = Ys[i]
     X_real = Xs[i]
     
-    cov_seg = 10
+    cov_seg = 100
     
     if n <= (m*(m+1))/2.:
         A_rec, A_err = CovDL.Cov_DL2(Y_real, A_real, X_real, m, n, cov_seg, L, k)

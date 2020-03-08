@@ -22,7 +22,7 @@ def norm_mse(X_real,X_rec):
 #    X_real = X_real/np.linalg.norm(X_real, ord=2, axis=0, keepdims=True)
 #    X_rec = X_rec/np.linalg.norm(X_rec, ord=2, axis=0, keepdims=True)
     
-    temp = np.sum(((np.abs(X_real1-X_rec1))**2),axis=0)/len(X_rec1)
+    temp = np.sum(((X_real1-X_rec1)**2),axis=0)/len(X_rec1)
 
 #    if np.any(temp == 0) or np.any(np.isnan(temp)):
 #        raise SystemExit('temp = 0')
@@ -234,7 +234,7 @@ def generate_AR_v2(N, M, L, non_zero):
     Output:
         X: Source matrix of size N x L     
     """
-    #np.random.seed(123)
+    np.random.seed(123)
     X = np.zeros([N, L+2])
     
     for i in range(N):

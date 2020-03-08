@@ -14,19 +14,10 @@ import MSBL
 np.random.seed(1)
 
 """ Lists for variation """
-<<<<<<< HEAD
-list_ = np.array([16]) # for a single konstant
+#list_ = np.array([16]) # for a single konstant
 #list_ = np.arange(5,40,5)   # k vary
 #list_ = np.arange(15,60+1,5)  # n vary
 #list_ = np.arange(4,32+1,4)   # m vary
-
-L_list = np.arange(10,10000,100)
-=======
-#list_ = np.array([5]) # for a single konstant
-list_ = np.arange(5,40,5)   # k vary
-#list_ = np.arange(15,60+1,5)  # n vary
-#list_ = np.arange(4,32+1,4)   # m vary
->>>>>>> 285d68cd4f8f25afe4bcaaf5b375fc147d208191
 
 err_listA = np.zeros(len(list_))
 err_listX = np.zeros(len(list_))
@@ -34,9 +25,7 @@ err_listY = np.zeros(len(list_))
 
 for i in range(len(list_)):
     print(list_[i]) 
-<<<<<<< HEAD
-    plot_list = np.zeros(len(L_list))
-    
+    plot_list = np.zeros(len(L_list))  
     for g in range(len(L_list)):
         sum_L = 0
         for p in range(10):

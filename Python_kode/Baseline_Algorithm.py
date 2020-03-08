@@ -13,15 +13,15 @@ import CovDL
 import MSBL
 
 
-np.random.seed(12)
+np.random.seed(154)
 
 # choose datageneration method ...
 """ DATA GENERATION - AUTO-REGRESSIVE SIGNAL """
-m = 7                         # number of sensors
-n = 8                         # number of sources
-k = 8                         # max number of non-zero coef. in rows of X
-L = 100                       # number of sampels
-k_true = 8 
+m = 4                         # number of sensors
+n = 6                         # number of sources
+k = 6                         # max number of non-zero coef. in rows of X
+L = 1000                 # number of sampels
+k_true = 6 
 
 Y_real, A_real, X_real = data_generation.generate_AR_v2(n, m, L, k_true) 
 
@@ -56,8 +56,21 @@ Ys, Xs, n_seg = data_generation.segmentation_split(Y_real, X_real, Ls, L)
 for i in range(len(Ys)): # loop over segments 
     Y_real = Ys[i]
     X_real = Xs[i]
+   
+    def cov_seg_max(n, L):
+        """
+        Give us the maximum number of segment within the margin.
+        For some parameters (low) you can add one more segment.
+        """
+        n_seg = 1
+        while int(n) > n_seg:
+            n_seg += 1
+        return int(L/n_seg)    # Samples within one segment   
     
-    cov_seg = 10
+#    cov_seg = cov_seg_max(n,L)
+    cov_seg = 8
+#    cov_seg = 75
+
     
     if n <= (m*(m+1))/2.:
         A_rec, A_err = CovDL.Cov_DL2(Y_real, A_real, X_real, m, n, cov_seg, L, k)
@@ -69,7 +82,7 @@ for i in range(len(Ys)): # loop over segments
         raise SystemExit('X is not sparse enogh (k > (m*(m+1))/2)')
         
      
-    X_rec = MSBL.M_SBL(A_rec, Y_real, m, n, Ls, k, iterations=500, noise=False)
+    X_rec = MSBL.M_SBL(A_rec, Y_real, m, n, Ls, k, iterations=1000, noise=False)
     X_real = X_real.T[:-2]
     X_real = X_real.T
     
@@ -79,24 +92,24 @@ for i in range(len(Ys)): # loop over segments
 
 """ PLOTS """
  
-plt.figure(2)
-#plt.title('Comparison of each active source in X and corresponding reconstruction')
-
-nr_plot=0
-for i in range(len(X_real.T[0])):
-    if np.any(X_real[i]!=0) or np.any(X_rec[i]!=0):
-        
-        nr_plot += 1
-        plt.subplot(k*2, 1, nr_plot)
-       
-        plt.plot(X_real[i], 'r',label='Real X')
-        plt.plot(X_rec[i],'g', label='Recovered X')
-
-       
-plt.legend()
-plt.xlabel('sample')
-plt.show
-#plt.savefig('case1_1.png')
+#plt.figure(2)
+##plt.title('Comparison of each active source in X and corresponding reconstruction')
+#
+#nr_plot=0
+#for i in range(len(X_real.T[0])):
+#    if np.any(X_real[i]!=0) or np.any(X_rec[i]!=0):
+#        
+#        nr_plot += 1
+#        plt.subplot(k*2, 1, nr_plot)
+#       
+#        plt.plot(X_real[i], 'r',label='Real X')
+#        plt.plot(X_rec[i],'g', label='Recovered X')
+#
+#       
+#plt.legend()
+#plt.xlabel('sample')
+#plt.show
+#plt.savefig('case.png')
 #
 #
 

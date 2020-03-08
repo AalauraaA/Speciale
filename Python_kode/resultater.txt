@@ -1,0 +1,30 @@
+Test 1 - L = 1000, m = 4, n = 6, k = 6, true k = 6
+- cov = 80 --> errX = 0.04 & errA = 0.14
+- cov = 10 --> errX = 0.03 & errA = 0.2
+
+Test 2 - L = 2500, m = 4, n = 6, k = 6, true k = 6
+- cov = 208 --> errX = 0.02 & errA = 0.13
+- cov = 10 --> errX = 0.01 & errA = 0.09
+
+Test 3 - L = 5000, m = 4, n = 6, k = 6, true k = 6
+- cov = 10 --> errX = 0.02 & errA = 0.15
+
+Test 4 - L = 1000, m = 8, n = 16, k = 16, true k = 16
+- cov = 30 --> errX = 0.04 & errA = 0.14
+- cov = 62 --> errX = 0.04 & errA = 0.17
+
+Test 5 - L = 2500, m = 8, n = 16, k = 16, true k = 16
+- cov = 156 --> errX = 0.01 & errA = 0.22
+- cov = 75 --> errX = 0.01 & errA = 0.24
+
+Test 5 - L = 5000, m = 8, n = 16, k = 16, true k = 16
+- cov = 312 --> errX = 0.01 & errA = 0.24
+- cov = 10 --> errX = 0.01 & errA = 0.24
+
+Test 6 - L = 1000, m = 8, n = 16, k = 5, 7, 9, 11, 13, 15, true k = k - 1, covseg = 30
+- k = 11 --> errX = 0.04 & errA = 0.11
+- k = 13 --> errX = 0.03 & errA = 0.21
+
+Test 7 - L = 1000, m = 8, n = 16, k = 5, 7, 9, 11, 13, 15, true k = k + 1, covseg = 30
+- k = 9 --> errX = 0.03 & errA = 0.11
+- k = 15 --> errX = 0.04 & errA = 0.14

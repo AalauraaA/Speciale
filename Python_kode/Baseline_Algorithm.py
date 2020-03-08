@@ -17,6 +17,7 @@ np.random.seed(154)
 
 # choose datageneration method ...
 """ DATA GENERATION - AUTO-REGRESSIVE SIGNAL """
+
 m = 4                         # number of sensors
 n = 6                         # number of sources
 k = 6                         # max number of non-zero coef. in rows of X
@@ -67,11 +68,12 @@ for i in range(len(Ys)): # loop over segments
             n_seg += 1
         return int(L/n_seg)    # Samples within one segment   
     
+
 #    cov_seg = cov_seg_max(n,L)
     cov_seg = 8
 #    cov_seg = 75
 
-    
+   
     if n <= (m*(m+1))/2.:
         A_rec, A_err = CovDL.Cov_DL2(Y_real, A_real, X_real, m, n, cov_seg, L, k)
         

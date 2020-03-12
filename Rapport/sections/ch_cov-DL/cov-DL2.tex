@@ -2,10 +2,11 @@
 Consider again the measurements represented in the covariance domain \eqref{eq:cov1}.
 In the case of $N < \widetilde{M}$ an over-determined system is achieved where $\textbf{D}$ is high and thin. In general such system is inconsistent\todo{tjek, har vi tidligerer nævnt at der teoretisk godt kan være en løsning?}. Thus it is not possible to find $\textbf{D}$ by traditionally dictionary learning methods and different methods most be considered.
 
-When $N < \widetilde{M}$ it is certain that the tranformed measurements $\text{vec}(\widehat{\boldsymbol{\Sigma}}_{\textbf{Y}_s})$ will live on or near a subspace of dimension $N$. 
-This subspace is spanned by the columns of $\textbf{D}$, and is denoted as $\mathcal{R}(\textbf{D})$. 
-To learn $\mathcal{R}(\textbf{D})$ without having to impose any sparsity constraint on $\boldsymbol{\delta}_s$ it is possible to use Principal Component Analysis(PCA)\todo{evt. teoretisk beskrivelse af PCA i appendix?}. 
-By use of PCA a set of basis vectors $\textbf{U}$ is achieved such that $\mathcal{R}(\textbf{U})=\mathcal{R}(\textbf{D})$. 
+When $N < \widetilde{M}$ it is given by model \eqref{eq:cov1} that the transformed measurements $\text{vec}(\widehat{\boldsymbol{\Sigma}}_{\textbf{Y}_s})$ lives on or near(?) a subspace spanned by the columns of $\textbf{D}$, thus has dimension $N$. This subspace is denoted $\mathcal{R}(\textbf{D})$. 
+To learn $\mathcal{R}(\textbf{D})$ without having to impose any sparsity constraint on $\boldsymbol{\delta}_s$ it is possible to use Principal Component Analysis(PCA).
+PCA is a well known method with various practical applications\cite[p.125]{ICA book}. Basically, PCA is a method for dimensional reduction. By orthogonal transformation applied to a given dataset, the principal components are obtained. The first principal component is constructed to account for as much variability within the dataset as possible, that is having the largest possible variance. Each following computed principal component does again have the largest possible variance under the constraint of being orthogonal to the previously found components. The resulting set of principal components will by construction make an orthogonal basis of the dataset. However it is not necessary to keep all the principal components as most of the variability of the dataset are likely described by the first couples of principal components. As such the dimensionality reduction appears.    
+     
+By performing PCA on the transformed measurements $\text{vec}(\widehat{\boldsymbol{\Sigma}}_{\textbf{Y}_s})$ a set of $N$ principal components is achieved, making a matrix $\textbf{U}$. such that $\mathcal{R}(\textbf{U})=\mathcal{R}(\textbf{D})$. 
 This however do not imply that $\textbf{D}=\textbf{U}$. 
 In the case of two sets of basis vectors span the same space, namely $\mathcal{R}(\textbf{U})=\mathcal{R}(\textbf{D})$, the projection operator of the given subset must be unique. 
 Which is true if and only if $\textbf{D}(\textbf{D}^T\textbf{D})^{-1}\textbf{D}^T=\textbf{U}(\textbf{U}^T\textbf{U})^{-1}\textbf{U}^T$\todo{kilde foruden phd p. 51?}. 

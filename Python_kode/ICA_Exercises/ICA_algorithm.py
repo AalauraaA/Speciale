@@ -18,6 +18,7 @@ We must introduce whitening which must be done before ICA
 import numpy as np
 import matplotlib.pyplot as plt
 import data_generation
+
 np.random.seed(0)
 
 # =============================================================================
@@ -129,7 +130,7 @@ def ica(X, iterations, tolerance=1e-5):
 # Generating Data
 # =============================================================================
 m = 3                # number of sensors
-n = 4                # number of sources
+n = 3                # number of sources
 non_zero = 2         # max number of non-zero coef. in rows of X
 n_samples = 10       # number of sampels
 iterations = 1000
@@ -150,6 +151,8 @@ Y, A, X = data_generation.generate_AR_v2(n, m, n_samples, non_zero)
 #Y = Y.T
 
 S = ica(Y, iterations)
+
+mse = data_generation.norm_mse(X, S)
 
 " Plots "
 plt.figure(1)

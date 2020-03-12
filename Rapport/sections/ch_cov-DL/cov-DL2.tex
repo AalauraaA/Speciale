@@ -1,7 +1,9 @@
-\subsection{Over-determined \textbf{D}}
-In the case of $N < \frac{M(M+1)}{2}$ an over-determined system is achieved and it is not possible to find $\textbf{D}$ by dictionary learning methods.
-By assuming that $\frac{M(M+1)}{2}$ will be close to $N$, because $N > M$ is given,\todo{how else can they live on the same space??} then the measurements in the covariance domain $\text{vec}(\widehat{\boldsymbol{\Sigma}}_{\textbf{Y}_s})$ will live on or near a subspace of dimension $N$. 
-This subspace is spanned by the columns of $\textbf{D}$, and is denoted as $\mathcal{r}(\textbf{D})$. 
+\subsection{Over-determined system}
+Consider again the measurements represented in the covariance domain \eqref{eq:cov1}.
+In the case of $N < \widetilde{M}$ an over-determined system is achieved where $\textbf{D}$ is high and thin. In general such system is inconsistent\todo{tjek, har vi tidligerer nævnt at der teoretisk godt kan være en løsning?}. Thus it is not possible to find $\textbf{D}$ by traditionally dictionary learning methods and different methods most be considered.
+
+When $N < \widetilde{M}$ it is certain that the tranformed measurements $\text{vec}(\widehat{\boldsymbol{\Sigma}}_{\textbf{Y}_s})$ will live on or near a subspace of dimension $N$. 
+This subspace is spanned by the columns of $\textbf{D}$, and is denoted as $\mathcal{R}(\textbf{D})$. 
 To learn $\mathcal{R}(\textbf{D})$ without having to impose any sparsity constraint on $\boldsymbol{\delta}_s$ it is possible to use Principal Component Analysis(PCA)\todo{evt. teoretisk beskrivelse af PCA i appendix?}. 
 By use of PCA a set of basis vectors $\textbf{U}$ is achieved such that $\mathcal{R}(\textbf{U})=\mathcal{R}(\textbf{D})$. 
 This however do not imply that $\textbf{D}=\textbf{U}$. 
@@ -14,11 +16,17 @@ From this it is possible to obtain $\textbf{A}$ through the optimisation problem
 \text{s.t.} \ \textbf{d}_i&=\text{vec}(\textbf{a}_i\textbf{a}_i^T)\label{eq:Cov_DL2}
 \end{align}      
 where $\textbf{U}$ is learned by use of PCA performed on $\text{vec}(\widehat{\boldsymbol{\Sigma}}_{\textbf{Y}_s})$.
-To solve this optimization problem the cost function is minimized by use of quasi-Newton optimization methods.
-Several specific quasi-Newton methods exist but the basic principal will be presented here. 
-The Newton optimization method is a multidimensional gradient method. 
-The method is based on a quadratic approximation of the optimization problem by use of the Taylor series, which is elaborated in \cite[p. 29]{Optimization2007}.
-Let $f(\textbf{x})$ be the cost function and $\boldsymbol{\delta}$ be the change in $\textbf{X}$. 
-By differentiating the Taylor approximation of $f(\textbf{x}+\boldsymbol{\delta})$ and setting it equal to zero, the optimal change in $\textbf{x}$ is found to be $\boldsymbol{\delta} = -\textbf{H}^{-1}\textbf{g}$. 
-Where $\textbf{g}$ is the gradient and $\textbf{H}$ is the Hessian. The quasi-Newton methods deviate from the basic Newton method by letting the direction search be based on a positive semi-definite matrix $\textbf{S}$ which is generated from available data in order to approximate $\textbf{H}^{-1}$. 
-Details of the method is found in \cite[p. 175]{Optimization2007}    
+In the following section the optimization problem is analysed and processed in order to determine a suitable method to solve the problem. Additional optimization theory to support the analysis is found in appendix \ref{app:optimazion}  
+
+\subsection{Solution to optimization problem}
+The optimization problem \eqref{eq:Cov_DL2} consist of an objective function forming a least-square problem with respect to the frobenius norm.
+That is a convex quadratic objective function.
+The constraints is a set of quadratic equality constraints. In general it is a thumb rule that non-linear equality constraint are not convex...
+To make the constraint convex and linear the constraints are rewritten with respect to the assumption that $\textbf{a}_i\textbf{a}_i^{T} = \textbf{A}_i$. This results in the following constraints 
+\begin{align}
+\textbf{d}_i &= \text{vec}(\textbf{A}_i) \\
+\textbf{A}_i &\geq  0 \\
+\text{rank}(\textbf{A}_i) &= 1 \ \text{altid rank 1 når ydre produkt}
+\end{align}          
+by this a set of (hopefully)convex and linear constraints are achieved, both equality and inequality constraints.
+Now a classic quadratic programming problem is achieved      for which effective solution methods exist.   

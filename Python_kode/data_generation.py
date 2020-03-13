@@ -6,6 +6,7 @@ Created on Tue Nov 19 10:19:05 2019
 """
 import numpy as np
 from sklearn.datasets import make_sparse_coded_signal
+from sklearn.metrics import mean_squared_error
 from scipy import signal
 
 # consider Y = AX 
@@ -15,19 +16,51 @@ from scipy import signal
 # k -> number og non-zeros entries in x, aktive sources 
 # n_samples -> number of samples 
 
-def norm_mse(X_real,X_rec):
-    X_real1 = X_real/np.max(X_real)
-    X_rec1 = X_rec/np.max(X_rec)
+def MSE_all_errors(real,estimate):
+    """
+    Mean Squared Error (MSE) - m or n errors
+    ----------------------------------------------------------------------
+    Info:
+        A small value -- close to zero -- is a good estimation.
+        The inputs must be transponet to perform the action rowwise
+    Input:
+        real: observation matrix
+        estimate: calculated matrix
     
-#    X_real = X_real/np.linalg.norm(X_real, ord=2, axis=0, keepdims=True)
-#    X_rec = X_rec/np.linalg.norm(X_rec, ord=2, axis=0, keepdims=True)
-    
-    temp = np.sum(((X_real1-X_rec1)**2),axis=0)/len(X_rec1)
+    Output: MSE
+    """
+    error = mean_squared_error(real.T, estimate.T, multioutput='raw_values')
+    return error
 
-#    if np.any(temp == 0) or np.any(np.isnan(temp)):
-#        raise SystemExit('temp = 0')
-    nmse = np.average(temp)
-    return nmse
+def MSE_one_error(real,estimate):
+    """
+    Mean Squared Error (MSE) - One Error
+    ----------------------------------------------------------------------
+    Info:
+        A small value -- close to zero -- is a good estimation.
+        The inputs must be transponet to perform the action rowwise
+    Input:
+        real: observation matrix
+        estimate: calculated matrix
+    
+    Output: MSE
+    """
+    error = mean_squared_error(real.T, estimate.T)
+    return error
+#
+#def norm_mse(X_real,X_rec):
+#    X_real1 = X_real/np.max(X_real)
+#    X_rec1 = X_rec/np.max(X_rec)
+#    
+##    X_real = X_real/np.linalg.norm(X_real, ord=2, axis=0, keepdims=True)
+##    X_rec = X_rec/np.linalg.norm(X_rec, ord=2, axis=0, keepdims=True)
+#    
+#    temp = np.sum(((X_real1-X_rec1)**2),axis=0)/len(X_rec1)
+#
+##    if np.any(temp == 0) or np.any(np.isnan(temp)):
+##        raise SystemExit('temp = 0')
+#    nmse = np.average(temp)
+#    return nmse
 
 def random_sparse_data(n_measurement, n_source, n_nonzero, n_samples):
     """

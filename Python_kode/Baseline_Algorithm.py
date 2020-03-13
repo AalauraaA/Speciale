@@ -8,21 +8,20 @@ Created on Wed Dec  4 12:24:55 2019
 import numpy as np
 import matplotlib.pyplot as plt
 import data_generation
-from sklearn.metrics import mean_squared_error
 import CovDL
 import MSBL
 
 
-np.random.seed(154)
+np.random.seed(123)
 
 # choose datageneration method ...
 """ DATA GENERATION - AUTO-REGRESSIVE SIGNAL """
 
-m = 4                         # number of sensors
-n = 6                         # number of sources
-k = 6                         # max number of non-zero coef. in rows of X
+m = 8                         # number of sensors
+n = 16                         # number of sources
+k = 7                         # max number of non-zero coef. in rows of X
 L = 1000                 # number of sampels
-k_true = 6 
+k_true = 7 
 
 Y_real, A_real, X_real = data_generation.generate_AR_v2(n, m, L, k_true) 
 
@@ -70,7 +69,7 @@ for i in range(len(Ys)): # loop over segments
     
 
 #    cov_seg = cov_seg_max(n,L)
-    cov_seg = 8
+    cov_seg = 10
 #    cov_seg = 75
 
    
@@ -88,15 +87,16 @@ for i in range(len(Ys)): # loop over segments
     X_real = X_real.T[:-2]
     X_real = X_real.T
     
-    mse = data_generation.norm_mse(X_real, X_rec)
-    print("Representation error (without noise): ", mse)   
-
+    Amse = data_generation.MSE_one_error(A_real, A_rec)
+    print("Representation error (without noise) for A: ", Amse)   
+    
+    Xmse = data_generation.MSE_one_error(X_real, X_rec)
+    print("Representation error (without noise) for X: ", Xmse) 
 
 """ PLOTS """
  
 #plt.figure(2)
-##plt.title('Comparison of each active source in X and corresponding reconstruction')
-#
+#plt.title('m = 8, n = 16, k = 7, true k = 7, L = 1000, covseg = 10')
 #nr_plot=0
 #for i in range(len(X_real.T[0])):
 #    if np.any(X_real[i]!=0) or np.any(X_rec[i]!=0):
@@ -111,10 +111,4 @@ for i in range(len(Ys)): # loop over segments
 #plt.legend()
 #plt.xlabel('sample')
 #plt.show
-#plt.savefig('case.png')
-#
-#
-
-
-
-
+#plt.savefig('13-03-2020_3.png')

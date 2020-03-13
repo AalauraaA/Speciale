@@ -2,31 +2,50 @@
 Consider again the measurements represented in the covariance domain \eqref{eq:cov1}.
 In the case of $N < \widetilde{M}$ an over-determined system is achieved where $\textbf{D}$ is high and thin. In general such system is inconsistent\todo{tjek, har vi tidligerer nævnt at der teoretisk godt kan være en løsning?}. Thus it is not possible to find $\textbf{D}$ by traditionally dictionary learning methods and different methods most be considered.
 
-When $N < \widetilde{M}$ it is certain that the tranformed measurements $\text{vec}(\widehat{\boldsymbol{\Sigma}}_{\textbf{Y}_s})$ will live on or near a subspace of dimension $N$. 
+When $N < \widetilde{M}$ it is certain from the model \eqref{eq:cov1} that the transformed measurements $\text{vec}(\widehat{\boldsymbol{\Sigma}}_{\textbf{Y}_s})$ will live on or near a subspace of dimension $N$. 
 This subspace is spanned by the columns of $\textbf{D}$, and is denoted as $\mathcal{R}(\textbf{D})$. 
-To learn $\mathcal{R}(\textbf{D})$ without having to impose any sparsity constraint on $\boldsymbol{\delta}_s$ it is possible to use Principal Component Analysis(PCA)\todo{evt. teoretisk beskrivelse af PCA i appendix?}. 
-By use of PCA a set of basis vectors $\textbf{U}$ is achieved such that $\mathcal{R}(\textbf{U})=\mathcal{R}(\textbf{D})$. 
-This however do not imply that $\textbf{D}=\textbf{U}$. 
-In the case of two sets of basis vectors span the same space, namely $\mathcal{R}(\textbf{U})=\mathcal{R}(\textbf{D})$, the projection operator of the given subset must be unique. 
-Which is true if and only if $\textbf{D}(\textbf{D}^T\textbf{D})^{-1}\textbf{D}^T=\textbf{U}(\textbf{U}^T\textbf{U})^{-1}\textbf{U}^T$\todo{kilde foruden phd p. 51?}. 
-Remember from the above derivation the condition that $\textbf{d}_i = \text{vec}(\textbf{a}_i\textbf{a}_i^T)$. 
-From this it is possible to obtain $\textbf{A}$ through the optimisation problem 
+To learn $\mathcal{R}(\textbf{D})$ without having to impose any sparsity constraint on $\boldsymbol{\delta}_s$ it is possible to use Principal Component Analysis(PCA). 
+When PCA is applied to the set $\left\{\text{vec}(\widehat{\boldsymbol{\Sigma}}_{\textbf{Y}_s}), \forall s \right\}$ a set of $N$ principal components are found. The principal components forms a set of basis vectors $\textbf{U}$ such that $\mathcal{R}(\textbf{U})=\mathcal{R}(\textbf{D})$. 
+However, this do not imply that $\textbf{D}=\textbf{U}$. 
+In the case of two sets of basis vectors spanning the same space, namely $\mathcal{R}(\textbf{U})=\mathcal{R}(\textbf{D})$, the projection operator of the given subset must be unique(need prove here? or is there just one $P:V\rightarrow V $ where $V = \mathcal{R}(U)= \mathcal{R}(D)$).\todo{fact: any column in D must be a lin comb. of columns in U and visa versa. \\
+Any basis has the same dim(dimension theorem). } 
+The projection matrix $\text{P}:\mathcal{R}(U)\rightarrow \mathcal{R}(U)$(?) can be find by considering the projection of an vector $\textbf{b}\in \mathbb{R}^{\widetilde{M}}$ onto $\mathcal{R}(U)$, that is solving the least squares problem $\| \textbf{Ax}-b\|$ where $\textbf{Ax}\subset \mathcal{R}(U)$ and $\text{P} = Ax$. The solution is given by the normal equation
+\begin{align*}
+\textbf{A}^T\textbf{A}\textbf{x} &= \textbf{A}^T\textbf{b}\\
+\textbf{x} &= (\textbf{A}^T\textbf{A})^{-1}\textbf{A}^T\textbf{b}
+\end{align*}	
+resulting in
+\begin{align*}
+\text{P}\textbf{b} = \textbf{Ax} &= \textbf{A}(\textbf{A}^T\textbf{A})^{-1}\textbf{A}^T\textbf{b}\\
+\text{P} &= \textbf{A}(\textbf{A}^T\textbf{A})^{-1}\textbf{A}^T 
+\end{align*} 
+Thus $\mathcal{R}(U)$ and $\mathcal{R}(D)$ having the same projection matrix is true if and only if $\textbf{D}(\textbf{D}^T\textbf{D})^{-1}\textbf{D}^T=\textbf{U}(\textbf{U}^T\textbf{U})^{-1}\textbf{U}^T$. 
+Now, remember from the relation between $\textbf{A}$ and $\textbf{D}$ that $\textbf{d}_i = \text{vec}(\textbf{a}_i\textbf{a}_i^T)$. 
+From this it is possible to obtain $\textbf{A}$ through the following optimisation problem 
 \begin{align}
-\min_{\textbf{a}_i}\Vert  \textbf{D}(\textbf{D}^T\textbf{D})^{-1}\textbf{D}^T &- \textbf{U}(\textbf{U}^T\textbf{U})^{-1}\textbf{U}^T \Vert_{F}^{2} \nonumber \\
+\min_{\left\{\textbf{a}_i\right\}_{i = 1}^{N}}\Vert  \textbf{D}(\textbf{D}^T\textbf{D})^{-1}\textbf{D}^T &- \textbf{U}(\textbf{U}^T\textbf{U})^{-1}\textbf{U}^T \Vert_{F}^{2} \nonumber \\
 \text{s.t.} \ \textbf{d}_i&=\text{vec}(\textbf{a}_i\textbf{a}_i^T)\label{eq:Cov_DL2}
 \end{align}      
-where $\textbf{U}$ is learned by use of PCA performed on $\text{vec}(\widehat{\boldsymbol{\Sigma}}_{\textbf{Y}_s})$.
-In the following section the optimization problem is analysed and processed in order to determine a suitable method to solve the problem. Additional optimization theory to support the analysis is found in appendix \ref{app:optimazion}  
+where $\textbf{U}$ results from PCA performed on $\text{vec}(\widehat{\boldsymbol{\Sigma}}_{\textbf{Y}_s})$.
+In the following section the optimization problem is analysed and processed in order to determine a suitable solution method. Additional optimization theory to support the analysis is found in appendix \ref{app:optimazion}  
 
 \subsection{Solution to optimization problem}
 The optimization problem \eqref{eq:Cov_DL2} consist of an objective function forming a least-square problem with respect to the frobenius norm.
 That is a convex quadratic objective function.
-The constraints is a set of quadratic equality constraints. In general it is a thumb rule that non-linear equality constraint are not convex...
-To make the constraint convex and linear the constraints are rewritten with respect to the assumption that $\textbf{a}_i\textbf{a}_i^{T} = \textbf{A}_i$. This results in the following constraints 
-\begin{align}
-\textbf{d}_i &= \text{vec}(\textbf{A}_i) \\
-\textbf{A}_i &\geq  0 \\
-\text{rank}(\textbf{A}_i) &= 1 \ \text{altid rank 1 når ydre produkt}
-\end{align}          
-by this a set of (hopefully)convex and linear constraints are achieved, both equality and inequality constraints.
-Now a classic quadratic programming problem is achieved      for which effective solution methods exist.   
+The constraints is a set of quadratic equality constraints. In general it is a thumb rule that non-linear equality constraint are not convex.
+Due to the constraints not being considered convex the optimization problem does not meet the requirements of a convex optimization problem. Hence the numerical solution methods for convex optimization problems, for which convergence is ensured, does not imply directly. 
+
+Due to the nature of the constraints it should be possible to reformulate the objective function to include the constraints into the objective function. That is construction an unconstrained least-squares problem, which is a special subclass of convex optimization\cite{cvxbook}.
+
+Let $\textbf{D} = f(\textbf{a}_0, \hdots, \textbf{a}_N)$ then... an optimization problem is without constraints is achieved... and it can be solved be use of the gradient decent method or something
+
+   
+
+%To make the constraint convex and linear the constraints are rewritten with respect to the assumption that $\textbf{a}_i\textbf{a}_i^{T} = \textbf{A}_i$. This results in the following constraints 
+%\begin{align}
+%\textbf{d}_i &= \text{vec}(\textbf{A}_i) \\
+%\textbf{A}_i &\geq  0 \\
+%\text{rank}(\textbf{A}_i) &= 1 \ \text{altid rank 1 når ydre produkt}
+%\end{align}          
+%by this a set of (hopefully)convex and linear constraints are achieved, both equality and inequality constraints.
+%Now a classic quadratic programming problem is achieved      for which effective solution methods exist.   

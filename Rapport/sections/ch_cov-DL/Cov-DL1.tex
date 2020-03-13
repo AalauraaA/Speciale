@@ -23,23 +23,27 @@ Consider the measurement matrix $\mathbf{Y} \in \mathbb{R}^M$ consisting of meas
 \mathbf{y}_j = \mathbf{A} \mathbf{x}_j.
 \end{align*}
 from which one can learn a suitable dictionary $\hat{\mathbf{A}}$, and the sparse representation of the source matrix $\hat{\mathbf{X}} \in \mathbb{R}^N$ with the source vectors $\lbrace \hat{\mathbf{x}}_j \rbrace_j^L$.
-For a known sparsity constraint $k$ the dictionary learing can be defined by the following optimisation problem. 
+For a known sparsity constraint $k$ the dictionary learning can be defined by the following optimisation problem. 
 \begin{align}\label{eq:SVD1}
 \min_{\mathbf{A}, \mathbf{X}} \sum_{j=1}^{L} \Vert \mathbf{y}_j - \mathbf{A} \mathbf{x}_j \Vert_2^2 \quad \text{subject to} \quad \Vert \textbf{x}_j \Vert_1 \leq k, \ 1 \leq j \leq L.
 \end{align}
-The problem is similar to the $\ell_1$ optimisation problem defined in \eqref{eq:SMV_p1}\cite{Elad_book}, except that here both $\textbf{A}$ and $\textbf{x}_j$ are variables to be determined.  
-The learning constitute joint solving of the optimization problem with respect to respectively $\mathbf{A}$ and $\mathbf{X}$. The uniqueness of $\mathbf{A}$ depends on the recovery sparsity condition. As clarified earlier in \ref{sec:sol_met} the recovery of a unique solution $\mathbf{X}^\ast$ is only possible if $k < M$ \cite{phd2015}.
+where both $\textbf{A}$ and $\textbf{x}_j$ are variables to be determined.\todo{comparison to l1 problem is removed here, ok?}  
+Learning the dictionary by the K-SVD algorithm constitute joint solving of the optimization problem with respect to $\mathbf{A}$ and $\mathbf{X}$ respectively. An initial $\textbf{A}_0 = [\textbf{a}_0,\hdots,\textbf{a}_N]$ and the corresponding $\textbf{X}_0$ is determined. Then, for each iteration an update rule is applied to each column of $\textbf{A}_0$, that is updating first $\textbf{a}_j$ and then the corresponding row $\textbf{x}_i$. More details on the K-SVD algorithm is found in appendix \ref{app_sec:K-SVD_alg}. 
+The uniqueness of $\mathbf{A}$ depends on the recovery sparsity condition. As clarified earlier in \ref{sec:sol_met} the recovery of a unique solution $\mathbf{X}^\ast$ is only possible if $k < M$ \cite{phd2015}.
 %The dictionary learning algorithm K-SVD is a generalisation of the well known K-means clustering also referred to as vector quantization. In K-means clustering a set of $K$ vectors is learned referred to as mean vectors. Each signal sample is then represented by its nearest mean vector. That corresponds to the case with sparsity constraint $k = 1$ and the representation reduced to a binary scalar $x = \lbrace 1, 0 \rbrace$. Further instead of computing the mean of $K$ subsets the K-SVD algorithm computes the SVD factorisation of the $K$ different sub-matrices that correspond to the $K$ columns of $\textbf{A}$.
-\todo{yderligere beskrivelse af opdaterings regler}
+
 
 \subsubsection{Application of dictionary learning}
-
-Note here that the number of samples that are used to learn the dictionary is remarkable reduces as one segment effectively corresponds to one sample in the covariance domain.  
-When $\mathbf{D}$ is learned it is possible to find an estimate of the mixing matrix $\mathbf{A}$ that generated $\textbf{D}$ through the relation $\mathbf{d}_j = \text{vec}(\mathbf{a}_j \mathbf{a}_j^T)$. Here each column is found by the optimisation problem 
+By the establishments of an dictionary learning algorithm it is now used to learn the transformed dictionary matrix $\textbf{D}$ in \eqref{eq:cov1}. Here the transformed and vectorised measurements $\left\{ \text{vec}\left( \hat{\Sigma}_\textbf{Y}\right), \forall s\right\}$ makes the training dataset. By this note that each segment the original measurement sample constitute only one sample in the covariance domain. Thus the number of training samples depends on the length of a segment.     
+When K-SVD is applied and $\mathbf{D}$ is found it is possible to estimate the mixing matrix $\mathbf{A}$ that generated found $\textbf{D}$ through the relation 
+\begin{align*}
+\mathbf{d}_j = \text{vec}(\mathbf{a}_j \mathbf{a}_j^T).
+\end{align*}
+Here each column is found from the optimisation problem 
 \begin{align*}
 \min_{\textbf{a}_j} \| \text{vec}^{-1}(\textbf{d}_j) -\textbf{a}_j\textbf{a}_j^T\|_2^2, 
 \end{align*}
-for which the global minimizer is $\mathbf{a}^{\ast}_j=\sqrt{\lambda_j} \textbf{b}_j$. Here $\lambda_j$ is the largest eigenvalue of $\text{vec}^{-1}(\textbf{d}_j)$,
+for which the global minimizer is $\mathbf{a}^{\ast}_j=\sqrt{\lambda_j} \textbf{b}_j$\todo{redegørelse for resultatet her skal laves}. Here $\lambda_j$ is the largest eigenvalue of $\text{vec}^{-1}(\textbf{d}_j)$,
 \begin{align*}
 \text{vec}^{-1}(\textbf{d}_j) = 
 \begin{bmatrix}
@@ -49,7 +53,9 @@ d_{21} & d_{22} & \cdots & d_{2N} \\
 d_{N1} & d_{N2} & \cdots & d_{NN}
 \end{bmatrix}, \quad j \in [N]
 \end{align*}
-and $\textbf{b}_j$ is the corresponding eigenvector.\todo{redegørelse for resultatet her skal laves}
+and $\textbf{b}_j$ is the corresponding eigenvector.
+
+By this each column of the mixing matrix $\textbf{A}$ can be estimated hence it is possible to determine the mixing matrix in the case where the measurements transformed into the covariance domain makes an under-determined system, but the necessary sparsity constraint, $\boldsymbol{\delta}_s$ being $\widetilde{M}$-sparse (instead of $M$-sparse), is withhold.    
 
 
 

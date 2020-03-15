@@ -8,13 +8,13 @@ This Python Script test the relationship between n (amount of sources)
 and k (amount of active sources).
 
 The tests are performed on the cases:
-    - k = 2, n = 5, m = 3, true k = 2  (k < n and k = k true)
+    - k = 1, n = 5, m = 3, true k = 2  (k < n and k = k true)
     - k = 5, n = 5, m = 3, true k = 2  (k = n and k > k true)
     
-    - k = 2, n = 5, m = 4, true k = 5  (k < n and k < k true)
-    - k = 5, n = 5, m = 4, true k = 5  (k = n and k = k true)
+    - k = 1, n = 6, m = 4, true k = 5  (k < n and k < k true)
+    - k = 6, n = 6, m = 4, true k = 6  (k = n and k = k true)
     
-    - k = 2, n = 8, m = 6, true k = 8  (k < n and k < k true)
+    - k = 1, n = 8, m = 6, true k = 8  (k < n and k < k true)
     - k = 5, n = 8, m = 6, true k = 8  (k < n and k < k true)
     - k = 8, n = 8, m = 6, true k = 8  (k = n and k = k true)
 """
@@ -29,18 +29,18 @@ import MSBL
 #np.random.seed(154)
 
 """ Lists for variation """
-list_ = [1, 5, 8] # k
+list_ = [1, 6, 8] # k
 
-#m = 3 
-m = 4                       # number of sensors
+m = 3 
+#m = 4                       # number of sensors
 #m = 6                        # number of sensors   
 
-#n = 5                       # number of sources
-n = 5
+n = 5                       # number of sources
+#n = 6
 #n = 8                       # number of sources
 
-#k_true = 2        # true number of non-zeros
-k_true = 5        # true number of non-zeros
+k_true = 2        # true number of non-zeros
+#k_true = 6        # true number of non-zeros
 #k_true = 8        # true number of non-zeros 
 
 L = 100                     # number of sampels
@@ -102,8 +102,8 @@ for l in range(len(list_)):
         X_real = X_real.T
         
         """ Calculating errors between true and estimated A and X """
-    err_listA[l] = A_err
-    err_listX[l] = data_generation.norm_mse(X_real, X_rec)
+    err_listA[l] = data_generation.MSE_one_error(A_real, A_rec)
+    err_listX[l] = data_generation.MSE_one_error(X_real, X_rec)
     
     X_rec_list[l] = X_rec
     X_real_list[l] = X_real
@@ -121,13 +121,13 @@ for i in range(len(X_real_list[0].T[0])):
         plt.plot(X_rec_list[0][i],'g', label='Recovered X')         
 plt.legend()
 plt.xlabel('sample')
-#plt.suptitle('k = 2, n = 5, m = 3, L = 100, true k = 2')
-plt.suptitle('k = 2, n = 5, m = 4, L = 100, true k = 5')
-#plt.suptitle('k = 2, n = 8, m = 6, L = 100, true k = 8')
+plt.suptitle('k = 1, n = 5, m = 3, L = 100, true k = 2')
+#plt.suptitle('k = 1, n = 6, m = 4, L = 100, true k = 6')
+#plt.suptitle('k = 1, n = 8, m = 6, L = 100, true k = 8')
 plt.show
-#plt.savefig('Resultater/X_comparison_k2_n5_m3_L100_truek2')
-plt.savefig('Resultater/X_comparison_k2_n5_m4_L100_truek5')
-#plt.savefig('Resultater/X_comparison_k2_n8_m6_L100_truek8')
+plt.savefig('Resultater/X_comparison_k1_n5_m3_L100_truek2')
+#plt.savefig('Resultater/X_comparison_k1_n6_m4_L100_truek6')
+#plt.savefig('Resultater/X_comparison_k1_n8_m6_L100_truek8')
 
 plt.figure(2)
 nr_plot=0
@@ -141,13 +141,13 @@ for i in range(len(X_real_list[1].T[0])):
         plt.plot(X_rec_list[1][i],'g', label='Recovered X')       
 plt.legend()
 plt.xlabel('sample')
-#plt.suptitle('k = 5, n = 5, m = 3, L = 100, true k = 2')
-plt.suptitle('k = 5, n = 5, m = 4, L = 100, true k = 5')
-#plt.suptitle('k = 5, n = 8, m = 6, L = 100, true k = 8')
+plt.suptitle('k = 6, n = 5, m = 3, L = 100, true k = 2')
+#plt.suptitle('k = 6, n = 6, m = 4, L = 100, true k = 6')
+#plt.suptitle('k = 6, n = 8, m = 6, L = 100, true k = 8')
 plt.show
-#plt.savefig('Resultater/X_comparison_k5_n5_m3_L100_truek2')
-plt.savefig('Resultater/X_comparison_k5_n5_m4_L100_truek5')
-#plt.savefig('Resultater/X_comparison_k5_n8_m6_L100_truek8')
+plt.savefig('Resultater/X_comparison_k6_n5_m3_L100_truek2')
+#plt.savefig('Resultater/X_comparison_k6_n6_m4_L100_truek6')
+#plt.savefig('Resultater/X_comparison_k6_n8_m6_L100_truek8')
 
 #plt.figure(3)
 #nr_plot=0
@@ -164,4 +164,17 @@ plt.savefig('Resultater/X_comparison_k5_n5_m4_L100_truek5')
 #plt.suptitle('k = 8, n = 8, m = 6, L = 100, true k = 8')
 #plt.show
 #plt.savefig('Resultater/X_comparison_k8_n8_m6_L100_truek8')
-#
+
+
+"""
+MSE Error Results:
+    - k = 1, m = 3, n = 5, k true = 2 --> errX = 1.29 & errA = 10.55
+    - k = 6, m = 3, n = 5, k true = 2 --> errX = 1.50 & errA = 10.55
+    
+    - k = 1, m = 4, n = 6, k true = 6 --> errX = 3.71 & errA = 3.64
+    - k = 6, m = 4, n = 6, k true = 6 --> errX = 4.68 & errA = 3.64
+    
+    - k = 1, m = 6, n = 8, k true = 8 --> errX = 6.04 & errA = 8.63
+    - k = 6, m = 6, n = 8, k true = 8 --> errX = 8.50 & errA = 8.63
+    - k = 8, m = 6, n = 8, k true = 8 --> errX = 8.74 & errA = 8.63
+"""

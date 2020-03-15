@@ -80,22 +80,39 @@ for l in range(len(list_)):
     errX[l] = np.average(err_listX)
     
 
-#""" PLOTS """
+""" PLOTS """
 #plt.figure(1)
 #plt.plot(list_, errX)
-#plt.title('X error- vary k, n = 16, m = 8, true k = k-1')
+#plt.title('X error- vary k, n = 16, m = 8, true k = k')
 #plt.xlabel('k')
 #plt.ylabel('Norm. mse of recovered X')
-#plt.savefig('Resultater/X_varying_k_higher_n16_m8_L1000_covseg30.png')
+#plt.savefig('Resultater/X_varying_k_n16_m8_L1000_covseg10.png')
 #plt.show()
 #
 #plt.figure(2)
 #plt.plot(list_, errA)
-#plt.title('A error- vary k, n = 16, m = 8, true k = k-1')
+#plt.title('A error- vary k, n = 16, m = 8, true k = k')
 #plt.xlabel('k')
 #plt.ylabel('Norm. mse of recovered A')
-#plt.savefig('Resultater/A_varying_k_higher_n16_m8_L1000_covseg30.png')
+#plt.savefig('Resultater/A_varying_k_n16_m8_L1000_covseg10.png')
 #plt.show()
-#
-#
-#
+
+
+plt.figure(2)
+plt.title('m = 8, n = 16, k = 7, true k = 7, L = 1000, covseg = 10')
+nr_plot=0
+for i in range(len(X_real.T[0])):
+    if np.any(X_real[i]!=0) or np.any(X_rec[i]!=0):
+        
+        nr_plot += 1
+        plt.subplot(k*2, 1, nr_plot)
+       
+        plt.plot(X_real[i], 'r',label='Real X')
+        plt.plot(X_rec[i],'g', label='Recovered X')
+
+       
+plt.legend()
+plt.xlabel('sample')
+plt.show
+#plt.savefig('13-03-2020_3.png')
+

@@ -19,9 +19,9 @@ np.random.seed(123)
 
 m = 8                         # number of sensors
 n = 16                         # number of sources
-k = 14                         # max number of non-zero coef. in rows of X
+k = 16                         # max number of non-zero coef. in rows of X
 L = 1000                 # number of sampels
-k_true = 14 
+k_true = 16 
 
 Y_real, A_real, X_real = data_generation.generate_AR_v2(n, m, L, k_true) 
 
@@ -70,7 +70,7 @@ for i in range(len(Ys)): # loop over segments
 
 #    cov_seg = cov_seg_max(n,L)
     cov_seg = 10
-#    cov_seg = 75
+
 
    
     if n <= (m*(m+1))/2.:
@@ -88,7 +88,8 @@ for i in range(len(Ys)): # loop over segments
     X_real = X_real.T
     
     Amse = data_generation.MSE_one_error(A_real, A_rec)
-    print("Representation error (without noise) for A: ", Amse)   
+    print("Representation error (without noise) for A: ", Amse)  
+    print("Representation error (without noise) for A: ", A_err)
     
     Xmse = data_generation.MSE_one_error(X_real, X_rec)
     print("Representation error (without noise) for X: ", Xmse) 

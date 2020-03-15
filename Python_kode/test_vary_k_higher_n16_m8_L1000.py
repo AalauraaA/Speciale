@@ -58,7 +58,8 @@ for l in range(len(list_)):
            
             
 #            cov_seg = cov_seg_max(n, L)
-            cov_seg = 30
+            cov_seg = 10
+#            cov_seg = 30
         
             """ Cov-DL """
             if n <= (m*(m+1))/2.:
@@ -76,8 +77,8 @@ for l in range(len(list_)):
             X_real = X_real.T
             
             """ Calculating errors between true and estimated A and X """
-            err_listA[ite] = A_err
-            err_listX[ite] = data_generation.norm_mse(X_real, X_rec)
+            err_listA[ite] = data_generation.MSE_one_error(A_real, A_rec)
+            err_listX[ite] = data_generation.MSE_one_error(X_real, X_rec)
     
     errA[l] = np.average(err_listA)
     errX[l] = np.average(err_listX)
@@ -86,19 +87,40 @@ for l in range(len(list_)):
 """ PLOTS """
 plt.figure(1)
 plt.plot(list_, errX)
-plt.title('X error- vary k, n = 16, m = 8, true k = k-1')
+#plt.title('X error- vary k, n = 16, m = 8, true k = k-1, covseg = 30')
+plt.title('X error- vary k, n = 16, m = 8, true k = k-1, covseg = 10')
 plt.xlabel('k')
-plt.ylabel('Norm. mse of recovered X')
-plt.savefig('Resultater/X_varying_k_higher_n16_m8_L1000_covseg30.png')
+plt.ylabel('MSE of recovered X')
+#plt.savefig('Resultater/X_varying_k_higher_n16_m8_L1000_covseg30.png')
+plt.savefig('Resultater/X_varying_k_higher_n16_m8_L1000_covseg10.png')
 plt.show()
 
 plt.figure(2)
 plt.plot(list_, errA)
-plt.title('A error- vary k, n = 16, m = 8, true k = k-1')
+#plt.title('A error- vary k, n = 16, m = 8, true k = k-1, covseg = 30')
+plt.title('A error- vary k, n = 16, m = 8, true k = k-1, covseg = 10')
 plt.xlabel('k')
-plt.ylabel('Norm. mse of recovered A')
-plt.savefig('Resultater/A_varying_k_higher_n16_m8_L1000_covseg30.png')
+plt.ylabel('MSE of recovered A')
+#plt.savefig('Resultater/A_varying_k_higher_n16_m8_L1000_covseg30.png')
+plt.savefig('Resultater/A_varying_k_higher_n16_m8_L1000_covseg10.png')
 plt.show()
 
 
-
+""" 
+MSE ERROR
+------------------------------------------------------------------------------- 
+k = 5 , n = 16, m = 8, true k = 4 , covseg = 30 --> errX = 0.89 & errA = 29.57
+k = 7 , n = 16, m = 8, true k = 6 , covseg = 30 --> errX = 1.97 & errA = 5.97
+k = 9 , n = 16, m = 8, true k = 8 , covseg = 30 --> errX = 2.34 & errA = 6.92
+k = 11 , n = 16, m = 8, true k = 10 , covseg = 30 --> errX = 4.49 & errA = 17.87
+k = 13 , n = 16, m = 8, true k = 12 , covseg = 30 --> errX = 4.99 & errA = 3.41
+k = 15 , n = 16, m = 8, true k = 14 , covseg = 30 --> errX = 4.18 & errA = 12.64
+    
+k = 5 , n = 16, m = 8, true k = 4 , covseg = 10 --> errX = 2.31 & errA = 44.81
+k = 7 , n = 16, m = 8, true k = 6 , covseg = 10 --> errX = 1.97 & errA = 3.18
+k = 9 , n = 16, m = 8, true k = 8 , covseg = 10 --> errX = 2.02 & errA = 7.19
+k = 11 , n = 16, m = 8, true k = 10 , covseg = 10 --> errX = 4.39 & errA = 16.81
+k = 13 , n = 16, m = 8, true k = 12 , covseg = 10 --> errX = 3.05 & errA = 5.09
+k = 15 , n = 16, m = 8, true k = 14 , covseg = 10 --> errX = 6.54 & errA = 4.24
+    
+"""

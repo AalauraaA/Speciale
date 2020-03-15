@@ -15,6 +15,16 @@
 \subsection{Test Setup}
 
 \subsubsection{Error}
+To evaluate our baseline algorithm we will perform some test s with knowledge of some real mixing matrices $\mathbf{A}$ and source matrices $\mathbf{X}$ to be compared with our estimated mixing matrices $\hat{\mathbf{A}}$ and source matrices $\hat{\mathbf{X}}$. For the comparison we will look at the differences between the real and estimated matrices. For this task a mean squared error (MSE) method has been chosen. The MSE measure the average squared difference between some estimated value and the actual value. The MSE has the property of always being positive because of the randomness introduced in the method.
+The MSE is given by
+\begin{align*}
+\text{MSE} = \frac{1}{T} \sum_{i=1}^T (G_i - \hat{G}_i)^2,  
+\end{align*}
+where $T = \{m,n\}$ the numbers of rows of $\mathbf{A}$ or $\mathbf{X}$, $G_i = \{ \mathbf{A}_i, \mathbf{X}_i\}$ is a measurement row of the actual matrix and $\hat{G}_i = \{\hat{\mathbf{A}}_i,\hat{\mathbf{X}}_i\}$ is an estimated row of the estimated matrix.
+The MSE is view as a measure of the quality of an estimator, in this case of how M-SBL and Cov-DL perform. 
+If the MSE is a large value this implies that the the estimated data values are dispersed widely around its mean while a small MSE value implies that the estimated data is closely dispersed around the mean. Usually, a small MSE value indicate a good estimator but the value cannot be to small as this would indicate that the data has been overfitted. 
+A good MSE would be depending on how the data is scattered as wildely scattered data may lead to a MSE not close to zero but it would still be the a good measure for the estimator.
+
 
 \subsubsection{Data}
 

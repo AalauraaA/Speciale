@@ -111,7 +111,8 @@ def Cov_DL2(Y, A, X, m, n, cov_seg, L, k):
     pca.fit(Y_big.T)
     U = pca.components_.T
     
-    A = np.random.random((m,n)) # random initial A 
+#    A = np.random.random((m,n)) # random initial A 
+    A = np.random.randn(m,n)  # Gaussian initial A
     a = np.reshape(A,(A.size)) # vectorization of initial A
     
     def D_(a):
@@ -128,7 +129,7 @@ def Cov_DL2(Y, A, X, m, n, cov_seg, L, k):
         return np.dot(np.dot(U,(np.linalg.inv(np.dot(U.T,U)))),U.T)
     
     def cost1(a):
-        return np.linalg.norm(D_term(a)-U_term())
+        return np.linalg.norm(D_term(a)-U_term())**2
         
     
     # predefined optimization method, without defined the gradient og the cost. 

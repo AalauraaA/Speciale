@@ -1,17 +1,17 @@
 \chapter{Problem Statement}\label{ch:problemstatement}
-From the motivation and related work described in chapter \ref{ch:motivation} it is concluded that EEG measurement of the brain activity has great potential to contribute within the hearing aid industry, regarding the development of hearing aids with improved performance in situations as the cocktail party problem. 
-By solving the overcomplete EEG inverse problem, in order to localize the sources of the brain activity, the results could be used to guide and adapt the performance of a hearing aid -- e.g. by moving the microphone beam in the direction of interest. 
-This leads to the following problem statement.
+Through chapter \ref{ch:motivation} the potential of EEG measurement and especially low-density EEG measurements have been established. Furthermore, this potential is found to be increased through recovery of the original brain sources given the measurements. This involves solving the EEG inverse problem, in the case of the problem being under-determined.
+Two state of the art methods are seen to solve the issue with success, but the use of a parameter unknown in practise limits the potential of the methods for practical use.
+
+This motivates the following problem statement.         
 \\ \\
-\textit{How can sources of activation within the brain be recovered from the EEG inverse problem, in the over-complete case of less sensors than sources, and how can is this recovery process be implemented as a real-time application providing feedback to improve the listening experience?}\todo{Update problem statement}
+\textit{Based on state of the art methods, how can the original sources of brain activity be recovered from the EEG inverse problem, in the under-determined case, and how can this be modified to increase the potential of practical use?}
 \\ \\
-From the problem statement some clarifying sub-questions have been made.
+From the problem statement the following sub-questions is established for clarification.
 \begin{itemize}
-%\item How can the overcomplete EEG inverse problem be solved by use of compressive sensing including domain transformation?
 \item How can Cov-DL be used to estimate the mixing matrix $\mathbf{A}$ from the overcomplete EEG inverse problem?
 \item How can M-SBL be used to estimate the source matrix $\mathbf{X}$ from the overcomplete EEG inverse problem?
-\item How can the above methods be implemented as one application performing source recovery from EEG measurements in real-time. 
-\item How can the real-time feedback of the system be analysed and used to control the microphone beam of a simulated hearing aid. 
+\item How can the above methods be implemented as one application performing source recovery from EEG measurements in real-time? 
+\item How can the number of active sources be estimated, based only on the EEG measurement? 
 \end{itemize}
 
  

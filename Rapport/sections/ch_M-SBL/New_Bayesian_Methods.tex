@@ -1,17 +1,29 @@
-As described in section \ref{sec:sol_met} the covariance-domain dictionary learning (Cov-DL) is not a fitted method to use in the recovering of the source matrix $\mathbf{X}$ as the found source matrix is not the true recovering. 
-Instead a different method, multiple sparse Bayesian Learning (M-SBL), is used for the recovering process of the last element of the multiple measurement model (MMV) \ref{eq:MMV_model}.
+%As described in section \ref{sec:sol_met} the covariance-domain dictionary learning (Cov-DL) is not a fitted method to use in the recovering of the source matrix $\mathbf{X}$ as the found source matrix is not the true recovering. 
+%Instead a different method, multiple sparse Bayesian Learning (M-SBL), is used for the recovering process of the last element of the multiple measurement model (MMV) \ref{eq:MMV_model}.
+In this chapter the Multiple sparse Bayesian Learning (M-SBL) method is described in details. As the method leverage a bayesian framework the generel conpect of Bayesian inference is shortly introduced prior to the the M-SBL method, with respect to the model of interest. The chapter is inspired by \cite{phd_wipf} and the articles \cite{article_wipf}, \cite{Balkan2014}.
 
-This chapter will include a introduction to M-SBL and some theory of its Bayesian background. The chapter is inspired by \cite{phd_wipf} and the articles \cite{article_wipf}, \cite{Balkan2014}.
-
-Let first consider the MMV model for a non-segmented case
+Consider again the MMV model for a non-segmented case of EEG-measurements
 \begin{align*}
 \mathbf{Y} = \mathbf{AX} + \mathbf{E},
 \end{align*}
-with the mixing matrix $\mathbf{A} \in \mathbb{R}^{M \times N}$ which is in this chapter a known matrix and source matrix $\mathbf{X} \in \mathbb{R}^{N \times L}$ which is wished recovered from the known EEG measurement matrix $\mathbf{Y} \in \mathbb{R}^{M \times L}$ in the case of $M < N$. 
-The approach is to find the support set $S$ of $\textbf{X}$ providing the non-zeros rows of $\mathbf{X}$ which corresponds to localization of the active sources. The support set $S$ is constructed from a minimisation of a log-likelihood function defined from Bayesian framework.
+with measurement matrix $\mathbf{Y} \in \mathbb{R}^{M \times L}$, sources matrix $\mathbf{X} \in \mathbb{R}^{N \times L}$ and mixing matrix $\mathbf{A} \in \mathbb{R}^{M \times N}$. Note that $\textbf{A}$ is known throughout the chapter, as it was found by Cov-DL in chapter \ref{ch:Cov-DL}.
 
-\section{Bayesian Interference}
-From Bayesian interference theory a posterior distribution is constructed to predict a new distribution of a unknown data sample such that a distribution of the unknown samples are return. The optimum sample estimate of a parameter -- for the posterior distribution -- can be found by e.g. maximum a posterior (MAP) estimation \todo{Kilde (WIKI): This has the disadvantage that it does not account for any uncertainty in the value of the parameter, and hence will underestimate the variance of the predictive distribution}.
+The aim is to recover $\textbf{X}$ in the case of fewer measurements than active sources, $k>M$. In \cite{Balkan2014} is proven that exact localization of the active sources can be achieved by M-SBL for $k>M$, when two sufficient conditions satisfied.   
+\todo{skal de sidster her med ellers skal det specificeres en lille smule}The basic approach is to find the support set $S$ of $\textbf{X}$ providing the non-zeros rows of $\mathbf{X}$ which corresponds to localization of the active sources. The support set $S$ is constructed from a minimisation of a log-likelihood function defined from Bayesian framework.
+
+\section{Bayesian Inference}
+Bayesian probability differs from the classical probability(\textit{the frequentist, relative
+frequency with which A occurs}) by interpreting probability as reasonable expectation. 
+In general the Bayesian framework builds upon the task of inferring what the model parameters most be, given the model and data.  
+%%% jeg forstår ikke helt sammenhængen her
+%From Bayesian inference theory a posterior distribution is constructed to predict a new distribution of an unknown data sample such that a distribution of the unknown samples are returned. The optimum sample estimate of a parameter -- for the posterior distribution -- can be found by e.g. maximum a posterior (MAP) estimation \todo{Kilde (WIKI): This has the disadvantage that it does not account for any uncertainty in the value of the parameter, and hence will underestimate the variance of the predictive distribution}.
+%%%
+By Bayes' theorem the posterior probability of source matrix $\textbf{X}$ given the measurements $\textbf{Y}$ is defined by
+\begin{align*}
+\textbf{p}(\textbf{X}|\textbf{Y})=\frac{\textbf{p}(\textbf{Y}|\textbf{X})\textbf{p}(X)}{\textbf{p}()}
+\end{align*}  
+With the knowledge of $\mathbf{A}$ and $\mathbf{Y}$ it is possible to find the maximum of the posterior distribution referred to as maximum a posteriori (MAP). That is the sources $\textbf{X}$ with the highest probability of causing the given measurements. 
+The MAP estimate is closely related to the  maximum likelihood estimate..  
 
 With the knowledge of $\mathbf{A}$ and $\mathbf{Y}$ it is possible to find maximum likelihood estimate of $\textbf{X}$. 
 By maximising the likelihood $p(\mathbf{Y} \vert \mathbf{X})$ an estimate of $\mathbf{X}$ can be achieved in the case of more sensors than sources, $M > N$. 

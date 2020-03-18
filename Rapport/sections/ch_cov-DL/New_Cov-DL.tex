@@ -2,9 +2,9 @@
 Consider a single sample vector $\textbf{y}_i$, containing EEG measurements. 
 The covariance of $\textbf{y}_i$ is to be defined by
 \begin{align*}
-\boldsymbol{\Sigma}_{\textbf{x}_i}=\mathbb{E}[(\textbf{y}_i-\mathbb{E}[\textbf{y}_i])(\textbf{y}_i-\mathbb{E}[\textbf{y}_i])],
+\boldsymbol{\Sigma}_{\textbf{y}_i}=\mathbb{E}[(\textbf{y}_i-\mathbb{E}[\textbf{y}_i])(\textbf{y}_i-\mathbb{E}[\textbf{y}_i])],
 \end{align*}
-where $\mathbb{E}[\cdot)]$ is the expected value operator. 
+where $\mathbb{E}[\cdot]$ is the expected value operator. 
 Assume that all samples vectors $\textbf{y}_i$ within one segment has zero mean and the same distribution. 
 Then, the observed segmented EEG measurements matrix $\mathbf{Y}_s \in \mathbb{R}^{M \times L_s}$ is to be described in the covariance domain by the sample covariance $\widehat{\boldsymbol{\Sigma}}$ which is defined as the covariance among the $M$ measurements across the $L_s$ samples. That is a $M \times M$ matrix $\boldsymbol{\Sigma}_{\mathbf{Y}_s}=[\sigma_{jk}]$ with entries 
 \begin{align*}
@@ -98,6 +98,6 @@ The length of each segment determined whenever the covariance of the source matr
 
 For the Cov-DL algorithm when $\mathbf{D}$ is under-determined a dictionary learning algorithm K-SVD is used to learn the matrix $\mathbf{D}$ and by that an estimate for the mixing matrix $\hat{\mathbf{A}}$. Because of the segmentation the number of samples used in the dictionary learning are reduced remarkably and will affect the learning process. This is another point which must be taken into account in the preprocessing part of the code. To improved the dictionary learning the overlapping of the segments can be look into as each segment will have some similarity and therefore learn towards one direction.
 
-For the Cov-DL algorithm when $\mathbf{D}$ is over-determined the solution tends to be unique when $M < N < (M(M+1))/2$ from testing the solution. That is the cost function tends toward a local minima and therefore an unique solution occur in first run of one trial. For the baseline algorithm it would therefore be necessary to include several random initial points when finding the mixing matrix $\mathbf{A}$ for $\mathbf{D}$ being over-determined.
+For the Cov-DL algorithm when $\mathbf{D}$ is over-determined the solution tends to be unique when $M < N < \widetilde{M}$ from testing the solution. That is the cost function tends toward a local minima and therefore an unique solution occur in first run of one trial. For the baseline algorithm it would therefore be necessary to include several random initial points when finding the mixing matrix $\mathbf{A}$ for $\mathbf{D}$ being over-determined.
 
 For a general perspective the sources within the source matrix $\mathbf{X}$ must not be constant over time when using the MMV model \eqref{eq:MMV_model} \todo{Find lige kilde på dette argument}...

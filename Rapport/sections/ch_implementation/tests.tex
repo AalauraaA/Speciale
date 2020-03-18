@@ -1,20 +1,18 @@
 \section{Tests}
-    \begin{itemize}
-        \item Introduktion til test afsnittet. Hvad fokusere vi på, hvad anvender vi, osv.
-        \item Beskriv fejl (hvad for et fejlmål bruger vi). Varians? MSE (vi behøvede hvis ikke at normalisere)? LSE?
-        \item Simulering af data
-        \begin{itemize}
-            \item Beskriv data vi anvender
-            \item Beskriv hvordan vi har lavet det (det syntetiske)
-        \end{itemize}
-        \item Test af hver funktion (metode)
-        \item Test af baseline algoritme.
-        \item (Test lige for os selv med ICA, evt. gemme resultater til appendix)
-    \end{itemize}
-    
-\subsection{Test Setup}
-
-\subsubsection{Error}
+\begin{enumerate}
+\item Introduction to the section. What do we want and why. First we want to test A and the X. At last we want to test the complete system.
+\item Introduce how we will compare the tests and how we measure the quality -- Mean Squared Error (MSE).
+\item Subsection with the error measure
+\item Subsection with a introduction to the data sets -- AR and Toy Example data sets.
+\item Subsection with the performing of tests
+	\begin{itemize}
+	\item Talk about the choice for a initial A in the Cov-DL when D is under-complete. Random uniform distribution? or a Gaussian distribution. Show the errors of the real A and estimated A.
+	\item With the choice for A we now tests the choice for the number of segmentation in Cov-DL.
+	\item Test X with the found A. Make a comparison of the error for X and A in one plot.
+	\end{itemize}
+\end{enumerate}
+   
+\subsection{Error}
 To evaluate our baseline algorithm we will perform some test s with knowledge of some real mixing matrices $\mathbf{A}$ and source matrices $\mathbf{X}$ to be compared with our estimated mixing matrices $\hat{\mathbf{A}}$ and source matrices $\hat{\mathbf{X}}$. For the comparison we will look at the differences between the real and estimated matrices. For this task a mean squared error (MSE) method has been chosen. The MSE measure the average squared difference between some estimated value and the actual value. The MSE has the property of always being positive because of the randomness introduced in the method.
 The MSE is given by
 \begin{align*}
@@ -26,6 +24,6 @@ If the MSE is a large value this implies that the the estimated data values are 
 A good MSE would be depending on how the data is scattered as wildely scattered data may lead to a MSE not close to zero but it would still be the a good measure for the estimator.
 
 
-\subsubsection{Data}
+\subsection{Simulation of Data Sets}
 
 \subsection{Tests}

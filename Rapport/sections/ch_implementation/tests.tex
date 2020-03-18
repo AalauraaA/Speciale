@@ -26,4 +26,49 @@ A good MSE would be depending on how the data is scattered as wildely scattered 
 
 \subsection{Simulation of Data Sets}
 
+
+\subsubsection{Toy Example}
+The first data set which also is the simple and non-realistic data set is used for confirmation that the two presented algorithm work.
+The data set is constructed from four different signals: 
+\begin{itemize}
+\item[-] $\sin(2t)$
+\item[-] $\sin(4t)$
+\item[-] a sawtooth wave with period $2 \pi t$
+\item[-] a sign signal of $\sin(3t)$
+\end{itemize}
+with $t$ being a time index defined in the interval $[0,10]$ with $L$ samples. Each of the four signal are randomly drawn and used to construct a source matrix $\mathbf{X}$ of size $k \times L$. 
+With a source matrix $\mathbf{X}$ a mixing matrix $\mathbf{A}$ of size $M \times k$ is randomly generated from a Gaussian distribution and then normalised. By multiplying the source matrix and the mixing matrix the measurement matrix $\mathbf{Y}$ is achieved and this complete the toy example data set.
+
+An illustration of the data set can be seen in figure \ref{fig:mix}. The data set is constructed for $M = 3$, $k = 4$ and $L = 1000$.
+\begin{figure}[H]
+\centering
+\includegraphics[scale=0.5]{figures/chapter6/Mix_Data_m3_n4_k4_L1000.png}
+\label{fig:mix}
+\caption{All the signal of the toy example data set for $M = 3$, $k=4$ and $L=1000$.}
+\end{figure}
+\noindent
+
+\subsubsection{Autoregressive}
+The second data set illustrate a more realistic data set.
+The data set is constructed from different autoregressive processes: 
+\begin{itemize}
+\item[-] $\mathbf{x}^{t} = \mathbf{a1}^{t-1} \cdot \mathbf{x}^{t-1} + \mathbf{a1}^{t-2} \cdot \mathbf{x}^{t-2} + \mathbf{w1}_t$
+\item[-] $\mathbf{x}^{t+1} = \mathbf{a2}_t \cdot \mathbf{x}_{t-1} + \mathbf{a}_t \cdot \mathbf{x}_t + \mathbf{w}_t$
+\item[-] $\mathbf{x}_{t+1} = \mathbf{a}_t \cdot \mathbf{x}_{t-2} + \mathbf{a}_t \cdot \mathbf{x}_t + + \mathbf{a}_t \cdot \mathbf{x}_{t-1} \mathbf{w}_t$
+\item[-] $\mathbf{x}_{t+1} = \mathbf{a}_t \cdot \mathbf{x}_t + \mathbf{a}_t \cdot \mathbf{x}_{t-3} + \mathbf{w}_t$
+\end{itemize}
+with $t$ being a time index defined in the interval $[0,10]$ with $L$ samples. Each of the four signal are randomly drawn and used to construct a source matrix $\mathbf{X}$ of size $k \times L$. 
+With a source matrix $\mathbf{X}$ a mixing matrix $\mathbf{A}$ of size $M \times k$ is randomly generated from a Gaussian distribution and then normalised. By multiplying the source matrix and the mixing matrix the measurement matrix $\mathbf{Y}$ is achieved and this complete the toy example data set.
+
+An illustration of the data set can be seen in figure \ref{fig:mix}. The data set is constructed for $M = 3$, $k = 4$ and $L = 1000$.
+\begin{figure}[H]
+\centering
+\includegraphics[scale=0.5]{figures/chapter6/AR_Data_m3_n4_k4_L1000.png}
+\label{fig:mix}
+\caption{All the signal of the toy example data set for $M = 3$, $k=4$ and $L=1000$.}
+\end{figure}
+\noindent
+
+
+
 \subsection{Tests}

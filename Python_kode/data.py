@@ -33,17 +33,17 @@ k_true = 4
 #Y_real, A_real, X_real = data_generation.generate_AR_v2(n, m, L, k_true) 
 
 """ DATA GENERATION - MIX OF DETERMINISTIC SIGNALS """
-#Y_real, A_real, X_real = data_generation.mix_signals(L, 10, m, n, k_true)
+Y_real, A_real, X_real = data_generation.mix_signals(L, 10, m, n, k_true)
 
 """ DATA GENERATION - ROSSLER DATA """
-Y_real, A_real, X_real, k = data_generation.rossler_data(n_sampels=1940, ex = 1, m=8)
+#Y_real, A_real, X_real, k = data_generation.rossler_data(n_sampels=1940, ex = 1, m=8)
 
 # =============================================================================
 # Plots
 # =============================================================================
 plt.figure(1)
-plt.title('One Signal of Rossler Data Set')
-plt.plot(Y_real[0])
+plt.title('Toy Example Data Set')
+plt.plot(Y_real.T)
 plt.xlabel('Samples (L)')
-plt.savefig('Resultater/Rossler_Data_m8_n16_k6_L1940.png')
+plt.savefig('Kapitel6/Mix_Data_m3_n4_k4_L1000.png')
 plt.show()

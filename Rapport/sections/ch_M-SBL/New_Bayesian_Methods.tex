@@ -27,10 +27,10 @@ By maximizing the posterior distribution with respect to $\textbf{C}$ the maximu
 \begin{align*}
 \textbf{C}_{MAP} = \arg \max_{\mathbf{C}} \frac{p(\mathbf{B} \vert \mathbf{C}) p(\mathbf{C})}{p(\mathbf{B)}}
 \end{align*}
-That is the estimate of $\textbf{C}$ with the highest probability of causing the given variables $\textbf{B}$. 
+That is the estimate of $\textbf{C}$ with the highest probability of causing the given variables $\textbf{B}$\todo{evt. noget mere over gang her}. 
 %% go to our case 
 
-Consider the current MMV model, where we want to estimate the model parameter/source matrix $\textbf{X}$ given the measurements $\textbf{Y}$.   
+With the basic concept of the frameworks settled, consider now the current MMV model, where we want to estimate the model parameter/source matrix $\textbf{X}$ given the measurements $\textbf{Y}$.   
   
 %%%%%% kan dette pilles ud?
 %With the knowledge of $\mathbf{A}$ and $\mathbf{Y}$ it is possible to find maximum likelihood estimate of $\textbf{X}$. 
@@ -57,14 +57,14 @@ Different MAP estimation approaches exists separated by the choice of sparsity i
 However, regardless of the approach some problems have shown to occur when using a fixed and algorithm-dependent prior. One issue is the posterior not being sparse enough if a prior is not as sparse, leading to non-recovery. 
 Another issue is that a combinatorial number of suboptimal local solutions can occur.
 By use of automatic relevance determination (ARD) the problems related to the fixed sparse prior can be avoided\cite[p. 20]{phd_wipf}. 
-ARD is a method where a prior is introduced to determine the relevance of a parameter. The main asset of this alternative approach is the use of an empirical prior. That is an flexible prior distribution which depends on an unknown set of hyperparameters, which is to be learned from the data
+ARD is a method where a prior is introduced to determine the relevance of a parameter\todo{tjek op på parameter/variable?}. The main asset of this alternative approach is the use of an empirical prior. That is an flexible prior distribution which depends on an unknown set of hyperparameters, which is to be learned from the data
 \todo{citat: p. 9(pdf) sparse Bayesian learning (SBL) is an empirical Bayesian approaches, which use a parameterized prior to encourage sparsity through a process called evidence maximization}. 
 \subsection{Empirical Bayesian Estimation}
 %% nødvendigt i forhold til ovenstående?
 %This prior is modulated by a vector of hyperparameters affecting the prior variance of each row in $\mathbf{X}$.
 %This can also be view as a regularisation of the solution space which is narrowed to consist only of relevant information \cite{ARD}.
 %An empirical prior can be used with ARD as the empirical prior is flexible and depends on the unknown hyperparameter $\boldsymbol{\gamma}$ and therefore more data-dependent -- such prior can be controlled to induce sparsity.
-Let the likelihood function $p(\mathbf{Y} \vert \mathbf{X})$ be Gaussian, with known noise variance $\sigma^2$\todo{skal dette begrundes? det stammer fra det ordiginale optimeringsproblem recast in bayesian terms (I.10) i pdf}. 
+Let the likelihood function $p(\mathbf{Y} \vert \mathbf{X})$ be Gaussian, with known noise variance $\sigma^2$\todo{skal dette begrundes? det stammer fra det ordiginale optimeringsproblem recast in bayesian terms (I.10) i pdf -- omformuler til at vi vælger at antage dette.}. 
 Then for each column in $\mathbf{Y}$ and $\mathbf{X}$ the likelihood is written as
 \begin{align*}
 p(\mathbf{y}_{j} \vert \mathbf{x}_{j}) &= \mathcal{N}(\mathbf{Ax}_{j}, \sigma^2 \mathbf{I}) \\
@@ -77,10 +77,10 @@ p (\mathbf{x}_{i \cdot} ; \gamma_i) &= \mathcal{N}(0, \gamma_i \mathbf{I}).
 \end{align*}
 By combing the row priors
 \begin{align*}
-p (\mathbf{X} ; \boldsymbol{\gamma}) &= \prod_{j=1}^L p (\mathbf{x}_{i \cdot} ; \gamma_i),
+p (\mathbf{X} ; \boldsymbol{\gamma}) &= \prod_{i=1}^N p (\mathbf{x}_{i \cdot} ; \gamma_i),
 \end{align*}
-a full prior of $\mathbf{X}$ is achieved modulated by the hyperparameter vector(matrix?) $\boldsymbol{\gamma} = [\gamma_1, \dots, \gamma_L]^T$. 
-By combining the full prior and the likelihood $p(\mathbf{y}_{j} \vert \mathbf{x}_{j})$ the posterior of the $j$-th column of the source matrix $\mathbf{X}$ becomes\todo{bør dette ikke være hele X, eller i så fald vel hyper i?}
+a full prior of $\mathbf{X}$ is achieved modulated by the hyperparameter vector(matrix?) $\boldsymbol{\gamma} = [\gamma_1, \dots, \gamma_N]^T$. 
+By combining the full prior and the likelihood\todo{tjek op på ligningen, det er ikke bare Bayes er det?} $p(\mathbf{y}_{j} \vert \mathbf{x}_{j})$ the posterior of the $j$-th column of the source matrix $\mathbf{X}$ becomes\todo{bør dette ikke være hele X, eller i så fald vel hyper i?}
 \begin{align*}
 p(\mathbf{x}_{j} \vert \mathbf{y}_{j} ; \boldsymbol{\gamma}) = \frac{p(\mathbf{x}_{j}, \mathbf{y}_{j} ; \boldsymbol{\gamma})}{\int p(\mathbf{x}_{j}, \mathbf{y}_{j} ; \boldsymbol{\gamma}) \ d \mathbf{x}_{j}} = \mathcal{N}(\boldsymbol{\mu}_{j}, \boldsymbol{\Sigma}),
 \end{align*}
@@ -101,7 +101,7 @@ which ensure that the posterior mean $\mathcal{M}$ of the $i$-th row, $\boldsymb
 From this it is evident that for estimating the support set of $\textbf{X}$ it is sufficient to estimate the hyperparameters $\gamma_i$, from which the support set can be extracted. Further the point/value estimate is of $\textbf{X}$ is given by $\mathcal{M}$\cite[p. 147/21?]{phd_wipf}\todo{ to kilder er blandet sammen..trine}. 
 This leads to the actual M-SBL algorithm.
 
-\subsection*{M-SBL for estimation of $\textbf{X}$}
+\section{M-SBL for estimation of $\textbf{X}$}
 Each different hyperparameter $\boldsymbol{\gamma}$ correspond to different hypothesis for the prior distribution of the underlying generation of $\mathbf{Y}$\todo{forstår ikke helt hypotese delen her}. Therefore the determination of $\boldsymbol{\gamma}$ is seen as a model selection.
 Due to the empirical Bayesian strategy the unknown weights, making the source matrix $\textbf{X}$ are integrated out as follows.
 By integrating the likelihood of $\textbf{Y}$ with respect to the unknown sources $\mathbf{X}$ the marginal likelihood of the observed mixed data $\mathbf{Y}$ is achieved as $p (\mathbf{Y} ; \boldsymbol{\gamma})$ \cite[p. 146]{phd_wipf}. 

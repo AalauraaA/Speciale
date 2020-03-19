@@ -1,18 +1,16 @@
 %As described in section \ref{sec:sol_met} the covariance-domain dictionary learning (Cov-DL) is not a fitted method to use in the recovering of the source matrix $\mathbf{X}$ as the found source matrix is not the true recovering. 
 %Instead a different method, multiple sparse Bayesian Learning (M-SBL), is used for the recovering process of the last element of the multiple measurement model (MMV) \ref{eq:MMV_model}.
-In this chapter the multiple sparse Bayesian learning (M-SBL) method is described in details. As the method leverage a Bayesian framework the generel conpect of Bayesian inference is shortly introduced prior to the the M-SBL method, with respect to the model of interest \eqref{eq:MSBL_MMV}. The chapter is inspired by \cite{phd_wipf} and the articles \cite{article_wipf}, \cite{Balkan2014}.
+	In this chapter the multiple sparse Bayesian learning (M-SBL) method is described in details. As the method leverage a Bayesian framework the generel conpect of Bayesian inference is shortly introduced prior to the the M-SBL method, with respect to the model of interest \eqref{eq:MSBL_MMV}. The chapter is inspired by \cite{phd_wipf} and the articles \cite{article_wipf}, \cite{Balkan2014}.
 
 Consider again the multiple measurement vector (MMV) model for a non-segmented case of EEG measurements
 \begin{align}\label{eq:MSBL_MMV}
 \mathbf{Y} = \mathbf{AX} + \mathbf{E},
 \end{align}
-with measurement matrix $\mathbf{Y} \in \mathbb{R}^{M \times L}$, sources matrix $\mathbf{X} \in \mathbb{R}^{N \times L}$ and mixing matrix $\mathbf{A} \in \mathbb{R}^{M \times N}$. Note that $\textbf{A}$ is known throughout the chapter, as it was found by Cov-DL in chapter \ref{ch:Cov-DL}. \todo{Skal vi ikke beskrive fejlen her? - L}
+with measurement matrix $\mathbf{Y} \in \mathbb{R}^{M \times L}$, sources matrix $\mathbf{X} \in \mathbb{R}^{N \times L}$ mixing matrix $\mathbf{A} \in \mathbb{R}^{M \times N}$ and noise matrix $\mathbf{E} \in \mathbb{R}^{M \times L}$. Note that $\textbf{A}$ is known throughout the chapter, as it was found by Cov-DL in chapter \ref{ch:Cov-DL}.
 
 The aim is to recover the source matrix $\mathbf{X}$ in the case of fewer measurements than active sources, $k > M$. 
 In \cite{Balkan2014} is proven that exact localization of the active sources can be achieved with M-SBL for $k > M$, when two sufficient conditions satisfied.   
-\todo{skal de sidster her med ellers skal det specificeres en lille smule} 
 With M-SBL the basic approach is to find the support set $S$ providing the non-zeros rows of the source matrix $\mathbf{X}$ which corresponds to localization of the active sources. 
-The support set $S$ is constructed from a minimisation of a log-likelihood function defined from Bayesian framework.
 
 \section{Bayesian Inference}
 Bayesian probability differs from the classical probability (\textit{the frequentist, relative frequency with which $\mathbf{A}$ occurs}) by interpreting probability as reasonable expectation. 
@@ -52,14 +50,12 @@ Now the estimation of $\mathbf{X}$ from the MMV model \eqref{eq:MSBL_MMV} can be
 \begin{align*}
 \hat{\mathbf{X}} &= \arg \max_{\mathbf{X}} \frac{p(\mathbf{Y} \vert \mathbf{X}) p(\mathbf{X})}{p(\mathbf{Y)}},
 \end{align*}
-with a prior distribution $p(\mathbf{X}) \propto \exp \left( - \Vert \mathbf{X} \Vert_0\right)$ \cite[p. 14]{phd_wipf}.\todo{vi skal da have exp her ikke, jo støtte 0-norm for mindre sandsynlighed, og kan vi nøjes med den ene linje ovenfor?}
-
+with a prior distribution $p(\mathbf{X}) \propto \exp \left( - \Vert \mathbf{X} \Vert_0\right)$ \cite[p. 14]{phd_wipf}.
 Different MAP estimation approaches exists separated by the choice of sparsity inducing prior and optimization method. 
 However, regardless of the approach some problems have shown to occur when using a fixed and algorithm-dependent prior. 
 One issue is the posterior not being sparse enough if a prior is not as sparse, leading to non-recovery. 
 Another issue is that a combinatorial number of suboptimal local solutions can occur.
 By use of automatic relevance determination (ARD) the problems related to the fixed sparse prior can be avoided \cite[p. 20]{phd_wipf}. 
-ARD is a method where a prior is introduced to determine the relevance of a parameter\todo{tjek op på parameter/variable?}. 
 The main asset of this alternative approach is the use of an empirical prior. 
 That is an flexible prior distribution which depends on an unknown set of hyperparameters, which is to be learned from the data.
 \todo{citat: p. 9(pdf) sparse Bayesian learning (SBL) is an empirical Bayesian approaches, which use a parameterized prior to encourage sparsity through a process called evidence maximization}
@@ -69,19 +65,20 @@ That is an flexible prior distribution which depends on an unknown set of hyperp
 %This prior is modulated by a vector of hyperparameters affecting the prior variance of each row in $\mathbf{X}$.
 %This can also be view as a regularisation of the solution space which is narrowed to consist only of relevant information \cite{ARD}.
 %An empirical prior can be used with ARD as the empirical prior is flexible and depends on the unknown hyperparameter $\boldsymbol{\gamma}$ and therefore more data-dependent -- such prior can be controlled to induce sparsity.
-Assume the likelihood function $p(\mathbf{Y} \vert \mathbf{X})$ is Gaussian, with known noise variance $\sigma^2$\todo{skal dette begrundes? det stammer fra det ordiginale optimeringsproblem recast in bayesian terms (I.10) i pdf -- omformuler til at vi vælger at antage dette.}. 
-Then for each column in $\mathbf{Y}$ and $\mathbf{X}$ the likelihood is written\todo{hvordan bliver variancen matricen bar en scalar?} as
+Assume the likelihood function $p(\mathbf{Y} \vert \mathbf{X})$ is Gaussian, with known noise variance $\sigma^2$\todo{skal dette begrundes? det stammer fra det ordiginale optimeringsproblem recast in bayesian terms (I.10) i pdf}. 
+Then for each column in $\mathbf{Y}$ and $\mathbf{X}$ the likelihood is written as
 \begin{align*}
 p(\mathbf{y}_{\cdot j} \vert \mathbf{x}_{\cdot j}) &= \mathcal{N}(\mathbf{Ax}_{\cdot j}, \sigma^2 \mathbf{I}) \\
-&= (2 \pi)^{-\frac{M}{2}}|\sigma^2\mathbf{I}|^{-\frac{1}{2}}\exp \left( -\frac{1}{2 \sigma^2\mathbf{I}} \Vert \mathbf{y}_{\cdot j} - \mathbf{A} \mathbf{x}_{\cdot j} \Vert_2^2 \right)\\
-&= (2 \pi \sigma^2)^{-M/2} \exp \left( - \frac{1}{2 \sigma^2} \Vert \mathbf{y}_{\cdot j} - \mathbf{A} \mathbf{x}_{\cdot j} \Vert_2^2 \right).
+&= (2 \pi)^{-\frac{M}{2}}|\sigma^2\mathbf{I}|^{-\frac{1}{2}}\exp \left( -\frac{1}{2 \sigma^2\mathbf{I}} \Vert \mathbf{y}_{\cdot j} - \mathbf{A} \mathbf{x}_{\cdot j} \Vert_2^2 \right)
 \end{align*}   
+%%% tidligere fra kilde:
+%&= (2 \pi \sigma^2)^{-M/2} \exp \left( - \frac{1}{2 \sigma^2} \Vert \mathbf{y}_{\cdot j} - \mathbf{A} \mathbf{x}_{\cdot j} \Vert_2^2 \right).
 The empirical prior is now defined by application of ARD. 
 The $i$-th row of the source matrix $\mathbf{x}_{i \cdot}$, has an $L$-dimensional independent Gaussian prior with zero mean and a variance controlled by an unknown hyperparameter $\gamma_i$:
 \begin{align*}
 p (\mathbf{x}_{i \cdot} ; \gamma_i) &= \mathcal{N}(0, \gamma_i \mathbf{I}).
 \end{align*}
-\todo{one whole row is controlled by the same hyperparameter}
+\todo{note one whole row is controlled by the same hyperparameter, leading to the same support over time}
 By combing the row priors
 \begin{align*}
 p (\mathbf{X} ; \boldsymbol{\gamma}) &= \prod_{i=1}^N p (\mathbf{x}_{i \cdot} ; \gamma_i),
@@ -99,7 +96,7 @@ where the denominator is the marginal likelihood of $\mathbf{y}_{\cdot j}$ also 
 \boldsymbol{\Sigma} &= \text{Cov}(\mathbf{x}_{\cdot j} \vert \mathbf{y}_{\cdot j} ; \boldsymbol{\gamma}) = \boldsymbol{\Gamma} - \boldsymbol{\Gamma} \mathbf{A}^T \boldsymbol{\Sigma}_y^{-1} \mathbf{A} \boldsymbol{\Gamma}, \quad \forall j = 1, \dots, L \label{eq:moments1} \\
 \mathcal{M} &= [\boldsymbol{\mu}_{\cdot 1}, \dots, \boldsymbol{\mu}_{\cdot L}] = \mathbb{E}[\mathbf{X} \vert \mathbf{Y} ; \boldsymbol{\gamma}] = \boldsymbol{\Gamma} \mathbf{A}^T \boldsymbol{\Sigma}_y^{-1} \mathbf{Y}, \label{eq:moments2} 
 \end{align}
-where $\boldsymbol{\Gamma} = \text{diag}(\boldsymbol{\gamma})$ and $\boldsymbol{\Sigma}_y = \sigma^2 \mathbf{I} + \mathbf{A} \boldsymbol{\Gamma} \mathbf{A}^T$. \todo{her bruges sigma både som covariance og som en variabel, det giver ikke forvirring?}
+where $\boldsymbol{\Gamma} = \text{diag}(\boldsymbol{\gamma})$ and $\boldsymbol{\Sigma}_y = \sigma^2 \mathbf{I} + \mathbf{A} \boldsymbol{\Gamma} \mathbf{A}^T$. \todo{uddyb udledning af udtrykkende her}
 
 Let the posterior mean $\mathcal{M}$ serve as the point estimate for the source matrix $\mathbf{X}$.
 It is clear that row sparsity is achieved whenever $\gamma_i = 0$. 
@@ -115,7 +112,7 @@ This leads to the actual M-SBL algorithm for which the aim is to estimate $\bold
 \section{M-SBL for estimation of $\textbf{X}$}
 Different hyperparameters $\boldsymbol{\gamma}$ correspond to different hypothesis for the prior distribution of the underlying generation of $\mathbf{Y}$. 
 Therefore the determination of $\boldsymbol{\gamma}$ is seen as a model selection.
-Due to the empirical Bayesian strategy the unknown weights \todo{Første gang weights bruges til at beskrive vores variabel, er det fint nok? - L}, making the source matrix $\mathbf{X}$ are integrated out as follows.
+Due to the empirical Bayesian strategy the unknown variables, making the source matrix $\mathbf{X}$ are integrated out as follows.
 By integrating the likelihood of $\mathbf{Y}$ with respect to the unknown sources $\mathbf{X}$ the marginal likelihood of the observed mixed data $\mathbf{Y}$ is achieved as $p (\mathbf{Y} ; \boldsymbol{\gamma})$ \cite[p. 146]{phd_wipf}. 
 The resulting marginal likelihood is to be maximised with respect to $\boldsymbol{\gamma}$, that is the resulting ARD based M-SBL cost function.
 The $-2 \log (\cdot)$ transformation is applied in order to the cost function to be minimized

@@ -157,7 +157,7 @@ def mix_signals_det(n_samples, duration, non_zero, long=True):
     s4 = np.sin(4 * time)                       # different sinusoidal
     zero_row = np.zeros(n_samples)
 
-    X = np.c_[s1, s2, s3, s4].T
+    X = np.c_[s1, s2, s3].T
     n = len(X)
     m = len(X)
     A = np.random.randn(m, n)                 # Random mix matrix
@@ -165,13 +165,41 @@ def mix_signals_det(n_samples, duration, non_zero, long=True):
     Y = np.dot(A, X)                       # Observed signal
     
     if long==True:
-        X = np.c_[s1, zero_row, zero_row, s2, zero_row, s3, zero_row, s4].T
+        X = np.c_[s1, zero_row, zero_row, s2, zero_row, s3, zero_row].T
         n = len(X)
         m = 3
         A = np.random.randn(m, n)                 # Random mix matrix
         A = A/np.linalg.norm(A, ord=2, axis=0, keepdims=True)
         Y = np.dot(A, X)    
     return Y, A, X
+
+def gaussian_signals(m, n, n_samples, non_zero, long=True):
+    """ 
+
+    RETURN: Y, A, X,
+    
+    """
+    X = np.zeros((n,n_samples))
+    zero_row = np.zeros(n_samples)
+    
+    for i in range(n):
+        X[i] = np.random.normal(0,1,n_samples)
+
+    A = np.random.randn(m, n)                 # Random mix matrix
+    Y = np.dot(A, X)                       # Observed signal
+    
+    if long==True:
+        X = np.zeros((n*2,n_samples))
+        for i in np.arange(0,n+1,2):
+            X[i] = np.random.normal(0,1,n_samples)
+            X[i+1] = zero_row
+            
+        n = len(X)
+        A = np.random.randn(m, n)                 # Random mix matrix
+        A = A/np.linalg.norm(A, ord=2, axis=0, keepdims=True)
+        Y = np.dot(A, X)    
+    return Y, A, X
+
 
 def rossler_data(n_sampels=1940, ex = 1, m=8):
     """

@@ -1,0 +1,17 @@
+Channel Locations
+- Information about the scalp locations of the recording electrodes
+- Electrodes plotted outside the head cartoon are electrodes located below the mid-head line (i.e., with a negative z (height) coordinate, 0 being the center of the head). 
+
+Plotting Channel Spectra and Maps
+- Plot of the channel spectra and associated topographical maps
+- Only 15 % of the data with frequency between 2 and 25 Hz
+- Each colored trace represents the spectrum of the activity of one data channel
+
+Preprocessing
+- Remove linear trends with high-pass filter (FIR) with a low egde frequency pass band at 1 Hz
+
+Extract Epochs
+- These data were constructed by concatenating three-second epochs from one subject, each containing a target square in the attended location ('square' events, left-hemifield locations 1 or 2 only) followed by a button response ('rt' events). The data were stored in continuous data format to illustrate the process of epoch extraction from continuous data.
+- Removing a mean baseline value from each epoch. By default baseline removal will be performed on all channels data.
+- The baseline latency range is [-1000 0] as in [min max] in ms, where [] is a whole epoch
+

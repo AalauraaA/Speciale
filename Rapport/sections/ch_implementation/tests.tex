@@ -64,7 +64,7 @@ An illustration of the data set can be seen in figure \ref{fig:mix}. The data se
 \begin{figure}[H]
 \centering
 \includegraphics[scale=0.5]{figures/chapter6/AR_Data_m3_n4_k4_L1000.png}
-\label{fig:mix}
+\label{fig:AR}
 \caption{All the signal of the toy example data set for $M = 3$, $k=4$ and $L=1000$.}
 \end{figure}
 \noindent
@@ -72,30 +72,110 @@ An illustration of the data set can be seen in figure \ref{fig:mix}. The data se
 \subsection{Tests}
 
 \subsubsection{Initial A in Cov-DL}
+In the Cov-DL algorithm described in XX the over-determined system use the principal component analysis to make an optimization problem from which the matrix $\mathbf{D}$ can be found. To solve the optimization problem and finding $\mathbf{D}$ an initial $\mathbf{A}_{\text{ini}}$ is used as a starting point in the optimization process. The choice of this initial $\mathbf{A}_{\text{ini}}$ will effect how the good an estimate our found mixing matrix $\hat{\mathbf{A}}$ is.
 
-M = 8, k = 16
+In this section we will be testing three different choice for $\mathbf{A}_{\text{ini}}$:
+\begin{itemize}
+\item[-] A matrix $\mathbf{A1}$ drawn from a continuous uniform distribution in the half-open interval $[0.0, 1.0)$
+\item[-] A matrix $\mathbf{A2}$ drawn from a uniform distribution in the half-open interval $[-1.0, 1.0)$
+\item[-] A matrix $\mathbf{A3}$ drawn from a Gaussian distribution with mean 0 and variance 1
+\end{itemize}
+The test of different initial A's will be performed on the AR data set as this resemble the real data, EEG measurements, at most. The goal with this test is to find the best initial A, with lowest error, such that when the baseline algorithm is used on realistic data, the parameters as been chosen with the best performance in mind -- leading to the best scenario of finding the true mixing matrix and source matrix from EEG measurements.
 
+As the initial A will be used in finding an estimate for the mixing matrix which then be use to finding an estimate of the source matrix, we will look at the performance/error of both Cov-DL and M-SBL to find the best choice in both algorithms.
+
+For the Cov-DL and M-SBL algorithm we are looking at a system of size $M = 8$, $k = 16$ and $L = 1000$. Furthermore, for the Cov-DL the data has been divided in segments of 10 samples.
 \begin{table}[H]
 \centering
 \begin{tabular}{|c|c|c|c|}
 \hline 
- & A1 & A2 & A3 \\ 
+ & $\mathbf{A1}$ & $\mathbf{A2}$ & $\mathbf{A3}$ \\ 
 \hline 
-MSE & 0.70 & 0.65 & 25.98 \\ 
+MSE of Cov-DL & 1.35 & 3.67 & 3.94 \\ 
 \hline 
-\end{tabular} 
-\caption{Toy Example Data Set}
-\end{table}
-
-
-\begin{table}[H]
-\centering
-\begin{tabular}{|c|c|c|c|}
-\hline 
- & A1 & A2 & A3 \\ 
-\hline 
-MSE & 1.35 & 2.17 & 16.50 \\ 
-\hline 
+MSE of M-SBL & 21.63 & 10.23 & 6.18 \\ 
+\hline
 \end{tabular} 
 \caption{AR Data Set}
 \end{table}
+
+\begin{figure}[H]
+\centering
+\includegraphics[scale=0.5]{figures/chapter6/AR_Error_initial_A_m8_k16_L1000.png}
+\label{fig:initialA_AR}
+\caption{}
+\end{figure}
+\noindent
+
+
+
+%\begin{table}[H]
+%\centering
+%\begin{tabular}{|c|c|c|c|}
+%\hline 
+% & $\mathbf{A1}$ & $\mathbf{A2}$ & $\mathbf{A3}$ \\ 
+%\hline 
+%MSE of Cov-DL & 0.70 & 0.66 & 25.99 \\ 
+%\hline 
+%MSE of M-SBL & 1.07 & 0.78 & 0.72 \\ 
+%\hline 
+%\end{tabular} 
+%\caption{Toy Example Data Set}
+%\end{table}
+%
+%\begin{figure}[H]
+%\centering
+%\includegraphics[scale=0.5]{figures/chapter6/Mix_Error_initial_A_m8_k16_L1000.png}
+%\label{fig:initialA_mix}
+%\caption{}
+%\end{figure}
+%\noindent
+
+
+\subsubsection{Segmentation in Cov-DL}
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|c|c|c|c|c|c|c|}
+\hline 
+ & 10 & 20 & 30 & 40 & 50 & 60 \\ 
+\hline 
+MSE of Cov-DL & 8.85 & 8.05 & 5.57 & 12.19 & 6.88 & 4.16 \\ 
+\hline 
+MSE of M-SBL  & 0.67 & 0.65 & 0.65 & 0.66  & 0.66 & 0.63 \\ 
+\hline
+\end{tabular} 
+\caption{Mix Data Set}
+\end{table}
+
+\begin{figure}[H]
+\centering
+\includegraphics[scale=0.5]{figures/chapter6/Mix_Error_vary_seg_m8_k16_L1000.png}
+\label{fig:seg_mix}
+\caption{}
+\end{figure}
+\noindent
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|c|c|c|c|c|c|c|}
+\hline 
+ & 10 & 20 & 30 & 40 & 50 & 60 \\ 
+\hline 
+MSE of Cov-DL & 15.46 & 8.15 & 1.97 & 5.66 & 11.61 & 33.44 \\ 
+\hline 
+MSE of M-SBL  & 5.31 & 6.57 & 5.45 & 6.65  & 5.42 & 6.00 \\ 
+\hline
+\end{tabular} 
+\caption{AR Data Set}
+\end{table}
+
+\begin{figure}[H]
+\centering
+\includegraphics[scale=0.5]{figures/chapter6/AR_Error_vary_seg_m8_k16_L1000.png}
+\label{fig:seg_AR}
+\caption{}
+\end{figure}
+\noindent
+
+\subsubsection{Finding the Source Matrix $X$}

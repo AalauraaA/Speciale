@@ -111,7 +111,6 @@ def Cov_DL2(Y, A, X, m, n, cov_seg, L, k):
     pca.fit(Y_big.T)
     U = pca.components_.T
     
-#    A = np.random.random((m,n)) # random initial A 
     A = np.random.randn(m,n)  # Gaussian initial A
     a = np.reshape(A,(A.size)) # vectorization of initial A
     
@@ -138,6 +137,5 @@ def Cov_DL2(Y, A, X, m, n, cov_seg, L, k):
                 options={'xatol': 1e-8, 'disp': True})
     a_new = res.x
     A_rec = np.reshape(a_new,(m,n)) 
-    print(A_rec)
     A_err = data_generation.MSE_one_error(A,A_rec)
     return A_rec, A_err

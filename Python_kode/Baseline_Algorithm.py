@@ -17,11 +17,11 @@ np.random.seed(4523)
 # choose datageneration method ...
 """ DATA GENERATION - AUTO-REGRESSIVE SIGNAL """
 
-m = 4                         # number of sensors
-n = 6                         # number of sources
-k = 6                         # max number of non-zero coef. in rows of X
+m = 8                         # number of sensors
+n = 16                         # number of sources
+k = 16                         # max number of non-zero coef. in rows of X
 L = 1000                 # number of sampels
-k_true = 6 
+k_true = 16 
 
 Y_real, A_real, X_real = data_generation.generate_AR_v2(n, m, L, k_true) 
 
@@ -69,7 +69,7 @@ for i in range(len(Ys)): # loop over segments
     
 
 #    cov_seg = cov_seg_max(n,L)
-    cov_seg = 10
+    cov_seg = 7
 
 
    

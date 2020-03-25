@@ -14,7 +14,7 @@ from sklearn.decomposition import PCA
 import matplotlib.pyplot as plt
 import MSBL
 
-np.random.seed(4590)
+#np.random.seed(4590)
 # =============================================================================
 # Definitions
 # =============================================================================
@@ -144,72 +144,88 @@ def Cov_DL2(Y, A, X, m, n, cov_seg, L, k):
 # =============================================================================
 # Testing the A's
 # =============================================================================
-""" DATA GENERATION - MIX OF DETERMINISTIC SIGNALS """
-m = 8                         # number of sensors
-n = 16                         # number of sources
-k = 16                         # max number of non-zero coef. in rows of X
-L = 1000                      # number of sampels
-k_true = 16
-duration = 10
+""" DATA GENERATION """
+m = 8                          # number of sensors
+k = 16                         # number of active sources
+L = 1000                       # number of sampels
+#duration = 10
 
-#Y_real, A_real, X_real = data_generation.mix_signals(L, duration, m, n, k_true)
+#Y_real, A_real, X_real = data_generation.mix_signals(L, duration, m, k, k)
 
-Y_real, A_real, X_real = data_generation.generate_AR_v2(n, m, L, k_true) 
+Y_real, A_real, X_real = data_generation.generate_AR_v2(k, m, L, k) 
 
-
-""" DIFFERENTS INITIAL A'S """
-A = [np.random.random((m,n)), np.random.uniform(-1,1,(m,n)), np.random.randn(m,n)]
-
-Amse = np.zeros(len(A))
-Xmse = np.zeros(len(A))
+err_listA = np.zeros(10)
+err_listX = np.zeros(10)
+Amse = np.zeros(3)
+Xmse = np.zeros(3)
 
 """ SEGMENTATION - OVER ALL """
 Ls = L                  # number of sampels per segment (L -> no segmentation) 
 Ys, Xs, n_seg = data_generation.segmentation_split(Y_real, X_real, Ls, L)
                         # return list of arrays -> segments in axis = 0
 """ COV - DL """
-for a in range(len(A)):
-    for i in range(len(Ys)): # loop over segments 
-        Y_real = Ys[i]
-        X_real = Xs[i]
-       
-        def cov_seg_max(n, L):
-            """
-            Give us the maximum number of segment within the margin.
-            For some parameters (low) you can add one more segment.
-            """
-            n_seg = 1
-            while int(n) > n_seg:
-                n_seg += 1
-            return int(L/n_seg)    # Samples within one segment   
-    
-        cov_seg = 10
-    
-        if n <= (m*(m+1))/2.:
-            A_rec, A_err = Cov_DL2(Y_real, A[a], X_real, m, n, cov_seg, L, k)
-            
-        elif k <= (m*(m+1))/2.:
-            A_rec, A_err = Cov_DL1(Y_real, A[a], X_real, m, n, cov_seg, L, k)
+for a in range(3):
+    for ite in range(10):
+        """ DIFFERENTS INITIAL A'S """
+        A = [np.random.random((m,k)), np.random.uniform(-1,1,(m,k)), np.random.randn(m,k)]
         
-        elif k > (m*(m+1))/2.:
-            raise SystemExit('X is not sparse enogh (k > (m*(m+1))/2)')
+
+        for i in range(len(Ys)): # loop over segments 
+            Y_real = Ys[i]
+            X_real = Xs[i]
+           
+            def cov_seg_max(n, L):
+                """
+                Give us the maximum number of segment within the margin.
+                For some parameters (low) you can add one more segment.
+                """
+                n_seg = 1
+                while int(n) > n_seg:
+                    n_seg += 1
+                return int(L/n_seg)    # Samples within one segment   
+        
+            cov_seg = 10
+        
+            if k <= (m*(m+1))/2.:
+                A_rec, A_err = Cov_DL2(Y_real, A[a], X_real, m, k, cov_seg, L, k)
+                
+            elif k <= (m*(m+1))/2.:
+                A_rec, A_err = Cov_DL1(Y_real, A[a], X_real, m, k, cov_seg, L, k)
             
-    X_rec = MSBL.M_SBL(A_rec, Y_real, m, n, Ls, k, iterations=1000, noise=False)
-    X_real = X_real.T[:-2]
-    X_real = X_real.T
-            
-    """ ERROR """    
-    Amse[a] = A_err
-    Xmse[a] = data_generation.MSE_one_error(X_real, X_rec)
+            elif k > (m*(m+1))/2.:
+                raise SystemExit('X is not sparse enogh (k > (m*(m+1))/2)')
+                
+        X_rec = MSBL.M_SBL(A_rec, Y_real, m, k, Ls, k, iterations=1000, noise=False)
+        X_real = X_real.T[:-2]
+        X_real = X_real.T
+                
+        """ ERROR """   
+        err_listA[ite] = A_err
+        err_listX[ite] = data_generation.MSE_one_error(X_real, X_rec)
+    
+    Amse[a] = np.average(err_listA)
+    Xmse[a] = np.average(err_listX)
+
     
 plt.figure(1)
 plt.plot(Amse, '-r', label = 'A')
+plt.plot(0, Amse[0], 'ro')
+plt.plot(1, Amse[1], 'ro')
+plt.plot(2, Amse[2], 'ro')
 plt.plot(Xmse, '-b', label = 'X')
+plt.plot(0, Xmse[0], 'bo')
+plt.plot(1, Xmse[1], 'bo')
+plt.plot(2, Xmse[2], 'bo')
 plt.title('MSE of A and X for variyng initial A')
 plt.xticks([])
 plt.ylabel('MSE')
 plt.legend()
+plt.savefig('AR_Error_initial_A_m8_k16_L1000.png')
 plt.show()
 
-
+"""
+The average error of A and X are:
+    Amse: 1.34135856, 3.66556989, 3.94293637
+    Xmse: 21.62930811, 10.23301089,  6.18059169
+"""
 

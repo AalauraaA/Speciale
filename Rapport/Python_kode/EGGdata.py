@@ -1,29 +1,19 @@
 # -*- coding: utf-8 -*-
 """
-Created on Sat Sep 21 22:40:41 2019
+Created on Mon Mar  9 12:21:08 2020
 
 @author: Laura
-Url: https://towardsdatascience.com/independent-component-analysis-ica-in-python-a0ef0db0955e
-
-See chapter 8 in ICA book
------------------------------------------------------------------------
-We have the ICA data model
-    x = As
-Estimating the independent component s can be done as
-    s = A^{-1} x
-We must introduce whitening which must be done before ICA
-    z = Wx = WAs
-
 """
+import scipy.io
 import numpy as np
 import matplotlib.pyplot as plt
-import data_generation
 
-np.random.seed(0)
 
-# =============================================================================
-# Functions and derivatives
-# =============================================================================
+
+mat = scipy.io.loadmat('S1_CClean.mat')
+
+Y = np.array([mat['EEG']['data'][0][0][0], mat['EEG']['data'][0][0][1]])
+
 def g1(x):
     """
     Equation 8.31
@@ -129,39 +119,12 @@ def ica(X, iterations, tolerance=1e-5):
 # =============================================================================
 # Generating Data
 # =============================================================================
-m = 3                # number of sensors
-n = 3                # number of sources
-non_zero = 2         # max number of non-zero coef. in rows of X
-n_samples = 10       # number of sampels
 iterations = 1000
-
-
-Y, A, X = data_generation.generate_AR_v2(n, m, n_samples, non_zero)
-
-
-#n_samples = 2000
-#time = np.linspace(0, 8, n_samples)
-#s1 = np.sin(2 * time)  # sinusoidal
-#s2 = np.sign(np.sin(3 * time))  # square signal
-#s3 = signal.sawtooth(2 * np.pi * time)  # saw tooth signal
-#
-#X = np.c_[s1, s2, s3]
-#A = np.array(([[1, 1, 1], [0.5, 2, 1.0], [1.5, 1.0, 2.0]])) #mix matrix
-#Y = np.dot(X, A) # Observed signal
-#Y = Y.T
 
 S = ica(Y, iterations)
 
-#mse = data_generation.norm_mse(X, S)
-
 " Plots "
 plt.figure(1)
-plt.subplot(2, 1, 1)
-for x in X:
-    plt.plot(x)
-plt.title("real sources")
-
-plt.subplot(2,1,2)
 for s in S:
     plt.plot(s)
 plt.title("predicted sources")

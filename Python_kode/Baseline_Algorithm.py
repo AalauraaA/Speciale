@@ -24,7 +24,6 @@ L = 1000                 # number of sampels
 k_true = 16 
 
 Y_real, A_real, X_real = data_generation.generate_AR_v2(n, m, L, k_true) 
-
 """ DATA GENERATION - MIX OF DETERMINISTIC SIGNALS """
 #m = 6                         # number of sensors
 #n = 6                         # number of sources
@@ -69,7 +68,7 @@ for i in range(len(Ys)): # loop over segments
     
 
 #    cov_seg = cov_seg_max(n,L)
-    cov_seg = 7
+    cov_seg = 10
 
 
    
@@ -84,10 +83,10 @@ for i in range(len(Ys)): # loop over segments
         
      
     X_rec = MSBL.M_SBL(A_real, Y_real, m, n, Ls, k, iterations=1000, noise=False)
+    print('efter X')
     X_real = X_real.T[:-2]
     X_real = X_real.T
 #    print("")
-#    print(A_rec)
     Amse = data_generation.MSE_one_error(A_real, A_rec)
     print("Representation error (without noise) for A: ", Amse)  
     print("Representation error (without noise) for A: ", A_err)
@@ -97,22 +96,22 @@ for i in range(len(Ys)): # loop over segments
 
 """ PLOTS """
  
-#plt.figure(1)
-#plt.title('m = 8, n = 16, k = 7, true k = 7, L = 1000, covseg = 10')
-#nr_plot=0
-#for i in range(len(X_real.T[0])):
-#    if np.any(X_real[i]!=0) or np.any(X_rec[i]!=0):
-#        
-#        nr_plot += 1
-#        plt.subplot(k*2, 1, nr_plot)
-#       
-#        plt.plot(X_real[i], 'r',label='Real X')
-#        plt.plot(X_rec[i],'g', label='Recovered X')
-#
-#       
-#plt.legend()
-#plt.xlabel('sample')
-#plt.show
+plt.figure(1)
+plt.title('m = 8, n = 16, k = 7, true k = 7, L = 1000, covseg = 10')
+nr_plot=0
+for i in range(len(X_real.T[0])):
+    if np.any(X_real[i]!=0) or np.any(X_rec[i]!=0):
+        
+        nr_plot += 1
+        plt.subplot(k*2, 1, nr_plot)
+       
+        plt.plot(X_real[i], 'r',label='Real X')
+        plt.plot(X_rec[i],'g', label='Recovered X')
+
+       
+plt.legend()
+plt.xlabel('sample')
+plt.show
 #plt.savefig('16-03-2020_3.png')
 
 

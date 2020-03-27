@@ -26,8 +26,8 @@ def reverse_vec(x):
 def Cov_DL1(Y, A, X, m, n, cov_seg, L, k):
     """ 
     """
+    np.random.seed(12)
     ## internal segmetation for training examples
-    
     Ys, Xs, n_seg = data_generation.segmentation_split(Y, X, cov_seg, L)
     
     ## Covariance Domain Tranformation
@@ -80,21 +80,21 @@ def Cov_DL1(Y, A, X, m, n, cov_seg, L, k):
 
 
 
-def Cov_DL2(Y, A, X, m, n, cov_seg, L, k):
+def Cov_DL2(Y, A_real, X, m, n, cov_seg, L, k):
     """ 
     """
+    np.random.seed(12)
     ## internal segmetation for training examples
     
     Ys, Xs, n_seg = data_generation.segmentation_split(Y, X, cov_seg, L)
-    
     ## Covariance Domain Tranformation
-    
+    print('n_seg{}'.format(n_seg))
     Y_big = np.zeros([int(m*(m+1)/2.),n_seg])
     for i in range(n_seg):              # loop over all segments
         
         # Transformation to covariance domain and vectorization
-        Y_cov = np.cov(Ys[i])                      # covariance 
-        X_cov = np.cov(Xs[i])                      # NOT diagonl ??
+        Y_cov = np.corrcoef(Ys[i])                      # covariance 
+        X_cov = np.corrcoef(Xs[i])                      # NOT diagonl ??
 #        print(X_cov)
         # Vectorization of lower tri, row wise  
         vec_Y = Y_cov[np.tril_indices(m)]
@@ -110,7 +110,6 @@ def Cov_DL2(Y, A, X, m, n, cov_seg, L, k):
           whiten=True) 
     pca.fit(Y_big.T)
     U = pca.components_.T
-    
     A = np.random.randn(m,n)  # Gaussian initial A
     a = np.reshape(A,(A.size)) # vectorization of initial A
     
@@ -130,12 +129,14 @@ def Cov_DL2(Y, A, X, m, n, cov_seg, L, k):
     def cost1(a):
         return np.linalg.norm(D_term(a)-U_term())**2
         
-    
     # predefined optimization method, without defined the gradient og the cost. 
     from scipy.optimize import minimize
+    print('før')
     res = minimize(cost1, a, method='nelder-mead',
-                options={'xatol': 1e-8, 'disp': True})
+                   options={'xatol': 1e-8, 'disp': True})
+    print('efter')
     a_new = res.x
+    
     A_rec = np.reshape(a_new,(m,n)) 
-    A_err = data_generation.MSE_one_error(A,A_rec)
+    A_err = data_generation.MSE_one_error(A_real,A_rec)
     return A_rec, A_err

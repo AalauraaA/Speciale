@@ -11,7 +11,9 @@
 	\item Test X with the found A. Make a comparison of the error for X and A in one plot.
 	\end{itemize}
 \end{enumerate}
-   
+With the implemented algorithms -- Cov-DL and M-SBL -- the goal is now to investigate the performance of each algorithm. The performance will be measure by a error measure -- the mean square error (MSE).
+
+
 \subsection{Error}
 To evaluate our baseline algorithm we will perform some test s with knowledge of some real mixing matrices $\mathbf{A}$ and source matrices $\mathbf{X}$ to be compared with our estimated mixing matrices $\hat{\mathbf{A}}$ and source matrices $\hat{\mathbf{X}}$. For the comparison we will look at the differences between the real and estimated matrices. For this task a mean squared error (MSE) method has been chosen. The MSE measure the average squared difference between some estimated value and the actual value. The MSE has the property of always being positive because of the randomness introduced in the method.
 The MSE is given by
@@ -70,6 +72,43 @@ An illustration of the data set can be seen in figure \ref{fig:mix}. The data se
 \noindent
 
 \subsection{Tests}
+INTRODUCTION...
+
+
+Before any testing of the performance of the algorithms one must test if the algorithm works. The Cov-DL and M-SBL has been tested with the toy example data to see if the algorithms give us a results.
+
+In the following figure we see the recovered sources aligned with the real source of a system with $M = 3$ and $k = 4$ for $L = 100$ -- a small system.
+\begin{figure}[H]
+\centering
+    \begin{minipage}[t]{.45\textwidth}
+        \centering
+        \includegraphics[scale=0.5]{figures/chapter6/test_of_algo_mix_data.png}
+\label{fig:test_toy}
+\caption{Estimated A}
+    \end{minipage} 
+    \hfill
+    \begin{minipage}[t]{.45\textwidth}
+        \centering
+        \includegraphics[scale=0.5]{figures/chapter6/test_of_algo_mix_data_realA.png}
+\label{fig:test_toy_realA}
+\caption{Real A}
+    \end{minipage}
+\end{figure}
+\noindent
+Furthermore, if we look at the at the mse then we have a representation error of
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|c|c|c|}
+\hline
+         & Estimated A & Real A \\ \hline
+MSE of A & 2.23 & $\times$ \\ 
+\hline 
+MSE of X & 0.53 & 0.14 \\ 
+\hline
+\end{tabular} 
+\caption{Toy Example Data Set}
+\end{table}
 
 \subsubsection{Initial A in Cov-DL}
 In the Cov-DL algorithm described in XX the over-determined system use the principal component analysis to make an optimization problem from which the matrix $\mathbf{D}$ can be found. To solve the optimization problem and finding $\mathbf{D}$ an initial $\mathbf{A}_{\text{ini}}$ is used as a starting point in the optimization process. The choice of this initial $\mathbf{A}_{\text{ini}}$ will effect how the good an estimate our found mixing matrix $\hat{\mathbf{A}}$ is.
@@ -91,9 +130,9 @@ For the Cov-DL and M-SBL algorithm we are looking at a system of size $M = 8$, $
 \hline 
  & $\mathbf{A1}$ & $\mathbf{A2}$ & $\mathbf{A3}$ \\ 
 \hline 
-MSE of Cov-DL & 1.35 & 3.67 & 3.94 \\ 
+MSE of A & 1.35 & 3.67 & 3.94 \\ 
 \hline 
-MSE of M-SBL & 21.63 & 10.23 & 6.18 \\ 
+MSE of X & 21.63 & 10.23 & 6.18 \\ 
 \hline
 \end{tabular} 
 \caption{AR Data Set}
@@ -133,49 +172,45 @@ MSE of M-SBL & 21.63 & 10.23 & 6.18 \\
 
 
 \subsubsection{Segmentation in Cov-DL}
-
-\begin{table}[H]
-\centering
-\begin{tabular}{|c|c|c|c|c|c|c|}
-\hline 
- & 10 & 20 & 30 & 40 & 50 & 60 \\ 
-\hline 
-MSE of Cov-DL & 8.85 & 8.05 & 5.57 & 12.19 & 6.88 & 4.16 \\ 
-\hline 
-MSE of M-SBL  & 0.67 & 0.65 & 0.65 & 0.66  & 0.66 & 0.63 \\ 
-\hline
-\end{tabular} 
-\caption{Mix Data Set}
-\end{table}
-
 \begin{figure}[H]
 \centering
+    \begin{minipage}[t]{.45\textwidth}
+        \centering
 \includegraphics[scale=0.5]{figures/chapter6/Mix_Error_vary_seg_m8_k16_L1000.png}
 \label{fig:seg_mix}
-\caption{}
+\caption{Toy Example Data Set}
+    \end{minipage} 
+    \hfill
+    \begin{minipage}[t]{.45\textwidth}
+        \centering
+\includegraphics[scale=0.5]{figures/chapter6/AR_Error_vary_seg_m8_k16_L1000.png}
+\label{fig:seg_AR}
+\caption{AR Data Set}
+    \end{minipage}
 \end{figure}
 \noindent
+
 
 \begin{table}[H]
 \centering
 \begin{tabular}{|c|c|c|c|c|c|c|}
 \hline 
+\textbf{Toy Example Data Set} & & & & & & \\ \hline
  & 10 & 20 & 30 & 40 & 50 & 60 \\ 
 \hline 
-MSE of Cov-DL & 15.46 & 8.15 & 1.97 & 5.66 & 11.61 & 33.44 \\ 
+MSE of A & 8.85 & 8.05 & 5.57 & 12.19 & 6.88 & 4.16 \\ 
 \hline 
-MSE of M-SBL  & 5.31 & 6.57 & 5.45 & 6.65  & 5.42 & 6.00 \\ 
+MSE of X & 0.67 & 0.65 & 0.65 & 0.66  & 0.66 & 0.63 \\ 
+\hline
+\\ \hline
+\textbf{AR Data Set} & & & & & & \\ \hline
+ & 10 & 20 & 30 & 40 & 50 & 60 \\ 
+\hline 
+MSE of A & 15.46 & 8.15 & 1.97 & 5.66 & 11.61 & 33.44 \\ 
+\hline 
+MSE of X  & 5.31 & 6.57 & 5.45 & 6.65  & 5.42 & 6.00 \\ 
 \hline
 \end{tabular} 
-\caption{AR Data Set}
+\caption{Toy and AR Data Set}
 \end{table}
 
-\begin{figure}[H]
-\centering
-\includegraphics[scale=0.5]{figures/chapter6/AR_Error_vary_seg_m8_k16_L1000.png}
-\label{fig:seg_AR}
-\caption{}
-\end{figure}
-\noindent
-
-\subsubsection{Finding the Source Matrix $X$}

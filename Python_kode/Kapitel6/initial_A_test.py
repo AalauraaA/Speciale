@@ -220,7 +220,7 @@ plt.title('MSE of A and X for variyng initial A')
 plt.xticks([])
 plt.ylabel('MSE')
 plt.legend()
-plt.savefig('AR_Error_initial_A_m8_k16_L1000.png')
+plt.savefig('figures/AR_Error_initial_A_m8_k16_L1000.png')
 plt.show()
 
 """

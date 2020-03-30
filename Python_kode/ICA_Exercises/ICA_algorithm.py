@@ -132,7 +132,7 @@ def ica(X, iterations, tolerance=1e-5):
 m = 3                # number of sensors
 n = 3                # number of sources
 non_zero = 2         # max number of non-zero coef. in rows of X
-n_samples = 10       # number of sampels
+n_samples = 100       # number of sampels
 iterations = 1000
 
 
@@ -152,7 +152,7 @@ Y, A, X = data_generation.generate_AR_v2(n, m, n_samples, non_zero)
 
 S = ica(Y, iterations)
 
-#mse = data_generation.norm_mse(X, S)
+mse = data_generation.MSE_one_error(X, S)
 
 " Plots "
 plt.figure(1)

@@ -157,7 +157,7 @@ def mix_signals_det(n_samples, duration, non_zero, long=True):
     s4 = np.sin(4 * time)                       # different sinusoidal
     zero_row = np.zeros(n_samples)
 
-    X = np.c_[s1, s2, s3].T
+    X = np.c_[s1, s2, s3, s4].T
     n = len(X)
     m = len(X)
     A = np.random.randn(m, n)                 # Random mix matrix
@@ -295,7 +295,7 @@ def generate_AR_v2(N, M, L, non_zero):
     Output:
         X: Source matrix of size N x L     
     """
-    np.random.seed(123)
+#    np.random.seed(123)
     X = np.zeros([N, L+2])
     
     for i in range(N):

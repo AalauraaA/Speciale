@@ -16,7 +16,7 @@ import MSBL
 
 """ DATA GENERATION """
 m = 8                          # number of sensors
-k = 16                         # number of active sources
+k = 8                         # number of active sources
 L = 1000                       # number of sampels
 duration = 10
 
@@ -30,6 +30,7 @@ Xmse = np.zeros(len(list_))
 
 for s in range(len(list_)):
     print(list_[s])
+
     for ite in range(10):
         print(ite)
         
@@ -46,7 +47,8 @@ for s in range(len(list_)):
             Y_real = Ys[i]
             X_real = Xs[i]
             
-            cov_seg = list_[s]
+#            cov_seg = list_[s]
+            cov_seg = 30
         
             """ Cov-DL """
             if k <= (m*(m+1))/2.:
@@ -72,28 +74,28 @@ for s in range(len(list_)):
     
 
 """ PLOTS """
-plt.figure(1)
-plt.plot(Amse, '-r', label = 'A')
-plt.plot(0, Amse[0], 'ro')
-plt.plot(1, Amse[1], 'ro')
-plt.plot(2, Amse[2], 'ro')
-plt.plot(3, Amse[3], 'ro')
-plt.plot(4, Amse[4], 'ro')
-plt.plot(5, Amse[5], 'ro')
-
-
-plt.plot(Xmse, '-b', label = 'X')
-plt.plot(0, Xmse[0], 'bo')
-plt.plot(1, Xmse[1], 'bo')
-plt.plot(2, Xmse[2], 'bo')
-plt.plot(3, Xmse[3], 'bo')
-plt.plot(4, Xmse[4], 'bo')
-plt.plot(5, Xmse[5], 'bo')
-
-
-plt.title('MSE of A and X for variyng segments')
-plt.xticks([])
-plt.ylabel('MSE')
-plt.legend()
-plt.savefig('figures/AR_Error_vary_seg_m8_k16_L1000.png')
-plt.show()
+#plt.figure(1)
+#plt.plot(Amse, '-r', label = 'A')
+#plt.plot(0, Amse[0], 'ro')
+#plt.plot(1, Amse[1], 'ro')
+#plt.plot(2, Amse[2], 'ro')
+#plt.plot(3, Amse[3], 'ro')
+#plt.plot(4, Amse[4], 'ro')
+#plt.plot(5, Amse[5], 'ro')
+#
+#
+#plt.plot(Xmse, '-b', label = 'X')
+#plt.plot(0, Xmse[0], 'bo')
+#plt.plot(1, Xmse[1], 'bo')
+#plt.plot(2, Xmse[2], 'bo')
+#plt.plot(3, Xmse[3], 'bo')
+#plt.plot(4, Xmse[4], 'bo')
+#plt.plot(5, Xmse[5], 'bo')
+#
+#
+#plt.title('MSE of A and X for variyng segments')
+#plt.xticks([])
+#plt.ylabel('MSE')
+#plt.legend()
+#plt.savefig('figures/AR_Error_vary_seg_m8_k16_L1000.png')
+#plt.show()

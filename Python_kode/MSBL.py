@@ -5,7 +5,7 @@ Created on Thu Nov 14 10:03:14 2019
 @author: Laura
 """
 import numpy as np
-np.random.seed(1)
+#np.random.seed(1)
 import data_generation
 
 m = 16               # number of sensors

@@ -11,9 +11,8 @@
 %	\item Test X with the found A. Make a comparison of the error for X and A in one plot.
 %	\end{itemize}
 %\end{enumerate}
-With the implemented algorithms -- Cov-DL and M-SBL -- the goal is now to investigate the performance of each algorithm. The performance will be measure by a error measure -- the mean square error (MSE) -- this will be presented in the next section.
-
-Each test will be looking at one parameter of the algorithm where it is the performance of that parameter there will be measured. The parameters of interest are the initial $\mathbf{A}_{\text{ini}}$ using in the Cov-DL for the optimisation part of finding the matrix $\mathbf{D}$, and the segmentations in Cov-DL as well.
+With the implemented algorithms -- Cov-DL and M-SBL -- the goal is now to investigate the performance of each algorithm. The performance will be measure by a error measure -- the mean square error (MSE) -- this will be presented in the next section. To make a realistic conclusion on the performance values achieved from the MSE the performance of the algorithms will be compared to the MSE value of the performance of the algorithm with a known mixing matrix $\mathbf{A}$. All the tests will be done one the estimated matrices but for the comparison of these error measurement the true mixing matrix will be used. As the true $\mathbf{A}$ is used we can not compared the performance of Cov-DL but only M-SBL as this used the mixing matrix $\mathbf{A}$ as inputs. The Cov-DL algorithm will instead be tested for different choice of parameters, the initial $\mathbf{A}_{\text{ini}}$ using in the Cov-DL for the optimisation part of finding the matrix $\mathbf{D}$, and the segmentations in Cov-DL as well.
+Each test will be looking at one parameter of the algorithm where it is the performance of that parameter there will be measured.
 
 First at all, we will run a test, with random setting, to see how the error margin is for both algorithms.
 
@@ -62,17 +61,19 @@ An illustration of the measurement matrix $\mathbf{Y}$ from the simple data set 
 
 \subsubsection{Autoregressive Data Set}
 The second data set illustrate a more realistic data set.
-The data set is constructed from different autoregressive processes: 
+The data set is constructed from four different autoregressive processes representing the sources of the source matrix $\mathbf{X}$ \todo{Skal lige finde en god måde at skrive dem ind på}: 
 \begin{itemize}
 \item[-] $\mathbf{x}^{t} = \mathbf{a1}^{t-1} \cdot \mathbf{x}^{t-1} + \mathbf{a1}^{t-2} \cdot \mathbf{x}^{t-2} + \mathbf{w1}_t$
 \item[-] $\mathbf{x}^{t+1} = \mathbf{a2}_t \cdot \mathbf{x}_{t-1} + \mathbf{a}_t \cdot \mathbf{x}_t + \mathbf{w}_t$
 \item[-] $\mathbf{x}_{t+1} = \mathbf{a}_t \cdot \mathbf{x}_{t-2} + \mathbf{a}_t \cdot \mathbf{x}_t + + \mathbf{a}_t \cdot \mathbf{x}_{t-1} \mathbf{w}_t$
 \item[-] $\mathbf{x}_{t+1} = \mathbf{a}_t \cdot \mathbf{x}_t + \mathbf{a}_t \cdot \mathbf{x}_{t-3} + \mathbf{w}_t$
 \end{itemize}
-with $t$ being a time index defined in the interval $[0,10]$ with $L$ samples. Each of the four signal are randomly drawn and used to construct a source matrix $\mathbf{X}$ of size $k \times L$. 
-With a source matrix $\mathbf{X}$ a mixing matrix $\mathbf{A}$ of size $M \times k$ is randomly generated from a Gaussian distribution and then normalised. By multiplying the source matrix and the mixing matrix the measurement matrix $\mathbf{Y}$ is achieved and this complete the toy example data set.
+Each of the four autoregressive processes are randomly drawn and used to construct a source matrix $\mathbf{X}$ of size $k \times L$. 
+The mixing matrix $\mathbf{A}$ of size $M \times k$ is randomly generated as the same way as the mixing matrix from  the simple data set, from a Gaussian distribution and with its rows normalised. 
+By multiplying the source matrix and the mixing matrix the measurement matrix $\mathbf{Y}$ is achieved.
+The autoregressive data set then consist of $\{ \mathbf{Y}, \mathbf{X}, \mathbf{A} \}$ which are the true values of the MMV model.
 
-An illustration of the data set can be seen in figure \ref{fig:mix}. The data set is constructed for $M = 3$, $k = 4$ and $L = 1000$.
+An illustration of the autoregressive data set can be seen in figure \ref{fig:AR}. The data set is constructed for $M = 3$, $k = 4$ and $L = 1000$.
 \begin{figure}[H]
 \centering
 \includegraphics[scale=0.5]{figures/chapter6/AR_Data_m3_n4_k4_L1000.png}
@@ -82,10 +83,7 @@ An illustration of the data set can be seen in figure \ref{fig:mix}. The data se
 \noindent
 
 \subsection{Tests}
-INTRODUCTION...
-
-
-Before any testing of the performance of the algorithms one must test if the algorithm works. The Cov-DL and M-SBL has been tested with the toy example data to see if the algorithms give us a results.
+Before any testing of the performance of the algorithms one must test if the algorithm works. The Cov-DL and M-SBL has been tested with the simple data to see if the algorithms give us a results and how the performance of M-SBL differs when using an estimated mixing matrix and the true mixing matrix.
 
 In the following figure we see the recovered sources aligned with the real source of a system with $M = 3$ and $k = 4$ for $L = 100$ -- a small system.
 \begin{figure}[H]
@@ -94,14 +92,14 @@ In the following figure we see the recovered sources aligned with the real sourc
         \centering
         \includegraphics[scale=0.5]{figures/chapter6/test_of_algo_mix_data.png}
 \label{fig:test_toy}
-\caption{Estimated A}
+\caption{The $k$ recovered sources from M-SBL with the estimated mixing matrix $\mathbf{A}$}
     \end{minipage} 
     \hfill
     \begin{minipage}[t]{.45\textwidth}
         \centering
         \includegraphics[scale=0.5]{figures/chapter6/test_of_algo_mix_data_realA.png}
 \label{fig:test_toy_realA}
-\caption{Real A}
+\caption{The $k$ recovered sources from M-SBL with the real mixing matrix $\mathbf{A}$}
     \end{minipage}
 \end{figure}
 \noindent

@@ -102,9 +102,9 @@ Furthermore, if we look at the at the mse then we have a representation error of
 \begin{tabular}{|c|c|c|}
 \hline
          & Estimated A & Real A \\ \hline
-MSE of A & 2.23 & $\times$ \\ 
+MSE of A & 1.76 & $\times$ \\ 
 \hline 
-MSE of X & 0.53 & 0.14 \\ 
+MSE of X & 4.28 & 0.14 \\ 
 \hline
 \end{tabular} 
 \caption{Toy Example Data Set}
@@ -124,15 +124,31 @@ The test of different initial A's will be performed on the AR data set as this r
 As the initial A will be used in finding an estimate for the mixing matrix which then be use to finding an estimate of the source matrix, we will look at the performance/error of both Cov-DL and M-SBL to find the best choice in both algorithms.
 
 For the Cov-DL and M-SBL algorithm we are looking at a system of size $M = 8$, $k = 16$ and $L = 1000$. Furthermore, for the Cov-DL the data has been divided in segments of 10 samples.
+
 \begin{table}[H]
 \centering
 \begin{tabular}{|c|c|c|c|}
 \hline 
  & $\mathbf{A1}$ & $\mathbf{A2}$ & $\mathbf{A3}$ \\ 
 \hline 
-MSE of A & 1.35 & 3.67 & 3.94 \\ 
+MSE of A & 1.09 & 1.12 & 1.13 \\ 
 \hline 
-MSE of X & 21.63 & 10.23 & 6.18 \\ 
+MSE of X & 0.72 & 0.74 & 0.72 \\ 
+\hline 
+\end{tabular} 
+\caption{Toy Example Data Set}
+\end{table}
+\noindent
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|c|c|c|c|}
+\hline 
+ & $\mathbf{A1}$ & $\mathbf{A2}$ & $\mathbf{A3}$ \\ 
+\hline 
+MSE of A & 2.04 & 2.14 & 1.99 \\ 
+\hline 
+MSE of X & 9.81 & 9.09 & 9.73 \\ 
 \hline
 \end{tabular} 
 \caption{AR Data Set}
@@ -140,35 +156,21 @@ MSE of X & 21.63 & 10.23 & 6.18 \\
 
 \begin{figure}[H]
 \centering
+    \begin{minipage}[t]{.45\textwidth}
+        \centering
+\includegraphics[scale=0.5]{figures/chapter6/Mix_Error_initial_A_m8_k16_L1000.png}
+\label{fig:initialA_mix}
+\caption{Toy Example Data Set}
+    \end{minipage} 
+    \hfill
+    \begin{minipage}[t]{.45\textwidth}
+        \centering
 \includegraphics[scale=0.5]{figures/chapter6/AR_Error_initial_A_m8_k16_L1000.png}
 \label{fig:initialA_AR}
-\caption{}
+\caption{AR Data Set}
+    \end{minipage}
 \end{figure}
 \noindent
-
-
-
-%\begin{table}[H]
-%\centering
-%\begin{tabular}{|c|c|c|c|}
-%\hline 
-% & $\mathbf{A1}$ & $\mathbf{A2}$ & $\mathbf{A3}$ \\ 
-%\hline 
-%MSE of Cov-DL & 0.70 & 0.66 & 25.99 \\ 
-%\hline 
-%MSE of M-SBL & 1.07 & 0.78 & 0.72 \\ 
-%\hline 
-%\end{tabular} 
-%\caption{Toy Example Data Set}
-%\end{table}
-%
-%\begin{figure}[H]
-%\centering
-%\includegraphics[scale=0.5]{figures/chapter6/Mix_Error_initial_A_m8_k16_L1000.png}
-%\label{fig:initialA_mix}
-%\caption{}
-%\end{figure}
-%\noindent
 
 
 \subsubsection{Segmentation in Cov-DL}
@@ -176,14 +178,14 @@ MSE of X & 21.63 & 10.23 & 6.18 \\
 \centering
     \begin{minipage}[t]{.45\textwidth}
         \centering
-\includegraphics[scale=0.5]{figures/chapter6/Mix_Error_vary_seg_m8_k16_L1000.png}
+\includegraphics[scale=0.5]{figures/chapter6/Mix_Error_vary_covseg_m8_k16_L1000.png}
 \label{fig:seg_mix}
 \caption{Toy Example Data Set}
     \end{minipage} 
     \hfill
     \begin{minipage}[t]{.45\textwidth}
         \centering
-\includegraphics[scale=0.5]{figures/chapter6/AR_Error_vary_seg_m8_k16_L1000.png}
+\includegraphics[scale=0.5]{figures/chapter6/AR_Error_vary_covseg_m8_k16_L1000.png}
 \label{fig:seg_AR}
 \caption{AR Data Set}
     \end{minipage}
@@ -198,17 +200,17 @@ MSE of X & 21.63 & 10.23 & 6.18 \\
 \textbf{Toy Example Data Set} & & & & & & \\ \hline
  & 10 & 20 & 30 & 40 & 50 & 60 \\ 
 \hline 
-MSE of A & 8.85 & 8.05 & 5.57 & 12.19 & 6.88 & 4.16 \\ 
+MSE of A & 1.13 & 1.12 & 1.08 & 1.17 & 1.10 & 1.08 \\ 
 \hline 
-MSE of X & 0.67 & 0.65 & 0.65 & 0.66  & 0.66 & 0.63 \\ 
+MSE of X & 0.62 & 0.62 & 0.58 & 0.59 & 0.58 & 0.55 \\ 
 \hline
 \\ \hline
 \textbf{AR Data Set} & & & & & & \\ \hline
  & 10 & 20 & 30 & 40 & 50 & 60 \\ 
 \hline 
-MSE of A & 15.46 & 8.15 & 1.97 & 5.66 & 11.61 & 33.44 \\ 
+MSE of A & 1.82 & 1.85 & 1.88 & 1.93 & 1.86 & 1.97 \\ 
 \hline 
-MSE of X  & 5.31 & 6.57 & 5.45 & 6.65  & 5.42 & 6.00 \\ 
+MSE of X & 10.76 & 9.98 & 10.23 & 11.33 & 9.85 & 10.10 \\ 
 \hline
 \end{tabular} 
 \caption{Toy and AR Data Set}

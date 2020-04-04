@@ -42,7 +42,7 @@ Y_real, A_real, X_real = data_generation.mix_signals(L, 10, m, n, k_true)
 # Plots
 # =============================================================================
 plt.figure(1)
-plt.title('Toy Example Data Set')
+plt.title('Simple Data Set')
 plt.plot(Y_real.T)
 plt.xlabel('Samples (L)')
 plt.savefig('Kapitel6/Mix_Data_m3_n4_k4_L1000.png')

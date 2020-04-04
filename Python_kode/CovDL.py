@@ -26,7 +26,7 @@ def reverse_vec(x):
 def Cov_DL1(Y, A, X, m, n, cov_seg, L, k):
     """ 
     """
-    np.random.seed(12)
+#    np.random.seed(12)
     ## internal segmetation for training examples
     Ys, Xs, n_seg = data_generation.segmentation_split(Y, X, cov_seg, L)
     
@@ -83,7 +83,7 @@ def Cov_DL1(Y, A, X, m, n, cov_seg, L, k):
 def Cov_DL2(Y, A_real, X, m, n, cov_seg, L, k):
     """ 
     """
-    np.random.seed(12)
+#    np.random.seed(12)
     ## internal segmetation for training examples
     
     Ys, Xs, n_seg = data_generation.segmentation_split(Y, X, cov_seg, L)

@@ -32,28 +32,30 @@ Y, A_real, X_real = mix_signals(L, duration, M, N, k)
 Y = np.reshape(Y, (1,Y.shape[0],Y.shape[1]))
 
 err_listA = np.zeros(10)
-err_listX = np.zeros(10)
+err_listX1 = np.zeros(10)
+err_listX2 = np.zeros(10)
 
 Amse = np.zeros(3)
-Xmse = np.zeros(3)
+Xmse1 = np.zeros(3)
+Xmse2 = np.zeros(3)
 
 for ini in range(3):
     for ite in range(10):
         """ DIFFERENTS INITIAL A'S """
         A_list = [np.random.random((M,k)), np.random.uniform(-1,1,(M,k)), np.random.randn(M,k)]
 
-        def Main_Algorithm(Y, M, L, n_seg, L_covseg = 10):
+        def Main_Algorithm(Y, M, N, k, L, n_seg, L_covseg = 10):
             
             #################################  Cov-DL  ####################################
         
             A_result = np.zeros((n_seg, M, N))   # matrices to store result of each segment
-            X_result = np.zeros((n_seg, N, L-2))
+            X_result1 = np.zeros((n_seg, N, L-2))
+            X_result2 = np.zeros((n_seg, N, L-2))
         
             def Cov_DL1(Y_big, M, N, k):
                 """
                 something
                 """
-                #np.random.seed(12)
                 D = _dictionarylearning(Y_big, N, k)
                 A_rec = _A(D, M, N)
                 return A_rec
@@ -63,7 +65,6 @@ for ini in range(3):
             def Cov_DL2(Y_big, m, n, k):
                 """ 
                 """
-        #        np.random.seed(12)
                 # Dictionary Learning on Transformed System
                 pca = PCA(n_components=n, svd_solver='randomized', whiten=True)
                 pca.fit(Y_big.T)
@@ -91,10 +92,8 @@ for ini in range(3):
                 
                 # predefined optimization method, without defineing the gradient og the cost.
                 from scipy.optimize import minimize
-#                print('før')
                 res = minimize(cost1, a, method='nelder-mead',
                                options={'xatol': 1e-8, 'disp': True})
-#                print('efter')
                 a_new = res.x
                 A_rec = np.reshape(a_new, (m, n))
                 return A_rec
@@ -112,42 +111,58 @@ for ini in range(3):
         
                 elif k > (M*(M+1))/2.:
                     raise SystemExit('X is not sparse enogh (k > (m*(m+1))/2)')
-#                print('A_result{}'.format(A_result[0]))
             
             #################################  M-SBL  #####################################
-                X_rec = M_SBL.M_SBL(A_rec, Y[i], M, N, k, iterations=1000, noise=False)
-#                print('efter X')
-                X_result[i] = X_rec
+                X_rec1 = M_SBL.M_SBL(A_rec, Y[i], M, N, k, iterations=1000, noise=False)
+                X_result1[i] = X_rec1
+                
+                X_rec2 = M_SBL.M_SBL(A_real, Y[i], M, N, k, iterations=1000, noise=False)
+                X_result2[i] = X_rec2
         
-            return A_result, X_result
+            return A_result, X_result1, X_result2
+              
+        A_result, X_result1, X_result2 = Main_Algorithm(Y, M, N, k, L, n_seg, L_covseg = 10)
         
-#        print('A_real {}'.format(A_real))
-        
-        A_result, X_result = Main_Algorithm(Y, M, L, n_seg)
-        
-        err_listX[ite] = MSE_one_error(X_real.T[0:X_result[0].shape[1]].T,X_result[0])
+        err_listX1[ite] = MSE_one_error(X_real.T[0:X_result1[0].shape[1]].T,X_result1[0])
+        err_listX2[ite] = MSE_one_error(X_real.T[0:X_result2[0].shape[1]].T,X_result2[0])
         err_listA[ite] = MSE_one_error(A_real,A_result[0])
-        print(err_listX[ite])
     
     Amse[ini] = np.average(err_listA)
-    Xmse[ini] = np.average(err_listX)
+    Xmse1[ini] = np.average(err_listX1)
+    Xmse2[ini] = np.average(err_listX2)
 
-
-#plot_seperate_sources_comparison(X_real,X_result[0],M,N,k,L)
-    
+  
 plt.figure(1)
 plt.plot(Amse, '-r', label = 'A')
 plt.plot(0, Amse[0], 'ro')
 plt.plot(1, Amse[1], 'ro')
 plt.plot(2, Amse[2], 'ro')
-plt.plot(Xmse, '-b', label = 'X')
-plt.plot(0, Xmse[0], 'bo')
-plt.plot(1, Xmse[1], 'bo')
-plt.plot(2, Xmse[2], 'bo')
-plt.title('MSE of A and X for variyng initial A')
+plt.plot(Xmse1, '-b', label = 'X')
+plt.plot(0, Xmse1[0], 'bo')
+plt.plot(1, Xmse1[1], 'bo')
+plt.plot(2, Xmse1[2], 'bo')
+plt.title('MSE of A and X for varying initial A')
 plt.xticks([])
 plt.ylabel('MSE')
 plt.legend()
 plt.savefig('figures/Mix_Error_initial_A_m8_k16_L1000.png')
+#plt.savefig('figures/AR_Error_initial_A_m8_k16_L1000.png')
+plt.show()
+
+plt.figure(2)
+plt.plot(Amse, '-r', label = 'A')
+plt.plot(0, Amse[0], 'ro')
+plt.plot(1, Amse[1], 'ro')
+plt.plot(2, Amse[2], 'ro')
+plt.plot(Xmse2, '-b', label = 'X')
+plt.plot(0, Xmse2[0], 'bo')
+plt.plot(1, Xmse2[1], 'bo')
+plt.plot(2, Xmse2[2], 'bo')
+plt.title('MSE of A and X for varying initial A')
+plt.xticks([])
+plt.ylabel('MSE')
+plt.legend()
+plt.savefig('figures/Mix_Error_initial_A_m8_k16_L1000_RealA.png')
+#plt.savefig('figures/AR_Error_initial_A_m8_k16_L1000_RealA.png')
 plt.show()
 

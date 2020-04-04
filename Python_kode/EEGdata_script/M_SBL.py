@@ -16,7 +16,7 @@ import numpy as np
 # =============================================================================
 # Without Segmentation M-SBL Algorithm
 # =============================================================================
-def M_SBL(A, Y, m, n, k, iterations, noise):
+def M_SBL(A, Y, m, n, non_zero, iterations, noise):
     n_samples = Y.shape[1]
     if noise is False:
         Y = Y.T[:-2]
@@ -33,6 +33,7 @@ def M_SBL(A, Y, m, n, k, iterations, noise):
                 Sigma[k] = (np.identity(n) - np.sqrt(Gamma[k]) *
                             np.matmul(np.linalg.pinv(A * np.sqrt(Gamma[k])),
                                       A)) * Gamma[k]
+                
                 mean[k] = np.sqrt(Gamma[k]) * np.matmul(np.linalg.pinv(A *
                                                         np.sqrt(Gamma[k])), Y)
 
@@ -58,7 +59,9 @@ def M_SBL(A, Y, m, n, k, iterations, noise):
             for i in range(n):
                 " Making Sigma and Mu "
                 sig = lam[k][i] * np.identity(n) + (A * Gamma[k]).dot(A.T)
+                
                 inv = np.linalg.inv(sig)
+                
                 Sigma[k] = (Gamma[k] - Gamma[k] * (A.T.dot(inv)).dot(A) *
                             Gamma[k])
                 mean[k] = Gamma[k] * (A.T.dot(inv)).dot(Y)
@@ -67,8 +70,10 @@ def M_SBL(A, Y, m, n, k, iterations, noise):
                 lam_num = 1/n_samples * np.linalg.norm(Y - A.dot(mean[k]),
                                                        ord='fro')  # numerator
                 lam_for = 0
+                
                 for j in range(n):
                     lam_for += Sigma[k][j][j] / gamma[k][j]
+                
                 lam_den = m - n + lam_for                        # denominator
                 lam[k][i] = lam_num / lam_den
 
@@ -82,9 +87,9 @@ def M_SBL(A, Y, m, n, k, iterations, noise):
                 k += 1
 
     " Finding the support set "
-    support = np.zeros(k)
+    support = np.zeros(non_zero)
     H = gamma[-2]
-    for l in range(k):
+    for l in range(non_zero):
         if H[np.argmax(H)] != 0:
             support[l] = np.argmax(H)
             H[np.argmax(H)] = 0

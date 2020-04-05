@@ -1,0 +1,66 @@
+\section{Derivation of mean and covariance}
+The purpose is here to derive the mean and covariance of the posterior distribution of 
+\begin{align*}
+p\left( \textbf{x}_{\cdot j} \vert \textbf{y}_{\cdot j}; \boldsymbol{\gamma}\right) \sim \mathcal{N}(\boldsymbol{\mu} _{\cdot j},\boldsymbol{\Sigma}).
+\end{align*}
+from \eqref{eg:bay} in section \ref{seg:EBE}. 
+
+We have 
+$$
+p(\textbf{x}) \sim \mathcal{N}(0,\boldsymbol{\gamma} \textbf{I} )
+$$
+\todo{burde vi have $\gamma$ med her? }and 
+$$
+p(\textbf{y}\vert \textbf{x}) \sim \mathcal{N}(\textbf{A}\textbf{x}, \boldsymbol{\sigma}^2\textbf{I}).
+$$ 
+Now define one Gaussian random variable  
+$$
+\textbf{z} = \begin{bmatrix}
+\textbf{x} \\ 
+\textbf{y}\vert \textbf{x} 
+\end{bmatrix} \in \mathbb{R}^{N+M}	
+$$   
+then the mean and covariance of $\textbf{z}$ can be partitioned into 
+$$
+\boldsymbol{\Sigma}_{\textbf{z}} = \begin{bmatrix}
+\boldsymbol{\Sigma}_{\textbf{x}\textbf{x}} & \boldsymbol{\Sigma}_{\textbf{x}\textbf{y}} \\ 
+\boldsymbol{\Sigma}_{\textbf{y}\textbf{x}} & \boldsymbol{\Sigma}_{\textbf{y}\textbf{y}}
+\end{bmatrix} \in \mathbb{R}^{N+M \times N+M}
+$$
+$$
+\boldsymbol{\mu}_{\textbf{z}}  = \begin{bmatrix}
+\boldsymbol{\mu}_{\textbf{x}}  \\ 
+ \boldsymbol{\mu}_{\textbf{y}\vert \textbf{x}}
+\end{bmatrix} = 
+ \begin{bmatrix}
+0  \\ 
+\textbf{A}\textbf{x}
+\end{bmatrix}
+$$
+Then, from \cite{conditional_cov}, the conditional normal distribution of $\textbf{x}$ given $\textbf{y}$ is defined as
+\begin{align*}
+\text{cov}(\textbf{x},\textbf{x}\vert \textbf{y}) = \boldsymbol{\Sigma}_{\textbf{xx}\vert\textbf{y}} = \boldsymbol{\Sigma}_{\textbf{xx}} - \boldsymbol{\Sigma}_{\textbf{xy}}\boldsymbol{\Sigma}_{\textbf{yy}}^{-1}\boldsymbol{\Sigma}_{\textbf{yx}}.
+\end{align*}
+Each covariance is now found:
+The covariance of $\textbf{x}$ comes directly from the distribution  
+\begin{align*}
+\boldsymbol{\Sigma}_{\textbf{xx}} = \boldsymbol{\gamma}\textbf{I}
+\end{align*} 
+The covariance between $\textbf{x}$ and $\textbf{y}\vert\textbf{x}$ is found by .....\todo{how to treat $\textbf{y}$ being conditional here? can't get the right result}
+\begin{align*}
+\boldsymbol{\Sigma}_{\textbf{yx}} &= \mathbb{E}[XY] - \mathbb{E}[X]\mathbb{E}[Y]\\
+&= \mathbb{E}[XY] - 0 \mathbb{E}[Y] \\
+&= \mathbb{E}[XY]\\
+\hdots \\
+&= \boldsymbol{\gamma}\textbf{I}\textbf{A}^T?
+\end{align*}
+Lastly the covariance of $\textbf{y}\vert \textbf{x}$ is found similarly found by the definition of conditional covariance as follows 
+\begin{align*}
+\boldsymbol{\Sigma}_{\textbf{yy}} =  \text{cov}(\textbf{y},\textbf{y}\vert \textbf{x}) = \boldsymbol{\Sigma}_{\textbf{yy}\vert \textbf{x}} &= \boldsymbol{\Sigma}_{\textbf{yy}} - \boldsymbol{\Sigma}_{\textbf{yx}}\boldsymbol{\Sigma}_{\textbf{xx}}^{-1}\boldsymbol{\Sigma}_{\textbf{xy}} \\
+&= \boldsymbol{\sigma}^2 \textbf{I} - \boldsymbol{\gamma}\textbf{I}\textbf{A}^T (\boldsymbol{\gamma}\textbf{I})^{-1} \textbf{A}\boldsymbol{\gamma}\textbf{I} \\
+&= \boldsymbol{\sigma}^2 \textbf{I} - \textbf{A}\boldsymbol{\gamma}\textbf{I}\textbf{A}^T
+\end{align*} 
+The resulting conditional covariance becomes 
+\begin{align*}
+\text{cov}(\textbf{x},\textbf{x}\vert \textbf{y}) = \boldsymbol{\Sigma}_{\textbf{xx}\vert\textbf{y}} = \boldsymbol{\gamma}\textbf{I} - \boldsymbol{\gamma}\textbf{I}\textbf{A}^T (\boldsymbol{\Sigma}_{\textbf{yy}\vert \textbf{y}})^{-1} \textbf{A} \boldsymbol{\gamma}\textbf{I}
+\end{align*}

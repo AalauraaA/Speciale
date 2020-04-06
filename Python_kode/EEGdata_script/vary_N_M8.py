@@ -14,7 +14,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 
-def Main_Algorithm(Y, M, N, k, L, n_seg, L_covseg = 10): 
+def Main_Algorithm(Y, M, N, k, L, n_seg, L_covseg = 60): 
        
     #################################  Cov-DL  ####################################
 

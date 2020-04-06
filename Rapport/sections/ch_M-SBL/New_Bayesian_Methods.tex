@@ -70,52 +70,61 @@ Combining the prior and the likelihood $p(\mathbf{y}_{\cdot j} \vert \mathbf{x}_
 \begin{align}
 p(\mathbf{x}_{\cdot j} \vert \mathbf{y}_{\cdot j} ; \boldsymbol{\gamma}) &= \frac{p(\mathbf{y}_{\cdot j} | \mathbf{x}_{\cdot j} ; \boldsymbol{\gamma}) p(\mathbf{x}_{\cdot j} ; \boldsymbol{\gamma})}{p(\mathbf{y}_{\cdot j} | \boldsymbol{\gamma})} \nonumber \\
 &= \frac{p(\mathbf{y}_{\cdot j} | \mathbf{x}_{\cdot j} ; \boldsymbol{\gamma}) p(\mathbf{x}_{\cdot j} ; \boldsymbol{\gamma})}{\int p(\mathbf{y}_{\cdot j} | \mathbf{x}_{\cdot j}) p(\mathbf{x}_{\cdot j} ; \boldsymbol{\gamma}) \ d \mathbf{x}_{\cdot j}} \nonumber \\ 
-&= \frac{p(\mathbf{x}_{\cdot j}, \mathbf{y}_{\cdot j} ; \boldsymbol{\gamma})}{\int p(\mathbf{x}_{\cdot j}, \mathbf{y}_{\cdot j} ; \boldsymbol{\gamma}) \ d \mathbf{x}_{\cdot j}} \nonumber \\ 
+&\propto p(\mathbf{y}_{\cdot j} | \mathbf{x}_{\cdot j} ; \boldsymbol{\gamma}) p(\mathbf{x}_{\cdot j} ; \boldsymbol{\gamma})\\
 &\sim \mathcal{N}(\boldsymbol{\mu}_{\cdot j}, \boldsymbol{\Sigma}),\label{eq:bay}
 \end{align}
+%&= \frac{p(\mathbf{x}_{\cdot j}, \mathbf{y}_{\cdot j} ; \boldsymbol{\gamma})}{\int p(\mathbf{x}_{\cdot j}, \mathbf{y}_{\cdot j} ; \boldsymbol{\gamma}) \ d \mathbf{x}_{\cdot j}} \nonumber \\ 
 where the denominator is the marginal likelihood of $\mathbf{y}_{\cdot j}$ also referred to as the evidence. The marginalisation is elaborated in the next section. The mean and covariance of \eqref{eq:bay} is given as
 \begin{align}
 \boldsymbol{\Sigma} &= \text{Cov}(\mathbf{x}_{\cdot j} \vert \mathbf{y}_{\cdot j} ; \boldsymbol{\gamma}) = \boldsymbol{\Gamma} - \boldsymbol{\Gamma} \mathbf{A}^T \boldsymbol{\Sigma}_y^{-1} \mathbf{A} \boldsymbol{\Gamma}, \quad \forall j = 1, \dots, L \label{eq:moments1} \\
 \mathcal{M} &= [\boldsymbol{\mu}_{\cdot 1}, \dots, \boldsymbol{\mu}_{\cdot L}] = \mathbb{E}[\mathbf{X} \vert \mathbf{Y} ; \boldsymbol{\gamma}] = \boldsymbol{\Gamma} \mathbf{A}^T \boldsymbol{\Sigma}_y^{-1} \mathbf{Y}, \label{eq:moments2} 
 \end{align}
-where $\boldsymbol{\Gamma} = \text{diag}(\boldsymbol{\gamma})$ and $\boldsymbol{\Sigma}_y = \sigma^2 \mathbf{I} + \mathbf{A} \boldsymbol{\Gamma} \mathbf{A}^T$. \todo{uddyb udledning af udtrykkende her}
+where $\boldsymbol{\Gamma} = \text{diag}(\boldsymbol{\gamma})$ and $\boldsymbol{\Sigma}_y = \sigma^2 \mathbf{I} + \mathbf{A} \boldsymbol{\Gamma} \mathbf{A}^T$. The derivation of the posterior mean and covariance if found in appendix \ref{app_sec:mean_cov}.   
 
 Let the posterior mean $\mathcal{M}$ serve as the point estimate for the source matrix $\mathbf{X}$.
 It is clear that row sparsity is achieved whenever $\gamma_i = 0$. 
 From this the posterior must satisfy the following 
 \begin{align*}
-\mathbb{P}(\mathbf{x}_{i \cdot} = \mathbf{0} \vert \mathbf{Y} ; \gamma_i = 0) = 1,
+\mathbb{P}(\mathbf{x}_{i \cdot} = \mathbf{0} \vert \mathbf{Y} ; \gamma_i = 0) = 1.
 \end{align*}
-this ensures that the posterior mean $\mathcal{M}$ of the $i$-th row, $\boldsymbol{\mu}_{i \cdot}$, become zero, whenever $\gamma_i = 0$ as desired.
+This ensures that the posterior mean $\mathcal{M}$ of the $i$-th row, $\boldsymbol{\mu}_{i \cdot}$, become zero, whenever $\gamma_i = 0$ as desired.
 
 From this it is evident that for estimating the support set of $\mathbf{X}$ it is sufficient to estimate the hyperparameter $\boldsymbol{\gamma}$, from which the support set $S$ can be extracted. Furthermore, the point estimate of $\mathbf{X}$, providing the source signal estimate, is given by $\mathcal{M}$ \cite[p. 147]{phd_wipf}. 
 This leads to the actual M-SBL algorithm for which the aim is to estimate $\boldsymbol{\gamma}$ and the corresponding $\mathcal{M}$.
 \input{sections/ch_M-SBL/extra_derivation.tex}
 
 \section{M-SBL for estimation of $\textbf{X}$}
-Different hyperparameters $\boldsymbol{\gamma}$ correspond to different hypothesis for the prior distribution of the underlying generation of $\mathbf{Y}$. 
-Therefore the determination of $\boldsymbol{\gamma}$ is seen as a model selection.
-Due to the empirical Bayesian strategy the unknown variables, making the source matrix $\mathbf{X}$ are integrated out as follows.
-By integrating the likelihood of $\mathbf{Y}$ with respect to the unknown sources $\mathbf{X}$ the marginal likelihood of the observed mixed data $\mathbf{Y}$ is achieved as $p (\mathbf{Y} ; \boldsymbol{\gamma})$ \cite[p. 146]{phd_wipf}. 
-The resulting marginal likelihood is to be maximised with respect to $\boldsymbol{\gamma}$, that is the resulting ARD based M-SBL cost function.
-The $-2 \log (\cdot)$ transformation is applied in order to the cost function to be minimized
+The M-SBL algorithm is now specified in order to estimate the hyperparameter $\boldsymbol{\gamma}$ and then the corresponding unknown sources $\textbf{X}$.
+%The specific support of the hyperparameter $\boldsymbol{\gamma}$ can be seen as one hypotheses for the prior distribution of the underlying generation of $\mathbf{Y}$. 
+%Hence the determination of $\boldsymbol{\gamma}$ is seen as a model selection.
+Due to the empirical Bayesian strategy the unknown variables, making the source matrix $\mathbf{X}$ are integrated out, also referred to as marginalised.
+By integrating the posterior with respect to the unknown sources $\mathbf{X}$ the marginal likelihood of the observed mixed data $\mathbf{Y}$ is achieved \cite[p. 146]{phd_wipf} 
 \begin{align*}
-\ell(\boldsymbol{\gamma}) &= -2 \log \left( \int p (\mathbf{Y}  \vert \mathbf{X}) p (\mathbf{X} ; \boldsymbol{\gamma}) \ d\mathbf{X} \right) \\
-&= - 2 \log(p (\mathbf{Y} ; \boldsymbol{\gamma}))\\
-&= \log ( \vert \boldsymbol{\Sigma}_y \vert) + \frac{1}{L} \sum_{j=1}^L \mathbf{y}_{\cdot j}^T \boldsymbol{\Sigma}_y ^{-1} \mathbf{y}_{\cdot j}.
+\mathcal{L}(\boldsymbol{\gamma};\textbf{Y}) &= \int p (\mathbf{Y}  \vert \mathbf{X}) p (\mathbf{X} ; \boldsymbol{\gamma}) \ d\mathbf{X} \\
+&= p (\mathbf{Y} \vert \boldsymbol{\gamma})
 \end{align*}
-To minimise the marginal log likelihood $\ell(\boldsymbol{\gamma})$ with respect to $\boldsymbol{\gamma}$ the expectation maximisation (EM) algorithm can be used. 
-The E-step of the EM algorithm is to compute the posterior moments using \eqref{eq:moments1} and \eqref{eq:moments2} while the M-step is the following update rule of $\gamma_i$ \cite[p.147]{phd_wipf}
+\todo{when to use ; instead of $\vert$}The resulting marginal likelihood of $\boldsymbol{\gamma}$ is to be maximised with respect to $\boldsymbol{\gamma}$, that is the maximum likelihood estimate(MLE) which is considered the resulting ARD based M-SBL cost function. 
+The $-2 \log (\cdot)$ transformation is applied in order for the cost function to be minimized, and factors not depending on $\textbf{Y}$ is removed. Resulting in the following log likelihood.\todo{ops på L faktor i sidste linje.. } 
+\begin{align*}
+\ell(\boldsymbol{\gamma};\textbf{Y})&= - 2 \log(p (\mathbf{Y} ; \boldsymbol{\gamma}))\\
+&= -2\log \left( 2\pi^{\frac{M}{2}}\vert \boldsymbol{\Sigma}_{y}\vert^{\frac{1}{2}}\exp \left( - \frac{1}{2} \sum_{j=1}^L \textbf{y}_{\cdot j}^T \boldsymbol{\Sigma}_{y}^{-1} \textbf{y}_{\cdot j} \right) \right)\\
+&= L \log ( \vert \boldsymbol{\Sigma}_y \vert ) + \sum_{j=1}^L \mathbf{y}_{\cdot j}^T \boldsymbol{\Sigma}_y ^{-1} \mathbf{y}_{\cdot j}.
+\end{align*}
+It is not expected that an explicit solution to the minimization problem can be found by differentiating and letting the expression equal to zero, hence it has to be solved iteratively based on a initial parameter guess $\boldsymbol{\gamma}^{(0)}$.
+One iterative method is the expectation maximisation (EM) algorithm.
+In general each iteration consist of an expectation (E) step, where a function determines the expectation of the likelihood function given the currently estimated parameters. The E-step is followed by an maximization (M) step which computes the parameters by maximizing the expected likelihood found in the E-step.
+In this case the E-step is to compute the posterior moments using \eqref{eq:moments1} and \eqref{eq:moments2} while the M-step is the following update rule of $\gamma_i$ \cite[p.147]{phd_wipf}
 \begin{align*}
 \gamma_i^{(k+1)} = \frac{1}{L} \Vert \boldsymbol{\mu}_{i \cdot} \Vert_2^2 + \boldsymbol{\Sigma}_{ii}, \quad \forall i = 1, \dots, N.
 \end{align*}
-The M-step is very slow on large data. 
-Instead one could use a fixed point update to fasten the convergence on large data, however convergence is no longer ensured. 
+The M-step is in general very slow on large data. 
+An alternative is to use a fixed point update rule to fasten convergence on large data, however convergence is no longer ensured. 
 The fixed point updating step is achieved by taking the derivative of the marginal log likelihood $\ell(\boldsymbol{\gamma})$ with respect to $\boldsymbol{\gamma}$ and equating it with zero. 
-This lead to the following update equation which can replace the above M-step in the EM-algorithm:
+This lead to the following update rule which can replace the above M-step in the EM-algorithm
 \begin{align*}
 \gamma_i^{(k+1)} = \frac{\frac{1}{L} \Vert \boldsymbol{\mu}_{i \cdot} \Vert_2^2}{1 - \gamma_i^{-1 (k)} \boldsymbol{\Sigma}_{ii}}, \quad \forall i = 1, \dots, N.
 \end{align*}
+\todo{mangler at udlede denne regl}
 Empirically this alternative update rule have shown use full in highly under-determined large scale cases by driving many hyper parameters toward zero allowing for the corresponding weight in the source matrix to be discarded. 
 For simultaneous sparse approximation problems this is the process referred to as multiple sparse Bayesian learning, M-SBL.
 

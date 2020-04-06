@@ -143,7 +143,7 @@ def generate_AR(N, M, L, non_zero):
     Output:
         X: Source matrix of size N x L     
     """
-    np.random.seed(123)
+#    np.random.seed(123)
     X = np.zeros([N, L+2])
     
     for i in range(N):

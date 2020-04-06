@@ -1,15 +1,15 @@
-\section{Derivation of mean and covariance}
-The purpose is here to derive the mean and covariance of the posterior distribution of 
+\section{Derivation of posterior  mean and covariance(put in appendix)}\label{app_sec:mean_cov}
+The purpose is here to derive the mean and covariance of the posterior distribution
 \begin{align*}
 p\left( \textbf{x}_{\cdot j} \vert \textbf{y}_{\cdot j}; \boldsymbol{\gamma}\right) \sim \mathcal{N}(\boldsymbol{\mu} _{\cdot j},\boldsymbol{\Sigma}).
 \end{align*}
-from \eqref{eg:bay} in section \ref{seg:EBE}. 
+from \eqref{eq:bay} in section \ref{seg:EBE}. Let now $\textbf{x}_{\cdot j} = \textbf{x}$ and $\textbf{y}_{\cdot j} = \textbf{y}$
 
 We have 
 $$
-p(\textbf{x}) \sim \mathcal{N}(0,\boldsymbol{\gamma} \textbf{I} )
+p(\textbf{x};\boldsymbol{\gamma}) \sim \mathcal{N}(0,\boldsymbol{\gamma} \textbf{I} )
 $$
-\todo{burde vi have $\gamma$ med her? }and 
+and 
 $$
 p(\textbf{y}\vert \textbf{x}) \sim \mathcal{N}(\textbf{A}\textbf{x}, \boldsymbol{\sigma}^2\textbf{I}).
 $$ 
@@ -18,7 +18,7 @@ $$
 \textbf{z} = \begin{bmatrix}
 \textbf{x} \\ 
 \textbf{y}\vert \textbf{x} 
-\end{bmatrix} \in \mathbb{R}^{N+M}	
+\end{bmatrix} \in \mathbb{R}^{N+M},	
 $$   
 then the mean and covariance of $\textbf{z}$ can be partitioned into 
 $$
@@ -35,13 +35,14 @@ $$
  \begin{bmatrix}
 0  \\ 
 \textbf{A}\textbf{x}
-\end{bmatrix}
+\end{bmatrix}.
 $$
-Then, from \cite{conditional_cov}, the conditional normal distribution of $\textbf{x}$ given $\textbf{y}$ is defined as
+Then, from \cite{conditional_cov}, the posterior distribution of $\textbf{x}$ given $\textbf{y}$ is defined as
 \begin{align*}
-\text{cov}(\textbf{x},\textbf{x}\vert \textbf{y}) = \boldsymbol{\Sigma}_{\textbf{xx}\vert\textbf{y}} = \boldsymbol{\Sigma}_{\textbf{xx}} - \boldsymbol{\Sigma}_{\textbf{xy}}\boldsymbol{\Sigma}_{\textbf{yy}}^{-1}\boldsymbol{\Sigma}_{\textbf{yx}}.
+\boldsymbol{\Sigma} &= \text{cov}(\textbf{x},\textbf{x}\vert \textbf{y}) =  \boldsymbol{\Sigma}_{\textbf{xx}} - \boldsymbol{\Sigma}_{\textbf{xy}}\boldsymbol{\Sigma}_{\textbf{yy}}^{-1}\boldsymbol{\Sigma}_{\textbf{yx}} \\
+\boldsymbol{\mu} &= \boldsymbol{\mu}_{\textbf{x}}+\boldsymbol{\Sigma}_{\textbf{xy}}\boldsymbol{\Sigma}_{\textbf{yy}}^{-1}(\textbf{y}-\boldsymbol{\mu}_{\textbf{y}})
 \end{align*}
-Each covariance is now found:
+Consider first the conditional covariance. Each covariance within the expression is now found:\\
 The covariance of $\textbf{x}$ comes directly from the distribution  
 \begin{align*}
 \boldsymbol{\Sigma}_{\textbf{xx}} = \boldsymbol{\gamma}\textbf{I}
@@ -54,7 +55,7 @@ The covariance between $\textbf{x}$ and $\textbf{y}\vert\textbf{x}$ is found by 
 \hdots \\
 &= \boldsymbol{\gamma}\textbf{I}\textbf{A}^T?
 \end{align*}
-Lastly the covariance of $\textbf{y}\vert \textbf{x}$ is found similarly found by the definition of conditional covariance as follows 
+Lastly the covariance of $\textbf{y}\vert \textbf{x}$ is similarly found by the definition of conditional covariance as follows 
 \begin{align*}
 \boldsymbol{\Sigma}_{\textbf{yy}} =  \text{cov}(\textbf{y},\textbf{y}\vert \textbf{x}) = \boldsymbol{\Sigma}_{\textbf{yy}\vert \textbf{x}} &= \boldsymbol{\Sigma}_{\textbf{yy}} - \boldsymbol{\Sigma}_{\textbf{yx}}\boldsymbol{\Sigma}_{\textbf{xx}}^{-1}\boldsymbol{\Sigma}_{\textbf{xy}} \\
 &= \boldsymbol{\sigma}^2 \textbf{I} - \boldsymbol{\gamma}\textbf{I}\textbf{A}^T (\boldsymbol{\gamma}\textbf{I})^{-1} \textbf{A}\boldsymbol{\gamma}\textbf{I} \\
@@ -62,5 +63,11 @@ Lastly the covariance of $\textbf{y}\vert \textbf{x}$ is found similarly found b
 \end{align*} 
 The resulting conditional covariance becomes 
 \begin{align*}
-\text{cov}(\textbf{x},\textbf{x}\vert \textbf{y}) = \boldsymbol{\Sigma}_{\textbf{xx}\vert\textbf{y}} = \boldsymbol{\gamma}\textbf{I} - \boldsymbol{\gamma}\textbf{I}\textbf{A}^T (\boldsymbol{\Sigma}_{\textbf{yy}\vert \textbf{y}})^{-1} \textbf{A} \boldsymbol{\gamma}\textbf{I}
+\boldsymbol{\Sigma} = \boldsymbol{\gamma}\textbf{I} - \boldsymbol{\gamma}\textbf{I}\textbf{A}^T (\boldsymbol{\Sigma}_{\textbf{yy}\vert \textbf{x}})^{-1} \textbf{A} \boldsymbol{\gamma}\textbf{I}.
 \end{align*}
+Consider now the mean of $\textbf{x}$ conditional on $\textbf{y}$
+\begin{align*}
+\boldsymbol{\mu} &= \boldsymbol{\mu}_{\textbf{x}}+\boldsymbol{\Sigma}_{\textbf{xy}}\boldsymbol{\Sigma}_{\textbf{yy}}^{-1}\left( \textbf{y}-\boldsymbol{\mu}_{\textbf{y}}\right) \\
+&= 0 + \boldsymbol{\gamma}\textbf{I}\textbf{A}^T \left( \boldsymbol{\Sigma}_{\textbf{yy}}\right)^{-1}\left(\textbf{y}-\textbf{Ax}\right)
+\end{align*}  
+\todo{in the result we have used, the mean of y is subtracted.?  }

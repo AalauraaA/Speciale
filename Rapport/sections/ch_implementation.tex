@@ -8,6 +8,7 @@ theory and methods behind recovering the mixing matrix $\mathbf{A}$ and the sour
 The goal of this chapter is to describe how the two found algorithms can be implemented into one algorithm -- the baseline algorithm -- and what one must have in mind when combining the two algorithms. Furthermore, some tests of the baseline algorithm, with different data sets of different type of data, will be performed with the purpose to investigate how good the recovering process is. 
 
 The chapter will begin with a discussion of the choice for the parameters $M$, $N$ and $k$ as in the realistic case with real EEG measurements the number of active sources within the brain $k$ are unknown -- which parameters lead to a good recovering?
+\todo[inline]{lyder det ikke lidt som som vi skal vælge de bedste N,M og k her?, vi skal lige have styr på hvad vi kalder parameter og variable osv. overordnet så er $\textbf{X}$ vel de model parameter vi skal finde, mens A-init og cov-seg samt N og k er variable vi kan justere, mens M variable vi ikke kan justere?}
 
 \input{sections/ch_implementation/parameter.tex}
    

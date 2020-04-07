@@ -7,7 +7,9 @@ The Cov-DL algorithm will instead be tested for different choice of parameters, 
 The goal with all these tests is make the best choice for each parameters, to achieve lowest error, such that when the baseline algorithm is used on realistic data set, the EEG measurements, the parameters as been chosen with the best performance in mind -- leading to the best scenario of finding the true mixing matrix and source matrix from EEG measurements.
 
 First at all, we will run a test, with random setting, to see how the error margin is for both algorithms.
-
+\todo[inline]{Dette afsnit virker som om det skal komme efter vi har beskrevet implementeringen af koden/flowdiagrammet.\\
+Vi skriver at vi ikke kan compare performnce på Cov-DL, det passer vel ikke den bliver sammen lignet med den rigtige $\textbf{A}$ og hertil skruer vi så på $\textbf{A}_{init}$ og cos-seg for at se hvordan det påvirker resultatet.\\
+måler vi en error margin som nævnt tilsidst?}
 \subsection{Error}
 To evaluate performance of the algorithms we will be looking at the differences between the real and estimated matrices, mixing matrix $\mathbf{A}$ and source matrix $\mathbf{X}$.
 For this task a mean squared error (MSE) method has been chosen. 
@@ -21,6 +23,8 @@ The MSE is viewed as a measure of the quality of an estimator, in this case of h
 For a large MSE value the estimated matrix/values are dispersed widely around its mean while for a small MSE value the estimated matrix/values is closely dispersed around the mean. 
 Usually, a small MSE value indicate a good estimator but the value cannot be to small as this would indicate that the data has been overfitted \todo{Vi skal lige finde en god kilde som siger dette}. 
 Therefore, a good MSE and therefore a good performance would be depending on how the data is scattered as widely scattered data may lead to a MSE value not close to zero but it would still be the a good measure for the estimator.
+\todo[inline]{Jeg tror vi bør beskrive de simulerede data først her, da vi ellers snakker om real matricer, vi ikke ved hvad er?\\
+MSE: jeg er ikke sikker på jeg forstår det med scatteret data. evt. vi skal beskrive at vi tager rækken det er fejlen pr enkelt signal vi har fundet og så tages gennemsnittet over det, det er selvføglelig mest $\textbf{X}$ det er relevant for. Har vi forholdt os til forskel i amplitude her, det ser den bor fra ikke? hvilket vi jo gerne vil have.}
 
 \subsection{Simulation of Data Sets}\label{sec:dataset}
 For the test of the performance of the algorithms some simulated data sets will be used as we then know the real mixing matrix and source matrix which will be using when measuring the performance with MSE.
@@ -73,9 +77,11 @@ An illustration of the autoregressive data set can be seen in figure \ref{fig:AR
 \end{figure}
 \noindent
 As $k = 4$ there are four signals representing the measurement matrix $\mathbf{Y}$ but only one signal is visible in figure \ref{fig:AR}. By visualizing all signals at once as in \ref{fig:mix} it would be difficult to see all the signal apart each other.
+\todo[inline]{syntes vi skal overveje at vise sources ved siden af det målte signal}
 
 \subsection{Tests}
-Before any testing of the performance of the algorithms we will test if the algorithms give us a reasonable result. The Cov-DL and M-SBL has been tested with the simple data to see if the algorithms give us a results and how the performance of M-SBL differs when using an estimated mixing matrix and the true mixing matrix.
+
+Before any testing of the performance of the algorithms we will test if the algorithms give us a reasonable result\todo{hvad er forskellen her?}. The Cov-DL and M-SBL has been tested with the simple data to see if the algorithms give us a results and how the performance of M-SBL differs when using an estimated mixing matrix and the true mixing matrix\todo{syntes vi skal holde de to adskildt endnu. der er ikke nogen grund til at anvende $\textbf{A}_{rec}$ inden vi har kigget på dens fejl. ville det give mening at plotte $\textbf{A}$?}.
 
 In the following figure we see the recovered sources aligned with the real source of a system with $M = 3$ and $k = 4$ for $L = 100$ -- a small system.
 \begin{figure}[H]
@@ -217,6 +223,8 @@ From \ref{tab:iniA} we see that the MSE values for our estimated mixing matrix $
 As the autoregressive data set have a higher amplitude in the data than the simple data set, the error will become larger. 
 
 If we look at the initial $\mathbf{A}_{\text{ini}}$ drawn from the Gaussian distribution we have a small error for the mixing matrix in the autoregressive data set while the error from the simple data set also is low. The error for source matrix is the highest value for the simple data set but comes second in the autoregressive data set. As we want to take into account that the autoregressive data set resemble the EEG measurement most we conclude that the initial $\mathbf{A}_{\text{ini}}$ from the Gaussian distribution would be the best choice in Cov-DL.
+\todo[inline]{Det er en lidt lang smøre her måske, ville det gøre noget hvis man fjernede X mse her, påvirker den valgt for det burde den vel egentlig ikke i hvert fald.\\
+Fortæller vi at det en gennemsnitlig fejl og over hvor meget? }
 
 \subsubsection{Segmentation in Cov-DL}
 For the Cov-DL algorithm when estimating the mixing matrix $\mathbf{A}$ the measurement matrix is transformed into the covariance domain as part of the recovering process. During the transformation the measurement matrix $\mathbf{Y}$ is divided into segments consisting of $L_s$ samples each.
@@ -252,7 +260,8 @@ For the test, six different number of samples within each segments will be teste
 \label{fig:seg}
 \end{figure}
 \noindent
-The MSE values of each tests -- estimated and real mixing matrix $\mathbf{A}$ -- can be seen in table \ref{tab:seg}.
+The MSE values of each tests -- estimated and real mixing matrix $\mathbf{A}$ -- can be seen in table \ref{tab:seg}\todo[inline]{hvordan kan det være der kun er 3 punkter for AR dataen?\\
+\textbf{X} fejlen er mærkelig høj her, er der en grund til det}.
 \begin{table}[H]
 \centering
 \begin{minipage}{.45\textwidth}

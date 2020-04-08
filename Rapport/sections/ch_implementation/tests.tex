@@ -1,4 +1,5 @@
 \section{Tests of Parameters Performance}
+\todo[inline]{initial test of A and X on toy example}
 With the implemented algorithms, Cov-DL and M-SBL, the purpose is now to investigate the performance of each algorithm. The performance will be measure by a error measure -- the mean square error (MSE) -- this will be presented in the next section. 
 All the tests will be done one the estimated matrices but for the comparison of these error measurements the true mixing matrix will be used. 
 As the true $\mathbf{A}$ is used we can not compared the performance of Cov-DL but only M-SBL. 
@@ -10,74 +11,7 @@ First at all, we will run a test, with random setting, to see how the error marg
 \todo[inline]{Dette afsnit virker som om det skal komme efter vi har beskrevet implementeringen af koden/flowdiagrammet.\\
 Vi skriver at vi ikke kan compare performnce på Cov-DL, det passer vel ikke den bliver sammen lignet med den rigtige $\textbf{A}$ og hertil skruer vi så på $\textbf{A}_{init}$ og cos-seg for at se hvordan det påvirker resultatet.\\
 måler vi en error margin som nævnt tilsidst?}
-\subsection{Error}
-To evaluate performance of the algorithms we will be looking at the differences between the real and estimated matrices, mixing matrix $\mathbf{A}$ and source matrix $\mathbf{X}$.
-For this task a mean squared error (MSE) method has been chosen. 
-The MSE method measure the average squared difference between some estimated value and the actual value. 
-The MSE can be written as
-\begin{align*}
-\text{MSE} = \frac{1}{T} \sum_{i=1}^T (G_i - \hat{G}_i)^2,  
-\end{align*}
-with $T = \{M, k\}$ the numbers of rows of $\mathbf{A}$ or $\mathbf{X}$, $G_i = \{ \mathbf{A}_i, \mathbf{X}_i\}$ is a measurement row of the actual matrix and $\hat{G}_i = \{\hat{\mathbf{A}}_i,\hat{\mathbf{X}}_i\}$ is an estimated row of the estimated matrix.
-The MSE is viewed as a measure of the quality of an estimator, in this case of how M-SBL and Cov-DL perform. 
-For a large MSE value the estimated matrix/values are dispersed widely around its mean while for a small MSE value the estimated matrix/values is closely dispersed around the mean. 
-Usually, a small MSE value indicate a good estimator but the value cannot be to small as this would indicate that the data has been overfitted \todo{Vi skal lige finde en god kilde som siger dette}. 
-Therefore, a good MSE and therefore a good performance would be depending on how the data is scattered as widely scattered data may lead to a MSE value not close to zero but it would still be the a good measure for the estimator.
-\todo[inline]{Jeg tror vi bør beskrive de simulerede data først her, da vi ellers snakker om real matricer, vi ikke ved hvad er?\\
-MSE: jeg er ikke sikker på jeg forstår det med scatteret data. evt. vi skal beskrive at vi tager rækken det er fejlen pr enkelt signal vi har fundet og så tages gennemsnittet over det, det er selvføglelig mest $\textbf{X}$ det er relevant for. Har vi forholdt os til forskel i amplitude her, det ser den bor fra ikke? hvilket vi jo gerne vil have.}
 
-\subsection{Simulation of Data Sets}\label{sec:dataset}
-For the test of the performance of the algorithms some simulated data sets will be used as we then know the real mixing matrix and source matrix which will be using when measuring the performance with MSE.
-
-Two data sets has been made, one which is a simple data set with simple measurement, and one which is more random and fluctuated -- more like real EEG measurements.
-
-\subsubsection{Simple Data Set}
-The simple data set is a data set which do not represent realistic data, EEG measurements, but is only used to confirm that the two algorithm works and to test the performance.
-The simple data set is constructed from four different signals representing the sources of the source matrix $\mathbf{X}$: 
-\begin{itemize}
-\item[-] a sinus signal $\sin(2t)$
-\item[-] a sinus signal $\sin(4t)$
-\item[-] a sawtooth signal with period $2 \pi t$
-\item[-] a sign signal of $\sin(3t)$
-\end{itemize}
-with $t$ being a time index defined in the interval $[0,10]$ with $L$ samples. Each of the four signal are randomly drawn and used to construct a source matrix $\mathbf{X}$ of size $k \times L$. Therefore some of the signals may occur two or more time as sources.
-The mixing matrix $\mathbf{A}$ of size $M \times k$ is randomly generated from a Gaussian distribution. Its rows are then normalised. 
-By multiplying the source matrix and the mixing matrix the measurement matrix $\mathbf{Y}$ is achieved.
-The simple data set then consist of $\{ \mathbf{Y}, \mathbf{X}, \mathbf{A} \}$ which are the true values of the MMV model.
-
-An illustration of the measurement matrix $\mathbf{Y}$ from the simple data set can be seen in figure \ref{fig:mix}. The data set is constructed for $M = 3$, $k = 4$ and $L = 1000$.
-\begin{figure}[H]
-\centering
-\includegraphics[scale=0.5]{figures/chapter6/Mix_Data_m3_n4_k4_L1000.png}
-\caption{This is a visualization of the measurement matrix $\mathbf{Y}$ from the simple data set for $M = 3$, $k=4$ and $L=1000$. As $k = 4$ there are four signals representing the measurement matrix $\mathbf{Y}$.}
-\label{fig:mix}
-\end{figure}
-\noindent
-
-\subsubsection{Autoregressive Data Set}
-The second data set illustrate a more realistic data set.
-The data set is constructed from four different autoregressive processes representing the sources of the source matrix $\mathbf{X}$ \todo{Skal lige finde en god måde at skrive dem ind på}: 
-\begin{itemize}
-\item[-] $\mathbf{x}^{t} = \mathbf{a1}^{t-1} \cdot \mathbf{x}^{t-1} + \mathbf{a1}^{t-2} \cdot \mathbf{x}^{t-2} + \mathbf{w1}_t$
-\item[-] $\mathbf{x}^{t+1} = \mathbf{a2}_t \cdot \mathbf{x}_{t-1} + \mathbf{a}_t \cdot \mathbf{x}_t + \mathbf{w}_t$
-\item[-] $\mathbf{x}_{t+1} = \mathbf{a}_t \cdot \mathbf{x}_{t-2} + \mathbf{a}_t \cdot \mathbf{x}_t + + \mathbf{a}_t \cdot \mathbf{x}_{t-1} \mathbf{w}_t$
-\item[-] $\mathbf{x}_{t+1} = \mathbf{a}_t \cdot \mathbf{x}_t + \mathbf{a}_t \cdot \mathbf{x}_{t-3} + \mathbf{w}_t$
-\end{itemize}
-Each of the four autoregressive processes are randomly drawn and used to construct a source matrix $\mathbf{X}$ of size $k \times L$. 
-The mixing matrix $\mathbf{A}$ of size $M \times k$ is randomly generated as the same way as the mixing matrix from the simple data set, from a Gaussian distribution. 
-By multiplying the source matrix and the mixing matrix the measurement matrix $\mathbf{Y}$ is achieved.
-The autoregressive data set then consist of $\{ \mathbf{Y}, \mathbf{X}, \mathbf{A} \}$ which are the true values of the MMV model.
-
-An illustration of the autoregressive data set can be seen in figure \ref{fig:AR}. The data set is constructed for $M = 3$, $k = 4$ and $L = 1000$.
-\begin{figure}[H]
-\centering
-\includegraphics[scale=0.5]{figures/chapter6/AR_Data_m3_n4_k4_L1000.png}
-\caption{This is a visualization of the first row of the measurement matrix $\mathbf{Y}$ from the autoregressive data set for $M = 3$, $k=4$ and $L=1000$.}
-\label{fig:AR}
-\end{figure}
-\noindent
-As $k = 4$ there are four signals representing the measurement matrix $\mathbf{Y}$ but only one signal is visible in figure \ref{fig:AR}. By visualizing all signals at once as in \ref{fig:mix} it would be difficult to see all the signal apart each other.
-\todo[inline]{syntes vi skal overveje at vise sources ved siden af det målte signal}
 
 \subsection{Tests}
 
@@ -118,6 +52,10 @@ MSE of $\mathbf{X}$ & 0.49 & 0.14 \\
 \end{table}
 \noindent
 From \ref{tab:test} we see that the estimated source matrix has low MSE value. This is due to the low value in $\mathbf{X}$ that the error also is small. But we see a different between the used of a estimated mixing matrix and the real mixing matrix.
+
+
+\section{Test on AR data}
+\todo[inline]{insert test of A plus variable adjustment, and test of X on AR data}
 
 \subsubsection{Initial A in Cov-DL}
 For the Cov-DL algorithm when estimating the mixing matrix $\mathbf{A}$ a matrix $\mathbf{D}$ is used in the recovering process. For a over-determined system \ref{sec:over_det} $\mathbf{D}$ is found from an optimisation problem \eqref{eq:Cov_DL2} created with use of principal component analysis. To solve the optimization problem and finding $\mathbf{D}$ an initial $\mathbf{A}_{\text{ini}}$ is used as a starting point in the optimization process. The choice of this initial $\mathbf{A}_{\text{ini}}$ will affect how the good an estimate our recovered mixing matrix $\mathbf{A}$ is.

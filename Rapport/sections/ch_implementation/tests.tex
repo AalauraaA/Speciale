@@ -1,11 +1,53 @@
 \section{Algorithm verification}
-\todo[inline]{initial test of A and X on toy example}
 In this section the implementation of Cov-DL and M-SBL are verified separately based on the MSE between the true and the estimated matrices.
 
 \subsection{Test of Cov-DL}
-To test 	
+As seen from the flow diagram figure \ref{fig:flow} Cov-DL takes a measurement matrix $\textbf{Y}$, $N$ and $k$ as input and return an estimation of the mixing matrix $\textbf{A}$. The Cov-DL algorithm is tested on the two simulations of a simple data, as specified in section \ref{subseg_simpledata}. 
+
+For $\textbf{Y}$ specified by $N\leq \widetilde{M}$, implying Cov-DL2, the true and estimated values of $\textbf{A}$ are plotted in figure \ref{fig:cov2_simple} for visual comparison.
+The resulting MSE between the true $\textbf{A}$ and the estimated $\hat{\textbf{A}}$ become 
+\begin{align*}
+A_{MSE} = 2.19 
+\end{align*}
+
+For $\textbf{Y}$ specified by $N > \widetilde{M}$ and $k\leq \widetilde{M}$, implying Cov-DL1, the true and estimated values of $\textbf{A}$ are plotted in figure \ref{fig:cov1_simple} for visual comparison.
+The resulting MSE between the true $\textbf{A}$ and the estimated $\hat{\textbf{A}}$ become 
+\begin{align*}
+A_{MSE} = 1.37
+\end{align*}
+
+\begin{figure}[H]
+    \begin{minipage}[t]{.45\textwidth}
+    	\centering
+		\includegraphics[scale=0.5]{figures/ch_6/COV2_simple.png}
+		\caption{Estimated values of $\hat{\textbf{A}}$ compared to the true 					values $\textbf{A}$}
+		\label{fig:cov2_simple}
+    \end{minipage} 
+    \hfill
+    \begin{minipage}[t]{.45\textwidth}
+        \centering
+		\includegraphics[scale=0.5]{figures/ch_6/COV1_simple.png}
+		\caption{Estimated values of $\hat{\textbf{A}}$ compared to the true 				values $\textbf{A}$}
+		\label{fig:cov1_simple}
+    \end{minipage}
+\end{figure}
+It is seen that .... it is only good due to the initial $\textbf{A}$ being close to the true $\textbf{A}$...
 
 
+\subsection{Test of M-SBL}
+From the flow diagram figure \ref{fig:flow} it seen that that the M-SBL algorithm takes $\textbf{A}$(maybe $k$) and $\textbf{Y}$ as input. The algorithm is now tested on a simple data set specified by $N=5$,$M = 3$, $k=4$ and $L=1000$, plotted in figure \ref{fig:simple}. 
+In order to not letting the performance of COV-DL affect the result of M-SBL it is the true $\textbf{A}$ which is given as input along with the corresponding $\textbf{Y}$. The estimate $\hat{\textbf{X}}$ are plotted in figure \ref{fig:M-SBL_simple}. Each non zero signals are now plotted separately for simple visual comparison. Furthermore, note that each compared couple of rows have the same row index, as such the localisation of the estimated row can be evaluated.
+\begin{figure}
+    \centering
+	\includegraphics[scale=0.5]{figures/ch_6/M-SBL_simple.png}
+	\caption{Estimated values of $\hat{\textbf{A}}$ compared to the true 				values $\textbf{A}$}
+	\label{fig:M-SBL_simple}
+\end{figure}
+The resulting MSE between the true $\textbf{X}$ and the estimated $\hat{\textbf{X}}$ become 
+\begin{align*}
+X_{MSE} = 0.13 
+\end{align*}
+it is seen that ... note the "average" MSE - byt farver
 
 With the implemented algorithms, Cov-DL and M-SBL, the purpose is now to investigate the performance of each algorithm. The performance will be measure by a error measure -- the mean square error (MSE) -- this will be presented in the next section. 
 All the tests will be done one the estimated matrices but for the comparison of these error measurements the true mixing matrix will be used. 

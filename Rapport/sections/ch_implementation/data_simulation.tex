@@ -9,21 +9,25 @@ Two different kinds of data sets are simulated.
 One simple data set with simple and predictable source signals to ensure a solution and easy visualisation.
 Another data set with randomised and fluctuating source signals to resemble realistic EEG measurements.
 
-\subsection{Simple Data Set}
-The simple data set is specified by $N = 5$, $k=4$, $M = 3$ and $L = 100$. That is a source matrix $\textbf{X}$ with $4$ independent signals and $1$ zero row which is mixed into a data set with $3$ measurement per sample.       
-The 5 rows of $\textbf{X}$ are defined by 
+\subsection{Simple Data Set}\label{subseg_simpledata}
+Two different simple data sets are simulated, with a different number of zero rows. 
+One specified by $N = 5$, $k=4$, $M = 3$ and $L = 1000$. That is a source matrix $\textbf{X}$ with $4$ independent signals and $1$ zero row which is mixed into a data set with $3$ measurement per sample.  
+The second is specified by $N = 8$, $k=4$, $M = 3$ and $L = 1000$. This is 3 additional zero rows.
+From the specifications the first data set comply to $N \leq \frac{M(M+1)}{2}$ which imply the use of Cov-DL2.
+The second data set comply to $N > \frac{M(M+1)}{2}$ and $k \leq \frac{M(M+1)}{2}$ implying the use of Cov-DL1. As such it is possible to test both branches of the Cov-DL algorithm. 
+     
+The 4 independent source signal of $\textbf{X}$ are defined by 
 \begin{itemize}
 \item[1.] a sinus signal $\sin(2t)$
-\item[2.] zero row
-\item[3.] a sawtooth signal with period $2 \pi t$
-\item[4.] a sinus signal $\sin(4t)$
-\item[5.] a sign function of a sinus signal $\sin(3t)$
+\item[2.] a sawtooth signal with period $2 \pi t$
+\item[3.] a sinus signal $\sin(4t)$
+\item[4.] a sign function of a sinus signal $\sin(3t)$
 \end{itemize}
-with $t$ being a time index defined in the interval $[0,4]$ with $L$ samples. Each of the four signals are randomly drawn and used to construct a source matrix $\mathbf{X}$ of size $k \times L$.
+with $t$ being a time index defined in the interval $[0,4]$ with $L$ samples. Each of the four signals are randomly drawn and used to construct a source matrix $\mathbf{X}$ of size $k \times L$, then zero rows are inserted randomly, such that $\textbf{X}\in \mathbb{R}^{N\times L}$. 
 The mixing matrix $\mathbf{A}$ of size $M \times N$ is randomly generated from a Gaussian distribution. 
 By multiplying the source matrix and the mixing matrix the measurement matrix $\mathbf{Y}$ is achieved.
 The simple data set then consist of $\{ \mathbf{Y}, \mathbf{X}, \mathbf{A} \}$.
-In figure \ref{fig:simple} the source signals are plotted over the measurement signal $\mathbf{Y}$ to illustrates how the sources signal are transformed by the mixing matrix $\textbf{A}$.
+In figure \ref{fig:simple} first simple data set are illustrated by the source signals plotted over the measurement signal $\mathbf{Y}$. This illustrates how the sources signal are transformed by the mixing matrix $\textbf{A}$.
 \begin{figure}[H]
 \centering
 \includegraphics[scale=0.5]{figures/ch_6/simple_data.png}
@@ -51,7 +55,7 @@ One simulation of an autoregressive data set is illustrated in figure \ref{fig:A
 \begin{figure}[H]
 \centering
 \includegraphics[scale=0.5]{figures/ch_6/AR_data.png}
-\caption{Visualization of the source signals $\textbf{X}$ in comparison to the measurements $\mathbf{Y}$ from an AR data set specified by $M = 3$, $k=4$ and $L=1000$. For simplicity only samples [0:100] are plotted.}
+\caption{Visualization of the source signals $\textbf{X}$ in comparison to the measurements $\mathbf{Y}$ from an AR data set specified by $N=5$, $M = 3$, $k=4$ and $L=1000$. For simplicity only samples [0:100] are plotted.}
 \label{fig:AR}
 \end{figure}
 \noindent

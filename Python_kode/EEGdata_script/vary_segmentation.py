@@ -29,8 +29,8 @@ Y, A_real, X_real = generate_AR(N, M, L, k)
 
 Y = np.reshape(Y, (1,Y.shape[0],Y.shape[1]))
 
-list_ = [10, 20, 30, 50, 100, 150, 250]   #L_covseg
-#list_ = [10]
+#list_ = [10, 20, 30, 50, 100, 150, 200]   #L_covseg
+list_ = [200]
 err_listA = np.zeros(10)
 
 Amse = np.zeros(len(list_))

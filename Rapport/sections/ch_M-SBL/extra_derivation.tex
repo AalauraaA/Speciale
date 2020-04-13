@@ -18,7 +18,7 @@ $$
 \textbf{z} = \begin{bmatrix}
 \textbf{x} \\ 
 \textbf{y}\vert \textbf{x} 
-\end{bmatrix} \in \mathbb{R}^{N+M},	
+\end{bmatrix} \in \mathbb{R}^{N + M},	
 $$   
 then the mean and covariance of $\textbf{z}$ can be partitioned into 
 $$
@@ -42,7 +42,8 @@ Then, from \cite{conditional_cov}, the posterior distribution of $\textbf{x}$ gi
 \boldsymbol{\Sigma} &= \text{cov}(\textbf{x},\textbf{x}\vert \textbf{y}) =  \boldsymbol{\Sigma}_{\textbf{xx}} - \boldsymbol{\Sigma}_{\textbf{xy}}\boldsymbol{\Sigma}_{\textbf{yy}}^{-1}\boldsymbol{\Sigma}_{\textbf{yx}} \\
 \boldsymbol{\mu} &= \boldsymbol{\mu}_{\textbf{x}}+\boldsymbol{\Sigma}_{\textbf{xy}}\boldsymbol{\Sigma}_{\textbf{yy}}^{-1}(\textbf{y}-\boldsymbol{\mu}_{\textbf{y}})
 \end{align*}
-Consider first the conditional covariance. Each covariance within the expression is now found:\\
+Consider first the conditional covariance. Each covariance within the expression is now found:
+\\
 The covariance of $\textbf{x}$ comes directly from the distribution  
 \begin{align*}
 \boldsymbol{\Sigma}_{\textbf{xx}} = \boldsymbol{\gamma}\textbf{I}

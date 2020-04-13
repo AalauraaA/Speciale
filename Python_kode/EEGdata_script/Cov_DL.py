@@ -103,7 +103,7 @@ def _covdomain(Y, L, L_covseg, M):
     Y_big = np.zeros([int(M*(M+1)/2.), n_seg])
     
     for j in range(n_seg):                   # loop over all segments
-        Y_cov = np.corrcoef(Ys[j])           # covariance matrix
+        Y_cov = np.cov(Ys[j])           # covariance matrix
         Y_big.T[j] = _vectorization(Y_cov, M)
     return Y_big
 

@@ -9,7 +9,6 @@ The resulting MSE between the true $\textbf{A}$ and the estimated $\hat{\textbf{
 \begin{align*}
 A_{MSE} = 2.19 
 \end{align*}
-
 For $\textbf{Y}$ specified by $N > \widetilde{M}$ and $k\leq \widetilde{M}$, implying Cov-DL1, the true and estimated values of $\textbf{A}$ are plotted in figure \ref{fig:cov1_simple} for visual comparison.
 The resulting MSE between the true $\textbf{A}$ and the estimated $\hat{\textbf{A}}$ become 
 \begin{align*}
@@ -31,11 +30,11 @@ A_{MSE} = 1.37
 		\label{fig:cov1_simple}
     \end{minipage}
 \end{figure}
-It is seen that .... it is only good due to the initial $\textbf{A}$ being close to the true $\textbf{A}$... for COV-DL2 it is in fact the init A which are used, that is no optimization have been conducted, even though it writes that 25 iterations has been conducted... 
+It is seen that .... it is only good due to the initial $\textbf{A}_{\text{ini}}$ being close to the true $\textbf{A}$... for Cov-DL2 it is in fact the initial $\textbf{A}_{\text{ini}}$ which are used, that is no optimization have been conducted, even though it writes that 25 iterations has been conducted... 
 
 \subsection{Test of M-SBL}
-From the flow diagram figure \ref{fig:flow} it seen that that the M-SBL algorithm takes $\textbf{A}$(maybe $k$) and $\textbf{Y}$ as input. The algorithm is now tested on the same two simple data sets specified by $M = 3$, $k=4$, $L=1000$ and respectively $N = 5$ and $N = 8$ as used above. 
-In order to not let the performance of COV-DL affect the result of M-SBL it is the true $\textbf{A}$ which is given as input along with the corresponding $\textbf{Y}$. The estimate $\hat{\textbf{X}}$ are plotted in figure \ref{fig:M-SBL_simple1} and \ref{fig:M-SBL_simple2}. Each non zero signals are now plotted separately for simple visual comparison. Furthermore, note that each compared couple of rows have the same row index, as such the localisation of the estimated row can be evaluated.
+From the flow diagram figure \ref{fig:flow} it seen that that the M-SBL algorithm takes $\mathbf{A}$ (maybe $k$) and $\mathbf{Y}$ as input. The algorithm is now tested on the same two simple data sets specified by $M = 3$, $k = 4$, $L=1000$ and respectively $N = 5$ and $N = 8$ as used above. 
+In order to not let the performance of Cov-DL affect the result of M-SBL it is the true $\mathbf{A}$ which is given as input along with the corresponding $\mathbf{Y}$. The estimate $\hat{\mathbf{X}}$ are plotted in figure \ref{fig:M-SBL_simple1} and \ref{fig:M-SBL_simple2}. Each non-zero signals are now plotted separately for simple visual comparison. Furthermore, note that each compared couple of rows have the same row index, as such the localization of the estimated row can be evaluated.
 \begin{figure}[H]
     \begin{minipage}[t]{.45\textwidth}
     	\centering
@@ -51,12 +50,11 @@ In order to not let the performance of COV-DL affect the result of M-SBL it is t
 		\label{fig:M-SBL_simple2}
     \end{minipage}
 \end{figure}
-
 The resulting MSE between the true $\textbf{X}$ and the estimated $\hat{\textbf{X}}$ from figure \ref{fig:M-SBL_simple1} where $N = 5$, averaged over every row, become 
 \begin{align*}
 X_{MSE} = 0.131 
 \end{align*}
-From figure \ref{fig:M-SBL_simple} it is seen that all four source signals are recovered at the right location. As suggested by the achieved MSE it the estimates are not exact, but it is clear that the estimates manage to follow the right pattern at the right location. By this plot an error margin are established(?).  
+From figure \ref{fig:M-SBL_simple1} it is seen that all four source signals are recovered at the right location. As suggested by the achieved MSE it the estimates are not exact, but it is clear that the estimates manage to follow the right pattern at the right location. By this plot an error margin are established(?).  
 
 The resulting MSE between the true $\textbf{X}$ and the estimated $\hat{\textbf{X}}$ from figure \ref{fig:M-SBL_simple2} where $N = 8$ thus more sparse, become 
 \begin{align*}
@@ -65,8 +63,6 @@ X_{MSE} = 0.145
 From figure \ref{fig:M-SBL_simple2} it is seen that first source signal are recovered at the third entry, that is one dislocation, while the rest are recovered at the right location. This indicate that the algorithm can manage to locate the source signal however the more options the more greater chance of dislocation.     
 
 \subsubsection*{Possiblities of $N=k$}
-
-
 \begin{enumerate}
 \item Describe why we want to set $N = k$, logical discussion. No results yet to back up the assuming.
 	\begin{itemize}
@@ -77,11 +73,9 @@ From figure \ref{fig:M-SBL_simple2} it is seen that first source signal are reco
 \end{enumerate}
 
 \section{Test on AR data and model fitting}
-The implemented algorithms are now tested on the simulated AR data which resembles the real EEG measurements. Furthermore it is sought to improve the model by fitting specific model variables to the data. In this case it is the COV-DL algorithm which can be adjusted for the overdetermined case where COV-DL2 is used.      
+The implemented algorithms are now tested on the simulated autoregressive data sets which resembles the real EEG measurements. Furthermore it is sought to improve the model by fitting specific model variables to the data. In this case it is the Cov-DL algorithm which can be adjusted for the overdetermined case where Cov-DL2 is used.      
 
 \input{sections/ch_implementation/model_fit.tex} 
-
-
 % old results
 %For the test we are looking at a system of size $M = 8$, $k = 16$ and $L = 1000$. Furthermore, for the Cov-DL the data has been divided in segments of 10 samples leading to 100 segments.
 %\begin{figure}[H]
@@ -177,75 +171,69 @@ The implemented algorithms are now tested on the simulated AR data which resembl
 
 \subsubsection{Segmentation in Cov-DL}
 For the Cov-DL algorithm when estimating the mixing matrix $\mathbf{A}$ the measurement matrix is transformed into the covariance domain as part of the recovering process. During the transformation the measurement matrix $\mathbf{Y}$ is divided into segments consisting of $L_s$ samples each.
-During this test we will be looking how many samples $L_s$ each segment can have and how this affect the performance of the algorithms.
+During this test different numbers of samples within a segment will be tested to see how this affect the performance of the algorithm.
 
-The system of interest to be tested on is when we have $M = 8$, $k = 16$ and $L = 1000$ samples. With $k = 16$ the number of segments can not be less than the number of active sources. For this system each segment can have maximum $L_s = 62$ corresponding to 16 segments. 
-For the test, six different number of samples within each segments will be tested, $L_s = \{ 10, 20, 30, 40, 50, 60 \}$.
-\begin{figure}[H]
-\centering
-    \begin{minipage}[t]{.45\textwidth}
-        \centering
-		\includegraphics[scale=0.5]{figures/chapter6/Mix_Error_vary_covseg_m8_k16_L1000}
-		\subcaption{Simple Data Set - Estimated A}
-    \end{minipage} 
-    \hfill
-    \begin{minipage}[t]{.45\textwidth}
-        \centering
-		\includegraphics[scale=0.5]{figures/chapter6/AR_Error_initial_A_m8_k16_L1000.png}
-		\subcaption{Autoregressive Data Set - Estimated A}
-    \end{minipage}
-    \begin{minipage}[t]{.45\textwidth}
-        \centering
-		\includegraphics[scale=0.5]{figures/chapter6/Mix_Error_vary_covseg_m8_k16_L1000_RealA.png}
-		\subcaption{Simple Data Set - Real A}
-    \end{minipage} 
-    \hfill
-    \begin{minipage}[t]{.45\textwidth}
-        \centering
-		\includegraphics[scale=0.5]{figures/chapter6/AR_Error_initial_A_m8_k16_L1000_RealA.png}
-		\subcaption{Autoregressive Data Set - Real A}
-    \end{minipage}
-\caption{}
-\label{fig:seg}
-\end{figure}
-\noindent
-The MSE values of each tests -- estimated and real mixing matrix $\mathbf{A}$ -- can be seen in table \ref{tab:seg}\todo[inline]{hvordan kan det være der kun er 3 punkter for AR dataen?\\
-\textbf{X} fejlen er mærkelig høj her, er der en grund til det}.
+The autoregressive data sets,  $M = 3$, $k = 4$ and $L = 1000$ samples and with respectively $N = 5$ and $N=8$, will be used for the testing. With $k = 4$ the number of segments can not be less than the number of active sources. For this system each segment can have maximum $L_s = 250$ corresponding to minimum 4 segments. 
+
+For the test, six different number of samples within each segments will be tested, $L_s = \{ 10, 20, 30, 50, 100, 150, 250 \}$. Furthermore, each $L_s$ will be run 10 times and the output of the test will be average such that each $L_s$ have one average MSE.
+%\begin{figure}[H]
+%\centering
+%    \begin{minipage}[t]{.45\textwidth}
+%        \centering
+%		\includegraphics[scale=0.5]{figures/chapter6/Mix_Error_vary_covseg_m8_k16_L1000}
+%		\subcaption{Simple Data Set - Estimated A}
+%    \end{minipage} 
+%    \hfill
+%    \begin{minipage}[t]{.45\textwidth}
+%        \centering
+%		\includegraphics[scale=0.5]{figures/chapter6/AR_Error_initial_A_m8_k16_L1000.png}
+%		\subcaption{Autoregressive Data Set - Estimated A}
+%    \end{minipage}
+%    \begin{minipage}[t]{.45\textwidth}
+%        \centering
+%		\includegraphics[scale=0.5]{figures/chapter6/Mix_Error_vary_covseg_m8_k16_L1000_RealA.png}
+%		\subcaption{Simple Data Set - Real A}
+%    \end{minipage} 
+%    \hfill
+%    \begin{minipage}[t]{.45\textwidth}
+%        \centering
+%		\includegraphics[scale=0.5]{figures/chapter6/AR_Error_initial_A_m8_k16_L1000_RealA.png}
+%		\subcaption{Autoregressive Data Set - Real A}
+%    \end{minipage}
+%\caption{}
+%\label{fig:seg}
+%\end{figure}
+%\noindent
+%The MSE values of each tests -- estimated and real mixing matrix $\mathbf{A}$ -- can be seen in table \ref{tab:seg}\todo[inline]{hvordan kan det være der kun er 3 punkter for AR dataen?\\
+%\textbf{X} fejlen er mærkelig høj her, er der en grund til det}.
+
 \begin{table}[H]
 \centering
 \begin{minipage}{.45\textwidth}
 \centering
-\begin{tabular}{|c|c|c|c|c|c|c|}
+\begin{tabular}{|c|c|c|c|c|c|c|c|}
 \hline 
- & 10 & 20 & 30 & 40 & 50 & 60 \\ 
+& 10 & 20 & 30 & 50 & 100 & 150 & 250 \\ 
 \hline 
-MSE of $\mathbf{A}$ & 1.21 & 1.09 & 1.18 & 1.08 & 1.11 & 1.13 \\ 
-\hline 
-MSE of $\mathbf{X}$ & 0.69 & 0.64 & 0.68 & 0.64 & 0.65 & 0.64 \\ 
-\hline 
-MSE of $\mathbf{X}$ with real $\mathbf{A}$ & 0.33 & 0.33 & 0.33 & 0.33 & 0.33 & 0.33 \\ 
+Average MSE of $\hat{\mathbf{A}}$ & 1.86 & 2.14 & 2.21 & 2.03 & 2.31 & 1.89 & 2.02 \\ 
 \hline
 \end{tabular} 
-\subcaption{Simple Data Set - estimated $\mathbf{A}$}
+\caption{MSE values from measurement specified by $N=5$, $M = 3$, $k = 4$ and $L = 1000$ achieved from the used of Cov-DL2}
+\label{tab:seg1}
 \end{minipage}
 \\
 \begin{minipage}{.45\textwidth}
 \centering
-\begin{tabular}{|c|c|c|c|c|c|c|}
+\begin{tabular}{|c|c|c|c|c|c|c|c|}
 \hline 
- & 10 & 20 & 30 & 40 & 50 & 60 \\ 
-\hline
-MSE of $\mathbf{A}$ & 1.87 & 1.90 & 1.70 & 1.92 & 1.85 & 1.88 \\
+& 10 & 20 & 30 & 50 & 100 & 150 & 250 \\ 
 \hline 
-MSE of $\mathbf{X}$ & 7.61 & 8.06 & 8.34 & 8.28 & 8.12 & 7.23 \\ 
-\hline
-MSE of $\mathbf{X}$ with real $\mathbf{A}$ & 2.15 & 2.15 & 2.15 & 2.15 & 2.15 & 2.15 \\  
+Average MSE of $\hat{\mathbf{A}}$ & 1.29 & 1.37 & 1.22 & 1.16 & 1.46 & 1.20 & 1.40 \\ 
 \hline
 \end{tabular} 
-\subcaption{Autoregressive Data Set - estimated $\mathbf{A}$}
+\caption{MSE values from measurement specified by $N=8$, $M = 3$, $k = 4$ and $L = 1000$ achieved the used of Cov-DL1.}
+\label{tab:seg2}
 \end{minipage}
-\caption{(a) This are the MSE values achieve from the simple data set and (b) is the MSE values achieved from the autoregressive data set.}
-\label{tab:seg}
 \end{table}
 \noindent
-Overall, in table \ref{tab:seg} there is not a big variation between the MSE values of both the simple data set and the autoregressive data set. One could argument that the number of samples within each segment does not affect the performance of the algorithms as much and therefore is more free choice. This can be seen as in the autoregressive data set the test with most and fewest samples have the smallest error.
+Overall, in table \ref{tab:seg1} and \ref{tab:seg2} there is not a big variation between the MSE values of both data sets. One could argument that the number of samples within each segment does not affect the performance of the algorithms as much and therefore is more free choice.

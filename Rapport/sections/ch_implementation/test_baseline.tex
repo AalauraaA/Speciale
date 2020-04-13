@@ -1,44 +1,25 @@
 \section{Test of the Baseline Algorithm}
-\begin{enumerate}
-\item Test the algorithm for the toy example
-	\begin{itemize}
-	\item Test for $M = 8$ and varying $N = 8, 16, 32$. Plot the errors in the same plot.
-	\item Test for $M = 16$ and varying $N = 16, 32$. Plot the errors in the same plot.
-	\item Compare the errors with the errors achieved with the real A
-	\end{itemize}	 
-\item Test the algorithm for the AR data
-	\begin{itemize}
-	\item Test for $M = 8$ and varying $N = 8, 16, 32$. Plot the errors in the same plot.
-	\item Test for $M = 16$ and varying $N = 16, 32$. Plot the errors in the same plot.
-	\item Compare the errors with the errors achieved with the real A
-	\end{itemize}	
-\end{enumerate}   
+The baseline algorithm is now tested, using both the COV-DL algorithm and the M-SBL algorithm. In order to evaluate the performance tests are conducted on several simulated AR data sets with different specification. The aim is to see how the relationship between $N$ and $M$ affect the performance, in other word how robust the algorithm is towards low density measurements. 
+The baseline algorithm is on an AR data specified by $M=8$, $L=1000$, $k=N$ and N in the range $N = [M+1, 36]$, as such $k<\frac{M(M+1)}{2}$ are withhold insuring a solution.
+For each value of $N$ 5 different data sets are simulated and solved and the average MSE are used as the result. The result are plotted in figure \ref{fig:varyN1}, the MSE is plotted for both $\textbf{X}$ and $\textbf{A}$. 
+Due to the performance of COV-DL not being as good as expected, a similar test is made where the true $\textbf{A}$ is given as input to M-SBL. These results are visualised in figure \ref{fig:varyN2}.    
+%      
+%\begin{figure}[H]
+%    \begin{minipage}[t]{.45\textwidth}
+%    	\centering
+%		\includegraphics[scale=0.5]{figures/ch_6/varyN_recA.png}
+%		\caption{ $M = 3$, $k=4$ and $L=1000$}
+%		\label{fig:varyN1}
+%    \end{minipage} 
+%    \hfill
+%    \begin{minipage}[t]{.45\textwidth}
+%        \centering
+%		\includegraphics[scale=0.5]{figures/ch_6/varyN_trueA.png}
+%		\caption{True $\textbf{A}$ $M = 3$, $k=4$ and $L=1000$ }
+%		\label{fig:varyN2}
+%    \end{minipage}
+%\end{figure}
 
-A = array([1.9430682 , 2.16890318, 2.05233559])
-X = array([420.88522225,   8.379144  ,   7.5566646 ])
-\begin{figure}[H]
-\centering
-\includegraphics[scale=0.5]{figures/chapter6/AR_Error_vary_n_m8_L1000.png}
-\caption{.}
-\label{fig:}
-\end{figure}
-\noindent
+From the results it is seen that .. 
 
 
-A = array([1.96434494, 1.97380226])
-X = array([691.21035395,  10.51375361])
-\begin{figure}[H]
-\centering
-\includegraphics[scale=0.5]{figures/chapter6/AR_Error_vary_n_m16_L1000.png}
-\caption{.}
-\label{fig:}
-\end{figure}
-\noindent
-\todo[inline]{opbygning ud fra mine noter:\\
-intro \\
-implementering \\
-beskrivele af simuleret data\\
-N=k diskussion\\
-test af A på toy,test af X på toy(lidt i tvivl her måske de godt kan slås sammen med AR)\\
-test af A på AR, test af init og cov-seg\\
-samlet test på AR}

@@ -31,7 +31,8 @@ A_{MSE} = 1.37
 		\label{fig:cov1_simple}
     \end{minipage}
 \end{figure}
-It is seen that .... it is only good due to the initial $\textbf{A}$ being close to the true $\textbf{A}$... for COV-DL2 it is in fact the init A which are used, that is no optimization have been conducted, even though it writes that 25 iterations has been conducted... 
+From the figures the estimate $\hat{\textbf{A}}$ shows tendencies from the the true $\textbf{A}$ however seems kind of random at some points. It goes for both branches of the algorithm. Visual the use of COV-DL2 seem to have the best performances but, the MSE suggest the opposite. Note here that more values was estimated by use of COV-DL1, which affects the MSE.
+For COV-DL2 an solver was used for the optimization, as specified in section \ref{sec:over_det}. An initial $A$ was given, and the optimization process was found to be terminated successful. with current function value at ... after 25 iterations 
 
 \subsection{Test of M-SBL}
 From the flow diagram figure \ref{fig:flow} it seen that that the M-SBL algorithm takes $\textbf{A}$(maybe $k$) and $\textbf{Y}$ as input. The algorithm is now tested on the same two simple data sets specified by $M = 3$, $k=4$, $L=1000$ and respectively $N = 5$ and $N = 8$ as used above. 

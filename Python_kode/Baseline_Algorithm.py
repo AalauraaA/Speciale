@@ -17,23 +17,23 @@ np.random.seed(4523)
 # choose datageneration method ...
 """ DATA GENERATION - AUTO-REGRESSIVE SIGNAL """
 #
-#m = 8                         # number of sensors
-#n = 16                         # number of sources
-#k = 16                         # max number of non-zero coef. in rows of X
-#L = 1000                 # number of sampels
-#k_true = 16 
-#
-#Y_real, A_real, X_real = data_generation.generate_AR_v2(n, m, L, k_true) 
-""" DATA GENERATION - MIX OF DETERMINISTIC SIGNALS """
-m = 6                         # number of sensors
+m = 3                         # number of sensors
 n = 8                         # number of sources
-k = 8                        # max number of non-zero coef. in rows of X
-L = 100                     # number of sampels
-k_true = 8
+k = 4                         # max number of non-zero coef. in rows of X
+L = 1000                 # number of sampels
+k_true = 4
 
-Y_real, A_real, X_real = data_generation.mix_signals(L, 10, m, n, k_true)
-#Y_real, A_real, X_real = data_generation.mix_signals2(L,m,long=True)
-
+Y_real, A_real, X_real = data_generation.generate_AR_v2(n, m, L, k_true) 
+""" DATA GENERATION - MIX OF DETERMINISTIC SIGNALS """
+#m = 6                         # number of sensors
+#n = 8                         # number of sources
+#k = 8                        # max number of non-zero coef. in rows of X
+#L = 100                     # number of sampels
+#k_true = 8
+#
+#Y_real, A_real, X_real = data_generation.mix_signals(L, 10, m, n, k_true)
+##Y_real, A_real, X_real = data_generation.mix_signals2(L,m,long=True)
+#
 
 """ DATA GENERATION - ROSSLER DATA """
 

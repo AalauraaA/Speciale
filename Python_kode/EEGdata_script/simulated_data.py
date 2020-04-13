@@ -55,53 +55,56 @@ def MSE_one_error(real,estimate):
     error = mean_squared_error(real.T, estimate.T)
     return error
 
-def mix_signals(n_samples, duration, m, n, non_zero):
+def mix_signals(n_samples, m, version=None, duration=4):
     """ 
-    Generation of 4 independent signals, united in X with zero rows in 
+    Generation of 4 independent signals, united in X with manuel zero rows in 
     between for sparsity. 
     Generation of random mixing matrix A and corresponding Y, such that Y = AX
-    
-    where A is (8 x 6), X is (8 x n_samples), Y is (6 x n_sampels) 
-    
+            M=3
+    version 0 -> N=5, k=4
+    version 1 -> N=8, k=4    -> cov_dl1 
+            M=6
+    version 2 -> N=8, k=8
+    version 3 -> N=12, k=8
+    version 4 -> N=21, k=8   -> cov_dl1
 
     RETURN: Y, A, X,
-    
     """
+    #np.random.seed(1234)
     time = np.linspace(0, duration, n_samples)  # list of time index 
     
     s1 = np.sin(2 * time)                       # sinusoidal
     s2 = np.sign(np.sin(3 * time))              # square signal
     s3 = signal.sawtooth(2 * np.pi * time)      # saw tooth signal
     s4 = np.sin(4 * time)                       # different sinusoidal
-    S = np.vstack((s1,s2,s3,s4))
-    #    zero_row = np.zeros(n_samples)
+    s5 = np.cos(2 * time)                       # cosinus
+    s6 = np.sign(np.sin(4 * time))              # square signal
+    s7 = signal.sawtooth(5 * np.pi * time)      # saw tooth signal
+    s8 = np.sin(8 * time)                       # different sinusoidal
     
-    # Column concatenation
-    X = np.zeros((n,n_samples))
-    ind = np.random.random(non_zero)
-    for i in range(len(ind)):
-        temp = np.random.randint(0,n)
-    #    print('temp old:', temp)
-        while temp in ind:
-            temp = np.random.randint(0,n)
-    #        print(i)
-    #        if temp not in ind:
-    #            break
-        ind[i] = temp
-    #    print('temp new:', temp)
+    zero_row = np.zeros(n_samples)
     
-    for j in ind:
-        k = np.random.choice(len(S))
-        X[int(j)] = S[k]
-           
-    
-    #    X = np.c_[s1, zero_row, zero_row, s2, zero_row, s3, zero_row, s4].T
-    #    X = np.c_[s1, s2, s3, s4].T
+    X = np.c_[s1, zero_row, s3, s4, s2].T 
+    if version == 0:
+        X = np.c_[s1, s3, s4, s2].T
+    if version == 1:
+        X = np.c_[zero_row, s1, zero_row, s3, zero_row, zero_row, s4, s2].T
+    if version == 2:
+        X = np.c_[s1, s2, s3, s4, s5, s6, s7, s8].T
+    if version == 3:
+        X = np.c_[s1, zero_row, s2, s3, zero_row, s4, zero_row, s5, s6, zero_row, s7, s8].T
+    if version == 4:
+        X = np.c_[s1, zero_row, zero_row, s2, s3, zero_row,  zero_row,
+                  zero_row, s4, zero_row,  zero_row, zero_row, s5, zero_row,
+                  s6, zero_row, s7,  zero_row,  zero_row, s8,  zero_row].T
+        
     n = len(X)
-    A = np.random.randn(m, n)                 # Random mix matrix
-    A = A/np.linalg.norm(A, ord=2, axis=0, keepdims=True)
-    Y = np.dot(A, X)                             # Observed signal
-    
+    A = np.random.randn(m,n)                   # Random mix matrix
+    #A = np.array([[1,2,3,4,5],
+#                  [6,7,8,9,10],
+#                  [11,12,13,14,15]])
+#    A = A/np.linalg.norm(A, ord=2, axis=0, keepdims=True)
+    Y = np.dot(A, X)                            # Observed signal
     return Y, A, X
 
 def gaussian_signals(m, n, n_samples, non_zero, long=True):
@@ -141,28 +144,50 @@ def generate_AR(N, M, L, non_zero):
         L: size of the columns (amount of samples)
         
     Output:
-        X: Source matrix of size N x L     
+        Y:
+        A:
+        X: Source matrix of size N x L 
     """
-#    np.random.seed(123)
+    np.random.seed(123)
     X = np.zeros([N, L+2])
     
+#    for i in range(N):
+#        ind = np.random.randint(1,4)    # select random 1 of the four AR functions
+#        W = np.random.randn(N, L)       # Gaussian noise matrix 
+#        A = np.random.uniform(-1,1, (N,L))  # matrix of the a coefficients 
+#        for j in range(2,L):
+#            if ind == 1:
+#                X[i][j] = A[i][j-1] * X[i][j-1] + A[i][j-2] * X[i][j-2] + W[i][j]
+#            
+#            elif ind == 2: 
+#                X[i][j] = A[i][j-1] * X[i-1][j-1] + A[i][j-2] * X[i][j-1] + W[i][j]
+#                
+#            elif ind == 3:
+#                X[i][j] = A[i][j] * X[i-2][j-1] + A[i][j-1] * X[i][j-1] + A[i][j-2] * X[i-1][j-1] + W[i][j]
+#            
+#            elif ind == 4:
+#                X[i][j] = A[i][j-1] * X[i][j-1] + A[i][j-2] * X[i-3][j-1] + W[i][j]
+#    
+    ## alternative
     for i in range(N):
         ind = np.random.randint(1,4)
-        W = np.random.randn(N, L)
-        A = np.random.uniform(-1,1, (N,L))
         for j in range(2,L):
             if ind == 1:
-                X[i][j] = A[i][j-1] * X[i][j-1] + A[i][j-2] * X[i][j-2] + W[i][j]
+                sig = np.random.uniform(-1,1,(2))
+                X[i][j] = sig[0] * X[i][j-1] + sig[1] * X[i][j-2] + np.random.randn(1)
             
             elif ind == 2: 
-                X[i][j] = A[i][j-1] * X[i-1][j-1] + A[i][j-2] * X[i][j-1] + W[i][j]
+                sig = np.random.uniform(-1,1,(3))
+                X[i][j] = sig[0] * X[i][j-1] + sig[1] * X[i][j-2] + sig[2] * X[i][j-3] + np.random.randn(1)
                 
             elif ind == 3:
-                X[i][j] = A[i][j] * X[i-2][j-1] + A[i][j-1] * X[i][j-1] + A[i][j-2] * X[i-1][j-1] + W[i][j]
+                sig = np.random.uniform(-1,1,(2))
+                X[i][j] = sig[0] * X[i][j-1] + sig[1] * X[i][j-2] + np.random.randn(1)
             
             elif ind == 4:
-                X[i][j] = A[i][j-1] * X[i][j-1] + A[i][j-2] * X[i-3][j-1] + W[i][j]
-    
+                sig = np.random.uniform(-1,1,(4))
+                X[i][j] = sig[0] * X[i][j-1] + sig[1] * X[i][j-2] + sig[2] * X[i][j-3] + sig[3] * X[i][j-4]+ np.random.randn(1)
+                
     " Making zero and non-zero rows "
     Real_X = np.zeros([N, L+2])
     ind = np.random.random(non_zero)
@@ -200,5 +225,7 @@ def segmentation_split(Y, X, Ls, n_sampels):
     Xs = np.split(X.T, n_seg, axis=1)
     
     return Ys, Xs, n_seg
+
+
 
 

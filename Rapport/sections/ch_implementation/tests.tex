@@ -31,7 +31,7 @@ A_{MSE} = 1.37
     \end{minipage}
 \end{figure}
 From the figures the estimate $\hat{\textbf{A}}$ shows tendencies from the the true $\textbf{A}$ however seems kind of random at some points. It goes for both branches of the algorithm. Visual the use of COV-DL2 seem to have the best performances but, the MSE suggest the opposite. Note here that more values was estimated by use of COV-DL1, which affects the MSE.
-For COV-DL2 an solver was used for the optimization, as specified in section \ref{sec:over_det}. An initial $A$ was given, and the optimization process was found to be terminated successful. with current function value at ... after 25 iterations 
+For COV-DL2 an solver was used for the optimization, as specified in section \ref{sec:over_det}. An initial $A$ was given, and the optimization process was found to be terminated successful. with current function value at 1.94 after 25 iterations. 
 
 \subsection{Test of M-SBL}
 From the flow diagram figure \ref{fig:flow} it seen that that the M-SBL algorithm takes $\mathbf{A}$ (maybe $k$) and $\mathbf{Y}$ as input. The algorithm is now tested on the same two simple data sets specified by $M = 3$, $k = 4$, $L=1000$ and respectively $N = 5$ and $N = 8$ as used above. 
@@ -63,15 +63,12 @@ X_{MSE} = 0.145
 \end{align*}
 From figure \ref{fig:M-SBL_simple2} it is seen that first source signal are recovered at the third entry, that is one dislocation, while the rest are recovered at the right location. This indicate that the algorithm can manage to locate the source signal however the more options the more greater chance of dislocation.     
 
-\subsubsection*{Possiblities of $N=k$}
-\begin{enumerate}
-\item Describe why we want to set $N = k$, logical discussion. No results yet to back up the assuming.
-	\begin{itemize}
-	\item The amount of $N$ is unknown as it change for every brain
-	\item Therefore, we do not know the amount of activation inside the brain, but it those there are of interest in this thesis.
-	\item Due to the method for determine the mixing matrix $\textbf{A}$ the ration between $N$ and $k$ do not affect the result, hence there are no argument against letting $N=k$ which will lower the computational complexity.\todo[inline]{do the same argument regarding $N=k$ hold for the determination of $\textbf{X}$? after the awareness that we do not need to provide $k$ to M-SBL as it has been done so far. If we do not provide $k$ it will seek the sparest solution right?}    
-	\end{itemize}
-\end{enumerate}
+\subsubsection*{Possibilities of $N=k$}
+\begin{itemize}
+	\item The true $N$ is unknown for real EEG measurements, as it change for every brain
+	\item Therefore, we do not know the amount of activation inside the brain, but it is those which are of interest in this thesis.
+	\item Due to the method for determine the mixing matrix $\textbf{A}$ the ration between $N$ and $k$ do not affect the result, hence there are no argument against letting $N=k$ which will lower the computational complexity.\todo[inline]{do the same argument regarding $N=k$ hold for the determination of $\textbf{X}$? after the awareness that we do not need to provide $k$ to M-SBL as it has been done so far.}    
+\end{itemize}
 
 \section{Test on AR data and model fitting}
 The implemented algorithms are now tested on the simulated autoregressive data sets which resembles the real EEG measurements. Furthermore it is sought to improve the model by fitting specific model variables to the data. In this case it is the Cov-DL algorithm which can be adjusted for the overdetermined case where Cov-DL2 is used.      
@@ -170,7 +167,7 @@ The implemented algorithms are now tested on the simulated autoregressive data s
 %
 %If we look at the initial $\mathbf{A}_{\text{ini}}$ drawn from the Gaussian distribution we have a small error for the mixing matrix in the autoregressive data set while the error from the simple data set also is low. The error for source matrix is the highest value for the simple data set but comes second in the autoregressive data set. As we want to take into account that the autoregressive data set resemble the EEG measurement most we conclude that the initial $\mathbf{A}_{\text{ini}}$ from the Gaussian distribution would be the best choice in Cov-DL.
 
-\subsubsection{Segmentation in Cov-DL}
+\subsubsection{Segmentation in Covariance domain}
 For the Cov-DL algorithm when estimating the mixing matrix $\mathbf{A}$ the measurement matrix is transformed into the covariance domain as part of the recovering process. During the transformation the measurement matrix $\mathbf{Y}$ is divided into segments consisting of $L_s$ samples each.
 During this test different numbers of samples within a segment will be tested to see how this affect the performance of the algorithm.
 
@@ -238,3 +235,30 @@ Average MSE of $\hat{\mathbf{A}}$ & 1.29 & 1.37 & 1.22 & 1.16 & 1.46 & 1.20 & 1.
 \end{table}
 \noindent
 Overall, in table \ref{tab:seg1} and \ref{tab:seg2} there is not a big variation between the MSE values of both data sets. One could argument that the number of samples within each segment does not affect the performance of the algorithms as much and therefore is more free choice.
+
+\subsection{Test on AR data}
+Both algorithms are now test on AR data set ..... missing description
+
+
+\begin{figure}[H]
+    \begin{minipage}[t]{.45\textwidth}
+    	\centering
+		\includegraphics[scale=0.5]{figures/ch_6/M-SBL_AR1.png}
+		\caption{ $N=5$, $M = 3$, $k=4$ and $L=1000$  - True $\textbf{A}$}
+		\label{fig:AR1}
+    \end{minipage} 
+    \hfill
+    \begin{minipage}[t]{.45\textwidth}
+        \centering
+		\includegraphics[scale=0.5]{figures/ch_6/M-SBL_AR2.png}
+		\caption{$N=k=4$ $M = 3$ and $L=1000$ - True $\textbf{A}$}
+		\label{fig:AR2}
+    \end{minipage}
+\end{figure}
+
+
+MSE for $N=5$, $k=4$ is 2.17\\
+MSE for $N=k=4$ is 0.682\\
+
+
+ 

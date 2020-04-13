@@ -137,6 +137,38 @@ def mix_signals(n_samples, duration, m, n, non_zero):
     
     return Y, A, X
 
+
+def mix_signals2(n_samples, m, long=False, duration=4):
+    """ 
+    Generation of 4 independent signals, united in X with manuel zero rows in 
+    between for sparsity. 
+    Generation of random mixing matrix A and corresponding Y, such that Y = AX
+    
+    where A is (3 x 5), X is (5 x n_samples) or (8 x n_samples), Y is (3 x n_sampels) 
+
+    RETURN: Y, A, X,
+    """
+    np.random.seed(1234)
+    time = np.linspace(0, duration, n_samples)  # list of time index 
+    
+    s1 = np.sin(2 * time)                       # sinusoidal
+    s2 = np.sign(np.sin(3 * time))              # square signal
+    s3 = signal.sawtooth(2 * np.pi * time)      # saw tooth signal
+    s4 = np.sin(4 * time)                       # different sinusoidal
+    zero_row = np.zeros(n_samples)
+    
+    X = np.c_[s1, zero_row, s3, s4, s2].T 
+    if long is True:
+        X = np.c_[zero_row, s1, zero_row, s3, zero_row, zero_row, s4, s2].T
+    n = len(X)
+    A = np.random.randn(m, n)                   # Random mix matrix
+    #A = np.array([[1,2,3,4,5],
+#                  [6,7,8,9,10],
+#                  [11,12,13,14,15]])
+#    A = A/np.linalg.norm(A, ord=2, axis=0, keepdims=True)
+    Y = np.dot(A, X)                            # Observed signal
+    return Y, A, X
+
 def mix_signals_det(n_samples, duration, non_zero, long=True):
     """ 
     Generation of 4 independent signals, united in X with zero rows in 

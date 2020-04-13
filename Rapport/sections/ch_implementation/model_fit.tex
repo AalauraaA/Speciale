@@ -1,0 +1,24 @@
+\section{Model Fitting}
+Two model variables are now considered with the purpose of improving the performance of the COV-DL algorithm. The initial A given to the optimization problem \eqref{eq:Cov_DL2} within COV-DL2, and the segmentation size used within the covariance domain.   
+   
+Consider the COV-DL algorithm in the case where the system transformed into the covariance domain results in an overdetermined system. In this case the COV-DL2 branch of the algorithm is used. 
+When estimating the mixing matrix $\mathbf{A}$ a matrix $\mathbf{D}$ is used in the process. For the over-determined system \ref{sec:over_det} $\mathbf{D}$ is found by solving the optimisation problem \eqref{eq:Cov_DL2} with respect to $\hat{\textbf{A}}$. To solve the optimization problem an initial $\mathbf{A}_{\text{ini}}$ is given. The choice of this initial $\mathbf{A}_{\text{ini}}$ may affect how the good an estimate the recovered mixing matrix $\mathbf{A}$ is.
+Three different choices of $\mathbf{A}_{\text{ini}}$ are considered:
+\begin{itemize}
+\item[-] A matrix $\mathbf{A1}$ drawn from a continuous uniform distribution in the half-open interval $[0.0, 1.0)$
+\item[-] A matrix $\mathbf{A2}$ drawn from a uniform distribution in the half-open interval $[-1.0, 1.0)$
+\item[-] A matrix $\mathbf{A3}$ drawn from a Gaussian distribution with mean 0 and variance 1
+\end{itemize}
+The test of different initial $\mathbf{A}_{\text{ini}}$ is performed on the 
+an AR data set specified by  $M = 8$, $k = 16$ and $L = 1000$. 
+The MSE of the three tests are seen in table \ref{tab:iniA} 
+\begin{table}[]
+\begin{tabular}{llll}
+                          & \textbf{A1} & \textbf{A2} & \textbf{A3} \\
+$\text{MSE}_{\mathbf{A}}$ &   2.21          & 2.09            & 2.02           
+\end{tabular}
+\caption{Resulting MSE for varying initial A, used within COV-DL2.}
+\label{tab:iniA}
+\end{table}
+\todo[inline]{is it okay that we do not include the mse of X here, I don't think is any reasoning to do it, but it should be check later whether the error of A follows the error of X as it is asumped at this moment.}
+From the results it is seen that \textbf{A1}(?) acheives the lovest MSE, thus an Gaussian distributed initial $\textbf{A}$ will be used.    

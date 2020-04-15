@@ -63,7 +63,6 @@ def MSE_segments(X_rec, X_true):
     mse_array = np.zeros(len(X_rec))
     for i in range(len(X_rec)):
         mse_array[i] = MSE_one_error(X_rec[i], X_true[i])
-        #print('i in mse_array = {}, mse = {}'.format(i,mse_array[i]))
     average_mse = np.average(mse_array)
     return mse_array, average_mse
 
@@ -159,27 +158,9 @@ def generate_AR(N, M, L, non_zero):
         A:
         X: Source matrix of size N x L 
     """
-    np.random.seed(123)
+    #np.random.seed(123)
     X = np.zeros([N, L+2])
     
-#    for i in range(N):
-#        ind = np.random.randint(1,4)    # select random 1 of the four AR functions
-#        W = np.random.randn(N, L)       # Gaussian noise matrix 
-#        A = np.random.uniform(-1,1, (N,L))  # matrix of the a coefficients 
-#        for j in range(2,L):
-#            if ind == 1:
-#                X[i][j] = A[i][j-1] * X[i][j-1] + A[i][j-2] * X[i][j-2] + W[i][j]
-#            
-#            elif ind == 2: 
-#                X[i][j] = A[i][j-1] * X[i-1][j-1] + A[i][j-2] * X[i][j-1] + W[i][j]
-#                
-#            elif ind == 3:
-#                X[i][j] = A[i][j] * X[i-2][j-1] + A[i][j-1] * X[i][j-1] + A[i][j-2] * X[i-1][j-1] + W[i][j]
-#            
-#            elif ind == 4:
-#                X[i][j] = A[i][j-1] * X[i][j-1] + A[i][j-2] * X[i-3][j-1] + W[i][j]
-#    
-    ## alternative
     for i in range(N):
         ind = np.random.randint(1,4)
         for j in range(2,L):

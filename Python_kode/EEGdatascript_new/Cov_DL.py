@@ -91,35 +91,32 @@ def Cov_DL2(Y_big, m, n, k):
     pca = PCA(n_components=n, svd_solver='randomized', whiten=True)
     pca.fit(Y_big.T)
     U = pca.components_.T
-    print('U{}'.format(U[0]))
 #    A = np.random.random((m,n))    # random initial A
     A = np.random.randn(m, n)       # Gaussian initial A
 #    A = np.identity(m)
 #    A = np.random.randint(-5,5,(m,n))
-    a = np.reshape(A, (A.size))     # normal vectorization of initial A
+    a = np.reshape(A, (A.size),order='F')     # normal vectorization of initial A
 
-    def D_():
+    def D_(a):
         D = np.zeros((int(m*(m+1)/2), n))
         for i in range(n):
             A_tilde = np.outer(a[m*i:m*i+m], a[m*i:m*i+m].T)
             D.T[i] = A_tilde[np.tril_indices(m)]
         return D
 
-    def D_term():
-        return np.dot(np.dot(D_(), (np.linalg.inv(np.dot(D_().T, D_())))),
-                      D_().T)
+    def D_term(a):
+        return np.dot(np.dot(D_(a), (np.linalg.inv(np.dot(D_(a).T, D_(a))))),
+                      D_(a).T)
 
     def U_term():
         return np.dot(np.dot(U, (np.linalg.inv(np.dot(U.T, U)))), U.T)
 
     def cost1(a):
-        return np.linalg.norm(D_term()-U_term())**2
+        return np.linalg.norm(D_term(a)-U_term())**2
     # predefined optimization method, without defineing the gradient og the cost.
     from scipy.optimize import minimize
-    print('før minimize')
-    res = minimize(cost1, a, method='nelder-mead',
-                   options={'xatol': 1e-8, 'disp': True})
-    print('efter minimize')
+    res = minimize(cost1, a, method='BFGS',# BFGS, Nelder-Mead
+                  options={'maxiter': 1000000, 'disp': True})
     a_new = res.x
-    A_rec = np.reshape(a_new, (m, n))
+    A_rec = np.reshape(a_new, (m, n), order='F')
     return A_rec, A

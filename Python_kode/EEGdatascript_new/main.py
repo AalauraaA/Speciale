@@ -49,11 +49,11 @@ def Main_Algorithm(Y, M, L, n_seg, A_real, L_covseg = 10): ## OBS remove A_real 
 
     #################################  M-SBL  #####################################
 
-        X_rec = M_SBL.M_SBL(A_real, Y[i], M, N, k, iterations=1000, noise=False) #### OBS CHECK for A_rec
+        X_rec = M_SBL.M_SBL(A_rec, Y[i], M, N, k, iterations=1000, noise=False) #### OBS CHECK for A_rec
         print('efter X')
         X_result[i] = X_rec
     
     if N <= (M*(M+1))/2.:
         return A_result, X_result,A_init
 
-    return A_result, X_result
+    return A_result, X_result,A_init

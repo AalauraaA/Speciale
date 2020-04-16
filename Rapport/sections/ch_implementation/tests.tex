@@ -1,37 +1,49 @@
 \section{Algorithm verification}
-In this section the implementation of Cov-DL and M-SBL are verified separately based on the MSE between the true and the estimated matrices.
+In this section the implementation of Cov-DL and M-SBL are verified separately based on the MSE between the true- and the estimated model parameters.
 
 \subsection{Test of Cov-DL}
-As seen from the flow diagram figure \ref{fig:flow} Cov-DL takes a measurement matrix $\textbf{Y}$, $N$ and $k$ as input and return an estimation of the mixing matrix $\textbf{A}$. The Cov-DL algorithm is tested on the two simulations of a simple data, as specified in section \ref{subseg_simpledata}. 
+As seen from the flow diagram figure \ref{fig:flow} Cov-DL takes a measurement matrix $\textbf{Y}$, $N$ and $k$ as input and return an estimation of the mixing matrix $\textbf{A}$. The Cov-DL algorithm is tested on the two simulations of the deterministic data, specified in section \ref{subseg_simpledata}. 
 
-For $\textbf{Y}$ specified by $N\leq \widetilde{M}$, implying Cov-DL2, the true and estimated values of $\textbf{A}$ are plotted in figure \ref{fig:cov2_simple} for visual comparison.
-The resulting MSE between the true $\textbf{A}$ and the estimated $\hat{\textbf{A}}$ become 
+For $\textbf{Y}$ specified by $N > \widetilde{M}$ and $k\leq \widetilde{M}$, implying Cov-DL1, the true and estimated values of $\textbf{A}$ are plotted in figure \ref{fig:cov1_simple} for visual comparison. Note that each matrix is vectorised such that the corresponding entries are compared.  
+The resulting $MSE_{A}$ between the true $\textbf{A}$ and the estimated $\hat{\textbf{A}}$ become 
 \begin{align*}
-A_{MSE} = 2.46 
+MSE_{A} = 1.37
 \end{align*}
-For $\textbf{Y}$ specified by $N > \widetilde{M}$ and $k\leq \widetilde{M}$, implying Cov-DL1, the true and estimated values of $\textbf{A}$ are plotted in figure \ref{fig:cov1_simple} for visual comparison.
-The resulting MSE between the true $\textbf{A}$ and the estimated $\hat{\textbf{A}}$ become 
-\begin{align*}
-A_{MSE} = 1.37
-\end{align*}
+From figure \ref{fig:cov1_simple} it is seen that the precision of the estimate varies significant for each entry. Though, values within the a similar range are obtained furthermore the $MSE_{A}$ is fairly small suggesting that the estimate is acceptable\todo[inline]{how should we determined this?? and can we give an explanation. \\
+jeg har kigget nærmere på dictionary learning funktionen, jeg kan ikke ændre på resultater ved at ændre på k, den er som standard sat til 0.1*n, hvilket er langt mere sparse (under 1 non-zero) end vores system. med ved algorithm ='lars' skulle den godtage k, som ellers for 'omg' bliver overskrevet at standarden. \\
+for at undersøge om det igen kan være forholdet mellem A og D, har jeg lavet et system med N=16, M=5, k=4, som skal kunne løsese med dictionary lerning uden brug af covariance domænet. dog bliver resultatet ikke bedre. uanset input så falder A(estimate) altid inden for [-1,1], hvilket er et problem.}  
 
-\begin{figure}[H]
+For $\textbf{Y}$ specified by $N\leq \widetilde{M}$, implying Cov-DL2, the true and estimated values of $\textbf{A}$ are plotted in figure \ref{fig:cov2_simple} for visual comparison. Additionally, is the initial $\textbf{A}$ plotted in the same figure, as standard that is a Gaussian matrix $\textbf{A}_{init}$ which is given to the optimization solver within COV-DL2.    
+The resulting $MSE_{A}$ between the true $\textbf{A}$ and the estimated $\hat{\textbf{A}}$ become 
+\begin{align*}
+MSE_{A} = 2.46 
+\end{align*}
+From figure \ref{fig:cov2_simple} the estimate $\hat{\textbf{A}}$ shows visual tendencies from the true $\textbf{A}$. However, when it is compared to the initial guess of $\textbf{A}$ it is seen that the resulting estimate have moved further away from the true $\textbf{A}$ compared to $\textbf{A}_{init}$. this suggest some flaw within the optimization process. By printing the convergence message from the used optimization solver it is confirmed that the optimization process was found to be terminated successful. With current function value at $0.0$ after 26 iterations. 
+With the resulting cost at 0.0 this suggest that an global minima has been found, but this minima do not correspond to the true $\textbf{A}$.    
+To confirm this the following evaluations of the cost function was conducted. 
+\begin{align*}
+&\text{cost}(\hat{\textbf{A}}) = 0.0\\
+&\text{cost}(\textbf{A}_{init}) = 1.564\\
+&\text{cost}(\textbf{A}) = 1.809
+\end{align*}
+These evaluations ensures that the optimization solver have manage to find the solution that minimizes the cost function. By evaluating the cost function with respect to the true $\textbf{A}$ is it seen that it is not a global minimizer to the optimization problem. This suggest that the optimization problem, derived in section \ref{sec:over_det}, do not fulfil the purpose\todo{what word to use here? Jan brugte diverger om noget?}    
+
+\begin{figure}[h]
     \begin{minipage}[t]{.45\textwidth}
-    	\centering
-		\includegraphics[scale=0.5]{figures/ch_6/COV2_simple.png}
-		\caption{Estimated values of $\hat{\textbf{A}}$ compared to the true 					values $\textbf{A}$}
-		\label{fig:cov2_simple}
+		\centering
+		\includegraphics[scale=0.5]{figures/ch_6/COV1_simple.png}
+		\caption{Estimated values of $\hat{\textbf{A}}$ compared to the true 				values $\textbf{A}$}
+		\label{fig:cov1_simple}
     \end{minipage} 
     \hfill
     \begin{minipage}[t]{.45\textwidth}
         \centering
-		\includegraphics[scale=0.5]{figures/ch_6/COV1_simple.png}
-		\caption{Estimated values of $\hat{\textbf{A}}$ compared to the true 				values $\textbf{A}$}
-		\label{fig:cov1_simple}
+		\includegraphics[scale=0.5]{figures/ch_6/COV2_simple.png}
+		\caption{The initial $\textbf{A}$ and the estimate $\hat{\textbf{A}}$ 				compared to the true values $\textbf{A}$. }
+		\label{fig:cov2_simple}
     \end{minipage}
 \end{figure}
-From the figures the estimate $\hat{\textbf{A}}$ shows tendencies from the the true $\textbf{A}$ however seems kind of random at some points. It goes for both branches of the algorithm. Visual the use of COV-DL2 seem to have the best performances but, the MSE suggest the opposite. Note here that more values was estimated by use of COV-DL1, which affects the MSE.
-For COV-DL2 an solver was used for the optimization, as specified in section \ref{sec:over_det}. An initial $A$ was given, and the optimization process was found to be terminated successful. with current function value at 1.94 after 25 iterations. 
+
 
 \subsection{Test of M-SBL}
 From the flow diagram figure \ref{fig:flow} it seen that that the M-SBL algorithm takes $\mathbf{A}$ (maybe $k$) and $\mathbf{Y}$ as input. The algorithm is now tested on the same two simple data sets specified by $M = 3$, $k = 4$, $L=1000$ and respectively $N = 5$ and $N = 8$ as used above. 

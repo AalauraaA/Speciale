@@ -20,7 +20,7 @@ np.random.seed(1234)
 ### COV-DL2
 M = 3 
 N = 5
-k = 4
+k = 5
 L = 1000
 n_seg = 1
 

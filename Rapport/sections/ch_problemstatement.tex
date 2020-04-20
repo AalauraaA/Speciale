@@ -1,17 +1,37 @@
 \chapter{Problem Statement}\label{ch:problemstatement}
-Through chapter \ref{ch:motivation} the potential of EEG measurements and especially low-density EEG measurements have been established. Furthermore, this potential is found to be increased through recovery of the original brain sources given the measurements. This involves solving the EEG inverse problem, in the case of the problem being under-determined.
-Two state of the art methods are seen to solve the issue with success, but the use of a parameter unknown in practise limits the potential of the methods for practical use.
+EEG scalp measurements, a mixture of fluctuating electrical signals originating from brain activities and noisy surrounding such as scalp and biological tissues, can be described as a linear system
+\begin{align*}
+\mathbf{Y} = \mathbf{AX}.
+\end{align*}
+$\mathbf{Y}$ is the EEG scalp measurements measured from $M$ sensors placed on the scalp, $\mathbf{A}$ is the mixture of the electrical signals denoted as the mixing matrix and $\mathbf{X}$ are the $N$ electrical signals, denoted as sources. 
+Only the EEG measurements $\mathbf{Y}$ is known and it is therefore of interest to identify the mixing $\mathbf{A}$ and the sources $\mathbf{X}$ to make a practical use of EEG. 
+Especially, for a under-determined linear system with more sources than sensors to makes low-density EEG devices and applications due to low cost and ease to used. 
+In the linear algebraic sense a under-determined linear system have infinitely solution provided a solution exists and is therefore difficult to solve.
+Two state of the art methods are seen to solve the issue with success, the covariance-domain dictionary learning (Cov-DL) and multiple sparse Bayesian learning (M-SBL) algorithms. 
+The Cov-DL algorithm recovers the mixing matrix from the given measurements $\mathbf{Y}$ while the M-SBL algorithm localised and identify the sources from the recovered mixing matrix and measurements. 
+By combining the two state of art methods into one this could solve the inverse EEG problem -- the identification of $\mathbf{A}$ and $\mathbf{X}$ given $\mathbf{Y}$.
+However, the algorithms used the knowledges of the number of activations within the sources as this is a unknown variable in practice. Hence a modification of the combined state of art methods is sought to increase the potential for practical use.
+
+%Through chapter \ref{ch:motivation} the potential of EEG measurements and 
+%especially low-density EEG measurements have been established. 
+%Furthermore, this potential is found to be increased through recovery of 
+%the original brain sources given the measurements. This involves solving the 
+%EEG inverse problem, in the case of the problem being under-determined.
+%Two state of the art methods are seen to solve the issue with success, but 
+%the use of a parameter unknown in practise limits the potential of the 
+%methods for practical use.
+
 
 This motivates the following problem statement.         
 \\ \\
-\textit{Based on state of the art methods, how can the original sources of brain activity be recovered from the EEG inverse problem, in the under-determined case, and how can this be modified to increase the potential of practical use?}
+%\textit{Based on state of the art method, how can the original sources of brain activity be recovered from the EEG inverse problem, in the under-determined case, and how can this be modified to increase the potential of practical use?}
+\textit{Based on state of the art method, how can we reproduce the recovering of original sources of brain activity from the EEG inverse problem, in the under-determined case, and how can this be modified to increase the potential of practical use such as the unknown brain activity?}
 \\ \\
 From the problem statement the following sub-questions is established for clarification.
 \begin{itemize}
-\item How can Cov-DL be used to estimate the mixing matrix $\mathbf{A}$ from the overcomplete EEG inverse problem?
-\item How can M-SBL be used to estimate the source matrix $\mathbf{X}$ from the overcomplete EEG inverse problem?
-\item How can the above methods be implemented as one application performing source recovery from EEG measurements in real-time? 
-\item How can the number of active sources be estimated, based only on the EEG measurement? 
+\item Can we reproduce the Cov-DL algorithm to estimate a mixing matrix $\mathbf{A}$ from a over-complete EEG inverse problem with synthetic and realistic EEG scalp measurements?
+\item Can we reproduce the M-SBL algorithm to estimate a source matrix $\mathbf{X}$ from a over-complete EEG inverse problem with synthetic and realistic EEG scalp measurements?
+\item How can the number of active sources be estimated, based only on the EEG scalp measurements? 
 \end{itemize}
 \todo{is og have? rasmus}
 

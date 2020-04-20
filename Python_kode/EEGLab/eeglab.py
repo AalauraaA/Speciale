@@ -83,7 +83,6 @@ and make it easy to quickly overview what occurs during a trial.
 
 " Print the first epoch with 32 channel and 385 frames/samples "
 def eeg(epoch):
-    " 
     epc = []
     for ep in epochs[epoch]: # Highest value is 79 corresponding to epoch number 80
         epc = ep
@@ -91,18 +90,25 @@ def eeg(epoch):
 
 epc = eeg(0)
 
-" Plots "
-plt.figure(1)
-plt.subplot(2, 1, 1)
-plt.plot(epc[0])
-plt.title("First Channel of Epoch 1")
+#" Plots "
+#plt.figure(1)
+#plt.subplot(2, 1, 1)
+#plt.plot(epc[0])
+#plt.title("First Channel of Epoch 1")
+#
+#plt.subplot(2, 1, 2)
+#for p in epc:
+#    plt.plot(p)
+#plt.title("All Channels of Epoch 1")
+#
+## Epochs own plotting function
+#epochs.plot(n_epochs=1, n_channels=1)
+#plt.title("Epoch Plot - epoch 1 and channel 1")
+#
 
-plt.subplot(2, 1, 2)
-for p in epc:
-    plt.plot(p)
-plt.title("All Channels of Epoch 1")
+from mne.preprocessing import ICA
 
-# Epochs own plotting function
-epochs.plot(n_epochs=1, n_channels=1)
-plt.title("Epoch Plot - epoch 1 and channel 1")
 
+ica = ICA(n_components=30, method='fastica')
+S_ = ica.fit(epochs)     # Get the estimated sources
+A_ = ica.mixing_matrix_  # Get estimated mixing matrix

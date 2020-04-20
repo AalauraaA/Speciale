@@ -1,12 +1,12 @@
 \chapter{Problem Statement}\label{ch:problemstatement}
-EEG scalp measurements, a mixture of fluctuating electrical signals originating from brain activities and noisy surrounding such as scalp and biological tissues, can be described as a linear system
+EEG scalp measurements, a mixture of fluctuating electrical signals originating from brain activities and noise, due to distorting elements such as scalp and biological tissues, can be described as a linear system
 \begin{align*}
 \mathbf{Y} = \mathbf{AX}.
 \end{align*}
-$\mathbf{Y}$ is the EEG scalp measurements measured from $M$ sensors placed on the scalp, $\mathbf{A}$ is the mixture of the electrical signals denoted as the mixing matrix and $\mathbf{X}$ are the $N$ electrical signals, denoted as sources. 
-Only the EEG measurements $\mathbf{Y}$ is known and it is therefore of interest to identify the mixing $\mathbf{A}$ and the sources $\mathbf{X}$ to make a practical use of EEG. 
-Especially, for a under-determined linear system with more sources than sensors to makes low-density EEG devices and applications due to low cost and ease to used. 
-In the linear algebraic sense a under-determined linear system have infinitely solution provided a solution exists and is therefore difficult to solve.
+$\mathbf{Y}$ is the EEG scalp measurements measured from $M$ sensors placed on the scalp, $\mathbf{A}$ is the mixing of the electrical signals denoted as the mixing matrix and $\mathbf{X}$ are the $N$ original electrical signals, denoted as sources. 
+Only the EEG measurements $\mathbf{Y}$ is known and it is of interest to identify the mixing matrix $\mathbf{A}$ and hereby the original sources $\mathbf{X}$. The original sources have been shown significant for practical use compared to the raw EEG scalp measurements. 
+Especially, the under-determined case with more sources than sensors is of interest, resulting from low-density EEG devices which is beneficial due to low cost and easy application. 
+In the linear algebraic sense an under-determined linear system have infinitely solution provided a solution exists and is therefore difficult to solve.
 Two state of the art methods are seen to solve the issue with success, the covariance-domain dictionary learning (Cov-DL) and multiple sparse Bayesian learning (M-SBL) algorithms. 
 The Cov-DL algorithm recovers the mixing matrix from the given measurements $\mathbf{Y}$ while the M-SBL algorithm localised and identify the sources from the recovered mixing matrix and measurements. 
 By combining the two state of art methods into one this could solve the inverse EEG problem -- the identification of $\mathbf{A}$ and $\mathbf{X}$ given $\mathbf{Y}$.
@@ -33,6 +33,5 @@ From the problem statement the following sub-questions is established for clarif
 \item Can we reproduce the M-SBL algorithm to estimate a source matrix $\mathbf{X}$ from a over-complete EEG inverse problem with synthetic and realistic EEG scalp measurements?
 \item How can the number of active sources be estimated, based only on the EEG scalp measurements? 
 \end{itemize}
-\todo{is og have? rasmus}
 
  

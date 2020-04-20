@@ -7,9 +7,9 @@ This subspace is spanned by the columns of $\textbf{D}$, and is denoted as $\mat
 To learn $\mathcal{R}(\textbf{D})$ without having to impose any sparsity constraint on $\boldsymbol{\delta}_s$ it is possible to use Principal Component Analysis(PCA). 
 When PCA is applied to the set $\left\{\text{vec}(\widehat{\boldsymbol{\Sigma}}_{\textbf{Y}_s}), \forall s \right\}$ a set of $N$ principal components are found. The principal components forms a set of basis vectors $\textbf{U}$ such that $\mathcal{R}(\textbf{U})=\mathcal{R}(\textbf{D})$. 
 However, this do not imply that $\textbf{D}=\textbf{U}$. 
-In the case of two sets of basis vectors spanning the same space, namely $\mathcal{R}(\textbf{U})=\mathcal{R}(\textbf{D})$, the projection operator of the given subset must be unique(need prove here? or is there just one $P:V\rightarrow V $ where $V = \mathcal{R}(U)= \mathcal{R}(D)$).\todo{fact: any column in D must be a lin comb. of columns in U and visa versa. \\
+In the case of two sets of basis vectors spanning the same space, namely $\mathcal{R}(\textbf{U})=\mathcal{R}(\textbf{D})$, the projection operator of the given subset must be unique(need prove here? or is there just one $P:V\rightarrow V $ where $V = \mathcal{R}(\textbf{U})= \mathcal{R}(\textbf{D})$).\todo{fact: any column in D must be a linear combination of columns in U and visa versa. \\
 Any basis has the same dim(dimension theorem). } 
-The projection matrix $\text{P}:\mathcal{R}(U)\rightarrow \mathcal{R}(U)$(?) can be find by considering the projection of an vector $\textbf{b}\in \mathbb{R}^{\widetilde{M}}$ onto $\mathcal{R}(U)$, that is solving the least squares problem $\| \textbf{Ax}-b\|$ where $\textbf{Ax}\subset \mathcal{R}(U)$ and $\text{P} = Ax$. The solution is given by the normal equation
+The projection matrix $\text{P}:\mathcal{R}(\textbf{U})\rightarrow \mathcal{R}(\textbf{D})$($\textbf{U}$?) can be find by considering the projection of an vector $\textbf{b}\in \mathbb{R}^{\widetilde{M}}$ onto $\mathcal{R}(\textbf{U})$, that is solving the least squares problem $\| \textbf{Ax}-\textbf{b}\|^{2}$ where $\textbf{Ax}\subset \mathcal{R}(\textbf{U})$ and $\text{P} = \textbf{Ax}$(passer P=Ax her?). When $\textbf{A}$ has full rank the solution is given by the normal equation
 \begin{align*}
 \textbf{A}^T\textbf{A}\textbf{x} &= \textbf{A}^T\textbf{b}\\
 \textbf{x} &= (\textbf{A}^T\textbf{A})^{-1}\textbf{A}^T\textbf{b}
@@ -19,7 +19,7 @@ resulting in
 \text{P}\textbf{b} = \textbf{Ax} &= \textbf{A}(\textbf{A}^T\textbf{A})^{-1}\textbf{A}^T\textbf{b}\\
 \text{P} &= \textbf{A}(\textbf{A}^T\textbf{A})^{-1}\textbf{A}^T 
 \end{align*} 
-Thus $\mathcal{R}(U)$ and $\mathcal{R}(D)$ having the same projection matrix is true if and only if $\textbf{D}(\textbf{D}^T\textbf{D})^{-1}\textbf{D}^T=\textbf{U}(\textbf{U}^T\textbf{U})^{-1}\textbf{U}^T$. 
+Thus $\mathcal{R}(\textbf{U})$ and $\mathcal{R}(\textbf{D})$ having the same projection matrix is true if and only if $\textbf{D}(\textbf{D}^T\textbf{D})^{-1}\textbf{D}^T=\textbf{U}(\textbf{U}^T\textbf{U})^{-1}\textbf{U}^T$. 
 Now, remember from the relation between $\textbf{A}$ and $\textbf{D}$ that $\textbf{d}_i = \text{vec}(\textbf{a}_i\textbf{a}_i^T)$. 
 From this it is possible to obtain $\textbf{A}$ through the following optimisation problem 
 \begin{align}
@@ -27,7 +27,8 @@ From this it is possible to obtain $\textbf{A}$ through the following optimisati
 \text{s.t.} \ \textbf{d}_i&=\text{vec}(\textbf{a}_i\textbf{a}_i^T)\label{eq:Cov_DL2}
 \end{align}      
 where $\textbf{U}$ results from PCA performed on $\text{vec}(\widehat{\boldsymbol{\Sigma}}_{\textbf{Y}_s})$.
-In the following section the optimization problem is analysed and processed in order to determine a suitable solution method. Additional optimization theory to support the analysis is found in appendix \ref{app:optimazion}  
+In the following section the optimization problem is analysed and processed in order to determine a suitable solution method. 
+%Additional optimization theory to support the analysis is found in appendix \ref{app:optimazion}  
 
 \subsection{Solution to optimization problem}
 The optimization problem \eqref{eq:Cov_DL2} consist of an objective function forming a least-square problem with respect to the frobenius norm.

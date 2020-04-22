@@ -82,7 +82,7 @@ def M_SBL(A, Y, m, n, non_zero, iterations, noise):
                 k += 1
 
     " Finding the support set "
-    print('H shape is {}'.format(gamma.shape))
+#    print('H shape is {}'.format(gamma.shape))
     support = np.zeros(non_zero)
     H = gamma[-2]
     for l in range(non_zero):
@@ -92,7 +92,7 @@ def M_SBL(A, Y, m, n, non_zero, iterations, noise):
 
     " Create new mean with support set "
     New_mean = np.zeros([n, n_samples-2])
-    print('support shape {}'.format(support.shape))
+#    print('support shape {}'.format(support.shape))
     for i in support:
         New_mean[int(i)] = mean[-1][int(i)]
 

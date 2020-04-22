@@ -20,8 +20,8 @@ import numpy as np
 np.random.seed(4523)
 
 M = 8
-N = 16
-k = 16
+N = 30
+k = 30
 L = 1000 
 n_seg = 1
 Y, A_real, X_real = generate_AR(N, M, L, k)

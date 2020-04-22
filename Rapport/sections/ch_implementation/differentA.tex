@@ -1,0 +1,11 @@
+\section{Mixing Matrix A}
+As concluded the Cov-DL algorithm do not recover a sufficient mixing matrix $\mathbf{A}$ and therefore other actions must be taken. 
+
+Instead a fixed mixing matrix $\mathbf{A}_{\text{fixed}}$ could be a better choice. However, this fixed mixing matrix must have some of the same characteristic as the true mixing matrix. 
+From observations of the true mixing matrix from the autoregressive data set some choice could be:
+\begin{itemize}
+\item A matrix drawn from uniform distribution in the half open interval $[-1.0, 1.0)$.
+\item A matrix drawn from random distribution with mean $0$ and variance $2$.
+\item A matrix drawn from a Gaussian distribution with mean $0$ and variance $1$.
+\item A matrix computed from ICA of EEG measurements provided from EEGLab\footnote{EEGLab is....}.
+\end{itemize}

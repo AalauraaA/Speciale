@@ -64,9 +64,9 @@ The goal is now to learn first $\textbf{D}$ and then the associated mixing matri
 			\EndFor			
 			\State$\textbf{Y}_{\text{cov}} = \{\textbf{y}_{\text{cov}_s}\}_{s=1}^{\text{n\_seg}}$
 			
-			\If{$N > \frac{M(M+1)}{2}$}		
+			\If{$N \geq \widetilde{M}$}		
 			\Procedure{K-SVD}{$\textbf{Y}_{\text{cov}}$}
-			\State$\text{returns} \ \textbf{D} \in \mathbb{R}^{(M(M+1))/2}\times N$
+			\State$\text{returns} \ \textbf{D} \in \mathbb{R}^{\widetilde{M}}\times N$
 			\EndProcedure
 			\For{$j \gets 1, \hdots, N$}
 			\State$\textbf{T} = \text{vec}^{-1}(d_j)$            
@@ -77,11 +77,11 @@ The goal is now to learn first $\textbf{D}$ and then the associated mixing matri
 			\State$\textbf{A} = \{\textbf{a}_j\}_{j=1}^N$
 			\EndIf
 			\State
-			\If{$N < \frac{M(M+1)}{2}$}
+			\If{$N < \widetilde{M}$}
 				\Procedure{PCA}{$\text{vec}(\boldsymbol{\Sigma}_{\textbf{Y}_s})$}
-				\State$\text{returns} \ \textbf{U}\in \mathbb{R}^{(M(M+1))/2\times N}$
+				\State$\text{returns} \ \textbf{U}\in \mathbb{R}^{\widetilde{M}\times N}$
 				\EndProcedure
-				\Procedure{Quasi-Newton}{problem  \eqref{eq:Cov_DL2}}
+				\Procedure{Min. $\textbf{A}$ in }{$\Vert  \textbf{D}(\textbf{D}^T\textbf{D})^{-1}\textbf{D}^T - \textbf{U}(\textbf{U}^T\textbf{U})^{-1}\textbf{U}^T \Vert_{F}^{2}$}
 				\State$\text{returns}\ \textbf{A}= \{\textbf{a}_j\}_{j=1}^{N}$
 				\EndProcedure
 			\EndIf

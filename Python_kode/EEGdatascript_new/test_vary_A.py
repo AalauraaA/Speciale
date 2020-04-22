@@ -62,7 +62,7 @@ plt.title('MSE of varying A')
 plt.xticks([])
 plt.ylabel('MSE')
 plt.legend()
-plt.savefig('figures/AR_Error_vary_A_m8_k16_N16_L1000.png')
+#plt.savefig('figures/AR_Error_vary_A_m8_k16_N16_L1000.png')
 plt.show()
 
 

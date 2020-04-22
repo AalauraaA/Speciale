@@ -1,7 +1,11 @@
-\chapter{Test on EEG measurement}
+\chapter{Test on EEG measurements}
 
 \section{Data Description}
-
+\begin{itemize}
+\item S1\_Cclean is clean data for the forst subject for closed-yeys condition
+\item 27 channels with names and position in EEG.chanlocs structure 
+\item Preprocessed: The data is bandpass filtered between 1 and 40 Hz. Then decomposed by ICA and the independent components related to eye activity was removed.
+\end{itemize}
 \section{Implementing of Baseline Algorithm}
 \begin{itemize}
 \item Removing Cov-DL and replace it with a random A

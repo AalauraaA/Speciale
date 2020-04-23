@@ -1,12 +1,12 @@
 \subsection{Error Measurement}  
-To evaluate performance of the algorithms it is evident to look at the differences between the true and estimated matrices, mixing matrix $\mathbf{A}$ and source matrix $\mathbf{X}$ -- which is possible due to the data being simulated. 
-For this task a mean squared error (MSE) has been chosen. 
+To evaluate performance of the algorithms it is evident to look at the differences between the true and estimated matrices, mixing matrix $\mathbf{A}$ and source matrix $\mathbf{X}$ -- which is possible due to the input data being simulated. 
+For this task THE mean squared error (MSE) has been chosen. 
 The MSE measures the average squared difference between some estimated value and the true value. 
-The MSE can be written as
+The MSE can be	 written as
 \begin{align*}
 \text{MSE} = \frac{1}{T} \sum_{i=1}^T (G_i - \hat{G}_i)^2,  
 \end{align*}
-with $T = \{M, N\}$ the number of rows of $\mathbf{A}$ or $\mathbf{X}$, $G_i = \{ \mathbf{A}_i, \mathbf{X}_i\}$ is a measurement row of the actual matrix and $\hat{G}_i = \{\hat{\mathbf{A}}_i,\hat{\mathbf{X}}_i\}$ is an estimated row of the estimated matrix.
+with $T = \{M, N\}$ the number of rows of $\mathbf{A}$ or $\mathbf{X}$, $G_i = \{ \mathbf{A}_i, \mathbf{X}_i\}$ is a measurement row of the actual matrix and $\hat{G}_i = \{\hat{\mathbf{A}}_i,\hat{\mathbf{X}}_i\}$ is an estimated row of the estimated matrix\todo{vi skal lige være skarpe på at vi faktisk har en sum mere ikke? altså vi tager mSE af hvert række og så tager gennem snit at dem, således at i løber over indgange i rækken(original MSE ikke?) og ikke antal rækker?}.
 
 The MSE is viewed as a measure of the quality of an estimator, in this case of how M-SBL and Cov-DL perform. 
 For a large MSE value the estimated matrix/values are dispersed widely around its mean while for a small MSE value the estimated matrix/values is closely dispersed around the mean. 

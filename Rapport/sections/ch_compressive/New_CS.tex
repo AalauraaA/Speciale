@@ -41,13 +41,13 @@ As for \eqref{eq:SMV_model} the solution set of the linear system \eqref{eq:MMV_
 In chapter \ref{ch:motivation} it is specified that the case of more sources than sensors, $N>M$, is the case of interest in this thesis.  
 %flytte sidste del?
 
-\subsection{Segmentation}
+\subsection{Segmentation}\label{seg_segmentation}
 In chapter \ref{ch:motivation} it is argued that EEG measurements are only stationary within small segments. 
 Hence the following segmentation is considered.
 
-Let $f$ be the sample frequency of the observed EEG measurements $\mathbf{Y}$ and let $t_s$ be the length of a segment. 
+Let $f$ be the sample frequency of the observed EEG measurements $\mathbf{Y}$ and let $t$ be a time interval in seconds determining the duration of one segment. 
 Here $s$ is the segment index. 
-As such the observed EEG measurements can be divided into stationary segments  $\mathbf{Y}_s \in \mathbb{R}^{M \times L_{s}}$, possibly overlapping, where $L_s = t_{s}f$ \todo{her er ts ikke konstant med afhængig af index s, ikke?}. 
+As such the observed EEG measurements can be divided into stationary segments  $\mathbf{Y}_s \in \mathbb{R}^{M \times L_{s}}$, possibly overlapping, where $L_s = tf$ is the number of samples within one segment. 
 For each segment the MMV model \eqref{eq:MMV_model} holds and is rewritten into
 \begin{align}\label{eq:MMV_seg}
 \mathbf{Y}_s = \mathbf{AX}_s + \textbf{E}_s, \quad \forall s.

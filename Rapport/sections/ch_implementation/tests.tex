@@ -1,10 +1,12 @@
 \section{Algorithm verification}
 In this section the implementation of Cov-DL and M-SBL are verified separately based on the MSE between the true- and the estimated model parameters.
+During the tests on synthetic data sets the segmentation stage is ignored by letting the simulated data form one single segment.    
 
-\subsection{Test of Cov-DL}
-As seen from the flow diagram figure \ref{fig:flow} Cov-DL takes a measurement matrix $\textbf{Y}$, $N$ and $k$ as input and return an estimation of the mixing matrix $\textbf{A}$. The Cov-DL algorithm is tested on the two simulations of the deterministic data, specified in section \ref{subseg_simpledata}. 
+\subsection{Test of COV-DL}
+As seen from the flow diagram figure \ref{fig:flow} COV-DL takes a measurement matrix $\textbf{Y}$, $N$ and $k$ as input and return an estimation $\hat{\textbf{A}}$ of the mixing matrix $\textbf{A}$. The COV-DL algorithm is tested on the two simulations of the deterministic data, specified in section \ref{subseg_simpledata}. 
 
-For $\textbf{Y}$ specified by $N > \widetilde{M}$ and $k\leq \widetilde{M}$, implying Cov-DL1, the true and estimated values of $\textbf{A}$ are plotted in figure \ref{fig:cov1_simple} for visual comparison. Note that each matrix is vectorised such that the corresponding entries are compared.  
+\subsubsection{COV-DL1}
+For $\textbf{Y}$ specified by $N > \widetilde{M}$ and $k\leq \widetilde{M}$, implying COV-DL1, the true and estimated values of $\textbf{A}$ are plotted in figure \ref{fig:cov1_simple} for visual comparison. Note that each matrix is vectorised such that the corresponding entries are compared.  
 The resulting $MSE_{A}$ between the true $\textbf{A}$ and the estimated $\hat{\textbf{A}}$ become 
 \begin{align*}
 MSE_{A} = 1.37
@@ -13,6 +15,7 @@ From figure \ref{fig:cov1_simple} it is seen that the precision of the estimate 
 jeg har kigget nærmere på dictionary learning funktionen, jeg kan ikke ændre på resultater ved at ændre på k, den er som standard sat til 0.1*n, hvilket er langt mere sparse (under 1 non-zero) end vores system. med ved algorithm ='lars' skulle den godtage k, som ellers for 'omg' bliver overskrevet at standarden. \\
 for at undersøge om det igen kan være forholdet mellem A og D, har jeg lavet et system med N=16, M=5, k=4, som skal kunne løsese med dictionary lerning uden brug af covariance domænet. dog bliver resultatet ikke bedre. uanset input så falder A(estimate) altid inden for [-1,1], hvilket er et problem.}  
 
+\subsubsection{COV-DL2}
 For $\textbf{Y}$ specified by $N\leq \widetilde{M}$, implying Cov-DL2, the true and estimated values of $\textbf{A}$ are plotted in figure \ref{fig:cov2_simple} for visual comparison. Additionally, is the initial $\textbf{A}$ plotted in the same figure, as standard that is a Gaussian matrix $\textbf{A}_{init}$ which is given to the optimization solver within COV-DL2.    
 The resulting $MSE_{A}$ between the true $\textbf{A}$ and the estimated $\hat{\textbf{A}}$ become 
 \begin{align*}
@@ -44,6 +47,17 @@ These evaluations ensures that the optimization solver have manage to find the s
     \end{minipage}
 \end{figure}
 
+\subsubsection{Conclusion to $\hat{\textbf{A}}$}
+From the above results is it found that the estimate $\hat{\textbf{A}}$, especially within the COV-DL2 branch, can not be consider a valid estimate of the mixing matrix $\textbf{A}$. It is suggested that the flaw lies within either the  derivation of the optimization problem, more specifically within the assumption made throughout the derivation concerning the relation between $\textbf{A}, \textbf{D}$ and $\textbf{U}$. This statement build upon the success of the(non documented) unit tests of the COV-DL2 algorithm suggesting that the optimisation of D not depending on A is possible(?eller hvad var det vi gjorde?)...
+The appearance of this issue may suggest that there is a lack within the published results \cite{Balkan2015}(?tjek)considering the possibility of reconstructing the results.  
+
+Due to the time limitation of the project the error is not investigated further, and it is concluded that the estimate of $\textbf{A}$ is not valid hence it will not be used as an input for the next stage of the algorithm, M-SBL. 
+
+This conclusion suggest that an alternative action must be considered. This is discussed further in section \ref{sec:est_base}
+
+        
+
+\subsection{Alternative to $\hat{\textbf{A}}$}
 
 \subsection{Test of M-SBL}
 From the flow diagram figure \ref{fig:flow} it seen that that the M-SBL algorithm takes $\mathbf{A}$ (maybe $k$) and $\mathbf{Y}$ as input. The algorithm is now tested on the same two simple data sets specified by $M = 3$, $k = 4$, $L=1000$ and respectively $N = 5$ and $N = 8$ as used above. 

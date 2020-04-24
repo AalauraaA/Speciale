@@ -97,7 +97,7 @@ From this it is evident that for estimating the support set of $\mathbf{X}$ it i
 This leads to the actual M-SBL algorithm for which the aim is to estimate $\boldsymbol{\gamma}$ and the corresponding $\mathcal{M}$.
 \input{sections/ch_M-SBL/extra_derivation.tex}
 
-\section{M-SBL for estimation of $\textbf{X}$}
+\section{M-SBL for estimation of $\textbf{X}$}\label{seg:M_sblalg}
 The M-SBL algorithm is now specified in order to estimate the hyperparameter $\boldsymbol{\gamma}$ and then the corresponding unknown sources $\textbf{X}$.
 %The specific support of the hyperparameter $\boldsymbol{\gamma}$ can be seen as one hypotheses for the prior distribution of the underlying generation of $\mathbf{Y}$. 
 %Hence the determination of $\boldsymbol{\gamma}$ is seen as a model selection.
@@ -109,11 +109,11 @@ By integrating the posterior with respect to the unknown sources $\mathbf{X}$ th
 \end{align*}
 \todo{when to use ; instead of $\vert$}The resulting marginal likelihood of $\boldsymbol{\gamma}$ is to be maximised with respect to $\boldsymbol{\gamma}$, that is the maximum likelihood estimate (MLE) which is considered the resulting ARD based M-SBL cost function. 
 The $-2 \log (\cdot)$ transformation is applied in order for the cost function to be minimized, and factors not depending on $\textbf{Y}$ is removed. Resulting in the following log likelihood.\todo{ops på L faktor i sidste linje.. } 
-\begin{align*}
-\ell(\boldsymbol{\gamma};\textbf{Y})&= - 2 \log(p (\mathbf{Y} ; \boldsymbol{\gamma}))\\
-&= -2\log \left( 2\pi^{\frac{M}{2}}\vert \boldsymbol{\Sigma}_{y}\vert^{\frac{1}{2}}\exp \left( - \frac{1}{2} \sum_{j=1}^L \textbf{y}_{\cdot j}^T \boldsymbol{\Sigma}_{y}^{-1} \textbf{y}_{\cdot j} \right) \right)\\
-&= L \log ( \vert \boldsymbol{\Sigma}_y \vert ) + \sum_{j=1}^L \mathbf{y}_{\cdot j}^T \boldsymbol{\Sigma}_y ^{-1} \mathbf{y}_{\cdot j}.
-\end{align*}
+\begin{align}
+\ell(\boldsymbol{\gamma};\textbf{Y})&= - 2 \log(p (\mathbf{Y} ; \boldsymbol{\gamma}))\nonumber \\ 
+&= -2\log \left( 2\pi^{\frac{M}{2}}\vert \boldsymbol{\Sigma}_{y}\vert^{\frac{1}{2}}\exp \left( - \frac{1}{2} \sum_{j=1}^L \textbf{y}_{\cdot j}^T \boldsymbol{\Sigma}_{y}^{-1} \textbf{y}_{\cdot j} \right) \right)\nonumber \\
+&= L \log ( \vert \boldsymbol{\Sigma}_y \vert ) + \sum_{j=1}^L \mathbf{y}_{\cdot j}^T \boldsymbol{\Sigma}_y ^{-1} \mathbf{y}_{\cdot j}.\label{eq:likelihood}
+\end{align}
 It is not expected that an explicit solution to the minimization problem can be found by differentiating and letting the expression equal to zero, hence it has to be solved iteratively based on a initial parameter guess $\boldsymbol{\gamma}^{(0)}$.
 One iterative method is the expectation maximisation (EM) algorithm.
 In general each iteration consist of an expectation (E) step, where a function determines the expectation of the likelihood function given the currently estimated parameters. The E-step is followed by an maximization (M) step which computes the parameters by maximizing the expected likelihood found in the E-step.

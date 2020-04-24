@@ -35,6 +35,7 @@ Xmse = np.zeros(len(A))
 Amse = np.zeros(len(A))
 
 for i in range(len(A)):
+    print(i)
     for ite in range(10):
         X_result = Main_Algorithm(Y, A[i], M, N, k, L, n_seg)
         Xmse_list[ite] = MSE_one_error(X_real,X_result)  

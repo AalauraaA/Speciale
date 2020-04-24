@@ -116,7 +116,7 @@ def ica(X, iterations, tolerance=1e-5):
         W[i, :] = w # Update w
         
     S = np.dot(W, X) # Source signal  
-    return S
+    return S, W
 
 
 def ica_segments(X, iterations):
@@ -127,6 +127,6 @@ def ica_segments(X, iterations):
     S_ICA = np.zeros((n_seg, N, L-2))
     for i in range(len(X)):
         print('ICA on segment {}'.format(i))
-        S = ica(X[i],iterations)
+        S, W = ica(X[i],iterations)
         S_ICA[i] = S.T[:L-2].T
-    return S_ICA
+    return S_ICA, W

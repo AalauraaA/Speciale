@@ -8,8 +8,8 @@ import numpy as np
 import scipy.io
 
 # suggested input to data_import function
-data_file = 'data/S1_CClean.mat'            # file path
-segment_time = 1                            # length of segment in seconds
+#data_file = 'data/S1_CClean.mat'            # file path
+#segment_time = 1                            # length of segment in seconds
 
 def _import(data_file, segment_time, request='none', fs=512):
     """

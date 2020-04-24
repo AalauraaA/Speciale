@@ -17,12 +17,12 @@ def plot_seperate_sources_comparison(X_real,X_reconstruction,M,N,k,L):
     for i in range(N):
         if np.any(X_real[i]!=0) or np.any(X_reconstruction[i]!=0):
             nr_plot += 1
-            plt.subplot(k*2, 1, nr_plot)
+            plt.subplot(k, 1, nr_plot)
            
-            plt.plot(X_real[i], 'r',label='Real X')
-            plt.plot(X_reconstruction[i],'g', label='Recovered X')
+            plt.plot(X_real[i], 'r',label='Recovered X')
+            plt.plot(X_reconstruction[i],'g', label='ICA X')
     
     plt.legend()
     plt.xlabel('sample')
     plt.show
-    #plt.savefig('16-03-2020_3.png')
+    plt.savefig('first_EEG_ICA.png')

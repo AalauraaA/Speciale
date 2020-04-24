@@ -57,3 +57,36 @@ def Main_Algorithm(Y, M, L, n_seg, A_real, L_covseg = 10): ## OBS remove A_real 
         return A_result, X_result,A_init
 
     return A_result, X_result,A_init
+
+
+
+def Main_Algorithm_EEG(Y, A, M, k, L):
+    import M_SBL
+    ################################# Mixing Matrix A  ####################################
+#    A = np.random.normal(0,2,(M,int(k)))
+
+    #################################  M-SBL  #####################################
+
+    X_rec = M_SBL.M_SBL(A, Y, M, k, k, iterations=1000, noise=False)
+
+    return X_rec
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

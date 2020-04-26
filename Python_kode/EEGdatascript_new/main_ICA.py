@@ -15,75 +15,105 @@ import ICA
 import data
 from plot_functions import plot_seperate_sources_comparison
 
+data_file = 'data/S1_CClean.mat'           # file path
+segment_time = 5                           # length of segments i seconds
 
-data_file = 'data/S1_CClean.mat'            # file path
-segment_time = 5                           # length of segmenta i seconds
-
-
-""" ICA """
+# =============================================================================
+# ICA
+# =============================================================================
 # perform ICA on full dataset
 Y_ica, M_ica, L_ica, n_seg_ica = data._import(data_file, segment_time, request='none')
-
 X_ica, A_ica = ICA.ica_segments(Y_ica, 1000)
-X_ica_new = []
+
+" Remove the last column from X_ica to match size of X "
+X_ica_new = np.array(X_ica, copy = True)
+X_ica_array = []
 for i in range(len(Y_ica)):
     if i >= 17:
-        print(i)
-        X_ica_new.append(X_ica[i,:,:-1])
+        # From index 17 and to the end Y_ica have one less sample but
+        # X_ica do not take this into account        
+        X_ica_array.append(X_ica_new[i,:,:-1])
     else:
-       X_ica_new.append(X_ica[i]) 
+        # From index 0 to 17 the original X_ica is kept
+       X_ica_array.append(X_ica_new[i]) 
 
-# replacing small values with zero and find k for each segment
-k = np.zeros(len(X_ica_new))
-#X_ica_sparse = np.array(X_ica_new, copy=True)
-for i in range(len(X_ica_new)):
+" Replacing small values with zero and creating X_ica of size k x samples for each segment "
+X_ica_nonzero = []
+for i in range(len(X_ica_array)):
+    temp = []
+#    X_ica_nonzero.append(np.zeros([len(Y_ica), int(k[i])]))
     # Looking at one segment at time
-    for j in range(len(X_ica_new[i])):
+    for j in range(len(X_ica_array[i])):
         # Looking at on row of one segment at the time
-        for h in range(len(X_ica_new[i][j])):
-            # Looking at one element of one row of one segment at the time
-            if X_ica_new[i][j][h] <= 10E-15:  # if smaller than 
-                X_ica_new[i][j][h] = 0        # replace by zero
-#        if X_ica_sparse[i][j].all() == 0:
-#            X_ica_minus_0 = np.delete(X_ica_minus_0, i, 1)
-    k[i] = np.count_nonzero(X_ica_new[i].T[0]) # count the number of non-zeros rows in one segment
+        if X_ica_array[i][j].all() >= -10E-15 and X_ica_array[i][j].all() < 0:  # if smaller than 
+            X_ica_array[i][j] = 0   # replace by zero
+        else:
+            temp.append(X_ica_array[i][j])
+    X_ica_nonzero.append(temp)
 
-
-""" Main Algorithm """
+" Finding the number of active sources (k) for each segment "
+k = np.zeros(len(X_ica_nonzero))
+for i in range(len(X_ica_nonzero)):
+    # count the number of non-zeros rows in one segment
+    k[i] = len(X_ica_nonzero[i])
+ 
+# =============================================================================
+# Main Algorithm with random A
+# =============================================================================
 # remove sensors and the same sources from dataset - every third
 Y, M, L, n_seg = data._import(data_file, segment_time, request='remove 1/3')
-A_ica = np.delete(A_ica, np.arange(0, A_ica.shape[0], 3), axis=0)
 
 X_result = []
-for i in range(len(k)):
-    X_result.append(np.zeros([len(Y), int(k[i])]))
-
-A = []
-for i in range(len(k)):
-    a = np.array(A_ica, copy=True)
-    A.append(a[:,:int(k[i])])
-
-
-
 mse = []
 for i in range(len(k)):
-    mse.append(np.zeros([len(Y), int(k[i])]))
+    " Making the right size of X for all segments "
+    X_result.append(np.zeros([len(Y), int(k[i])]))
     
+    " Making the mse for all sources in all segments "
+    mse.append(np.zeros([len(Y), int(k[i])]))
+  
 average_mse = np.zeros(len(Y))
+
 for i in range(len(Y)):
     # Looking at one time segment
-#    A = np.random.normal(0,2,(M,int(k[i])))
-    A = np.array(A_ica, copy=True)
-    A = A[:,:int(k[i])]
-    X_result[i] = Main_Algorithm_EEG(Y[i], A, M, int(k[i]), L)
+    A = np.random.normal(0,2,(M,int(k[i])))
+    X_result[i] = Main_Algorithm_EEG(Y[i], A[i], M, int(k[i]), L)
     mse[i], average_mse[i] = simulated_data.MSE_segments(X_result[i], X_ica_new[i])
 
-
-#mse between ICA sources and baseline sources calculated for each segment
-#mse, average_mse = simulated_data.MSE_segments(X_result, X_ica)
 #print('MSE = {}'.format(average_mse))
 
-
+" Plot the all the sources of time segment 1 "
 plot_seperate_sources_comparison(X_result[1],X_ica[1],M,int(k[1]),int(k[1]),L)
 
-##A_result, X_result = Main_Algorithm(Y, M, L, n_seg)
+# =============================================================================
+# Main Algorithm with A_ica
+# =============================================================================
+## remove sensors and the same sources from dataset - every third
+#Y, M, L, n_seg = data._import(data_file, segment_time, request='remove 1/3')
+#A_ica = np.delete(A_ica, np.arange(0, A_ica.shape[0], 3), axis=0)
+#
+#X_result = []
+#A = []
+#mse = []
+#for i in range(len(k)):
+#    " Making the right size of X for all segments "
+#    X_result.append(np.zeros([len(Y), int(k[i])]))
+#    
+#    " Making the mixing matrix A from ICA for all segments "
+#    a = np.array(A_ica, copy=True)
+#    A.append(a[:,:int(k[i])])
+#    
+#    " Making the mse for all sources in all segments "
+#    mse.append(np.zeros([len(Y), int(k[i])]))
+#
+#average_mse = np.zeros(len(Y)) # Average MSE for each segments (size 28 x 1)
+#
+#for i in range(len(Y)):
+#    # Looking at one time segment
+#    X_result[i] = Main_Algorithm_EEG(Y[i], A[i], M, int(k[i]), L)
+#    mse[i], average_mse[i] = simulated_data.MSE_segments(X_result[i], X_ica_new[i])
+#
+##print('MSE = {}'.format(average_mse))
+#
+#" Plot the all the sources of time segment 1 "
+#plot_seperate_sources_comparison(X_result[1], X_ica[1], M, int(k[1]), int(k[1]), L)

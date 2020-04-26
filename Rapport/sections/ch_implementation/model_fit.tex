@@ -25,3 +25,42 @@ The MSE of the three tests are seen in table \ref{tab:iniA}
 \end{table}
 \todo[inline]{is it okay that we do not include the mse of X here, I don't think is any reasoning to do it, but it should be check later whether the error of A follows the error of X as it is asumped at this moment.}
 From the results it is seen that \textbf{A3} achieves the lowest MSE, thus an Gaussian distributed initial $\textbf{A}$ will be used.    
+
+\subsubsection{Segmentation in Covariance domain}
+For the Cov-DL algorithm when estimating the mixing matrix $\mathbf{A}$ the measurement matrix is transformed into the covariance domain as part of the recovering process. During the transformation the measurement matrix $\mathbf{Y}$ is divided into segments consisting of $L_s$ samples each.
+During this test different numbers of samples within a segment will be tested to see how this affect the performance of the algorithm.
+
+The autoregressive data sets,  $M = 3$, $k = 4$ and $L = 1000$ samples and with respectively $N = 5$ and $N=8$, will be used for the testing. With $k = 4$ the number of segments can not be less than the number of sources. For this system each segment can have maximum $L_s = 200$ corresponding to minimum 5 segments. 
+
+For the test, six different number of samples within each segments will be tested, $L_s = \{ 10, 20, 30, 50, 100, 150, 200 \}$. Furthermore, each $L_s$ will be run 10 times and the output of the test will be average such that each $L_s$ have one average MSE.
+
+\begin{table}[H]
+\centering
+\begin{minipage}{.45\textwidth}
+\centering
+\begin{tabular}{|c|c|c|c|c|c|c|c|}
+\hline 
+& 10 & 20 & 30 & 50 & 100 & 150 & 200 \\ 
+\hline 
+Average MSE of $\hat{\mathbf{A}}$ & 1.86 & 2.14 & 2.21 & 2.03 & 2.31 & 1.89 & 2.06 \\ 
+\hline
+\end{tabular} 
+\caption{MSE values from measurement specified by $N=5$, $M = 3$, $k = 4$ and $L = 1000$ achieved from the used of Cov-DL2}
+\label{tab:seg1}
+\end{minipage}
+\\
+\begin{minipage}{.45\textwidth}
+\centering
+\begin{tabular}{|c|c|c|c|c|c|c|c|}
+\hline 
+& 10 & 20 & 30 & 50 & 100 & 150 & 200 \\ 
+\hline 
+Average MSE of $\hat{\mathbf{A}}$ & 1.29 & 1.37 & 1.22 & 1.16 & 1.46 & 1.20 & 1.32 \\ 
+\hline
+\end{tabular} 
+\caption{MSE values from measurement specified by $N=8$, $M = 3$, $k = 4$ and $L = 1000$ achieved the used of Cov-DL1.}
+\label{tab:seg2}
+\end{minipage}
+\end{table}
+\noindent
+Overall, in table \ref{tab:seg1} and \ref{tab:seg2} there is not a big variation between the MSE values of both data sets. One could argument that the number of samples within each segment does not affect the performance of the algorithms as much and therefore is more free choice.

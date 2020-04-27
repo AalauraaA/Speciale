@@ -31,18 +31,20 @@ def M_SBL(A, Y, m, n, non_zero, iterations, noise):
             print(k)
 #            print(gamma[k])
             Gamma[k] = np.diag(np.reshape(gamma[k],(n)))        # size 1 x 1
+            
+            " Making Sigma and Mu "
+            print('gamma {}'.format(Gamma[k]))
+            print('A {}'.format(A))
+            Sigma[k] = np.dot((np.identity(n) - np.linalg.multi_dot(
+                    [np.sqrt(Gamma[k]), np.linalg.pinv(
+                            np.dot(A, np.sqrt(Gamma[k]))), A])), Gamma[k])
+            mean[k] = np.linalg.multi_dot(
+                    [np.sqrt(Gamma[k]), np.linalg.pinv(np.dot(A,
+                                                    np.sqrt(Gamma[k]))), Y])
             for i in range(n):
-                " Making Sigma and Mu "
-                Sigma[k] = np.dot((np.identity(n) - np.linalg.multi_dot(
-                        [np.sqrt(Gamma[k]), np.linalg.pinv(
-                                np.dot(A,np.sqrt(Gamma[k]))), A])), Gamma[k])
-                mean[k] = np.linalg.multi_dot(
-                        [np.sqrt(Gamma[k]), np.linalg.pinv(np.dot(A,
-                                                        np.sqrt(Gamma[k]))), Y])
-
                 " Update gamma with EM and with M being Fixed-Point"
                 gam_num = 1/n_samples * np.linalg.norm(mean[k][i])
-                gam_den = 1 - gamma[k][i] * Sigma[k][i][i]
+                gam_den = 1 - ((1/(gamma[k][i])) * Sigma[k][i][i])
                 gamma[k+1][i] = gam_num/gam_den
 #            print(gamma[k+1])
             if k == iterations:
@@ -60,26 +62,27 @@ def M_SBL(A, Y, m, n, non_zero, iterations, noise):
         k = 1
         while any((gamma[k]-gamma[k-1]) > tol):
             Gamma[k] = np.diag(np.reshape(gamma[k],(n)))
+            
+            " Making Sigma and Mu "
+            sig = lam[k] * np.identity(m) +  np.linalg.multi_dot([A,Gamma[k],A.T])
+            inv = np.linalg.pinv(sig)
+            Sigma[k] = (Gamma[k]) - (np.linalg.multi_dot([Gamma[k],A.T,inv,A,Gamma[k]]))
+            mean[k] = np.linalg.multi_dot([Gamma[k],A.T,inv,Y])
+
+            " Making the noise variance/trade-off parameter lambda of p(Y|X)"
+            lam_num = 1/n_samples * np.linalg.norm(Y - A.dot(mean[k]),
+                                                   ord='fro')**2  # numerator
+            lam_for = 0
+            for j in range(n):
+                lam_for += Sigma[k][j][j] / gamma[k][j]
+                
+            lam_den = m - n + lam_for                        # denominator
+            lam[k+1] = lam_num / lam_den
+                
             for i in range(n):
-                " Making Sigma and Mu "
-                sig = lam[k] * np.identity(m) +  np.linalg.multi_dot([A,Gamma[k],A.T])
-                inv = np.linalg.inv(sig)
-                Sigma[k] = (Gamma[k]) - (np.linalg.multi_dot([Gamma[k],A.T,inv,A,Gamma[k]]))
-                mean[k] = np.linalg.multi_dot([Gamma[k],A.T,inv,Y])
-
-                " Making the noise variance/trade-off parameter lambda of p(Y|X)"
-                lam_num = 1/n_samples * np.linalg.norm(Y - A.dot(mean[k]),
-                                                       ord='fro')**2  # numerator
-                lam_for = 0
-                for j in range(n):
-                    lam_for += Sigma[k][j][j] / gamma[k][j]
-                    
-                lam_den = m - n + lam_for                        # denominator
-                lam[k+1] = lam_num / lam_den
-
                 " Update gamma with EM and with M being Fixed-Point"
                 gam_num = 1/n_samples * np.linalg.norm(mean[k][i])
-                gam_den = 1 - gamma[k][i] * Sigma[k][i][i]
+                gam_den = 1 - ((1/(gamma[k][i])) * Sigma[k][i][i])
                 gamma[k+1][i] = gam_num/gam_den
 
                 if k == iterations:
@@ -88,7 +91,7 @@ def M_SBL(A, Y, m, n, non_zero, iterations, noise):
 
     " Finding the support set "
 
-    print(gamma[0],gamma[3],gamma[5],gamma[6])
+    #print(gamma[0],gamma[3],gamma[5],gamma[6])
     support = np.zeros(non_zero)
     H = gamma[-2]
     for l in range(non_zero):

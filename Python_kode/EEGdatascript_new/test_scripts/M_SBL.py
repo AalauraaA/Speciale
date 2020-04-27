@@ -19,7 +19,6 @@ import numpy as np
 def M_SBL(A, Y, m, n, non_zero, iterations, noise):
     n_samples = Y.shape[1]
     tol=0.00001
-    print('A {}'.format(A))
     if noise is False:
         Y = Y.T[:-2]
         Y = Y.T
@@ -29,8 +28,7 @@ def M_SBL(A, Y, m, n, non_zero, iterations, noise):
         Sigma = np.zeros([iterations+1, n, n])
         k = 1
         while any((gamma[k]-gamma[k-1]) > tol):
-            print(k)
-#            print(gamma[k])
+            #print(k)
             Gamma[k] = np.diag(np.reshape(gamma[k],(n)))        # size 1 x 1
             
             " Making Sigma and Mu "
@@ -45,7 +43,6 @@ def M_SBL(A, Y, m, n, non_zero, iterations, noise):
                 gam_num = 1/n_samples * np.linalg.norm(mean[k][i])
                 gam_den = 1 - ((1/(gamma[k][i])) * Sigma[k][i][i])
                 gamma[k+1][i] = gam_num/gam_den
-#            print(gamma[k+1])
             if k == iterations:
                 break
             k += 1
@@ -94,7 +91,6 @@ def M_SBL(A, Y, m, n, non_zero, iterations, noise):
     #print(Sigma[2])
     support = np.zeros(non_zero)
     H = gamma[-2]
-    print('H {}'.format(H))
     for l in range(non_zero):
         if H[np.argmax(H)] != 0:
             support[l] = np.argmax(H)

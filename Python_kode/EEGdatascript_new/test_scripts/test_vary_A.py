@@ -22,7 +22,7 @@ k = 16
 L = 1000 
 n_seg = 1
 
-iterationer = 3
+iterationer = 1
 Xmse_list = np.zeros((4,iterationer))
 Amse_list = np.zeros((4,iterationer))
 

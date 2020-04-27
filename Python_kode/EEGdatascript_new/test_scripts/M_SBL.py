@@ -19,6 +19,7 @@ import numpy as np
 def M_SBL(A, Y, m, n, non_zero, iterations, noise):
     n_samples = Y.shape[1]
     tol=0.00001
+    print('A {}'.format(A))
     if noise is False:
         Y = Y.T[:-2]
         Y = Y.T
@@ -33,8 +34,6 @@ def M_SBL(A, Y, m, n, non_zero, iterations, noise):
             Gamma[k] = np.diag(np.reshape(gamma[k],(n)))        # size 1 x 1
             
             " Making Sigma and Mu "
-            print('gamma {}'.format(Gamma[k]))
-            print('A {}'.format(A))
             Sigma[k] = np.dot((np.identity(n) - np.linalg.multi_dot(
                     [np.sqrt(Gamma[k]), np.linalg.pinv(
                             np.dot(A, np.sqrt(Gamma[k]))), A])), Gamma[k])
@@ -91,9 +90,11 @@ def M_SBL(A, Y, m, n, non_zero, iterations, noise):
 
     " Finding the support set "
 
-    #print(gamma[0],gamma[3],gamma[5],gamma[6])
+    #print(gamma[0],gamma[1],gamma[2],gamma[3])
+    #print(Sigma[2])
     support = np.zeros(non_zero)
     H = gamma[-2]
+    print('H {}'.format(H))
     for l in range(non_zero):
         if H[np.argmax(H)] != 0:
             support[l] = np.argmax(H)
@@ -103,6 +104,5 @@ def M_SBL(A, Y, m, n, non_zero, iterations, noise):
     New_mean = np.zeros([n, n_samples-2])
 #    print('support shape {}'.format(support.shape))
     for i in support:
-        New_mean[int(i)] = mean[-1][int(i)]
-
+        New_mean[int(i)] = mean[k-1][0]
     return New_mean

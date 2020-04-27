@@ -8,6 +8,8 @@ This script consist of different choices for the mixing matrix A
 """
 
 import numpy as np
+import ICA
+import data
 
 def A_uniform(M,N):
     """
@@ -55,6 +57,16 @@ def A_gaussian(M,N):
     """
     A = np.random.randn(M,N)
     return A
+
+def A_ICA(Y, request):
+    if len(Y.shape) is 3:
+        X_ica, A = ICA.ica_segments(Y, 1000)
+    if len(Y.shape) is 2:
+        X_ica, A = ICA.ica(Y, 1000)
+    
+    A_r = data._reduction(A, request)   
+    
+    return A_r
 
 def EEG_A(M,N):
     """

@@ -1,31 +1,33 @@
 \section{Test of the Baseline Algorithm}\label{sec:test_base}
-intro
+In this section the performance of the final baseline algorithm is tested.  
  
 \input{sections/ch_implementation/differentA.tex}  
 
-\subsection{Test}
-In order to evaluate the performance of the resulting baseline algorithm tests are conducted on several simulated stochastic data sets with different specification. The aim is to see how the relationship between $N$ and $M$ affect the performance, in other word how robust the algorithm is towards low density measurements. 
-The baseline algorithm is on an AR data specified by $M=8$, $L=1000$, $k=N$ and N in the range $N = [M+1, 36]$, as such $k<\frac{M(M+1)}{2}$ are withhold insuring a solution.
-For each value of $N$ 5 different data sets are simulated and solved and the average MSE are used as the result. The result are plotted in figure \ref{fig:varyN1}, the MSE is plotted for both $\textbf{X}$ and $\textbf{A}$. 
-Due to the performance of COV-DL not being as good as expected, a similar test is made where the true $\textbf{A}$ is given as input to M-SBL. These results are visualised in figure \ref{fig:varyN2}.    
+\subsection{Performance Test of Final Baseline Algorithm}
+In order to evaluate the performance of the resulting baseline algorithm tests are conducted on several simulated stochastic data sets with different specification. The aim is to see how the relationship between $N$ and $M$ affect the performance, in other words how robust the algorithm is towards low density measurements. 
+The baseline algorithm is tested on simulated stochastic data sets specified by $M=8$, $L=1000$, $k=N$ with $N$ in the range $N = [M+1,\hdots,36]$, as such $k<\widetilde{M}$ are withhold insuring a solution.
+For each value of $N$ 10 different data sets are simulated and solved, and the average $\textbf{X}_{MSE}$ are used as the result. 
+The results are plotted in figure \ref{fig:varyN1}.
       
 \begin{figure}[H]
-    \begin{minipage}[t]{.45\textwidth}
-    	\centering
-		\includegraphics[scale=0.5]{figures/ch_6/varyN_recA.png}
-		\caption{ $M = 3$, $k=4$ and $L=1000$}
-		\label{fig:varyN1}
-    \end{minipage} 
-    \hfill
-    \begin{minipage}[t]{.45\textwidth}
-        \centering
-		\includegraphics[scale=0.5]{figures/ch_6/varyN_trueA.png}
-		\caption{True $\textbf{A}$ $M = 3$, $k=4$ and $L=1000$ }
-		\label{fig:varyN2}
-    \end{minipage}
+    \centering
+	\includegraphics[scale=0.5]{figures/ch_6/varyN1.png}
+	\caption{ plot of $\textbf{X}_{MSE}$ when the baseline algorithm is use on simulated stochastic data sets specified by $M = 8$, $L=1000$ and $k = N$ for $N = M+1, \hdots , 36$. Average over 10 repetitions for each $N$.}
+	\label{fig:varyN1}
 \end{figure}
 
-From the results it is seen that .. 
+From figure \ref{fig:varyN1} it is seen that the $\textbf{X}_{MSE}$ lies in an interval from 4 to 14. However no clear trend appears in the plot. This suggest first that it is not an representative average which have been plotted, thus the test is repeated with more repetitions for value of $N$. The new result is seen in figure \ref{fig:varyN2}
+
+\begin{figure}[H]
+    \centering
+	\includegraphics[scale=0.5]{figures/ch_6/varyN2.png}
+	\caption{Plot of $\textbf{X}_{MSE}$ when the baseline algorithm is use on simulated stochastic data sets specified by $M = 8$, $L=1000$ and $k = N$ for $N = M+1, \hdots , 36$. Average over 500 repetitions for each $N$.}
+	\label{fig:varyN2}
+\end{figure}  
+Figure \ref{fig:varyN2} confirms the result of the first test. Thus it must be that average behaviour which is seen. This suggest that the performance of the baseline algorithm is not affected the relation between $M$ and $N$.
+However, this assumption is counter intuitive and it is a contradiction to the results seen in figure \ref{fig:AR1} and \ref{fig:AR2}, where the true $\textbf{A}$ was utilised. Thus the choice of the alternative estimate $\hat{\textbf{A}}_{norm}$ might have influenced the results negatively.  
+Furthermore it is worth to notice the relative large interval of the $\textbf{X}_{MSE}$ suggesting a vary high variance within the resulting $\textbf{X}_{MSE}$, which add a certain unreliability to the results.    
+
 
 
 

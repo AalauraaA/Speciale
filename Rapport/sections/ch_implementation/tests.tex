@@ -108,12 +108,13 @@ Figure \ref{fig:M-SBL_simple3} show the results when deterministic data specifie
 From the result it is confirmed that letting $N=k$ is fine... 
 
 \subsection{Test on AR data}
-The performance of M-SBL is now tested on a stochastic data set which resembles the real EEG measurements. 
-A stochastic data set is simulated with specification $N=k=8$, $M = 6$, $L=1000$. The resulting estimate is plotted in figure \ref{fig:AR1} and the MSE become 
+The M-SBL algorithm is now tested on two stochastic data set which resembles the real EEG measurements. 
+the first stochastic data set is simulated with specification $N=k=8$, $M = 6$, $L=1000$. The resulting estimate is plotted in figure \ref{fig:AR1} and the MSE become 
 \begin{align*}
 \textbf{X}_{MSE} = 2.202 
 \end{align*}  
-To test the capabilities of the algorithm the distance between $M$ and $N$ is enlarged. A second stochastic data set is simulated with specification $N=k=16$, $M = 6$, $L=1000$. The resulting estimate is plotted in figure \ref{fig:AR2} and the MSE become 
+The second stochastic data set is simulated with specification $N=k=16$, $M = 6$, $L=1000$. This tests the capabilities of the M-SBL algorithm when the distance between $M$ and $N$ is enlarged. The performance relative to the relation between $N$ and $M$ is further investigated for the final algorithm in section \ref{sec:test_base}.
+The resulting estimate is plotted in figure \ref{fig:AR2} and the MSE become 
 \begin{align*}
 \textbf{X}_{MSE} = 5.342 
 \end{align*}  
@@ -133,9 +134,7 @@ To test the capabilities of the algorithm the distance between $M$ and $N$ is en
 		\label{fig:AR2}
     \end{minipage}
 \end{figure}
-From the results... remove the last test, as this i what we test in the next section.
-
-
+From figure \ref{fig:AR1} it is visually confirmed that the M-SBL algorithm manage to approximate the source signal. Some source signal nearly perfect estimated while other are have minor differences. From figure \ref{fig:AR2} the same tendency is seen, though more visual flaws are seen compared to figure \ref{fig:AR1}. This result suggest that a bigger distance between $M$ and $N$ results in a weaker performance from the M-SBL algorithm.        
 
 %\input{sections/ch_implementation/model_fit.tex} 
 

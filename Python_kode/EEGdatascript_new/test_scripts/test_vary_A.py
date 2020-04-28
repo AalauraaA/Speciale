@@ -22,7 +22,7 @@ k = 16
 L = 1000 
 n_seg = 1
 
-iterationer = 1
+iterationer = 50
 Xmse_list = np.zeros((4,iterationer))
 Amse_list = np.zeros((4,iterationer))
 
@@ -36,7 +36,7 @@ for ite in range(iterationer):
     Y_f, A_real_f, X_real = generate_AR(N, N, L, k) #(N,M) is real
     
     #reduce so M<N
-    request='remove 1/2'
+    request='remove 1/3'
     Y = data._reduction(Y_f, request)
     A_real = data._reduction(A_real_f, request)
     
@@ -46,7 +46,6 @@ for ite in range(iterationer):
     X_real = X_real.T
     
     A = [vary_A.A_uniform(M,N), vary_A.A_random(M,N), vary_A.A_gaussian(M,N), vary_A.A_ICA(Y_f,request)]
-
     for i in range(len(A)):
         print('A_fix type {}'.format(i))
     
@@ -63,23 +62,20 @@ for j in range(len(Xmse)):
 
 """ PLOTS """
 plt.figure(1)
-plt.plot(Amse, '-r', label = 'A')
-plt.plot(Xmse, '-b', label = 'X')
-plt.plot(0, Amse[0], 'ro')
-plt.plot(1, Amse[1], 'ro')
-plt.plot(2, Amse[2], 'ro')
-plt.plot(3, Amse[3], 'ro')
-
-plt.plot(0, Xmse[0], 'bo')
-plt.plot(1, Xmse[1], 'bo')
-plt.plot(2, Xmse[2], 'bo')
-plt.plot(3, Xmse[3], 'bo')
-
-plt.title('MSE of varying A')
+plt.subplot(2, 1, 1)
+plt.title('MSE of varying fixed A')
+plt.plot(Xmse, 'ob', label = 'X')
 plt.xticks([])
 plt.ylabel('MSE')
-plt.legend()
-#plt.savefig('figures/AR_Error_vary_A_m8_k16_N16_L1000.png')
+plt.legend(loc='upper left', bbox_to_anchor=(1, 1))
+plt.subplot(2, 1, 2)
+plt.plot(Amse, 'or', label = 'A')
+plt.xticks([0, 1, 2, 3],["$\mathcal{U}(-1,1)$","normal \n $\mu = 0, \sigma^2 = 2$","Gaussian","ICA"])
+
+plt.ylabel('MSE')
+plt.legend(loc='upper left', bbox_to_anchor=(1, 1))
+plt.tight_layout()      
+plt.savefig('A_fix.png')
 plt.show()
 
 

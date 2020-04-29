@@ -100,5 +100,5 @@ def M_SBL(A, Y, m, n, non_zero, iterations, noise):
     New_mean = np.zeros([n, n_samples-2])
 #    print('support shape {}'.format(support.shape))
     for i in support:
-        New_mean[int(i)] = mean[k-1][0]
+        New_mean[int(i)] = mean[k-1][int(i)]
     return New_mean

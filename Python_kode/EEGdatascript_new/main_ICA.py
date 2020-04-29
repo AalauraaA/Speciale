@@ -4,7 +4,6 @@ Created on Tue Mar 31 14:22:36 2020
 
 @author: trine
 """
-
 import numpy as np
 from main import Main_Algorithm_EEG
 import simulated_data
@@ -12,8 +11,13 @@ import ICA
 import data
 from plot_functions import plot_seperate_sources_comparison
 
+# =============================================================================
+# Import EEG data file
+# =============================================================================
+#data_name = 'S1_CClean.mat'
 data_name = 'S1_OClean.mat'
 data_file = 'data/' + data_name            # file path
+
 segment_time = 1                           # length of segments i seconds
 
 # =============================================================================
@@ -22,9 +26,19 @@ segment_time = 1                           # length of segments i seconds
 " Perform ICA on full dataset "
 Y_ica, M_ica, L_ica, n_seg_ica = data._import(data_file, segment_time, request='none')
 
-Y_ica[0] = Y_ica[0].T[:-1]
-Y_ica[0] = Y_ica[0].T
+if data_name == 'S1_CClean.mat':
+    " For S1_CClean.mat remove last sample of first segment "
+    Y_ica[0] = Y_ica[0].T[:-1]
+    Y_ica[0] = Y_ica[0].T
 
+if data_name == 'S1_OClean.mat':
+    for i in range(len(Y_ica)):
+        if i <= 22:
+            Y_ica[i] = Y_ica[i].T[:-1]
+            Y_ica[i] = Y_ica[i].T
+        else:
+            continue
+            
 X_ica, A_ica = ICA.ica_segments(Y_ica, 1000)
 
 " Remove the last column from X_ica to match size of X "
@@ -85,10 +99,25 @@ for i in range(len(Y)): # Looking at one time segment
     mse[i], average_mse[i] = simulated_data.MSE_segments(X_result[i], X_ica_nonzero[i])
 
 " Plot the all the sources of time segment 1 "
-for i in range(10):
-    figsave = "figures/EEG_third_removed_" + str(data_name) + '_' + str(i) + ".png"
-    plot_seperate_sources_comparison(X_result[i],X_ica_nonzero[i],M,int(k[i]),int(k[i]),L,figsave,i)
-    print('MSE = {}'.format(average_mse[i]))
+import matplotlib.pyplot as plt
+#for i in range(10):
+#    figsave = "figures/EEG_third_removed_" + str(data_name) + '_' + str(i) + ".png"
+#    plot_seperate_sources_comparison(X_result[i],X_ica_nonzero[i],M,int(k[i]),int(k[i]),L,figsave,i)
+#    print('MSE = {}'.format(average_mse[i]))
+
+plt.figure(0)
+plt.subplot(211)
+plt.title("EEG Measurements for M = 27, k = {}, L = 515".format(k[1]))
+plt.plot(Y[1][0])
+
+plt.subplot(212)
+plt.title("EEG Source for M = 27, k = {}, L = 515".format(k[1]))
+plt.plot(X_result[1][0])
+#plt.legend()
+plt.xlabel('sample')
+plt.show()
+#plt.savefig(figsave)
+
 
 # =============================================================================
 # Main Algorithm with A_ica

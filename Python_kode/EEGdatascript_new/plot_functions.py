@@ -8,10 +8,10 @@ Created on Wed Mar 25 12:25:42 2020
 ## plot functions
 
 
-def plot_seperate_sources_comparison(X_real,X_reconstruction,M,N,k,L):
+def plot_seperate_sources_comparison(X_real,X_reconstruction,M,N,k,L,figsave,nr):
     import matplotlib.pyplot as plt
     import numpy as np
-    plt.figure(1)
+    plt.figure(nr)
     plt.title('M = {}, N = {}, k = {}, L = {}'.format(M,N,k,L))
     nr_plot=0
     for i in range(N):
@@ -24,5 +24,5 @@ def plot_seperate_sources_comparison(X_real,X_reconstruction,M,N,k,L):
     
     plt.legend()
     plt.xlabel('sample')
-    plt.show
-    plt.savefig('first_EEG_ICA.png')
+    plt.show()
+    plt.savefig(figsave)

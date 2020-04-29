@@ -1,6 +1,15 @@
 \chapter{Test on EEG measurements}
+Through this chapter a modification of the baseline algorithm will be described such that the baseline algorithm can handled real EEG measurements. 
+
+For verification of the results the MSE values achieved from the EEG measurements will be compared to MSE values achieved from the use of ICA, cf. appendix. This would include some preprocessing of the used EEG measurements.
+
+At last, from the observed results of the comparison a conclusion will close this chapter.
 
 \section{Data Description}
+The data set of interest in this chapter consist of real EEG scalp measurements which has been provided for this thesis. The EEG scalp measurements are achieved from a experiment with a EEG cap where the test person was closing and opening his/her eyes. For the experiment a cap with $M = 27$ sensors has been used to measure the mixing of sources over a period of XX seconds. The data set then only consist of the measurement matrix $\mathbf{Y} \in \mathbb{R}$ and not the source matrix and mixing matrix as the data sets described in chapter \ref{ch:implementation}.
+
+
+
 \begin{itemize}
 \item S1\_Cclean is clean data for the forst subject for closed-yeys condition
 \item 27 channels with names and position in EEG.chanlocs structure 

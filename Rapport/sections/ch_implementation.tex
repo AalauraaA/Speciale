@@ -4,11 +4,14 @@
 %\mathbf{Y} = \mathbf{AX},
 %\end{align*}
 %theory and methods behind recovering the mixing matrix $\mathbf{A}$ and the source matrix $\mathbf{X}$ have been investigated and researched. This lead to two algorithms -- covariance-domain dictionary learning (Cov-DL) algorithm and multiple sparse Bayesian learning (M-SBL) algorithm -- which recover a mixing matrix and a source matrix from the EEG measurements with more sources than sensors, $N > M$.
-This chapter describes the implementation process of the baseline algorithm, where the two algorithms Cov-DL and M-SBL resulting from respectively chapter \ref{ch:Cov-DL} and \ref{ch:M-SBL} are implemented and combined into one algorithm.
 
-The implementation of each algorithm is initially tested on a simple simulated data set to verify the implementation. Next, both algorithms are tested on simulated data which aim to resemble real EEG measurements. By simulating the data set the true model parameters are known which allows for measuring the precision of the algorithms, based on a described error measurement.     
+This chapter describes the implementation process of the main algorithm, where the two algorithms Cov-DL and M-SBL resulting from respectively chapter \ref{ch:Cov-DL} and \ref{ch:M-SBL} are implemented and combined into one algorithm.
+
+The implementation of each algorithm is initially tested on a simple simulated data set to verify the implementation. 
+Next, both algorithms are tested on simulated data which aim to resemble real EEG measurements. 
+By simulating the data set the true model parameters are known which allows for measuring the precision of the algorithms, based on a described error measurement.     
 In addition different model variables are investigated in order to improve the model.
-Finally, the full baseline algorithm is tested on the simulated data and a conclusion is made based on the results. 
+Finally, the main algorithm is tested on the simulated data sets and a conclusion is made based on the results. 
 %The goal of this chapter is to describe how the two found algorithms can be implemented into one algorithm -- the baseline algorithm -- and what one must have in mind when combining the two algorithms. Furthermore, some tests of the baseline algorithm, with different data sets of different type of data, will be performed with the purpose to investigate how good the recovering process is. 
 %The chapter will begin with a discussion of the choice for the parameters $M$, $N$ and $k$ as in the realistic case with real EEG measurements the number of active sources within the brain $k$ are unknown -- which parameters lead to a good recovering?
 

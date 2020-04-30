@@ -15,14 +15,14 @@ import numpy as np
 import matplotlib.pyplot as plt
 import data
 
-#np.random.seed(4523)
+np.random.seed(1234)
 
 N = 16  
 k = 16
 L = 1000 
 n_seg = 1
 
-iterationer = 10
+iterationer = 50
 Xmse_list = np.zeros((4,iterationer))
 Amse_list = np.zeros((4,iterationer))
 

@@ -15,7 +15,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import data
 
-np.random.seed(1234)
+np.random.seed(12345)
 
 N = 16  
 k = 16
@@ -70,7 +70,7 @@ plt.ylabel('MSE')
 plt.legend(loc='upper left', bbox_to_anchor=(1, 1))
 plt.subplot(2, 1, 2)
 plt.plot(Amse, 'or', label = 'A')
-plt.xticks([0, 1, 2, 3],["$\mathcal{U}(-1,1)$","normal \n $\mu = 0, \sigma^2 = 2$","Gaussian","ICA"])
+plt.xticks([0, 1, 2, 3],["uniform \n [-1,1)","normal \n $\mu = 0, \sigma^2 = 2$","Gaussian","ICA"])
 
 plt.ylabel('MSE')
 plt.legend(loc='upper left', bbox_to_anchor=(1, 1))

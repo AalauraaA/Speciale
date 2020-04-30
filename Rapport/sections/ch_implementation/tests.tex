@@ -76,7 +76,7 @@ The estimate $\hat{\mathbf{X}}$ is plotted in figure \ref{fig:M-SBL_simple1} and
 \begin{figure}[H]
     \begin{minipage}[t]{.45\textwidth}
     	\centering
-		\includegraphics[scale=0.5]{figures/ch_6/M-SBL_simple1.png}
+		\includegraphics[scale=0.45]{figures/ch_6/M-SBL_simple1.png}
 		\caption{Estimated values of $\hat{\mathbf{X}}$ compared to the true 					values $\mathbf{X}$. From measurement $\mathbf{Y}$ specified by $N=5$, $M = 3$, $k=4$ and $L=1000$ and the true mixing matrix $\mathbf{A}$.}
 		\label{fig:M-SBL_simple1}
     \end{minipage} 
@@ -118,7 +118,7 @@ Consider the effect of letting $N = k$ within the M-SBL algorithm. Here it is on
 
 Figure \ref{fig:M-SBL_simple3} show the estimated sources signal for a simulation of the deterministic data set now specified by $N=k=4$ $M = 3$ and $L=1000$. The resulting MSE become
 \begin{align*}
-\textbf{X}_{MSE} = 0.122
+\textbf{X}_{MSE} = 0.121
 \end{align*}
 
 \begin{figure}[H]
@@ -135,14 +135,14 @@ The M-SBL algorithm is now tested on two stochastic data sets which resembles th
 The first stochastic data set is simulated with specification $N=k=8$, $M = 6$, $L=1000$. 
 The resulting estimate is plotted in figure \ref{fig:AR1} and the MSE becomes 
 \begin{align*}
-\text{MSE}(\mathbf{X}, \hat{\mathbf{X}}) = 1.611.
+\text{MSE}(\mathbf{X}, \hat{\mathbf{X}}) = 1.643.
 \end{align*}  
 The second stochastic data set is simulated with specification $N=k=16$, $M = 6$, $L=1000$. 
 This tests the capabilities of the M-SBL algorithm when the distance between $M$ and $N$ is enlarged. 
 The performance relative to the relation between $N$ and $M$ is further investigated for the main algorithm in section \ref{sec:test_base}.
 The resulting estimate is plotted in figure \ref{fig:AR2} and the MSE becomes 
 \begin{align*}
-\text{MSE}(\mathbf{X}, \hat{\mathbf{X}}) = 5.179. 
+\text{MSE}(\mathbf{X}, \hat{\mathbf{X}}) = 5.182. 
 \end{align*}  
 
 \begin{figure}[H]

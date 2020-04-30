@@ -18,7 +18,7 @@ A different option regarding a fixed estiamtion of $\textbf{A}$ is to utilize th
 Consider a simulation of a stochastic data set specified by $N = k = M$. Solving the system by ICA yields an estimate of $\textbf{A}$. Now reduce the data set $\textbf{Y}$ such that $M \leq k$. Similar the estimate of $\textbf{A}$ is reduced by removing the same rows as in $\textbf{Y}$, this yields the an estimate $\hat{\textbf{A}}_{ICA}$ which can be used as a fixed input to M-SBL along with the corresponding reduced $\textbf{Y}$.
 
 The four different fixed estimates $\hat{\mathbf{A}}$ are tested on stochastic data sets specified by $M = 10$, $N = k = 16$ and $L = 1000$. 
-To get the average performance 50 different simulations are conducted with the same specifications, each system $\textbf{X}$ is estimated from each of the four fixed estimates of $\textbf{A}$\footnote{note that for each of the 50 repetitions  four new $\hat{\textbf{A}}_{\text{fix}}$ are fixed}, and the MSE is are computed. The resulting averaged $MSE_{\textbf{A}}$ and $MSE_{\textbf{X}}$ are visualised  in figure \ref{fig:vary_A}, for each of the four $\hat{\mathbf{A}}_{\text{fix}}$. 
+To get the average performance 50 different simulations are conducted with the same specifications, each system $\textbf{X}$ is estimated from each of the four fixed estimates of $\textbf{A}$\footnote{note that for each of the $50$ repetitions  four new $\hat{\textbf{A}}_{\text{fix}}$ are fixed}, and the MSE is are computed. The resulting averaged $MSE_{\textbf{A}}$ and $MSE_{\textbf{X}}$ are visualised  in figure \ref{fig:vary_A}, for each of the four $\hat{\mathbf{A}}_{\text{fix}}$. 
 Furthermore, the plotted values are found in table \ref{tab:fixed}.
 
 \begin{figure}[H]
@@ -35,9 +35,9 @@ Furthermore, the plotted values are found in table \ref{tab:fixed}.
 \hline
  & $\hat{\textbf{A}}_{uni}$ & $\hat{\textbf{A}}_{norm}$	 & $\hat{\textbf{A}}_{gauss}$ & $\hat{\textbf{A}}_{ICA}$ \\
 \hline
-MSE$_\mathbf{A}$ & 1.330 & 4.907 & 1.976 & 1.060 \\
+MSE$_\mathbf{A}$ & 1.314 & 5.021 & 1.935 & 1.033 \\
 \hline
-MSE$_\mathbf{X}$ & 89.70 & 21.33 & 35.93 & 148.0 \\
+MSE$_\mathbf{X}$ & 70.74 & 17.36 & 40.58 & 231.4 \\
 \hline
 \end{tabular}
 \caption{Average MSE values resulting from stochastic data set specified by $M=10$, $N=k=16$ and $L=1000$ with a fixed estimate $\hat{\mathbf{A}}_{\text{fix}}$.}

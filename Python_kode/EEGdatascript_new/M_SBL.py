@@ -90,7 +90,7 @@ def M_SBL(A, Y, m, n, non_zero, iterations, noise):
     #print(gamma[0],gamma[1],gamma[2],gamma[3])
     #print(Sigma[2])
     support = np.zeros(non_zero)
-    H = gamma[-2]
+    H = gamma[k-1]
     for l in range(non_zero):
         if H[np.argmax(H)] != 0:
             support[l] = np.argmax(H)

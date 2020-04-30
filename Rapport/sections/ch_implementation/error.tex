@@ -2,16 +2,19 @@
 To evaluate performance of the algorithms it is evident to look at the differences between the true and estimated matrices, mixing matrix $\mathbf{A}$ and source matrix $\mathbf{X}$ -- which is possible due to the input data being simulated. 
 For this task the mean squared error (MSE) has been chosen. 
 The MSE measures the average squared difference between some estimated value and the true value. 
-For $hat{\textbf{g}}$ being the estimate of $\textbf{g}$ the MSE can be written as 
+For $\hat{\textbf{g}}$ being the estimate of the vector $\textbf{g}$ the MSE can be written as 
 \begin{align*}
 \text{MSE}(\textbf{g},\hat{\textbf{g}}) = \frac{1}{T} \sum_{i=1}^T (g_i - \hat{g}_i)^2,  
 \end{align*}
 with $T$ being the number of elements in the vector $\textbf{g}$. 
-In the present case the estimates form a matrix. Here the MSE is computed for each row, which for $\textbf{X}$ is the estimate of one source signal, then the  resulting MSE is the average over all rows. For $\textbf{X}, \hat{\textbf{X}}\in\mathbb{R}^{N\times L}$ the MSE is written as 
+
+For this project the estimates form a matrix. Here the MSE is computed for each row, which for $\mathbf{X}$ is the estimate of one source signal, then the resulting MSE is the average over all rows. 
+For $\mathbf{X}, \hat{\mathbf{X}} \in \mathbb{R}^{N \times L}$ the MSE is written as 
 \begin{align*}
-\text{MSE}(\textbf{X},\hat{\textbf{X}}) = \frac{1}{N} \sum_{i}^{N} \left( \frac{1}{L} \sum_{j=1}^L (\textbf{X}_{ij} - \hat{\textbf{X}}_{ij})^2\right).  
+\text{MSE}(\mathbf{X},\hat{\mathbf{X}}) = \frac{1}{N} \sum_{i}^{N} \left( \frac{1}{L} \sum_{j=1}^L (\mathbf{X}_{ij} - \hat{\mathbf{X}}_{ij})^2\right).  
 \end{align*}
-Similarly, the MSE can be written for $\textbf{A},\hat{\textbf{A}}\in \mathbb{R}^{M \times N}$.  
+Similarly, the MSE can be written for $\mathbf{A},\hat{\mathbf{A}} \in \mathbb{R}^{M \times N}$.  
+
 The MSE is viewed as a measure of the quality of an estimator, in this case of how M-SBL and Cov-DL perform. 
 For a large MSE the estimated values are dispersed widely around its mean while for a small MSE value the estimated matrix/values is closely dispersed around the mean. 
 Usually, a small MSE value indicates a good estimator but the value cannot be to small as this would indicate that the data has been overfitted \todo{Vi skal lige finde en god kilde som siger dette}. 

@@ -131,7 +131,7 @@ def ica(X, iterations, tolerance=1e-5):
 # =============================================================================
 m = 3                # number of sensors
 n = 3                # number of sources
-non_zero = 2         # max number of non-zero coef. in rows of X
+non_zero = 3         # max number of non-zero coef. in rows of X
 n_samples = 100       # number of sampels
 iterations = 1000
 

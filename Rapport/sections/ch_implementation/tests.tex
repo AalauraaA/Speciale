@@ -75,27 +75,32 @@ In order to not let the performance of COV-DL affect the result of M-SBL it is t
 \end{figure}
 The resulting MSE between the true $\textbf{X}$ and the estimate $\hat{\textbf{X}}$ from figure \ref{fig:M-SBL_simple1} where $N = 5$, averaged over every row, become 
 \begin{align*}
-X_{MSE} = 0.131 
+X_{MSE} = 0.127 
 \end{align*}
 From figure \ref{fig:M-SBL_simple1} it is seen that all four source signals are recovered at the right location. As suggested by the achieved MSE it the estimates are not exact, but it is clear that the estimates manage to follow the right pattern at the right location. By this plot an error margin are established(?).  
 
 The resulting MSE between the true $\textbf{X}$ and the estimated $\hat{\textbf{X}}$ from figure \ref{fig:M-SBL_simple2} where $N = 8$ thus more sparse, become 
 \begin{align*}
-X_{MSE} = 0.145 
+X_{MSE} = 0.228	 
 \end{align*}
 From figure \ref{fig:M-SBL_simple2} it is seen that the first source signal is recovered at the third entry, that is one dislocation, while the rest are recovered at the right location. This indicate that the algorithm can manage to locate the source signal however the more options the greater chance of dislocation.     
 
 \subsubsection*{Possibilities of $N=k$}
-\todo[inline]{Manglende beskrivelse...}
-\begin{itemize}
-	\item The true $N$ is unknown for real EEG measurements, as it change for every brain
-	\item Therefore, we do not know the amount of activation inside the brain, but it is those which are of interest in this thesis.
-	\item Due to the method for determine the mixing matrix $\textbf{A}$ the ration between $N$ and $k$ do not affect the result, hence there are no argument against letting $N=k$ which will lower the computational complexity.\todo[inline]{do the same argument regarding $N=k$ hold for the determination of $\textbf{X}$? after the awareness that we do not need to provide $k$ to M-SBL as it has been done so far.}    
-\end{itemize}
 
-Figure \ref{fig:M-SBL_simple3} show the results when deterministic data specified by $N=k=4$ $M = 3$ and $L=1000$ are used. The resulting MSE become
+From the problemstatement in chapter \ref{ch:problemstatement} it is an issue that $k$ has to be known in prior, in order to estimate $\textbf{A}$ and $\textbf{X}$. A short discussion in subsection \ref{subsec:kestimate}, describes how k can be estimated within the M-SBL algorithm. However one still needs to provide k in order to estimate $\textbf{A}$, thus an qualified estimate of k can not be avoided. 
+
+Similar to k, the maximum number of active sources $N$ is unknown in practise as it is described in chapter \ref{ch:motivation}. 
+The difference between $k$ and $N$ defines the number of zero rows in $\textbf{X}$.
+During the estimation of $\textbf{X}$ the localisation of the non-zero rows are in general significant to minimize the MSE. However, the fact that the true $N$ can not be known for EEG measurements weakens the argument for of focusing on the localisation rather than only focusing on the value estimation of the source signals. Furthermore it is not within the main scope of this thesis to localise the source signal.  
+When considering the linear system, $\textbf{Y}=\textbf{AX}$, of which the model is build, $\textbf{Y}$ does not change by removing the zero-rows of $\textbf{X}$ and the corresponding columns in $\textbf{A}$.
+ 
+From this is can be argued that letting $N = k$ is as good an estimate of $N$ as any other. Note in order to fulfil the sufficient conditions for the existence of a solution to the system, that $k$ hence $N$ is limited by $\widetilde{M}$.     
+
+Consider the effect of letting $N = k$ within the M-SBL algorithm. Here it is only the estimation of the support set which is eliminated.   
+
+Figure \ref{fig:M-SBL_simple3} show the estimated sources signal for a simulation of the deterministic data set now specified by $N=k=4$ $M = 3$ and $L=1000$. The resulting MSE become
 \begin{align*}
-\textbf{X}_{MSE} = 0.134
+\textbf{X}_{MSE} = 0.122
 \end{align*}
 
 \begin{figure}[H]
@@ -105,18 +110,18 @@ Figure \ref{fig:M-SBL_simple3} show the results when deterministic data specifie
 \label{fig:M-SBL_simple3}
 \end{figure}
 
-From the result it is confirmed that letting $N=k$ is fine... 
+From the above discussion and the results in figure \ref{fig:M-SBL_simple3} it is confirmed that letting $N=k$ has no disadvantage with respect to the results, when the localisation of the source signal is not a priority. Thus is it chosen that $N=k$ will be used throughout the thesis. 
 
 \subsection{Test on AR data}
 The M-SBL algorithm is now tested on two stochastic data set which resembles the real EEG measurements. 
 the first stochastic data set is simulated with specification $N=k=8$, $M = 6$, $L=1000$. The resulting estimate is plotted in figure \ref{fig:AR1} and the MSE become 
 \begin{align*}
-\textbf{X}_{MSE} = 2.202 
+\textbf{X}_{MSE} = 1.611 
 \end{align*}  
 The second stochastic data set is simulated with specification $N=k=16$, $M = 6$, $L=1000$. This tests the capabilities of the M-SBL algorithm when the distance between $M$ and $N$ is enlarged. The performance relative to the relation between $N$ and $M$ is further investigated for the final algorithm in section \ref{sec:test_base}.
 The resulting estimate is plotted in figure \ref{fig:AR2} and the MSE become 
 \begin{align*}
-\textbf{X}_{MSE} = 5.342 
+\textbf{X}_{MSE} = 5.179 
 \end{align*}  
 
 \begin{figure}[H]

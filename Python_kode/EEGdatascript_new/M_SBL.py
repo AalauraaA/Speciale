@@ -18,17 +18,18 @@ import numpy as np
 # =============================================================================
 def M_SBL(A, Y, m, n, non_zero, iterations, noise):
     n_samples = Y.shape[1]
-    tol=0.00001
+    tol=0.0001
     if noise is False:
         Y = Y.T[:-2]
         Y = Y.T
-        gamma = np.random.random([iterations+2, n, 1])   
+        gamma = np.ones([iterations+2, n, 1])   
         Gamma = np.ones([iterations+1, n, n])
         mean = np.ones([iterations+1, n, n_samples-2])
         Sigma = np.zeros([iterations+1, n, n])
         k = 1
-        while any((gamma[k]-gamma[k-1]) > tol):
-            #print(k)
+        while k < 3 or any((gamma[k]-gamma[k-1]) > tol):
+            print(k)
+            print(gamma[k])
             Gamma[k] = np.diag(np.reshape(gamma[k],(n)))        # size 1 x 1
             
             " Making Sigma and Mu "
@@ -56,7 +57,7 @@ def M_SBL(A, Y, m, n, non_zero, iterations, noise):
         Sigma = np.zeros([iterations+1, n, n])
         lam = np.ones([iterations+2,1])     # size N x 1
         k = 1
-        while any((gamma[k]-gamma[k-1]) > tol):
+        while k < 3 or any((gamma[k]-gamma[k-1]) > tol):
             Gamma[k] = np.diag(np.reshape(gamma[k],(n)))
             
             " Making Sigma and Mu "

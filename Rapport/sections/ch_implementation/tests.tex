@@ -1,89 +1,107 @@
-\section{Algorithm verification}
+\section{Verification of Algorithms}
 In this section the implementation of Cov-DL and M-SBL are verified separately based on the MSE between the true- and the estimated model parameters.
-During the tests on synthetic data sets the segmentation stage is ignored by letting the simulated data form one single segment.    
+During the tests on simulated data sets the segmentation stage is ignored by letting the simulated data form one single segment.    
 
-\subsection{Test of COV-DL}
-As seen from the flow diagram figure \ref{fig:flow} COV-DL takes a measurement matrix $\textbf{Y}$, $N$ and $k$ as input and return an estimation $\hat{\textbf{A}}$ of the mixing matrix $\textbf{A}$. The COV-DL algorithm is tested on the two simulations of the deterministic data, specified in section \ref{subseg_simpledata}. 
+\subsection{Test of Cov-DL}
+As seen from the flowchart \ref{fig:flow} Cov-DL takes a measurement matrix $\mathbf{Y}$, $N$ and $k$ as input and return an estimation $\hat{\mathbf{A}}$ of the mixing matrix $\mathbf{A}$. 
+The Cov-DL algorithm is tested on the two simulations of the deterministic data, specified in section \ref{subseg_simpledata}. 
 
-\subsubsection{COV-DL1}
-For $\textbf{Y}$ specified by $N > \widetilde{M}$ and $k\leq \widetilde{M}$, implying COV-DL1, the true and estimated values of $\textbf{A}$ are plotted in figure \ref{fig:cov1_simple} for visual comparison. Note that each matrix is vectorised such that the corresponding entries are compared.  
-The resulting $MSE_{A}$ between the true $\textbf{A}$ and the estimated $\hat{\textbf{A}}$ become 
+\subsubsection{Cov-DL1}
+For $\mathbf{Y}$ specified by $N > \widetilde{M}$ and $k \leq \widetilde{M}$, implying Cov-DL1, the true and estimated values of $\mathbf{A}$ are plotted in figure \ref{fig:cov1_simple} for visual comparison. 
+Note that each matrix is vectorized such that the corresponding entries are compared.  
+The resulting $\text{MSE}(\mathbf{A}, \hat{\mathbf{A}})$ between the true $\mathbf{A}$ and the estimated $\hat{\mathbf{A}}$ become 
 \begin{align*}
-MSE_{A} = 1.37
+\text{MSE}(\mathbf{A}, \hat{\mathbf{A}}) = 1.37.
 \end{align*}
-From figure \ref{fig:cov1_simple} it is seen that the precision of the estimate varies significant for each entry. Though, values within the a similar range are obtained furthermore the $MSE_{A}$ is fairly small suggesting that the estimate is acceptable\todo[inline]{how should we determined this?? and can we give an explanation. \\
+From figure \ref{fig:cov1_simple} it is seen that the precision of the estimate varies significant for each entry. 
+Though, values within the a similar range are obtained.
+Furthermore, the $\text{MSE}(\mathbf{A}, \hat{\mathbf{A}})$ is fairly small suggesting that the estimate is acceptable\todo[inline]{how should we determined this?? and can we give an explanation. \\
 jeg har kigget nærmere på dictionary learning funktionen, jeg kan ikke ændre på resultater ved at ændre på k, den er som standard sat til 0.1*n, hvilket er langt mere sparse (under 1 non-zero) end vores system. med ved algorithm ='lars' skulle den godtage k, som ellers for 'omg' bliver overskrevet at standarden. \\
 for at undersøge om det igen kan være forholdet mellem A og D, har jeg lavet et system med N=16, M=5, k=4, som skal kunne løsese med dictionary lerning uden brug af covariance domænet. dog bliver resultatet ikke bedre. uanset input så falder A(estimate) altid inden for [-1,1], hvilket er et problem.}  
 
-\subsubsection{COV-DL2}
-For $\textbf{Y}$ specified by $N\leq \widetilde{M}$, implying Cov-DL2, the true and estimated values of $\textbf{A}$ are plotted in figure \ref{fig:cov2_simple} for visual comparison. Additionally, is the initial $\textbf{A}$ plotted in the same figure, as standard that is a Gaussian matrix $\textbf{A}_{init}$ which is given to the optimization solver within COV-DL2.    
-The resulting $MSE_{A}$ between the true $\textbf{A}$ and the estimated $\hat{\textbf{A}}$ become 
+\subsubsection{Cov-DL2}
+For $\mathbf{Y}$ specified by $N \leq \widetilde{M}$, implying Cov-DL2, the true and estimated values of $\mathbf{A}$ are plotted in figure \ref{fig:cov2_simple} for visual comparison. 
+Additionally, is the initial $\mathbf{A}_{\text{ini}}$, which is given to the optimization solver within Cov-DL2,  plotted in the same figure, as standard that is a Gaussian matrix.  
+The resulting MSE between the true $\mathbf{A}$ and the estimated $\hat{\mathbf{A}}$ become 
 \begin{align*}
-MSE_{A} = 2.46 
+\text{MSE}(\mathbf{A}, \hat{\mathbf{A}}) = 2.46.
 \end{align*}
-From figure \ref{fig:cov2_simple} the estimate $\hat{\textbf{A}}$ shows visual tendencies from the true $\textbf{A}$. However, when it is compared to the initial guess of $\textbf{A}$ it is seen that the resulting estimate have moved further away from the true $\textbf{A}$ compared to $\textbf{A}_{init}$. this suggest some flaw within the optimization process. By printing the convergence message from the used optimization solver it is confirmed that the optimization process was found to be terminated successful. With current function value at $0.0$ after 26 iterations. 
-With the resulting cost at 0.0 this suggest that an global minima has been found, but this minima do not correspond to the true $\textbf{A}$.    
+From figure \ref{fig:cov2_simple} the estimate $\hat{\mathbf{A}}$ shows visual tendencies from the true $\mathbf{A}$. 
+However, when it is compared to the initial guess of $\textbf{A}$, $\mathbf{A}_{\text{ini}}$, it is seen that the estimate $\hat{\mathbf{A}}$ have moved further away from the true $\mathbf{A}$ compared to $\mathbf{A}_{\text{ini}}$. 
+This suggest some flaw within the optimization process. 
+By printing the convergence message from the used optimization solver it is confirmed that the optimization process was found to be terminated successful, with a current cost function value at $0.0$ after 26 iterations. 
+This suggest that an global minima has been found, but the minima, $\hat{\mathbf{A}}$, do not correspond to the true $\mathbf{A}$.    
 To confirm this the following evaluations of the cost function was conducted. 
 \begin{align*}
-&\text{cost}(\hat{\textbf{A}}) = 0.0\\
-&\text{cost}(\textbf{A}_{init}) = 1.564\\
-&\text{cost}(\textbf{A}) = 1.809
+&\text{cost}(\hat{\mathbf{A}}) = 0.0\\
+&\text{cost}(\mathbf{A}_{\text{ini}}) = 1.564\\
+&\text{cost}(\mathbf{A}) = 1.809
 \end{align*}
-These evaluations ensures that the optimization solver have manage to find the solution that minimizes the cost function. By evaluating the cost function with respect to the true $\textbf{A}$ is it seen that it is not a global minimizer to the optimization problem. This suggest that the optimization problem, derived in section \ref{sec:over_det}, do not fulfil the purpose\todo{what word to use here? Jan brugte diverger om noget?}    
+These evaluations ensures that the optimization solver have manage to find the solution that minimizes the cost function. 
+By evaluating the cost function with respect to the true $\mathbf{A}$ is it seen that it is not a global minimizer to the optimization problem. 
+This suggest that the optimization problem, derived in section \ref{sec:over_det}, do not fulfil the purpose.\todo{what word to use here? Jan brugte diverger om noget?}    
 
-\begin{figure}[h]
+\begin{figure}[H]
     \begin{minipage}[t]{.45\textwidth}
 		\centering
 		\includegraphics[scale=0.5]{figures/ch_6/COV1_simple.png}
-		\caption{Estimated values of $\hat{\textbf{A}}$ compared to the true 				values $\textbf{A}$}
+		\caption{Estimated values of $\hat{\mathbf{A}}$ compared to the true 				values $\mathbf{A}$}
 		\label{fig:cov1_simple}
     \end{minipage} 
     \hfill
     \begin{minipage}[t]{.45\textwidth}
         \centering
 		\includegraphics[scale=0.5]{figures/ch_6/COV2_simple.png}
-		\caption{The initial $\textbf{A}$ and the estimate $\hat{\textbf{A}}$ 				compared to the true values $\textbf{A}$. }
+		\caption{The initial $\mathbf{A}_{\text{ini}}$ and the estimate $\hat{\mathbf{A}}$ 				compared to the true values $\mathbf{A}$. }
 		\label{fig:cov2_simple}
     \end{minipage}
 \end{figure}
 
-\subsubsection{Conclusion to estimate $\hat{\textbf{A}}$}
-From the above results is it found that the estimate $\hat{\textbf{A}}$, especially within the COV-DL2 branch, can not be consider a valid estimate of the mixing matrix $\textbf{A}$. It is suggested that the flaw lies within either the  derivation of the optimization problem, more specifically within the assumption made throughout the derivation concerning the relation between $\textbf{A}, \textbf{D}$ and $\textbf{U}$. This statement build upon the success of the(non documented) unit tests of the COV-DL2 algorithm suggesting that the optimisation of D not depending on A is possible(?eller hvad var det vi gjorde?)...
-The appearance of this issue may suggest that there is a lack within the published results \cite{Balkan2015}(?tjek)considering the possibility of reconstructing the results.  
+\subsubsection{Conclusion to Estimate $\hat{\mathbf{A}}$}
+From the results of the evaluation of cost function it is found that the estimate $\hat{\mathbf{A}}$, especially within the Cov-DL2 branch, can not be consider a valid estimate of the mixing matrix $\mathbf{A}$. 
+It is suggested that the flaw lies within either the  derivation of the cost function to the optimization problem, more specifically within the assumption made throughout the derivation concerning the relation between $\mathbf{A}, \mathbf{D}$ and $\mathbf{U}$. 
+This statement build upon the success of the (non-documented) unit tests of the Cov-DL2 algorithm suggesting that the optimization of $\mathbf{D}$ not depending on $\mathbf{A}$ is possible.\todo{(?eller hvad var det vi gjorde?)...}
+The appearance of this issue may suggest that there is a lack within the published results \cite{Balkan2015}\todo{(?tjek)} considering the possibility of reconstructing the results.  
 
-Due to the time limitation of the project the error is not investigated further, and it is concluded that the estimate of $\textbf{A}$ is not valid hence it will not be used as an input for the next stage of the algorithm, M-SBL. 
-
-This conclusion suggest that an alternative action must be considered. This is discussed further in section \ref{sec:test_base}.
+Due to the time limitation of the project the error is not investigated further, and it is concluded that the estimate of $\mathbf{A}$ is not valid hence it will not be used as an input for the next stage of the main algorithm, M-SBL. This conclusion suggest that an alternative action must be considered. This is discussed further in section \ref{sec:test_base}.
 
 \subsection{Test of M-SBL}
-From the flow diagram figure \ref{fig:flow} it seen that that the M-SBL algorithm takes $\mathbf{A}$ and $\mathbf{Y}$ as input. The algorithm is now tested on the same two deterministic data sets specified by $M = 3$, $k = 4$, $L=1000$ and respectively $N = 5$ and $N = 8$ as used above. 
-In order to not let the performance of COV-DL affect the result of M-SBL it is the true $\mathbf{A}$ which is given as input along with the corresponding $\mathbf{Y}$. The estimates $\hat{\mathbf{X}}$ are plotted in figure \ref{fig:M-SBL_simple1} and \ref{fig:M-SBL_simple2}. Each non-zero signals are here plotted separately for easy visual comparison. Furthermore, note that each compared couple of rows have the same row index, as such the localization of the estimated row can be evaluated.
+From the flowchart \ref{fig:flow} it seen that that the M-SBL algorithm takes $\hat{\mathbf{A}}$ and $\mathbf{Y}$ as input. 
+The algorithm is now tested on the same two deterministic data sets specified by $M = 3$, $k = 4$, $L=1000$ and respectively $N = 5$ and $N = 8$ as used above. 
+In order to not let the performance of Cov-DL affect the result of M-SBL the true mixing matrix $\mathbf{A}$ is used  as input along with the corresponding $\mathbf{Y}$. 
+
+The estimate $\hat{\mathbf{X}}$ is plotted in figure \ref{fig:M-SBL_simple1} and \ref{fig:M-SBL_simple2}. The source signals equal to zeros of the estimate $\hat{\mathbf{X}}$ is not plotted so the figures do not visualize the exact localization of the source signals.
+%Each non-zero signals are here plotted separately for easy visual comparison. 
+%Furthermore, note that each compared couple of rows have the same row index, as such the localization of the estimated row can be evaluated.
 \begin{figure}[H]
     \begin{minipage}[t]{.45\textwidth}
     	\centering
-		\includegraphics[scale=0.45]{figures/ch_6/M-SBL_simple1.png}
-		\caption{Estimated values of $\hat{\textbf{X}}$ compared to the true 					values $\textbf{X}$. From measurement $\textbf{Y}$ specified by $N=5$, $M = 3$, $k=4$ and $L=1000$}
+		\includegraphics[scale=0.5]{figures/ch_6/M-SBL_simple1.png}
+		\caption{Estimated values of $\hat{\mathbf{X}}$ compared to the true 					values $\mathbf{X}$. From measurement $\mathbf{Y}$ specified by $N=5$, $M = 3$, $k=4$ and $L=1000$ and the true mixing matrix $\mathbf{A}$.}
 		\label{fig:M-SBL_simple1}
     \end{minipage} 
     \hfill
     \begin{minipage}[t]{.45\textwidth}
         \centering
 		\includegraphics[scale=0.5]{figures/ch_6/M-SBL_simple2.png}
-		\caption{Estimated values of $\hat{\textbf{X}}$ compared to the true 				values $\textbf{X}$. From measurement $\textbf{Y}$ specified by $N=8$, $M = 3$, $k=4$ and $L=1000$ }
+		\caption{Estimated values of $\hat{\mathbf{X}}$ compared to the true 				values $\mathbf{X}$. From measurement $\mathbf{Y}$ specified by $N=8$, $M = 3$, $k=4$ and $L=1000$ and the true mixing matrix $\mathbf{A}$.}
 		\label{fig:M-SBL_simple2}
     \end{minipage}
 \end{figure}
-The resulting MSE between the true $\textbf{X}$ and the estimate $\hat{\textbf{X}}$ from figure \ref{fig:M-SBL_simple1} where $N = 5$, averaged over every row, become 
+\noindent
+The resulting MSE between the true $\mathbf{X}$ and the estimate $\hat{\mathbf{X}}$ from figure \ref{fig:M-SBL_simple1} with $N = 5$, becomes 
 \begin{align*}
-X_{MSE} = 0.127 
+\text{MSE}(\mathbf{X}, \hat{\mathbf{X}}) = 0.127.
 \end{align*}
-From figure \ref{fig:M-SBL_simple1} it is seen that all four source signals are recovered at the right location. As suggested by the achieved MSE it the estimates are not exact, but it is clear that the estimates manage to follow the right pattern at the right location. By this plot an error margin are established(?).  
+From figure \ref{fig:M-SBL_simple1} it is seen that all four source signals are recovered at the right locations. 
+As suggested by the achieved MSE the estimate are not exact, but it is clear that the estimates, by looking at figure \ref{fig:M-SBL_simple1}, manage to follow the right pattern of the true signals. 
 
-The resulting MSE between the true $\textbf{X}$ and the estimated $\hat{\textbf{X}}$ from figure \ref{fig:M-SBL_simple2} where $N = 8$ thus more sparse, become 
+The resulting MSE between the true $\mathbf{X}$ and the estimated $\hat{\mathbf{X}}$ from figure \ref{fig:M-SBL_simple2} with $N = 8$ thus more sparse, become 
 \begin{align*}
-X_{MSE} = 0.228	 
+\text{MSE}(\mathbf{X}, \hat{\mathbf{X}}) = 0.228. 
 \end{align*}
-From figure \ref{fig:M-SBL_simple2} it is seen that the first source signal is recovered at the third entry, that is one dislocation, while the rest are recovered at the right location. This indicate that the algorithm can manage to locate the source signal however the more options the greater chance of dislocation.     
+From figure \ref{fig:M-SBL_simple2} it is seen that the first source signal is recovered at the third entry, that is one dislocation, while the rest are recovered at the right locations. 
+This indicate that the algorithm can manage to locate the source signal however the more options the greater chance of dislocation.     
 
 \subsubsection*{Possibilities of $N=k$}
 
@@ -112,34 +130,41 @@ Figure \ref{fig:M-SBL_simple3} show the estimated sources signal for a simulatio
 
 From the above discussion and the results in figure \ref{fig:M-SBL_simple3} it is confirmed that letting $N=k$ has no disadvantage with respect to the results, when the localisation of the source signal is not a priority. Thus is it chosen that $N=k$ will be used throughout the thesis. 
 
-\subsection{Test on AR data}
-The M-SBL algorithm is now tested on two stochastic data set which resembles the real EEG measurements. 
-the first stochastic data set is simulated with specification $N=k=8$, $M = 6$, $L=1000$. The resulting estimate is plotted in figure \ref{fig:AR1} and the MSE become 
+\subsection{Test on Stochastic Data Sets}
+The M-SBL algorithm is now tested on two stochastic data sets which resembles the real EEG measurements. 
+The first stochastic data set is simulated with specification $N=k=8$, $M = 6$, $L=1000$. 
+The resulting estimate is plotted in figure \ref{fig:AR1} and the MSE becomes 
 \begin{align*}
-\textbf{X}_{MSE} = 1.611 
+\text{MSE}(\mathbf{X}, \hat{\mathbf{X}}) = 1.611.
 \end{align*}  
-The second stochastic data set is simulated with specification $N=k=16$, $M = 6$, $L=1000$. This tests the capabilities of the M-SBL algorithm when the distance between $M$ and $N$ is enlarged. The performance relative to the relation between $N$ and $M$ is further investigated for the final algorithm in section \ref{sec:test_base}.
-The resulting estimate is plotted in figure \ref{fig:AR2} and the MSE become 
+The second stochastic data set is simulated with specification $N=k=16$, $M = 6$, $L=1000$. 
+This tests the capabilities of the M-SBL algorithm when the distance between $M$ and $N$ is enlarged. 
+The performance relative to the relation between $N$ and $M$ is further investigated for the main algorithm in section \ref{sec:test_base}.
+The resulting estimate is plotted in figure \ref{fig:AR2} and the MSE becomes 
 \begin{align*}
-\textbf{X}_{MSE} = 5.179 
+\text{MSE}(\mathbf{X}, \hat{\mathbf{X}}) = 5.179. 
 \end{align*}  
 
 \begin{figure}[H]
     \begin{minipage}[t]{.45\textwidth}
     	\centering
 		\includegraphics[scale=0.5]{figures/ch_6/M-SBL_AR1.png}
-		\caption{ $N=k=8$, $M = 6$ and $L=1000$  - True $\textbf{A}$}
+		\caption{Estimated values of $\hat{\mathbf{X}}$ compared to the true 					values $\mathbf{X}$. From measurement $\mathbf{Y}$ specified by $N=k=8$, $M = 6$ and $L=1000$ and the true mixing matrix $\mathbf{A}$}
 		\label{fig:AR1}
     \end{minipage} 
     \hfill
     \begin{minipage}[t]{.45\textwidth}
         \centering
 		\includegraphics[scale=0.5]{figures/ch_6/M-SBL_AR2.png}
-		\caption{$N=k=16$ $M = 6$ and $L=1000$ - True $\textbf{A}$}
+		\caption{Estimated values of $\hat{\mathbf{X}}$ compared to the true 					values $\mathbf{X}$. From measurement $\mathbf{Y}$ specified by $N=k=16$ $M = 6$ and $L=1000$ and the true mixing matrix $\mathbf{A}$}
 		\label{fig:AR2}
     \end{minipage}
 \end{figure}
-From figure \ref{fig:AR1} it is visually confirmed that the M-SBL algorithm manage to approximate the source signal. Some source signal nearly perfect estimated while other are have minor differences. From figure \ref{fig:AR2} the same tendency is seen, though more visual flaws are seen compared to figure \ref{fig:AR1}. This result suggest that a bigger distance between $M$ and $N$ results in a weaker performance from the M-SBL algorithm.        
+\noindent
+From figure \ref{fig:AR1} it is visually confirmed that the M-SBL algorithm manage to recover the source signals of the source matrix $\mathbf{X}$. 
+Some source signals nearly perfect estimated while other are have minor differences. 
+From figure \ref{fig:AR2} the same tendency is seen, though more visual flaws are seen compared to figure \ref{fig:AR1}. 
+This result suggest that a bigger distance between $M$ and $N$ results in a weaker performance from the M-SBL algorithm.        
 
 %\input{sections/ch_implementation/model_fit.tex} 
 

@@ -1,8 +1,10 @@
-\subsection{Alternative to $\hat{\textbf{A}}$}  
-As concluded the COV-DL algorithm do not recover a sufficient estimate of the mixing matrix $\mathbf{A}$, therefore a different approach is necessary. 
+\subsection{Alternative to Estimate $\hat{\textbf{A}}$}  
+As concluded the Cov-DL algorithm do not recover a sufficient estimate of the mixing matrix $\mathbf{A}$, therefore a different approach is necessary. 
 
-Replacing the insufficient estimate by a fixed estimate $\hat{\mathbf{A}}_{\text{fix}}$ is one immediately solution. This choice is supported by the observations from COV-DL2 where $\textbf{A}_{\text{init}}$ matrix happens to provide an estimate which is happens to be a least as good as the one provided by COV-DL. 
-Thus the challenge is now to determine a fixed matrix for which its characteristics resembles those of the true mixing matrix. However, from chapter \ref{ch:motivation} it is clear that it no specific characteristic of the mixing matrix is known, which supports the choice of an random matrix of Gaussian distribution or similar, as it was chosen for the initial guess for the estimate.   
+Replacing the insufficient estimate by a fixed estimate $\hat{\mathbf{A}}_{\text{fix}}$ is one immediately solution. 
+This choice is supported by the observations from Cov-DL2 where $\mathbf{A}_{\text{ini}}$ matrix provides an estimate which is happens to be a least as good as the one provided by Cov-DL. 
+Thus the challenge is now to determine a fixed matrix for which its characteristics resembles those of the true mixing matrix. 
+However, from chapter \ref{ch:motivation} it is clear that no specific characteristic of the mixing matrix is known, which supports the choice of an random matrix of Gaussian distribution or similar, as it was chosen for the initial guess for the estimate.   
 From this perspective three fixed mixing matrices are defined, by drawing each entry from a specified distribution: 
 \begin{itemize}
 \item[] $\hat{\textbf{A}}_{uni}\sim \mathcal{U}(-1,1)$

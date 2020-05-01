@@ -11,11 +11,13 @@ import ICA
 import data
 from plot_functions import plot_seperate_sources_comparison
 
+np.random.seed(1234)
+
 # =============================================================================
 # Import EEG data file
 # =============================================================================
-#data_name = 'S1_CClean.mat'
-data_name = 'S1_OClean.mat'
+data_name = 'S1_CClean.mat'
+#data_name = 'S1_OClean.mat'
 data_file = 'data/' + data_name            # file path
 
 segment_time = 1                           # length of segments i seconds
@@ -72,15 +74,21 @@ for i in range(len(X_ica_nonzero)):
 # =============================================================================
 # Main Algorithm with random A
 # =============================================================================
-request='remove 1/3' # remove sensors and the same sources from dataset - every third
+request='none' # remove sensors and the same sources from dataset - every third
 Y, M, L, n_seg = data._import(data_file, segment_time, request=request)
-for i in range(23):
-    Y[i] = Y[i].T[:-1]
-    Y[i] = Y[i].T
 
-#for i in range(len(X_ica_nonzero)):
-#    for j in range(len(X_ica_nonzero[i])):
-#        X_ica_nonzero[i][j] = X_ica_nonzero[i][j][:-1]
+if data_name == 'S1_CClean.mat':
+    " For S1_CClean.mat remove last sample of first segment "
+    Y[0] = Y[0].T[:-1]
+    Y[0] = Y[0].T
+
+if data_name == 'S1_OClean.mat':
+    for i in range(len(Y)):
+        if i <= 22:
+            Y[i] = Y[i].T[:-1]
+            Y[i] = Y[i].T
+        else:
+            continue
 
 X_result = []
 mse = []
@@ -105,19 +113,19 @@ import matplotlib.pyplot as plt
 #    plot_seperate_sources_comparison(X_result[i],X_ica_nonzero[i],M,int(k[i]),int(k[i]),L,figsave,i)
 #    print('MSE = {}'.format(average_mse[i]))
 
-plt.figure(0)
-plt.subplot(211)
-plt.title("EEG Measurements for M = 27, k = {}, L = 515".format(k[1]))
-plt.plot(Y[1][0])
-
-plt.subplot(212)
-plt.title("EEG Source for M = 27, k = {}, L = 515".format(k[1]))
-plt.plot(X_result[1][0])
-#plt.legend()
-plt.xlabel('sample')
-plt.show()
-#plt.savefig(figsave)
-
+#plt.figure(0)
+#plt.subplot(211)
+#plt.title("EEG Measurements for M = 27, k = {}, L = 515".format(k[1]))
+#plt.plot(Y[1][0])
+#
+#plt.subplot(212)
+#plt.title("EEG Source for M = 27, k = {}, L = 515".format(k[1]))
+#plt.plot(X_result[1][0])
+##plt.legend()
+#plt.xlabel('sample')
+#plt.show()
+##plt.savefig(figsave)
+#
 
 # =============================================================================
 # Main Algorithm with A_ica

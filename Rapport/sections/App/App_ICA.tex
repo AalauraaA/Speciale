@@ -1,4 +1,9 @@
 \chapter{Extended ICA Algorithms}\label{app:ICA}
+
+\input{sections/ch_compressive/ICA.tex}
+
+
+
 This appendix provide an extension to the basic algorithm for ICA regarding the measure of non-Gaussianity and the computation method. This extended algorithm is referred to as fast ICA and is more commonly used for source separation. This is the algorithm used to apply ICA on EEG measurements for comparison within the thesis.        
 
 \section{Fixed-Point Algorithm - FastICA}
@@ -82,8 +87,21 @@ Maximization of negentropy by use of the fixed-point algorithm is now presented,
 %        \label{alg:OMP}
 %\end{algorithm}
 
-\section{Test of ICA on synthetic data}
-The purpose of this section is to verify the fast ICA algorithm which is used in this thesis. By this verification it is justified that ICA can be used a reference point with respect to performance of the developed main algorithm.
+\section{Verification of fast ICA on synthetic data}
+The purpose of this section is to verify the fast ICA algorithm which is used in this thesis. By this verification the purpose is to justify the ICA algorithm as a reference point with respect to performance of the developed main algorithm.
+
+The fast ICA algorithm is tested on synthetic data simulated as described in section \ref{sec:dataset}. 
+Consider the following linear system, which makes a model of EEG measurements.  
+\begin{align*}
+\textbf{Y}=\textbf{AX}
+\end{align*}
+where $\textbf{Y}^{M\times L}$, $\textbf{A}^{M\times N}$ and $\textbf{x}^{N\times L}$. It is expected that the fast ICA algorithm manage to solve the linear system for $\textbf{X}$ given only the measurements $\textbf{Y}$, in the case where $M=N$. 
+A 
+
+
+Furthermore it is of interest to determine $\textbf{A}$ from the fast ICA algorithm. 
+
+
 
   
 

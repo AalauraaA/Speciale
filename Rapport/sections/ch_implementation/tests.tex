@@ -15,9 +15,10 @@ The resulting $\text{MSE}(\mathbf{A}, \hat{\mathbf{A}})$ between the true $\math
 \end{align*}
 From figure \ref{fig:cov1_simple} it is seen that the precision of the estimate varies significant for each entry. 
 Though, values within the a similar range are obtained.
-Furthermore, the $\text{MSE}(\mathbf{A}, \hat{\mathbf{A}})$ is fairly small suggesting that the estimate is acceptable\todo[inline]{how should we determined this?? and can we give an explanation. \\
-jeg har kigget nærmere på dictionary learning funktionen, jeg kan ikke ændre på resultater ved at ændre på k, den er som standard sat til 0.1*n, hvilket er langt mere sparse (under 1 non-zero) end vores system. med ved algorithm ='lars' skulle den godtage k, som ellers for 'omg' bliver overskrevet at standarden. \\
-for at undersøge om det igen kan være forholdet mellem A og D, har jeg lavet et system med N=16, M=5, k=4, som skal kunne løsese med dictionary lerning uden brug af covariance domænet. dog bliver resultatet ikke bedre. uanset input så falder A(estimate) altid inden for [-1,1], hvilket er et problem.}  
+Furthermore, the $\text{MSE}(\mathbf{A}, \hat{\mathbf{A}})$ is fairly small suggesting that the estimate is acceptable\todo[inline]{how should we determined this?? and can we give an better explanation?. \\
+%jeg har kigget nærmere på dictionary learning funktionen, jeg kan ikke ændre på resultater ved at ændre på k, den er som standard sat til 0.1*n, hvilket er langt mere sparse (under 1 non-zero) end vores system. med ved algorithm ='lars' skulle den godtage k, som ellers for 'omg' bliver overskrevet at standarden. \\
+%for at undersøge om det igen kan være forholdet mellem A og D, har jeg lavet et system med N=16, M=5, k=4, som skal kunne løsese med dictionary lerning uden brug af covariance domænet. dog bliver resultatet ikke bedre. uanset input så falder A(estimate) altid inden for [-1,1], hvilket er et problem.
+}  
 
 \subsubsection{Cov-DL2}
 For $\mathbf{Y}$ specified by $N \leq \widetilde{M}$, implying Cov-DL2, the true and estimated values of $\mathbf{A}$ are plotted in figure \ref{fig:cov2_simple} for visual comparison. 
@@ -39,7 +40,7 @@ To confirm this the following evaluations of the cost function was conducted.
 \end{align*}
 These evaluations ensures that the optimization solver have manage to find the solution that minimizes the cost function. 
 By evaluating the cost function with respect to the true $\mathbf{A}$ is it seen that it is not a global minimizer to the optimization problem. 
-This suggest that the optimization problem, derived in section \ref{sec:over_det}, do not fulfil the purpose.\todo{what word to use here? Jan brugte diverger om noget?}    
+This suggest that the optimization problem, derived in section \ref{sec:over_det}, do not fulfil the purpose.\todo{better word to use here?}    
 
 \begin{figure}[H]
     \begin{minipage}[t]{.45\textwidth}
@@ -60,8 +61,8 @@ This suggest that the optimization problem, derived in section \ref{sec:over_det
 \subsubsection{Conclusion to Estimate $\hat{\mathbf{A}}$}
 From the results of the evaluation of cost function it is found that the estimate $\hat{\mathbf{A}}$, especially within the Cov-DL2 branch, can not be consider a valid estimate of the mixing matrix $\mathbf{A}$. 
 It is suggested that the flaw lies within either the  derivation of the cost function to the optimization problem, more specifically within the assumption made throughout the derivation concerning the relation between $\mathbf{A}, \mathbf{D}$ and $\mathbf{U}$. 
-This statement build upon the success of the (non-documented) unit tests of the Cov-DL2 algorithm suggesting that the optimization of $\mathbf{D}$ not depending on $\mathbf{A}$ is possible.\todo{(?eller hvad var det vi gjorde?)...}
-The appearance of this issue may suggest that there is a lack within the published results \cite{Balkan2015}\todo{(?tjek)} considering the possibility of reconstructing the results.  
+This statement build upon the success of the (non-documented) unit tests of the Cov-DL2 algorithm suggesting that the optimization of $\mathbf{D}$ not depending on $\mathbf{A}$ is possible.
+The appearance of this issue may suggest that there is a lack within the published results \cite{Balkan2015}\todo{(tjek cite)} considering the possibility of reconstructing the results.  
 
 Due to the time limitation of the project the error is not investigated further, and it is concluded that the estimate of $\mathbf{A}$ is not valid hence it will not be used as an input for the next stage of the main algorithm, M-SBL. This conclusion suggest that an alternative action must be considered. This is discussed further in section \ref{sec:test_base}.
 

@@ -23,7 +23,7 @@ The data set of interest in this chapter consist of real EEG scalp measurements 
 \end{itemize}
 
 \section{Test on EEG Data Set}
-To investigate the performance of the main algorithm on real EEG measurements a comparison which the ICA algorithm will be conducted. For this comparison three cases will be investigated: $M = N$, $M < N$ with a third of the sensors removed, $M << N$ with every second sensor removed. All three cases MSE values of the main algorithm will be compared to the same MSE values from the ICA algorithm when $M=N$.
+To investigate the performance of the main algorithm on real EEG measurements a comparison which the ICA algorithm will be conducted. For this comparison three cases will be investigated: $M = N$, $M < N$ with a third of the sensors removed, $M << N$ with every second sensor removed. For all three cases the MSE values of the main algorithm will be compared to the same MSE values from the ICA algorithm obtained when $M=N$.
 
 First, a description of how the MSE values from the ICA algorithm is found from the EEG measurement data set.
 The ICA algorithm take the measurement matrix $\mathbf{Y}_s \in \mathbb{R}^{M \times L_s}$ for each segment $s$ as input and produced a source matrix $\mathbf{X}_s \in \mathbb{R}^{N \times L_s}$ for each segment $s$. Remember that the number of sensors equal the number of sources, $M = N$, but as mentioned in chapter XX, the case of interest are the active sources $k$, and by that $N = k$. 
@@ -32,6 +32,9 @@ Instead a tolerance is defined for which values less will be determined as zeros
 A problem occur in form of the stationarity of the sources as described in the motivation chapter \ref{ch:} sources are stationary if you look at small enough interval. For one second interval this is not the case with our EEG measurements and one can therefore not have a entire row (source) which laid the tolerance interval. One could decrease the length of the segments but one must also take in mind that smaller segments lead to more segments and therefore a higher computational complexity. Instead an average is introduced. For each rows (the sources) of each segments will be average such that one source is resembled by one average value. This average value will then be compared to the interval. If the value laid inside the tolerance interval, the whole row will be set equal to zero. The sources in each segments equal to zero are removed and the source matrix will now be of size $\mathbf{X}_s \in \mathbb{R}^{k \times L_s}$.
 
 As mentioned only the sensors $M$ is known from the EEG measurement data sets but with the source matrices achieved from the ICA algorithm $k$ is now known for each segment. One now have all the information need to used the main algorithm on the EEG measurement data sets. 
+
+Before any tests can be perform the localization of the sources obtain from the main algorithm must be replaced as the ICA algorithm do not localize the sources at the correct localization. For the replacement, the mse of one row from the ICA source matrix is computed with all rows of the source matrix from the main algorithm. Then the minimum is taken of all the mse values from the row of interest. The row from the main algorithm which lead to minimum MSE with the row from ICA must be the same source. The source from the main algorithm is then moved to a new source matrix where it is placed in the index that the row from ICA have. The source that was moved is then removed from the original source matrix from the main algorithm. This will be done until all rows of ICA have been compared to the rows of main. For the last replacement only one row is left from the main algorithm this could lead to some misplacement. 
+
 
 \input{sections/ch_eegtest/test.tex}
 

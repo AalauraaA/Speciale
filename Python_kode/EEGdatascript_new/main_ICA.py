@@ -109,24 +109,21 @@ for i in range(len(Y)): # Looking at one time segment
     A = np.random.normal(0,2,(M,int(k[i])))
     X_result[i] = Main_Algorithm_EEG(Y[i], A, M, int(k[i]), L)
     mse[i], average_mse[i] = simulated_data.MSE_segments(X_result[i], X_ica_nonzero[i])
-    
+
+""" Moving the Sources in X_result to match X_ica """   
 X_result2 = []
 for i in range(len(X_ica_nonzero)):
     segment=i
-    print('seg', i)
     X_result1 = np.array(X_result, copy=True)  # size 144 x k x 513
     X_result1 = np.reshape(X_result1[segment], (X_result[segment].shape))  # size k x 513
-#    X_result2 = np.zeros([len(X_result), len(X_result[segment])]) # size 144 x k
     temp = [] # temporary variable to store the nonzero array for one segment
     for j in range(X_result1.shape[0]):
-        print('j', j)
         _list = np.zeros(X_result1.shape[0])  # size k
         for p in range(X_result1.shape[0]): # loop through k rows
             print('p', p)
             _list[p] = simulated_data.MSE_one_error(X_ica_nonzero[segment][j], X_result1[p])
         
         index = int(np.argmin(_list))
-        print('index',index)
         temp.append(X_result1[index])
         X_result1 =  np.delete(X_result1,index,axis=0)
     X_result2.append(temp)
@@ -135,7 +132,7 @@ for i in range(len(Y)): # Looking at one time segment
     mse2[i], average_mse2[i] = simulated_data.MSE_segments(X_result2[i], X_ica_nonzero[i])
  
 
-
+" Plots of second (i = 1) segment "
 import matplotlib.pyplot as plt
 i = 1
 figsave = "figures/EEG_third_removed_ori" + str(data_name) + '_' + str(i) + ".png"
@@ -165,34 +162,8 @@ plt.plot(mse[1], '-bo', label = 'Original Sources Locations')
 plt.plot(mse2[1], '-ro', label = 'New Sources Locations')
 plt.title('MSE Values of Original and New Source Locations')
 plt.legend()
-plt.savefig('figures/mse_ori_new_thrid_removed_timeseg_1.png')
+plt.savefig('figures/mse_ori_new_third_removed_timeseg_1.png')
 
-
-#
-#" Plot the all the sources of time segment 1 "
-#import matplotlib.pyplot as plt
-#for i in range(50,55):
-#    figsave = "figures/EEG_third_removed_" + str(data_name) + '_' + str(i) + ".png"
-#    plot_seperate_sources_comparison(X_result[i],X_ica_nonzero[i],M,int(k[i]),int(k[i]),L,figsave,i)
-#    print('MSE = {}'.format(average_mse[i]))
-#
-
-
-#plt.figure()
-#plt.plot(range(0,len(k)), average_mse, '-o')
-#plt.figure(0)
-#plt.subplot(211)
-#plt.title("EEG Measurements for M = 27, k = {}, L = 515".format(k[1]))
-#plt.plot(Y[1][0])
-#
-#plt.subplot(212)
-#plt.title("EEG Source for M = 27, k = {}, L = 515".format(k[1]))
-#plt.plot(X_result[1][0])
-##plt.legend()
-#plt.xlabel('sample')
-#plt.show()
-##plt.savefig(figsave)
-#
 
 # =============================================================================
 # Main Algorithm with A_ica

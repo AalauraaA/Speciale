@@ -1,104 +1,115 @@
+\subsection{Test on EEG Data Set with $M=N$}
+For this test the S1\_Cclean EEG data set will be used and case of interest is when $M = N$. The test is performance on 144 time segment with $L_s = 516$ and $M = 27$ sensors. From ICA 144 different $k$ values will represent the activation of sources. The obtain source matrices will only consists of the active sources.
 
-
-
-
-
-
-\subsection{Test with $M=N$ on EEG Data Set, For Reference}
-\begin{itemize}
-\item here we have pair each couple of row with the lowest MSE, because ICA do not localize the sources in the same manner.
-\end{itemize}
-
+Figure \ref{fig:M=N_1} visualize the average MSE values obtain from $\hat{\mathbf{X}}_{\text{main}}$ and $\hat{\mathbf{X}}_{\text{ICA}}$, one MSE value per time segment.
 \begin{figure}[H]
-    \centering
-	\includegraphics[scale=0.5]{figures/ch_7/M=N_1.png}
-	\caption{MSE for system with M=N}
+    \begin{minipage}[t]{.45\textwidth}
+		\centering
+		\includegraphics[scale=0.5]{figures/ch_7/AveMSE_M=N.png}
+	\caption{Average MSE of the main algorithm with $M=27$, $L = 516$ and a different $k$ for each time segment. The main algorithm and ICA is used on the S1\_Cclean EEG data set.}
 	\label{fig:M=N_1}
-\end{figure}  
+    \end{minipage} 
+    \hfill
+    \begin{minipage}[t]{.45\textwidth}
+        \centering
+		\includegraphics[scale=0.5]{figures/ch_7/MSE_M=N.png}
+	\caption{MSE of the main algorithm with $M=27$, $L = 516$ and $k=19$ for time segment $s=45$. The main algorithm and ICA is used on the S1\_Cclean EEG data set.}
+	\label{fig:M=N_2}
+    \end{minipage}
+\end{figure}
+\noindent  
+From figure \ref{fig:M=N_1} it is seen that the average MSE of $\hat{\mathbf{X}}_{\text{main}}$ compared to $\hat{\mathbf{X}}_{\text{ICA}}$ mostly laid between 0 and 5. 
 
+In figure \ref{fig:M=N_2} the MSE values of one time segment is plotted to visualize how the sources performs compared to the ICA. The time segment in interest is $s = 45$ so the segment of the 45 second in S1\_Cclean. 
+
+From figure \ref{fig:M=N_2} it seen that the estimation of the sources in this time segment have a low MSE value. Furthermore, it is seen that for source 14-18 minus source 17 that a high MSE value occur. This is because of how the sources are replaced to match the index of $\hat{\mathbf{X}}_{\text{ICA}}$.
+
+The last figure illustrate the $k = 19$ sources from $\hat{\mathbf{X}}_{\text{main}}$ and $\hat{\mathbf{X}}_{\text{ICA}}$ plot on each other.
 \begin{figure}[H]
     \centering
-	\includegraphics[scale=0.5]{figures/ch_7/M=N_3.png}
-	\caption{MSE for system with M=N}
+	\includegraphics[scale=0.5]{figures/ch_7/Sources_M=N.png}
+	\caption{Plot of the $k = 19$ sources from $\hat{\mathbf{X}}_{\text{main}}$ and $\hat{\mathbf{X}}_{\text{ICA}}$ from time segment $s = 45$ with $M=N$}
 	\label{fig:M=N_3}
 \end{figure} 
+\noindent
 
-\begin{figure}[H]
-    \centering
-	\includegraphics[scale=0.5]{figures/ch_7/M=N_2.png}
-	\caption{example of one segment of the system with $M=N$}
-	\label{fig:M=N_2}
-\end{figure} 
 
-\begin{itemize}
-\item plot \ref{fig:M=N_1} is the case of $N=M$, is to be use as a reference, as that is the 'best' we can archieve.
-\item plot \ref{fig:M=N_3} is MSE of each row, in one segment. 
-\item plot \ref{fig:M=N_2} is the MSE for every segment, this is to be compared the first plot.
- 
-\item plot \ref{fig:M=N_test} show that our algorithm can manage to find the almost exact solution in this 'easy' case $N=M$ 
-\end{itemize}
-
+The main algorithm manage to make almost an exact recovering when looking at simpler data set for $M=N$. Figure \ref{fig:M=N_test} illustrate such recovering.
 \begin{figure}[H]
     \centering
 	\includegraphics[scale=0.5]{figures/ch_7/M=N_test.png}
-	\caption{example to varify tht our system gets the exact result for M=N, MSE is 3.78e-28 }
+	\caption{This is an example from the autoregressive data set where the system specification are $M=N$. Exact recovering when $M=N$ with only a MSE of 3.78e-28.}
 	\label{fig:M=N_test}
 \end{figure}
 
 
 
+\subsection{Test on EEG Data Set with $\frac{1}{3} M<N$}
+For this test the S1\_Cclean EEG data set will be used and case of interest is when $\frac{1}{3} M < N$, every third sensors is removed from S1\_Cclean EEG data set. The test is performance on 144 time segment with $L_s = 516$ and $M = 18$ sensors. From ICA 144 different $k$ values will represent the activation of sources. The obtain source matrices will only consists of the active sources.
+The aim of this test is to see if one still can recover the same sources as the in the case of $M=N$. It is expected that a higher MSE will be seen.
 
-
-\subsection{Test with $\frac{1}{3} M<N$ on EEG Data Set}
+Figure \ref{fig:M<N_1} visualize the average MSE values obtain from $\hat{\mathbf{X}}_{\text{main}}$ and $\hat{\mathbf{X}}_{\text{ICA}}$, one MSE value per time segment.
 \begin{figure}[H]
-    \centering
-	\includegraphics[scale=0.5]{figures/ch_7/M_N_1.png}
-	\caption{MSE for system with $\frac{1}{3} M<N$}
-	\label{fig:M_N_1}
-\end{figure}  
-\begin{itemize}
-\item  here we have removed $\frac{1}{3}$ of the sensors. The aim is to see if we still can recover the same sources. 
-\item plot \ref{fig:M_N_1} is the MSE for every segment, this is to be compared the first plot. It is seen that ...
-\item plot \ref{fig:M_N_3} is the MSE of one segment 
-\item plot \ref{fig:M_N_2} show an example of the recovered sources for one segment, maybe only few sources should be plotted for better visualisation
-\end{itemize}
-\begin{figure}[H]
-    \centering
-	\includegraphics[scale=0.5]{figures/ch_7/M_N_3.png}
-	\caption{MSE of one segment of the system with $\frac{1}{3} M<N$}
-	\label{fig:M_N_3}
-\end{figure}
-\begin{figure}[H]
-    \centering
-	\includegraphics[scale=0.5]{figures/ch_7/M_N_2.png}
-	\caption{example of one segment of the system with $\frac{1}{3} M<N$}
-	\label{fig:M_N_2}
-\end{figure}  
-
-
-
-\subsection{Test with $\frac{1}{2} M<N$ on EEG Data Set}
-\begin{figure}[H]
-    \centering
-	\includegraphics[scale=0.5]{figures/ch_7/M__N_1.png}
-	\caption{MSE for system with $\frac{1}{3} M<N$}
-	\label{fig:M__N_1}
-\end{figure}  
-\begin{itemize}
-\item  here we have removed $\frac{1}{3}$ of the sensors. The aim is to see if we still can recover the same sources. 
-\item plot \ref{fig:M__N_1} is the MSE for every segment, this is to be compared the first plot. It is seen that ...
-\item plot \ref{fig:M__N_3} is the MSE of one segment 
-\item plot \ref{fig:M__N_2} show an example of the recovered sources for one segment, maybe only few sources should be plotted for better visualisation
-\end{itemize}
-\begin{figure}[H]
-    \centering
-	\includegraphics[scale=0.5]{figures/ch_7/M__N_3.png}
-	\caption{MSE of one segment of the system with $\frac{1}{3} M<N$}
-	\label{fig:M_N_3}
-\end{figure}
-\begin{figure}[H]
-    \centering
-	\includegraphics[scale=0.5]{figures/ch_7/M__N_2.png}
-	\caption{example of one segment of the system with $\frac{1}{3} M<N$}
+    \begin{minipage}[t]{.45\textwidth}
+		\centering
+		\includegraphics[scale=0.5]{figures/ch_7/AveMSE_3M_N.png}
+	\caption{Average MSE of the main algorithm with $M=18$, $L = 516$ and a different $k$ for each time segment. The main algorithm and ICA is used on the S1\_Cclean EEG data set.}
+	\label{fig:M<N_1}
+    \end{minipage} 
+    \hfill
+    \begin{minipage}[t]{.45\textwidth}
+        \centering
+		\includegraphics[scale=0.5]{figures/ch_7/MSE_3M_N.png}
+	\caption{MSE of the main algorithm with $M=18$, $L = 516$ and $k=19$ for time segment $s=45$. The main algorithm and ICA is used on the S1\_Cclean EEG data set.}
 	\label{fig:M<N_2}
+    \end{minipage}
+\end{figure}
+\noindent
+From figure \ref{fig:M<N_1} it is seen that the average MSE of $\hat{\mathbf{X}}_{\text{main}}$ compared to $\hat{\mathbf{X}}_{\text{ICA}}$ mostly laid between 0 and 20 but a most higher MSE tendency can be seen compared to the MSE from $M=N$. 
+
+In figure \ref{fig:M<N_2} the MSE values of one time segment is plotted to visualize how the sources performs compared to the ICA. The time segment in interest is $s = 45$ so the segment of the 45 second in S1\_Cclean. 
+From figure \ref{fig:M<N_2} it seen that the estimation of the sources in this time segment have a higher MSE value compared to \ref{fig:M=N_2}. This verifies the expectation that the less sensors a higher MSE values will occur.
+
+The last figure illustrate the $k = 19$ sources from $\hat{\mathbf{X}}_{\text{main}}$ and $\hat{\mathbf{X}}_{\text{ICA}}$ plot on each other.
+\begin{figure}[H]
+    \centering
+	\includegraphics[scale=0.5]{figures/ch_7/Sources_3M_N.png}
+	\caption{Plot of the $k = 19$ sources from $\hat{\mathbf{X}}_{\text{main}}$ and $\hat{\mathbf{X}}_{\text{ICA}}$ from time segment $s = 45$ with $\frac{1}{3} M<N$}
+	\label{fig:M<N_3}
 \end{figure} 
+\noindent
+
+\subsection{Test on EEG Data Set with $\frac{1}{2} M<N$}
+For this test the S1\_Cclean EEG data set will be used and case of interest is when $\frac{1}{2} M < N$, every second sensors is removed from S1\_Cclean EEG data set. The test is performance on 144 time segment with $L_s = 516$ and $M = 13$ sensors. From ICA 144 different $k$ values will represent the activation of sources. The obtain source matrices will only consists of the active sources.
+The aim of this test is the same as the previous, to see if one still can recover the same sources as the in the case of $M=N$. It is still expected to see a higher MSE.
+
+Figure \ref{fig:M<<N_1} visualize the average MSE values obtain from $\hat{\mathbf{X}}_{\text{main}}$ and $\hat{\mathbf{X}}_{\text{ICA}}$, one MSE value per time segment.
+\begin{figure}[H]
+    \begin{minipage}[t]{.45\textwidth}
+		\centering
+		\includegraphics[scale=0.5]{figures/ch_7/AveMSE_2M_N.png}
+	\caption{Average MSE of the main algorithm with $M=13$, $L = 516$ and a different $k$ for each time segment. The main algorithm and ICA is used on the S1\_Cclean EEG data set.}
+	\label{fig:M<<N_1}
+    \end{minipage} 
+    \hfill
+    \begin{minipage}[t]{.45\textwidth}
+        \centering
+		\includegraphics[scale=0.5]{figures/ch_7/MSE_2M_N.png}
+	\caption{MSE of the main algorithm with $M=13$, $L = 516$ and $k=19$ for time segment $s=45$. The main algorithm and ICA is used on the S1\_Cclean EEG data set.}
+	\label{fig:M<<N_2}
+    \end{minipage}
+\end{figure}
+\noindent
+From figure \ref{fig:M<<N_1} it is seen that the average MSE of $\hat{\mathbf{X}}_{\text{main}}$ compared to $\hat{\mathbf{X}}_{\text{ICA}}$ mostly laid between 0 and 4 which is less than the MSE from $M=N$ and is not as expected. 
+
+In figure \ref{fig:M<<N_2} the MSE values of one time segment is plotted to visualize how the sources performs compared to the ICA. The time segment in interest is $s = 45$ so the segment of the 45 second in S1\_Cclean. 
+From figure \ref{fig:M<<N_2} it seen that the estimation of the sources in this time segment have a generally low MSE value and is almost the same compared to \ref{fig:M=N_2}. 
+
+The last figure illustrate the $k = 19$ sources from $\hat{\mathbf{X}}_{\text{main}}$ and $\hat{\mathbf{X}}_{\text{ICA}}$ plot on each other.
+\begin{figure}[H]
+    \centering
+	\includegraphics[scale=0.5]{figures/ch_7/Sources_2M_N.png}
+	\caption{Plot of the $k = 19$ sources from $\hat{\mathbf{X}}_{\text{main}}$ and $\hat{\mathbf{X}}_{\text{ICA}}$ from time segment $s = 45$ with $\frac{1}{2} M<N$}
+	\label{fig:M<<N_3}
+\end{figure} 
+\noindent

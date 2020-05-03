@@ -95,35 +95,68 @@ Consider the following linear system, which makes a model of EEG measurements.
 \begin{align*}
 \textbf{Y}=\textbf{AX}
 \end{align*}
-where $\textbf{Y}^{M\times L}$, $\textbf{A}^{M\times N}$ and $\textbf{x}^{N\times L}$. It is expected that the fast ICA algorithm manage to solve the linear system for $\textbf{X}$ given only the measurements $\textbf{Y}$, in the case where $M=N$. 
-A 
+where $\textbf{Y}^{M\times L}$, $\textbf{A}^{M\times N}$ and $\textbf{x}^{N\times L}$. It is expected that the fast ICA algorithm manage to solve the linear system for $\textbf{X}$ and $\textbf{A}$ given only the measurements $\textbf{Y}$, in the case where $M=N$ or in the under-determined case where $\textbf{X}$ fulfils the sparseness criteria $k \leq M$.   
 
 
-Furthermore it is of interest to determine $\textbf{A}$ from the fast ICA algorithm. 
+when using the fast ICA algorithm, certain assumption are made with respect to   linear system. 
+
+the measurements are whitened, thus the recovered $X$ has independent rows and unit variance 
+
+difference from the true data is:
+unit variance of in X  
+MSE without phase shift is 0.608 and the list is 
+0.4673502 , 0.36813541, 0.53462633, 1.06302277
+
+MSE with phase shift is 0.559 and the list is 
+0.55071507, 0.29922179, 0.45089655, 0.93697286
+
+
+\begin{figure}[H]
+    \begin{minipage}[t]{.45\textwidth}
+		\centering
+		\includegraphics[scale=0.5]{figures/ICAapp/ICA_app1.png}
+	\caption{}
+	\label{fig:appica1}
+    \end{minipage} 
+    \hfill
+    \begin{minipage}[t]{.45\textwidth}
+		\centering
+		\includegraphics[scale=0.5]{figures/ICAapp/ICA_app2.png}
+	\caption{}
+	\label{fig:appica2}
+    \end{minipage}
+\end{figure}
+Estimate of A is not good compare to our onw ICA. 
+
+
+
+
+similar test for stochstic data, 
+tjeck phase shift and A 
+
+
+\begin{figure}[H]
+    \begin{minipage}[t]{.45\textwidth}
+		\centering
+		\includegraphics[scale=0.5]{figures/ICAapp/ICA_app3.png}
+	\caption{}
+	\label{fig:appica1}
+    \end{minipage} 
+    \hfill
+    \begin{minipage}[t]{.45\textwidth}
+		\centering
+		\includegraphics[scale=0.5]{figures/ICAapp/ICA_app4.png}
+	\caption{}
+	\label{fig:appica2}
+    \end{minipage}
+\end{figure}
+
+
+
 
 \begin{figure}[H]
     \centering
-	\includegraphics[scale=0.5]{figures/ICAapp/ICA_app1.png}
-	\caption{MSE for system with $M=N=k=4$.}
-	\label{fig:M=N_k=4}
-\end{figure}  
-\begin{itemize}
-\item 
-\end{itemize}
-
-\begin{figure}[H]
-    \centering
-	\includegraphics[scale=0.5]{figures/ICAapp/ICA_app2.png}
-	\caption{MSE for system with $M=N=k=4$.}
-	\label{fig:M=N_k=4}
-\end{figure}  
-\begin{itemize}
-\item 
-\end{itemize}
-
-\begin{figure}[H]
-    \centering
-	\includegraphics[scale=0.5]{figures/ICAapp/ICA_app3.png}
+	\includegraphics[scale=0.5]{figures/ICAapp/ICA_app5.png}
 	\caption{MSE for system with $M=N=k=4$.}
 	\label{fig:M=N_k=4}
 \end{figure}  

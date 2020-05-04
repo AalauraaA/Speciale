@@ -95,7 +95,7 @@ Consider the following linear system, which makes a model of EEG measurements.
 \begin{align*}
 \textbf{Y}=\textbf{AX}
 \end{align*}
-where $\textbf{Y}^{M\times L}$, $\textbf{A}^{M\times N}$ and $\textbf{x}^{N\times L}$. It is expected that the fast ICA algorithm manage to solve the linear system for $\textbf{X}$ and $\textbf{A}$ given only the measurements $\textbf{Y}$, in the case where $M=N$ or in the under-determined case where $\textbf{X}$ fulfils the sparseness criteria $k \leq M$.  
+where $\textbf{Y}^{M\times L}$, $\textbf{A}^{M\times N}$ and $\textbf{x}^{N\times L}$. It is expected that the fast ICA algorithm manage to solve the linear system for $\textbf{X}$ and $\textbf{A}$ given only the measurements $\textbf{Y}$, in the case where $M=N$.  
 
 The fast ICA algorithm is applied to $\textbf{Y}$ and returns the estimates $\hat{\textbf{X}}_{ICA}$ and $\hat{\textbf{A}}_{ICA}$. 
 When using the fast ICA algorithm the output $\hat{\textbf{X}}_{ICA}$ do not correspond one to one with the true source signal, which become an issue when the estimation error is measured by the mean squared error (MSE) cf. subsection \ref{sec:mse}.  The fast ICA algorithm is invariant towards the amplitude and phase of the signal and furthermore the rows are not necessarily place the original location. 
@@ -143,6 +143,35 @@ Again the the MSE is considered sufficiently small and by that the fast ICA is c
 	\caption{}
 	\label{fig:appica3}
 \end{figure}
+
+Consider now the case where $k \leq N=M$, that is the sources signal matrix has $k$ non-zeros rows. 
+The fast ICA algorithm is now applied to the a stochastic data set $\textbf{Y} $ specified by $N=M=6$, $k = 4$ and $L=1000$. Figure \ref{fig:appica5} and \ref{fig:appica6} show the comparison between the resulting $\hat{\textbf{X}}_{ICA}$ before and after the application of the fitting function, respectively. The resulting MSE becomes:
+\begin{align*}
+MSE(\textbf{X},\hat{\textbf{X}}_{ICA}) = 1.784.
+\end{align*} 
+It is seen from figure \ref{fig:appica6} that the fast ICA algorithm manage to  detect the zero rows of $\textbf{X}$. Without further test, this indicates the possibility of estimating $k$ from the fast ICA algorithm. 
+\begin{figure}[H]
+    \begin{minipage}[t]{.45\textwidth}
+		\centering
+		\includegraphics[scale=0.5]{figures/ICAapp/ICA_app5.png}
+	\caption{}
+	\label{fig:appica5}
+    \end{minipage} 
+    \hfill
+    \begin{minipage}[t]{.45\textwidth}
+		\centering
+		\includegraphics[scale=0.5]{figures/ICAapp/ICA_app6.png}
+	\caption{}
+	\label{fig:appica6}
+    \end{minipage}
+\end{figure}
+
+With these tests the quality of the fast ICA algorithm has been verified. As such the fast ICA algorithm can be used as a reference, when applied to real EEG data. It is further established that $k\leq N$ can be estimated by fast ICA. 
+
+Remember though that the ICA estimate is conditioned under $k\leq N=M$, however this condition is not certain for real EEG data as the true $N$ is always unknown.   
+
+
+
 
 
 

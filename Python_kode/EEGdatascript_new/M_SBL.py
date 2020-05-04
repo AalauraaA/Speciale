@@ -28,8 +28,6 @@ def M_SBL(A, Y, m, n, non_zero, iterations, noise):
         Sigma = np.zeros([iterations+1, n, n])
         k = 1
         while k < 3 or any((gamma[k]-gamma[k-1]) > tol):
-            print(k)
-            print(gamma[k])
             Gamma[k] = np.diag(np.reshape(gamma[k],(n)))        # size 1 x 1
             
             " Making Sigma and Mu "

@@ -9,7 +9,7 @@ from main import Main_Algorithm_EEG
 import simulated_data
 import ICA
 import data
-from plot_functions import plot_seperate_sources_comparison
+from plot_functions import plot_seperate_sources_comparison, plot_seperate_sources
 
 np.random.seed(1234)
 
@@ -72,11 +72,13 @@ for i in range(len(X_ica_nonzero)):
     # count the number of nonzeros rows in one segment
     k[i] = len(X_ica_nonzero[i])
 
-# =============================================================================
+## =============================================================================
 # Main Algorithm with random A
 # =============================================================================
-request='remove 1/3' # remove sensors and the same sources from dataset - every third
+request='none' # remove sensors and the same sources from dataset - every third
 Y, M, L, n_seg = data._import(data_file, segment_time, request=request)
+
+k = np.zeros([len(Y)]) * M
 
 if data_name == 'S1_CClean.mat':
     " For S1_CClean.mat remove last sample of first segment "
@@ -133,37 +135,30 @@ for i in range(len(Y)): # Looking at one time segment
  
 
 " Plots of second (i = 1) segment "
-import matplotlib.pyplot as plt
-i = 1
-figsave = "figures/EEG_third_removed_ori" + str(data_name) + '_' + str(i) + ".png"
-plot_seperate_sources_comparison(X_result[i],X_ica_nonzero[i],M,int(k[i]),int(k[i]),L,figsave,1)
-
-i = 1
-figsave = "figures/EEG_third_removed_new" + str(data_name) + '_' + str(i) + ".png"
-plot_seperate_sources_comparison(X_result2[i],X_ica_nonzero[i],M,int(k[i]),int(k[i]),L,figsave,2)
-
-plt.figure(3)
-plt.plot(average_mse, '-bo', label = 'Original Sources Locations')
-plt.plot(average_mse2, '-ro', label = 'New Sources Locations')
-plt.title('Average MSE Values of Original and New Source Locations')
-plt.legend()
-plt.savefig('figures/average_mse_ori_new_third_removed_timeseg_1.png')
-
-plt.figure(4)
-plt.plot(average_mse, '-bo', label = 'Original Sources Locations')
-plt.plot(average_mse2, '-ro', label = 'New Sources Locations')
-plt.title('Average MSE Values of Original and New Source Locations - Zoom')
-plt.legend()
-plt.axis([-1,145, -2,10])
-plt.savefig('figures/average_mse_ori_new_third_removed_timeseg_1_zoom.png')
-
-plt.figure(5)
-plt.plot(mse[1], '-bo', label = 'Original Sources Locations')
-plt.plot(mse2[1], '-ro', label = 'New Sources Locations')
-plt.title('MSE Values of Original and New Source Locations')
-plt.legend()
-plt.savefig('figures/mse_ori_new_third_removed_timeseg_1.png')
-
+#import matplotlib.pyplot as plt
+#plt.figure(2)
+#plt.plot(average_mse2, '-ro', label = 'Average MSE')
+#plt.title('Average MSE Values of All Time Segments')
+#plt.xlabel('Time Segment')
+#plt.ylabel('Average MSE')
+#plt.legend()
+#plt.savefig('figures/average_mse_second_removed_timeseg45.png')
+#
+##plt.figure(4)
+##plt.plot(average_mse, '-bo', label = 'Original Sources Locations')
+##plt.plot(average_mse2, '-ro', label = 'New Sources Locations')
+##plt.title('Average MSE Values of Original and New Source Locations - Zoom')
+##plt.legend()
+##plt.axis([-1,145, -2,30])
+##plt.savefig('figures/average_mse_ori_new_third_removed_timeseg_1_zoom.png')
+#
+#plt.figure(3)
+#plt.plot(mse2[i], '-ro', label = 'MSE')
+#plt.title('MSE Values of One Time Segment')
+#plt.xlabel('Sources')
+#plt.ylabel('MSE')
+#plt.legend()
+#plt.savefig('figures/mse_second_removed_timeseg45.png')
 
 # =============================================================================
 # Main Algorithm with A_ica

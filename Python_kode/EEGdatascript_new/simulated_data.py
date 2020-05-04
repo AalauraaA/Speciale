@@ -72,7 +72,8 @@ def mix_signals(n_samples, m, version=None, duration=4):
     between for sparsity. 
     Generation of random mixing matrix A and corresponding Y, such that Y = AX
             M=3
-    version 0 -> N=5, k=4
+    version none -> N=5, k=4
+    version 0 -> N=4, k=4
     version 1 -> N=8, k=4    -> cov_dl1 
             M=6
     version 2 -> N=8, k=8
@@ -96,6 +97,8 @@ def mix_signals(n_samples, m, version=None, duration=4):
     zero_row = np.zeros(n_samples)
     
     X = np.c_[s1, zero_row, s3, s4, s2].T 
+    if version == 'test':
+        X = np.c_[s1, s2, s3].T
     if version == 0:
         X = np.c_[s1, s3, s4, s2].T
     if version == 1:
@@ -111,12 +114,13 @@ def mix_signals(n_samples, m, version=None, duration=4):
         
     n = len(X)
     A = np.random.randn(m,n)                   # Random mix matrix
+    #A = np.array([[1, 1, 1], [0.5, 2, 1.0], [1.5, 1.0, 2.0]])
     #A = np.array([[1,2,3,4,5],
 #                  [6,7,8,9,10],
 #                  [11,12,13,14,15]])
 #    A = A/np.linalg.norm(A, ord=2, axis=0, keepdims=True)
-    Y = np.dot(A, X)                            # Observed signal
-    return Y, A, X
+    Y = np.dot(X.T, A)                            # Observed signal
+    return Y.T, A, X
 
 
 def gaussian_signals(m, n, n_samples, non_zero, long=True):

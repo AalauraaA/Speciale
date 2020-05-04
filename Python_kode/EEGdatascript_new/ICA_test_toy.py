@@ -39,18 +39,18 @@ L = 2000
 n_seg = 1
 
 # generate own signal 
-#Y, A_real, X_real = simulated_data.mix_signals(L,5,M,N,k)
+Y, A_real, X_real = simulated_data.mix_signals(L,5,M,N,k)
 #
 
-Y, A_real, X_real = simulated_data.generate_AR(N, M, L, k)
+#Y, A_real, X_real = simulated_data.generate_AR(N, M, L, k)
 Y = np.reshape(Y, (1, Y.shape[0], Y.shape[1]))
 
 
-A_result, X_result, A_real = Main_Algorithm(Y, M, L, n_seg, A_real, L_covseg = 20)
+A_result, X_result = Main_Algorithm(Y, M, L, n_seg, L_covseg = 20)
 
 ## our ICA
 
-X_ica, A = ICA.ica_segments(Y, 1000) 
+X_ica = ICA.ica_segments(Y, 1000) 
 
 
 mse, average_mse = simulated_data.MSE_segments(X_result,X_ica)
@@ -72,7 +72,7 @@ for ii, (model, name) in enumerate(zip(models, names), 1):
     plt.subplot(4, 1, ii)
     plt.title(name)
     for sig, color in zip(model.T, colors):
-        plt.plot(sig[:100], color=color)
+        plt.plot(sig, color=color)
 
 plt.tight_layout()
 plt.show()

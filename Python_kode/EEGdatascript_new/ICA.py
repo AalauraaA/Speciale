@@ -7,8 +7,10 @@ Created on Mon Mar 30 14:18:47 2020
 
 import numpy as np
 import matplotlib.pyplot as plt
-
+from sklearn.decomposition import FastICA, PCA
 np.random.seed(0)
+from sklearn.metrics import mean_squared_error
+import itertools
 
 # =============================================================================
 # Functions and derivatives
@@ -116,7 +118,7 @@ def ica(X, iterations, tolerance=1e-5):
         W[i, :] = w # Update w
         
     S = np.dot(W, X) # Source signal  
-    return S, W
+    return S
 
 
 def ica_segments(X, iterations):
@@ -127,6 +129,73 @@ def ica_segments(X, iterations):
     S_ICA = np.zeros((n_seg, N, L-2))
     for i in range(len(X)):
         print('ICA on segment {}'.format(i))
-        S, W = ica(X[i],iterations)
+        S = ica(X[i],iterations)
         S_ICA[i] = S.T[:L-2].T
-    return S_ICA, W
+    return S_ICA
+
+def fast_ica_segments(X,M):
+    n_seg = len(X)
+    N = X[0].shape[0]
+    L = X[0].shape[1]
+    
+    X_ICA = np.zeros((n_seg, N, L-2))
+    A_ICA = np.zeros((n_seg, N, M))
+    for i in range(len(X)):
+        print('ICA on segment {}'.format(i))
+        
+        X = X[i].T
+        
+        ica = FastICA(n_components=N)
+        X_ica = ica.fit_transform(X)  # Reconstruct signals
+        A_ica = ica.mixing_
+        X_ICA[i] = X_ica[:L-2].T
+        A_ICA[i] = A_ica  # Get estimated mixing matrix
+
+        print(mean_squared_error(X, np.dot(X_ica, A_ica.T)))
+        
+    X_ICA = np.reshape(X_ICA,(1,X_ICA.shape[1],X_ICA.shape[2]))
+    return X_ICA, A_ICA
+
+def ica_fit(X_ica,X_real,N):
+    ##### swup row according to error. return ica2
+    
+    X_temp = np.zeros((X_ica.shape))
+    X_temp0 = np.zeros((X_ica.shape))
+    X_temp1 = np.zeros((X_ica.shape))
+    total_list = np.ones((np.math.factorial(N)))
+    
+    comb = list(itertools.permutations(range(N),N))
+    comb_copy = np.array(comb)
+    for i in range(len(comb)):
+        for p in range(N):
+            X_temp0[p] = X_ica[int(comb[i][p])]
+            X_temp1[p] = X_ica[int(comb[i][p])]*-1
+            
+            arg_min = np.argmin((mean_squared_error(X_temp[p], X_real[p]),
+                              mean_squared_error(X_temp1[p], X_real[p])))
+            if arg_min == 1:
+                X_temp[p] = X_ica[int(comb[i][p])]*-1
+                comb_copy[i][p]= comb[i][p]*-1
+            else:
+                X_temp[p] = X_ica[int(comb[i][p])]
+                  
+        total_list[i] = mean_squared_error(X_temp.T, X_real.T)
+    
+    min_total = np.argmin(total_list)
+    print(min_total)
+    X_ica2 = np.zeros((X_ica.shape))
+    print(comb_copy)
+    for p in range(N):
+        if comb_copy[min_total][p] < 0:
+            X_ica2[p] = X_ica[int(comb[min_total][p])]*-1
+            print('neg')
+        else:
+            X_ica2[p] = X_ica[int(comb[min_total][p])]
+    
+    # make amplitude a like only for plot
+    for f in range(N):       
+        amp = np.max(X_real[f])/np.max(X_ica2[f])
+        X_ica2[f] = X_ica2[f]*amp
+        
+    return X_ica2
+

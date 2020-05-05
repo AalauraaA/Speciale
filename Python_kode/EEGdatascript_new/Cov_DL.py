@@ -15,8 +15,8 @@ from sklearn.decomposition import DictionaryLearning
 from sklearn.decomposition import PCA
 import numpy as np
 
-def _dictionarylearning(Y, n, k, iter_=1000):
-    dct = DictionaryLearning(n_components=n, transform_algorithm='omp',
+def _dictionarylearning(Y, n, k, iter_=100000):
+    dct = DictionaryLearning(n_components=n, transform_algorithm='lars',
                              transform_n_nonzero_coefs=k, max_iter=iter_)
     dct.fit(Y.T)
     A_new = dct.components_
@@ -62,30 +62,28 @@ def _A(D, m, n):
 def _covdomain(Y, L, L_covseg, M):
     n_seg = int(L/L_covseg)               # number of segments
     Y = Y.T[:n_seg*L_covseg].T              # remove last segment if to small
-    print(Y.shape)
     Ys = np.split(Y, n_seg, axis=1)       # list of all segments in axis 0
     Y_big = np.zeros([int(M*(M+1)/2.), n_seg])
     for j in range(n_seg):                   # loop over all segments
         Y_cov = np.cov(Ys[j])           # normalised covariance mtrix is np.corrcoef(Ys[j])
         Y_big.T[j] = _vectorization(Y_cov, M)
-    print('Y_big søjle {}'.format(Y_big.T[0]))
     return Y_big
 
 def Cov_DL1(Y_big, M, N, k):
     """
     """
     print('using Cov_DL1')
-    #np.random.seed(12)
     D = _dictionarylearning(Y_big, N, k)
     A_rec = _A(D, M, N)
+    print('Estimation of A is done')
     return A_rec
 
 # funktion til brug i DL2:
 
-def Cov_DL2(Y_big, m, n, k):
+def Cov_DL2(Y_big, m, n, k, A_real):
     """ 
     """
-    print('using Cov_DL2')
+    print('Using Cov_DL2 \n')
     #np.random.seed(12)
     # Dictionary Learning on Transformed System
     pca = PCA(n_components=n, svd_solver='randomized', whiten=True)
@@ -93,7 +91,6 @@ def Cov_DL2(Y_big, m, n, k):
     U = pca.components_.T
 #    A = np.random.random((m,n))    # random initial A
     A = np.random.randn(m, n)       # Gaussian initial A
-#    A = np.identity(m)
 #    A = np.random.randint(-5,5,(m,n))
     a = np.reshape(A, (A.size),order='F')     # normal vectorization of initial A
 
@@ -116,7 +113,12 @@ def Cov_DL2(Y_big, m, n, k):
     # predefined optimization method, without defineing the gradient og the cost.
     from scipy.optimize import minimize
     res = minimize(cost1, a, method='BFGS',# BFGS, Nelder-Mead
-                  options={'maxiter': 1000000, 'disp': True})
+                  options={'maxiter': 10000, 'disp': True})
     a_new = res.x
     A_rec = np.reshape(a_new, (m, n), order='F')
+    
+    print('\nCost(A_init) = {}'.format(np.round_(cost1(a), decimals=4)))
+    print('Cost(A_estimte) = {}'.format(np.round_(cost1(a_new), decimals=4)))
+    print('Cost(A_true) = {}'.format(np.round_(cost1(np.reshape(A_real, (A_real.size),order='F')),decimals=4)))
+    
     return A_rec, A

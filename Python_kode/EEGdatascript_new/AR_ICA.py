@@ -24,7 +24,7 @@ Y = np.reshape(Y, (1,Y.shape[0],Y.shape[1]))
 X_real = np.reshape(X_real,(1, X_real.shape[0],X_real.shape[1]))
 
 # perform ICA on full datasetX_base
-X_ica, A = ICA.ica_segments(Y, 1000)
+X_ica = ICA.ica_segments(Y, 1000)
 
 # perform baseline in full dataset
 A_base_full, X_base_full = Main_Algorithm(Y, M, L, n_seg, L_covseg=10) 

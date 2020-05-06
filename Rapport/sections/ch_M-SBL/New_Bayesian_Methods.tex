@@ -126,9 +126,9 @@ The M-step is in general very slow on large data.
 An alternative is to use a fixed point update rule to fasten convergence on large data, however convergence is no longer ensured. 
 The fixed point updating step is achieved by taking the derivative of the marginal log likelihood $\ell(\boldsymbol{\gamma})$ with respect to $\boldsymbol{\gamma}$ and equating it with zero. 
 This lead to the following update rule which can replace the above M-step in the EM-algorithm \todo{Indsæt kilde - L}
-\begin{align*}
+\begin{align}
 \gamma_i^{(k+1)} = \frac{\frac{1}{L} \Vert \boldsymbol{\mu}_{i \cdot} \Vert_2^2}{1 - \gamma_i^{-1 (k)} \boldsymbol{\Sigma}_{ii}}, \quad \forall i = 1, \dots, N.
-\end{align*}
+\end{align}
 \todo{mangler at udlede denne regl}
 Empirically this alternative update rule have shown use full in highly under-determined large scale cases by driving many hyper parameters toward zero allowing for the corresponding weight in the source matrix to be discarded. 
 For simultaneous sparse approximation problems this is the process referred to as multiple sparse Bayesian learning, M-SBL.

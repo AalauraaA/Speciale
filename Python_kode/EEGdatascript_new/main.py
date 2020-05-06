@@ -56,3 +56,10 @@ def Main_Algorithm(Y, M, L, n_seg, A_real, L_covseg = 10):
         return A_result, X_result
     
     return A_result, X_result
+
+def Main_Algorithm_EEG(Y, A_real, M, k, L): 
+    import M_SBL
+
+    X_result = M_SBL.M_SBL(A_real, Y, M, k, k, iterations=1000, noise=False) #### OBS CHECK for A_rec
+    
+    return X_result

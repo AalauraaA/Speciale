@@ -28,15 +28,15 @@ def M_SBL(A, Y, m, n, non_zero, iterations, noise):
         Sigma = np.zeros([iterations+1, n, n])
         k = 1
         while k < 3 or any((gamma[k]-gamma[k-1]) > tol):
-            Gamma[k] = np.diag(np.reshape(gamma[k],(n)))        # size 1 x 1
+            Gamma[k] = np.diag(np.reshape(gamma[k],(n)))                        # size N x N
             
             " Making Sigma and Mu "
             Sigma[k] = np.dot((np.identity(n) - np.linalg.multi_dot(
                     [np.sqrt(Gamma[k]), np.linalg.pinv(
-                            np.dot(A, np.sqrt(Gamma[k]))), A])), Gamma[k])
+                            np.dot(A, np.sqrt(Gamma[k]))), A])), Gamma[k])      # Size N x N
             mean[k] = np.linalg.multi_dot(
                     [np.sqrt(Gamma[k]), np.linalg.pinv(np.dot(A,
-                                                    np.sqrt(Gamma[k]))), Y])
+                                                    np.sqrt(Gamma[k]))), Y])    # Size N x L-2
             for i in range(n):
                 " Update gamma with EM and with M being Fixed-Point"
                 gam_num = 1/n_samples * np.linalg.norm(mean[k][i])
@@ -59,7 +59,7 @@ def M_SBL(A, Y, m, n, non_zero, iterations, noise):
             Gamma[k] = np.diag(np.reshape(gamma[k],(n)))
             
             " Making Sigma and Mu "
-            sig = lam[k] * np.identity(m) +  np.linalg.multi_dot([A,Gamma[k],A.T])
+            sig = lam[k] * np.identity(m) +  np.linalg.multi_dot([A,Gamma[k],A.T])        # size M x M
             inv = np.linalg.pinv(sig)
             Sigma[k] = (Gamma[k]) - (np.linalg.multi_dot([Gamma[k],A.T,inv,A,Gamma[k]]))
             mean[k] = np.linalg.multi_dot([Gamma[k],A.T,inv,Y])

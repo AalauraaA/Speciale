@@ -93,13 +93,22 @@ The goal is now to learn first $\textbf{D}$ and then the associated mixing matri
 \end{algorithm}
 
 \section{Considerations and Remarks}
-Through this chapter different theory aspects haven been investigated to create a foundation to present one method to be use in the localisation of the sources from EEG measurements -- the recovering of the mixing matrix $\mathbf{A}$ -- yet one method is still to be presented.
-Before the method to recover the source matrix $\mathbf{X}$ from the found mixing matrix $\mathbf{A}$ and EEG measurements $\mathbf{Y}$ will be introduced some considerations and remarks regarding the Cov-DL algorithm must be taken -- this will be used in the implementation of the algorithm which will be described in chapter \ref{ch:implementation}.
+Through this chapter different theory aspects haven been investigated to create a foundation to present one method to be use in the localization of the sources from EEG measurements -- the recovering of the mixing matrix $\mathbf{A}$ -- yet one method is still to be presented.
+Before introducing a method to recover the source matrix $\mathbf{X}$ from the found mixing matrix $\mathbf{A}$ and EEG measurements $\mathbf{Y}$ some considerations and remarks regarding the Cov-DL algorithm must be taken. 
+This will be used in the implementation of the Cov-DL which will be described in chapter \ref{ch:implementation}.
 
-The length of each segment determined whenever the covariance of the source matrix $\mathbf{X}$ can be described as a diagonal matrix $\boldsymbol{\Lambda}$. That is a segment of $L_s$ samples becomes stationary and therefore the sources within that segment becomes uncorrelated -- the covariance of the source can be described by a diagonal matrix. The number of samples $L_s$ used in one segment affect whenever the segment is stationary or not. This must be taken into account in the preprocessing part of the baseline algorithm when the EEG measurements are divided into segments.
+The length of each segment determined whenever the covariance of the source matrix $\mathbf{X}$ can be described as a diagonal matrix $\boldsymbol{\Lambda}$. 
+That is a segment of $L_s$ samples becomes stationary and therefore the sources within that segment becomes uncorrelated -- the covariance of the source can be described by a diagonal matrix. 
+The number of samples $L_s$ used in one segment affect whenever the segment is stationary or not. 
+This must be taken into account in the preprocessing part for the implementation of Cov-DL when the EEG measurements are divided into segments.
 
-For the Cov-DL algorithm when $\mathbf{D}$ is under-determined a dictionary learning algorithm K-SVD is used to learn the matrix $\mathbf{D}$ and by that an estimate for the mixing matrix $\hat{\mathbf{A}}$. Because of the segmentation the number of samples used in the dictionary learning are reduced remarkably and will affect the learning process. This is another point which must be taken into account in the preprocessing part of the code. To improved the dictionary learning the overlapping of the segments can be look into as each segment will have some similarity and therefore learn towards one direction.
+For the Cov-DL algorithm when $\mathbf{D}$ is under-determined a dictionary learning algorithm K-SVD is used to learn the matrix $\mathbf{D}$ and by that an estimate, $\hat{\mathbf{A}}$, for the mixing matrix $\mathbf{A}$. 
+Because of the segmentation the number of samples used in the dictionary learning are reduced remarkably and will affect the learning process. 
+This is another point which must be taken into account in the preprocessing part of the implementation of Cov-DL. 
+To improved the dictionary learning the overlapping of the segments can be look into as each segment will have some similarity and therefore learn towards one direction.
 
-For the Cov-DL algorithm when $\mathbf{D}$ is over-determined the solution tends to be unique when $M < N < \widetilde{M}$ from testing the solution. That is the cost function tends toward a local minima and therefore an unique solution occur in first run of one trial. For the baseline algorithm it would therefore be necessary to include several random initial points when finding the mixing matrix $\mathbf{A}$ for $\mathbf{D}$ being over-determined.
+For the Cov-DL algorithm when $\mathbf{D}$ is over-determined the solution tends to be unique when $M < N < \widetilde{M}$ from testing the solution. 
+That is the cost function tends toward a local minima and therefore an unique solution occur in first run of one trial. 
+For the implementation of Cov-DL it would therefore be necessary to include several random initial points when finding the mixing matrix $\mathbf{A}$ for $\mathbf{D}$ being over-determined \todo{Dette afsnit skal lige revideres. Vi snakker om test og trial and error men vi har jo ikke beskrevet dette endnu - L}.
 
 For a general perspective the sources within the source matrix $\mathbf{X}$ must not be constant over time when using the MMV model \eqref{eq:MMV_model} \todo{Find lige kilde på dette argument}...

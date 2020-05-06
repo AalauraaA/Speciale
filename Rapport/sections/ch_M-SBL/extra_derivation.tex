@@ -56,9 +56,10 @@ The covariance between $\textbf{x}$ and $\textbf{y}\vert\textbf{x}$ is found by 
 \hdots \\
 &= \boldsymbol{\gamma}\textbf{I}\textbf{A}^T?
 \end{align*}
+\todo{Jans forslag: $Y = AX + E$ -- $E[YX^T] = E[(AX + E)X^T] = A \Sigma_{XX} = \gamma A$ ?? - L}
 Lastly the covariance of $\textbf{y}\vert \textbf{x}$ is similarly found by the definition of conditional covariance as follows 
 \begin{align*}
-\boldsymbol{\Sigma}_{\textbf{yy}} =  \text{cov}(\textbf{y},\textbf{y}\vert \textbf{x}) = \boldsymbol{\Sigma}_{\textbf{yy}\vert \textbf{x}} &= \boldsymbol{\Sigma}_{\textbf{yy}} - \boldsymbol{\Sigma}_{\textbf{yx}}\boldsymbol{\Sigma}_{\textbf{xx}}^{-1}\boldsymbol{\Sigma}_{\textbf{xy}} \\
+\boldsymbol{\Sigma}_{\textbf{yy} \vert \mathbf{x}} =  \text{cov}(\textbf{y},\textbf{y}\vert \textbf{x}) &= \boldsymbol{\Sigma}_{\textbf{yy}} - \boldsymbol{\Sigma}_{\textbf{yx}}\boldsymbol{\Sigma}_{\textbf{xx}}^{-1}\boldsymbol{\Sigma}_{\textbf{xy}} \\
 &= \boldsymbol{\sigma}^2 \textbf{I} - \boldsymbol{\gamma}\textbf{I}\textbf{A}^T (\boldsymbol{\gamma}\textbf{I})^{-1} \textbf{A}\boldsymbol{\gamma}\textbf{I} \\
 &= \boldsymbol{\sigma}^2 \textbf{I} - \textbf{A}\boldsymbol{\gamma}\textbf{I}\textbf{A}^T
 \end{align*} 

@@ -6,7 +6,7 @@ Consider again the multiple measurement vector (MMV) model for a non-segmented c
 \begin{align}\label{eq:MSBL_MMV}
 \mathbf{Y} = \mathbf{AX} + \mathbf{E},
 \end{align}
-with measurement matrix $\mathbf{Y} \in \mathbb{R}^{M \times L}$, source matrix $\mathbf{X} \in \mathbb{R}^{N \times L}$ mixing matrix $\mathbf{A} \in \mathbb{R}^{M \times N}$ and noise matrix $\mathbf{E} \in \mathbb{R}^{M \times L}$. Note that $\mathbf{A}$ is known throughout the chapter, as it is found by Cov-DL in chapter \ref{ch:Cov-DL}.
+with measurement matrix $\mathbf{Y} \in \mathbb{R}^{M \times L}$, source matrix $\mathbf{X} \in \mathbb{R}^{N \times L}$, mixing matrix $\mathbf{A} \in \mathbb{R}^{M \times N}$ and noise matrix $\mathbf{E} \in \mathbb{R}^{M \times L}$. Note that $\mathbf{A}$ is known throughout the chapter, as it is found by Cov-DL in chapter \ref{ch:Cov-DL}.
 
 The aim is to recover the source matrix $\mathbf{X}$ in the case of fewer measurements than active sources, $k > M$. 
 In \cite{Balkan2014} it is proven that exact localization of the active sources can be achieved with M-SBL for $k > M$, when two sufficient conditions are satisfied.   
@@ -26,11 +26,12 @@ By maximizing the posterior distribution $p(\mathbf{X}|\mathbf{Y})$ with respect
 \begin{align*}
 \hat{\mathbf{X}}_{\text{MAP}} &= \arg \max_{\mathbf{X}} \frac{p(\mathbf{Y} \vert \mathbf{X}) p(\mathbf{X})}{p(\mathbf{Y)}}.
 \end{align*}
-That is the estimate of $\mathbf{X}$, from the MMV model \eqref{eq:MSBL_MMV}, with the highest probability of causing the given variable $\mathbf{Y}$\todo{hvordan er dette ikke korrekt? 'rasmus'}. In the desired case where $M < N$ the MMV model \eqref{eq:MSBL_MMV} makes an under-determined system and potentially an infinitely number of solutions exist with equal likelihoods.  
+That is the estimate of $\mathbf{X}$, from the MMV model \eqref{eq:MSBL_MMV}, with the highest probability of causing the given variable $\mathbf{Y}$\todo{hvordan er dette ikke korrekt? 'rasmus'}. 
+In the desired case where $M < N$ the MMV model \eqref{eq:MSBL_MMV} makes an under-determined system and potentially an infinitely number of solutions exist with equal likelihoods.  
 
 Let the source matrix $\mathbf{X}$ be seen as a variable which is drawn from some distribution $p(\mathbf{X})$, as such it is possible to narrow down the infinitely solution space. 
 Assuming a prior belief that $\mathbf{Y}$ is generated from a sparse source matrix, gives a so-called sparsity inducing prior. 
-That is $\mathbf{X}$ is drawn from some distribution which has a sharp, possibly infinite, spike at zero surrounded by fat tails.
+That is $\mathbf{X}$ is drawn from some distribution which has a sharp, possibly infinite, spike at zero surrounded by fat tails \todo{Jan spørger efter hvorfor vi gerne vil have fat tails? - L}.
 A specific example could be a prior distribution $p(\mathbf{X}) \propto \exp \left( - \Vert \mathbf{X} \Vert_0\right)$ \cite[p. 14]{phd_wipf}. 
 However, for simplicity a Gaussian prior is to prefer. 
 The use of a Gaussian distribution can (almost) be justified if a mixture of two Gaussian distributions are considered such that the variable is drawn from one of the two with equal likelihood. 
@@ -46,8 +47,8 @@ The main asset of this alternative approach is the use of an empirical prior.
 That is an flexible prior distribution which depends on an unknown set of hyperparameters, which is to be learned from the data.
  
 \subsection{Empirical Bayesian Estimation}\label{seg:EBE}
-Assume the likelihood function $p(\mathbf{Y} \vert \mathbf{X})$ is Gaussian, with known noise variance $\sigma^2$.
-Due to $\textbf{Y}$ containing samples from multiple sensors over time each entry of $\textbf{Y}$ are independent and equally distributed with likelihood
+Assume the likelihood function $p(\mathbf{Y} \vert \mathbf{X})$ is Gaussian, with known noise variance $\sigma^2$ \todo{Jan spørger om dette en kendt kovarians matrix, men i dette tilfælde er det vel bare en varians - L}.
+Due to $\textbf{Y}$ containing samples from multiple sensors over time each entry of $\textbf{Y}$ are independent and equally distributed with likelihood \todo{Jan mangler belæg på hvorfor dette er sandt - L}
 \begin{align*}
 p(y_{ij}\vert x_{ij}) &\sim \mathcal{N}(\mathbf{A}_{i \cdot}\textbf{x}_{\cdot j}, \sigma^2) \\
 & = \frac{1}{\sigma^2\sqrt{2\pi}}\exp\left( -\frac{1}{2}\left( \frac{y_{ij}- \mathbf{A}_{i \cdot}\textbf{x}_{\cdot j}}{\sigma}\right)^{2}\right)
@@ -124,7 +125,7 @@ In this case the E-step is to compute the posterior moments using \eqref{eq:mome
 The M-step is in general very slow on large data. 
 An alternative is to use a fixed point update rule to fasten convergence on large data, however convergence is no longer ensured. 
 The fixed point updating step is achieved by taking the derivative of the marginal log likelihood $\ell(\boldsymbol{\gamma})$ with respect to $\boldsymbol{\gamma}$ and equating it with zero. 
-This lead to the following update rule which can replace the above M-step in the EM-algorithm
+This lead to the following update rule which can replace the above M-step in the EM-algorithm \todo{Indsæt kilde - L}
 \begin{align*}
 \gamma_i^{(k+1)} = \frac{\frac{1}{L} \Vert \boldsymbol{\mu}_{i \cdot} \Vert_2^2}{1 - \gamma_i^{-1 (k)} \boldsymbol{\Sigma}_{ii}}, \quad \forall i = 1, \dots, N.
 \end{align*}
@@ -137,7 +138,7 @@ From the resulting $\boldsymbol{\gamma}^\ast$ the support set $S$ of the source 
 S = \{ i \vert \hat{\gamma}_i \neq 0 \},
 \end{align*}
 concluding the localization of active sources within $\mathbf{X}$. 
-In practise some arbitrary small threshold can be used such that that any sufficiently small hyperparameter is discarded.
+In practise some arbitrary small threshold can be used such that that any sufficiently small hyperparameter is discarded \todo{Jan vil have en kilde her - L}.
 For identification of the active sources the estimate of the source matrix $\mathbf{X}$ is given as $\mathbf{X}^\ast = \mathcal{M}^\ast $, with $\mathcal{M}^\ast = \mathbb{E}[\mathbf{X}\vert \mathbf{Y} ; \boldsymbol{\gamma}^\ast]$. 
 This leads to the following estimate  
 \begin{align*}
@@ -196,7 +197,7 @@ By k being known in prior the tolerance determining when a parameter is close en
 \subsection{Sufficient Conditions for Exact Source Localization}
 In \cite{Balkan2014} it is proven that exact source localization is guaranteed in the under-determined case, $k > M$ when the following conditions on $\mathbf{A}$ is fulfilled.
 The theorem is based on a theoretical analysis of the minima where noise-free conditions are considered, that is letting $\sigma^2 \rightarrow 0$. Thus the following theorem applies to the noise less case.   
-First, defined a function $f:\mathbb{R}^{M \times N} \rightarrow \mathbb{R}^{\frac{M(M+1)}{2}\times N}$, such that for $B = f(\mathbf{A})$ the $j$-th column is given as $\mathbf{b}_{\cdot j} = \text{vec}(\mathbf{a}_{\cdot j}\mathbf{a}_{\cdot j}^T)$. Here the function $\text{vec}(\cdot)$ corresponds to the function defined in section \ref{sec:cov}, being a vectorization of the lower triangular part of a matrix.	
+First, defined a function $f:\mathbb{R}^{M \times N} \rightarrow \mathbb{R}^{\frac{M(M+1)}{2}\times N}$, such that for $B = f(\mathbf{A})$ the $j$-th column is given as $\mathbf{b}_{\cdot j} = \text{vec}(\mathbf{a}_{\cdot j}\mathbf{a}_{\cdot j}^T)$. Here the function $\text{vec}(\cdot)$ corresponds to the function defined in section \ref{sec:cov}, being a vectorization of the upper triangular part of a matrix.	
 \begin{theorem}
 Given a dictionary matrix $\mathbf{A}$ and a set of observed measurement $\mathbf{Y}$, M-SBL recovers the support set of any size $k$ exactly in the noise-free case, if the following conditions are satisfied. 
 \begin{enumerate}

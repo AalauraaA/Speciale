@@ -8,13 +8,11 @@ Created on Tue Mar 31 14:22:36 2020
 import numpy as np
 from main import Main_Algorithm_EEG
 import matplotlib.pyplot as plt
-from scipy import signal
-from sklearn.decomposition import FastICA, PCA
-from main import Main_Algorithm
+#from scipy import signal
+from sklearn.decomposition import FastICA
 import simulated_data
-import ICA
+#import ICA
 import data
-from plot_functions import plot_seperate_sources_comparison, plot_seperate_sources
 
 np.random.seed(1234)
 
@@ -30,7 +28,7 @@ segment_time = 1                           # length of segments i seconds
 # =============================================================================
 # ICA
 # =============================================================================
-" Perform ICA on full dataset "
+" Import Segmented Dataset "
 Y_ica, M_ica, L_ica, n_seg_ica = data._import(data_file, segment_time, request='none')
 
 if data_name == 'S1_CClean.mat':
@@ -47,16 +45,14 @@ if data_name == 'S1_OClean.mat':
             continue
             
 #X_ica, A_ica = ICA.fast_ica_segments(Y_ica, M_ica)
-" FAST ICA SEGMENTATION "
+" Perform FastICA on Segmented Dataset "
 n_seg = len(Y_ica)
 N = Y_ica[0].shape[0]
 L = Y_ica[0].shape[1]
 
 X_ica = np.zeros((n_seg, N, L-2))
 A_ica = np.zeros((n_seg, N, M_ica))
-for i in range(len(Y_ica)):
-    print('ICA on segment {}'.format(i))
-    
+for i in range(len(Y_ica)):   
     X = Y_ica[i].T
     
     ica = FastICA(n_components=N)
@@ -65,43 +61,42 @@ for i in range(len(Y_ica)):
     X_ica[i] = X_ICA[:L-2].T
     A_ica[i] = A_ICA              # Get estimated mixing matrix
 
-" Remove the last column from X_ica to match size of X "
+" Copy the X_ica to an Array "
 X_ica_new = np.array(X_ica, copy = True)
 X_ica_array = []
 for i in range(len(Y_ica)):
     X_ica_array.append(X_ica_new[i])
-#    if i == 0:     
-#        X_ica_array.append(X_ica_new[i,:,:-1])
-#    else:
-#       X_ica_array.append(X_ica_new[i]) 
 
 " Replacing small values with zero and creating X_ica of size k x samples for each segment "
 X_ica_nonzero = []
 tol = 10E-5
-for i in range(len(X_ica_array)): # Looking at one segment at time
-    temp = [] # temporary variable to store the nonzero array for one segment
-    for j in range(len(X_ica_array[i])): # Looking at on row of one segment at the time
-        
-        if np.average(X_ica_array[i][j]) < tol and np.average(X_ica_array[i][j]) > -tol:  # if smaller than 
-            X_ica_array[i][j] = 0   # replace by zero
+for seg in range(len(X_ica_array)): 
+    # Looking at one segment at time
+    temp = []                       # temporary variable to store the nonzero array for one segment
+    for i in range(len(X_ica_array[seg])): 
+        # Looking at on row of one segment at the time   
+        if np.average(X_ica_array[seg][i]) < tol and np.average(X_ica_array[seg][i]) > -tol:  # if smaller than 
+            X_ica_array[seg][i] = 0   # replace by zero
         else:
-            temp.append(X_ica_array[i][j])
+            temp.append(X_ica_array[seg][i])
             
     X_ica_nonzero.append(temp)
 
 
 " Finding the number of active sources (k) for each segment "
 k = np.zeros(len(X_ica_nonzero))
-for i in range(len(X_ica_nonzero)):
+for seg in range(len(X_ica_nonzero)):
     # count the number of nonzeros rows in one segment
-    k[i] = len(X_ica_nonzero[i])
+    k[seg] = len(X_ica_nonzero[seg])
 
- 
 # =============================================================================
 # Main Algorithm with random A
 # =============================================================================
-request='remove 1/2' # remove sensors and the same sources from dataset - every third
-#request = 'none'
+" Import Segmented Dataset "
+#request='remove 1/2' # remove sensors and the same sources from dataset
+#request='remove 1/3' # remove sensors and the same sources from dataset
+request = 'none'
+
 Y, M, L, n_seg = data._import(data_file, segment_time, request=request)
 
 if data_name == 'S1_CClean.mat':
@@ -117,15 +112,20 @@ if data_name == 'S1_OClean.mat':
         else:
             continue
 
+" Perform Main Algorithm on Segmented Dataset "
+X_result = []    # Original recovered source matrix X
+X_result2 = []   # Original recovered source matrix X used to fitting X_ica
 
-X_result = []
-X_ica2 = [] 
-mse = []
-mse2 = []
+mse = []         # Original MSE for each rows of the original recovered source matrix X and X_ica
+mse2 = []        # Fitted MSE for each rows of the original recovered source matrix X and fitted X_ica
+
+average_mse = np.zeros(len(Y))  # Original average MSE for each rows of the original recovered source matrix X and X_ica
+average_mse2 = np.zeros(len(Y)) # Fitted average MSE for each rows of the original recovered source matrix X and fitted X_ica
+
 for i in range(k.shape[0]):
     " Making the right size of X for all segments "
     X_result.append(np.zeros([len(Y), int(k[i])]))
-    X_ica2.append(np.zeros([len(Y), int(k[i])]))
+    X_result2.append(np.zeros([len(Y), int(k[i])]))
     
     " Making the mse for all sources in all segments "
     mse.append(np.zeros([len(Y), int(k[i])]))
@@ -135,73 +135,104 @@ for i in range(k.shape[0]):
 average_mse = np.zeros(len(Y))
 average_mse2 = np.zeros(len(Y))
 
-for i in range(len(Y)): # Looking at one time segment
-    A = np.random.normal(0,2,(M,int(k[i])))
-    X_result[i] = Main_Algorithm_EEG(Y[i], A, M, int(k[i]), L)
-    mse[i], average_mse[i] = simulated_data.MSE_segments(X_result[i], X_ica_nonzero[i])
+" Original Recovered Source Matrix X, MSE and Average MSE with X_ica "
+for seg in range(len(Y)): 
+    # Looking at one time segment
+    A = np.random.normal(0,2,(M,int(k[seg])))
+    X_result[seg] = Main_Algorithm_EEG(Y[seg], A, M, int(k[seg]), L)
+    mse[seg], average_mse[seg] = simulated_data.MSE_segments(X_result[seg], X_ica_nonzero[seg])
 
+#for seg in range(len(X_ica_nonzero)):
+#    for f in range(len(X_ica_nonzero[seg])):       
+#        amp = np.max(X_result2[seg][f])/np.max(X_ica_nonzero[seg][f])
+#        X_ica_nonzero[seg][f] = X_ica_nonzero[seg][f]*amp
 
-""" Moving the Sources in X_result to match X_ica """   
-X_result2 = []
-for i in range(len(X_ica_nonzero)):
-    segment=i
-    X_result1 = np.array(X_result, copy=True)  # size 144 x k x 513
-    X_result1 = np.reshape(X_result1[segment], (X_result[segment].shape))  # size k x 513
-    temp = [] # temporary variable to store the nonzero array for one segment
-    for j in range(X_result1.shape[0]):
-        _list = np.zeros(X_result1.shape[0])  # size k
-        for p in range(X_result1.shape[0]): # loop through k rows
-#            print('p', p)
-            _list[p] = simulated_data.MSE_one_error(X_ica_nonzero[segment][j], X_result1[p])
-        
-        index = int(np.argmin(_list))
-        temp.append(X_result1[index])
-        X_result1 =  np.delete(X_result1,index,axis=0)
-    X_result2.append(temp)
-
-
-for seg in range(len(X_ica_nonzero)):
-    for f in range(len(X_ica_nonzero[seg])):       
+" Original Recovered Source Matrix X, MSE and Average MSE with fitted amplitude X_ica "
+for seg in range(len(Y)): 
+    # Looking at one time segment
+    A = np.random.normal(0,2,(M,int(k[seg])))
+    X_result2[seg] = Main_Algorithm_EEG(Y[seg], A, M, int(k[seg]), L)
+    for f in range(len(X_ica_nonzero[seg])):
         amp = np.max(X_result2[seg][f])/np.max(X_ica_nonzero[seg][f])
         X_ica_nonzero[seg][f] = X_ica_nonzero[seg][f]*amp
+    mse2[seg], average_mse2[seg] = simulated_data.MSE_segments(X_result2[seg], X_ica_nonzero[seg])
 
-#X_ica2 = ICA.ica_fit(X_ica, X_result)
-  
-for i in range(len(Y)): # Looking at one time segment
-#    X_ica2[i] = ICA.ica_fit(X_ica_nonzero[i], X_result[i], int(k[i]), int(k[i]))
-    mse2[i], average_mse2[i] = simulated_data.MSE_segments(X_result2[i], X_ica_nonzero[i])
- 
+#" Original Recovered Source Matrix X, MSE and Average MSE with fitted amplitude and location of X_ica "
+#for seg in range(len(X_ica_nonzero)):
+#    X_result1 = np.array(X_result, copy=True)  # size 144 x k x 513
+#    X_result1 = np.reshape(X_result1[seg], (X_result[seg].shape))  # size k x 513
+#    temp = [] # temporary variable to store the nonzero array for one segment
+#    for i in range(X_result1.shape[0]):
+#        _list = np.zeros(X_result1.shape[0])  # size k
+#        for j in range(X_result1.shape[0]): # loop through k rows
+#            _list[j] = simulated_data.MSE_one_error(X_ica_nonzero[seg][i], X_result1[j])
+#        index = int(np.argmin(_list))
+#        temp.append(X_result1[index])
+#        X_result1 =  np.delete(X_result1,index,axis=0)
+#    X_result2.append(temp)
+#
+#for seg in range(len(Y)): 
+#    # Looking at one time segment
+#    A = np.random.normal(0,2,(M,int(k[seg])))
+#    X_result2[seg] = Main_Algorithm_EEG(Y[seg], A, M, int(k[seg]), L)
+#    for f in range(len(X_ica_nonzero[seg])):
+#        amp = np.max(X_result2[seg][f])/np.max(X_ica_nonzero[seg][f])
+#        X_ica_nonzero[seg][f] = X_ica_nonzero[seg][f]*amp
+#    mse2[seg], average_mse2[seg] = simulated_data.MSE_segments(X_result2[seg], X_ica_nonzero[seg])
     
-" Plots of second (i = 1) segment "
-seg = 45
-fignr = 1
-figsave = "figures/EEG_second_removed_ica_timeseg45" + str(data_name) + '_' + str(seg) + ".png"
-plot_seperate_sources_comparison(X_ica_nonzero[seg],X_result2[seg], M, int(k[seg]), int(k[seg]), L,figsave,fignr)
 
+" Plots of second (seg = 54) segment "
+seg = 54
+figsave = "figures/EEG_non_removed_timeseg54" + str(data_name) + '_' + str(seg) + ".png"
+
+plt.figure(1)
+index = [0, 5, 10, int(k[seg])-1]
+plt.subplot(4, 1, 1)
+plt.plot(X_result[seg][index[0]], 'g', label='Main Alg. - Source 0')
+plt.plot(X_ica_nonzero[seg][index[0]], 'r', label='ICA - Source 0')
+plt.title('Recovered Source Matrix X for Time Segment = 55')
+plt.legend()
+plt.subplot(4, 1, 2)
+plt.plot(X_result[seg][index[1]], 'g', label='Main Alg. - Source 5')
+plt.plot(X_ica_nonzero[seg][index[1]], 'r', label='ICA - Source 5')
+plt.legend()
+plt.subplot(4, 1, 3)
+plt.plot(X_result[seg][index[2]], 'g', label='Main Alg. - Source 10')
+plt.plot(X_ica_nonzero[seg][index[2]], 'r', label='ICA - Source 10')
+plt.legend()
+plt.subplot(4, 1, 4)
+plt.plot(X_result[seg][index[3]], 'g', label='Main Alg. - Source 13')
+plt.plot( X_ica_nonzero[seg][index[3]], 'r', label='ICA - Source 13')
+plt.legend()
+plt.xlabel('Sample')
+plt.show()
+plt.savefig(figsave)
+    
 plt.figure(2)
-plt.plot(average_mse2, '-ro', label = 'Average MSE')
+plt.plot(average_mse, '-ro', label = 'Average MSE')
+#plt.plot(average_mse2, '-bo', label = 'Average MSE + amp')
 plt.title('Average MSE Values of All Time Segments')
 plt.xlabel('Time Segment')
 plt.ylabel('Average MSE')
 plt.legend()
-plt.savefig('figures/average_mse_secon_removed_ica.png')
+plt.savefig('figures/average_mse_non_removed_ica.png')
 
 plt.figure(3)
-plt.plot(average_mse2, '-ro', label = 'Average MSE')
+plt.plot(average_mse, '-ro', label = 'Average MSE')
+#plt.plot(average_mse2, '-bo', label = 'Average MSE + amp')
 plt.title('Average MSE Values of All Time Segments - zoom')
 plt.legend()
 plt.axis([-1,145, -10,50])
-plt.savefig('figures/average_mse_second_removed_ica_zoom.png')
+plt.savefig('figures/average_mse_non_removed_ica_zoom.png')
 
 plt.figure(4)
-plt.plot(mse2[seg], '-ro', label = 'MSE')
-plt.title('MSE Values of One Time Segment')
+plt.plot(mse[seg], '-ro', label = 'MSE')
+#plt.plot(mse2[seg], '-bo', label = 'MSE')
+plt.title('MSE Values of One Time Segment = 55')
 plt.xlabel('Sources')
 plt.ylabel('MSE')
 plt.legend()
-plt.savefig('figures/mse_second_removed_ica_timeseg45.png')
-# perform ICA on full dataset
-
+plt.savefig('figures/mse_non_removed_ica_timeseg54.png')
 
 # =============================================================================
 # Main Algorithm with A_ica

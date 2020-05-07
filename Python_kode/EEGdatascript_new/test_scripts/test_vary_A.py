@@ -22,12 +22,12 @@ k = 16
 L = 1000 
 n_seg = 1
 
-iterationer = 50
-Xmse_list = np.zeros((4,iterationer))
-Amse_list = np.zeros((4,iterationer))
+iterationer = 10
+Xmse_list = np.zeros((5,iterationer))
+Amse_list = np.zeros((5,iterationer))
 
-Xmse = np.zeros(4)
-Amse = np.zeros(4)
+Xmse = np.zeros(5)
+Amse = np.zeros(5)
 
 for ite in range(iterationer):
     print('iteration {}'.format(ite))
@@ -45,7 +45,7 @@ for ite in range(iterationer):
     X_real = X_real.T[:-2]
     X_real = X_real.T
     
-    A = [vary_A.A_uniform(M,N), vary_A.A_random(M,N), vary_A.A_gaussian(M,N), vary_A.A_ICA(Y_f,request)]
+    A = [A_real, vary_A.A_uniform(M,N), vary_A.A_random(M,N), vary_A.A_gaussian(M,N), vary_A.A_ICA(Y_f,request)]
     for i in range(len(A)):
         print('A_fix type {}'.format(i))
     
@@ -70,12 +70,12 @@ plt.ylabel('MSE')
 plt.legend(loc='upper left', bbox_to_anchor=(1, 1))
 plt.subplot(2, 1, 2)
 plt.plot(Amse, 'or', label = 'A')
-plt.xticks([0, 1, 2, 3],["uniform \n [-1,1)","normal \n $\mu = 0, \sigma^2 = 2$","Gaussian","ICA"])
+plt.xticks([0, 1, 2, 3, 4],["True $\mathbf{A}$","uniform \n [-1,1)","normal 2 \n $\mu = 0, \sigma = 2$","normal 1 \n $\mu = 0, \sigma = 1$","ICA"])
 
 plt.ylabel('MSE')
 plt.legend(loc='upper left', bbox_to_anchor=(1, 1))
 plt.tight_layout()      
-plt.savefig('A_fix.png')
+plt.savefig('A_fix1.png')
 plt.show()
 
 

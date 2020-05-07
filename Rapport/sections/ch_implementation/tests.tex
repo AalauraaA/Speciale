@@ -67,9 +67,18 @@ The appearance of this issue may suggest that there is a lack within the publish
 Due to the time limitation of the project the error is not investigated further, and it is concluded that the estimate of $\mathbf{A}$ is not valid hence it will not be used as an input for the next stage of the main algorithm, M-SBL. This conclusion suggest that an alternative action must be considered. This is discussed further in section \ref{sec:test_base}.
 
 \subsection{Test of M-SBL}
-From the flowchart \ref{fig:flow} it seen that that the M-SBL algorithm takes $\hat{\mathbf{A}}$ and $\mathbf{Y}$ as input. 
-The algorithm is now tested on the same two deterministic data sets specified by $M = 3$, $k = 4$, $L=1000$ and respectively $N = 5$ and $N = 8$ as used above. 
-In order to not let the performance of Cov-DL affect the result of M-SBL the true mixing matrix $\mathbf{A}$ is used  as input along with the corresponding $\mathbf{Y}$. 
+From the flowchart \ref{fig:flow} it seen that the M-SBL algorithm takes $\hat{\mathbf{A}}$ and $\mathbf{Y}$ as input.
+The algorithm is first tested on a deterministic data set specified by $M=N=k=4$ and $L=100$. This result will serve as a reference, showing the best possible performance due to the system having equal number of equations and unknowns, hence a unique solution exist.
+In order to not let the performance of Cov-DL affect the result of M-SBL the true mixing matrix $\mathbf{A}$ is used as input through out this section, along with the corresponding $\mathbf{Y}$. 
+The resulting estimate is seen in figure \ref{fig:M-SBL_simple0}. It is seen that the source signals is estimated exact, with $MSE(\textbf{X},\hat{\textbf{X}})= 0$. 
+\begin{figure}[H]
+\centering
+\includegraphics[scale=0.5]{figures/ch_6/M-SBL_simple0.png}
+\caption{Estimated values of $\hat{\textbf{X}}$ compared to the true values $\textbf{X}$. From deterministic data $\textbf{Y}$ specified by $N=k=4$, $M = 3$ and $L=1000$}
+\label{fig:M-SBL_simple0}
+\end{figure}
+
+Now the desired case of $M<N$ is considered. Two tests is performed on the same two deterministic data sets, as used in the previous section, specified by $M = 3$, $k = 4$, $L=1000$ and respectively $N = 5$ and $N = 8$.
 
 The estimate $\hat{\mathbf{X}}$ is plotted in figure \ref{fig:M-SBL_simple1} and \ref{fig:M-SBL_simple2}. The source signals equal to zeros of the estimate $\hat{\mathbf{X}}$ is not plotted so the figures do not visualize the exact localization of the source signals.
 %Each non-zero signals are here plotted separately for easy visual comparison. 
@@ -84,8 +93,8 @@ The estimate $\hat{\mathbf{X}}$ is plotted in figure \ref{fig:M-SBL_simple1} and
     \hfill
     \begin{minipage}[t]{.45\textwidth}
         \centering
-		\includegraphics[scale=0.5]{figures/ch_6/M-SBL_simple2.png}
-		\caption{Estimated values of $\hat{\mathbf{X}}$ compared to the true 				values $\mathbf{X}$. From measurement $\mathbf{Y}$ specified by $N=8$, $M = 3$, $k=4$ and $L=1000$ and the true mixing matrix $\mathbf{A}$.}
+		\includegraphics[scale=0.45]{figures/ch_6/M-SBL_simple2.png}
+		\caption{Estimated values of $\hat{\mathbf{X}}$ compared to the true values $\mathbf{X}$. From measurement $\mathbf{Y}$ specified by $N=8$, $M = 3$, $k=4$ and $L=1000$ and the true mixing matrix $\mathbf{A}$.}
 		\label{fig:M-SBL_simple2}
     \end{minipage}
 \end{figure}
@@ -95,19 +104,19 @@ The resulting MSE between the true $\mathbf{X}$ and the estimate $\hat{\mathbf{X
 \text{MSE}(\mathbf{X}, \hat{\mathbf{X}}) = 0.127.
 \end{align*}
 From figure \ref{fig:M-SBL_simple1} it is seen that all four source signals are recovered at the right locations. 
-As suggested by the achieved MSE the estimate are not exact, but it is clear that the estimates, by looking at figure \ref{fig:M-SBL_simple1}, manage to follow the right pattern of the true signals. 
+As suggested by the achieved MSE the estimate is not exact, but it is clear that the estimates, by looking at figure \ref{fig:M-SBL_simple1}, manage to follow the right pattern of the true signals. 
 
 The resulting MSE between the true $\mathbf{X}$ and the estimated $\hat{\mathbf{X}}$ from figure \ref{fig:M-SBL_simple2} with $N = 8$ thus more sparse, become 
 \begin{align*}
-\text{MSE}(\mathbf{X}, \hat{\mathbf{X}}) = 0.228. 
+\text{MSE}(\mathbf{X}, \hat{\mathbf{X}}) = 0.161. 
 \end{align*}
-From figure \ref{fig:M-SBL_simple2} it is seen that most of the source signals are recovered but dislocated. 
+From figure \ref{fig:M-SBL_simple2} it is again seen that the source signals are recovered at the right location. However visually the estimates are not as .  
 %From figure \ref{fig:M-SBL_simple2} it is seen that the first source signal is recovered at the third entry, that is one dislocation, while the rest are recovered at the right locations. 
-This indicate that the algorithm can manage to locate the source signal however the more options the greater chance of dislocation.     
+This indicate that the algorithm can manage to locate and estimate the source signals, however the increased zero rows improve the chance of dislocation and the decrease the accuracy of the estimate.     
 
 \subsubsection*{Possibilities of $N=k$}
 
-From the problemstatement in chapter \ref{ch:problemstatement} it is an issue that $k$ has to be known in prior, in order to estimate $\textbf{A}$ and $\textbf{X}$. A short discussion in subsection \ref{subsec:kestimate}, describes how k can be estimated within the M-SBL algorithm. However one still needs to provide k in order to estimate $\textbf{A}$, thus an qualified estimate of k can not be avoided. 
+From the problem statement in chapter \ref{ch:problemstatement} it is an issue that $k$ has to be known in prior, in order to estimate $\textbf{A}$ and $\textbf{X}$. A short discussion in subsection \ref{subsec:kestimate}, describes how k can be estimated within the M-SBL algorithm. However one still needs to provide k in order to estimate $\textbf{A}$, thus an qualified estimate of k can not be avoided. 
 
 Similar to k, the maximum number of active sources $N$ is unknown in practise as it is described in chapter \ref{ch:motivation}. 
 The difference between $k$ and $N$ defines the number of zero rows in $\textbf{X}$.

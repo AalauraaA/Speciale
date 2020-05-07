@@ -161,10 +161,10 @@ for i in range(len(Y)): # Looking at one time segment
 
 
 #X_ica2 = ICA.ica_fit(X_ica, X_result)
-  
-for i in range(len(Y)): # Looking at one time segment
-    X_ica2[i] = ICA.ica_fit(X_ica_nonzero[i], X_result[i], int(k[i]), int(k[i]))
-    mse2[i], average_mse2[i] = simulated_data.MSE_segments(X_result[i], X_ica2[i])
+#  
+#for i in range(len(Y)): # Looking at one time segment
+#    X_ica2[i] = ICA.ica_fit(X_ica_nonzero[i], X_result[i], int(k[i]), int(k[i]))
+#    mse2[i], average_mse2[i] = simulated_data.MSE_segments(X_result[i], X_ica2[i])
  
     
 " Plots of second (i = 1) segment "

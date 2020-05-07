@@ -46,7 +46,24 @@ if data_name == 'S1_OClean.mat':
         else:
             continue
             
-X_ica, A_ica = ICA.ica_segments(Y_ica, 1000)
+#X_ica, A_ica = ICA.fast_ica_segments(Y_ica, M_ica)
+" FAST ICA SEGMENTATION "
+n_seg = len(Y_ica)
+N = Y_ica[0].shape[0]
+L = Y_ica[0].shape[1]
+
+X_ica = np.zeros((n_seg, N, L-2))
+A_ica = np.zeros((n_seg, N, M_ica))
+for i in range(len(Y_ica)):
+    print('ICA on segment {}'.format(i))
+    
+    X = Y_ica[i].T
+    
+    ica = FastICA(n_components=N)
+    X_ICA = ica.fit_transform(X)  # Reconstruct signals
+    A_ICA = ica.mixing_
+    X_ica[i] = X_ICA[:L-2].T
+    A_ica[i] = A_ICA              # Get estimated mixing matrix
 
 " Remove the last column from X_ica to match size of X "
 X_ica_new = np.array(X_ica, copy = True)
@@ -60,7 +77,7 @@ for i in range(len(Y_ica)):
 
 " Replacing small values with zero and creating X_ica of size k x samples for each segment "
 X_ica_nonzero = []
-tol = 10E-3
+tol = 10E-5
 for i in range(len(X_ica_array)): # Looking at one segment at time
     temp = [] # temporary variable to store the nonzero array for one segment
     for j in range(len(X_ica_array[i])): # Looking at on row of one segment at the time
@@ -69,7 +86,9 @@ for i in range(len(X_ica_array)): # Looking at one segment at time
             X_ica_array[i][j] = 0   # replace by zero
         else:
             temp.append(X_ica_array[i][j])
+            
     X_ica_nonzero.append(temp)
+
 
 " Finding the number of active sources (k) for each segment "
 k = np.zeros(len(X_ica_nonzero))
@@ -88,6 +107,7 @@ Y, M, L, n_seg = data._import(data_file, segment_time, request=request)
 if data_name == 'S1_CClean.mat':
     " For S1_CClean.mat remove last sample of first segment "
     Y[0] = Y[0].T[:-1]
+    Y[0]=Y[0].T
 
 if data_name == 'S1_OClean.mat':
     for i in range(len(Y)):
@@ -99,11 +119,13 @@ if data_name == 'S1_OClean.mat':
 
 
 X_result = []
+X_ica2 = [] 
 mse = []
 mse2 = []
 for i in range(k.shape[0]):
     " Making the right size of X for all segments "
     X_result.append(np.zeros([len(Y), int(k[i])]))
+    X_ica2.append(np.zeros([len(Y), int(k[i])]))
     
     " Making the mse for all sources in all segments "
     mse.append(np.zeros([len(Y), int(k[i])]))
@@ -120,28 +142,32 @@ for i in range(len(Y)): # Looking at one time segment
 
 
 -""" Moving the Sources in X_result to match X_ica """   
-X_result2 = []
-for i in range(len(X_ica_nonzero)):
-    segment=i
-    X_result1 = np.array(X_result, copy=True)  # size 144 x k x 513
-    X_result1 = np.reshape(X_result1[segment], (X_result[segment].shape))  # size k x 513
-    temp = [] # temporary variable to store the nonzero array for one segment
-    for j in range(X_result1.shape[0]):
-        _list = np.zeros(X_result1.shape[0])  # size k
-        for p in range(X_result1.shape[0]): # loop through k rows
-            print('p', p)
-            _list[p] = simulated_data.MSE_one_error(X_ica_nonzero[segment][j], X_result1[p])
-        
-        index = int(np.argmin(_list))
-        temp.append(X_result1[index])
-        X_result1 =  np.delete(X_result1,index,axis=0)
-    X_result2.append(temp)
-    
+#X_result2 = []
+#for i in range(len(X_ica_nonzero)):
+#    segment=i
+#    X_result1 = np.array(X_result, copy=True)  # size 144 x k x 513
+#    X_result1 = np.reshape(X_result1[segment], (X_result[segment].shape))  # size k x 513
+#    temp = [] # temporary variable to store the nonzero array for one segment
+#    for j in range(X_result1.shape[0]):
+#        _list = np.zeros(X_result1.shape[0])  # size k
+#        for p in range(X_result1.shape[0]): # loop through k rows
+#            print('p', p)
+#            _list[p] = simulated_data.MSE_one_error(X_ica_nonzero[segment][j], X_result1[p])
+#        
+#        index = int(np.argmin(_list))
+#        temp.append(X_result1[index])
+#        X_result1 =  np.delete(X_result1,index,axis=0)
+#    X_result2.append(temp)
+
+
+#X_ica2 = ICA.ica_fit(X_ica, X_result)
+  
 for i in range(len(Y)): # Looking at one time segment
-    mse2[i], average_mse2[i] = simulated_data.MSE_segments(X_result2[i], X_ica_nonzero[i])
+    X_ica2[i] = ICA.ica_fit(X_ica_nonzero[i], X_result[i], int(k[i]), int(k[i]))
+    mse2[i], average_mse2[i] = simulated_data.MSE_segments(X_result[i], X_ica2[i])
  
     
--" Plots of second (i = 1) segment "
+" Plots of second (i = 1) segment "
 #import matplotlib.pyplot as plt
 #plt.figure(2)
 #plt.plot(average_mse2, '-ro', label = 'Average MSE')
@@ -178,7 +204,7 @@ for i in range(len(Y)): # Looking at one time segment
 #Y[0] = Y[0].T[:-1]
 #Y[0] = Y[0].T
 #
--#A_ica_array = np.array(A_ica, copy=True)
+#A_ica_array = np.array(A_ica, copy=True)
 #A_ica_array = data._reduction(A_ica_array, request)
 ##
 ##for i in range(len(X_ica_nonzero)):

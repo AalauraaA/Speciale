@@ -59,11 +59,15 @@ for i in range(len(Y_ica)):
     
     X = Y_ica[i].T
     
-    ica = FastICA(n_components=N)
+    ica = FastICA(n_components=N, max_iter=2000)
     X_ICA = ica.fit_transform(X)  # Reconstruct signals
     A_ICA = ica.mixing_
     X_ica[i] = X_ICA[:L-2].T
     A_ica[i] = A_ICA              # Get estimated mixing matrix
+    
+" original ICA operation "
+X_ica0 = ICA.ica_segments(Y_ica, M_ica)
+
 
 " Remove the last column from X_ica to match size of X "
 X_ica_new = np.array(X_ica, copy = True)
@@ -131,7 +135,6 @@ for i in range(k.shape[0]):
     mse.append(np.zeros([len(Y), int(k[i])]))
     mse2.append(np.zeros([len(Y), int(k[i])]))
 
-
 average_mse = np.zeros(len(Y))
 average_mse2 = np.zeros(len(Y))
 
@@ -142,22 +145,22 @@ for i in range(len(Y)): # Looking at one time segment
 
 
 -""" Moving the Sources in X_result to match X_ica """   
-#X_result2 = []
-#for i in range(len(X_ica_nonzero)):
-#    segment=i
-#    X_result1 = np.array(X_result, copy=True)  # size 144 x k x 513
-#    X_result1 = np.reshape(X_result1[segment], (X_result[segment].shape))  # size k x 513
-#    temp = [] # temporary variable to store the nonzero array for one segment
-#    for j in range(X_result1.shape[0]):
-#        _list = np.zeros(X_result1.shape[0])  # size k
-#        for p in range(X_result1.shape[0]): # loop through k rows
-#            print('p', p)
-#            _list[p] = simulated_data.MSE_one_error(X_ica_nonzero[segment][j], X_result1[p])
-#        
-#        index = int(np.argmin(_list))
-#        temp.append(X_result1[index])
-#        X_result1 =  np.delete(X_result1,index,axis=0)
-#    X_result2.append(temp)
+X_result2 = []
+for i in range(len(X_ica_nonzero)):
+    segment=i
+    X_result1 = np.array(X_result, copy=True)  # size 144 x k x 513
+    X_result1 = np.reshape(X_result1[segment], (X_result[segment].shape))  # size k x 513
+    temp = [] # temporary variable to store the nonzero array for one segment
+    for j in range(X_result1.shape[0]):
+        _list = np.zeros(X_result1.shape[0])  # size k
+        for p in range(X_result1.shape[0]): # loop through k rows
+            print('p', p)
+            _list[p] = simulated_data.MSE_one_error(X_ica_nonzero[segment][j], X_result1[p])
+        
+        index = int(np.argmin(_list))
+        temp.append(X_result1[index])
+        X_result1 =  np.delete(X_result1,index,axis=0)
+    X_result2.append(temp)
 
 
 #X_ica2 = ICA.ica_fit(X_ica, X_result)

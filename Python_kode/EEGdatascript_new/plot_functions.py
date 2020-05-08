@@ -4,7 +4,6 @@ Created on Wed Mar 25 12:25:42 2020
 
 @author: trine
 """
-
 ## plot functions
 
 
@@ -45,3 +44,4 @@ def plot_seperate_sources(X_reconstruction,M,N,k,L,figsave,nr):
     plt.xlabel('sample')
     plt.show()
     plt.savefig(figsave)
+    

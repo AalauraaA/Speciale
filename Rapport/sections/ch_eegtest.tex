@@ -51,16 +51,21 @@ The test set up is visualised in figure \ref{fig:flow2} by a flow diagram, showi
 \end{figure}
 
 %%% describtion of the flowchart - remainings
-The ICA algorithm take the measurement matrix $\mathbf{Y}_s \in \mathbb{R}^{M \times L_s}$ for each segment $s$ as input and produced a source matrix $\mathbf{X}_s \in \mathbb{R}^{N \times L_s}$ for each segment $s$. Remember that the number of sensors equal the number of sources, $M = N$, but as mentioned in chapter XX, the case of interest are the active sources $k$, and by that $N = k$. 
+In the flow diagram the two estimation processes are seen to run parallel but taking the same input. 
+Prior to the application of ICA the input is divided in to segments. That is the same segmentation as inside the main algorithm, cf. section \ref{sec:implementation_flow}.
+The size of the segments are defined due to the expected stationarity of the sources. As described in the motivation chapter \ref{ch:motivation} sources are stationary if you look at sufficiently small intervals. 
+For one second intervals this is not the case with our EEG measurements and one can therefore not have a entire row (source) which laid the tolerance interval\todo{lidt i tvivl om hvad vi mener her, hvordan har nul tolerencen noget med stationarity at gøre, sætter vi ikke først rækkerne nul efter ICA?}. One could decrease the length of the segments but one must also take in mind that smaller segments lead to more segments and therefore a higher computational complexity. Instead an average is introduced. For each rows (the sources) of each segments will be average such that one source is resembled by one average value. This average value will then be compared to the interval. If the value laid inside the tolerance interval, the whole row will be set equal to zero. The sources in each segment equal to zero are removed and the source matrix will now be of size $\mathbf{X}_s \in \mathbb{R}^{k \times L_s}$
+
+%%%%
+After the segmentation the ICA is performed to every segment, returning $\hat{\textbf{X}}_{ICA s} \in \mathbb{R}^{N \times L_s}$.
+Remember that the number of sensors equal the number of sources, $M = N$, but as mentioned in chapter XX, the case of interest are the active sources $k$, and by that $N = k$. 
 For each source matrix $\mathbf{X}_s$ one need to find the $k$ active sources but it is not as easy as one may have though. Each entries of the sources matrix are to small to be detected from being active (non-zero) or being non-active (zeros).
 Instead a tolerance is defined for which values less will be determined as zeros. As the source matrices have positive and negative values a tolerance interval, an interval around zero, must be made. Let the tolerance be defined as tol = $[10E-03, -10E-03]$ where values inside this interval is set equal to zero.
-A problem occur in form of the stationarity of the sources as described in the motivation chapter \ref{ch:} sources are stationary if you look at small enough interval. For one second interval this is not the case with our EEG measurements and one can therefore not have a entire row (source) which laid the tolerance interval. One could decrease the length of the segments but one must also take in mind that smaller segments lead to more segments and therefore a higher computational complexity. Instead an average is introduced. For each rows (the sources) of each segments will be average such that one source is resembled by one average value. This average value will then be compared to the interval. If the value laid inside the tolerance interval, the whole row will be set equal to zero. The sources in each segment equal to zero are removed and the source matrix will now be of size $\mathbf{X}_s \in \mathbb{R}^{k \times L_s}$.
 
+By removing the zero rows the resulting estimate is reduced to $\hat{\textbf{X}}_{ICA s} \in \mathbb{R}^{k \times L_s}$. The found $k$ is now given as input to the main algorithm. Prior to the applying the main algorithm the input data has been reduced  such that .... \todo{afslutning her}   
+ 
 As mentioned only the sensors $M$ is known from the EEG measurement data sets but with the source matrices achieved from the ICA algorithm $k$ is now known for each segment. One now have all the information need to used the main algorithm on the EEG measurement data sets. 
-
-S1\_Cclean is divided into 144 segments (0ne second long), with 27 sensor and 515 samples each (144 x 27 x 515).  X is found from ICA and is of size 144 x 27 x 513. X\_nonzero is X from ICA consisting of only active sources (144 x k x 513) where k is different for each segment (k is 144 long). The nonzero values if found from a tolerance of 10E-03 and -10E-03 such that at box around zero is equal to zero while the rests keep their original values (k). This is done by look at the average of one row and compared to the tolerance.
-%%%
-
+\\ \\
 The described test is performed on the following three cases,
 \begin{itemize}
 \item \textbf{Test 0}: $M = N$ , to see the best possible result achieved by the main algorithm. 

@@ -119,9 +119,9 @@
 \defcounter {refsection}{0}\relax 
 \contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ Matlab eller python her?}{54}{section*.83}
 \defcounter {refsection}{0}\relax 
-\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ lidt i tvivl om hvad vi mener her, hvordan har nul tolerencen noget med stationarity at g\IeC {\o }re, s\IeC {\ae }tter vi ikke f\IeC {\o }rst r\IeC {\ae }kkerne nul efter ICA?}{56}{section*.85}
+\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ se udkommentering, hvordan har nul tolerencen noget med stationarity at g\IeC {\o }re, s\IeC {\ae }tter vi ikke f\IeC {\o }rst r\IeC {\ae }kkerne nul efter ICA?}{56}{section*.85}
 \defcounter {refsection}{0}\relax 
-\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ afslutning her}{56}{section*.86}
+\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ note here if a fitting is applied!}{56}{section*.86}
 \defcounter {refsection}{0}\relax 
 \contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ whiteining is a linear change of coordinates of the mixed data\url {http://arnauddelorme.com/ica_for_dummies/} "By rotating the axis and minimizing Gaussianity of the projection in the first scatter plot, ICA is able to recover the original sources which are statistically independent}{78}{section*.107}
 \defcounter {refsection}{0}\relax 

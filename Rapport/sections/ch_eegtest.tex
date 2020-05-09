@@ -3,37 +3,73 @@ Through this chapter a modification of the main algorithm will be described such
 
 For verification of the results the MSE values achieved from the EEG measurements will be compared to MSE values achieved from the use of ICA, cf. appendix. This would include some preprocessing of the used EEG measurements.
 
-At last, from the observed results of the comparison a conclusion will close this chapter.
+At last, from the observed results of the comparison a conclusion will close this chapter.\\
+Context of the chapter:\todo{update introduction}
+\begin{itemize}
+\item Description of EEG data
+\item Describtion of performance measure method (practise of the Comparison to ICA) concluded by a new flow diagram.
+\item Test and conclusion, including the flaws of the ICA comparison and lack of good estimate of A.
+\item Description of different test approach, with different pros,including integrational functionality/connectivity(or something similar which is mentioned in ch 1.)
+\item test and conclusion. 
+\end{itemize}
 
 \section{Data Description}
-The data set of interest in this chapter consist of real EEG scalp measurements which has been provided for this thesis. The EEG scalp measurements are achieved from a experiment with a EEG cap where the test person was closing and opening his/her eyes. For the experiment a cap with $M = 27$ sensors has been used to measure the mixing of sources over a period of XX seconds. The data set then only consist of the measurement matrix $\mathbf{Y} \in \mathbb{R}$ and not the source matrix and mixing matrix as the data sets described in chapter \ref{ch:implementation}.
+For this thesis a set of real EEG scalp measurements has been provided, from the the department of .... at AAU. 
+The data base consist of 6 set of EEG measurements. For each of three test subjects two data set is provided, one where the test subject sit still with open eyes and one similar but with closed eyes.  
+For the measurements an EEG cap with $32$ sensors measuring the scalp EEG signal with sample frequency at $512$Hz\todo{tjek sample frequency ant time} over a period of $XX$ seconds, resulting in $L = XX$ samples. That is 27 channels with names and position available in EEG.chanlocs structure\todo{Matlab eller python her?}.   
+Before the data base was provided each raw data set had undergone the following preprocessing.
+The data was bandpass filtered between 1 and 40 Hz. Then decomposed by ICA where the independent components related to eye activity or movement was removed. Thus, for every data set 27 sensors remains. 
 
+One data set then consist solely of the measurement matrix $\mathbf{Y} \in \mathbb{R}^{27\times ??}$. The data set is then ready to be divided in segments for which a source matrix $\hat{\textbf{X}}$ is to be estimated by the main algorithm described in chapter \ref{ch:implementation}.
 
+\section{Test Description}
+The test procedure is now described through specification of the evaluation criteria and the practical implementation of the test.
+Remember that the aim of the developed main algorithm is to estimated the source matrix in the case where the number of sensors is less than the number of active source signals -- $M<k\leq N.$.
 
-\begin{itemize}
-\item S1\_Cclean is clean data for the forst subject for closed-yeys condition
-\item 27 channels with names and position in EEG.chanlocs structure 
-\item Preprocessed: The data is bandpass filtered between 1 and 40 Hz. Then decomposed by ICA and the independent components related to eye activity was removed.
-\item S1\_Cclean is divided into 144 segments (0ne second long), with 27 sensor and 515 samples each (144 x 27 x 515).  X is found from ICA and is of size 144 x 27 x 513. X\_nonzero is X from ICA consisting of only active sources (144 x k x 513) where k is different for each segment (k is 144 long). The nonzero values if found from a tolerance of 10E-03 and -10E-03 such that at box around zero is equal to zero while the rests keep their original values (k). This is done by look at the average of one row and compared to the tolerance.
-\end{itemize}
-\section{Implementing of Baseline Algorithm}
-\begin{itemize}
-\item Removing Cov-DL and replace it with a random A
-\item M is known but not N(k)
-\end{itemize}
+\subsection{Performance Evaluation by Comparison to ICA}
+From the description of ICA used on EEG measurements, cf. section \ref{sec:ICAsolution} ICA are considered unreliable when using low-density EEG equipment where $M<32$, but for $M\geq 32$ the currently considered the most reliably method for the source estimation. However note again that the true number of sources is not known thus there is always some unreliability to the result. 
 
-\section{Test on EEG Data Set}
-To investigate the performance of the main algorithm on real EEG measurements a comparison which the ICA algorithm will be conducted. For this comparison three cases will be investigated: $M = N$, $M < N$ with a third of the sensors removed, $M << N$ with every second sensor removed. For all three cases the MSE values of the main algorithm will be compared to the same MSE values from the ICA algorithm obtained when $M=N$.
+From the view that the sources found by ICA where $N=M$ is the best estimate, it is possible to let that estimate serve as a reference to be compared to the estimates achieved when $M<N$. 
+In practice that is to perform ICA on a data set $\textbf{Y}\in \mathbb{R}^{M \times L}$ resulting in $\hat{\textbf{X}}_{ICA}\in \mathbb{R}^{N\times L}$ where $M=N$, then a specific number of sensors are removed from the data set $\textbf{Y}$ such that $M<N$ then and $\hat{\textbf{X}}_{Main}\in \mathbb{R}^{N\times L}$ is estimated by the main algorithm. Then the performance of the main algorithm can be measured by comparison to the $\hat{\textbf{X}}_{ICA}$ -- does the main algorithm manage to find the same active sources as ICA, but for $M<N$?
 
-First, a description of how the MSE values from the ICA algorithm is found from the EEG measurement data set.
+In appendix \ref{app:ica_test}the ICA algorithm is verified on synthetic data without noise. It is found that ICA manage to estimate $\textbf{X}$ almost exact, when $M=N=k$. Furthermore it is seen that for $k < N$ ICA manage to estimate the zero rows as zero. This supports that the estimate by ICA can serve as a reference.     
+
+To compare the two estimates the MSE, cf. section \ref{sec:mse}, is used. 
+However an issue arise due to the fact that ICA do not manage to localise each of the found sources. That is the row of $\hat{\textbf{X}}_{ICA}$ do not correspond to the true $\textbf{X}$. Furhtermore the ICA algorithm is invariant toward phase and amplitude. This must necessarily worsen the resulting MSE.  
+
+The issue is cover in appendix \ref{app:ica_test}. Here a function is considered, which manage to pair and fit the rows with the lowest mutual MSE an then arrange the rows of $\hat{\textbf{X}}_{ICA}$ such that $MSE(\textbf{X},\hat{\textbf{X}}_{ICA})$ is minimised. The fitting consist of a possible phase shift and scaling of the the amplitude.   
+However this function have not been applied for this test as it as .... 
+
+\subsection{Test Setup}
+The test set up is visualised in figure \ref{fig:flow2} by a flow diagram, showing the essential steps of the test. 
+
+\begin{figure}[H]
+    \centering
+	\includegraphics[scale=0.8]{figures/ch_7/flow2.png}
+	\caption{Flow diagram for visualisation of the test procedure for one data set. Example given for $M<N$ where \texttt{request = 1/3} result in $M=9$.}
+	\label{fig:flow2}
+\end{figure}
+
+%%% describtion of the flowchart - remainings
 The ICA algorithm take the measurement matrix $\mathbf{Y}_s \in \mathbb{R}^{M \times L_s}$ for each segment $s$ as input and produced a source matrix $\mathbf{X}_s \in \mathbb{R}^{N \times L_s}$ for each segment $s$. Remember that the number of sensors equal the number of sources, $M = N$, but as mentioned in chapter XX, the case of interest are the active sources $k$, and by that $N = k$. 
 For each source matrix $\mathbf{X}_s$ one need to find the $k$ active sources but it is not as easy as one may have though. Each entries of the sources matrix are to small to be detected from being active (non-zero) or being non-active (zeros).
 Instead a tolerance is defined for which values less will be determined as zeros. As the source matrices have positive and negative values a tolerance interval, an interval around zero, must be made. Let the tolerance be defined as tol = $[10E-03, -10E-03]$ where values inside this interval is set equal to zero.
-A problem occur in form of the stationarity of the sources as described in the motivation chapter \ref{ch:} sources are stationary if you look at small enough interval. For one second interval this is not the case with our EEG measurements and one can therefore not have a entire row (source) which laid the tolerance interval. One could decrease the length of the segments but one must also take in mind that smaller segments lead to more segments and therefore a higher computational complexity. Instead an average is introduced. For each rows (the sources) of each segments will be average such that one source is resembled by one average value. This average value will then be compared to the interval. If the value laid inside the tolerance interval, the whole row will be set equal to zero. The sources in each segments equal to zero are removed and the source matrix will now be of size $\mathbf{X}_s \in \mathbb{R}^{k \times L_s}$.
+A problem occur in form of the stationarity of the sources as described in the motivation chapter \ref{ch:} sources are stationary if you look at small enough interval. For one second interval this is not the case with our EEG measurements and one can therefore not have a entire row (source) which laid the tolerance interval. One could decrease the length of the segments but one must also take in mind that smaller segments lead to more segments and therefore a higher computational complexity. Instead an average is introduced. For each rows (the sources) of each segments will be average such that one source is resembled by one average value. This average value will then be compared to the interval. If the value laid inside the tolerance interval, the whole row will be set equal to zero. The sources in each segment equal to zero are removed and the source matrix will now be of size $\mathbf{X}_s \in \mathbb{R}^{k \times L_s}$.
 
 As mentioned only the sensors $M$ is known from the EEG measurement data sets but with the source matrices achieved from the ICA algorithm $k$ is now known for each segment. One now have all the information need to used the main algorithm on the EEG measurement data sets. 
 
-Before any tests can be perform the localization of the sources obtain from the main algorithm must be replaced as the ICA algorithm do not localize the sources at the correct localization. For the replacement, the mse of one row from the ICA source matrix is computed with all rows of the source matrix from the main algorithm. Then the minimum is taken of all the mse values from the row of interest. The row from the main algorithm which lead to minimum MSE with the row from ICA must be the same source. The source from the main algorithm is then moved to a new source matrix where it is placed in the index that the row from ICA have. The source that was moved is then removed from the original source matrix from the main algorithm. This will be done until all rows of ICA have been compared to the rows of main. For the last replacement only one row is left from the main algorithm this could lead to some misplacement. 
+S1\_Cclean is divided into 144 segments (0ne second long), with 27 sensor and 515 samples each (144 x 27 x 515).  X is found from ICA and is of size 144 x 27 x 513. X\_nonzero is X from ICA consisting of only active sources (144 x k x 513) where k is different for each segment (k is 144 long). The nonzero values if found from a tolerance of 10E-03 and -10E-03 such that at box around zero is equal to zero while the rests keep their original values (k). This is done by look at the average of one row and compared to the tolerance.
+%%%
+
+The described test is performed on the following three cases,
+\begin{itemize}
+\item \textbf{Test 0}: $M = N$ , to see the best possible result achieved by the main algorithm. 
+\item \textbf{Test 1}: $M < N$ every third sensor is removed. 
+\item \textbf{Test 2}: $M << N$ every second sensor is removed.
+\end{itemize}
+For each case the test is performed on one data set -- \texttt{S1\_Cclean} 
+
+\section{Results}
 
 
 \input{sections/ch_eegtest/test.tex}

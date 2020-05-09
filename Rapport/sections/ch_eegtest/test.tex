@@ -1,12 +1,12 @@
 \subsection{Test on EEG Data Set with $M=N$}
-For this test the S1\_Cclean EEG data set will be used and case of interest is when $M = N$. The test is performance on 144 time segment with $L_s = 516$ and $M = 27$ sensors. From ICA 144 different $k$ values will represent the activation of sources. The obtain source matrices will only consists of the active sources.
+For this test the S1\_Cclean EEG data set will be used and case of interest is when $M = N$. The test is performance on 144 time segment with $L_s = 516$ and $M = 27$ sensors.
 
-Figure \ref{fig:M=N_1} visualize the average MSE values obtain from $\hat{\mathbf{X}}_{\text{main}}$ and $\hat{\mathbf{X}}_{\text{ICA}}$, one MSE value per time segment.
+Figure \ref{fig:M=N_1} visualize the $MSE\left(\hat{\mathbf{X}}_{\text{main}},\hat{\mathbf{X}}_{\text{ICA}}\right)$, one MSE value per time segment.
 \begin{figure}[H]
     \begin{minipage}[t]{.45\textwidth}
 		\centering
 		\includegraphics[scale=0.5]{figures/ch_7/AveMSE_M=N.png}
-	\caption{Average MSE of the main algorithm with $M=27$, $L = 516$ and a different $k$ for each time segment. The main algorithm and ICA is used on the S1\_Cclean EEG data set.}
+	\caption{MSE $M=27$, $L = 516$ and a different $k$ for each time segment. The main algorithm and ICA is used on the S1\_Cclean EEG data set.}
 	\label{fig:M=N_1}
     \end{minipage} 
     \hfill

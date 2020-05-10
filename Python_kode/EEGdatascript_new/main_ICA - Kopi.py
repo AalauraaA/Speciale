@@ -13,6 +13,8 @@ from sklearn.decomposition import FastICA
 import simulated_data
 #import ICA
 import data
+import X_ICA
+import X_MAIN
 
 np.random.seed(1234)
 
@@ -31,63 +33,7 @@ segment_time = 1                           # length of segments i seconds
 " Import Segmented Dataset "
 Y_ica, M_ica, L_ica, n_seg_ica = data._import(data_file, segment_time, request='none')
 
-if data_name == 'S1_CClean.mat':
-    " For S1_CClean.mat remove last sample of first segment "
-    Y_ica[0] = Y_ica[0].T[:-1]
-    Y_ica[0] = Y_ica[0].T
-
-if data_name == 'S1_OClean.mat':
-    for i in range(len(Y_ica)):
-        if i <= 22:
-            Y_ica[i] = Y_ica[i].T[:-1]
-            Y_ica[i] = Y_ica[i].T
-        else:
-            continue
-            
-#X_ica, A_ica = ICA.fast_ica_segments(Y_ica, M_ica)
-" Perform FastICA on Segmented Dataset "
-n_seg = len(Y_ica)
-N = Y_ica[0].shape[0]
-L = Y_ica[0].shape[1]
-
-X_ica = np.zeros((n_seg, N, L-2))
-A_ica = np.zeros((n_seg, N, M_ica))
-for i in range(len(Y_ica)):   
-    X = Y_ica[i].T
-    
-    ica = FastICA(n_components=N)
-    X_ICA = ica.fit_transform(X)  # Reconstruct signals
-    A_ICA = ica.mixing_
-    X_ica[i] = X_ICA[:L-2].T
-    A_ica[i] = A_ICA              # Get estimated mixing matrix
-
-" Copy the X_ica to an Array "
-X_ica_new = np.array(X_ica, copy = True)
-X_ica_array = []
-for i in range(len(Y_ica)):
-    X_ica_array.append(X_ica_new[i])
-
-" Replacing small values with zero and creating X_ica of size k x samples for each segment "
-X_ica_nonzero = []
-tol = 10E-5
-for seg in range(len(X_ica_array)): 
-    # Looking at one segment at time
-    temp = []                       # temporary variable to store the nonzero array for one segment
-    for i in range(len(X_ica_array[seg])): 
-        # Looking at on row of one segment at the time   
-        if np.average(X_ica_array[seg][i]) < tol and np.average(X_ica_array[seg][i]) > -tol:  # if smaller than 
-            X_ica_array[seg][i] = 0   # replace by zero
-        else:
-            temp.append(X_ica_array[seg][i])
-            
-    X_ica_nonzero.append(temp)
-
-
-" Finding the number of active sources (k) for each segment "
-k = np.zeros(len(X_ica_nonzero))
-for seg in range(len(X_ica_nonzero)):
-    # count the number of nonzeros rows in one segment
-    k[seg] = len(X_ica_nonzero[seg])
+X_ica_nonzero, k = X_ICA.X_ica(data_name, Y_ica, M_ica)
 
 # =============================================================================
 # Main Algorithm with random A
@@ -99,63 +45,34 @@ request = 'none'
 
 Y, M, L, n_seg = data._import(data_file, segment_time, request=request)
 
-if data_name == 'S1_CClean.mat':
-    " For S1_CClean.mat remove last sample of first segment "
-    Y[0] = Y[0].T[:-1]
-    Y[0]=Y[0].T
+X_result = X_MAIN.X_main(data_name, Y, M, k)
+X_result2 = np.array(X_result, copy=True)
 
-if data_name == 'S1_OClean.mat':
-    for i in range(len(Y)):
-        if i <= 22:
-            Y[i] = Y[i].T[:-1]
-            Y[i] = Y[i].T
-        else:
-            continue
-
-" Perform Main Algorithm on Segmented Dataset "
-X_result = []    # Original recovered source matrix X
-X_result2 = []   # Original recovered source matrix X used to fitting X_ica
-
+" Calculate the MSE and Average MSE with X_ica and fitted amplitude X_ica "
 mse = []         # Original MSE for each rows of the original recovered source matrix X and X_ica
 mse2 = []        # Fitted MSE for each rows of the original recovered source matrix X and fitted X_ica
 
 average_mse = np.zeros(len(Y))  # Original average MSE for each rows of the original recovered source matrix X and X_ica
 average_mse2 = np.zeros(len(Y)) # Fitted average MSE for each rows of the original recovered source matrix X and fitted X_ica
 
-for i in range(k.shape[0]):
-    " Making the right size of X for all segments "
-    X_result.append(np.zeros([len(Y), int(k[i])]))
-    X_result2.append(np.zeros([len(Y), int(k[i])]))
-    
+for seg in range(k.shape[0]):   
     " Making the mse for all sources in all segments "
-    mse.append(np.zeros([len(Y), int(k[i])]))
-    mse2.append(np.zeros([len(Y), int(k[i])]))
+    mse.append(np.zeros([len(Y), int(k[seg])]))
+    mse2.append(np.zeros([len(Y), int(k[seg])]))
 
-
-average_mse = np.zeros(len(Y))
-average_mse2 = np.zeros(len(Y))
-
-" Original Recovered Source Matrix X, MSE and Average MSE with X_ica "
 for seg in range(len(Y)): 
     # Looking at one time segment
-    A = np.random.normal(0,2,(M,int(k[seg])))
-    X_result[seg] = Main_Algorithm_EEG(Y[seg], A, M, int(k[seg]), L)
+    for f in range(len(X_ica_nonzero[seg])):
+        amp = np.max(X_result2[seg][f])/np.max(X_ica_nonzero[seg][f])
+        X_ica_nonzero[seg][f] = X_ica_nonzero[seg][f]*amp
     mse[seg], average_mse[seg] = simulated_data.MSE_segments(X_result[seg], X_ica_nonzero[seg])
+    mse2[seg], average_mse2[seg] = simulated_data.MSE_segments(X_result2[seg], X_ica_nonzero[seg])
 
 #for seg in range(len(X_ica_nonzero)):
 #    for f in range(len(X_ica_nonzero[seg])):       
 #        amp = np.max(X_result2[seg][f])/np.max(X_ica_nonzero[seg][f])
 #        X_ica_nonzero[seg][f] = X_ica_nonzero[seg][f]*amp
 
-" Original Recovered Source Matrix X, MSE and Average MSE with fitted amplitude X_ica "
-for seg in range(len(Y)): 
-    # Looking at one time segment
-    A = np.random.normal(0,2,(M,int(k[seg])))
-    X_result2[seg] = Main_Algorithm_EEG(Y[seg], A, M, int(k[seg]), L)
-    for f in range(len(X_ica_nonzero[seg])):
-        amp = np.max(X_result2[seg][f])/np.max(X_ica_nonzero[seg][f])
-        X_ica_nonzero[seg][f] = X_ica_nonzero[seg][f]*amp
-    mse2[seg], average_mse2[seg] = simulated_data.MSE_segments(X_result2[seg], X_ica_nonzero[seg])
 
 #" Original Recovered Source Matrix X, MSE and Average MSE with fitted amplitude and location of X_ica "
 #for seg in range(len(X_ica_nonzero)):

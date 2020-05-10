@@ -45,7 +45,7 @@ request = 'none'
 
 Y, M, L, n_seg = data._import(data_file, segment_time, request=request)
 
-X_result = X_MAIN.X_main(data_name, Y, M, k)
+X_result, Y = X_MAIN.X_main(data_name, Y, M, k)
 X_result2 = np.array(X_result, copy=True)
 
 " Calculate the MSE and Average MSE with X_ica and fitted amplitude X_ica "

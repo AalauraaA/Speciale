@@ -18,19 +18,23 @@ np.random.seed(1234)
 # =============================================================================
 # Import EEG data file
 # =============================================================================
-data_name = 'S1_CClean.mat'                # Closed eyes - Subject 1
-#data_name = 'S1_OClean.mat'               # Open eyes - Subject 1
-data_file = 'data/' + data_name            # file path
+data_name_C = 'S1_CClean.mat'                # Closed eyes - Subject 1
+data_name_O = 'S1_OClean.mat'                # Open eyes - Subject 1
+data_file_C = 'data/' + data_name_C          # file path
+data_file_O = 'data/' + data_name_O          # file path
 
-segment_time = 1                           # length of segments i seconds
+segment_time = 1                             # length of segments i seconds
 
 # =============================================================================
 # ICA
 # =============================================================================
-" Import Segmented Dataset "
-Y_ica, M_ica, L_ica, n_seg_ica = data._import(data_file, segment_time, request='none')
+" ICA - Closed Eyes Dataset "
+Y_ica_C, M_ica_C, L_ica_C, n_seg_ica_C = data._import(data_file_C, segment_time, request='none')
+X_ica_C, k_C = X_ICA.X_ica(data_name_C, Y_ica_C, M_ica_C)
 
-X_ica, k = X_ICA.X_ica(data_name, Y_ica, M_ica)
+" ICA - Open Eyes Dataset "
+Y_ica_O, M_ica_O, L_ica_O, n_seg_ica_O = data._import(data_file_O, segment_time, request='none')
+X_ica_O, k_O = X_ICA.X_ica(data_name_O, Y_ica_O, M_ica_O)
 
 # =============================================================================
 # Main Algorithm with random A
@@ -40,33 +44,50 @@ X_ica, k = X_ICA.X_ica(data_name, Y_ica, M_ica)
 #request='remove 1/3' # remove sensors and the same sources from dataset
 request = 'none'
 
-Y, M, L, n_seg = data._import(data_file, segment_time, request=request)
+" Main - Closed Eyes Dataset "
+Y_C, M_C, L_C, n_seg_C = data._import(data_file_C, segment_time, request=request)
+X_C, Y_C = X_MAIN.X_main(data_name_C, Y_C, M_C, k_C)
 
-X_result, Y = X_MAIN.X_main(data_name, Y, M, k)
-
+" Main - Open Eyes Dataset "
+Y_O, M_O, L_O, n_seg_O = data._import(data_file_O, segment_time, request=request)
+X_O, Y_O = X_MAIN.X_main(data_name_O, Y_O, M_O, k_O)
 # =============================================================================
 # DFT
 # =============================================================================
 seg = 15
 row = 10
 
-Y_signal = Y[seg][row]                  # one measurement signal
-X_signal = X_result[seg][row]           # one recovered source signal
+Y_C_signal = Y_C[seg][row]                  # one measurement signal
+Y_O_signal = Y_O[seg][row]                  # one measurement signal
 
-X_time = np.linspace(0,1,len(X_signal)) # time signal (0ne second) for source signal
-Y_time = np.linspace(0,1,len(Y_signal)) # time signal (0ne second) for measurment signal
+X_C_signal = X_C[seg][row]                  # one recovered source signal
+X_O_signal = X_O[seg][row]                  # one recovered source signal
 
-X_stepsize = X_time[1]-X_time[0]
-Y_stepsize = Y_time[1]-Y_time[0]
+X_C_time = np.linspace(0,1,len(X_C_signal)) # time signal (0ne second) for source signal
+X_O_time = np.linspace(0,1,len(X_O_signal)) # time signal (0ne second) for measurment signal
 
-X_fft = np.fft.rfft(X_signal)   # FFT of source signal
-X_power = np.abs(X_fft)         # |FFT|
-X_sample_f = np.fft.fftfreq(int(X_signal.size/2)+1, d=X_stepsize) # frequencies for source FFT
+Y_C_time = np.linspace(0,1,len(Y_C_signal)) # time signal (0ne second) for source signal
+Y_O_time = np.linspace(0,1,len(Y_O_signal)) # time signal (0ne second) for measurment signal
+
+X_C_stepsize = X_C_time[1]-X_C_time[0]
+X_O_stepsize = X_O_time[1]-X_O_time[0]
+Y_C_stepsize = Y_C_time[1]-Y_C_time[0]
+Y_O_stepsize = Y_O_time[1]-Y_O_time[0]
 
 
-Y_fft = np.fft.rfft(Y_signal)  # FFT of measurement signal
-Y_power = np.abs(Y_fft)        # |FFT|
-Y_sample_f = np.fft.fftfreq(int(Y_signal.size/2)+1, d=Y_stepsize) # frequencies for measurement FFT
+X_C_fft = np.fft.rfft(X_C_signal)   # FFT of source signal
+X_O_fft = np.fft.rfft(X_O_signal)   # FFT of source signal
+
+X_C_power = np.abs(X_C_fft)         # |FFT|
+X_O_power = np.abs(X_O_fft)         # |FFT|
+#X_sample_f = np.fft.fftfreq(int(X_signal.size/2)+1, d=X_stepsize) # frequencies for source FFT
+
+Y_C_fft = np.fft.rfft(Y_C_signal)   # FFT of source signal
+Y_O_fft = np.fft.rfft(Y_O_signal)   # FFT of source signal
+
+Y_C_power = np.abs(Y_C_fft)         # |FFT|
+Y_O_power = np.abs(Y_O_fft)         # |FFT|
+#Y_sample_f = np.fft.fftfreq(int(Y_signal.size/2)+1, d=Y_stepsize) # frequencies for measurement FFT
 
 # =============================================================================
 # Butterworth Bandpass filter
@@ -80,7 +101,7 @@ def butter_bandpass(lowcut, highcut, fs, order):
     nyq = 0.5 * fs      # nyquist
     low = lowcut / nyq
     high = highcut / nyq
-    b, a = butter(order, [low, high], btype='band') # coefficients of transfer function
+    b, a = butter(order, [low, high], btype='bandpass') # coefficients of transfer function
     return b, a
 
 def butter_bandpass_filter(data, lowcut, highcut, fs, order):
@@ -94,36 +115,41 @@ w, h = freqz(b, a, worN=2000)                      # frequency and frequency res
 hz = (fs * 0.5 / np.pi) * w                        # frequncies
 
 " X_signal Filtering "
-X_filter = butter_bandpass_filter(X_signal, lowcut, highcut, fs, order)
-X_fft_filter = np.fft.rfft(X_filter)
-X_power_filter = np.abs(X_fft_filter)
-X_sample_f2 = np.fft.fftfreq(int(X_filter.size/2)+1, d=X_stepsize)
+X_C_filter = butter_bandpass_filter(X_C_signal, lowcut, highcut, fs, order)
+X_C_fft_filter = np.fft.rfft(X_C_filter)
+X_C_power_filter = np.abs(X_C_fft_filter)
+X_O_filter = butter_bandpass_filter(X_O_signal, lowcut, highcut, fs, order)
+X_O_fft_filter = np.fft.rfft(X_O_filter)
+X_O_power_filter = np.abs(X_O_fft_filter)
+
+#X_sample_f2 = np.fft.fftfreq(int(X_filter.size/2)+1, d=X_stepsize)
 
 " Y_signal Filtering "
-Y_filter = butter_bandpass_filter(Y_signal, lowcut, highcut, fs, order)
-Y_fft_filter = np.fft.rfft(Y_filter)
-Y_power_filter = np.abs(Y_fft_filter)
-Y_sample_f2 = np.fft.fftfreq(int(Y_filter.size/2)+1, d=Y_stepsize)
+Y_C_filter = butter_bandpass_filter(Y_C_signal, lowcut, highcut, fs, order)
+Y_C_fft_filter = np.fft.rfft(Y_C_filter)
+Y_C_power_filter = np.abs(Y_C_fft_filter)
+Y_O_filter = butter_bandpass_filter(Y_O_signal, lowcut, highcut, fs, order)
+Y_O_fft_filter = np.fft.rfft(Y_O_filter)
+Y_O_power_filter = np.abs(Y_O_fft_filter)
+#Y_sample_f2 = np.fft.fftfreq(int(Y_filter.size/2)+1, d=Y_stepsize)
 
-# =============================================================================
-# Plots
-# =============================================================================
+
 " Source Matrix X Plots "
 plt.figure(1)
 plt.subplot(511)
-plt.plot(X_time, X_signal, label='Original signal X')
+plt.plot(X_C_time, X_C_signal, label='Time Signal X - Closed Eyes')
 plt.xlabel('Time')
 plt.legend()
 
 plt.subplot(512)
-plt.stem(X_sample_f, X_power,label='fft signal X' )
+plt.stem(X_C_power, label = 'FFT Signal X - Closed Eyes' )
 plt.xlabel('Frequency [Hz]')
 plt.ylabel('Power')
 plt.axis([-1,70,0,200])
 plt.legend()
 
 plt.subplot(513)
-plt.plot(hz[:150], abs(h[:150]), label="Frequency response of order = 5")
+plt.plot(hz[:150], abs(h[:150]), label="Frequency Response of Order = 5")
 plt.axvline(x=8)
 plt.axvline(x=13)
 #plt.title('Butterworth Bandpass')
@@ -132,49 +158,114 @@ plt.ylabel('Gain')
 plt.legend()
 
 plt.subplot(514)
-plt.plot(X_time, X_filter, label='Original filtret signal X')
+plt.plot(X_C_time, X_C_filter, label='Time Filtered Signal X - Closed Eyes')
 plt.xlabel('Time')
 plt.legend()
 
 plt.subplot(515)
-plt.stem(X_sample_f2, X_power_filter,label='fft filtret signal X' )
+plt.stem(X_C_power_filter,label='FFT Filtered Signal X - Closed Eyes' )
 plt.xlabel('Frequency [Hz]')
 plt.ylabel('Power')
 plt.axis([-1,70,0,200])
 plt.legend()
 
-
-" Measurement Matrix Y Plots "
+" Measurement Matrix Y and Source Matrix Plots "
 plt.figure(2)
-plt.subplot(511)
-plt.plot(Y_time, Y_signal, label='Original signal Y')
+plt.subplot(411)
+plt.plot(Y_C_time, Y_C_filter, 'b', label='Time Filtered Signal Y - Closed Eyes')
 plt.xlabel('Time')
 plt.legend()
 
-plt.subplot(512)
-plt.stem(Y_sample_f, Y_power,label='fft signal Y' )
-plt.xlabel('Frequency [Hz]')
-plt.ylabel('Power')
-plt.axis([-1,70,0,500])
-plt.legend()
-
-plt.subplot(513)
-plt.plot(hz[:150], abs(h[:150]), label="Frequency response of order = 5")
-plt.axvline(x=8)
-plt.axvline(x=13)
-#plt.title('Butterworth Bandpass')
-plt.xlabel('Frequency (Hz)')
-plt.ylabel('Gain')
-plt.legend()
-
-plt.subplot(514)
-plt.plot(Y_time, Y_filter, label='Original filtret signal Y')
+plt.subplot(412)
+plt.plot(Y_O_time, Y_O_filter, 'b', label='Time Filtered Signal Y - Open Eyes')
 plt.xlabel('Time')
 plt.legend()
 
-plt.subplot(515)
-plt.stem(Y_sample_f2, Y_power_filter,label='fft filtret signal Y' )
-plt.xlabel('Frequency [Hz]')
-plt.ylabel('Power')
-plt.axis([-1,70,0,300])
+plt.subplot(413)
+plt.plot(X_C_time, X_C_filter, 'r', label='Time Filtered Signal X - Closed Eyes')
+plt.xlabel('Time')
 plt.legend()
+
+plt.subplot(414)
+plt.plot(X_O_time, X_O_filter, 'r', label='Time Filtered Signal X - Open Eyes')
+plt.xlabel('Time')
+plt.legend()
+
+print('Average difference between Y Closed and Y Open: ', abs(np.average(Y_C_filter[:-1]/Y_O_filter)))
+print('Average difference between X Closed and X Open: ', abs(np.average(X_C_filter[:-1]/X_O_filter)))
+
+# =============================================================================
+# DFT Matrix
+# =============================================================================
+" X_matrix Filtering "
+X_C_matrix = X_C[seg]
+X_C_fft_matrix = np.fft.rfft2(X_C_matrix)   # FFT of source matrix
+X_C_power_matrix = np.abs(X_C_fft_matrix)   # |FFT|
+
+X_O_matrix = X_O[seg]
+X_O_fft_matrix = np.fft.rfft2(X_O_matrix)   # FFT of source matrix
+X_O_power_matrix = np.abs(X_O_fft_matrix)   # |FFT|
+
+X_C_filter_matrix = []
+X_O_filter_matrix = []
+for i in range(len(X_C_matrix)):
+    X_C_filter_matrix.append(butter_bandpass_filter(X_C_matrix[i], lowcut, highcut, fs, order))
+
+for i in range(len(X_O_matrix)):
+    X_O_filter_matrix.append(butter_bandpass_filter(X_O_matrix[i], lowcut, highcut, fs, order))
+
+X_C_fft_filter_matrix = np.fft.rfft(X_C_filter_matrix)
+X_C_power_filter_matrix = np.abs(X_C_fft_filter_matrix)
+X_O_fft_filter_matrix = np.fft.rfft(X_O_filter_matrix)
+X_O_power_filter_matrix = np.abs(X_O_fft_filter_matrix)
+
+" Y_matrix Filtering "
+Y_C_matrix = Y_C[seg]
+Y_C_fft_matrix = np.fft.rfft2(Y_C_matrix)   # FFT of source matrix
+Y_C_power_matrix = np.abs(Y_C_fft_matrix)   # |FFT|
+
+Y_O_matrix = Y_O[seg]
+Y_O_fft_matrix = np.fft.rfft2(Y_O_matrix)   # FFT of source matrix
+Y_O_power_matrix = np.abs(Y_O_fft_matrix)   # |FFT|
+
+Y_C_filter_matrix =[]
+Y_O_filter_matrix = []
+for i in range(len(Y_C_matrix)):
+    Y_C_filter_matrix.append(butter_bandpass_filter(Y_C_matrix[i], lowcut, highcut, fs, order))
+
+for i in range(len(Y_O_matrix)):
+    Y_O_filter_matrix.append(butter_bandpass_filter(Y_O_matrix[i], lowcut, highcut, fs, order))
+
+Y_C_fft_filter_matrix = np.fft.rfft(Y_C_filter_matrix)
+Y_C_power_filter_matrix = np.abs(Y_C_fft_filter_matrix)
+Y_O_fft_filter_matrix = np.fft.rfft(Y_O_filter_matrix)
+Y_O_power_filter_matrix = np.abs(Y_O_fft_filter_matrix)
+
+plt.figure(3)
+plt.subplot(411)
+plt.plot(Y_C_time, sum(Y_C_filter_matrix), label='Time Filtered Matrix Y - Closed Eyes')
+plt.xlabel('Time')
+plt.legend()
+
+plt.subplot(412)
+plt.plot(Y_O_time, sum(Y_O_filter_matrix), label='Time Filtered Matrix Y - Open Eyes')
+plt.xlabel('Time')
+plt.legend()
+
+plt.subplot(413)
+plt.plot(X_C_time, sum(X_C_filter_matrix), label='Time Filtered Matrix X - Closed Eyes')
+plt.xlabel('Time')
+plt.legend()
+
+plt.subplot(414)
+plt.plot(X_O_time, sum(X_O_filter_matrix), label='Time Filtered Matrix X - Open Eyes')
+plt.xlabel('Time')
+plt.legend()
+
+for i in range(len(Y_C_filter_matrix)):
+    
+    
+
+print('Average difference between Y Closed and Y Open: ', abs((sum(Y_C_filter_matrix))/sum(Y_O_filter_matrix)))
+print('Average difference between X Closed and X Open: ', abs((sum(X_C_filter_matrix))/sum(X_O_filter_matrix)))
+

@@ -32,7 +32,7 @@ def X_ica(data_name, Y, M):
     for i in range(len(Y)):   
         X = Y[i].T
         
-        ica = FastICA(n_components=N)
+        ica = FastICA(n_components=N, max_iter=1000)
         X_ICA = ica.fit_transform(X)  # Reconstruct signals
         A_ICA = ica.mixing_
         X_ica[i] = X_ICA[:L-2].T

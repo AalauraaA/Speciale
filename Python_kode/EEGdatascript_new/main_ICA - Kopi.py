@@ -127,6 +127,7 @@ plt.savefig(figsave)
     
 plt.figure(2)
 plt.plot(average_mse, '-ro', label = 'Average MSE')
+plt.hlines(5, 0, 144) # horizontial line
 #plt.plot(average_mse2, '-bo', label = 'Average MSE + amp')
 plt.title('Average MSE Values of All Time Segments')
 plt.xlabel('Time Segment')
@@ -136,6 +137,7 @@ plt.savefig('figures/average_mse_non_removed_ica.png')
 
 plt.figure(3)
 plt.plot(average_mse, '-ro', label = 'Average MSE')
+plt.hlines(5, 0, 144) # horizontal line
 #plt.plot(average_mse2, '-bo', label = 'Average MSE + amp')
 plt.title('Average MSE Values of All Time Segments - zoom')
 plt.legend()
@@ -150,6 +152,25 @@ plt.xlabel('Sources')
 plt.ylabel('MSE')
 plt.legend()
 plt.savefig('figures/mse_non_removed_ica_timeseg54.png')
+
+# =============================================================================
+# Calculating Average of the Average MSE 
+# =============================================================================
+#Find gennemsnittet og find dem der ligger over og under tol = 5
+One_average = np.average(average_mse)
+print('The average mse of all average time segments: ', One_average)
+
+tol = 5
+under = 0
+on = 0
+over = 0
+for seg in range(len(average_mse)):
+    if average_mse[seg] < tol:
+        under += 1
+    if average_mse[seg] > tol:
+        over += 1
+    if average_mse[seg] == tol:
+        on += 1
 
 # =============================================================================
 # Main Algorithm with A_ica

@@ -21,7 +21,39 @@ def X_main(data_name, Y, M, k):
                 Y[i] = Y[i].T
             else:
                 continue
-        
+    
+    if data_name == 'S3_CClean.mat':
+        for i in range(len(Y)):
+            if i <= 12:
+                Y[i] = Y[i].T[:-1]
+                Y[i] = Y[i].T
+            else:
+                continue 
+
+    if data_name == 'S3_OClean.mat':
+        for i in range(len(Y)):
+            if i <= 139:
+                Y[i] = Y[i].T[:-1]
+                Y[i] = Y[i].T
+            else:
+                continue 
+
+    if data_name == 'S4_CClean.mat':
+        for i in range(len(Y)):
+            if i <= 63:
+                Y[i] = Y[i].T[:-1]
+                Y[i] = Y[i].T
+            else:
+                continue
+
+    if data_name == 'S4_OClean.mat':
+        for i in range(len(Y)):
+            if i <= 178:
+                Y[i] = Y[i].T[:-1]
+                Y[i] = Y[i].T
+            else:
+                continue
+            
     " Perform Main Algorithm on Segmented Dataset "
     X_result = []    # Original recovered source matrix X
     L = Y[0].shape[1]

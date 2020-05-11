@@ -1,19 +1,19 @@
-\subsection{Test on EEG Data Set with $M=N$}
-For this test the S1\_Cclean EEG data set will be used and case of interest is when $M = N$. The test is performance on 144 time segment with $L_s = 516$ and $M = 27$ sensors.
+\subsection{Case 0, $M=N$}
+The results are plotted for data set S1\_Cclean. The test is performance on 144 time segment with $L_s = 516$ and $M = 27$ sensors. 
 
-Figure \ref{fig:M=N_1} visualize the $MSE\left(\hat{\mathbf{X}}_{\text{main}},\hat{\mathbf{X}}_{\text{ICA}}\right)$, one MSE value per time segment.
+Figure \ref{fig:M=N_1} show $MSE\left(\hat{\mathbf{X}}_{\text{main}},\hat{\mathbf{X}}_{\text{ICA}}\right)$ for all segments $s$. ICA is applied on $\textbf{Y}_s$ specified by $M_= 27$ and $L_s = 516$.  Main algorithm is applied on $\textbf{Y}_s$ specified by $M=27$ and $L_s=5156$, given $\textbf{A}_{fix}$ and $N = k$ given by from ICA.
 \begin{figure}[H]
     \begin{minipage}[t]{.45\textwidth}
 		\centering
-		\includegraphics[scale=0.5]{figures/ch_7/AveMSE_M=N.png}
-	\caption{MSE $M=27$, $L = 516$ and a different $k$ for each time segment. The main algorithm and ICA is used on the S1\_Cclean EEG data set.}
+		\includegraphics[scale=0.5]{figures/ch_7/average_mse_non_removed_ica}
+	\caption{$MSE\left(\hat{\mathbf{X}}_{\text{main}},\hat{\mathbf{X}}_{\text{ICA}}\right)$ for all 144 segments}
 	\label{fig:M=N_1}
     \end{minipage} 
     \hfill
     \begin{minipage}[t]{.45\textwidth}
         \centering
-		\includegraphics[scale=0.5]{figures/ch_7/AveMSE_M=N_zoom.png}
-	\caption{Average MSE of the main algorithm with $M=27$, $L = 516$ and a different $k$ for each time segment. The main algorithm and ICA is used on the S1\_Cclean EEG data set -- Zoom version.}
+		\includegraphics[scale=0.5]{figures/ch_7/average_mse_non_removed_ica_zoom.png}
+	\caption{$MSE\left(\hat{\mathbf{X}}_{\text{main}},\hat{\mathbf{X}}_{\text{ICA}}\right)$ for all 144 segments. Plotted only for the y-axis interval [-10, 50] for better visualisation.}
 	\label{fig:M=N_1_2}
     \end{minipage}
 \end{figure}
@@ -21,8 +21,8 @@ Figure \ref{fig:M=N_1} visualize the $MSE\left(\hat{\mathbf{X}}_{\text{main}},\h
  
 \begin{figure}[H]
 \centering
-\includegraphics[scale=0.5]{figures/ch_7/MSE_M=N.png}
-\caption{MSE of the main algorithm with $M=27$, $L = 516$ and $k=13$ for time segment $s=45$. The main algorithm and ICA is used on the S1\_Cclean EEG data set.}
+\includegraphics[scale=0.5]{figures/ch_7/mse_non_removed_ica_timeseg54.png}
+\caption{$MSE\left(\hat{\mathbf{X}}_{\text{main}_{i}},\hat{\mathbf{X}}_{\text{ICA}_{i}}\right)$ for every row $i = 1, \hdots, k$ in time segment $s=56$.}
 \label{fig:M=N_2}
 \end{figure}
 \noindent

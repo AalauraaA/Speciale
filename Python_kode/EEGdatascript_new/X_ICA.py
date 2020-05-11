@@ -21,6 +21,39 @@ def X_ica(data_name, Y, M):
                 Y[i] = Y[i].T
             else:
                 continue
+
+    if data_name == 'S3_CClean.mat':
+        for i in range(len(Y)):
+            if i <= 12:
+                Y[i] = Y[i].T[:-1]
+                Y[i] = Y[i].T
+            else:
+                continue 
+    
+    if data_name == 'S3_OClean.mat':
+        for i in range(len(Y)):
+            if i <= 139:
+                Y[i] = Y[i].T[:-1]
+                Y[i] = Y[i].T
+            else:
+                continue 
+
+    if data_name == 'S4_CClean.mat':
+        for i in range(len(Y)):
+            if i <= 63:
+                Y[i] = Y[i].T[:-1]
+                Y[i] = Y[i].T
+            else:
+                continue
+
+    if data_name == 'S4_OClean.mat':
+        for i in range(len(Y)):
+            if i <= 178:
+                Y[i] = Y[i].T[:-1]
+                Y[i] = Y[i].T
+            else:
+                continue
+
             
     " Perform FastICA on Segmented Dataset "
     n_seg = len(Y)

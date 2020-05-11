@@ -21,8 +21,8 @@ np.random.seed(1234)
 # =============================================================================
 # Import EEG data file
 # =============================================================================
-data_name = 'S1_CClean.mat'
-#data_name = 'S1_OClean.mat'
+#data_name = 'S4_CClean.mat'
+data_name = 'S4_OClean.mat'
 data_file = 'data/' + data_name            # file path
 
 segment_time = 1                           # length of segments i seconds
@@ -39,34 +39,34 @@ X_ica_nonzero, k = X_ICA.X_ica(data_name, Y_ica, M_ica)
 # Main Algorithm with random A
 # =============================================================================
 " Import Segmented Dataset "
-request='remove 1/2' # remove sensors and the same sources from dataset
+#request='remove 1/2' # remove sensors and the same sources from dataset
 #request='remove 1/3' # remove sensors and the same sources from dataset
-#request = 'none'
+request = 'none'
 
 Y, M, L, n_seg = data._import(data_file, segment_time, request=request)
 
 X_result, Y = X_MAIN.X_main(data_name, Y, M, k)
-X_result2 = np.array(X_result, copy=True)
+#X_result2 = np.array(X_result, copy=True)
 
 " Calculate the MSE and Average MSE with X_ica and fitted amplitude X_ica "
 mse = []         # Original MSE for each rows of the original recovered source matrix X and X_ica
-mse2 = []        # Fitted MSE for each rows of the original recovered source matrix X and fitted X_ica
+#mse2 = []        # Fitted MSE for each rows of the original recovered source matrix X and fitted X_ica
 
 average_mse = np.zeros(len(Y))  # Original average MSE for each rows of the original recovered source matrix X and X_ica
-average_mse2 = np.zeros(len(Y)) # Fitted average MSE for each rows of the original recovered source matrix X and fitted X_ica
+#average_mse2 = np.zeros(len(Y)) # Fitted average MSE for each rows of the original recovered source matrix X and fitted X_ica
 
 for seg in range(k.shape[0]):   
     " Making the mse for all sources in all segments "
     mse.append(np.zeros([len(Y), int(k[seg])]))
-    mse2.append(np.zeros([len(Y), int(k[seg])]))
+#    mse2.append(np.zeros([len(Y), int(k[seg])]))
 
 for seg in range(len(Y)): 
     # Looking at one time segment
-    for f in range(len(X_ica_nonzero[seg])):
-        amp = np.max(X_result2[seg][f])/np.max(X_ica_nonzero[seg][f])
-        X_ica_nonzero[seg][f] = X_ica_nonzero[seg][f]*amp
+#    for f in range(len(X_ica_nonzero[seg])):
+#        amp = np.max(X_result2[seg][f])/np.max(X_ica_nonzero[seg][f])
+#        X_ica_nonzero[seg][f] = X_ica_nonzero[seg][f]*amp
     mse[seg], average_mse[seg] = simulated_data.MSE_segments(X_result[seg], X_ica_nonzero[seg])
-    mse2[seg], average_mse2[seg] = simulated_data.MSE_segments(X_result2[seg], X_ica_nonzero[seg])
+#    mse2[seg], average_mse2[seg] = simulated_data.MSE_segments(X_result2[seg], X_ica_nonzero[seg])
 
 #for seg in range(len(X_ica_nonzero)):
 #    for f in range(len(X_ica_nonzero[seg])):       
@@ -101,57 +101,57 @@ for seg in range(len(Y)):
 " Plots of second (seg = 54) segment "
 seg = 54
 figsave = "figures/EEG_second_removed_timeseg54" + str(data_name) + '_' + str(seg) + ".png"
-
-plt.figure(1)
-index = [0, 5, 10, int(k[seg])-1]
-plt.subplot(4, 1, 1)
-plt.plot(X_result[seg][index[0]], 'g', label='Main Alg. - Source 0')
-plt.plot(X_ica_nonzero[seg][index[0]], 'r', label='ICA - Source 0')
-plt.title('Recovered Source Matrix X for Time Segment = 55')
-plt.legend()
-plt.subplot(4, 1, 2)
-plt.plot(X_result[seg][index[1]], 'g', label='Main Alg. - Source 5')
-plt.plot(X_ica_nonzero[seg][index[1]], 'r', label='ICA - Source 5')
-plt.legend()
-plt.subplot(4, 1, 3)
-plt.plot(X_result[seg][index[2]], 'g', label='Main Alg. - Source 10')
-plt.plot(X_ica_nonzero[seg][index[2]], 'r', label='ICA - Source 10')
-plt.legend()
-plt.subplot(4, 1, 4)
-plt.plot(X_result[seg][index[3]], 'g', label='Main Alg. - Source 13')
-plt.plot( X_ica_nonzero[seg][index[3]], 'r', label='ICA - Source 13')
-plt.legend()
-plt.xlabel('Sample')
-plt.show()
-plt.savefig(figsave)
-    
-plt.figure(2)
-plt.plot(average_mse, '-ro', label = 'Average MSE')
-plt.hlines(5, 0, 144) # horizontial line
+#
+#plt.figure(1)
+#index = [0, 5, 10, int(k[seg])-1]
+#plt.subplot(4, 1, 1)
+#plt.plot(X_result[seg][index[0]], 'g', label='Main Alg. - Source 0')
+#plt.plot(X_ica_nonzero[seg][index[0]], 'r', label='ICA - Source 0')
+#plt.title('Recovered Source Matrix X for Time Segment = 55')
+#plt.legend()
+#plt.subplot(4, 1, 2)
+#plt.plot(X_result[seg][index[1]], 'g', label='Main Alg. - Source 5')
+#plt.plot(X_ica_nonzero[seg][index[1]], 'r', label='ICA - Source 5')
+#plt.legend()
+#plt.subplot(4, 1, 3)
+#plt.plot(X_result[seg][index[2]], 'g', label='Main Alg. - Source 10')
+#plt.plot(X_ica_nonzero[seg][index[2]], 'r', label='ICA - Source 10')
+#plt.legend()
+#plt.subplot(4, 1, 4)
+#plt.plot(X_result[seg][index[3]], 'g', label='Main Alg. - Source 13')
+#plt.plot( X_ica_nonzero[seg][index[3]], 'r', label='ICA - Source 13')
+#plt.legend()
+#plt.xlabel('Sample')
+#plt.show()
+#plt.savefig(figsave)
+#    
+#plt.figure(2)
+#plt.plot(average_mse, '-ro', label = 'Average MSE')
+#plt.hlines(5, 0, 144) # horizontial line
 #plt.plot(average_mse2, '-bo', label = 'Average MSE + amp')
-plt.title('Average MSE Values of All Time Segments')
-plt.xlabel('Time Segment')
-plt.ylabel('Average MSE')
-plt.legend()
-plt.savefig('figures/average_mse_second_removed_ica.png')
+#plt.title('Average MSE Values of All Time Segments')
+#plt.xlabel('Time Segment')
+#plt.ylabel('Average MSE')
+#plt.legend()
+#plt.savefig('figures/average_mse_second_removed_ica.png')
 
-plt.figure(3)
-plt.plot(average_mse, '-ro', label = 'Average MSE')
-plt.hlines(5, 0, 144) # horizontal line
+#plt.figure(3)
+#plt.plot(average_mse, '-ro', label = 'Average MSE')
+#plt.hlines(5, 0, 144) # horizontal line
 #plt.plot(average_mse2, '-bo', label = 'Average MSE + amp')
-plt.title('Average MSE Values of All Time Segments - zoom')
-plt.legend()
-plt.axis([-1,145, -10,50])
-plt.savefig('figures/average_mse_second_removed_ica_zoom.png')
+#plt.title('Average MSE Values of All Time Segments - zoom')
+#plt.legend()
+#plt.axis([-1,145, -10,50])
+#plt.savefig('figures/average_mse_second_removed_ica_zoom.png')
 
-plt.figure(4)
-plt.plot(mse[seg], '-ro', label = 'MSE')
+#plt.figure(4)
+#plt.plot(mse[seg], '-ro', label = 'MSE')
 #plt.plot(mse2[seg], '-bo', label = 'MSE')
-plt.title('MSE Values of One Time Segment = 55')
-plt.xlabel('Sources')
-plt.ylabel('MSE')
-plt.legend()
-plt.savefig('figures/mse_second_removed_ica_timeseg54.png')
+#plt.title('MSE Values of One Time Segment = 55')
+#plt.xlabel('Sources')
+#plt.ylabel('MSE')
+#plt.legend()
+#plt.savefig('figures/mse_second_removed_ica_timeseg54.png')
 
 # =============================================================================
 # Calculating Average of the Average MSE 

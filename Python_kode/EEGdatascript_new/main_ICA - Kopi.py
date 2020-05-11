@@ -39,9 +39,9 @@ X_ica_nonzero, k = X_ICA.X_ica(data_name, Y_ica, M_ica)
 # Main Algorithm with random A
 # =============================================================================
 " Import Segmented Dataset "
-#request='remove 1/2' # remove sensors and the same sources from dataset
+request='remove 1/2' # remove sensors and the same sources from dataset
 #request='remove 1/3' # remove sensors and the same sources from dataset
-request = 'none'
+#request = 'none'
 
 Y, M, L, n_seg = data._import(data_file, segment_time, request=request)
 
@@ -100,7 +100,7 @@ for seg in range(len(Y)):
 
 " Plots of second (seg = 54) segment "
 seg = 54
-figsave = "figures/EEG_non_removed_timeseg54" + str(data_name) + '_' + str(seg) + ".png"
+figsave = "figures/EEG_second_removed_timeseg54" + str(data_name) + '_' + str(seg) + ".png"
 
 plt.figure(1)
 index = [0, 5, 10, int(k[seg])-1]
@@ -127,20 +127,22 @@ plt.savefig(figsave)
     
 plt.figure(2)
 plt.plot(average_mse, '-ro', label = 'Average MSE')
+plt.hlines(5, 0, 144) # horizontial line
 #plt.plot(average_mse2, '-bo', label = 'Average MSE + amp')
 plt.title('Average MSE Values of All Time Segments')
 plt.xlabel('Time Segment')
 plt.ylabel('Average MSE')
 plt.legend()
-plt.savefig('figures/average_mse_non_removed_ica.png')
+plt.savefig('figures/average_mse_second_removed_ica.png')
 
 plt.figure(3)
 plt.plot(average_mse, '-ro', label = 'Average MSE')
+plt.hlines(5, 0, 144) # horizontal line
 #plt.plot(average_mse2, '-bo', label = 'Average MSE + amp')
 plt.title('Average MSE Values of All Time Segments - zoom')
 plt.legend()
 plt.axis([-1,145, -10,50])
-plt.savefig('figures/average_mse_non_removed_ica_zoom.png')
+plt.savefig('figures/average_mse_second_removed_ica_zoom.png')
 
 plt.figure(4)
 plt.plot(mse[seg], '-ro', label = 'MSE')
@@ -149,7 +151,26 @@ plt.title('MSE Values of One Time Segment = 55')
 plt.xlabel('Sources')
 plt.ylabel('MSE')
 plt.legend()
-plt.savefig('figures/mse_non_removed_ica_timeseg54.png')
+plt.savefig('figures/mse_second_removed_ica_timeseg54.png')
+
+# =============================================================================
+# Calculating Average of the Average MSE 
+# =============================================================================
+#Find gennemsnittet og find dem der ligger over og under tol = 5
+One_average = np.average(average_mse)
+print('The average mse of all average time segments: ', One_average)
+
+tol = 5
+under = 0
+on = 0
+over = 0
+for seg in range(len(average_mse)):
+    if average_mse[seg] < tol:
+        under += 1
+    if average_mse[seg] > tol:
+        over += 1
+    if average_mse[seg] == tol:
+        on += 1
 
 # =============================================================================
 # Main Algorithm with A_ica

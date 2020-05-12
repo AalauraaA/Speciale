@@ -1,17 +1,8 @@
 \chapter{Test on EEG measurements}\label{ch:eeg_test}
-Through this chapter a modification of the main algorithm will be described such that the main algorithm can handled real EEG measurements. 
+The main algorithm was implemented and tested on synthetic data in chapter \ref{ch:implementation}. In this chapter the main algorithm is tested on EEG measurement, for which it is intended. Two different approaches are consider with respect to evaluating the resulting estimates of the source signals -- ICA comparison and alpha wave analysis, respectively.
 
-For verification of the results the MSE values achieved from the EEG measurements will be compared to MSE values achieved from the use of ICA, cf. appendix. This would include some preprocessing of the used EEG measurements.
-
-At last, from the observed results of the comparison a conclusion will close this chapter.\\
-Context of the chapter:\todo{update introduction}
-\begin{itemize}
-\item Description of EEG data
-\item Describtion of performance measure method (practise of the Comparison to ICA) concluded by a new flow diagram.
-\item Test and conclusion, including the flaws of the ICA comparison and lack of good estimate of A.
-\item Description of different test approach, with different pros,including integrational functionality/connectivity(or something similar which is mentioned in ch 1.)
-\item test and conclusion. 
-\end{itemize}
+At first the provided EEG measurements are described. Followed by test description and analysis of the results for both of the test approaches. 
+Finally a summary is provided highlighting the conclusions.  
 
 \section{Data Description}
 For this thesis a set of real EEG scalp measurements has been provided, from the the department of .... at AAU. 
@@ -78,4 +69,16 @@ The results is plotted for one data set for visual understanding, lastly the res
 
 \input{sections/ch_eegtest/test.tex}
 
-\section{Conclusion}
+\subsection{Summary of Results}
+The main algorithm have been tested on 6 data sets of EEG measurement, for a varying relation between the number of sensors and sensors -- respectively case 0, 1 and 2.
+When the number of sensors is reduced with respect to the number of sources to be found, a significant decrease in performance was found -- comparing case 0 and 1. 
+However a corresponding decrease of performance was not found when further sensors was removed -- comparing case 1 and 2. 
+
+From the conclusions made in chapter \ref{ch:implemantation} it was not expected that the main algorithm would provide successful results, without estimating $\textbf{A}$ form the data. The results of case 0 do however indicate a solid estimate provided by the main algorithm, with an average percentage of successfully estimated segments at $83\%$. 
+
+Furthermore it is worth to note that the resulting MSE values has potential for improvement when considering optimization of the source localisation of the ICA estimate, cf. appendix \ref{app:ica_test}.
+
+
+   
+
+

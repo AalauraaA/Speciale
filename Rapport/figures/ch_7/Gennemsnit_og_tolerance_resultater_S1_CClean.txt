@@ -1,8 +1,83 @@
-1/3  - 8.3486
-   - over = 55, under = 89
+S1_CClean
+   - none
+      - gen: 4.3360
+      - over: 19
+      - under: 125
+   - 1/3
+      - gen: 8.3486
+      - over: 55
+      - under: 89
+   - 1/2
+      - gen: 19.3686
+      - over: 52
+      - under: 92
 
-none - 4.3369
-   - over = 19, under = 125
+S1_OClean
+   - none
+      - gen: 3.8003
+      - over: 27
+      - under: 96
+   - 1/3
+      - gen: 23.0723
+      - over: 81
+      - under: 42
+   - 1/2
+      - gen: 116.6160
+      - over: 36
+      - under: 87
 
-1/2 - 19.3686
-   - over = 53, under = 92
+S3_CClean
+   - none
+      - gen: 31.0877
+      - over: 126
+      - under: 59
+   - 1/3
+      - gen: 1007.6461
+      - over: 153
+      - under: 32
+   - 1/2
+      - gen: 392.5444
+      - over: 86
+      - under: 99
+
+S3_OClean
+   - none
+      - gen: 3.6239
+      - over: 21
+      - under: 209
+   - 1/3
+      - gen: 685.5238
+      - over: 150
+      - under: 80
+   - 1/2
+      - gen: 273.8261
+      - over: 187
+      - under: 43
+
+S4_CClean
+   - none
+      - gen: 840.3562
+      - over: 133
+      - under: 81
+   - 1/3
+      - gen: 39.0162
+      - over: 144
+      - under: 70
+   - 1/2
+      - gen: 43.1886
+      - over: 144
+      - under: 70
+
+S4_OClean
+   - none
+      - gen: 11.9871
+      - over: 47
+      - under: 175
+   - 1/3
+      - gen: 26.6646
+      - over: 144
+      - under: 70
+   - 1/2
+      - gen: 450.6229
+      - over: 101
+      - under: 121

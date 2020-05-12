@@ -66,6 +66,9 @@ X_O_signal = X_O[seg][row]                  # one recovered source signal
 X_C_time = np.linspace(0,1,len(X_C_signal)) # time signal (0ne second) for source signal
 X_O_time = np.linspace(0,1,len(X_O_signal)) # time signal (0ne second) for measurment signal
 
+
+def DFT(signal):
+
 Y_C_time = np.linspace(0,1,len(Y_C_signal)) # time signal (0ne second) for source signal
 Y_O_time = np.linspace(0,1,len(Y_O_signal)) # time signal (0ne second) for measurment signal
 

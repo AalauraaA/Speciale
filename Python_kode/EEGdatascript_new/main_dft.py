@@ -59,38 +59,40 @@ row = 10
 
 Y_C_signal = Y_C[seg][row]                  # one measurement signal
 Y_O_signal = Y_O[seg][row]                  # one measurement signal
-
 X_C_signal = X_C[seg][row]                  # one recovered source signal
 X_O_signal = X_O[seg][row]                  # one recovered source signal
 
+X_C_matrix = X_C[seg]
+X_O_matrix = X_O[seg]
+Y_C_matrix = Y_C[seg]
+Y_O_matrix = Y_O[seg]
+
 X_C_time = np.linspace(0,1,len(X_C_signal)) # time signal (0ne second) for source signal
 X_O_time = np.linspace(0,1,len(X_O_signal)) # time signal (0ne second) for measurment signal
-
-
-def DFT(signal):
-
 Y_C_time = np.linspace(0,1,len(Y_C_signal)) # time signal (0ne second) for source signal
 Y_O_time = np.linspace(0,1,len(Y_O_signal)) # time signal (0ne second) for measurment signal
 
-X_C_stepsize = X_C_time[1]-X_C_time[0]
-X_O_stepsize = X_O_time[1]-X_O_time[0]
-Y_C_stepsize = Y_C_time[1]-Y_C_time[0]
-Y_O_stepsize = Y_O_time[1]-Y_O_time[0]
+def DFT(signal):
+    fft = np.fft.rfft(signal)    # FFT of signal
+    fft_power = np.abs(fft)      # |FFT|
+    return fft, fft_power
+     
+X_C_fft, X_C_power = DFT(X_C_signal)   # FFT of source signal
+X_O_fft, X_O_power = DFT(X_O_signal)   # FFT of source signal
 
+Y_C_fft, Y_C_power = DFT(Y_C_signal)   # FFT of measurement signal
+Y_O_fft, Y_O_power = DFT(Y_O_signal)   # FFT of measurement signal
 
-X_C_fft = np.fft.rfft(X_C_signal)   # FFT of source signal
-X_O_fft = np.fft.rfft(X_O_signal)   # FFT of source signal
+def DFT_matrix(matrix):
+    fft = np.fft.rfft2(matrix)    # FFT of matrix
+    fft_power = np.abs(fft)       # |FFT|
+    return fft, fft_power
 
-X_C_power = np.abs(X_C_fft)         # |FFT|
-X_O_power = np.abs(X_O_fft)         # |FFT|
-#X_sample_f = np.fft.fftfreq(int(X_signal.size/2)+1, d=X_stepsize) # frequencies for source FFT
+X_C_fft_matrix, X_C_power_matrix = DFT_matrix(X_C_matrix)   # FFT of source matrix
+X_O_fft_matrix, X_O_power_matrix = DFT_matrix(X_O_matrix)   # FFT of source matrix
 
-Y_C_fft = np.fft.rfft(Y_C_signal)   # FFT of source signal
-Y_O_fft = np.fft.rfft(Y_O_signal)   # FFT of source signal
-
-Y_C_power = np.abs(Y_C_fft)         # |FFT|
-Y_O_power = np.abs(Y_O_fft)         # |FFT|
-#Y_sample_f = np.fft.fftfreq(int(Y_signal.size/2)+1, d=Y_stepsize) # frequencies for measurement FFT
+Y_C_fft_matrix, Y_C_power_matrix = DFT_matrix(Y_C_matrix)   # FFT of source matrix
+Y_O_fft_matrix, Y_O_power_matrix = DFT_matrix(Y_O_matrix)   # FFT of source matrix
 
 # =============================================================================
 # Butterworth Bandpass filter
@@ -117,158 +119,148 @@ b, a = butter_bandpass(lowcut, highcut, fs, order) # coefficients of transfer fu
 w, h = freqz(b, a, worN=2000)                      # frequency and frequency response
 hz = (fs * 0.5 / np.pi) * w                        # frequncies
 
-" X_signal Filtering "
-X_C_filter = butter_bandpass_filter(X_C_signal, lowcut, highcut, fs, order)
-X_C_fft_filter = np.fft.rfft(X_C_filter)
-X_C_power_filter = np.abs(X_C_fft_filter)
-X_O_filter = butter_bandpass_filter(X_O_signal, lowcut, highcut, fs, order)
-X_O_fft_filter = np.fft.rfft(X_O_filter)
-X_O_power_filter = np.abs(X_O_fft_filter)
+# =============================================================================
+# Filtering
+# =============================================================================
+" X signal and Y signal Filtering "
+def filtering(signal, lowcut, highcut, fs, order=5):
+    filt = butter_bandpass_filter(signal, lowcut, highcut, fs, order)
+    fft_filt = np.fft.rfft(filt)
+    fft_power_filt = np.abs(fft_filt)
+    return filt, fft_filt, fft_power_filt
 
-#X_sample_f2 = np.fft.fftfreq(int(X_filter.size/2)+1, d=X_stepsize)
+X_C_filter, X_C_fft_filter, X_C_power_filter = filtering(X_C_signal, lowcut, highcut, fs, order=5)
+X_O_filter, X_O_fft_filter, X_O_power_filter = filtering(X_O_signal, lowcut, highcut, fs, order=5)
 
-" Y_signal Filtering "
-Y_C_filter = butter_bandpass_filter(Y_C_signal, lowcut, highcut, fs, order)
-Y_C_fft_filter = np.fft.rfft(Y_C_filter)
-Y_C_power_filter = np.abs(Y_C_fft_filter)
-Y_O_filter = butter_bandpass_filter(Y_O_signal, lowcut, highcut, fs, order)
-Y_O_fft_filter = np.fft.rfft(Y_O_filter)
-Y_O_power_filter = np.abs(Y_O_fft_filter)
-#Y_sample_f2 = np.fft.fftfreq(int(Y_filter.size/2)+1, d=Y_stepsize)
+Y_C_filter, Y_C_fft_filter, Y_C_power_filter = filtering(Y_C_signal, lowcut, highcut, fs, order=5)
+Y_O_filter, Y_O_fft_filter, Y_O_power_filter = filtering(Y_O_signal, lowcut, highcut, fs, order=5)
+
+" X matrix and Y matrix Filtering "
+def filtering_matrix(matrix, lowcut, highcut, fs, order=5):
+    filter_matrix = []
+    for i in range(len(matrix)):
+        filter_matrix.append(butter_bandpass_filter(matrix[i], lowcut, highcut, fs, order))
+    fft_filter_matrix = np.fft.rfft2(filter_matrix)
+    fft_power_filter_matrix = np.abs(fft_filter_matrix)
+    return filter_matrix, fft_filter_matrix, fft_power_filter_matrix
+
+X_C_filter_matrix, X_C_fft_filter_matrix, X_C_power_filter_matrix = filtering_matrix(X_C_matrix, lowcut, highcut, fs, order=5)
+X_O_filter_matrix, X_O_fft_filter_matrix, X_O_power_filter_matrix = filtering_matrix(X_O_matrix, lowcut, highcut, fs, order=5)
+
+Y_C_filter_matrix, Y_C_fft_filter_matrix, Y_C_power_filter_matrix = filtering_matrix(Y_C_matrix, lowcut, highcut, fs, order=5)
+Y_O_filter_matrix, Y_O_fft_filter_matrix, Y_O_power_filter_matrix = filtering_matrix(Y_O_matrix, lowcut, highcut, fs, order=5)
+
+# =============================================================================
+# Average Differences
+# =============================================================================
+print('Average difference between Y Closed and Y Open: ', abs(np.average(Y_C_filter[:-1]/Y_O_filter)))
+print('Average difference between X Closed and X Open: ', abs(np.average(X_C_filter[:-1]/X_O_filter)))
+
+#for i in range(len(Y_C_filter_matrix)):    
+#
+#print('Average difference between Y Closed and Y Open: ', abs((sum(Y_C_filter_matrix))/sum(Y_O_filter_matrix)))
+#print('Average difference between X Closed and X Open: ', abs((sum(X_C_filter_matrix))/sum(X_O_filter_matrix)))
+#
 
 
-" Source Matrix X Plots "
+# =============================================================================
+# Plots
+# =============================================================================
+" Source signal X Plots "
 plt.figure(1)
 plt.subplot(511)
-plt.plot(X_C_time, X_C_signal, label='Time Signal X - Closed Eyes')
+plt.plot(X_C_time, X_C_signal, label='Source 10')
 plt.xlabel('Time')
+plt.title('Source Signal from S1_CClean')
 plt.legend()
 
 plt.subplot(512)
-plt.stem(X_C_power, label = 'FFT Signal X - Closed Eyes' )
+plt.stem(X_C_power, label = 'Source 10' )
 plt.xlabel('Frequency [Hz]')
 plt.ylabel('Power')
-plt.axis([-1,70,0,200])
+plt.title('FFT of Source Signal from S1_CClean')
+plt.axis([-1,70,0,150])
 plt.legend()
 
 plt.subplot(513)
 plt.plot(hz[:150], abs(h[:150]), label="Frequency Response of Order = 5")
 plt.axvline(x=8)
 plt.axvline(x=13)
-#plt.title('Butterworth Bandpass')
-plt.xlabel('Frequency (Hz)')
+plt.title('Butterworth Bandpass')
+plt.xlabel('Frequency [Hz]')
 plt.ylabel('Gain')
 plt.legend()
 
 plt.subplot(514)
-plt.plot(X_C_time, X_C_filter, label='Time Filtered Signal X - Closed Eyes')
+plt.plot(X_C_time, X_C_filter, label='Source = 10')
+plt.title('Filtered Source Signal from S1_CClean')
 plt.xlabel('Time')
 plt.legend()
 
 plt.subplot(515)
-plt.stem(X_C_power_filter,label='FFT Filtered Signal X - Closed Eyes' )
+plt.stem(X_C_power_filter,label='Source = 10' )
 plt.xlabel('Frequency [Hz]')
 plt.ylabel('Power')
-plt.axis([-1,70,0,200])
+plt.title('FFT Filtered Source Signal from S1_CClean')
+plt.axis([-1,70,0,150])
 plt.legend()
+plt.show()
+plt.savefig('figures/DFT_plot_X_timeseg15_source10.png')
 
-" Measurement Matrix Y and Source Matrix Plots "
+
+" Measurement signal Y and Source signal X Plots "
 plt.figure(2)
 plt.subplot(411)
-plt.plot(Y_C_time, Y_C_filter, 'b', label='Time Filtered Signal Y - Closed Eyes')
+plt.plot(Y_C_time, Y_C_filter, 'b', label='Measurement 10')
 plt.xlabel('Time')
+plt.title('Filtered Measurement Signal from S1_CClean')
 plt.legend()
 
 plt.subplot(412)
-plt.plot(Y_O_time, Y_O_filter, 'b', label='Time Filtered Signal Y - Open Eyes')
+plt.plot(Y_O_time, Y_O_filter, 'b', label='Measurement 10')
 plt.xlabel('Time')
+plt.title('Filtered Measurement Signal from S1_OClean')
 plt.legend()
 
 plt.subplot(413)
-plt.plot(X_C_time, X_C_filter, 'r', label='Time Filtered Signal X - Closed Eyes')
+plt.plot(X_C_time, X_C_filter, 'r', label='Source 10')
 plt.xlabel('Time')
+plt.title('Filtered Source Signal from S1_CClean')
 plt.legend()
 
 plt.subplot(414)
-plt.plot(X_O_time, X_O_filter, 'r', label='Time Filtered Signal X - Open Eyes')
+plt.plot(X_O_time, X_O_filter, 'r', label='Source 10')
 plt.xlabel('Time')
+plt.title('Filtered Source Signal from S1_OClean')
 plt.legend()
+plt.show()
+plt.savefig('figures/DFT_plot_X_and_Y_signal_timeseg15_source10.png')
 
-print('Average difference between Y Closed and Y Open: ', abs(np.average(Y_C_filter[:-1]/Y_O_filter)))
-print('Average difference between X Closed and X Open: ', abs(np.average(X_C_filter[:-1]/X_O_filter)))
 
-# =============================================================================
-# DFT Matrix
-# =============================================================================
-" X_matrix Filtering "
-X_C_matrix = X_C[seg]
-X_C_fft_matrix = np.fft.rfft2(X_C_matrix)   # FFT of source matrix
-X_C_power_matrix = np.abs(X_C_fft_matrix)   # |FFT|
-
-X_O_matrix = X_O[seg]
-X_O_fft_matrix = np.fft.rfft2(X_O_matrix)   # FFT of source matrix
-X_O_power_matrix = np.abs(X_O_fft_matrix)   # |FFT|
-
-X_C_filter_matrix = []
-X_O_filter_matrix = []
-for i in range(len(X_C_matrix)):
-    X_C_filter_matrix.append(butter_bandpass_filter(X_C_matrix[i], lowcut, highcut, fs, order))
-
-for i in range(len(X_O_matrix)):
-    X_O_filter_matrix.append(butter_bandpass_filter(X_O_matrix[i], lowcut, highcut, fs, order))
-
-X_C_fft_filter_matrix = np.fft.rfft(X_C_filter_matrix)
-X_C_power_filter_matrix = np.abs(X_C_fft_filter_matrix)
-X_O_fft_filter_matrix = np.fft.rfft(X_O_filter_matrix)
-X_O_power_filter_matrix = np.abs(X_O_fft_filter_matrix)
-
-" Y_matrix Filtering "
-Y_C_matrix = Y_C[seg]
-Y_C_fft_matrix = np.fft.rfft2(Y_C_matrix)   # FFT of source matrix
-Y_C_power_matrix = np.abs(Y_C_fft_matrix)   # |FFT|
-
-Y_O_matrix = Y_O[seg]
-Y_O_fft_matrix = np.fft.rfft2(Y_O_matrix)   # FFT of source matrix
-Y_O_power_matrix = np.abs(Y_O_fft_matrix)   # |FFT|
-
-Y_C_filter_matrix =[]
-Y_O_filter_matrix = []
-for i in range(len(Y_C_matrix)):
-    Y_C_filter_matrix.append(butter_bandpass_filter(Y_C_matrix[i], lowcut, highcut, fs, order))
-
-for i in range(len(Y_O_matrix)):
-    Y_O_filter_matrix.append(butter_bandpass_filter(Y_O_matrix[i], lowcut, highcut, fs, order))
-
-Y_C_fft_filter_matrix = np.fft.rfft(Y_C_filter_matrix)
-Y_C_power_filter_matrix = np.abs(Y_C_fft_filter_matrix)
-Y_O_fft_filter_matrix = np.fft.rfft(Y_O_filter_matrix)
-Y_O_power_filter_matrix = np.abs(Y_O_fft_filter_matrix)
-
+" Measurement Matrix Y and Source Matrix X Plots "
 plt.figure(3)
 plt.subplot(411)
-plt.plot(Y_C_time, sum(Y_C_filter_matrix), label='Time Filtered Matrix Y - Closed Eyes')
+plt.plot(Y_C_time, sum(Y_C_filter_matrix), label='Time Segement 15')
 plt.xlabel('Time')
+plt.title('Filtered Measurement Matrix from S1_CClean')
 plt.legend()
 
 plt.subplot(412)
-plt.plot(Y_O_time, sum(Y_O_filter_matrix), label='Time Filtered Matrix Y - Open Eyes')
+plt.plot(Y_O_time, sum(Y_O_filter_matrix), label='Time Segment 15')
 plt.xlabel('Time')
+plt.title('Filtered Measurement Matrix from S1_OClean')
 plt.legend()
 
 plt.subplot(413)
-plt.plot(X_C_time, sum(X_C_filter_matrix), label='Time Filtered Matrix X - Closed Eyes')
+plt.plot(X_C_time, sum(X_C_filter_matrix), label='Time Segment 15')
 plt.xlabel('Time')
+plt.title('Filtered Source Matrix from S1_CClean')
 plt.legend()
 
 plt.subplot(414)
-plt.plot(X_O_time, sum(X_O_filter_matrix), label='Time Filtered Matrix X - Open Eyes')
+plt.plot(X_O_time, sum(X_O_filter_matrix), label='Time Segment 15')
 plt.xlabel('Time')
+plt.title('Filtered Source Matrix from S1_OClean')
 plt.legend()
-
-for i in range(len(Y_C_filter_matrix)):
-    
-    
-
-print('Average difference between Y Closed and Y Open: ', abs((sum(Y_C_filter_matrix))/sum(Y_O_filter_matrix)))
-print('Average difference between X Closed and X Open: ', abs((sum(X_C_filter_matrix))/sum(X_O_filter_matrix)))
-
+plt.show()
+plt.savefig('figures/DFT_plot_X_and_Y_matrix_timeseg15.png')

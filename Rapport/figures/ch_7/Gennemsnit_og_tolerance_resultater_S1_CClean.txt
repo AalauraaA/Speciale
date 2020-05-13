@@ -1,16 +1,4 @@
-S1_CClean
-   - none
-      - gen: 4.3360
-      - over: 19
-      - under: 125
-   - 1/3
-      - gen: 8.3486
-      - over: 55
-      - under: 89
-   - 1/2
-      - gen: 19.3686
-      - over: 52
-      - under: 92
+
 
 S1_OClean
    - none
@@ -26,19 +14,20 @@ S1_OClean
       - over: 36
       - under: 87
 
-S3_CClean
+S1_CClean
    - none
-      - gen: 31.0877
-      - over: 126
-      - under: 59
+      - gen: 4.3360
+      - over: 19
+      - under: 125
    - 1/3
-      - gen: 1007.6461
-      - over: 153
-      - under: 32
+      - gen: 8.3486
+      - over: 55
+      - under: 89
    - 1/2
-      - gen: 392.5444
-      - over: 86
-      - under: 99
+      - gen: 19.3686
+      - over: 52
+      - under: 92
+
 
 S3_OClean
    - none
@@ -54,19 +43,20 @@ S3_OClean
       - over: 187
       - under: 43
 
-S4_CClean
+S3_CClean
    - none
-      - gen: 840.3562
-      - over: 133
-      - under: 81
+      - gen: 31.0877
+      - over: 126
+      - under: 59
    - 1/3
-      - gen: 39.0162
-      - over: 144
-      - under: 70
+      - gen: 1007.6461
+      - over: 153
+      - under: 32
    - 1/2
-      - gen: 43.1886
-      - over: 144
-      - under: 70
+      - gen: 392.5444
+      - over: 86
+      - under: 99
+
 
 S4_OClean
    - none
@@ -81,3 +71,17 @@ S4_OClean
       - gen: 450.6229
       - over: 101
       - under: 121
+
+S4_CClean
+   - none
+      - gen: 840.3562
+      - over: 133
+      - under: 81
+   - 1/3
+      - gen: 39.0162
+      - over: 144
+      - under: 70
+   - 1/2
+      - gen: 43.1886
+      - over: 144
+      - under: 70

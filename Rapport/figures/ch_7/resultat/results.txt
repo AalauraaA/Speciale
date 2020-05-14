@@ -1,0 +1,123 @@
+Resultater fra Trine : 
+
+S1_OClean (n_seg = 123, Ls = 515)
+   - none
+      - gen: 2.913
+      - over: 11
+      - under: 112
+	% 91
+	(0 outliers)
+   - 1/3
+      - gen: 9.79
+      - over: 56
+      - under: 65
+	% 53
+	(2 outliers)
+   - 1/2
+      - gen: 8.378
+      - over: 31
+      - under: 92
+	% 75
+	(0 outliers)
+
+S1_CClean (n_seg = 144, Ls = 516)
+   - none
+      - gen: 5.172
+      - over: 11
+      - under: 133
+	% 92
+	(0 outliers)
+   - 1/3
+      - gen: 5.351 
+      - over: 29
+      - under: 115 
+	% 80
+	(0 outliers)
+   - 1/2	
+      - gen: 11.36
+      - over: 36
+      - under: 106
+	% 74 
+	(2 outlies was removed)
+
+
+S3_OClean - n_seg = 230, Ls = 513
+   - none
+      - gen: 1.572
+      - over: 4
+      - under: 226
+	% 98
+	(0 outlier)
+   - 1/3
+      - gen: 13.89
+      - over: 76
+      - under: 151
+	% 66
+	(3 outliers)
+   - 1/2
+      - gen: 19.58
+      - over: 131
+      - under: 96
+	% 42
+	( 3 outliers)
+
+S3_CClean - n_seg = 185, Ls = 514
+   - none
+      - gen: 15.06
+      - over: 71
+      - under: 113
+	% 61
+	(1 outlier)
+   - 1/3
+      - gen: 15.13
+      - over: 99
+      - under: 86
+	% 46
+	(0 outliers)
+   - 1/2
+      - gen: 13.11
+      - over: 51
+      - under: 134
+	% 72
+	(0 outliers)
+
+
+S4_OClean - n_seg = 222, Ls = 514
+   - none
+      - gen: 4.753
+      - over: 28
+      - under: 193
+	% 87
+	(1 outlier)
+   - 1/3
+      - gen: 6.25
+      - over: 52
+      - under: 170
+	% 77
+	(0 outliers)
+   - 1/2
+      - gen: 13.99
+      - over: 64
+      - under: 154
+	% 69
+	(4 outliers)
+
+S4_CClean - n_seg=214, Ls=515
+   - none
+      - gen: 19.44
+      - over: 77
+      - under: 135
+	% 63
+	(2 outliers)
+   - 1/3
+      - gen: 18.21
+      - over: 110
+      - under: 103
+	% 48
+	(1 outlier)
+   - 1/2
+      - gen: 11.96
+      - over: 66
+      - under: 148
+	% 69
+	(0 outliers)

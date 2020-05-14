@@ -9,7 +9,7 @@ The Cov-DL algorithm is tested on the two simulations of the deterministic data,
 \subsubsection{Cov-DL1}
 For $\mathbf{Y}$ specified by $N > \widetilde{M}$ and $k \leq \widetilde{M}$, implying Cov-DL1, the true and estimated values of $\mathbf{A}$ are plotted in figure \ref{fig:cov1_simple} for visual comparison. 
 Note that each matrix is vectorized such that the corresponding entries are compared.  
-The resulting $\text{MSE}(\mathbf{A}, \hat{\mathbf{A}})$ between the true $\mathbf{A}$ and the estimated $\hat{\mathbf{A}}$ become 
+The resulting $\text{MSE}(\mathbf{A}, \hat{\mathbf{A}})$ between the true $\mathbf{A}$ and the estimated $\hat{\mathbf{A}}$ become \todo{Jan vil gerne se på MSE(A, 0) også - L} 
 \begin{align*}
 \text{MSE}(\mathbf{A}, \hat{\mathbf{A}}) = 1.37.
 \end{align*}
@@ -29,7 +29,7 @@ The resulting MSE between the true $\mathbf{A}$ and the estimated $\hat{\mathbf{
 \end{align*}
 From figure \ref{fig:cov2_simple} the estimate $\hat{\mathbf{A}}$ shows visual tendencies from the true $\mathbf{A}$. 
 However, when it is compared to the initial guess of $\textbf{A}$, $\mathbf{A}_{\text{ini}}$, it is seen that the estimate $\hat{\mathbf{A}}$ have moved further away from the true $\mathbf{A}$ compared to $\mathbf{A}_{\text{ini}}$. 
-This suggest some flaw within the optimization process. 
+This suggest some flaw\todo{Jan sættet spørgsmål ved dette ord, jeg ved ikke hvorfor - L} within the optimization process. 
 By printing the convergence message from the used optimization solver it is confirmed that the optimization process was found to be terminated successful, with a current cost function value at $0.0$ after 26 iterations. 
 This suggest that an global minima has been found, but the minima, $\hat{\mathbf{A}}$, do not correspond to the true $\mathbf{A}$.    
 To confirm this the following evaluations of the cost function was conducted. 
@@ -40,7 +40,7 @@ To confirm this the following evaluations of the cost function was conducted.
 \end{align*}
 These evaluations ensures that the optimization solver have manage to find the solution that minimizes the cost function. 
 By evaluating the cost function with respect to the true $\mathbf{A}$ is it seen that it is not a global minimizer to the optimization problem. 
-This suggest that the optimization problem, derived in section \ref{sec:over_det}, do not fulfil the purpose.\todo{better word to use here?}    
+This suggest that the optimization problem, derived in section \ref{sec:over_det}, do not fulfil the purpose.\todo{better word to use here?} \todo{Jan spørger om vi ved hvorfor den ikke opfylder. Måske det er fordi den er convex? - L}
 
 \begin{figure}[H]
     \begin{minipage}[t]{.45\textwidth}
@@ -62,7 +62,7 @@ This suggest that the optimization problem, derived in section \ref{sec:over_det
 From the results of the evaluation of cost function it is found that the estimate $\hat{\mathbf{A}}$, especially within the Cov-DL2 branch, can not be consider a valid estimate of the mixing matrix $\mathbf{A}$. 
 It is suggested that the flaw lies within either the  derivation of the cost function to the optimization problem, more specifically within the assumption made throughout the derivation concerning the relation between $\mathbf{A}, \mathbf{D}$ and $\mathbf{U}$. 
 This statement build upon the success of the (non-documented) unit tests of the Cov-DL2 algorithm suggesting that the optimization of $\mathbf{D}$ not depending on $\mathbf{A}$ is possible.
-The appearance of this issue may suggest that there is a lack within the published results \cite{Balkan2015}\todo{(tjek cite)} considering the possibility of reconstructing the results.  
+The appearance of this issue may suggest that there is a lack within the published results \cite{Balkan2015} \todo{(tjek cite)} considering the possibility of reproducibility\todo{tjek sætning om den lyder rigtig efter "reproducibility" er sat ind -L} of the results.  
 
 Due to the time limitation of the project the error is not investigated further, and it is concluded that the estimate of $\mathbf{A}$ is not valid hence it will not be used as an input for the next stage of the main algorithm, M-SBL. This conclusion suggest that an alternative action must be considered. This is discussed further in section \ref{sec:test_base}.
 
@@ -116,14 +116,14 @@ This indicate that the algorithm can manage to locate and estimate the source si
 
 \subsubsection*{Possibilities of $N=k$}
 
-From the problem statement in chapter \ref{ch:problemstatement} it is an issue that $k$ has to be known in prior, in order to estimate $\textbf{A}$ and $\textbf{X}$. A short discussion in subsection \ref{subsec:kestimate}, describes how k can be estimated within the M-SBL algorithm. However one still needs to provide k in order to estimate $\textbf{A}$, thus an qualified estimate of k can not be avoided. 
+From the problem statement in chapter \ref{ch:problemstatement} it is an issue that $k$ has to be known a prior, in order to estimate $\textbf{A}$ and $\textbf{X}$. A short discussion in subsection \ref{subsec:kestimate}, describes how k can be estimated within the M-SBL algorithm. However one still needs to provide k in order to estimate $\textbf{A}$, thus an qualified estimate of k can not be avoided. 
 
 Similar to k, the maximum number of active sources $N$ is unknown in practise as it is described in chapter \ref{ch:motivation}. 
 The difference between $k$ and $N$ defines the number of zero rows in $\textbf{X}$.
 During the estimation of $\textbf{X}$ the localisation of the non-zero rows are in general significant to minimize the MSE. However, the fact that the true $N$ can not be known for EEG measurements weakens the argument for of focusing on the localisation rather than only focusing on the value estimation of the source signals. Furthermore it is not within the main scope of this thesis to localise the source signal.  
 When considering the linear system, $\textbf{Y}=\textbf{AX}$, of which the model is build, $\textbf{Y}$ does not change by removing the zero-rows of $\textbf{X}$ and the corresponding columns in $\textbf{A}$.
  
-From this is can be argued that letting $N = k$ is as good an estimate of $N$ as any other. Note in order to fulfil the sufficient conditions for the existence of a solution to the system, that $k$ hence $N$ is limited by $\widetilde{M}$.     
+From this is can be argued that letting $N = k$ is as good an estimate of $N$ as any other. Note in order to fulfil the sufficient conditions for the existence of a solution to the system, that $k$ hence $N$ is limited by $\widetilde{M}$ \todo{Jan mener at denne sætning er svagt formuleret, "as any other" - L}.     
 
 Consider the effect of letting $N = k$ within the M-SBL algorithm. Here it is only the estimation of the support set which is eliminated.   
 
@@ -175,7 +175,7 @@ The resulting estimate is plotted in figure \ref{fig:AR2} and the MSE becomes
 From figure \ref{fig:AR1} it is visually confirmed that the M-SBL algorithm manage to recover the source signals of the source matrix $\mathbf{X}$. 
 Some source signals nearly perfect estimated while other are have minor differences. 
 From figure \ref{fig:AR2} the same tendency is seen, though more visual flaws are seen compared to figure \ref{fig:AR1}. 
-This result suggest that a bigger distance between $M$ and $N$ results in a weaker performance from the M-SBL algorithm.        
+This result suggest that a bigger distance between $M$ and $N$ results in a worse performance from the M-SBL algorithm.        
 
 %\input{sections/ch_implementation/model_fit.tex} 
 

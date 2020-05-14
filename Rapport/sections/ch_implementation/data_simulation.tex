@@ -2,8 +2,8 @@
 To test the performance of the algorithm simulated data, corresponding to the model $\mathbf{Y} = \mathbf{A}\mathbf{X}$, is needed. All data sets are simulated based on the following approach, satisfying the sufficient conditions for recovery, displayed in theorem \ref{th:conditions}.
  
 A source matrix $\mathbf{X} \in \mathbb{R}^{N \times L}$ is constructed, such that each row makes an independent signal which varies over $L$ samples or a zero row. 
-As such the non-zero rows of $\mathbf{X}$ are mutually orthogonal, which fulfils the first conditions of theorem \ref{th:conditions}.   
-Then a mixing matrix $\mathbf{A} \in \mathbb{R}^{M \times N}$ is constructed with equally distributed and independent entries. 
+As such the non-zero rows of $\mathbf{X}$ are mutually orthogonal\todo{Jan siger at rækkerne er independent men de er ikke nødvendigvis ortogonale medmindre de har zero mean - L}, which fulfils the first conditions of theorem \ref{th:conditions}.   
+Then a mixing matrix $\mathbf{A} \in \mathbb{R}^{M \times N}$ is constructed with identically distributed and independent entries. 
 As such the source signals are randomly mixed and the mixing matrix fulfils the second condition of theorem \ref{th:conditions}.
 With known $\mathbf{A}$ and $\mathbf{X}$ the measurement matrix $\mathbf{Y} \in \mathbb{R}^{M \times L}$ is simulated according to the model, by the matrix product $\mathbf{Y} = \mathbf{AX}$.  
 
@@ -45,15 +45,15 @@ This illustrates how the source signals are transformed by the mixing matrix $\m
 \subsection{Stochastic Data Set}\label{sec:stoch_data}
 The purpose of this second kind of data is to resemble EEG measurements for which the model is intended. 
 Here different data sets are simulated depending on the chosen specifications of $N$, $k$, $M$ and $L$. 
-Every data set is constructed based on four different autoregressive processes of various order, each process representing one source signal
+Every data set is constructed based on four different linear autoregressive processes of various order, each process representing one source signal
 \begin{itemize}
 \item[-] $x_{t}^{1} = \sum_{i=1}^{2} \phi_i x_{t-i}^{1} + w_t^{1}$
 \item[-] $x_{t}^{2} = \sum_{i=1}^{2} \zeta_i x_{t-i}^{2} + w_t^{2}$
 \item[-] $x_{t}^{3} = \sum_{i=1}^{3} \eta_i x_{t-i}^{3} + w_t^{3}$
 \item[-] $x_{t}^{4} = \sum_{i=1}^{4} \xi_i x_{t-i}^{4} + w_t^{4}$
 \end{itemize}
-where $\boldsymbol{\phi}, \boldsymbol{\zeta}, \boldsymbol{\eta}$ and $\boldsymbol{\xi}$ are different model parameters and $w_t^{j}$ for $j = 1,\hdots ,4$ is white noise, corresponding to process $j$.
-$\mathbf{X}$ is constructed by drawing $k$ autoregressive processes randomly among the four, if $k < N$ zero rows are inserted randomly such that $\mathbf{X} \in \mathbb{R}^{N \times L}$.  
+where $\boldsymbol{\phi}, \boldsymbol{\zeta}, \boldsymbol{\eta}$ and $\boldsymbol{\xi}$ are different model parameters and $w_t^{j}$ for $j = 1,\hdots ,4$ are mutually independent Gaussian distributed white noise sources.
+$\mathbf{X}$ is constructed by drawing $k$ autoregressive processes randomly each of length $L$ among the four, if $k < N$ zero rows are inserted randomly such that $\mathbf{X} \in \mathbb{R}^{N \times L}$.  
 The mixing matrix $\mathbf{A}$ of size $M \times N$ is, like the previously, generated randomly from a Gaussian distribution.
 By multiplying the source matrix and the mixing matrix, the measurement matrix $\mathbf{Y}$ is achieved.
 The stochastic data set then consist of $\{ \mathbf{Y}, \mathbf{X}, \mathbf{A} \}$. 

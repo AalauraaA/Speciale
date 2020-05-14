@@ -6,14 +6,14 @@ Furthermore is the MSE tolerance $= 5$ plotted, indicting for each segment wheth
 \begin{widepage}
     \begin{minipage}[t]{.45\textwidth}
 		\centering
-		\includegraphics[width=1\linewidth]{figures/ch_7/average_mse_non_removed_ica}
+		\includegraphics[width=1\linewidth]{figures/ch_7/resultat/average_mse_none_removed_ica}
 	\caption{$MSE\left(\hat{\mathbf{X}}_{\text{main}},\hat{\mathbf{X}}_{\text{ICA}}\right)$ for all 144 segments}
 	\label{fig:M=N_1}
     \end{minipage} 
     \hspace{0.5cm}
     \begin{minipage}[t]{.45\textwidth}
         \centering
-		\includegraphics[width=1\linewidth]{figures/ch_7/average_mse_non_removed_ica_zoom.png}
+		\includegraphics[width=1\linewidth]{figures/ch_7/resultat/average_mse_none_removed_ica_zoom.png}
 	\caption{$MSE\left(\hat{\mathbf{X}}_{\text{main}},\hat{\mathbf{X}}_{\text{ICA}}\right)$ for all 144 segments. Plotted only for the y-axis interval [-10, 50] for better visualisation.}
 	\label{fig:M=N_1_2}
     \end{minipage}
@@ -25,14 +25,14 @@ From figure \ref{fig:M=N_2} it is seen that the estimate of each source result i
 \begin{widepage}
     \begin{minipage}[t]{.45\textwidth}
 \centering
-\includegraphics[width=1\linewidth]{figures/ch_7/mse_non_removed_ica_timeseg55.png}
+\includegraphics[width=1\linewidth]{figures/ch_7/resultat/mse_none_removed_ica_timeseg5.png}
 \caption{$MSE\left(\hat{\mathbf{X}}_{\text{main}_{i}},\hat{\mathbf{X}}_{\text{ICA}_{i}}\right)$ for every row $i = 1, \hdots, k$ in time segment $s=56$.}
 \label{fig:M=N_2}
 \end{minipage} 
 \hspace{0.5cm}
 \begin{minipage}[t]{.45\textwidth}
 \centering
-\includegraphics[width=1\linewidth]{figures/ch_7/EEG_non_removed_scaled_timeseg55S1_CClean.png}
+\includegraphics[width=1\linewidth]{figures/ch_7/resultat/EEG_none_removed_scaled_timeseg5S1_CClean.png}
 \caption{Plot of the $k = 13$ sources from $\hat{\mathbf{X}}_{\text{main}}$ and $\hat{\mathbf{X}}_{\text{ICA}}$ from time segment $s = 56$ with $M=N$}
 	\label{fig:M=N_3}
     \end{minipage}
@@ -47,8 +47,8 @@ The achieved results will serve as reference when analysing the results of the f
 \hline
 \multirow{2}{*}{\textbf{\begin{tabular}[c]{@{}c@{}}Case 0 \\ $M=N$\end{tabular}}} & \multicolumn{2}{c|}{test subject 1} & \multicolumn{2}{c|}{test subject 2} & \multicolumn{2}{c|}{test subject 3} \\ \cline{2-7} 
                                                                                   & Open             & Close            & Open             & Close            & Open            & Close             \\ \hline
-\multicolumn{1}{|c|}{Average MSE()}                                               & 3.800            & 4.336            & 3.623            & 31.08            & 11.98           & 840.3           \\ \hline
-\begin{tabular}[c]{@{}c@{}}Segments below \\ tolerance in \%\end{tabular}          & 78             & 87            & 91             & 32             & 65            & 38              \\ \hline
+\multicolumn{1}{|c|}{Average MSE()}                                               & 2.913            & 5.172            & 1.572            & 15.06            & 4.753            & 19.44           \\ \hline
+\begin{tabular}[c]{@{}c@{}}Segments below \\ tolerance in \%\end{tabular}          & 91             & 92            & 98 & 61             & 87            & 63 \\ \hline
 \end{tabular}
 \caption{Summarised results for Case 0. Test is performed on the every data set.}
 \label{tab:case_0}
@@ -64,14 +64,14 @@ From figure \ref{fig:M<N_1} and \ref{fig:M<N_1_2} it is seen that the for a majo
 \begin{widepage}
     \begin{minipage}[t]{.45\textwidth}
 		\centering
-		\includegraphics[width=1\linewidth]{figures/ch_7/average_mse_third_removed_ica}
+		\includegraphics[width=1\linewidth]{figures/ch_7/resultat/average_mse_third_removed_ica}
 	\caption{$MSE\left(\hat{\mathbf{X}}_{\text{main}},\hat{\mathbf{X}}_{\text{ICA}}\right)$ for all 144 segments}
 	\label{fig:M<N_1}
     \end{minipage} 
 \hspace{0.5cm}
     \begin{minipage}[t]{.45\textwidth}
         \centering
-		\includegraphics[width=1\linewidth]{figures/ch_7/average_mse_third_removed_ica_zoom.png}
+		\includegraphics[width=1\linewidth]{figures/ch_7/resultat/average_mse_third_removed_ica_zoom.png}
 	\caption{$MSE\left(\hat{\mathbf{X}}_{\text{main}},\hat{\mathbf{X}}_{\text{ICA}}\right)$ for all 144 segments. Plotted only for the y-axis interval [-10, 50] for better visualisation.}
 	\label{fig:M<N_1_2}
     \end{minipage}
@@ -83,14 +83,14 @@ From figure \ref{fig:M<N_2} and \ref{fig:M<N_3} showing the results of segment 5
 \begin{widepage}
     \begin{minipage}[t]{.45\textwidth}
 \centering
-\includegraphics[width=1\linewidth]{figures/ch_7/mse_third_removed_ica_timeseg55.png}
+\includegraphics[width=1\linewidth]{figures/ch_7/resultat/mse_third_removed_ica_timeseg5.png}
 \caption{$MSE\left(\hat{\mathbf{X}}_{\text{main}_{i}},\hat{\mathbf{X}}_{\text{ICA}_{i}}\right)$ for every row $i = 1, \hdots, k$ in time segment $s=56$.}
 \label{fig:M<N_2}
 \end{minipage} 
 \hspace{0.5cm}
 \begin{minipage}[t]{.45\textwidth}
 \centering
-\includegraphics[width=1\linewidth]{figures/ch_7/EEG_third_removed_scaled_timeseg55S1_CClean.png}
+\includegraphics[width=1\linewidth]{figures/ch_7/resultat/EEG_third_removed_scaled_timeseg5S1_CClean.png}
 \caption{Plot of the $k = 13$ sources from $\hat{\mathbf{X}}_{\text{main}}$ and $\hat{\mathbf{X}}_{\text{ICA}}$ from time segment $s = 56$ with $M=N$}
 	\label{fig:M<N_3}
     \end{minipage}
@@ -105,15 +105,15 @@ Furthermore both the average MSE and the corresponding percentage appears fluctu
 \hline
 \multirow{2}{*}{\textbf{\begin{tabular}[c]{@{}c@{}}Case 1 \\ $M<N$\end{tabular}}} & \multicolumn{2}{c|}{test subject 1} & \multicolumn{2}{c|}{test subject 2} & \multicolumn{2}{c|}{test subject 3} \\ \cline{2-7} 
                                                                                   & Open             & Close            & Open             & Close            & Open              & Close           \\ \hline
-\multicolumn{1}{|c|}{Average MSE()}                                               & 23.07            & 8.348            & 685.5            & 1007.6            & 26.66          & 39.01           \\ \hline
-\begin{tabular}[c]{@{}c@{}}Segments below \\ tol in percent\end{tabular}          & 34             & 62             & 35             & 17             & 33              & 33(?)            \\ \hline
+\multicolumn{1}{|c|}{Average MSE()}                                               & 9.79            & 5.351            & 13.89            & 15.13            & 6.25          & 18.21          \\ \hline
+\begin{tabular}[c]{@{}c@{}}Segments below \\ tol in percent\end{tabular}          & 53             & 80             & 66 & 46             & 77              & 48            \\ \hline
 \end{tabular}
 \caption{Summarised results for Case 1. Test is performed on the every data set.}
 \label{tab:case_1}
 \end{table}
 
 \subsection{Case 2, $M<<N$}
-Here the main algorithm is applied to a data set, where the number of sensors is reduced to half. As such ICA is applied on the original data set with segments $\textbf{Y}_s$ specified by $M_= 27$ and $L_s = 516$. The main algorithm is applied on $\textbf{Y}_s$ specified by $M=13$\todo{13 eller 14?} and $L_s=516$, given $\textbf{A}_{fix}$ and $N = k$ provided from ICA.  
+Here the main algorithm is applied to a data set, where the number of sensors is reduced to half. As such ICA is applied on the original data set with segments $\textbf{Y}_s$ specified by $M_= 27$ and $L_s = 516$. The main algorithm is applied on $\textbf{Y}_s$ specified by $M=13$ and $L_s=516$, given $\textbf{A}_{fix}$ and $N = k$ provided from ICA.  
 The viewed plots correspond to those of case 0 and case 1, but for further reduce number of sources $M<<N$, hence detailed plot description is omitted.   
 
 From figure \ref{fig:M<<N_1} and \ref{fig:M<<N_1_2} it is seen that the MSE value for each segment is more widely scatted around the tolerance, compared to case 0 and 1. Outliers where the MSE value has increased significantly do also occur, similar to case 1. This indicates that the performance of the main algorithm has decreased further, compared to case 1. 
@@ -122,14 +122,14 @@ From figure \ref{fig:M<<N_1} and \ref{fig:M<<N_1_2} it is seen that the MSE valu
 \begin{widepage}
     \begin{minipage}[t]{.45\textwidth}
 		\centering
-		\includegraphics[width=1\linewidth]{figures/ch_7/average_mse_second_removed_ica}
+		\includegraphics[width=1\linewidth]{figures/ch_7/resultat/average_mse_second_removed_ica}
 	\caption{$MSE\left(\hat{\mathbf{X}}_{\text{main}},\hat{\mathbf{X}}_{\text{ICA}}\right)$ for all 144 segments}
 	\label{fig:M<<N_1}
     \end{minipage} 
 \hspace{0.5cm}
     \begin{minipage}[t]{.45\textwidth}
         \centering
-		\includegraphics[width=1\linewidth]{figures/ch_7/average_mse_second_removed_ica_zoom.png}
+		\includegraphics[width=1\linewidth]{figures/ch_7/resultat/average_mse_second_removed_ica_zoom.png}
 	\caption{$MSE\left(\hat{\mathbf{X}}_{\text{main}},\hat{\mathbf{X}}_{\text{ICA}}\right)$ for all 144 segments. Plotted only for the y-axis interval [-10, 50] for better visualisation.}
 	\label{fig:M<<N_1_2}
     \end{minipage}
@@ -142,14 +142,14 @@ The above indication is supported by figure \ref{fig:M<<N_2} and \ref{fig:M<<N_3
 \begin{widepage}
     \begin{minipage}[t]{.49\textwidth}
 \centering
-\includegraphics[width=1\linewidth]{figures/ch_7/mse_second_removed_ica_timeseg55_kopi.png}
+\includegraphics[width=1\linewidth]{figures/ch_7/resultat/mse_second_removed_ica_timeseg5.png}
 \caption{$MSE\left(\hat{\mathbf{X}}_{\text{main}_{i}},\hat{\mathbf{X}}_{\text{ICA}_{i}}\right)$ for every row $i = 1, \hdots, k$ in time segment $s=56$.}
 \label{fig:M<<N_2}
 \end{minipage} 
 \hspace{.5cm}
 \begin{minipage}[t]{.49\textwidth}
 \centering
-\includegraphics[width=1\linewidth]{figures/ch_7/EEG_second_removed_scaled_timeseg55S1_CClean_kopi.png}
+\includegraphics[width=1\linewidth]{figures/ch_7/resultat/EEG_second_removed_scaled_timeseg5S1_CClean.png}
 \caption{Plot of the $k = 13$ sources from $\hat{\mathbf{X}}_{\text{main}}$ and $\hat{\mathbf{X}}_{\text{ICA}}$ from time segment $s = 56$ with $M<N$}
 	\label{fig:M<<N_3}
     \end{minipage}
@@ -166,8 +166,8 @@ The test is repeated for every data set, and the results are summarised in table
 \hline
 \multirow{2}{*}{\textbf{\begin{tabular}[c]{@{}c@{}}Case 2\\ $M<<N$\end{tabular}}} & \multicolumn{2}{c|}{test subject 1} & \multicolumn{2}{c|}{test subject 2} & \multicolumn{2}{c|}{test subject 3} \\ \cline{2-7} 
                                                                                   & Open             & Close            & Open             & Close            & Open             & Close            \\ \hline
-\multicolumn{1}{|c|}{Average MSE()}                                               & 116.6            & 19.36            & 345.4            & 392.5            & 450.6            & 43.18            \\ \hline
-\begin{tabular}[c]{@{}c@{}}Segments below \\ tol in percent\end{tabular}          & 71             & 64             & 19  & 53             & 55             & 33 \\ \hline
+\multicolumn{1}{|c|}{Average MSE()}                                               & 8.378            & 11.36            & 19.58            & 13.11            & 13.99           & 11.96            \\ \hline
+\begin{tabular}[c]{@{}c@{}}Segments below \\ tol in percent\end{tabular}          & 75             & 74             & 42 & 72             & 69             & 69 \\ \hline
 \end{tabular}
 \caption{Summarised results for case 2. Test is performed on the every data set.}
 \label{tab:case_2}

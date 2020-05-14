@@ -50,6 +50,7 @@ $\text{MSE}(\mathbf{X}, \hat{\mathbf{X}})$ & 3.271 & 113.10 & 30.02 & 86.51 & 23
 \label{tab:fixed}
 \end{table}
 \noindent
+\todo{Jan synes at denne tabel er interessant - L}
 From table \ref{tab:fixed} and figure \ref{fig:vary_A} it is first of all seen that relation between the MSE of $\textbf{A}$ and $\textbf{X}$ is not as expected, as the lowest $\text{MSE}(\mathbf{A}, \hat{\mathbf{A}}_{\text{fix}})$ results in the highest $\text{MSE}(\mathbf{X}, \hat{\mathbf{X}})$ and so forth. 
 The lowest $\text{MSE}(\mathbf{A}, \hat{\mathbf{A}}_{\text{fix}})$ is achieved by using $\hat{\mathbf{A}}_{\text{ICA}}$, which confirms that the ICA algorithm manage to estimate $\mathbf{A}$ when $k \leq M$. 
 However, as this do not result in the best estimate of $\mathbf{X}$ a different choice of $\hat{\mathbf{A}}$ is still considered. 
@@ -61,10 +62,10 @@ From these observation a fixed estimate of the mixing matrix drawn from a normal
 
 Due to the unexpected relation between $MSE(\mathbf{A}, \hat{\mathbf{A}}_{\text{fix}})$ and $\text{MSE}(\mathbf{X}, \hat{\mathbf{X}})$ an additional plot is computed. Figure \ref{fig:X_func_SNR} show the $\text{MSE}(\mathbf{X}, \hat{\mathbf{X}})$ as a function of $\hat{\textbf{A}}$ with varying SNR value. 
 Additionally figure \ref{fig:A_func_SNR} show the corresponding MSE between the True $\textbf{A}$ and $\hat{\textbf{A}}$ where an increasing amount of noise is added.
-Note that the amount of noise is decreasing along the x-axis. 
+Note that the noise variance is decreasing along the x-axis. 
 The noise is generated as Gaussian white noise, with increasing variance corresponding to the desired SNR value. The SNR value is considered in the interval [0.01, 2]\todo{where $SNR = 0.01$ correspond to 10 times noise to 1 times signal, and $SNR = 2$ is 2 times signal to 1 times noise.}. 
 From figure \ref{fig:X_func_SNR} it is seen that MSE decreases as the SNR decreases. This indicates as first expected that the better estimate of $\textbf{A}$ the better estimate of $\textbf{X}$. However this is still an contradiction to the result seen in figure \ref{fig:vary_A}. 
-This can however be due to the fact that the true $\textbf{A}$ being a Gaussian matrix with $\mu = 0$ and $\sigma = 1$ for which Gaussian noise is added. The MSE between the true $\textbf{A}$ and the noisy $\hat{\textbf{A}}$ seen in figure \ref{fig:A_func_SNR} is not as high as expected due to the relative large amount of noise, all being remarkably less than the corresponding MSE in table \ref{tab:fixed}.  
+This can however be due to the fact that the true $\textbf{A}$ being a Gaussian matrix with $\mu = 0$ and $\sigma = 1$ for which Gaussian noise is added. The MSE between the true $\textbf{A}$ and the noisy $\hat{\textbf{A}}$ seen in figure \ref{fig:A_func_SNR} is not as high as expected due to the relative large amount of noise, all being remarkably less than the corresponding MSE in table \ref{tab:fixed} \todo{Er der brugt gentagelser her eller er det bare et run? - L}.  
 
 
 \begin{figure}[H]

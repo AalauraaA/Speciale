@@ -8,53 +8,7 @@ Created on Fri May  8 09:31:52 2020
 def X_ica(data_name, Y, M):  
     from sklearn.decomposition import FastICA
     import numpy as np
-    " Make the measurement matrit Y the right dimension "
-    if data_name == 'S1_CClean.mat':
-        # For S1_CClean.mat remove last sample of first segment 
-        Y[0] = Y[0].T[:-1]
-        Y[0] = Y[0].T
-
-    if data_name == 'S1_OClean.mat':
-        for i in range(len(Y)):
-            if i <= 22:
-                Y[i] = Y[i].T[:-1]
-                Y[i] = Y[i].T
-            else:
-                continue
-
-    if data_name == 'S3_CClean.mat':
-        for i in range(len(Y)):
-            if i <= 12:
-                Y[i] = Y[i].T[:-1]
-                Y[i] = Y[i].T
-            else:
-                continue 
-    
-    if data_name == 'S3_OClean.mat':
-        for i in range(len(Y)):
-            if i <= 139:
-                Y[i] = Y[i].T[:-1]
-                Y[i] = Y[i].T
-            else:
-                continue 
-
-    if data_name == 'S4_CClean.mat':
-        for i in range(len(Y)):
-            if i <= 63:
-                Y[i] = Y[i].T[:-1]
-                Y[i] = Y[i].T
-            else:
-                continue
-
-    if data_name == 'S4_OClean.mat':
-        for i in range(len(Y)):
-            if i <= 178:
-                Y[i] = Y[i].T[:-1]
-                Y[i] = Y[i].T
-            else:
-                continue
-
-            
+   
     " Perform FastICA on Segmented Dataset "
     n_seg = len(Y)
     N = Y[0].shape[0]
@@ -62,10 +16,10 @@ def X_ica(data_name, Y, M):
     
     X_ica = np.zeros((n_seg, N, L-2))
     A_ica = np.zeros((n_seg, N, M))
-    for i in range(len(Y)):   
+    for i in range(n_seg):   
         X = Y[i].T
-        
-        ica = FastICA(n_components=N, max_iter=1000)
+        ica = FastICA(n_components=N, max_iter=1000,random_state=123)
+        print('ica on segment: {}'.format(i))
         X_ICA = ica.fit_transform(X)  # Reconstruct signals
         A_ICA = ica.mixing_
         X_ica[i] = X_ICA[:L-2].T

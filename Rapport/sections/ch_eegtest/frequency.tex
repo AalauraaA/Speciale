@@ -1,16 +1,16 @@
 \section{Alpha Wave Analysis}
-As mentioned in chapter \ref{ch:motivation} the sources are classified into four group according to a dominant frequency.
-For the provided EEG datasets the sources would be classified as alpha waves, with frequencies between 8 and 13 Hz.
-With the results from the main algorithm it would be interesting to see how the recovered sources and the provided measurements act in the frequency domain, when filtered to be in the range of the alpha wave.
+As mentioned in chapter \ref{ch:motivation} the source signals can be classified into four groups according to the dominant frequency \cite{EEGsignalprocessing}. It is known that when a person close the eyes, when relaxing, the amount of alpha frequency raises and become the dominant frequency. 
+The provided EEG measurements consist of measurements from a test subject with both open an closed eyes, hence it would be interesting to investigate the relation between the alpha frequency for open an closed eyes. The interesting part is then to compare the relation achieve from the provided measurements and the sources signals estimated by the main algorithm.
 
-For this comparison the dataset for subject 1, \texttt{S1\_OClean} and \texttt{S1\_CClean}, with open and closed eyes EEG measurements, will be used. 
-Furthermore, it is expected to see that the closed-eyes dataset have a higher amplitude as it is expected that more brain activity occur when you closed your eyes \todo{reference eller noget? -L}.
+With a test of this kind it is possible to evaluate the recovered source signals from a different perspective. Here the objective is first of all to see the behaviour with respect to the frequency, expected by the theory. Next it is interesting to investigate the aspect of analysis performed on EEG level versus analysis performed on source level, as discussed in chapter \ref{ch:motivation}.              
 
-\subsection{Setup}
-To perform the filtering according to the alpha wave frequency range a bandpass Butterworth filter of order 5 with cutoff frequency $8$ Hz and $13$ Hz will be applied to the datasets and the recovered sources from the main algorithm. This will be done in the time domain. 
-To see the filtering process the datasets and recovered sources will after the filtering be transform into the frequency domain. This will be done with the fast Fourier transform (FFT).
-
-In figure \ref{fig:dft_1} only one source was investigated in both time and frequency domain. The source of interest was recovered from the closed-eyes dataset \texttt{S1\_CClean} dataset from time segment $15$. Furthermore, the system specification used to recover the source was $M=27$ and $k=14$.
+\subsection{Test Setup}
+For this comparison the data sets of subject 1, \texttt{S1\_OClean} and \texttt{S1\_CClean}, EEG measurements of open and closed eyes respectively, will be used. 
+It is expected that the power within the alpha frequency band is highest for the closed eyes data set, \texttt{S1\_CClean}.
+To compare the amount of alpha frequency in the two dataset, a bandpass filter is used to isolate the alpha frequencies. 
+To perform the filtering a bandpass Butterworth filter of order 5 with cut-off frequencies $8$ Hz and $13$ Hz will be applied to the measurements and to the source signals recovered from the main algorithm. The filtering is performed in the time domain. 
+The filtering process is illustrated in figure \ref{fig:dft_1}.
+In the illustrated example only one source was investigated in both time and frequency domain, where the fast Fourier transformation (FFT) was applied\cite{??}\todo{kilde til FFT}.  The source of interest was recovered from the closed-eyes dataset \texttt{S1\_CClean} from time segment $15$. The system specification used to recover the source was $M=27$ and $k=14$.
 \begin{figure}[H]
 \centering
 \includegraphics[scale=0.28]{figures/ch_7/DFT_plot_X_timeseg15_source10.png}
@@ -18,44 +18,32 @@ In figure \ref{fig:dft_1} only one source was investigated in both time and freq
 \label{fig:dft_1}
 \end{figure}
 \noindent
-The first plot in figure \ref{fig:dft_1} is the recovered source signal in the time domain. The next plot is the same source signal but transformed to the frequency domain with the FFT. The plot has been scaled to only show the frequencies from 0-70 Hz and the power from 0 to 150. The third plot illustrate the frequency response of the bandpass Butterworth filter with order 5. The vertical blue lines illustrate the cutoff frequency for 8 Hz and 13 Hz.
-Plot number 4 is the recovered source signal filtered with the bandpass Butterworth filter which have been plot in the time domain. The last plot is the filtered source signal from plot 4 transformed to frequency domain, again with the FFT.
+The first plot in figure \ref{fig:dft_1} is the recovered source signal in the time domain. The next plot is the same source signal but transformed to the frequency domain with the FFT. The plot has been scaled to only show the frequencies from 0-70 Hz and the power from 0 to 150. The third plot illustrate the frequency response of the bandpass Butterworth filter with order 5. The vertical blue lines illustrate the cut-off frequencies at 8 Hz and 13 Hz.
+Plot number 4 is the recovered source signal filtered with the bandpass Butterworth filter, plotted in the time domain. The last plot is the filtered source signal plotted in the frequency domain. This verifies that the signal of interest has been filtered according to the alpha band. From the filtered source signal in the time domain, the signal resemble the alpha wave as seen in figure \ref{fig:EEG_example}.
 
-From the frequencies plot it can be seen that the signal of interest has been filtered according to the alpha wave. And from the filtered source signal in the time domain, the signal resemble the alpha wave as seen in figure \ref{fig:EEG_example}.
+The filtering process is applied to 100 time segments of both the closed-eyes and open-eyes for respectively the raw measurement and the recovered source signals.    
+Note that for each time segment all present sources signals or sensor measurements have been summed such that only one signal resembles each time segment.
+
+Then for each time segments the relation between closed and open eyes, is computed, with respect to power within the alpha band. The relation is defined as 
+\begin{align*}
+Relation = \frac{C}{O} 
+\end{align*}
+where $C$ is the average power from closed eyes, and $O$ is the average power from the open eyes segment. 
+This is done for both the raw measurements and the recovered source signals. By this it is possible to compare the relation found on source level and the relation see on EEG level.  
 
 \subsection{Results}
-The filtering process have been applied to the whole dataset of closed-eyes and open-eyes and the respectively recovered sources. Each time segment has been summed such that only one signal resemble each time segments.
-
-Figure \ref{fig:dft_2} shows two filtered source signals and two filtered measurement signals, one from the open-eyes dataset \texttt{S1\_OClean} and one from the close-eyes dataset \texttt{S1\_CClean}, from the time segment 15.
+Figure \ref{fig:dft_2} show an example of one time segment. To the left is the power spectrum of the filtered measurements plotted, for open and closed eyes respectively. The resulting relation between the two is $1.15$. To the right is power spectrum of the filtered source signals found by the main algorithm, likewise for open and closed eyes respectively. The resulting relation between open and closed eyes is here $1.41$.  
 \begin{figure}[H]
 \centering
-\includegraphics[scale=0.28]{figures/ch_7/DFT_plot_X_and_Y_signal_timeseg15_source10.png}
-\caption{Filtered signals from measurement 10 and source 10 from time segment 15 from the closed eye dataset \texttt{S1\_CClean}.}
+\includegraphics[scale=0.5]{figures/ch_7/FFT_plot.png}
+\caption{...}
 \label{fig:dft_2}
 \end{figure}
 \noindent
-From figure \ref{fig:dft_2} it can be seen that a different between open-eyes and close-eyes datasets exists. From this example the difference from open-eyes to close-eyes measurement signals is $0.59$. The different from open-eyes to close-eyes source signals is $0.24$.
-The close-eyes dataset for this example has a higher amplitude just as expected. 
+By observing figure \ref{fig:dft_2} it is seen, for the specific segment, that the power within the alpha band is significantly larger within the measurement compared to the sources. Furthermore is it seen for both the measurement and the source signals that the power has increased from open to closed eyes. Considering the calculated relations is it seen the that biggest increase in power is found on source level. This may indicate a more clear access to the behaviour of the sources...(?)\todo{can we say something better here or maybe nothing}.  
+This behaviour do support the theory, however the result of a single segment is not sufficient to draw any conclusion.          
 
-Lets now investigate if this behaviour continues when looking at several signals. Figure \ref{fig:dft_3} is a sum of all signals in one time segment.
-\begin{figure}[H]
-\centering
-\includegraphics[scale=0.28]{figures/ch_7/DFT_plot_X_and_Y_matrix_timeseg15.png}
-\caption{Filtered measurement matrix and source matrix for time segment 15. The rows of the matrices have been sum together.}
-\label{fig:dft_3}
-\end{figure}
-\noindent
-The difference from the open-eyes to close-eyes measurement signals is $1.99$. The different from open-eyes to close-eyes source signals is $0.43$. The same behaviour as seen in figure \ref{fig:dft_2} also occur in this case. Furthermore, the summed signals still resemble the alpha wave. 
-
-Figure \ref{fig:dft_4} is figure \ref{fig:dft_3} transformed to the frequency domain with the FFT.
-\begin{figure}[H]
-\centering
-\includegraphics[scale=0.28]{figures/ch_7/DFT_plot_X_and_Y_matrix_timeseg15_power.png}
-\caption{Filtered measurement matrix and source matrix for time segment 15. The rows of the matrices have been sum together.}
-\label{fig:dft_4}
-\end{figure}
-\noindent
-The following figure illustrate the difference between open-eyes to closed-eyes for 100 time segments.
+Figure \ref{fig:dft_5} and \ref{fig:dft_6} illustrate the O/C relation computed for 100 time segments, of the measurements and source signals respectively. The horizontal line in the plots mark the 1/1 relation, as such the segments where the highest power was found for closed eyes lies above the line, and opposite the segments with least power found for closed eyes lies below the line.      
 \begin{figure}[H]
 \begin{widepage}
     \begin{minipage}[t]{.49\textwidth}
@@ -74,4 +62,9 @@ The following figure illustrate the difference between open-eyes to closed-eyes 
 \end{widepage}
 \end{figure}
 \noindent
-From figure \ref{fig:dft_6} the overall difference between the recovered sources from the open-eyes dataset to the closed-eyes dataset is $2.01$ which support our expectation of the behaviour of brain activity. By the transformation according to the alpha wave frequency band the recovered sources behaves as expected and this support the that main algorithm recovers in some sense useful results.
+From the figures it is clear that the behaviour seen from the example of segment 35, is not a continuous behaviour. It is seen both on EEG level and source level that relation scatters round the horizontal line, indicating that the relation is not stationary over time. 
+On figure \ref{fig:dft_6} is it seen that the C/O relation range from near zero to beyond 20 for a few segments, indicating a significant chance in power compared to figure \ref{fig:dft_5}. With 57 out of 100 segment lying below the horizontal line it the behaviour is considered more or less random. 
+From these observations the expected behaviour was not found. This do support the earlier findings with respect to the main algorithm, indicting a significant unreliability to the result.
+
+With respect to the method for computing the C/O relation it could be considered whether computing the relation for every segment is the right choice. One could argue that summing the power over all segments for respectively open an closed eyes and then compute the C/O relation would yield a different result.  
+   

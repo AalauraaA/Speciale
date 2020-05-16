@@ -1,0 +1,15 @@
+\chapter{Further Studies}
+In this chapter some further studies regarding this thesis and the implemented main algorithm will be discussed.
+
+As described in chapter \ref{ch:implementation} the main algorithm do not manage to successfully recover the mixing matrix and source matrix from the simulated data sets. And by that lead to a non successful recovering of sources from the real EEG measurements. 
+From the discussion, cf. \ref{ch:dissucssion}, it was discussed that the methods behind the main algorithm was not reproducible and therefore was not the best fit for this thesis to sought in recovering sources. 
+To make the main algorithm more successful an alternative method to finding the mixing matrix must be researched.
+
+Another change that could studied further on is to complete change how we will used of EEG measurements. For this thesis the purpose of the EEG measurements was to identify and localised active sources with the main algorithm. 
+Instead if one sought back to the motivation chapter \ref{ch:motivation} and remember the used of EEG measurements, e.g. in the hearing aids industry. 
+The article, XX, present a different method to make a used of the recovered information from the EEG measurement, a directional beam from a hearing aid influence by eye movements towards the speaking of interest. 
+As this thesis only are interesting in finding all sources from a provided EEG measurement data base, this could be a change of focus to only by interesting in the EEG measurement produced by eye movements. For this cases another EEG measurements data base must be provided or created as the one used in chapter \ref{ch:eeg_test} is without the EEG measurements constructed from the eye movement and surrounding muscle movements.
+
+A last thing that could interesting to work further on is to make the main algorithm into a real-time application such as this could a useful algorithm within the hearing aids industry. 
+One of the issue with this kind of application would be to make it low in time consumption as it would not be effective in short-time conversations if the it take 1 minutes to read and analyse the EEG measurements.
+

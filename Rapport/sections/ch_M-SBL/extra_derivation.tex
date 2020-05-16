@@ -1,4 +1,4 @@
-\section{Derivation of posterior  mean and covariance(put in appendix)}\label{app_sec:mean_cov}
+\section{Derivation of posterior  mean and covariance}\label{app_sec:mean_cov}
 The purpose is here to derive the mean and covariance of the posterior distribution
 \begin{align*}
 p\left( \textbf{x}_{\cdot j} \vert \textbf{y}_{\cdot j}; \boldsymbol{\gamma}\right) \sim \mathcal{N}(\boldsymbol{\mu} _{\cdot j},\boldsymbol{\Sigma}).
@@ -43,20 +43,22 @@ Then, from \cite{conditional_cov}, the posterior distribution of $\textbf{x}$ gi
 \boldsymbol{\mu} &= \boldsymbol{\mu}_{\textbf{x}}+\boldsymbol{\Sigma}_{\textbf{xy}}\boldsymbol{\Sigma}_{\textbf{yy}}^{-1}(\textbf{y}-\boldsymbol{\mu}_{\textbf{y}})
 \end{align*}
 Consider first the conditional covariance. Each covariance within the expression is now found:
-\\
+
 The covariance of $\textbf{x}$ comes directly from the distribution  
 \begin{align*}
 \boldsymbol{\Sigma}_{\textbf{xx}} = \boldsymbol{\gamma}\textbf{I}
 \end{align*} 
-The covariance between $\textbf{x}$ and $\textbf{y}\vert\textbf{x}$ is found by .....\todo{how to treat $\textbf{y}$ being conditional here? can't get the right result}
+
+The covariance between $\textbf{x}$ and $\textbf{y}\vert\textbf{x}$ is found by using the linearity of covariance and $\textbf{y}=\textbf{Ax}+\textbf{e}$.
 \begin{align*}
-\boldsymbol{\Sigma}_{\textbf{yx}} &= \mathbb{E}[XY] - \mathbb{E}[X]\mathbb{E}[Y]\\
-&= \mathbb{E}[XY] - 0 \mathbb{E}[Y] \\
-&= \mathbb{E}[XY]\\
-\hdots \\
-&= \boldsymbol{\gamma}\textbf{I}\textbf{A}^T?
+\boldsymbol{\Sigma}_{\textbf{yx}} &= \text{cov}\left(\textbf{x},\textbf{Ax}+\textbf{e} \right)\\ 
+&= \text{cov}\left(\textbf{x},\textbf{Ax}\right)+\text{cov}\left(\textbf{x},\textbf{e}\right)\\
+&= \boldsymbol{\Sigma}_{\textbf{xx}}\textbf{A}^T \\
+&= \boldsymbol{\gamma}\textbf{I}\textbf{A}^T
 \end{align*}
-\todo{Jans forslag: $Y = AX + E$ -- $E[YX^T] = E[(AX + E)X^T] = A \Sigma_{XX} = \gamma A$ ?? - L}
+where $\text{cov}\left(\textbf{X},\textbf{E}\right)=0$ because they are uncorrelated.
+\todo[inline]{next Rasmus missed cov(yy). either we define if like above wiht y=Ax but is x not given then so y|x for which var in known to be sigma. or it is just cov(yy) that we should use i main, se jan rettelse også, han mener det er fint sådan her. 
+if we let it be, we assume that cov(yy) is just sigmaI}
 Lastly the covariance of $\textbf{y}\vert \textbf{x}$ is similarly found by the definition of conditional covariance as follows 
 \begin{align*}
 \boldsymbol{\Sigma}_{\textbf{yy} \vert \mathbf{x}} =  \text{cov}(\textbf{y},\textbf{y}\vert \textbf{x}) &= \boldsymbol{\Sigma}_{\textbf{yy}} - \boldsymbol{\Sigma}_{\textbf{yx}}\boldsymbol{\Sigma}_{\textbf{xx}}^{-1}\boldsymbol{\Sigma}_{\textbf{xy}} \\

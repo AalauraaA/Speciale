@@ -54,7 +54,7 @@ X_O, Y_O = X_MAIN.X_main(data_name_O, Y_O, M_O, k_O)
 # =============================================================================
 # DFT
 # =============================================================================
-segment = 15
+segment = 35
 row = 10
 
 Y_C_signal = Y_C[segment][row]                  # one measurement signal
@@ -160,7 +160,7 @@ diff_sum_Y = []
 diff_sum_X = []
 for i in range(len(Y_C_filter_matrix)):    
     diff_sum_Y.append(abs(np.average(Y_C_fft_filter_matrix[i]/Y_O_fft_filter_matrix[i])))
-for i in range(len(X_C_filter_matrix)):    
+for i in range(len(X_O_filter_matrix)):    
     diff_sum_X.append(abs(np.average(X_C_fft_filter_matrix[i]/X_O_fft_filter_matrix[i])))
 
 print('Average difference (Matrix) between Y Closed and Y Open: ', np.average(diff_sum_Y))
@@ -170,9 +170,15 @@ print('Average difference (Matrix) between X Closed and X Open: ', np.average(di
 # =============================================================================
 # DFT of all time segments
 # =============================================================================
-X_sum_C = np.zeros(len(Y_C))
-Y_sum_C = np.zeros(len(Y_C))
-for seg in range(len(Y_C)):
+X_sum_C = np.zeros(100)
+Y_sum_C = np.zeros(100)
+X_sum_O = np.zeros(100)
+Y_sum_O = np.zeros(100)
+average_diff_X = np.zeros(100)
+average_diff_Y = np.zeros(100) 
+average_diff2_X = np.zeros(100)
+average_diff2_Y = np.zeros(100)
+for seg in range(100):
     X_C_fft_matrix, X_C_power_matrix = DFT_matrix(X_C[seg])      
     Y_C_fft_matrix, Y_C_power_matrix = DFT_matrix(Y_C[seg])   
     X_C_filter_matrix, X_C_fft_filter_matrix, X_C_power_filter_matrix = filtering_matrix(X_C[seg], lowcut, highcut, fs, order=5)
@@ -180,11 +186,11 @@ for seg in range(len(Y_C)):
 
     X_sum_C[seg] = np.average(sum(X_C_power_filter_matrix))
     Y_sum_C[seg] = np.average(sum(Y_C_power_filter_matrix))
-
+    if seg == segment:
+        X_C_power_filter_matrixSEG = np.array(X_C_power_filter_matrix, copy=True)
+        Y_C_power_filter_matrixSEG = np.array(Y_C_power_filter_matrix, copy=True)
    
-X_sum_O = np.zeros(len(Y_O))
-Y_sum_O = np.zeros(len(Y_O))
-for seg in range(len(Y_O)): 
+
     X_O_fft_matrix, X_O_power_matrix = DFT_matrix(X_O[seg])
     Y_O_fft_matrix, Y_O_power_matrix = DFT_matrix(Y_O[seg])
     X_O_filter_matrix, X_O_fft_filter_matrix, X_O_power_filter_matrix = filtering_matrix(X_O[seg], lowcut, highcut, fs, order=5) 
@@ -193,12 +199,14 @@ for seg in range(len(Y_O)):
     X_sum_O[seg] = np.average(sum(X_O_power_filter_matrix))
     Y_sum_O[seg] = np.average(sum(Y_O_power_filter_matrix))
 
+    if seg == segment:
+        X_O_power_filter_matrixSEG = np.array(X_O_power_filter_matrix, copy=True)
+        Y_O_power_filter_matrixSEG = np.array(Y_O_power_filter_matrix, copy=True)
 
-average_diff_X = np.zeros(100)
-average_diff_Y = np.zeros(100)    
-for seg in range(100):
-    average_diff_X[seg] = abs(X_sum_C[seg]/X_sum_O[seg])
-    average_diff_Y[seg] = abs(Y_sum_C[seg]/Y_sum_O[seg])
+    average_diff_X[seg] = np.average(sum(X_C_power_filter_matrix))/np.average(sum(X_O_power_filter_matrix))
+    average_diff_Y[seg] = np.average(sum(Y_C_power_filter_matrix))/np.average(sum(Y_O_power_filter_matrix))
+    average_diff2_X[seg] = (sum(sum(X_C_power_filter_matrix)))/(sum(sum(X_O_power_filter_matrix)))
+    average_diff2_Y[seg] = (sum(sum(Y_C_power_filter_matrix)))/(sum(sum(Y_O_power_filter_matrix)))
 
 # =============================================================================
 # Plots
@@ -303,51 +311,71 @@ plt.show()
 plt.savefig('figures/DFT_plot_X_and_Y_matrix_timeseg15.png')
 
 " Measurement Matrix Y and Source Matrix X Plots "
-plt.figure(4)
-plt.subplot(411)
-plt.stem(sum(Y_C_power_matrix), label='Time Segement 15')
-plt.title('FFT Filtered Measurement Matrix from S1_CClean')
-plt.xlabel('Frequency [Hz]')
+#plt.figure(4)
+#plt.subplot(411)
+#plt.stem(sum(Y_C_power_matrix), label='Time Segement 15')
+#plt.title('FFT Filtered Measurement Matrix from S1_CClean')
+#plt.xlabel('Frequency [Hz]')
+#plt.ylabel('Power')
+#plt.axis([-1,70,0,100000])
+#plt.legend()
+
+plt.subplot(221)
+plt.stem(sum(Y_O_power_filter_matrixSEG), label=' Open eyes')
+plt.title('FFT of Filtered $\mathbf{Measurements}$, Segment 35')
 plt.ylabel('Power')
-plt.axis([-1,70,0,100000])
+plt.xticks([])
+plt.axis([-1,20,0,55000])
 plt.legend()
 
-plt.subplot(412)
-plt.stem(sum(Y_O_power_filter_matrix), label='Time Segment 15')
-plt.title('FFT Filtered Measurement Matrix from S1_OClean')
+plt.subplot(223)
+plt.stem(sum(Y_C_power_filter_matrixSEG), label='Closed eyes')
 plt.xlabel('Frequency [Hz]')
 plt.ylabel('Power')
-plt.axis([-1,70,0,60000])
+plt.axis([-1,20,0,55000])
 plt.legend()
 
-plt.subplot(413)
-plt.stem(sum(X_C_power_filter_matrix), label='Time Segment 15')
-plt.title('FFT Filtered Source Matrix from S1_CClean')
-plt.xlabel('Frequency [Hz]')
-plt.ylabel('Power')
-plt.axis([-1,70,0,6000])
+plt.subplot(222)
+plt.stem(sum(X_O_power_filter_matrixSEG), label='Open eyes')
+plt.title('FFT of Filtered $\mathbf{Sources}$, Segment 35 ')
+plt.yticks([])
+plt.xticks([])
+plt.axis([-1,20,0,55000])
 plt.legend()
 
-plt.subplot(414)
-plt.stem(sum(X_O_power_filter_matrix), label='Time Segment 15')
-plt.title('FFT Filtered Source Matrix from S1_OClean')
+plt.subplot(224)
+plt.stem(sum(X_C_power_filter_matrixSEG), label='Closed eyes')
 plt.xlabel('Frequency [Hz]')
-plt.ylabel('Power')
-plt.axis([-1,70,0,10000])
+plt.yticks([])
+plt.axis([-1,20,0,55000])
 plt.legend()
 plt.show()
-plt.savefig('figures/DFT_plot_X_and_Y_matrix_timeseg15_power.png')
+plt.savefig('figures/DFT_plot_X_and_Y_matrix_timeseg35_power.png')
 
 plt.figure(5)
-plt.plot(average_diff_Y, 'ro-')
-plt.title('Difference Between Filtered Measurement Matrix Y')
+plt.plot(average_diff_Y, 'ro-', label='C/O')
+plt.hlines(1,0,100,label='1/1')
+plt.title('C/O Relation of $\mathbf{Measurements}$ over all Segments')
+plt.ylabel('C/O')
 plt.xlabel('Time Segment')
+plt.axis([0,100,0,2])
+plt.legend()
 plt.show()
 plt.savefig('figures/DFT_Y_difference.png')
 
 plt.figure(6)
-plt.plot(average_diff_X, 'ro-')
+plt.plot(average_diff_X, 'ro-', label='C/O')
+plt.hlines(1,0,100,label='1/1')
+plt.title('C/O Relation of $\mathbf{Sources}$ over all Segments')
+plt.xlabel('Time Segment')
+plt.ylabel('C/O')
+plt.axis([0,100,0,20])
+plt.legend()
+plt.show()
+plt.savefig('figures/DFT_X_difference.png')
+
+plt.figure(7)
+plt.plot(average_diff2_X, 'ro-')
 plt.title('Difference Between Filtered Recovered Source Matrix X')
 plt.xlabel('Time Segment')
 plt.show()
-plt.savefig('figures/DFT_X_difference.png')

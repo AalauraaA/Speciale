@@ -4,56 +4,17 @@ Created on Fri May  8 09:41:05 2020
 
 @author: Laura
 """
+def Main_Algorithm_EEG(Y, A_real, M, k, L): 
+    import M_SBL
+
+    X_result = M_SBL.M_SBL(A_real, Y, M, k, k, iterations=1000, noise=False) #### OBS CHECK for A_rec
+    
+    return X_result
+
 
 def X_main(data_name, Y, M, k):
     import numpy as np
-    from main import Main_Algorithm_EEG
-    " Make the measurement matrit Y the right dimension "
-    if data_name == 'S1_CClean.mat':
-        # For S1_CClean.mat remove last sample of first segment "
-        Y[0] = Y[0].T[:-1]
-        Y[0]=Y[0].T
-
-    if data_name == 'S1_OClean.mat':
-        for i in range(len(Y)):
-            if i <= 22:
-                Y[i] = Y[i].T[:-1]
-                Y[i] = Y[i].T
-            else:
-                continue
-    
-    if data_name == 'S3_CClean.mat':
-        for i in range(len(Y)):
-            if i <= 12:
-                Y[i] = Y[i].T[:-1]
-                Y[i] = Y[i].T
-            else:
-                continue 
-
-    if data_name == 'S3_OClean.mat':
-        for i in range(len(Y)):
-            if i <= 139:
-                Y[i] = Y[i].T[:-1]
-                Y[i] = Y[i].T
-            else:
-                continue 
-
-    if data_name == 'S4_CClean.mat':
-        for i in range(len(Y)):
-            if i <= 63:
-                Y[i] = Y[i].T[:-1]
-                Y[i] = Y[i].T
-            else:
-                continue
-
-    if data_name == 'S4_OClean.mat':
-        for i in range(len(Y)):
-            if i <= 178:
-                Y[i] = Y[i].T[:-1]
-                Y[i] = Y[i].T
-            else:
-                continue
-            
+    np.random.seed(1234)
     " Perform Main Algorithm on Segmented Dataset "
     X_result = []    # Original recovered source matrix X
     L = Y[0].shape[1]
@@ -66,6 +27,7 @@ def X_main(data_name, Y, M, k):
     for seg in range(len(Y)): 
         # Looking at one time segment
         A = np.random.normal(0,2,(M,int(k[seg])))
+        #print(A[0][0])
         X_result[seg] = Main_Algorithm_EEG(Y[seg], A, M, int(k[seg]), L)
 
     return X_result, Y

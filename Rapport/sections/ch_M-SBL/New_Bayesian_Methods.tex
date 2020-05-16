@@ -1,22 +1,19 @@
-%As described in section \ref{sec:sol_met} the covariance-domain dictionary learning (Cov-DL) is not a fitted method to use in the recovering of the source matrix $\mathbf{X}$ as the found source matrix is not the true recovering. 
-%Instead a different method, multiple sparse Bayesian Learning (M-SBL), is used for the recovering process of the last element of the multiple measurement model (MMV) \ref{eq:MMV_model}.
-In this chapter the multiple sparse Bayesian learning (M-SBL) method is described in details.\todo{citat: p. 9(pdf) sparse Bayesian learning (SBL) is an empirical Bayesian approaches, which use a parameterized prior to encourage sparsity through a process called evidence maximization} As the method leverage a Bayesian framework the general concept of Bayesian inference is shortly introduced prior to the the M-SBL method, with respect to the model of interest \eqref{eq:MSBL_MMV}. The chapter is inspired by \cite{phd_wipf} and the articles \cite{article_wipf}, \cite{Balkan2014}.
+In this chapter the multiple sparse Bayesian learning (M-SBL) method is described in details, leading to an algorithm specifiing the method. As the method leverage a Bayesian framework the general concept of Bayesian inference is shortly introduced prior to the the M-SBL method. The chapter is generally based upon \cite{Balkan2014} where the method is applied to the MMV model, which is of interest in this thesis. Further theory is found in \cite{phd_wipf} and \cite{article_wipf}.
 
-Consider again the multiple measurement vector (MMV) model for a non-segmented case of EEG measurements
+Consider the MMV model for a non-segmented case of EEG measurements with $L$ samples
 \begin{align}\label{eq:MSBL_MMV}
-\mathbf{Y} = \mathbf{AX} + \mathbf{E},
+\mathbf{Y} = \mathbf{AX} + \mathbf{E}.
 \end{align}
-with measurement matrix $\mathbf{Y} \in \mathbb{R}^{M \times L}$, source matrix $\mathbf{X} \in \mathbb{R}^{N \times L}$, mixing matrix $\mathbf{A} \in \mathbb{R}^{M \times N}$ and noise matrix $\mathbf{E} \in \mathbb{R}^{M \times L}$. Note that $\mathbf{A}$ is known throughout the chapter, as it is found by Cov-DL in chapter \ref{ch:Cov-DL}.
+The model consist of the measurement matrix $\mathbf{Y} \in \mathbb{R}^{M \times L}$, source matrix $\mathbf{X} \in \mathbb{R}^{N \times L}$, mixing matrix $\mathbf{A} \in \mathbb{R}^{M \times N}$ and noise matrix $\mathbf{E} \in \mathbb{R}^{M \times L}$. Note that $\mathbf{A}$ is known throughout the chapter, as it is found by COV-DL in chapter \ref{ch:Cov-DL}.
 
-The aim is to recover the source matrix $\mathbf{X}$ in the case of fewer measurements than active sources, $k > M$. 
+The aim is to recover the source matrix $\mathbf{X}$ in the case of fewer measurements than active sources, $M < k$, where $k\leq N$. 
 In \cite{Balkan2014} it is proven that exact localization of the active sources can be achieved with M-SBL for $k > M$, when two sufficient conditions are satisfied.   
-The basic approach of M-SBL is to find the support set $S$ providing the non-zeros rows of the source matrix $\mathbf{X}$ which corresponds to localization of the active sources. Finally the value of the localized active sources are estimated.  
+The basic approach of M-SBL is to apply Bayesian statistics to find the support set $S$ providing the non-zero rows of the source matrix $\mathbf{X}$ which corresponds to localization of the active sources. Finally the value of the localized active sources can be estimated.  
 
 \section{Bayesian Inference} 
-General Bayesian statistics builds upon the task of inferring what the model parameters must be, given the model and data.  
-This is centred around Bayes' theorem, which is a posterior distribution of some unobserved variable given some observed variable.
+The formal framework of Bayesian statistics is Bayes' theorem. The objective of Bayes' theorem is the leverage of both data and some specified prior. This is where the distinguishes from the likelihood of classical frequentist statistics lies.     
 
-Consider now the current non-segmented MMV model \eqref{eq:MSBL_MMV} within the Bayesian framework, the model parameter -- the source matrix $\textbf{X}$ -- is wished estimated given the measurement matrix $\textbf{Y}$.   
+Considering now the current non-segmented MMV model \eqref{eq:MSBL_MMV} within the Bayesian framework. The model parameter -- the source matrix $\textbf{X}$ -- is wished estimated given the measurement matrix $\textbf{Y}$.   
 Bayes' theorem becomes 
 \begin{align*}
 p(\mathbf{X}|\mathbf{Y}) = \frac{p(\mathbf{Y}|\mathbf{X}) p(\mathbf{X})}{p(\mathbf{Y})},

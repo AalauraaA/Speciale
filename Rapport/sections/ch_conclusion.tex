@@ -1,1 +1,18 @@
 \chapter{Conclusion}
+Throughout this thesis the purpose was to investigate the reproducibility of two state of the art methods, Covariance-domain dictionary learning (Cov-DL) and multiple sparse Bayesian learning (M-SBL). 
+With a combination of the these methods, the main algorithm, it was sought to solve the inverse EEG problem by the recovering of sources from EEG scalp measurements. 
+With the main algorithm it was then sought to make it more practical by introducing a method to find the amount of unknown active sources. 
+
+In chapter \ref{ch:implementation} the implementation of the main algorithm was tested and verified. 
+It was found that the reproducibility of Cov-DL was not sufficient  as in the testing phase the algorithm did not successfully recover a estimate for the mixing matrix from simulated data. 
+As this would lead to a wrongly recovering of the source matrix the Cov-DL was omitted for the further testing and for the test on real EEG measurements.
+Instead it was found that a fixed mixing matrix must be introduced to make the main algorithm useful to be tested on real EEG measurements.
+The M-SBL algorithm was tested with a real mixing matrix which lead to a recovering of sufficient source matrix.
+With several choices for a fixed mixing matrix the M-SBL was tested again, on simulated data, and it was found that a mixing matrix drawn from a normal distribution with mean 0 and variance 2 gave the best recovering of the source matrix.
+
+In chapter \ref{ch:eeg_test} the main algorithm was tested on real EEG measurements. To verified the results the recovered source matrix was compared to one obtain from using the ICA on the same data. Most of the results was accepted according to a acceptance performance. However, because of the limitation of ICA another method to verified the results was introduced.
+With alpha wave analysis unexpected and expected behaviour was seen. It was concluded that this analysis did not serve much in verifying the recovering of exact sources but a usage of the source separation.
+
+In chapter \ref{ch:estimation_k} a practical use of the main algorithm was sought in terms of estimating the unknown number of active sources. It was found that false recovered estimates of active source was observable between the true estimates for $k = N = \tilde{M}$ but not in the wanted under-determined case.
+
+Overall, it must be concluded that a main algorithm did get implemented and it gave a estimate for the source matrix and by that identified and localised sources from EEG measurements. However, it must also be concluded that because of the non-sufficient results from the main algorithm, the two state of the art methods was not reproducible in terms of only the articles. While a method to make the main algorithm more practical it did not success in this thesis to implemented this as a part of the main algorithm.

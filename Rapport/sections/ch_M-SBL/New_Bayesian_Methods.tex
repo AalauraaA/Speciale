@@ -146,7 +146,7 @@ As mentioned, the case where one would like to find the noise free sparse repres
 where $(\cdot)^{\dagger}$ is the pseudo-inverse.
 
 \subsection{When k is Known}\label{subsec:kestimate}
-\todo[inline]{this section has to be written better}
+\todo[inline]{this section has to be written better INDSÆT her kilde til M-SBL hvor de siger de også tager de k største værdier i gamma.}
 In this algorithm the number of active sources $k$ is estimated as the non-zero entries of the hyper parameter $\boldsymbol{\gamma}$. However k has to be determined prior to the use of the M-SBL algorithm as it is used in the COV-DL algorithm. Thus there have been no reason to not pass the value of $k$ on to this algorithm. 
 By k being known in prior the tolerance determining when a parameter is close enough to zero are overruled. In stead the k largest hyper parameter are chosen to form $S$, which makes the support set of $\hat{\textbf{X}}$.          
 

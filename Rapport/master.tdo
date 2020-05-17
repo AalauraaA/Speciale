@@ -1,260 +1,150 @@
 \defcounter {refsection}{0}\relax 
-\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ skal opdateres}{4}{section*.5}% 
+\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ skal opdateres}{4}{section*.5}
 \defcounter {refsection}{0}\relax 
-\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ does this comply to the non-gaussian assumption of ICA?}{6}{section*.6}% 
+\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ does this comply to the non-gaussian assumption of ICA?}{6}{section*.6}
 \defcounter {refsection}{0}\relax 
-\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ der er vel ikke N aktive source her?}{8}{section*.8}% 
+\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ der er vel ikke N aktive source her?}{8}{section*.8}
 \defcounter {refsection}{0}\relax 
-\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ is it okay to mention sparsity here for the first time?}{9}{section*.9}% 
+\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ is it okay to mention sparsity here for the first time?}{9}{section*.9}
 \defcounter {refsection}{0}\relax 
-\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ yderligere beskrivelse n\IeC {\o }dvedig? eller fjerne lidt fra Cov m\IeC {\r a}ske, da det samme lidt kommer i kap 3?}{9}{section*.10}% 
+\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ yderligere beskrivelse n\IeC {\o }dvedig? eller fjerne lidt fra Cov m\IeC {\r a}ske, da det samme lidt kommer i kap 3?}{9}{section*.10}
 \defcounter {refsection}{0}\relax 
-\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ Hvad menes der her? - L}{13}{section*.11}% 
+\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ Hvad menes der her? - L}{13}{section*.11}
 \defcounter {refsection}{0}\relax 
-\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ note: skal vi n\IeC {\ae }vne l\IeC {\o }snings metoder for underdetermined system her?}{13}{section*.12}% 
+\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ note: skal vi n\IeC {\ae }vne l\IeC {\o }snings metoder for underdetermined system her?}{13}{section*.12}
 \defcounter {refsection}{0}\relax 
-\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ Jan's note med noise. Tjek om dette n\IeC {\ae }vnes i kapitel 1 - L}{14}{section*.13}% 
+\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ Jan's note med noise. Tjek om dette n\IeC {\ae }vnes i kapitel 1 - L}{14}{section*.13}
 \defcounter {refsection}{0}\relax 
-\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ Projection/coefficient? Dette er f\IeC {\o }rste gang projection anvendes - L}{14}{section*.14}% 
+\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ Projection/coefficient? Dette er f\IeC {\o }rste gang projection anvendes - L}{14}{section*.14}
 \defcounter {refsection}{0}\relax 
-\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ Skal vi have kigget p\IeC {\r a} overlappende segmenter i koden? - L}{14}{section*.15}% 
+\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ Skal vi have kigget p\IeC {\r a} overlappende segmenter i koden? - L}{14}{section*.15}
 \defcounter {refsection}{0}\relax 
-\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ A inddeles ikke i segmenter, men skal vi ikke beskrives hvorfor den ikke g\IeC {\o }r det eller er det oplagt? - L}{14}{section*.16}% 
+\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ A inddeles ikke i segmenter, men skal vi ikke beskrives hvorfor den ikke g\IeC {\o }r det eller er det oplagt? - L}{14}{section*.16}
 \defcounter {refsection}{0}\relax 
-\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ Jan sp\IeC {\o }rger ud fra denne ligning om vi t\IeC {\ae }ller elementerne eller r\IeC {\ae }kkerne - L}{15}{section*.17}% 
+\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ Jan sp\IeC {\o }rger ud fra denne ligning om vi t\IeC {\ae }ller elementerne eller r\IeC {\ae }kkerne - L}{15}{section*.17}
 \defcounter {refsection}{0}\relax 
-\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ Denne section er ikke blevet opdateret i forhold til den nye problemformulering. Alts\IeC {\r a} vi mangler at inddrage 'reproducerbarhed'.}{15}{section*.18}% 
+\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ Denne section er ikke blevet opdateret i forhold til den nye problemformulering. Alts\IeC {\r a} vi mangler at inddrage 'reproducerbarhed'.}{15}{section*.18}
 \defcounter {refsection}{0}\relax 
-\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ as the relation between $\textbf {X}$ and the corresponding $\delta $ is unknown(?) det kan vi ikke skrive her kan vi?}{16}{section*.19}% 
+\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ as the relation between $\textbf {X}$ and the corresponding $\delta $ is unknown(?) det kan vi ikke skrive her kan vi?}{16}{section*.19}
 \defcounter {refsection}{0}\relax 
-\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ Jan s\IeC {\ae }tter sp\IeC {\o }rsgm\IeC {\r a}ltegn ved dette ord - L}{16}{section*.20}% 
+\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ Jan s\IeC {\ae }tter sp\IeC {\o }rsgm\IeC {\r a}ltegn ved dette ord - L}{16}{section*.20}
 \defcounter {refsection}{0}\relax 
-\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ evt. tilf\IeC {\o }j afslutning der siger hvad der kommer i kapitlerne?}{16}{section*.21}% 
+\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ evt. tilf\IeC {\o }j afslutning der siger hvad der kommer i kapitlerne?}{16}{section*.21}
 \defcounter {refsection}{0}\relax 
-\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ obs! stemmer dette p\IeC {\r a} tv\IeC {\ae }rs a kapitlerne, vi siger A bliver estimeret som en dictionary.}{17}{section*.22}% 
+\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ obs! stemmer dette p\IeC {\r a} tv\IeC {\ae }rs a kapitlerne, vi siger A bliver estimeret som en dictionary.}{17}{section*.22}
 \defcounter {refsection}{0}\relax 
-\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ Jan sp\IeC {\o }rger om epsilon er en matrix som ikke er diagonal? - L}{18}{section*.23}% 
+\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ Jan sp\IeC {\o }rger om epsilon er en matrix som ikke er diagonal? - L}{18}{section*.23}
 \defcounter {refsection}{0}\relax 
-\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ Hvad A ikke en dictionary matrix i dette afsnit? - L}{19}{section*.24}% 
+\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ Hvad A ikke en dictionary matrix i dette afsnit? - L}{19}{section*.24}
 \defcounter {refsection}{0}\relax 
-\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ Jan sp\IeC {\o }rger om hvilket $x_i$ er den tilsvarende r\IeC {\ae }kke til s\IeC {\o }ljen $a_j$ - L}{20}{section*.26}% 
+\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ Jan sp\IeC {\o }rger om hvilket $x_i$ er den tilsvarende r\IeC {\ae }kke til s\IeC {\o }ljen $a_j$ - L}{20}{section*.26}
 \defcounter {refsection}{0}\relax 
-\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ Jan har problemer med at se hvorfor vi devercotrisere d, men det er jo fordi $a * a^T$ bliver en matrix. Skal vi skriver det mere ud eller er det fint som det st\IeC {\r a}r her? - L}{21}{section*.28}% 
+\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ Jan har problemer med at se hvorfor vi devercotrisere d, men det er jo fordi $a * a^T$ bliver en matrix. Skal vi skriver det mere ud eller er det fint som det st\IeC {\r a}r her? - L}{21}{section*.28}
 \defcounter {refsection}{0}\relax 
-\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ redeg\IeC {\o }relse for resultatet her skal laves}{21}{section*.29}% 
+\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ redeg\IeC {\o }relse for resultatet her skal laves}{21}{section*.29}
 \defcounter {refsection}{0}\relax 
-\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ tjek, har vi tidligerer n\IeC {\ae }vnt at der teoretisk godt kan v\IeC {\ae }re en l\IeC {\o }sning?}{21}{section*.30}% 
+\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ tjek, har vi tidligerer n\IeC {\ae }vnt at der teoretisk godt kan v\IeC {\ae }re en l\IeC {\o }sning?}{21}{section*.30}
 \defcounter {refsection}{0}\relax 
-\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ need prove here? or is there just one $P:V\rightarrow V $ where $V = \mathcal {R}(\textbf {U})= \mathcal {R}(\textbf {D})$}{22}{section*.31}% 
+\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ need prove here? or is there just one $P:V\rightarrow V $ where $V = \mathcal {R}(\textbf {U})= \mathcal {R}(\textbf {D})$}{22}{section*.31}
 \defcounter {refsection}{0}\relax 
-\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ fact: any column in D must be a linear combination of columns in U and visa versa. \\ Any basis has the same dim(dimension theorem). }{22}{section*.32}% 
+\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ fact: any column in D must be a linear combination of columns in U and visa versa. \\ Any basis has the same dim(dimension theorem). }{22}{section*.32}
 \defcounter {refsection}{0}\relax 
-\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ passer P=Ax her?}{22}{section*.33}% 
+\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ passer P=Ax her?}{22}{section*.33}
 \defcounter {refsection}{0}\relax 
-\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ Vi skal have en kilde p\IeC {\r a} dette sidste afsnit - L}{22}{section*.34}% 
+\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ Vi skal have en kilde p\IeC {\r a} dette sidste afsnit - L}{22}{section*.34}
 \defcounter {refsection}{0}\relax 
-\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ Jan sp\IeC {\o }rger om hvordan vi ser dett? - L}{22}{section*.35}% 
+\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ Jan sp\IeC {\o }rger om hvordan vi ser dett? - L}{22}{section*.35}
 \defcounter {refsection}{0}\relax 
-\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ Kilde p\IeC {\r a} dette udsagn -L}{22}{section*.36}% 
+\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ Kilde p\IeC {\r a} dette udsagn -L}{22}{section*.36}
 \defcounter {refsection}{0}\relax 
-\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ description of the exact solution method is missing}{23}{section*.37}% 
+\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ description of the exact solution method is missing}{23}{section*.37}
 \defcounter {refsection}{0}\relax 
-\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ Dette afsnit skal lige revideres. Vi snakker om test og trial and error men vi har jo ikke beskrevet dette endnu - L}{24}{section*.38}% 
+\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ Dette afsnit skal lige revideres. Vi snakker om test og trial and error men vi har jo ikke beskrevet dette endnu - L}{24}{section*.38}
 \defcounter {refsection}{0}\relax 
-\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ Find lige kilde p\IeC {\r a} dette argument}{24}{section*.39}% 
+\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ Find lige kilde p\IeC {\r a} dette argument}{24}{section*.39}
 \defcounter {refsection}{0}\relax 
-<<<<<<< HEAD
-\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ hvordan er dette ikke korrekt? 'rasmus'}{26}{section*.40}% 
+\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ den del vi mangler ift. kilden er m\IeC {\r a}ske at opstille det optimering problem vi kender for X, hvor sigma indg\IeC {\r a}r, det finder man s\IeC {\r a} ud af at vi kan erstatte men MAP estimerings problemet.}{25}{section*.40}
 \defcounter {refsection}{0}\relax 
-\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ Jan sp\IeC {\o }rger efter hvorfor vi gerne vil have fat tails? - L}{26}{section*.41}% 
+\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ kilde p\IeC {\r a} bayes theorem}{25}{section*.41}
 \defcounter {refsection}{0}\relax 
-\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ giver det mening med den mixture?}{26}{section*.42}% 
+\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ theoretical example of t-distribution have been left out here}{26}{section*.42}
 \defcounter {refsection}{0}\relax 
-\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ Jan sp\IeC {\o }rger om dette en kendt kovarians matrix, men i dette tilf\IeC {\ae }lde er det vel bare en varians - L}{27}{section*.43}% 
+\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ this section has to be written better INDS\IeC {\AE }T her kilde til M-SBL hvor de siger de ogs\IeC {\r a} tager de k st\IeC {\o }rste v\IeC {\ae }rdier i gamma.}{30}{section*.43}
 \defcounter {refsection}{0}\relax 
-\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ Jan mangler bel\IeC {\ae }g p\IeC {\r a} hvorfor dette er sandt - L}{27}{section*.44}% 
+\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ algorithm has to be updated maybe simplified at little, obs. on the while expression, number of iterations and whether k is given og not}{30}{section*.44}
 \defcounter {refsection}{0}\relax 
-\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ giver det mening? hvis 5.2 skulle skrive om s\IeC {\r a} skal det hele v\IeC {\ae }re produkter ikke?}{27}{section*.45}% 
+\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ inds\IeC {\ae }t hat p\IeC {\r a} gamma, X og A i flowchart og \IeC {\ae }ndre data matrix Y til measurement matrix Y.}{34}{section*.46}
 \defcounter {refsection}{0}\relax 
-\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ how to treat $\textbf {y}$ being conditional here? can't get the right result}{29}{section*.46}% 
+\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ the manual input is an issue time wise when running over many segments, so the input should be made in advance}{34}{section*.47}
 \defcounter {refsection}{0}\relax 
-\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ Jans forslag: $Y = AX + E$ -- $E[YX^T] = E[(AX + E)X^T] = A \Sigma _{XX} = \gamma A$ ?? - L}{29}{section*.47}% 
+\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ should we define new number of "samples" as well?}{35}{section*.48}
 \defcounter {refsection}{0}\relax 
-\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ in the result we have used, the mean of y is subtracted.? }{29}{section*.48}% 
+\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ "superior system design". Hvad menes der her med "superior? Jan satte ogs\IeC {\r a} sp\IeC {\o }rgsm\IeC {\r a}l ved dette ordvalg - L}{35}{section*.49}
 \defcounter {refsection}{0}\relax 
-\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ when to use ; instead of $\delimiter "0353353 $}{30}{section*.49}% 
+\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ Jan siger at r\IeC {\ae }kkerne er independent men de er ikke n\IeC {\o }dvendigvis ortogonale medmindre de har zero mean - L}{36}{section*.50}
 \defcounter {refsection}{0}\relax 
-\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ ops p\IeC {\r a} L faktor i sidste linje.. }{30}{section*.50}% 
+\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ Vi skal lige finde en god kilde som siger dette}{39}{section*.53}
 \defcounter {refsection}{0}\relax 
-\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ Inds\IeC {\ae }t kilde - L}{30}{section*.51}% 
+\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ MSE:m\IeC {\r a}ske dette kan uddybes lidt i forhold til hvordan vores m\IeC {\r a}lingere opf\IeC {\o }re sig, ved vi hvad vi kan forvente}{39}{section*.54}
 \defcounter {refsection}{0}\relax 
-\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ mangler at udlede denne regl}{30}{section*.52}% 
+\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ Jan vil gerne se p\IeC {\r a} MSE(A, 0) ogs\IeC {\r a} - L}{39}{section*.56}
 \defcounter {refsection}{0}\relax 
-\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ Jan vil have en kilde her - L}{31}{section*.53}% 
+\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ how should we determined this?? and can we give an better explanation?. \\ }{39}{section*.57}
 \defcounter {refsection}{0}\relax 
-\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ this section has to be written better}{31}{section*.54}% 
+\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ Jan s\IeC {\ae }ttet sp\IeC {\o }rgsm\IeC {\r a}l ved dette ord, jeg ved ikke hvorfor - L}{40}{section*.59}
 \defcounter {refsection}{0}\relax 
-\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ inds\IeC {\ae }t hat p\IeC {\r a} gamma, X og A i flowchart og \IeC {\ae }ndre data matrix Y til measurement matrix Y.}{36}{section*.56}% 
+\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ better word to use here?}{40}{section*.60}
 \defcounter {refsection}{0}\relax 
-\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ the manual input is an issue time wise when running over many segments, so the input should be made in advance}{36}{section*.57}% 
+\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ Jan sp\IeC {\o }rger om vi ved hvorfor den ikke opfylder. M\IeC {\r a}ske det er fordi den er convex? - L}{40}{section*.61}
 \defcounter {refsection}{0}\relax 
-\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ should we define new number of "samples" as well?}{37}{section*.58}% 
+\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ (tjek cite)}{41}{section*.64}
 \defcounter {refsection}{0}\relax 
-\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ "superior system design". Hvad menes der her med "superior? Jan satte ogs\IeC {\r a} sp\IeC {\o }rgsm\IeC {\r a}l ved dette ordvalg - L}{37}{section*.59}% 
+\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ tjek s\IeC {\ae }tning om den lyder rigtig efter "reproducibility" er sat ind -L}{41}{section*.65}
 \defcounter {refsection}{0}\relax 
-\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ Jan siger at r\IeC {\ae }kkerne er independent men de er ikke n\IeC {\o }dvendigvis ortogonale medmindre de har zero mean - L}{38}{section*.60}% 
+\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ Jan mener at denne s\IeC {\ae }tning er svagt formuleret, "as any other" - L}{43}{section*.68}
 \defcounter {refsection}{0}\relax 
-\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ Vi skal lige finde en god kilde som siger dette}{41}{section*.63}% 
+\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ Jan synes at denne tabel er interessant - L}{46}{section*.73}
 \defcounter {refsection}{0}\relax 
-\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ MSE:m\IeC {\r a}ske dette kan uddybes lidt i forhold til hvordan vores m\IeC {\r a}lingere opf\IeC {\o }re sig, ved vi hvad vi kan forvente}{41}{section*.64}% 
+\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ where $SNR = 0.01$ correspond to 10 times noise to 1 times signal, and $SNR = 2$ is 2 times signal to 1 times noise.}{47}{section*.74}
 \defcounter {refsection}{0}\relax 
-\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ Jan vil gerne se p\IeC {\r a} MSE(A, 0) ogs\IeC {\r a} - L}{41}{section*.66}% 
+\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ Er der brugt gentagelser her eller er det bare et run? - L}{47}{section*.75}
 \defcounter {refsection}{0}\relax 
-\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ how should we determined this?? and can we give an better explanation?. \\ }{41}{section*.67}% 
+\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ \IeC {\AE }ndre tekst i figuren -- norm -L}{49}{section*.79}
 \defcounter {refsection}{0}\relax 
-\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ Jan s\IeC {\ae }ttet sp\IeC {\o }rgsm\IeC {\r a}l ved dette ord, jeg ved ikke hvorfor - L}{42}{section*.69}% 
+\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ Inds\IeC {\ae }t department - L}{51}{section*.80}
 \defcounter {refsection}{0}\relax 
-\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ better word to use here?}{42}{section*.70}% 
+\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ tjek sample frequency ant time}{51}{section*.81}
 \defcounter {refsection}{0}\relax 
-\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ Jan sp\IeC {\o }rger om vi ved hvorfor den ikke opfylder. M\IeC {\r a}ske det er fordi den er convex? - L}{42}{section*.71}% 
+\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ Matlab eller python her?}{51}{section*.82}
 \defcounter {refsection}{0}\relax 
-\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ (tjek cite)}{43}{section*.74}% 
+\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ inset hat over X on figure}{54}{section*.84}
 \defcounter {refsection}{0}\relax 
-\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ tjek s\IeC {\ae }tning om den lyder rigtig efter "reproducibility" er sat ind -L}{43}{section*.75}% 
+\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ kilde til FFT}{61}{section*.94}
 \defcounter {refsection}{0}\relax 
-\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ Jan mener at denne s\IeC {\ae }tning er svagt formuleret, "as any other" - L}{45}{section*.78}% 
+\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ can we say something better here or maybe nothing}{63}{section*.97}
 \defcounter {refsection}{0}\relax 
-\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ Jan synes at denne tabel er interessant - L}{48}{section*.83}% 
+\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ whiteining is a linear change of coordinates of the mixed data\url {http://arnauddelorme.com/ica_for_dummies/} "By rotating the axis and minimizing Gaussianity of the projection in the first scatter plot, ICA is able to recover the original sources which are statistically independent}{82}{section*.110}
 \defcounter {refsection}{0}\relax 
-\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ where $SNR = 0.01$ correspond to 10 times noise to 1 times signal, and $SNR = 2$ is 2 times signal to 1 times noise.}{49}{section*.84}% 
+\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ se udkommentering herunder?}{83}{section*.111}
 \defcounter {refsection}{0}\relax 
-\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ Er der brugt gentagelser her eller er det bare et run? - L}{49}{section*.85}% 
+\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ Herfra og ned til kurtosis skal lige tjekkes i gennem og rettes til}{83}{section*.112}
 \defcounter {refsection}{0}\relax 
-\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ \IeC {\AE }ndre tekst i figuren -- norm -L}{51}{section*.89}% 
+\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ uddyb? og tilf\IeC {\o }j kilde til kurtosis}{84}{section*.113}
 \defcounter {refsection}{0}\relax 
-\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ Inds\IeC {\ae }t department - L}{53}{section*.90}% 
+\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ hvordan kommer dette frem?}{84}{section*.114}
 \defcounter {refsection}{0}\relax 
-\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ tjek sample frequency ant time}{53}{section*.91}% 
+\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ henvis til appendix}{86}{section*.115}
 \defcounter {refsection}{0}\relax 
-\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ Matlab eller python her?}{53}{section*.92}% 
+\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ wiki: The fixed point is stable if the absolute value of the derivative of \textbf {w} at the point is strictly less than 1?}{86}{section*.116}
 \defcounter {refsection}{0}\relax 
-\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ inset hat over X on figure}{56}{section*.94}% 
+\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ inset captions}{89}{section*.117}
 \defcounter {refsection}{0}\relax 
-\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ kilde til FFT}{63}{section*.104}% 
+\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ 4.1: skal vi indf\IeC {\o }r z som en approximation til x. og s\IeC {\r a} et nyt omega eller? eller kan vi lade x* v\IeC {\ae }re l\IeC {\o }slingen til b\IeC {\r a}de P0 og P1}{94}{section*.121}
 \defcounter {refsection}{0}\relax 
-\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ can we say something better here or maybe nothing}{65}{section*.107}% 
+\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ Tjek nedenst\IeC {\r a}ende udledning. a og x er ikke lige lange da $a_j$ er M lang mens $x_{i \cdot }$ er L lang}{95}{section*.122}
 \defcounter {refsection}{0}\relax 
-\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ Forst\IeC {\r a}r ikke denne s\IeC {\ae }tning - L}{74}{section*.119}% 
+\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ kilde}{96}{section*.123}
 \defcounter {refsection}{0}\relax 
-\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ Tilf\IeC {\o }j her alpha waves -L}{75}{section*.120}% 
+\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ next Rasmus missed cov(yy). either we define if like above wiht y=Ax but is x not given then so y|x for which var in known to be sigma. or it is just cov(yy) that we should use i main, se jan rettelse ogs\IeC {\r a}, han mener det er fint s\IeC {\r a}dan her. if we let it be, we assume that cov(yy) is just sigmaI}{100}{section*.124}
 \defcounter {refsection}{0}\relax 
-\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ M\IeC {\r a}ske en lille kort opsummering eller en eller anden form for afslutning - L}{75}{section*.121}% 
-\defcounter {refsection}{0}\relax 
-\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ whiteining is a linear change of coordinates of the mixed data\url {http://arnauddelorme.com/ica_for_dummies/} "By rotating the axis and minimizing Gaussianity of the projection in the first scatter plot, ICA is able to recover the original sources which are statistically independent}{84}{section*.123}% 
-\defcounter {refsection}{0}\relax 
-\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ se udkommentering herunder?}{85}{section*.124}% 
-\defcounter {refsection}{0}\relax 
-\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ Herfra og ned til kurtosis skal lige tjekkes i gennem og rettes til}{85}{section*.125}% 
-\defcounter {refsection}{0}\relax 
-\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ uddyb? og tilf\IeC {\o }j kilde til kurtosis}{86}{section*.126}% 
-\defcounter {refsection}{0}\relax 
-\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ hvordan kommer dette frem?}{86}{section*.127}% 
-\defcounter {refsection}{0}\relax 
-\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ henvis til appendix}{88}{section*.128}% 
-\defcounter {refsection}{0}\relax 
-\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ wiki: The fixed point is stable if the absolute value of the derivative of \textbf {w} at the point is strictly less than 1?}{88}{section*.129}% 
-\defcounter {refsection}{0}\relax 
-\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ inset captions}{91}{section*.130}% 
-\defcounter {refsection}{0}\relax 
-\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ 4.1: skal vi indf\IeC {\o }r z som en approximation til x. og s\IeC {\r a} et nyt omega eller? eller kan vi lade x* v\IeC {\ae }re l\IeC {\o }slingen til b\IeC {\r a}de P0 og P1}{96}{section*.134}% 
-\defcounter {refsection}{0}\relax 
-\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ Tjek nedenst\IeC {\r a}ende udledning. a og x er ikke lige lange da $a_j$ er M lang mens $x_{i \cdot }$ er L lang}{97}{section*.135}% 
-\defcounter {refsection}{0}\relax 
-\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ kilde}{98}{section*.136}% 
-=======
-\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ den del vi mangler ift. kilden er m\IeC {\r a}ske at opstille det optimering problem vi kender for X, hvor sigma indg\IeC {\r a}r, det finder man s\IeC {\r a} ud af at vi kan erstatte men MAP estimerings problemet.}{25}{section*.40}% 
-\defcounter {refsection}{0}\relax 
-\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ kilde p\IeC {\r a} bayes theorem}{25}{section*.41}% 
-\defcounter {refsection}{0}\relax 
-\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ theoretical example of t-distribution have been left out here}{26}{section*.42}% 
-\defcounter {refsection}{0}\relax 
-\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ this section has to be written better}{30}{section*.43}% 
-\defcounter {refsection}{0}\relax 
-\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ algorithm has to be updated maybe simplified at little, obs. on the while expression, number of iterations and whether k is given og not}{30}{section*.44}% 
-\defcounter {refsection}{0}\relax 
-\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ inds\IeC {\ae }t hat p\IeC {\r a} gamma, X og A i flowchart og \IeC {\ae }ndre data matrix Y til measurement matrix Y.}{34}{section*.46}% 
-\defcounter {refsection}{0}\relax 
-\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ the manual input is an issue time wise when running over many segments, so the input should be made in advance}{34}{section*.47}% 
-\defcounter {refsection}{0}\relax 
-\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ should we define new number of "samples" as well?}{35}{section*.48}% 
-\defcounter {refsection}{0}\relax 
-\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ "superior system design". Hvad menes der her med "superior? Jan satte ogs\IeC {\r a} sp\IeC {\o }rgsm\IeC {\r a}l ved dette ordvalg - L}{35}{section*.49}% 
-\defcounter {refsection}{0}\relax 
-\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ Jan siger at r\IeC {\ae }kkerne er independent men de er ikke n\IeC {\o }dvendigvis ortogonale medmindre de har zero mean - L}{36}{section*.50}% 
-\defcounter {refsection}{0}\relax 
-\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ Vi skal lige finde en god kilde som siger dette}{39}{section*.53}% 
-\defcounter {refsection}{0}\relax 
-\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ MSE:m\IeC {\r a}ske dette kan uddybes lidt i forhold til hvordan vores m\IeC {\r a}lingere opf\IeC {\o }re sig, ved vi hvad vi kan forvente}{39}{section*.54}% 
-\defcounter {refsection}{0}\relax 
-\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ Jan vil gerne se p\IeC {\r a} MSE(A, 0) ogs\IeC {\r a} - L}{39}{section*.56}% 
-\defcounter {refsection}{0}\relax 
-\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ how should we determined this?? and can we give an better explanation?. \\ }{39}{section*.57}% 
-\defcounter {refsection}{0}\relax 
-\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ Jan s\IeC {\ae }ttet sp\IeC {\o }rgsm\IeC {\r a}l ved dette ord, jeg ved ikke hvorfor - L}{40}{section*.59}% 
-\defcounter {refsection}{0}\relax 
-\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ better word to use here?}{40}{section*.60}% 
-\defcounter {refsection}{0}\relax 
-\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ Jan sp\IeC {\o }rger om vi ved hvorfor den ikke opfylder. M\IeC {\r a}ske det er fordi den er convex? - L}{40}{section*.61}% 
-\defcounter {refsection}{0}\relax 
-\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ (tjek cite)}{41}{section*.64}% 
-\defcounter {refsection}{0}\relax 
-\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ tjek s\IeC {\ae }tning om den lyder rigtig efter "reproducibility" er sat ind -L}{41}{section*.65}% 
-\defcounter {refsection}{0}\relax 
-\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ Jan mener at denne s\IeC {\ae }tning er svagt formuleret, "as any other" - L}{43}{section*.68}% 
-\defcounter {refsection}{0}\relax 
-\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ Jan synes at denne tabel er interessant - L}{46}{section*.73}% 
-\defcounter {refsection}{0}\relax 
-\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ where $SNR = 0.01$ correspond to 10 times noise to 1 times signal, and $SNR = 2$ is 2 times signal to 1 times noise.}{47}{section*.74}% 
-\defcounter {refsection}{0}\relax 
-\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ Er der brugt gentagelser her eller er det bare et run? - L}{47}{section*.75}% 
-\defcounter {refsection}{0}\relax 
-\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ \IeC {\AE }ndre tekst i figuren -- norm -L}{49}{section*.79}% 
-\defcounter {refsection}{0}\relax 
-\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ Inds\IeC {\ae }t department - L}{51}{section*.80}% 
-\defcounter {refsection}{0}\relax 
-\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ tjek sample frequency ant time}{51}{section*.81}% 
-\defcounter {refsection}{0}\relax 
-\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ Matlab eller python her?}{51}{section*.82}% 
-\defcounter {refsection}{0}\relax 
-\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ inset hat over X on figure}{54}{section*.84}% 
-\defcounter {refsection}{0}\relax 
-\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ kilde til FFT}{61}{section*.94}% 
-\defcounter {refsection}{0}\relax 
-\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ can we say something better here or maybe nothing}{63}{section*.97}% 
-\defcounter {refsection}{0}\relax 
-\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ whiteining is a linear change of coordinates of the mixed data\url {http://arnauddelorme.com/ica_for_dummies/} "By rotating the axis and minimizing Gaussianity of the projection in the first scatter plot, ICA is able to recover the original sources which are statistically independent}{82}{section*.110}% 
-\defcounter {refsection}{0}\relax 
-\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ se udkommentering herunder?}{83}{section*.111}% 
-\defcounter {refsection}{0}\relax 
-\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ Herfra og ned til kurtosis skal lige tjekkes i gennem og rettes til}{83}{section*.112}% 
-\defcounter {refsection}{0}\relax 
-\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ uddyb? og tilf\IeC {\o }j kilde til kurtosis}{84}{section*.113}% 
-\defcounter {refsection}{0}\relax 
-\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ hvordan kommer dette frem?}{84}{section*.114}% 
-\defcounter {refsection}{0}\relax 
-\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ henvis til appendix}{86}{section*.115}% 
-\defcounter {refsection}{0}\relax 
-\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ wiki: The fixed point is stable if the absolute value of the derivative of \textbf {w} at the point is strictly less than 1?}{86}{section*.116}% 
-\defcounter {refsection}{0}\relax 
-\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ inset captions}{89}{section*.117}% 
-\defcounter {refsection}{0}\relax 
-\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ 4.1: skal vi indf\IeC {\o }r z som en approximation til x. og s\IeC {\r a} et nyt omega eller? eller kan vi lade x* v\IeC {\ae }re l\IeC {\o }slingen til b\IeC {\r a}de P0 og P1}{94}{section*.121}% 
-\defcounter {refsection}{0}\relax 
-\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ Tjek nedenst\IeC {\r a}ende udledning. a og x er ikke lige lange da $a_j$ er M lang mens $x_{i \cdot }$ er L lang}{95}{section*.122}% 
-\defcounter {refsection}{0}\relax 
-\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ kilde}{96}{section*.123}% 
-\defcounter {refsection}{0}\relax 
-\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ next Rasmus missed cov(yy). either we define if like above wiht y=Ax but is x not given then so y|x for which var in known to be sigma. or it is just cov(yy) that we should use i main, se jan rettelse ogs\IeC {\r a}, han mener det er fint s\IeC {\r a}dan her. if we let it be, we assume that cov(yy) is just sigmaI}{100}{section*.124}% 
-\defcounter {refsection}{0}\relax 
-\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ in the result we have used, the mean of y is subtracted.? }{100}{section*.125}% 
->>>>>>> 329b7c96328eca502abdb06fe23bc775e16cdac7
+\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ in the result we have used, the mean of y is subtracted.? }{100}{section*.125}

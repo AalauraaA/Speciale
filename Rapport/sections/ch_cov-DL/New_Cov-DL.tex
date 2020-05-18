@@ -1,11 +1,11 @@
 \section{Covariance Domain Representation}\label{sec:cov}
 Consider a single sample vector $\textbf{y}_i$, containing EEG measurements. 
-The covariance of $\textbf{y}_i$ is to be defined by
+The covariance of $\textbf{y}_i$ is defined as
 \begin{align*}
 \boldsymbol{\Sigma}_{\textbf{y}_i}=\mathbb{E}[(\textbf{y}_i-\mathbb{E}[\textbf{y}_i])(\textbf{y}_i-\mathbb{E}[\textbf{y}_i])^T],
 \end{align*}
 where $\mathbb{E}[\cdot]$ is the expected value operator. 
-Assume that all samples vectors $\textbf{y}_i$ within one segment has zero mean and the same distribution. 
+Assume that all sample vectors $\textbf{y}_i$ within one segment has zero mean and the same distribution. 
 Then, the observed segmented EEG measurement matrix $\mathbf{Y}_s \in \mathbb{R}^{M \times L_s}$ is to be described in the covariance domain by the sample covariance $\widehat{\boldsymbol{\Sigma}}$. The sample covariance $\widehat{\boldsymbol{\Sigma}}$ is defined as the covariance among the $M$ measurements across the $L_s$ samples. That is a $M \times M$ matrix $\boldsymbol{\Sigma}_{\mathbf{Y}_s} = [\sigma_{jk}]$ with entries 
 \begin{align*}
 \sigma_{jk}= \frac{1}{L_s}\sum_{i=1}^{L_s} y_{ji} y_{ki}.
@@ -13,7 +13,7 @@ Then, the observed segmented EEG measurement matrix $\mathbf{Y}_s \in \mathbb{R}
 Using matrix notation the sample covariance of $\mathbf{Y}_s$ can be written as
 \begin{align*}
 \widehat{\boldsymbol{\Sigma}}_{\mathbf{Y}_s} = \frac{1}{L_s} \mathbf{Y}_s \mathbf{Y}_s^T.
-\end{align*}  
+\end{align*} 
 Similar the source matrix $\mathbf{X}_s$ can be described in the covariance domain by the sample covariance matrix:
 \begin{align*}
 \widehat{\boldsymbol{\Sigma}}_{\mathbf{X}_s} &= \frac{1}{L_s} \mathbf{X}_s \mathbf{X}_s^T = \boldsymbol{\Lambda}_s + \boldsymbol{\varepsilon}. 
@@ -28,28 +28,30 @@ Each segment is then modelled in the covariance domain as
 &= \textbf{A} \boldsymbol{\Lambda}_s \textbf{A}^T + \textbf{A} \boldsymbol{\varepsilon} \textbf{A}^T + \textbf{E}_s \textbf{E}_s^T + \textbf{E}_s \textbf{X}_s^T \textbf{A}^T + \textbf{AX}_s \textbf{E}_s^T \label{eq:noise1} \\
 &= \textbf{A} \boldsymbol{\Lambda}_s \textbf{A}^T + \widetilde{\textbf{E}} \label{eq:noise2}
 \end{align}
-From \eqref{eq:noise1} to \eqref{eq:noise2} all terms where noise is included, $\boldsymbol{\varepsilon}$ and $\mathbf{E}$, are defined as a joint noise term $\widetilde{\textbf{E}}$. 
+From \eqref{eq:noise1} to \eqref{eq:noise2} all terms where noise, $\boldsymbol{\epsilon}$ and $\mathbf{E}$, is included, are aggregated in a joint noise term $\widetilde{\textbf{E}}$. 
 By vector notation \eqref{eq:noise2} is rewritten to be vectorized. 
 Because the covariance matrix $\widehat{\boldsymbol{\Sigma}}_{\mathbf{Y}_s}$ is symmetric it is sufficient to vectorize only the lower triangular parts, including the diagonal. 
-For this the function $\text{vec}(\cdot)$ is defined to map a symmetric $M \times M$ matrix into a vector of size $\widetilde{M} := \frac{M(M+1)}{2}$ making a row-wise vectorization of its upper triangular part. 
+For this the function $\text{vec}(\cdot)$ is defined to map a symmetric $M \times M$ matrix into a vector of size $\widetilde{M} := \frac{M(M+1)}{2}$ making a row-wise vectorization of its lower triangular part. 
 Furthermore, let vec$^{-1}(\cdot)$ be the inverse function for devectorisation. 
-This results in the following model        
+This result in the following model 
 \begin{align}
-\widehat{\boldsymbol{\Sigma}}_{\mathbf{Y}_s} &= \sum_{i=1}^{N}  \textbf{a}_i \boldsymbol{\Lambda}_{s_{ii}} \textbf{a}_i^{T} + \widetilde{\textbf{E}}, \quad \boldsymbol{\Lambda}_{s_{ii}} \in \mathbb{R}_0 \nonumber \\
+\widehat{\boldsymbol{\Sigma}}_{\mathbf{Y}_s} &= \sum_{i=1}^{N} \textbf{a}_i \boldsymbol{\Lambda}_{s_{ii}} \textbf{a}_i^{T} + \widetilde{\textbf{E}}, \quad \boldsymbol{\Lambda}_{s_{ii}} \in \mathbb{R}_0 \nonumber \\
 & \nonumber \\
 \text{vec}(\widehat{\boldsymbol{\Sigma}}_{\mathbf{Y}_s}) &= \sum_{i=1}^N \text{vec}(\mathbf{a}_i \mathbf{a}_i^T) \boldsymbol{\Lambda}_{s_{ii}} + \text{vec}( \widetilde{\textbf{E}}) \nonumber \\
 &= \sum_{i=1}^N \mathbf{d}_i \boldsymbol{\Lambda}_{s_{ii}} + \text{vec}( \widetilde{\textbf{E}}) \nonumber \nonumber \\
 &= \mathbf{D} \boldsymbol{\delta}_s + \text{vec}( \widetilde{\textbf{E}}), \quad \forall s. \label{eq:cov1}
 \end{align}
 Here $\boldsymbol{\delta}_s \in \mathbb{R}^{N}$ contains the diagonal entries of the source sample-covariance matrix $\boldsymbol{\Lambda}_s$
-and the matrix $\mathbf{D} \in \mathbb{R}^{\widetilde{M} \times N}$ consists of the columns $\mathbf{d}_i = \text{vec}(\mathbf{a}_i \mathbf{a}_i^T)$. Note that $\mathbf{D}$ and $\boldsymbol{\delta}_s$ are unknown while $\text{vec}(\widehat{\boldsymbol{\Sigma}}_{\mathbf{Y}_s})$ is known from the observed data.
-By this transformation to the covariance domain one segment is now represented by the single measurement model with $\widetilde{M}$ ''measurements''. 
+and the matrix $\mathbf{D} \in \mathbb{R}^{\widetilde{M} \times N}$ consists of the columns $\mathbf{d}_i = \text{vec}(\mathbf{a}_i \mathbf{a}_i^T)$ where $\mathbf{a}_i$ is the rows of $\mathbf{A}$. Note that $\mathbf{D}$ and $\boldsymbol{\delta}_s$ are unknown while $\text{vec}(\widehat{\boldsymbol{\Sigma}}_{\mathbf{Y}_s})$ is known from the observed data.
+By this transformation to the covariance domain, one segment is now represented by the single measurement model with $\widetilde{M}$ "measurements". 
 It has been shown that this transformed model allows for identification of $k \leq \widetilde{M}$ active sources \cite{Pal2015}, which is a much weaker sparsity constraint than the original sparsity constraint $k \leq M$. 
 The purpose of the Cov-DL algorithm is to leverage this model to find the dictionary $\mathbf{A}$ from $\mathbf{D}$ and then still allow for $k \leq \widetilde{M}$ active sources to be identified. 
 That is the number of active sources are allowed to exceed the number of observations as intended.
 
 \section{Determination of the Mixing Matrix}
-The goal is now to learn first $\textbf{D}$ and then the associated mixing matrix $\textbf{A}$ \todo{Hvad A ikke en dictionary matrix i dette afsnit? - L}. Two methods are considered relying on the relation of $M$ and $N$. For now the noise vector is ignored.
+The goal is now to learn first $\textbf{D}$ and then the associated mixing matrix $\textbf{A}$ \todo{Hvad A ikke en dictionary matrix i dette afsnit? - L}. 
+Two methods are considered relying on the relation between $M$ and $N$. 
+For now the noise vector is ignored.
 
 
 \input{sections/ch_cov-DL/Cov-DL1.tex}

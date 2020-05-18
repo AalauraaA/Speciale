@@ -6,18 +6,19 @@ Assuming the sufficient sparsity on $\boldsymbol{\delta}_s$ is withhold it is po
 
 \subsubsection{Dictionary Learning}\label{sec:dictionarylearning}
 Within the theory of compressive sensing the matrix $\textbf{A}$ is referred to as a dictionary matrix, as it determines how a sparse vector $\textbf{x}$ is transformed to the original non-sparse signal. 
-When the dictionary is not known a prior it is essential how to choose the dictionary matrix in order to achieve the best recovery, of the sparse vector $\mathbf{x}$ from the measurements $\mathbf{y}$. 
+When the dictionary is not known a priori it is essential how to choose the dictionary matrix in order to achieve the best recovery, of the sparse vector $\mathbf{x}$ from the measurements $\mathbf{y}$. 
 This is clarified from the proof of theorem \ref{th:CS_A} in appendix \ref{app_sec:CS}. 
 One choice is a pre-constructed dictionary. 
 In many cases the use of a pre-constructed dictionary results in simple and fast algorithms for reconstruction of $\mathbf{x}$ \cite{Elad_book}. 
 However, a pre-constructed dictionary is typically fitted to a specific kind of data. 
 For instance the discrete Fourier transform or the discrete wavelet transform are used especially for sparse representation of images \cite{Elad_book}. 
-Hence the results of using such dictionaries depend on how well they fit the data of interest, which is creating a certain limitation. 
+Hence the results of using such dictionaries depend on how well they fit the data of interest, which is establishing a certain limitation. 
 
 The alternative option is to consider an adaptive dictionary based on a set of training data that resembles the data of interest. 
-For this purpose learning methods are considered to empirically construct a fixed dictionary which can take part in the application. 
-There exist several dictionary learning algorithms. One is the K-SVD algorithm which was presented in 2006 by Elad et al. and found to outperform pre-constructed dictionaries, when computational cost is of secondary interest \cite{Elad2006}. The concept of the K-SVD algorithm is introduced, and the more detailed algorithm is to be found in appendix \ref{app_sec:K-SVD_alg}. 
-Consider the measurement matrix $\mathbf{Y} \in \mathbb{R}^M$ consisting of measurement vectors $\lbrace \mathbf{y}_j \rbrace_j^L$ making a set of $L$ training examples forming a linear system
+For this purpose learning methods are considered to empirically construct a fixed dictionary. 
+There exist several dictionary learning algorithms. One is the K-SVD algorithm which was presented in 2006 by Elad et al. and found to outperform pre-constructed dictionaries, when computational cost is of secondary interest \cite{Elad2006}. 
+The concept of the K-SVD algorithm is introduced, and the more detailed algorithm is to be found in appendix \ref{app_sec:K-SVD_alg}. 
+Consider the measurement matrix $\mathbf{Y} \in \mathbb{R}^{M \times L}$ consisting of measurement vectors $\lbrace \mathbf{y}_j \rbrace_j^L$ \todo{Rasmus spørger om dette er korret notation og det vil jeg mene det er - L} making a set of $L$ training examples forming a linear system
 \begin{align*}
 \mathbf{y}_j = \mathbf{A} \mathbf{x}_j.
 \end{align*}
@@ -26,18 +27,20 @@ For a known sparsity constraint $k$ the dictionary learning can be defined by th
 \begin{align}\label{eq:SVD1}
 \min_{\mathbf{A}, \mathbf{X}} \sum_{j=1}^{L} \Vert \mathbf{y}_j - \mathbf{A} \mathbf{x}_j \Vert_2^2 \quad \text{subject to} \quad \Vert \textbf{x}_j \Vert_1 \leq k, \ 1 \leq j \leq L,
 \end{align}
-where both $\textbf{A}$ and $\textbf{x}_j$ are variables to be determined.
-Learning the dictionary by the K-SVD algorithm constitute joint solving of the optimization problem with respect to $\mathbf{A}$ and $\mathbf{X}$ respectively. An initial $\textbf{A}_0 = [\textbf{a}_1,\hdots,\textbf{a}_N]$ and the corresponding $\textbf{X}_0$ is determined. Then, for each iteration an update rule is applied to each column of $\textbf{A}_0$, that is updating first $\textbf{a}_j$ and then the corresponding row $\textbf{x}_i$ \todo{Jan spørger om hvilket $x_i$ er den tilsvarende række til søljen $a_j$ - L}. More details on the K-SVD algorithm is found in appendix \ref{app_sec:K-SVD_alg}. 
-The uniqueness of $\mathbf{A}$ depends on the recovery sparsity condition. As clarified earlier in \ref{sec:sol_met} the recovery of a unique solution $\mathbf{X}^\ast$ is only possible if $k < M$ \cite{phd2015}.
+where both $\textbf{A}$ and $\textbf{x}_j$ are quantities to be determined.
+Learning the dictionary by the K-SVD algorithm consists of joint solving of the optimization problem with respect to $\mathbf{A}$ and $\mathbf{X}$ respectively. 
+An initial $\textbf{A}_0 = [\textbf{a}_1,\hdots,\textbf{a}_N]$ and the corresponding $\textbf{X}_0$ is determined. Then, for each iteration an update rule is applied to each column of $\textbf{A}_0$, that is updating first $\textbf{a}_j$ and then the corresponding row $\textbf{x}_i$ \todo{Jan spørger om hvilket $x_i$ er den tilsvarende række til søljen $a_j$. Rasmus har også problemer med denne sætning - L}. 
+More details on the K-SVD algorithm are found in appendix \ref{app_sec:K-SVD_alg}. 
+The uniqueness of the recovered $\mathbf{A}$ depends on the recovery sparsity condition. As clarified earlier in \ref{sec:sol_met} the recovery of a unique solution $\mathbf{X}^\ast$ is only possible if $k < M$ \cite{phd2015}.
 %The dictionary learning algorithm K-SVD is a generalisation of the well known K-means clustering also referred to as vector quantization. In K-means clustering a set of $K$ vectors is learned referred to as mean vectors. Each signal sample is then represented by its nearest mean vector. That corresponds to the case with sparsity constraint $k = 1$ and the representation reduced to a binary scalar $x = \lbrace 1, 0 \rbrace$. Further instead of computing the mean of $K$ subsets the K-SVD algorithm computes the SVD factorisation of the $K$ different sub-matrices that correspond to the $K$ columns of $\textbf{A}$.
 
 
 \subsubsection{Application of Dictionary Learning}
-By the establishments of an dictionary learning algorithm it is now used to learn the transformed dictionary matrix $\textbf{D}$ in \eqref{eq:cov1}. 
+The establishments of an dictionary learning algorithm is now used to learn the transformed dictionary matrix $\textbf{D}$ in \eqref{eq:cov1}. 
 Here the transformed and vectorized measurements $\left\{ \text{vec}\left( \hat{\Sigma}_\textbf{Y}\right), \forall s\right\}$ makes the training dataset. 
-By this note that each segment the original measurement sample constitute only one sample in the covariance domain. 
+Note that each segment of the original measurement sample constitute only one sample in the covariance domain. 
 Thus the number of training samples depends on the length of a segment.     
-When K-SVD is applied and $\mathbf{D}$ is found it is possible to estimate the mixing matrix $\mathbf{A}$ that generated found $\textbf{D}$ through the relation 
+When K-SVD is applied and $\mathbf{D}$ is found it is possible to estimate the mixing matrix $\mathbf{A}$ that generated $\textbf{D}$ through the relation 
 \begin{align*}
 \mathbf{d}_j = \text{vec}(\mathbf{a}_j \mathbf{a}_j^T).
 \end{align*}

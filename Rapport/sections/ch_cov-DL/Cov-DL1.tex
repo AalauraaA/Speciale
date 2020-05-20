@@ -18,18 +18,18 @@ The alternative option is to consider an adaptive dictionary based on a set of t
 For this purpose learning methods are considered to empirically construct a fixed dictionary. 
 There exist several dictionary learning algorithms. One is the K-SVD algorithm which was presented in 2006 by Elad et al. and found to outperform pre-constructed dictionaries, when computational cost is of secondary interest \cite{Elad2006}. 
 The concept of the K-SVD algorithm is introduced, and the more detailed algorithm is to be found in appendix \ref{app_sec:K-SVD_alg}. 
-Consider the measurement matrix $\mathbf{Y} \in \mathbb{R}^{M \times L}$ consisting of measurement vectors $\lbrace \mathbf{y}_j \rbrace_j^L$ \todo{Rasmus spørger om dette er korret notation og det vil jeg mene det er - L} making a set of $L$ training examples forming a linear system
+Consider the measurement matrix $\mathbf{Y} \in \mathbb{R}^{M \times L}$ consisting of measurement vectors $\lbrace \mathbf{y}_j \rbrace_1^L$. making a set of $L$ training examples forming a linear system
 \begin{align*}
 \mathbf{y}_j = \mathbf{A} \mathbf{x}_j.
 \end{align*}
-From the linear system one can learn a suitable dictionary $\hat{\mathbf{A}}$, and the sparse representation of the source matrix $\hat{\mathbf{X}} \in \mathbb{R}^N$ with the source vectors $\lbrace \hat{\mathbf{x}}_j \rbrace_j^L$.
+From the linear system one can learn a suitable dictionary $\hat{\mathbf{A}}$, and the sparse representation of the source matrix $\hat{\mathbf{X}} \in \mathbb{R}^N$ with the source vectors $\lbrace \hat{\mathbf{x}}_j \rbrace_1^L$.
 For a known sparsity constraint $k$ the dictionary learning can be defined by the following optimisation problem. 
 \begin{align}\label{eq:SVD1}
 \min_{\mathbf{A}, \mathbf{X}} \sum_{j=1}^{L} \Vert \mathbf{y}_j - \mathbf{A} \mathbf{x}_j \Vert_2^2 \quad \text{subject to} \quad \Vert \textbf{x}_j \Vert_1 \leq k, \ 1 \leq j \leq L,
 \end{align}
 where both $\textbf{A}$ and $\textbf{x}_j$ are quantities to be determined.
 Learning the dictionary by the K-SVD algorithm consists of joint solving of the optimization problem with respect to $\mathbf{A}$ and $\mathbf{X}$ respectively. 
-An initial $\textbf{A}_0 = [\textbf{a}_1,\hdots,\textbf{a}_N]$ and the corresponding $\textbf{X}_0$ is determined. Then, for each iteration an update rule is applied to each column of $\textbf{A}_0$, that is updating first $\textbf{a}_j$ and then the corresponding row $\textbf{x}_i$ \todo{Jan spørger om hvilket $x_i$ er den tilsvarende række til søljen $a_j$. Rasmus har også problemer med denne sætning - L}. 
+An initial $\textbf{A}_0 = [\textbf{a}_1,\hdots,\textbf{a}_N]$ and the corresponding $\textbf{X}_0 = [\textbf{x}_1,\hdots,\textbf{x}_L]$ is determined. Then, for each iteration an update rule is applied to each column of $\textbf{A}_0$, that is updating first $\textbf{a}_j$ and then the corresponding entry $\textbf{x}_{ij}$ hvor i=j in\todo{vi skal lige have styr på aj og tilsvarende x}. 
 More details on the K-SVD algorithm are found in appendix \ref{app_sec:K-SVD_alg}. 
 The uniqueness of the recovered $\mathbf{A}$ depends on the recovery sparsity condition. As clarified earlier in \ref{sec:sol_met} the recovery of a unique solution $\mathbf{X}^\ast$ is only possible if $k < M$ \cite{phd2015}.
 %The dictionary learning algorithm K-SVD is a generalisation of the well known K-means clustering also referred to as vector quantization. In K-means clustering a set of $K$ vectors is learned referred to as mean vectors. Each signal sample is then represented by its nearest mean vector. That corresponds to the case with sparsity constraint $k = 1$ and the representation reduced to a binary scalar $x = \lbrace 1, 0 \rbrace$. Further instead of computing the mean of $K$ subsets the K-SVD algorithm computes the SVD factorisation of the $K$ different sub-matrices that correspond to the $K$ columns of $\textbf{A}$.
@@ -44,11 +44,11 @@ When K-SVD is applied and $\mathbf{D}$ is found it is possible to estimate the m
 \begin{align*}
 \mathbf{d}_j = \text{vec}(\mathbf{a}_j \mathbf{a}_j^T).
 \end{align*}
-Here each column is found from the optimisation problem \todo{Jan har problemer med at se hvorfor vi devercotrisere d, men det er jo fordi $a * a^T$ bliver en matrix. Skal vi skriver det mere ud eller er det fint som det står her? - L}.
+Here each column is found from the optimisation problem.
 \begin{align*}
 \min_{\textbf{a}_j} \| \text{vec}^{-1}(\textbf{d}_j) -\textbf{a}_j\textbf{a}_j^T\|_2^2, 
 \end{align*}
-for which the global minimizer is $\mathbf{a}^{\ast}_j=\sqrt{\lambda_j} \textbf{b}_j$\todo{redegørelse for resultatet her skal laves}. 
+for which the global minimizer is $\mathbf{a}^{\ast}_j=\sqrt{\lambda_j} \textbf{b}_j$\todo{Redegørelse for resultatet her skal laves}. 
 Here $\lambda_j$ is the largest eigenvalue of $\text{vec}^{-1}(\textbf{d}_j)$,
 \begin{align*}
 \text{vec}^{-1}(\textbf{d}_j) = 

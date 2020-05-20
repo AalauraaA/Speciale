@@ -10,8 +10,8 @@ Finally, a summary is provided to highlight the conclusions.
 For this thesis a data base of real EEG scalp measurements has been provided, from the the department of .... at AAU \todo{Indsæt department - L}. 
 The data base consist of data sets of EEG measurements resulting from three test subjects. 
 For each of three test subjects two data set is provided, one where the test subject sit still with open eyes and one similar but with closed eyes, resulting in a data base with 6 data sets.  
-For the measurements an EEG cap with $32$ sensors measuring the scalp EEG signal with sample frequency at $512$Hz\todo{tjek sample frequency ant time} over a period of $XX$ seconds, resulting in $L = XX$ samples. 
-That is 27 channels with names and position available in \texttt{EEG.chanlocs} structure \todo{Matlab eller python her?}.   
+For the measurements an EEG cap with $32$ sensors measuring the scalp EEG signal with sample frequency at $512$Hz\todo{tjek sample frequency and time} over a period of $XX$ seconds, resulting in $L = XX$ samples. 
+That is 27 channels with names and position available in \texttt{EEG.chanlocs} structure.   
 
 Before the data base was provided each raw data set had undergone the following preprocessing.
 The data was bandpass filtered between 1 and 40 Hz. Then decomposed by ICA where the independent components related to eye activity or movement was removed. Thus, for every data set 27 sensors remains. One data set then consist solely of the measurement matrix $\mathbf{Y} \in \mathbb{R}^{27\times ??}$.

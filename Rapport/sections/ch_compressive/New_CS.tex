@@ -12,18 +12,18 @@ If the square coefficient matrix $\mathbf{A}$ has full rank the solution can be 
 \begin{align*}
 \mathbf{x} = \mathbf{A}^{-1} \mathbf{y}.
 \end{align*}
-For $M > N$ the system is over-determined, having more equations than unknown. In general there is no solution to an over-determined system. The exception occur when the system contains a sufficient amount of linearly dependent equations \todo{Hvad menes der her? - L}.    
-For $M < N$ the system is under-determined, having fewer equations than unknowns. There exists infinitely many solutions to an under-determined system, provided that one solution exist\todo{note: skal vi nævne løsnings metoder for underdetermined system her?} \cite[p. ix]{CS}.  
+For $M > N$ the system is over-determined, having more equations than unknown. In general there is no solution to an over-determined system.   
+For $M < N$ the system is under-determined, having fewer equations than unknowns. There exists infinitely many solutions to an under-determined system, provided that one solution exist \cite[p. ix]{CS}.  
 
 Consider now $\mathbf{y} \in \mathbb{R}^M$ as the observed measurements provided by $M$ EEG sensors at time $t$. 
 The linear system \ref{eq:SMV_model} is then considered as a single measurement vector (SMV) model.  
 Modelling the EEG measurements by the SMV model embody the following interpretations, based on chapter \ref{ch:motivation}.
-Remember from chapter \ref{ch:motivation} that EEG measurements basically are mixture of original brain signals affected by volume conduction and noise \todo{Jan's note med noise. Tjek om dette nævnes i kapitel 1 - L}.
+Remember from chapter \ref{ch:motivation} that EEG measurements basically are mixture of original brain signals affected by volume conduction and noise.
 The vector $\mathbf{x}$ is seen as the original brain signal sources, with each entry representing the signal of one source. 
 Thus, $\mathbf{x} \in \mathbb{R}^N$ is referred to as the source vector. 
 $N$ is considered the maximum number of sources, however zero-entries may occur. 
 Let $k$ denote the number of non-zero entries in $\mathbf{x}$, referred to as the active sources at time $t$.   
-The projection matrix $\mathbf{A}$ \todo{Projection/coefficient? Dette er første gang projection anvendes - L}, referred to as the mixing matrix, models the volume conduction by mapping the source vector from $\mathbb{R}^N$ to $\mathbb{R}^M$.
+The coefficient matrix $\mathbf{A}$, referred to as the mixing matrix, models the volume conduction by mapping the source vector from $\mathbb{R}^N$ to $\mathbb{R}^M$.
 %where $M$ is the number of sensors hence the dimension of the measurement vector $\mathbf{y}$.             
 
 \section{Multiple Measurement Vector Model of EEG}\label{sec:MMV}
@@ -48,8 +48,8 @@ Hence, the following segmentation is considered.
 
 Let $f$ be the sample frequency of the observed EEG measurement matrix $\mathbf{Y}$ and let $t$ the length of a time interval in seconds determining the duration of one segment. 
 Here $s$ is the segment index. 
-As such the observed EEG measurement matrix $\mathbf{Y}$ can be divided into stationary segments $\mathbf{Y}_s \in \mathbb{R}^{M \times L_{s}}$, possibly overlapping \todo{Skal vi have kigget på overlappende segmenter i koden? - L}, where $L_s = t \cdot f$ is the number of samples within one segment. 
-For each segment the MMV model \eqref{eq:MMV_model} holds and is rewritten into \todo{A inddeles ikke i segmenter, men skal vi ikke beskrives hvorfor den ikke gør det eller er det oplagt? - L}
+As such the observed EEG measurement matrix $\mathbf{Y}$ can be divided into stationary segments $\mathbf{Y}_s \in \mathbb{R}^{M \times L_{s}}$, possibly overlapping, where $L_s = t \cdot f$ is the number of samples within one segment. 
+For each segment the MMV model \eqref{eq:MMV_model} holds and is rewritten into \todo{A skal være As (hele vejen) med en passene beskrivelse}
 \begin{align}\label{eq:MMV_seg}
 \mathbf{Y}_s = \mathbf{AX}_s + \textbf{E}_s, \quad \forall s.
 \end{align}
@@ -57,10 +57,10 @@ Due to a segment being stationary, it is assumed that each source remains either
 Thus, $\mathbf{X}_s$, consists of $k$ non-zero rows -- the active sources.
 
 In order to characterize the source matrix with respect to the number of non-zero rows, the term row sparseness is considered. 
-By common definition the support of the segmented source matrix $\text{supp}(\mathbf{X}_s)$ denotes the index set of non-zero rows of $\mathbf{X}_s$.
-To count the non-zero row of a matrix the $\ell_0$-norm is defined \todo{Jan spørger ud fra denne ligning om vi tæller elementerne eller rækkerne - L}
+Let the support $\text{supp}(\mathbf{X}_s)$ denote the index set of non-zero rows of $\mathbf{X}_s$.
+To count the non-zero rows of a matrix the $\ell_0$-norm is defined 
 \begin{align*}
-\Vert \mathbf{X} \Vert_0 := \text{card}(\text{supp}(\mathbf{X})),
+\Vert \mathbf{X}_{s} \Vert_0 := \text{card}(\text{supp}(\mathbf{X}_{s})),
 \end{align*}
 where the function $\text{card}(\cdot)$ gives the cardinality of the input set. The segmented source matrix $\textbf{X}_s$ is said to be $k$-sparse if it contains at most $k$ non-zeros rows:
 \begin{align*}
@@ -84,12 +84,12 @@ When the mixing matrix $\mathbf{A}$ is unknown, as it is in the current case, th
 As discussed in chapter \ref{ch:motivation}, the aim of this thesis is to overcome the limitation of fewer sources than measurements, which is a limitation of compressive sensing. 
 A method to overcome this limitation, with respect to learning $\mathbf{A}$, is the covariance domain dictionary learning (Cov-DL) method \cite{Balkan2015}, introduced in chapter \ref{ch:motivation}. 
 The method manages to leverage the increased dimensionality of the covariance domain in order to allow the theory of compressive sensing to apply to an under-determined system. 
-However, this method only apply to the process of learning $\mathbf{A}$ \todo{as the relation between $\textbf{X}$ and the corresponding $\delta$ is unknown(?) det kan vi ikke skrive her kan vi?}, hence a different approach is necessary to recover $\mathbf{X}$.
+However, this method only apply to the process of learning $\mathbf{A}$, hence a different approach is necessary to recover $\mathbf{X}$.
 
 For recovering $\mathbf{X}$, given both $\mathbf{Y}$ and $\mathbf{A}$, the method multiple sparse Bayesian learning (M-SBL), introduced in chapter \ref{ch:motivation}, is considered \todo{Rasmus synes alt nedstående er en gentagelse af kapitel 1 og forstår ikke hvorfor vi nævner det igen. Skal vi revidere den her sektion med solution methods? - L}.
 O. Balkan \cite{Balkan2014} did also, in 2014, proposed a method which could identify the sources, in the time domain, by creating a likelihood which ensures the wanted sparsity of the source matrix $\mathbf{X}$ and controlled by some variance. This method is called multiple sparse Bayesian learning (M-SBL) and takes advantage of a Bayesian approach. 
-In \cite{Balkan2014} a variance dependent log-likelihood which has been induce \todo{Jan sætter spørsgmåltegn ved dette ord - L} by a empirical prior that ensure sparsity of the likelihood has been constructed to be minimised with respect to the variance. 
-From the log-likelihood an estimate for the source matrix $\mathbf{X}$ is obtained with respect to the support set $S$ created from the optimised variance \todo{evt. tilføj afslutning der siger hvad der kommer i kapitlerne?} \todo{De sidste to linje synes Rasmus er uklar og knudret -L}.
+In \cite{Balkan2014} a variance dependent log-likelihood which has been induced by a empirical prior that ensure sparsity of the likelihood has been constructed to be minimised with respect to the variance. 
+From the log-likelihood an estimate for the source matrix $\mathbf{X}$ is obtained with respect to the support set $S$ created from the optimised variance \todo{De sidste to linje synes Rasmus er uklar og knudret -L}.
 %which has been influenced by the variance used in the minimization 
 
 

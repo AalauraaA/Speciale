@@ -15,10 +15,10 @@ The length of the segments are predefined by a time interval $t$ in seconds such
 Each segment $s$ is now specified by the measurement matrix $\mathbf{Y}_s \in \mathbb{R}^{M \times L_{s}}$.
 After the segmentation a loop is constructed such that for every segments $s$ the remaining two stages, Cov-DL and M-SBL, of the main algorithm are performed. 
 For each segment $s$, $N$ and $k$ are manually defined. 
-This definition are either known in advance from the data or in the case of real EEG measurements they are unknown and a qualified guess must be made\todo{the manual input is an issue time wise when running over many segments, so the input should be made in advance}.
+This definition are either known in advance from the data or in the case of real EEG measurements they are unknown and a qualified guess must be made.
 With one segment and corresponding specifications of the expected number of active sources the second stage of the algorithm are initialised, recovery of $\mathbf{A}$.
 The implementation of Cov-DL stage follows algorithm \ref{alg:Cov1} from section \ref{seg:alg_cov} closely thus only the main steps are illustrated on the flow diagram.
-First the measurement matrix $\mathbf{Y}_s$ for all segments are transformed to the covariance domain and then vectorized, resulting in an extension of the dimensionality of $\mathbf{Y}$ from $M$ to $\widetilde{M} = \frac{M(M+1)}{2}$\todo{should we define new number of "samples" as well?}.
+First the measurement matrix $\mathbf{Y}_s$ for all segments are transformed to the covariance domain and then vectorized, resulting in an extension of the dimensionality of $\mathbf{Y}$ from $M$ to $\widetilde{M} = \frac{M(M+1)}{2}$.
 Next, the estimation of $\mathbf{A}$ is performed from either Cov-DL1 or Cov-DL2 depending on the relation between $\widetilde{M}$ and $N$, as described respectively in section \ref{sec:cov1} and \ref{sec:over_det}.
 The estimate $\hat{\mathbf{A}}$ serves as the input to the next stage, M-SBL for recovering of $\mathbf{X}$, along with the measurement matrix $\mathbf{Y}_s$. 
 The last stage of the main algorithm consists of the iterative EM algorithm for maximizing the marginal likelihood \eqref{eq:likelihood} with respect to $\boldsymbol{\gamma}$, which is the hyperparameter from which $\mathbf{X}$ can be determined as described in section \ref{seg:M_sblalg}. 
@@ -28,7 +28,7 @@ Lastly, the output of the main algorithm $\hat{\mathbf{X}}$ and $\hat{\mathbf{A}
 The implementation of the main algorithm is performed in Python 3.6. The software and guide to run the scripts are available through appendix \ref{App:code}.
 
 The practical implementation process are based on module development. 
-The established model and the three stages of the main algorithm makes a superior system design\todo{"superior system design". Hvad menes der her med "superior? Jan satte også spørgsmål ved dette ordvalg - L}. 
+The established model and the three stages of the main algorithm makes the system design. 
 For each stage the necessary tasks are identified and divided into smaller modules. 
 For each module the task is specified and the algorithms are established and implemented. 
 This is followed by a test of the module and possible modifications until the task is performed without error. 

@@ -4,7 +4,7 @@ Consider the MMV model for a non-segmented case of EEG measurements with $L$ sam
 \begin{align}
 \mathbf{Y} = \mathbf{AX} + \mathbf{E}.\label{eq:MSBL_MMV}
 \end{align}
-\todo{den del vi mangler ift. kilden er måske at opstille det optimering problem vi kender for X, hvor sigma indgår, det finder man så ud af at vi kan erstatte men MAP estimerings problemet.}The model consist of the measurement matrix $\mathbf{Y} \in \mathbb{R}^{M \times L}$, source matrix $\mathbf{X} \in \mathbb{R}^{N \times L}$, mixing matrix $\mathbf{A} \in \mathbb{R}^{M \times N}$ and noise matrix $\mathbf{E} \in \mathbb{R}^{M \times L}$. Note that $\mathbf{A}$ is known throughout the chapter, as it is found by COV-DL in chapter \ref{ch:Cov-DL}.
+The model consist of the measurement matrix $\mathbf{Y} \in \mathbb{R}^{M \times L}$, source matrix $\mathbf{X} \in \mathbb{R}^{N \times L}$, mixing matrix $\mathbf{A} \in \mathbb{R}^{M \times N}$ and noise matrix $\mathbf{E} \in \mathbb{R}^{M \times L}$. Note that $\mathbf{A}$ is known throughout the chapter, as it is found by COV-DL in chapter \ref{ch:Cov-DL}.
 
 The aim is to recover the source matrix $\mathbf{X}$ in the case of fewer measurements than active sources, $M < k$, where $k\leq N$. 
 In \cite{Balkan2014} it is proven that exact localization of the active sources can be achieved with M-SBL for $k > M$, when two sufficient conditions are satisfied.   
@@ -28,8 +28,7 @@ In the desired case where $M < N$ the MMV model \eqref{eq:MSBL_MMV} makes an und
 
 Let the source matrix $\mathbf{X}$ be seen as a variable which is drawn from some distribution $p(\mathbf{X})$, as such it is possible to narrow down the solution space. 
 Assuming a prior belief that $\mathbf{Y}$ is generated from a sparse source matrix, gives a so-called sparsity inducing prior. 
-That is the entries of $\mathbf{X}$ is drawn from some distribution which has a sharp, possibly infinite, spike at zero surrounded by fat tails. Here the fat tails make room for the few non-zero values, which can be seen as outliers.\todo{theoretical example of t-distribution have been left out here}  
-%remenber that an theoretical example could be a multivariat t-distribution with med få frihedsgrader, og \chi i anden fordeling som variance 'Rasmus'.   
+That is the entries of $\mathbf{X}$ is drawn from some distribution which has a sharp, possibly infinite, spike at zero surrounded by fat tails. Here the fat tails make room for the few non-zero values, which can be seen as outliers.
 
 For simplicity a Gaussian prior is however preferred. 
 The use of a Gaussian distribution can almost be justified if a mixture of two Gaussian distributions are considered such that the variable is drawn from one of the two with equal likelihood. 

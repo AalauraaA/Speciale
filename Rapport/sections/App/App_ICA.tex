@@ -9,7 +9,7 @@ This appendix provide an extension to the basic algorithm for ICA regarding the 
 \section{Fixed-Point Algorithm - FastICA}
 An advantage of gradient algorithms is the possibility of fast adoption in non-stationary environments due the use of all input, $\textbf{y}$, at once. A disadvantage of the gradient algorithm is the resulting slow convergence, depending on the choice of $\gamma$ for which a bad choice in practise can disable convergence. A fixed-point iteration algorithm to maximise the non-Gaussianity is an alternative that could be used.\\
 Consider the gradient step derived in section \ref{sec:gra_kur}.
-In the fixed point iteration the sequence of $\gamma$ is omitted and replaced by a constant. This builds upon the fact that for a stable point\todo{wiki: The fixed point is stable if the absolute value of the derivative of \textbf{w} at the point is strictly less than 1?} of the gradient algorithm the gradient must point in the direction of $\textbf{b}_j$, hence be equal to $\textbf{b}_j$. In this case adding the gradient to $\textbf{b}_j$ does not change the direction and convergence is achieved.\\    
+In the fixed point iteration the sequence of $\gamma$ is omitted and replaced by a constant. This builds upon the fact that for a stable point of the gradient algorithm the gradient must point in the direction of $\textbf{b}_j$, hence be equal to $\textbf{b}_j$. In this case adding the gradient to $\textbf{b}_j$ does not change the direction and convergence is achieved.\\    
 Letting the gradient given in \eqref{eq:kurt} be equal to $\mathbf{w}$ and  considering the same simplifications again
 suggests the new update step as \cite[p. 179]{ICA}
 \begin{align*}
@@ -109,12 +109,12 @@ The MSE from the original $\hat{\textbf{X}}_{ICA}$ becomes
 MSE(\textbf{X},\hat{\textbf{X}}_{ICA}) = 0.608.
 \end{align*}
 
-\todo{inset captions}In figure \ref{fig:appica1} the fitting function has been applied to $\hat{\textbf{X}}_{ICA}$. Each row of the fitted estimate is now plotted with the corresponding row of the true source signals. 
+In figure \ref{fig:appica1} the fitting function has been applied to $\hat{\textbf{X}}_{ICA}$. Each row of the fitted estimate is now plotted with the corresponding row of the true source signals. 
 The resulting MSE becomes 
 \begin{align*}
 MSE(\textbf{X},\hat{\textbf{X}}_{ICA}) = 0.046.
 \end{align*}  
-that is an essential change from the first measured MSE, and it is considered to provide at more valid measure of the estimate. From the visualisation and the corresponding MSE it is found that the fast ICA algorithm manage to estimate the source signals of the deterministic data set with a sufficiently small error. 
+that is an essential change from the first measured MSE, and it is considered to provide at more valid measure of the estimate. From the visualisation and the corresponding MSE it is found that the fast ICA algorithm manage to estimate the source signals of the deterministic data set with a sufficiently small error\todo{inset captions og aling figure}. 
 \begin{figure}[H]
     \begin{minipage}[t]{.45\textwidth}
 		\centering

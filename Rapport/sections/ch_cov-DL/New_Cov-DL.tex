@@ -18,7 +18,7 @@ Similar the source matrix $\mathbf{X}_s$ can be described in the covariance doma
 \begin{align*}
 \widehat{\boldsymbol{\Sigma}}_{\mathbf{X}_s} &= \frac{1}{L_s} \mathbf{X}_s \mathbf{X}_s^T = \boldsymbol{\Lambda}_s + \boldsymbol{\varepsilon}. 
 \end{align*}
-From the assumption of uncorrelated sources within $\mathbf{X}_s$ the sample covariance matrix is expected to be nearly diagonal, thus it can be written as $\boldsymbol{\Lambda}_s + \boldsymbol{\varepsilon}$ where $\boldsymbol{\Lambda}_s$ is a diagonal matrix consisting of the diagonal entries of $\widehat{\boldsymbol{\Sigma}}_{\mathbf{X}_s}$ and $ \boldsymbol{\varepsilon}$ is the estimation error \cite{Balkan2015} \todo{Jan spørger om epsilon er en matrix som ikke er diagonal? - L}.
+From the assumption of uncorrelated sources within $\mathbf{X}_s$ the sample covariance matrix is expected to be nearly diagonal, thus it can be written as $\boldsymbol{\Lambda}_s + \boldsymbol{\varepsilon}$ where $\boldsymbol{\Lambda}_s$ is a diagonal matrix consisting of the diagonal entries of $\widehat{\boldsymbol{\Sigma}}_{\mathbf{X}_s}$ and $ \boldsymbol{\varepsilon}$ is a non-diagonal matrix representing the estimation error \cite{Balkan2015}.
 Each segment is then modelled in the covariance domain as
 \begin{align} 
 \widehat{\boldsymbol{\Sigma}}_{\mathbf{Y}_s} = \frac{1}{L_s}\mathbf{Y}_s \mathbf{Y}_s^T &= \frac{1}{L_s} \left( \mathbf{A} \mathbf{X}_s + \mathbf{E}_s \right) \left( \mathbf{A} \mathbf{X}_s + \mathbf{E}_s\right)^T \nonumber \\ 
@@ -28,7 +28,7 @@ Each segment is then modelled in the covariance domain as
 &= \textbf{A} \boldsymbol{\Lambda}_s \textbf{A}^T + \textbf{A} \boldsymbol{\varepsilon} \textbf{A}^T + \textbf{E}_s \textbf{E}_s^T + \textbf{E}_s \textbf{X}_s^T \textbf{A}^T + \textbf{AX}_s \textbf{E}_s^T \label{eq:noise1} \\
 &= \textbf{A} \boldsymbol{\Lambda}_s \textbf{A}^T + \widetilde{\textbf{E}} \label{eq:noise2}
 \end{align}
-From \eqref{eq:noise1} to \eqref{eq:noise2} all terms where noise, $\boldsymbol{\epsilon}$ and $\mathbf{E}$, is included, are aggregated in a joint noise term $\widetilde{\textbf{E}}$. 
+From \eqref{eq:noise1} to \eqref{eq:noise2} all terms where noise, $\boldsymbol{\varepsilon}$ and $\mathbf{E}$, is included, are aggregated in a joint noise term $\widetilde{\textbf{E}}$. 
 By vector notation \eqref{eq:noise2} is rewritten to be vectorized. 
 Because the covariance matrix $\widehat{\boldsymbol{\Sigma}}_{\mathbf{Y}_s}$ is symmetric it is sufficient to vectorize only the lower triangular parts, including the diagonal. 
 For this the function $\text{vec}(\cdot)$ is defined to map a symmetric $M \times M$ matrix into a vector of size $\widetilde{M} := \frac{M(M+1)}{2}$ making a row-wise vectorization of its lower triangular part. 
@@ -49,7 +49,7 @@ The purpose of the Cov-DL algorithm is to leverage this model to find the dictio
 That is the number of active sources are allowed to exceed the number of observations as intended.
 
 \section{Determination of the Mixing Matrix}
-The goal is now to learn first $\textbf{D}$ and then the associated mixing matrix $\textbf{A}$ \todo{Hvad A ikke en dictionary matrix i dette afsnit? - L}. 
+The goal is now to learn first $\textbf{D}$ and then the associated mixing matrix $\textbf{A}$. 
 Two methods are considered relying on the relation between $M$ and $N$. 
 For now the noise vector is ignored.
 
@@ -111,6 +111,6 @@ To improved the dictionary learning the overlapping of the segments can be look 
 
 For the Cov-DL algorithm when $\mathbf{D}$ is over-determined the solution tends to be unique when $M < N < \widetilde{M}$ from testing the solution. 
 That is the cost function tends toward a local minima and therefore an unique solution occur in first run of one trial. 
-For the implementation of Cov-DL it would therefore be necessary to include several random initial points when finding the mixing matrix $\mathbf{A}$ for $\mathbf{D}$ being over-determined \todo{Dette afsnit skal lige revideres. Vi snakker om test og trial and error men vi har jo ikke beskrevet dette endnu - L}.
+For the implementation of Cov-DL it would therefore be necessary to include several random initial points when finding the mixing matrix $\mathbf{A}$ for $\mathbf{D}$ being over-determined \todo{Dette afsnit skal lige revideres. Vi snakker om test og trial and error men vi har jo ikke beskrevet dette endnu - evt. mindre implementerings orienteret, i forhold til det vi har beskrevet endnu}.
 
 For a general perspective the sources within the source matrix $\mathbf{X}$ must not be constant over time when using the MMV model \eqref{eq:MMV_model} \todo{Find lige kilde på dette argument}...

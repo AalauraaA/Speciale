@@ -18,11 +18,11 @@ The alternative option is to consider an adaptive dictionary based on a set of t
 For this purpose learning methods are considered to empirically construct a fixed dictionary. 
 There exist several dictionary learning algorithms. One is the K-SVD algorithm which was presented in 2006 by Elad et al. and found to outperform pre-constructed dictionaries, when computational cost is of secondary interest \cite{Elad2006}. 
 The concept of the K-SVD algorithm is introduced, and the more detailed algorithm is to be found in appendix \ref{app_sec:K-SVD_alg}. 
-Consider the measurement matrix $\mathbf{Y} \in \mathbb{R}^{M \times L}$ consisting of measurement vectors $\lbrace \mathbf{y}_j \rbrace_1^L$. making a set of $L$ training examples forming a linear system
+Consider the measurement matrix $\mathbf{Y} \in \mathbb{R}^{M \times L}$ consisting of measurement vectors $\lbrace \mathbf{y}_j \rbrace_{j=1}^L$. making a set of $L$ training examples forming a linear system
 \begin{align*}
 \mathbf{y}_j = \mathbf{A} \mathbf{x}_j.
 \end{align*}
-From the linear system one can learn a suitable dictionary $\hat{\mathbf{A}}$, and the sparse representation of the source matrix $\hat{\mathbf{X}} \in \mathbb{R}^N$ with the source vectors $\lbrace \hat{\mathbf{x}}_j \rbrace_1^L$.
+From the linear system one can learn a suitable dictionary $\hat{\mathbf{A}}$, and the sparse representation of the source matrix $\hat{\mathbf{X}} \in \mathbb{R}^N$ with the source vectors $\lbrace \hat{\mathbf{x}}_j \rbrace_{j=1}^L$.
 For a known sparsity constraint $k$ the dictionary learning can be defined by the following optimisation problem. 
 \begin{align}\label{eq:SVD1}
 \min_{\mathbf{A}, \mathbf{X}} \sum_{j=1}^{L} \Vert \mathbf{y}_j - \mathbf{A} \mathbf{x}_j \Vert_2^2 \quad \text{subject to} \quad \Vert \textbf{x}_j \Vert_1 \leq k, \ 1 \leq j \leq L,

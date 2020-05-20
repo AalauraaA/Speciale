@@ -6,7 +6,7 @@ The covariance of $\textbf{y}_i$ is defined as
 \end{align*}
 where $\mathbb{E}[\cdot]$ is the expected value operator. 
 Assume that all sample vectors $\textbf{y}_i$ within one segment has zero mean and the same distribution. 
-Then, the observed segmented EEG measurement matrix $\mathbf{Y}_s \in \mathbb{R}^{M \times L_s}$ is to be described in the covariance domain by the sample covariance $\widehat{\boldsymbol{\Sigma}}$. The sample covariance $\widehat{\boldsymbol{\Sigma}}$ is defined as the covariance among the $M$ measurements across the $L_s$ samples. That is a $M \times M$ matrix $\boldsymbol{\Sigma}_{\mathbf{Y}_s} = [\sigma_{jk}]$ with entries 
+Then, the observed segmented EEG measurement matrix $\mathbf{Y}_s \in \mathbb{R}^{M \times L_s}$ is to be described in the covariance domain by the sample covariance $\widehat{\boldsymbol{\Sigma}}$. The sample covariance $\widehat{\boldsymbol{\Sigma}}$ is defined as the empirical covariance among the $M$ measurements across the $L_s$ samples. That is a $M \times M$ matrix $\boldsymbol{\Sigma}_{\mathbf{Y}_s} = [\sigma_{jk}]$ with entries 
 \begin{align*}
 \sigma_{jk}= \frac{1}{L_s}\sum_{i=1}^{L_s} y_{ji} y_{ki}.
 \end{align*}

@@ -2,11 +2,11 @@
 Consider again the measurements represented in the covariance domain \eqref{eq:cov1}.
 In the case of $\widetilde{M} > N$ an over-determined system is achieved where $\textbf{D}$ is high and thin. In general such system is inconsistent. Thus it is not possible to find $\textbf{D}$ by traditionally dictionary learning methods and different methods most be considered.
 
-When $ \widetilde{M} > N $ it is certain from the model \eqref{eq:cov1} that the transformed measurements $\text{vec}(\widehat{\boldsymbol{\Sigma}}_{\textbf{Y}_s})$ will live on or near a subspace of dimension $N$. 
+When $ \widetilde{M} > N $ it is expected from the model \eqref{eq:cov1} that the transformed measurements $\text{vec}(\widehat{\boldsymbol{\Sigma}}_{\textbf{Y}_s})$ will live on or near a subspace of dimension $N$. 
 This subspace is spanned by the columns of $\textbf{D}$, and is denoted as $\mathcal{R}(\textbf{D})$. 
 To learn $\mathcal{R}(\textbf{D})$ without having to impose any sparsity constraint on $\boldsymbol{\delta}_s$ it is possible to use Principal Component Analysis (PCA). 
-When PCA is applied to the set $\left\{\text{vec}(\widehat{\boldsymbol{\Sigma}}_{\textbf{Y}_s}), \forall s \right\}$ a set of $N$ principal components are found. The principal components forms a set of basis vectors $\textbf{U}$ such that $\mathcal{R}(\textbf{U})=\mathcal{R}(\textbf{D})$. 
-However, this do not imply that $\textbf{D}=\textbf{U}$. 
+When PCA is applied to the set $\left\{\text{vec}(\widehat{\boldsymbol{\Sigma}}_{\textbf{Y}_s}), \forall s \right\}$ a set of $N$ principal components are found. The principal components form a set of basis vectors $\textbf{U}$ such that $\mathcal{R}(\textbf{U})=\mathcal{R}(\textbf{D})$. 
+However, this does not imply that $\textbf{D}=\textbf{U}$. 
 In the case of two sets of basis vectors spanning the same space, namely $\mathcal{R}(\textbf{U})=\mathcal{R}(\textbf{D})$, the projection operator of the given subset must be unique \todo{need prove here? or is there just one $P:V\rightarrow V $ where $V = \mathcal{R}(\textbf{U})= \mathcal{R}(\textbf{D})$} 
 The projection matrix $\text{P}:\mathcal{R}(\textbf{U})\rightarrow \mathcal{R}(\textbf{D})$($\textbf{U}$?) can be find by considering the projection of an vector $\textbf{c}\in \mathbb{R}^{\widetilde{M}}$ onto $\mathcal{R}(\textbf{U})$, that is solving the least squares problem $\| \textbf{Ax}-\textbf{c}\|^{2}$ where $\textbf{Ax}\in \mathcal{R}(\textbf{U})$ and $\text{P} = \textbf{Ax}$. When $\textbf{A}$ has full rank the solution is given by the normal equation
 \begin{align*}
@@ -30,14 +30,14 @@ In the following section the optimization problem is analysed and processed in o
 %Additional optimization theory to support the analysis is found in appendix \ref{app:optimazion}  
 
 \subsection{Solution to Optimization Problem}
-The optimization problem \eqref{eq:Cov_DL2} consist of an objective function forming a least-square problem with respect to the frobenius norm.
+The optimization problem \eqref{eq:Cov_DL2} consists of an objective function forming a least-square problem with respect to the Frobenius norm.
 That is a convex quadratic objective function \todo{Jan spørger om hvordan vi ser dett? - L}.
-The constraints is a set of quadratic equality constraints. In general it is a thumb rule that non-linear equality constraint are not convex \todo{Kilde på dette udsagn -L}.
+The constraints is a set of quadratic equality constraints. In general it is a rule of thumb that non-linear equality constraint are not convex \todo{Kilde på dette udsagn -L}.
 Due to the constraints not being considered convex the optimization problem does not meet the requirements of a convex optimization problem. Hence the numerical solution methods for convex optimization problems, for which convergence is ensured, does not imply directly. 
 
 Due to the nature of the constraints it should be possible to reformulate the objective function to include the constraints into the objective function. That is construction an unconstrained least-squares problem, which is a special subclass of convex optimization \cite{cvxbook}.
 
-Let $\textbf{D} = f(\textbf{a}_1, \hdots, \textbf{a}_N)$ then an optimization problem without constraints is achieved and it can be solved be use of for instance the gradient decent method.
+Let $\textbf{D} = f(\textbf{a}_1, \hdots, \textbf{a}_N)$ then an optimization problem without constraints is achieved and it can be solved by use of for instance the gradient descent method.
 \todo[inline]{description of the exact solution method is missing, vi skal have slået den nye solver op, det skulle være en quasi newton methode, her skal bare en kort beskrivelse}
 
    

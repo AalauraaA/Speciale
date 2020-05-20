@@ -14,27 +14,27 @@
 %appetitvækker, der ligger større fokus på hvad vi arbejder med og hvordan rapporten er bygget op omkring det. -- skal resultater fremgå?   \\ \\
 %
 %---------------------------klade-----------------------------\\ \\
-The problem addressed throughout this thesis arise from the increasing use of electroencephalographic measurements for a wide range of scientific purposes, especially within the medical field. 
-An electroencephalography captures electric signals caused by activity within the brain. The signals from the brain is recorded over time by multiple sensors placed on the scalp.
+The topic of this thesis arise from the increasing use of electroencephalographic measurements for a wide range of scientific purposes, especially within the medical field. 
+By sensors placed on the head, an electroencephalography captures a mixture of electric signals caused by activity within the brain.   
+
 One essential issue concerning an electroencephalography is to  
-extract the exact sources of the captured brain activity. This is of interest when studying correlation among activities in different parts of the brain, referred to as functional integration.  
-The recorded signal from one sensor is basically a mixture of electric signals released from a various number of active neurons within the brain, forming one or several sources. 
-Furthermore, this mixture is distorted as it travels through the scalp. The need for source extraction is confirmed by studies showing how analysis performed on electroencephalographic measurements differs significantly from similar analysis performed directly on the original source\cite{Friston2002}.
+recover the original source signals which was released inside the brain. 
+ 
+The need for source recovery is confirmed by studies showing how analysis performed on electroencephalographic measurements differs significantly from similar analysis performed directly on the original source\cite{Friston2002}.
+One area of application, for which the use of the recovered source signals have shown potential, is the hearing aid industry. Here it is of interest to recover the source signals from only few sensors which potentially can be placed within a hearing aid.     
 
-Considering this issue of source extraction from a mathematical perspective the electroencephalographic measurements can be modelled by a linear system of equations, from which it is possible to extract a limited number of sources under certain conditions. However, it is a general acknowledged issue that the true number of sources is unknown.
-The task complexity of extracting the sources from the linear system is increased in cases where the number of sources exceeds the number of sensors providing measurements.
+Consider the issue of source recovery from a mathematical perspective. Here the electroencephalographic measurements can be modelled by a linear system of equations. From such model it is possible to recover a limited number of source signals under certain conditions. However, it is a general acknowledged issue that the true number of source signals is unknown.
+The task complexity of recovering the source signals from the linear system is increased in cases where the number of sources exceeds the number of sensors providing the measurements.
 
-This thesis explores a state of the art mathematical method for source extraction, embracing the case of more sources than sensors. Overall this method, published in 2015, consist of two steps, that is finding receptively the mixture the signals have undergone and then extracting the source signals. The two steps originates from two different approaches considering the mathematical orientation. 
-The main goal of the thesis is to explore and unite the necessary theory into one algorithm. The practical aspect will include an implementation of the algorithm to be tested on new electroencephalographic measurements with the purpose of supporting(?) the current results. Furthermore the problem is connected to an current application within the hearing aid industry. Here the intention is to reduce the amount of energy spent by the hearing aid user. Basically, this is attempted by identifying the listening direction intended by the user, from analysis of the active sources measured on the user.
-In this thesis the number of active sources are sought related to the amount of energy used by the hearing aid user.   
-This includes considerations upon the issue of the true number of active sources being unknown\todo{skal opdateres}. 
+This thesis explores one state of the art mathematical method for source recovery, embracing the case of more sources than sensors. 
+Overall this method, published in 2015, consist of two steps, that is receptively to recover the mixing process that the source signals have undergone and then recover the source signals.
+The two steps originates from two different approaches considering the mathematical orientation. 
+The main goal of the thesis is to study the two methods with respect to proposing a united algorithm, to be applied on electroencephalographic measurements. The purpose is to support the current results of recovering source signals from electroencephalographic measurements of few sensors. Furthermore the issue of the unknown number of active source signals is considered from a perspective of practical application.      
 
-(følgende kan skrives bedre hvis ikke det skal være et andet sted)The thesis consist of a motivational part introducing  electroencephalography and the potential use within research especially in the hearing aid industry. Furthermore, existing literature considering different mathematical approaches for source extraction are examined. The Motivational part is concluded by the problem statement specifying the objective of the thesis.
-Next is the theoretical part. The system model is specified and the solution approach are presented. The necessary theory are introduced leading to the state of the art algorithms for source extraction.   
-The theoretical part is followed by implementation and test of the algorithm for verification. 
-Next is..
+The thesis consist of a motivational part introducing  electroencephalography and the potential use within research. Existing literature are examined, with respect to identification of state of the art approaches within source signal recovery. The Motivational part is concluded by the problem statement specifying the objective of the thesis.
+Next is the theoretical part. The system model is specified and the solution approach are presented based on existing methods. This is followed by an extensive study of the necessary theory.   
+The practical aspect of the thesis includes an implementation of the proposed solution to be tested on new electroencephalographic measurements. 
 Finally discussion and conclusion upon the achieved results are presented followed by a consideration upon further studies.    
-       
       
 
 

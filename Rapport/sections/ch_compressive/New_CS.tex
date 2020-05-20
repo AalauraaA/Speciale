@@ -81,7 +81,7 @@ The theory of compressive sensing provides a framework for solving an under-dete
 Specifically a unique solution $\mathbf{X}$ can be found when $\mathbf{X}$ is $M$-sparse, cf. theorem \ref{th:CS_A} in appendix \ref{app_sec:CS}. 
 When the mixing matrix $\mathbf{A}$ is unknown, as it is in the current case, the concept of dictionary learning can be used to determine $\mathbf{A}$, again under the assumption that $\mathbf{X}$ is $M$-sparse.  
 
-As discussed in chapter \ref{ch:motivation}, the aim of this thesis is to overcome the limitation of fewer sources than measurements, which is a limitation of compressive sensing. 
+As discussed in chapter \ref{ch:motivation}, the aim of this thesis is to overcome the limitation of fewer sources than measurements, which is a limitation of compressive sensing \todo{Rasmus spørg om det før nævnte kan løses af compressive sensing?}. 
 A method to overcome this limitation, with respect to learning $\mathbf{A}$, is the covariance domain dictionary learning (Cov-DL) method \cite{Balkan2015}, introduced in chapter \ref{ch:motivation}. 
 The method manages to leverage the increased dimensionality of the covariance domain in order to allow the theory of compressive sensing to apply to an under-determined system. 
 However, this method only apply to the process of learning $\mathbf{A}$, hence a different approach is necessary to recover $\mathbf{X}$.

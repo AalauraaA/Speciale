@@ -84,11 +84,20 @@ Overcomplete EEG Source Identification},
 }
 
 @Article{fundamentalEEG,
-  Title                    = {Fundamentals of EEG},
+  Title                    = {Fundamentals of EEG Measurement},
   Author                   = {Teplan, M.},
   Journal                  = {Measurement science review},
   Year                     = {2002},
   Volume                   = {2}
+}
+
+@Article{Ing2020,
+  Title                    = {Hjernebølger styrer høreapparatet},
+  Author                   = {Hovgaard, Laurids },
+  Journal                  = {Ingeniøren},
+  Year                     = {2020},
+  Volume                   = {nr. 13, 1. section},
+  Page                     = {p. 11-12}
 }
 
 @Article{Le2011,
@@ -148,6 +157,13 @@ Analysis},
   Year                     = {2012}
 }
 
+@Book{cvxbook,
+  Title                    = {Convex Optimization},
+  Author                   = {Boyd, S. and Vandenberhe, L.},
+  Publisher                = {Cambridge University Press},
+  Year                     = {2004}
+}
+
 @Book{EEGsignalprocessing,
   Title                    = {EEG Signal Processing},
   Author                   = {Sanei, Saeid and Chambers, J.A.},
@@ -175,6 +191,14 @@ Analysis},
   Editor                   = {Simon Haykin},
   Publisher                = {John Wiley and Sons, Inc.},
   Year                     = {2001}
+}
+
+@Book{Kay,
+  Title                    = {Intuitive Probability and Random Processes using MATLAB},
+  Author                   = {Steven M. Kay},
+  Publisher                = {Springer Science+Business Media, LLC},
+  Year                     = {2006},
+  Note                     = {4-th corrected version of the 5-th printing (2012)}
 }
 
 @Book{Optimization2007,

@@ -1,5 +1,5 @@
 \section{Verification of Algorithms}
-In this section the implementation of Cov-DL and M-SBL are verified separately based on the MSE between the true- and the estimated model parameters.
+In this section the implementation of Cov-DL and M-SBL are verified separately based on the MSE between the true and the estimated model parameters.
 During the tests on simulated data sets the segmentation stage is ignored by letting the simulated data form one single segment.    
 
 \subsection{Test of Cov-DL}
@@ -20,26 +20,27 @@ Furthermore, the $\text{MSE}(\mathbf{A}, \hat{\mathbf{A}})$ is fairly small sugg
 
 \subsubsection{Cov-DL2}
 For $\mathbf{Y}$ specified by $N \leq \widetilde{M}$, implying Cov-DL2, the true and estimated values of $\mathbf{A}$ are plotted in figure \ref{fig:cov2_simple} for visual comparison. 
-Additionally, is the initial $\mathbf{A}_{\text{ini}}$, which is given to the optimization solver within Cov-DL2,  plotted in the same figure, as standard that is a Gaussian matrix.  
+Additionally, is the initial $\mathbf{A}_{\text{ini}}$, given to the optimization solver within Cov-DL2, plotted in the same figure, as standard that is a Gaussian matrix. 
 The resulting MSE between the true $\mathbf{A}$ and the estimated $\hat{\mathbf{A}}$ become 
 \begin{align*}
 \text{MSE}(\mathbf{A}, \hat{\mathbf{A}}) = 2.46.
 \end{align*}
 From figure \ref{fig:cov2_simple} the estimate $\hat{\mathbf{A}}$ shows visual tendencies from the true $\mathbf{A}$. 
-However, when it is compared to the initial guess of $\textbf{A}$, $\mathbf{A}_{\text{ini}}$, it is seen that the estimate $\hat{\mathbf{A}}$ have moved further away from the true $\mathbf{A}$ compared to $\mathbf{A}_{\text{ini}}$. 
-This suggest some flaw within the optimization process. 
-By printing the convergence message from the used optimization solver it is confirmed that the optimization process was found to be terminated successful, with a current cost function value at $0.0$ after 26 iterations. 
-This suggest that an global minima has been found, but the minima, $\hat{\mathbf{A}}$, do not correspond to the true $\mathbf{A}$.    
+However, when it is compared to the initial guess of $\textbf{A}$, $\mathbf{A}_{\text{ini}}$, it is observed that the estimate $\hat{\mathbf{A}}$ have moved further away from the true $\mathbf{A}$ compared to $\mathbf{A}_{\text{ini}}$. 
+This suggests some flaw within the optimization process. 
+By printing the convergence message from the used optimization solver, it is confirmed that the optimization process was found to be terminated successfully, with a current cost function value at $0.0$ after 26 iterations. 
+This suggests that a global minimum has been found, but the minimum, $\hat{\mathbf{A}}$, do not correspond to the true $\mathbf{A}$. 
 To confirm this the following evaluations of the cost function was conducted. 
 \begin{align*}
 &\text{cost}(\hat{\mathbf{A}}) = 0.0\\
 &\text{cost}(\mathbf{A}_{\text{ini}}) = 1.564\\
 &\text{cost}(\mathbf{A}) = 1.809
 \end{align*}
-These evaluations ensures that the optimization solver have manage to find the solution that minimizes the cost function. 
+These evaluations ensure that the optimization solver has managed to find the solution that minimizes the cost function. 
 By evaluating the cost function with respect to the true $\mathbf{A}$ is it seen that it is not a global minimizer to the optimization problem. 
-This suggest that the optimization problem, derived in section \ref{sec:over_det}, do not fulfil the purpose. \todo{insæt note om det kunne at det ikke er convex. da vi asumede problemet var convekst men kunne ikke tjekke det. evt. ref. til kap Cov.}
-
+This suggests that the optimization problem, derived in section \ref{sec:over_det}, do not fulfil the purpose.
+One reason for the optimization problem not fulfilling its purpose is that the cost function may no be convex. 
+That is, in chapter \ref{ch:Cov-DL} it was assumed that the cost function was convex but no further investigate regarding the truthfulness of this assumption was made. As this was not possible to do \todo{Tjek dette afsnit omkring hvorfor optimisering problem ikke lykkes, cost funktion værende non-convex}.
 \begin{figure}[H]
     \begin{minipage}[t]{.45\textwidth}
 		\centering

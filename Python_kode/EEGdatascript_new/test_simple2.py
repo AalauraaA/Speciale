@@ -36,35 +36,35 @@ print('MSE_X = {}'.format(np.round_(mse_avg,decimals=4)))
 
 ##### plot
 segment = 0
-#plt.figure(0)
-#models = [X_real[segment], Y[segment]]
-#names = ['Source Signals, $\mathbf{X}$',
-#         'Measurements, $\mathbf{Y}$',
-#         ]
-#colors = ['red', 'steelblue', 'orange', 'green', 'yellow', 'blue', 'cyan',
-#          'purple']
-#
-#for ii, (model, name) in enumerate(zip(models, names), 1):
-#    plt.subplot(2, 1, ii)
-#    plt.title(name)
-#    for sig, color in zip(model, colors):
-#        plt.plot(sig, color=color)
-#
-#plt.tight_layout()
-#plt.xlabel('sample')
-#plt.tight_layout()
-#plt.show()
-#plt.savefig('figures/simple_data.png')
+plt.figure(0)
+models = [X_real[segment], Y[segment]]
+names = ['Source Signals, $\mathbf{X}$',
+         'Measurements, $\mathbf{Y}$',
+         ]
+colors = ['red', 'steelblue', 'orange', 'green', 'yellow', 'blue', 'cyan',
+          'purple']
 
-#plt.figure(1)
-#plt.title('Comparison of Mixing Matrix - COV-DL2')
-#plt.plot(np.reshape(A_real, (A_real.size)), 'o-g',label=r'True $\mathbf{A}$')
-#plt.plot(np.reshape(A_result[segment], (A_result[segment].size)),'o-r', label=r'Estimate $\hat{\mathbf{A}}$')
-#plt.plot(np.reshape(A_init,(A_init.size)), 'o-b',label=r'init $\mathbf{A}$')
-#plt.legend()
-#plt.xlabel('index')
-#plt.show
-#plt.savefig('figures/COV2_simple.png')
+for ii, (model, name) in enumerate(zip(models, names), 1):
+    plt.subplot(2, 1, ii)
+    plt.title(name)
+    for sig, color in zip(model, colors):
+        plt.plot(sig, color=color)
+
+plt.tight_layout()
+plt.xlabel('sample')
+plt.tight_layout()
+plt.show()
+plt.savefig('figures/simple_data.png')
+
+plt.figure(1)
+plt.title('Comparison of Mixing Matrix - COV-DL2')
+plt.plot(np.reshape(A_real, (A_real.size)), 'o-g',label=r'True $\mathbf{A}$')
+plt.plot(np.reshape(A_result[segment], (A_result[segment].size)),'o-r', label=r'Estimate $\hat{\mathbf{A}}$')
+plt.plot(np.reshape(A_init,(A_init.size)), 'o-b',label=r'init $\mathbf{A}$')
+plt.legend()
+plt.xlabel('index')
+plt.show
+plt.savefig('figures/COV2_simple.png')
 
 plt.figure(2)
 plt.title('Source matrix - M-SBL')

@@ -77,7 +77,7 @@ From the model the aim is to recover the source matrix $\mathbf{X}_s$ for all se
 This gives an estimate of the original source signals from the brain as intended by the problem statement. 
 In this section the solution method is presented and discussed, based on the state of the art methods lightly presented in section \ref{sec:relatedwork}. This will outline the remaining chapters of the thesis. 
 
-Due to the problem statement the case of interest is when $M < N$.  
+Due to the problem statement the case of interest is when $M < N$, typically resulting from low density EEG measurements.  
 Thus, $\mathbf{X}$ has to be recovered from an under-determined linear system. 
 Hence, the solution must be found in the infinite solution space, provided that one solution exists, thus simple linear algebra can not be used. 
 Alternatively, numerical methods can be considered. By mathematical optimization it is possible to restrict the solution by some constraint, and then find the unique optimal solution with respect to some cost function and the corresponding constraints.
@@ -85,24 +85,20 @@ The theory of compressive sensing provides a framework for solving an under-dete
 Specifically a unique solution $\mathbf{X}$ can be found when $\mathbf{X}$ is $M$-sparse, cf. theorem \ref{th:CS_A} in appendix \ref{app_sec:CS}. 
 When the mixing matrix $\mathbf{A}$ is unknown, as in this current case, the concept of dictionary learning can be used to determine $\mathbf{A}$, still under the assumption that $\mathbf{X}$ is $M$-sparse.  
 
-The assumption of $\textbf{X}$ being $M$-sparse corresponds to the number of active sources $k$ 
-As discussed in chapter \ref{ch:motivation}, the aim of this thesis is to overcome the limitation of fewer sources than measurements, which is a limitation of compressive sensing \todo{Rasmus spørg om det før nævnte kan løses af compressive sensing?}. 
-A method to overcome this limitation, with respect to learning $\mathbf{A}$, is the covariance domain dictionary learning (Cov-DL) method \cite{Balkan2015}, introduced in chapter \ref{ch:motivation}. 
-The method manages to leverage the increased dimensionality of the covariance domain in order to allow the theory of compressive sensing to apply to an under-determined system. 
-However, this method only apply to the process of learning $\mathbf{A}$, hence a different approach is necessary to recover $\mathbf{X}$.
+The assumption of $\textbf{X}$ being $M$-sparse corresponds to the number of active sources $k\leq M$. However, from chapter \ref{ch:motivation} it can not be justified to apply this assumption on low density EEG measurements. Hence, the theory of compressive sensing can not be applied directly on the established model, when $M<N$.     
 
-For recovering $\mathbf{X}$, given both $\mathbf{Y}$ and $\mathbf{A}$, the method multiple sparse Bayesian learning (M-SBL), introduced in chapter \ref{ch:motivation}, is considered \todo{Rasmus synes alt nedstående er en gentagelse af kapitel 1 og forstår ikke hvorfor vi nævner det igen. Skal vi revidere den her sektion med solution methods? - L}.
-O. Balkan \cite{Balkan2014} did also, in 2014, proposed a method which could identify the sources, in the time domain, by creating a likelihood which ensures the wanted sparsity of the source matrix $\mathbf{X}$ and controlled by some variance. This method is called multiple sparse Bayesian learning (M-SBL) and takes advantage of a Bayesian approach. 
-In \cite{Balkan2014} a variance dependent log-likelihood which has been induced by a empirical prior that ensure sparsity of the likelihood has been constructed to be minimised with respect to the variance. 
-From the log-likelihood an estimate for the source matrix $\mathbf{X}$ is obtained with respect to the support set $S$ created from the optimised variance \todo{De sidste to linje synes Rasmus er uklar og knudret -L}.
-%which has been influenced by the variance used in the minimization 
+A method to overcome this limitation of compressive sensing, is the covariance domain dictionary learning (Cov-DL) method \cite{Balkan2015}, introduced in chapter \ref{ch:motivation}.
 
+The method leverage the increased dimensionality of the covariance domain in order to allow the theory of compressive sensing to apply to an under-determined system. 
+Note that this method only applies to the process of learning $\mathbf{A}$, in the case where $\textbf{X}$ is not $M$-sparse. 
+Hence, a different approach is necessary to recover $\mathbf{X}$.
 
-%With these two methods the recovering of $\mathbf{A}$ and $\mathbf{X}$ can be done from the EEG measurements $\mathbf{Y}$ uniquely.
+For recovering $\mathbf{X}$, given both $\mathbf{Y}$ and $\mathbf{A}$ where $M<N$ and $k\leq N$, the method multiple sparse Bayesian learning (M-SBL)\cite{Balkan2014}, introduced in chapter \ref{ch:motivation}, is considered.
+This method takes advantage of the Bayesian statistic framework. Here, an empirical Bayesian estimation of $\textbf{X}$ is performed, based on the prior distribution of $\textbf{X}$ being defined by a data dependent hyper parameter.  
+
+Combining the two methods allows recovery of $\mathbf{A}$ and $\mathbf{X}$ given low density EEG measurements $\mathbf{Y}$\cite{phd2015}. In the following two chapters each method is studied extensively, with the purpose of proposing the main algorithm in chapter \ref{ch:implementation}. 
 
 
 
-%fjernet indhold:
-%The number of $k$ active source in the source vector $\mathbf{x} \in \mathbb{R}^N$ can be view as non-zeros -- the non-activations are described by zeros. 
-%By using this joint information it is possible to recover $\mathbf{X}_s$ from fewer measurements \cite[p. 43]{CS}.
+
 

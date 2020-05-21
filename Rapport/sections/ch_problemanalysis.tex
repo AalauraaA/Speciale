@@ -116,15 +116,15 @@ The Cov-DL algorithm stands out from other straight forward dictionary learning 
 Cov-DL was tested and found to outperform AMICA \cite{Balkan2015}.  
 As mentioned, the Cov-DL algorithm only learns the mixing matrix $\mathbf{A}$, resembling the volume conduction.
 
-For the purpose of recovering $\textbf{x}$, from $\textbf{y}$ and $\textbf{A}$, a multiple measurement sparse Bayesian learning (M-SBL) algorithm is proposed. This method is also targeting the case of more active sources than sensors.\todo{Tilføj yderligere beskrivelse M-SBL?}
-The method was proven to outperform the previously used algorithms, even when the defined recovery conditions regarding the found mixing matrix $\textbf{A}$ was not fulfilled \cite{Balkan2014}.
+For the purpose of recovering $\mathbf{x}$, from $\mathbf{y}$ and $\mathbf{A}$, a multiple measurement sparse Bayesian learning (M-SBL) algorithm is proposed. M-SBL is based on the concept of finding a set of non-zeros indices of the source vector $\mathbf{x}$ which corresponds to finding the localisation of sources. This method is also targeting the case of more active sources than sensors.
+The method was proven to outperform the previously used algorithms, even when the defined recovery conditions regarding the found mixing matrix $\mathbf{A}$ was not fulfilled \cite{Balkan2014}.
 
 One drawback, which is not fully covered in the referred literature, is that the two methods rely on the number of active sources being known. 
 In practise this is not the case. 
 Hence an estimation of the number of active sources has to be considered for the algorithm to be useful in practice. To address this issue a simple approach is to optimise the result with respect to the number active source, provided that some prior assumption of the expected result can be made.      
 \\ \\
 The two state of the art methods resulting in source separation and localization will make the foundation of this thesis. 
-Our aim is to investigate and fully understand the two methods in order to implement and test a joint algorithm -- recovering the original sources $\textbf{x}$ from the measurements $\textbf{y}$, when the number of active sources exceeds the number of measurements. 
+Our aim is to investigate and fully understand the two methods in order to implement and test a joint algorithm -- recovering the original sources $\mathbf{x}$ from the measurements $\mathbf{y}$, when the number of active sources exceeds the number of measurements. 
 Secondary it is of interest to consider the practical application of the algorithm, for instance within a hearing aid as described in section \ref{sec:EEG}.  
 %As described in section \ref{sec:EEG}  it is of interest to reduce the amount of energy it takes to listen to a specific sound source surrounded by noise.
 %For this purpose we want to relate the found number of active sources to the level of concentration that the test person is experiencing. 

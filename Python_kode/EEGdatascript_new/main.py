@@ -34,20 +34,21 @@ def Main_Algorithm(Y, M, L, n_seg, A_real, L_covseg = 10):
     
     for i in range(len(Y)):           # loop over all segments (axis 0 of Y) 
         print('\nCurrent segment number {}'.format(i))
-#        Y_big = Cov_DL._covdomain(Y[i], L, L_covseg, M) # tansformation to covariace domain
-#        if N <= (M*(M+1))/2.:
-#            A_rec,A_init = Cov_DL.Cov_DL2(Y_big, M, N, k, A_real)
-#            A_result[i] = A_rec
-#
-#        elif k <= (M*(M+1))/2.:
-#            A_rec = Cov_DL.Cov_DL1(Y_big, M, N, k)
-#            A_result[i] = A_rec
-#
-#        elif k > (M*(M+1))/2.:
-#            raise SystemExit('X is not sparse enogh (k > (m*(m+1))/2)')
+        Y_big = Cov_DL._covdomain(Y[i], L, L_covseg, M) # tansformation to covariace domain
+        if N <= (M*(M+1))/2.:
+            A_rec,A_init = Cov_DL.Cov_DL2(Y_big, M, N, k, A_real)
+            A_result[i] = A_rec
+
+        elif k <= (M*(M+1))/2.:
+            A_rec = Cov_DL.Cov_DL1(Y_big, M, N, k)
+            A_result[i] = A_rec
+
+        elif k > (M*(M+1))/2.:
+            raise SystemExit('X is not sparse enogh (k > (m*(m+1))/2)')
 
     #################################  M-SBL  #####################################
 
+        #A_fix = np.random.normal(0,2,(M,N))
         X_rec = M_SBL.M_SBL(A_real, Y[i], M, N, k, iterations=1000, noise=False) #### OBS CHECK for A_rec
         print('\nEstimation of X is done')
         X_result[i] = X_rec
@@ -56,10 +57,3 @@ def Main_Algorithm(Y, M, L, n_seg, A_real, L_covseg = 10):
         return A_result, X_result
     
     return A_result, X_result
-
-def Main_Algorithm_EEG(Y, A_real, M, k, L): 
-    import M_SBL
-
-    X_result = M_SBL.M_SBL(A_real, Y, M, k, k, iterations=1000, noise=False) #### OBS CHECK for A_rec
-    
-    return X_result

@@ -20,7 +20,7 @@ from simulated_data import MSE_one_error
 import numpy as np
 import simulated_data
 
-np.random.seed(1234) 
+np.random.seed(12345) 
 
 M = 3
 L = 1000
@@ -43,33 +43,33 @@ print('MSE_X = {}'.format(np.round_(mse_avg,decimals=4)))
 
 ##### plot
 segment = 0
-#plt.figure(0)
-#models = [X_real[segment], Y[segment]]
-#names = ['Source Signals, $\mathbf{X}$',
-#         'Measurements, $\mathbf{Y}$',
-#         ]
-#colors = ['red', 'steelblue', 'orange', 'green', 'yellow', 'blue', 'cyan',
-#          'purple']
-#
-#for ii, (model, name) in enumerate(zip(models, names), 1):
-#    plt.subplot(2, 1, ii)
-#    plt.title(name)
-#    for sig, color in zip(model, colors):
-#        plt.plot(sig, color=color)
-#
-#plt.tight_layout()
-#plt.xlabel('sample')
-#plt.tight_layout()
-#plt.show()
-#plt.savefig('figures/simple_data2.png')
-#
-#plt.figure(1)
-#plt.title('Comparison of Mixing Matrix - COV-DL1')
-#plt.plot(np.reshape(A_real, (A_real.size)), 'o-g',label=r'True $\mathbf{A}$')
-#plt.plot(np.reshape(A_result[segment], (A_result[segment].size)),'o-r', label=r'Estimate $\hat{\mathbf{A}}$')
-#plt.legend()
-#plt.xlabel('index')
-#plt.show
+plt.figure(0)
+models = [X_real[segment], Y[segment]]
+names = ['Source Signals, $\mathbf{X}$',
+         'Measurements, $\mathbf{Y}$',
+         ]
+colors = ['red', 'steelblue', 'orange', 'green', 'yellow', 'blue', 'cyan',
+          'purple']
+
+for ii, (model, name) in enumerate(zip(models, names), 1):
+    plt.subplot(2, 1, ii)
+    plt.title(name)
+    for sig, color in zip(model, colors):
+        plt.plot(sig, color=color)
+
+plt.tight_layout()
+plt.xlabel('sample')
+plt.tight_layout()
+plt.show()
+plt.savefig('figures/simple_data2.png')
+
+plt.figure(1)
+plt.title('Comparison of Mixing Matrix - COV-DL1')
+plt.plot(np.reshape(A_real, (A_real.size)), 'o-g',label=r'True $\mathbf{A}$')
+plt.plot(np.reshape(A_result[segment], (A_result[segment].size)),'o-r', label=r'Estimate $\hat{\mathbf{A}}$')
+plt.legend()
+plt.xlabel('index')
+plt.show
 #plt.savefig('figures/COV1_simple.png')
 
 plt.figure(2)
@@ -79,7 +79,7 @@ for i in range(len(X_real.T[0])):
     if np.any(X_real[segment][i]!=0) or np.any(X_result[segment][i]!=0):
         
         nr_plot += 1
-        plt.subplot(k+2, 1, nr_plot)
+        plt.subplot(k, 1, nr_plot)
         #plt.xticks(" ")
        
         plt.plot(X_real[segment][i], 'g',label='Real X')
@@ -87,7 +87,7 @@ for i in range(len(X_real.T[0])):
 
 plt.legend(loc='lower right')
 plt.xlabel('sample')
-#plt.tight_layout()
+plt.tight_layout()
 plt.show
 plt.savefig('figures/M-SBL_simple2.png')
 

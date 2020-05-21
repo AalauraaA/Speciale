@@ -58,13 +58,11 @@ def MSE_one_error(real,estimate):
 
 def MSE_segments(X_rec, X_true):
     """
-    inputs are arrays of size (n_seg, sources, Ls)
+    inputs are one segment (sources, Ls)
     """
-    mse_array = np.zeros(len(X_rec))
-    for i in range(len(X_rec)):
-        mse_array[i] = MSE_one_error(X_rec[i], X_true[i])
-    average_mse = np.average(mse_array)
-    return mse_array, average_mse
+    mse_segment = MSE_one_error(X_rec, X_true)
+    mse_rows = MSE_all_errors(X_rec, X_true)
+    return mse_rows, mse_segment
 
 def mix_signals(n_samples, m, version=None, duration=4):
     """ 
@@ -119,7 +117,7 @@ def mix_signals(n_samples, m, version=None, duration=4):
 #                  [6,7,8,9,10],
 #                  [11,12,13,14,15]])
 #    A = A/np.linalg.norm(A, ord=2, axis=0, keepdims=True)
-    Y = np.dot(X.T, A)                            # Observed signal
+    Y = np.dot(X.T, A.T)                            # Observed signal
     return Y.T, A, X
 
 

@@ -8,8 +8,59 @@ import numpy as np
 import scipy.io
 
 # suggested input to data_import function
-data_file = 'data/S1_CClean.mat'            # file path
-segment_time = 1                            # length of segment in seconds
+#data_file = 'data/S1_CClean.mat'            # file path
+#segment_time = 1                            # length of segment in seconds
+
+def fit_Y(Y, data_name):
+    
+    if data_name == 'S1_CClean.mat':
+        # For S1_CClean.mat remove last sample of first segment 
+        print(Y[0].shape)
+        Y[0] = Y[0].T[:-1]
+        Y[0] = Y[0].T
+        print(Y[0].shape)
+
+    if data_name == 'S1_OClean.mat':
+        for i in range(len(Y)):
+            if i <= 22:
+                Y[i] = Y[i].T[:-1]
+                Y[i] = Y[i].T
+            else:
+                continue
+
+    if data_name == 'S3_CClean.mat':
+        for i in range(len(Y)):
+            if i <= 12:
+                Y[i] = Y[i].T[:-1]
+                Y[i] = Y[i].T
+            else:
+                continue 
+    
+    if data_name == 'S3_OClean.mat':
+        for i in range(len(Y)):
+            if i <= 139:
+                Y[i] = Y[i].T[:-1]
+                Y[i] = Y[i].T
+            else:
+                continue 
+
+    if data_name == 'S4_CClean.mat':
+        for i in range(len(Y)):
+            if i <= 63:
+                Y[i] = Y[i].T[:-1]
+                Y[i] = Y[i].T
+            else:
+                continue
+
+    if data_name == 'S4_OClean.mat':
+        for i in range(len(Y)):
+            if i <= 178:
+                Y[i] = Y[i].T[:-1]
+                Y[i] = Y[i].T
+            else:
+                continue
+    return Y
+
 
 def _import(data_file, segment_time, request='none', fs=512):
     """

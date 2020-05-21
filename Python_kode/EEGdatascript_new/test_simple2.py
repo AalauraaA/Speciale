@@ -76,7 +76,7 @@ for i in range(len(X_real.T[0])):
         plt.subplot(k, 1, nr_plot)
        
         plt.plot(X_real[segment][i], 'g',label='Real X')
-        plt.plot(X_result[segment][i],'r', label='Recovered X')
+        plt.plot(X_result[segment][i],'r',label='Recovered X')
 
 
 plt.legend()

@@ -151,20 +151,19 @@ def fast_ica_segments(X,M):
         X_ICA[i] = X_ica[:L-2].T
         A_ICA[i] = A_ica  # Get estimated mixing matrix
 
-#        print(mean_squared_error(X, np.dot(X_ica, A_ica.T)))
+        print(mean_squared_error(X, np.dot(X_ica, A_ica.T)))
         
-#    X_ICA = np.reshape(X_ICA,(1,X_ICA.shape[1],X_ICA.shape[2]))
+    X_ICA = np.reshape(X_ICA,(1,X_ICA.shape[1],X_ICA.shape[2]))
     return X_ICA, A_ICA
 
-def ica_fit(X_ica,X_real,N,k):
+def ica_fit(X_ica,X_real,N):
     ##### swup row according to error. return ica2
-    n_seg = len(X_ica)
-    L = len(X_ica[0])
     
-    X_temp = np.zeros([n_seg, k, L])
-    X_temp0 = np.zeros([n_seg, k, L])
-    X_temp1 = np.zeros([n_seg, k, L])
-    total_list = np.ones((np.math.factorial(N)))
+    X_temp = np.zeros((X_ica.shape))
+    X_temp0 = np.zeros((X_ica.shape))
+    X_temp1 = np.zeros((X_ica.shape))
+    #total_list = np.ones((np.math.factorial(N)))
+    total = 0
     
     comb = list(itertools.permutations(range(N),N))
     comb_copy = np.array(comb)
@@ -181,7 +180,8 @@ def ica_fit(X_ica,X_real,N,k):
             else:
                 X_temp[p] = X_ica[int(comb[i][p])]
                   
-        total_list[i] = mean_squared_error(X_temp.T, X_real.T)
+        #total_list[i] = mean_squared_error(X_temp.T, X_real.T)
+        total = mean_squared_error(X_temp.T, X_real.T)
     
     min_total = np.argmin(total_list)
     print(min_total)

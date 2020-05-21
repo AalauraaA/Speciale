@@ -20,7 +20,7 @@ np.random.seed(1234)
 
 # simulated deterministic data set 
 M = 3
-N = 3
+N = 4
 k = 3
 L = 1000
 n_seg = 1

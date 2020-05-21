@@ -4,13 +4,13 @@ EEG scalp measurements, a mixture of fluctuating electrical signals originating 
 \mathbf{Y} = \mathbf{AX}.
 \end{align*}
 $\mathbf{Y}$ is the EEG scalp measurements measured from $M$ sensors placed on the scalp, $\mathbf{A}$ is the mixing of the electrical signals denoted as the mixing matrix and $\mathbf{X}$ are the $N$ original electrical signals, denoted as sources. 
-Only the EEG measurements $\mathbf{Y}$ is known and it is of interest to identify the mixing matrix $\mathbf{A}$ and hereby the original sources $\mathbf{X}$. The original sources have been shown significant for practical use compared to the raw EEG scalp measurements. 
+Only the EEG measurements $\mathbf{Y}$ is known and it is of interest to identify the mixing matrix $\mathbf{A}$ and hereby the original sources $\mathbf{X}$. The original sources have been shown significantly for practical use compared to the raw EEG scalp measurements. 
 Especially, the under-determined case with more sources than sensors is of interest, resulting from low-density EEG devices which is beneficial due to low cost and easy application. 
-In the linear algebraic sense an under-determined linear system have infinitely solution provided a solution exists and is therefore difficult to solve.
+In the linear algebraic sense, an under-determined linear system have infinitely solution provided a solution exists and is therefore difficult to solve.
 Two state of the art methods are seen to solve the issue with success, the covariance-domain dictionary learning (Cov-DL) and multiple sparse Bayesian learning (M-SBL) algorithms. 
-The Cov-DL algorithm recovers the mixing matrix from the given measurements $\mathbf{Y}$ while the M-SBL algorithm localised and identify the sources from the recovered mixing matrix and measurements. 
+The Cov-DL algorithm recovers the mixing matrix from the given measurements $\mathbf{Y}$ while the M-SBL algorithm localised and identifies the sources from the recovered mixing matrix and measurements. 
 By combining the two state of art methods into one this could solve the inverse EEG problem -- the identification of $\mathbf{A}$ and $\mathbf{X}$ given $\mathbf{Y}$.
-However, the algorithms used the knowledges of the number of activations within the sources as this is a unknown variable in practice. Hence a modification of the combined state of art methods is sought to increase the potential for practical use.
+However, the algorithms used the knowledges of the number of activations within the sources as this is an unknown variable in practice. Hence, a modification of the combined state of art methods is sought to increase the potential for practical use.
 
 %Through chapter \ref{ch:motivation} the potential of EEG measurements and 
 %especially low-density EEG measurements have been established. 
@@ -23,12 +23,12 @@ However, the algorithms used the knowledges of the number of activations within 
 
 \clearpage
 
-This motivates the following problem statement
+This motivates the following problem statement.
 \\ \\
 %\textit{Based on state of the art method, how can the original sources of brain activity be recovered from the EEG inverse problem, in the under-determined case, and how can this be modified to increase the potential of practical use?}
 \textit{Based on state of the art method, how can we reproduce the recovering of original sources of brain activity from the EEG inverse problem, in the under-determined case, and how can this be modified to increase the potential of practical use such as the unknown brain activity?}
 \\ \\
-From the problem statement the following sub-questions is established for clarification.
+From the problem statement the following sub-questions are established for clarification.
 \begin{itemize}
 \item Can we reproduce the Cov-DL algorithm to estimate a mixing matrix $\mathbf{A}$ from a over-complete EEG inverse problem with synthetic and realistic EEG scalp measurements?
 \item Can we reproduce the M-SBL algorithm to estimate a source matrix $\mathbf{X}$ from a over-complete EEG inverse problem with synthetic and realistic EEG scalp measurements?

@@ -36,7 +36,7 @@ def Main_Algorithm(Y, M, L, n_seg, A_real, L_covseg = 10):
         print('\nCurrent segment number {}'.format(i))
         Y_big = Cov_DL._covdomain(Y[i], L, L_covseg, M) # tansformation to covariace domain
         if N <= (M*(M+1))/2.:
-            A_rec,A_init = Cov_DL.Cov_DL2(Y_big, M, N, k, A_real)
+            A_rec, A_init = Cov_DL.Cov_DL2(Y_big, M, N, k, A_real)
             A_result[i] = A_rec
 
         elif k <= (M*(M+1))/2.:

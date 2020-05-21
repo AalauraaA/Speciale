@@ -28,7 +28,7 @@ Y = np.reshape(Y, (1,Y.shape[0], Y.shape[1]))
 X_real = np.reshape(X_real,(1, X_real.shape[0],X_real.shape[1]))
 X_real = X_real.T[0:L-2].T
 
-A_result, X_result = Main_Algorithm(Y, M, L, n_seg, A_real, L_covseg=10)
+A_result, X_result, A_init = Main_Algorithm(Y, M, L, n_seg, A_real, L_covseg=10)
 A_mse = MSE_one_error(A_real,A_result[0])
 mse_array, mse_avg = simulated_data.MSE_segments(X_real[0],X_result[0])
 print('\nMSE_A = {}'.format(np.round_(A_mse,decimals=4)))

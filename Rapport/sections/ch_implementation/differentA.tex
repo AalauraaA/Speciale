@@ -1,10 +1,10 @@
 \subsection{Alternative to Estimate $\hat{\textbf{A}}$}  
-As concluded the Cov-DL algorithm do not recover a sufficient estimate of the mixing matrix $\mathbf{A}$, therefore a different approach is necessary. 
+As concluded the Cov-DL algorithm does not recover a sufficient estimate of the mixing matrix $\mathbf{A}$, therefore a different approach is necessary. 
 
 Replacing the insufficient estimate by a fixed estimate $\hat{\mathbf{A}}_{\text{fix}}$ is one immediately solution. 
 This choice is supported by the observations from Cov-DL2 where $\mathbf{A}_{\text{ini}}$ matrix provides an estimate which is happens to be a least as good as the one provided by Cov-DL. 
-Thus the challenge is now to determine a fixed matrix for which its characteristics resembles those of the true mixing matrix. 
-However, from chapter \ref{ch:motivation} it is clear that no specific characteristic of the mixing matrix is known, which supports the choice of an random matrix of Gaussian distribution or similar, as it was chosen for the initial guess $\mathbf{A}_{\text{init}}$ for the estimate.   
+Thus, the challenge is now to determine a fixed matrix for which its characteristics resemble those of the true mixing matrix. 
+However, from chapter \ref{ch:motivation} it is clear that no specific characteristic of the mixing matrix is known, which supports the choice of a random matrix of Gaussian distribution or similar, as it was chosen for the initial guess $\mathbf{A}_{\text{init}}$ for the estimate. 
 From this perspective three fixed mixing matrices are defined, by drawing each entry from a specified distribution: 
 \begin{itemize}
 \item[] $\hat{\mathbf{A}}_{\text{uni}} \sim \mathcal{U}(-1,1)$
@@ -12,8 +12,8 @@ From this perspective three fixed mixing matrices are defined, by drawing each e
 \item[] $\hat{\mathbf{A}}_{\text{norm2}} \sim \mathcal{N}(0,2)$ 
 \end{itemize}
 Note that the third matrix $\hat{\mathbf{A}}_{\text{norm1}}$ is generated the same way as the true mixing matrix of the stochastic data sets. 
-Thus it is expected to have the lowest MSE when compared to the true mixing matrix $\mathbf{A}$. 
-However, it is of interest to investigate whether it is the best estimate of $\mathbf{A}$ which provide the best estimate of $\mathbf{X}$.   
+Thus, it is expected to have the lowest MSE when compared to the true mixing matrix $\mathbf{A}$. 
+However, it is of interest to investigate whether it is the best estimate of $\mathbf{A}$ which provide the best estimate of $\mathbf{X}$. 
 
 A different option regarding a choice for a fixed $\hat{\mathbf{A}}$ is to utilize the ICA algorithm, described in appendix \ref{app:ICA}. 
 By the ICA algorithm it is possible to solve the EEG inverse problem for both $\mathbf{A}$ and $\mathbf{X}$, in the case where $k \leq M$.
@@ -50,23 +50,21 @@ $\text{MSE}(\mathbf{X}, \hat{\mathbf{X}})$ & 3.271 & 113.10 & 30.02 & 86.51 & 23
 \label{tab:fixed}
 \end{table}
 \noindent
-
 From table \ref{tab:fixed} and figure \ref{fig:vary_A} it is first of all seen that relation between the MSE of $\textbf{A}$ and $\textbf{X}$ is not as expected, as the lowest $\text{MSE}(\mathbf{A}, \hat{\mathbf{A}}_{\text{fix}})$ results in the highest $\text{MSE}(\mathbf{X}, \hat{\mathbf{X}})$ and so forth. 
-The lowest $\text{MSE}(\mathbf{A}, \hat{\mathbf{A}}_{\text{fix}})$ is achieved by using $\hat{\mathbf{A}}_{\text{ICA}}$, which confirms that the ICA algorithm manage to estimate $\mathbf{A}$ when $k \leq M$. 
+The lowest $\text{MSE}(\mathbf{A}, \hat{\mathbf{A}}_{\text{fix}})$ is achieved by using $\hat{\mathbf{A}}_{\text{ICA}}$, which confirms that the ICA algorithm manages to estimate $\mathbf{A}$ when $k \leq M$. 
 However, as this do not result in the best estimate of $\mathbf{X}$ a different choice of $\hat{\mathbf{A}}$ is still considered. 
 The lowest $\text{MSE}(\mathbf{X}, \hat{\mathbf{X}})$ is achieved by use of $\hat{\mathbf{A}}_{\text{norm}}$, which resulted in the largest $\text{MSE}(\mathbf{A}, \hat{\mathbf{A}}_{\text{fix}})$. 
       
 As the main interest in this thesis is to identify and localize the active sources of EEG measurements a low $\text{MSE}(\mathbf{X}, \hat{\mathbf{X}})$ is more desirable than a low $\text{MSE}(\mathbf{A}, \hat{\mathbf{A}}_{\text{fix}})$. 
-Furthermore, a disadvantage of using $\hat{\mathbf{A}}_{\text{ICA}}$ is the limitations in practice when $k = M$ is not possible.     
-From these observation a fixed estimate of the mixing matrix drawn from a normal distribution with mean 0 and variance 2, $\hat{\mathbf{A}}_{\text{norm}}$, is chosen as the the alternative estimate of $\mathbf{A}$, and is used throughout the thesis. 
+Furthermore, a disadvantage of using $\hat{\mathbf{A}}_{\text{ICA}}$ is the limitations in practice when $k = M$ is not possible. 
+From these observations a fixed estimate of the mixing matrix drawn from a normal distribution with mean 0 and variance 2, $\hat{\mathbf{A}}_{\text{norm}}$, is chosen as the alternative estimate of $\mathbf{A}$, and is used throughout the thesis. 
 
 Due to the unexpected relation between $MSE(\mathbf{A}, \hat{\mathbf{A}}_{\text{fix}})$ and $\text{MSE}(\mathbf{X}, \hat{\mathbf{X}})$ an additional plot is computed. Figure \ref{fig:X_func_SNR} show the $\text{MSE}(\mathbf{X}, \hat{\mathbf{X}})$ as a function of $\hat{\textbf{A}}$ with varying SNR value. 
 Additionally figure \ref{fig:A_func_SNR} show the corresponding MSE between the True $\textbf{A}$ and $\hat{\textbf{A}}$ where an increasing amount of noise is added.
 Note that the noise variance is decreasing along the x-axis. 
 The noise is generated as Gaussian white noise, with increasing variance corresponding to the desired SNR value. The SNR value is considered in the interval [0.01, 2]. 
-From figure \ref{fig:X_func_SNR} it is seen that MSE decreases as the SNR decreases. This indicates as first expected that the better estimate of $\textbf{A}$ the better estimate of $\textbf{X}$. However this is still an contradiction to the result seen in figure \ref{fig:vary_A}. 
+From figure \ref{fig:X_func_SNR} it is seen that MSE decreases as the SNR decreases. This indicates as first expected that the better estimate of $\textbf{A}$ the better estimate of $\textbf{X}$. However, this is still a contradiction to the result seen in figure \ref{fig:vary_A}. 
 This can however be due to the fact that the true $\textbf{A}$ being a Gaussian matrix with $\mu = 0$ and $\sigma = 1$ for which Gaussian noise is added. The MSE between the true $\textbf{A}$ and the noisy $\hat{\textbf{A}}$ seen in figure \ref{fig:A_func_SNR} is not as high as expected due to the relative large amount of noise, all being remarkably less than the corresponding MSE in table \ref{tab:fixed} \todo{det skal tydeliggøres om der er brugt gentagelser her eller er det bare et run. - T}.  
-
 
 \begin{figure}[H]
     \begin{minipage}[t]{.45\textwidth}

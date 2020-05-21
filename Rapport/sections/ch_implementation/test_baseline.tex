@@ -1,12 +1,12 @@
 \section{Test of the Main Algorithm}\label{sec:test_base}
-In this section the performance of the main algorithm is tested. That is the algorithm visualised in the flow diagram, figure \ref{fig:flow}, where the COV-DL algorithm and the M-SBL algorithm i combined. However, as dissucsed due to the negative conclusion on the verification of COV-DL an alternative has to be is considered.  
+In this section the performance of the main algorithm is evaluated. That is the algorithm visualised in the flow diagram, figure \ref{fig:flow}, where the Cov-DL algorithm and the M-SBL algorithm i combined. However, as discussed due to the negative conclusion on the verification of Cov-DL an alternative has to be considered.  
  
 \input{sections/ch_implementation/differentA.tex}  
 
 \subsection{Performance Test of Main Algorithm}\label{sec:Main_test}
-In order to evaluate the performance of the main algorithm tests are conducted on several simulated stochastic data sets with different specification. 
+In order to evaluate the performance of the main algorithm, tests are conducted on several simulated stochastic data sets with different specification. 
 The aim is to see how the relationship between $N$ and $M$ affect the performance, in other words how robust the algorithm is towards low density measurements. 
-The main algorithm is tested on simulated stochastic data sets specified by $M=8$, $L=1000$, $k=N$ with $N$ in the range $N = [M+1,\dots,36]$, as such $k<\widetilde{M}$ is withhold insuring a solution.
+The main algorithm is tested on simulated stochastic data sets specified by $M=8$, $L=1000$, $k=N$ with $N$ in the range $N = [M+1,\dots,36]$, as such $k<\widetilde{M}$ is withheld insuring a solution.
 For each value of $N$ ten different data sets are simulated and solved, and the average $\text{MSE}(\mathbf{X}, \hat{\mathbf{X}})$ are used as the result. 
 The average $\text{MSE}(\mathbf{X}, \hat{\mathbf{X}})$ are plotted in figure \ref{fig:varyN1}.
 \begin{figure}[H]
@@ -17,7 +17,7 @@ The average $\text{MSE}(\mathbf{X}, \hat{\mathbf{X}})$ are plotted in figure \re
 \end{figure}
 \noindent
 From figure \ref{fig:varyN1} it is seen that the $\text{MSE}(\mathbf{X}, \hat{\mathbf{X}})$ lies in the interval $[4,14]$, however no clear trend appears in the plot. 
-This suggest that it is not an representative average which have been plotted, thus the test is repeated with more repetitions for value of $N$. The new result of the $\text{MSE}(\mathbf{X}, \hat{\mathbf{X}})$ is seen in figure \ref{fig:varyN2}.
+This suggests that it is not an representative average which have been plotted, thus the test is repeated with more repetitions for value of $N$. The new result of the $\text{MSE}(\mathbf{X}, \hat{\mathbf{X}})$ is seen in figure \ref{fig:varyN2}.
 \begin{figure}[H]
     \centering
 	\includegraphics[scale=0.5]{figures/ch_6/varyN2.png}
@@ -25,8 +25,8 @@ This suggest that it is not an representative average which have been plotted, t
 	\label{fig:varyN2}
 \end{figure}  
 \noindent
-Figure \ref{fig:varyN2} confirms the result of the first test. Thus it must be that average behaviour which is seen. 
-This suggest that the performance of the main algorithm is not affected by the relation between $M$ and $N$.
+Figure \ref{fig:varyN2} confirms the result of the first test. Thus, it must be that average behaviour which is seen. 
+This suggests that the performance of the main algorithm is not affected by the relation between $M$ and $N$.
 However, this assumption is counter intuitive and it is a contradiction to the results seen in figure \ref{fig:AR1} and \ref{fig:AR2}, where the true $\mathbf{A}$ was utilised. 
-Thus the choice of the alternative estimate $\hat{\mathbf{A}}_{\text{norm}}$ might have influenced the results negatively.  
-Furthermore it is worth to notice the relative large interval of the $\text{MSE}(\mathbf{X}, \hat{\mathbf{X}})$ suggesting a vary high variance within the resulting $\text{MSE}(\mathbf{X}, \hat{\mathbf{X}})$, which add a certain unreliability to the results \todo{Ændre title i figurerne -- til norm2 of 'MSE' i yakse}.    
+Thus the choice of the alternative estimate $\hat{\mathbf{A}}_{\text{norm}}$ might have influenced the results negatively. 
+Furthermore, it is worth to notice the relative large interval of the $\text{MSE}(\mathbf{X}, \hat{\mathbf{X}})$ suggesting a vary high variance within the resulting $\text{MSE}(\mathbf{X}, \hat{\mathbf{X}})$, which add a certain unreliability to the results \todo{Ændre title i figurerne -- til norm2 of 'MSE' i yakse}.    

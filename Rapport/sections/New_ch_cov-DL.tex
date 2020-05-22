@@ -2,20 +2,20 @@
 Through this chapter the method covariance domain dictionary learning (Cov-DL) is presented in details. 
 Along the presentation of the general method, necessary computational details are derived for the practical solution.
 The purpose is to recover the mixing matrix $\mathbf{A}$ from the MMV model, derived in chapter \ref{ch:system_model}, in the under-determined case. 
-In the context of compressive sensing, the mixing matrix $\mathbf{A}$ in the MMV model is referred to as the dictionary matrix. 
-That is the true mixing matrix is estimated as a dictionary matrix, which can take different forms. 
-This will be elaborated further in the section of dictionary learning \todo{obs! stemmer dette på tværs a kapitlerne, vi siger A bliver estimeret som en dictionary.}.
+In the context of compressive sensing, the mixing matrix $\mathbf{A}$ in the MMV model is referred to a the dictionary matrix. 
+That is the true mixing matrix is estimated as a dictionary matrix, through the process of dictionary learning. 
+This will be elaborated further in the section concerning dictionary learning.
 
 Cov-DL is an algorithm proposed by O. Balkan \cite{Balkan2015}, leveraging the increased dimensionality of the covariance domain. 
-The method has successfully shown recovering of the mixing matrix $\mathbf{A}$, even in the non-sparse under-determined case with more active sources $k$ than observed measurements $M$, $k \geq M$. 
+The method has shown successful recovery of the mixing matrix $\mathbf{A}$, even in the non-sparse, under-determined case with more active sources $k$ than observed measurements $M$, $k \geq M$. 
 In short the algorithm consists of three steps. 
 First the segmented MMV model of the EEG measurements is transformed into the covariance domain. 
-Furthermore, by the increased dimensionality of the covariance domain, it is possible to learn the mixing matrix of the covariance domain, denoted by $\mathbf{D}$, based on the theory of compressive sensing. 
-Here two different cases will appear dependent on the relation between the number of sources $N$ and the found dimension of the covariance domain, which of course depends on the number of measurements $M$. 
-Lastly, an inverse transformation is performed on the found mixing matrix of the covariance domain $\mathbf{D}$, in order to obtain the wanted mixing matrix $\mathbf{A}$. 
+Then, by the increased dimensionality of the covariance domain, it is possible to learn the transformed mixing matrix of the covariance domain, denoted by $\mathbf{D}$, based on the theory of compressive sensing. 
+Here two different cases will appear dependent on the relation between the number of sources $N$ and the found dimension of the covariance domain, which depends on the number of measurements $M$. 
+Lastly, an inverse transformation is performed on the learned matrix $\textbf{D}$, in order to obtain the wanted estimate of the mixing matrix $\mathbf{A}$. 
 An essential aspect of this method is the prior assumption that the sources within one segment are uncorrelated, that is the rows of $\mathbf{X}_s$ being mutually uncorrelated. 
 
-The section is inspired by chapter 3 in \cite{phd2015} and the article \cite{Balkan2015}. 
+The section is inspired by the article \cite{Balkan2015} and chapter 3 in \cite{phd2015}. 
 Selected general theory supporting essential parts of the method is elaborated in appendix \ref{app:Cov-DL}.
 
 \input{sections/ch_cov-DL/New_Cov-DL.tex}

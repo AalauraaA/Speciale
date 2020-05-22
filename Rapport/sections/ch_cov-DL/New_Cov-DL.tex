@@ -1,12 +1,13 @@
 \section{Covariance Domain Representation}\label{sec:cov}
-Consider a single sample vector $\textbf{y}_i$, containing EEG measurements. 
+Consider a single sample vector $\textbf{y}_i\in \mathbb{R}^{M}$, containing EEG measurements. 
 The covariance of $\textbf{y}_i$ is defined as
 \begin{align*}
 \boldsymbol{\Sigma}_{\textbf{y}_i}=\mathbb{E}[(\textbf{y}_i-\mathbb{E}[\textbf{y}_i])(\textbf{y}_i-\mathbb{E}[\textbf{y}_i])^T],
 \end{align*}
 where $\mathbb{E}[\cdot]$ is the expected value operator. 
-Assume that all sample vectors $\textbf{y}_i$ within one segment has zero mean and the same distribution. 
-Then, the observed segmented EEG measurement matrix $\mathbf{Y}_s \in \mathbb{R}^{M \times L_s}$ is to be described in the covariance domain by the sample covariance $\widehat{\boldsymbol{\Sigma}}$. The sample covariance $\widehat{\boldsymbol{\Sigma}}$ is defined as the empirical covariance among the $M$ measurements across the $L_s$ samples. That is a $M \times M$ matrix $\boldsymbol{\Sigma}_{\mathbf{Y}_s} = [\sigma_{jk}]$ with entries 
+Let $\textbf{Y}_{s}=\left[\textbf{y}_1, \hdots ,\textbf{y}_{L_s}\right]$ be the observed measurements matrix containing all samples of segment $s$.
+Furthermore, assume that all sample vectors $\textbf{y}_i$ within one segment has zero mean and the same distribution.  
+Then $\mathbf{Y}_s \in \mathbb{R}^{M \times L_s}$ is to be described in the covariance domain by the sample covariance $\widehat{\boldsymbol{\Sigma}}$. The sample covariance $\widehat{\boldsymbol{\Sigma}}$ is defined as the empirical covariance among the $M$ measurements across the $L_s$ samples. That is a $M \times M$ matrix $\widehat{\boldsymbol{\Sigma}}_{\mathbf{Y}_s} = [\sigma_{jk}]$ with entries 
 \begin{align*}
 \sigma_{jk}= \frac{1}{L_s}\sum_{i=1}^{L_s} y_{ji} y_{ki}.
 \end{align*}
@@ -14,19 +15,20 @@ Using matrix notation the sample covariance of $\mathbf{Y}_s$ can be written as
 \begin{align*}
 \widehat{\boldsymbol{\Sigma}}_{\mathbf{Y}_s} = \frac{1}{L_s} \mathbf{Y}_s \mathbf{Y}_s^T.
 \end{align*} 
-Similar the source matrix $\mathbf{X}_s$ can be described in the covariance domain by the sample covariance matrix:
+Similar, the source matrix $\mathbf{X}_s$ can be described in the covariance domain by the sample covariance matrix:
 \begin{align*}
 \widehat{\boldsymbol{\Sigma}}_{\mathbf{X}_s} &= \frac{1}{L_s} \mathbf{X}_s \mathbf{X}_s^T = \boldsymbol{\Lambda}_s + \boldsymbol{\varepsilon}. 
 \end{align*}
-From the assumption of uncorrelated sources within $\mathbf{X}_s$ the sample covariance matrix is expected to be nearly diagonal, thus it can be written as $\boldsymbol{\Lambda}_s + \boldsymbol{\varepsilon}$ where $\boldsymbol{\Lambda}_s$ is a diagonal matrix consisting of the diagonal entries of $\widehat{\boldsymbol{\Sigma}}_{\mathbf{X}_s}$ and $ \boldsymbol{\varepsilon}$ is a non-diagonal matrix representing the estimation error \cite{Balkan2015}.
-Each segment is then modelled in the covariance domain as
+The second equality comes from the assumption of the sources within $\mathbf{X}_s$ being uncorrelated within one segment. By uncorrelated sources $\mathbf{X}_s$ the sample covariance matrix is asumed to be nearly diagonal. Thus it can be written as $\boldsymbol{\Lambda}_s + \boldsymbol{\varepsilon}$ where $\boldsymbol{\Lambda}_s$ is a diagonal matrix consisting of the diagonal entries of $\widehat{\boldsymbol{\Sigma}}_{\mathbf{X}_s}$ and $ \boldsymbol{\varepsilon}$ is a non-diagonal matrix representing the estimation error \cite{Balkan2015}.
+
+Each segment is now modelled in the covariance domain, note that the $\frac{1}{L_s}$ factor is left out in order to comply to the instruction of source. \todo{convenience alert!}
 \begin{align} 
-\widehat{\boldsymbol{\Sigma}}_{\mathbf{Y}_s} = \frac{1}{L_s}\mathbf{Y}_s \mathbf{Y}_s^T &= \frac{1}{L_s} \left( \mathbf{A} \mathbf{X}_s + \mathbf{E}_s \right) \left( \mathbf{A} \mathbf{X}_s + \mathbf{E}_s\right)^T \nonumber \\ 
-\mathbf{Y}_s \mathbf{Y}_s^T &= (\textbf{AX}_s)(\textbf{AX}_s)^T + \textbf{E}_s \textbf{E}_s^T + \textbf{E}_s (\textbf{AX}_s)^T + \textbf{AX}_s \textbf{E}_s^T \nonumber \\
-&= \textbf{AX}_s \textbf{X}_s^T \textbf{A}^T + \textbf{E}_s \textbf{E}_s^T + \textbf{E}_s \textbf{X}_s^T \textbf{A}^T + \textbf{AX}_s \textbf{E}_s^T \nonumber \\
-&= \textbf{A}(\boldsymbol{\Lambda}_s +\boldsymbol{\varepsilon}) \textbf{A}^T + \textbf{E}_s \textbf{E}_s^T + \textbf{E}_s \textbf{X}_s^T \textbf{A}^T + \textbf{AX}_s \textbf{E}_s^T \nonumber \\
-&= \textbf{A} \boldsymbol{\Lambda}_s \textbf{A}^T + \textbf{A} \boldsymbol{\varepsilon} \textbf{A}^T + \textbf{E}_s \textbf{E}_s^T + \textbf{E}_s \textbf{X}_s^T \textbf{A}^T + \textbf{AX}_s \textbf{E}_s^T \label{eq:noise1} \\
-&= \textbf{A} \boldsymbol{\Lambda}_s \textbf{A}^T + \widetilde{\textbf{E}} \label{eq:noise2}
+\widehat{\boldsymbol{\Sigma}}_{\mathbf{Y}_s} = \frac{1}{L_s}\mathbf{Y}_s \mathbf{Y}_s^T &= \frac{1}{L_s} \left( \mathbf{A}_s \mathbf{X}_s + \mathbf{E}_s \right) \left( \mathbf{A}_s \mathbf{X}_s + \mathbf{E}_s\right)^T \nonumber \\ 
+ &= \frac{1}{L_s} \left( (\textbf{A}_s\textbf{X}_s)(\textbf{A}_s\textbf{X}_s)^T + \textbf{E}_s \textbf{E}_s^T + \textbf{E}_s (\textbf{A}_s\textbf{X}_s)^T + \textbf{A}_s\textbf{X}_s \textbf{E}_s^T \right) \nonumber \\
+&= \frac{1}{L_s} \left( \textbf{A}_s\textbf{X}_s \textbf{X}_s^T \textbf{A}_s^T + \textbf{E}_s \textbf{E}_s^T + \textbf{E}_s \textbf{X}_s^T \textbf{A}_s^T + \textbf{A}_s\textbf{X}_s \textbf{E}_s^T \right) \nonumber \\
+&=  \frac{1}{L_s} \left( \textbf{A}_s(\boldsymbol{\Lambda}_s +\boldsymbol{\varepsilon}) \textbf{A}_s^T + \textbf{E}_s \textbf{E}_s^T + \textbf{E}_s \textbf{X}_s^T \textbf{A}_s^T + \textbf{A}_s\textbf{X}_s \textbf{E}_s^T \right) \nonumber \\
+&= \frac{1}{L_s} \left( \textbf{A}_s \boldsymbol{\Lambda}_s \textbf{A}_s^T + \textbf{A}_s \boldsymbol{\varepsilon} \textbf{A}_s^T + \textbf{E}_s \textbf{E}_s^T + \textbf{E}_s \textbf{X}_s^T \textbf{A}_s^T + \textbf{A}_s\textbf{X}_s \textbf{E}_s^T\right) \label{eq:noise1} \\
+&= \frac{1}{L_s} \left( \textbf{A}_s \boldsymbol{\Lambda}_s \textbf{A}_s^T + \widetilde{\textbf{E}} \right) \label{eq:noise2}
 \end{align}
 From \eqref{eq:noise1} to \eqref{eq:noise2} all terms where noise, $\boldsymbol{\varepsilon}$ and $\mathbf{E}$, is included, are aggregated in a joint noise term $\widetilde{\textbf{E}}$. 
 By vector notation \eqref{eq:noise2} is rewritten to be vectorized. 

@@ -7,23 +7,27 @@ As seen from the flowchart \ref{fig:flow} Cov-DL takes a measurement matrix $\ma
 The Cov-DL algorithm is tested on the two simulations of the deterministic data, specified in section \ref{subseg_simpledata}. 
 
 \subsubsection{Cov-DL1}
+\todo{Tjek MSE for 0}
 For $\mathbf{Y}$ specified by $N > \widetilde{M}$ and $k \leq \widetilde{M}$, implying Cov-DL1, the true and estimated values of $\mathbf{A}$ are plotted in figure \ref{fig:cov1_simple} for visual comparison. 
 Note that each matrix is vectorized such that the corresponding entries are compared.  
-The resulting $\text{MSE}(\mathbf{A}, \hat{\mathbf{A}})$ between the true $\mathbf{A}$ and the estimated $\hat{\mathbf{A}}$ become \todo{Jan vil gerne se på MSE(A, 0) også - L} 
+The resulting $\text{MSE}(\mathbf{A}, \hat{\mathbf{A}})$ between the true $\mathbf{A}$ and the estimated $\hat{\mathbf{A}}$ become
 \begin{align*}
-\text{MSE}(\mathbf{A}, \hat{\mathbf{A}}) = 1.37.
+\text{MSE}(\mathbf{A}, \hat{\mathbf{A}}) = 1.74 \\
+\text{MSE}(\mathbf{A}, \mathbf{0}) = 1.40.
 \end{align*}
 From figure \ref{fig:cov1_simple} it is seen that the precision of the estimate varies significant for each entry. 
 Though, values within the a similar range are obtained.
-Furthermore, the $\text{MSE}(\mathbf{A}, \hat{\mathbf{A}})$ is fairly small suggesting that the estimate is acceptable.
+Furthermore, the $\text{MSE}(\mathbf{A}, \hat{\mathbf{A}})$ is fairly small suggesting that the estimate is acceptable. However, a smaller MSE is obtain from the estimate being a zero matrix.
 
 
 \subsubsection{Cov-DL2}
+\todo{Tjek MSE for 0}
 For $\mathbf{Y}$ specified by $N \leq \widetilde{M}$, implying Cov-DL2, the true and estimated values of $\mathbf{A}$ are plotted in figure \ref{fig:cov2_simple} for visual comparison. 
 Additionally, is the initial $\mathbf{A}_{\text{ini}}$, given to the optimization solver within Cov-DL2, plotted in the same figure, as standard that is a Gaussian matrix. 
 The resulting MSE between the true $\mathbf{A}$ and the estimated $\hat{\mathbf{A}}$ become 
 \begin{align*}
-\text{MSE}(\mathbf{A}, \hat{\mathbf{A}}) = 2.46.
+\text{MSE}(\mathbf{A}, \hat{\mathbf{A}}) = 3.00 \\
+\text{MSE}(\mathbf{A}, \mathbf{0}) = 0.90.
 \end{align*}
 From figure \ref{fig:cov2_simple} the estimate $\hat{\mathbf{A}}$ shows visual tendencies from the true $\mathbf{A}$. 
 However, when it is compared to the initial guess of $\textbf{A}$, $\mathbf{A}_{\text{ini}}$, it is observed that the estimate $\hat{\mathbf{A}}$ have moved further away from the true $\mathbf{A}$ compared to $\mathbf{A}_{\text{ini}}$. 
@@ -33,8 +37,8 @@ This suggests that a global minimum has been found, but the minimum, $\hat{\math
 To confirm this the following evaluations of the cost function was conducted. 
 \begin{align*}
 &\text{cost}(\hat{\mathbf{A}}) = 0.0\\
-&\text{cost}(\mathbf{A}_{\text{ini}}) = 1.564\\
-&\text{cost}(\mathbf{A}) = 1.809
+&\text{cost}(\mathbf{A}_{\text{ini}}) = 1.64\\
+&\text{cost}(\mathbf{A}) = 1.65
 \end{align*}
 These evaluations ensure that the optimization solver has managed to find the solution that minimizes the cost function. 
 By evaluating the cost function with respect to the true $\mathbf{A}$ is it seen that it is not a global minimizer to the optimization problem. 
@@ -67,9 +71,9 @@ Due to the time limitation of the project, the error is not investigated further
 
 \subsection{Test of M-SBL}
 From the flowchart \ref{fig:flow} it seen that the M-SBL algorithm takes $\hat{\mathbf{A}}$ and $\mathbf{Y}$ as input.
-The algorithm is first tested on a deterministic data set specified by $M=N=k=4$ and $L=100$. This result will serve as a reference, showing the best possible performance due to the system having equal number of equations and unknowns, hence a unique solution exist.
+The algorithm is first tested on a deterministic data set specified by $M=N=k=4$ and $L=1000$. This result will serve as a reference, showing the best possible performance due to the system having equal number of equations and unknowns, hence a unique solution exist.
 In order to not, let the performance of Cov-DL affect the result of M-SBL the true mixing matrix $\mathbf{A}$ is used as input through out this section, along with the corresponding $\mathbf{Y}$. 
-The resulting estimate is seen in figure \ref{fig:M-SBL_simple0}. It is seen that the source signals is estimated exact, with $MSE(\textbf{X},\hat{\textbf{X}})= 0$. 
+The resulting estimate is seen in figure \ref{fig:M-SBL_simple0}. It is seen that the source signals is estimated exact, with MSE$(\textbf{X},\hat{\textbf{X}})= 0$. 
 \begin{figure}[H]
 \centering
 \includegraphics[scale=0.5]{figures/ch_6/M-SBL_simple0.png}
@@ -114,20 +118,25 @@ From figure \ref{fig:M-SBL_simple2} it is again seen that the source signals are
 This indicates that the algorithm can manage to locate and estimate the source signals, however the increased zero rows improve the chance of dislocation and the decrease the accuracy of the estimate.     
 
 \subsubsection*{Possibilities of $N=k$}
-From the problem statement in chapter \ref{ch:problemstatement} it is an issue that $k$ has to be known a priori, in order to estimate $\textbf{A}$ and $\textbf{X}$. A short discussion in subsection \ref{subsec:kestimate}, describes how k can be estimated within the M-SBL algorithm. However, one still needs to provide k in order to estimate $\textbf{A}$, thus a qualified estimate of $k$ can not be avoided. 
+From the problem statement in chapter \ref{ch:problemstatement} it is an issue that $k$ has to be known a priori, in order to estimate $\mathbf{A}$ and $\mathbf{X}$. 
+A short discussion in subsection \ref{subsec:kestimate}, describes how $k$ can be estimated within the M-SBL algorithm. 
+However, one still needs to provide $k$ in order to estimate $\mathbf{A}$, thus a qualified estimate of $k$ can not be avoided. 
 
-Similar to $k$, the maximum number of active sources $N$ is unknown in practise as it is described in chapter \ref{ch:motivation}. 
-The difference between $k$ and $N$ defines the number of zero rows in $\textbf{X}$.
-During the estimation of $\textbf{X}$ the localisation of the non-zero rows are, in general, significant to minimize the MSE. However, the fact that the true $N$ can not be known for EEG measurements weakens the argument for of focusing on the localisation rather than only focusing on the value estimation of the source signals. Furthermore, it is not within the main scope of this thesis to localise the source signal. 
-When considering the linear system, $\textbf{Y}=\textbf{AX}$, of which the model is build, $\textbf{Y}$ does not change by removing the zero-rows of $\textbf{X}$ and the corresponding columns in $\textbf{A}$.
+Similar to $k$, the maximum number of active sources $N$ is unknown in practice as it is described in chapter \ref{ch:motivation}. 
+The difference between $k$ and $N$ defines the number of zero rows in $\mathbf{X}$.
+During the estimation of $\mathbf{X}$ the localisation of the non-zero rows are, in general, significant to minimize the MSE. 
+However, the fact that the true $N$ can not be known for EEG measurements weakens the argument for of focusing on the localisation rather than only focusing on the value estimation of the source signals. 
+Furthermore, it is not within the main scope of this thesis to localise the source signal. 
+When considering the linear system, $\mathbf{Y} = \mathbf{AX}$, of which the model is build upon, $\mathbf{Y}$ does not change by removing the zero-rows of $\mathbf{X}$ and the corresponding columns in $\mathbf{A}$.
 
-From this is can be argued that letting $N = k$ is as good as an estimate of $N$ as any other. Note in order to fulfil the sufficient conditions for the existence of a solution to the system, that $k$ hence $N$ is limited by $\widetilde{M}$ \todo{ "as any other" - forsøg at omformulere, alernativt er det bare et valg vi tager ud den begrundelse}. 
+From this is can be argued that letting $N = k$ is a good estimate of $N$. 
+Note in order to fulfil the sufficient conditions for the existence of a solution to the system, that $k$ hence $N$ is limited by $\widetilde{M}$.
 
-Consider the effect of letting $N = k$ within the M-SBL algorithm. Here it is only the estimation of the support set which is eliminated. 
-
+Consider the effect of letting $N = k$ within the M-SBL algorithm. 
+Here it is only the estimation of the support set which is eliminated. 
 Figure \ref{fig:M-SBL_simple3} show the estimated sources signal for a simulation of the deterministic data set now specified by $N=k=4$ $M = 3$ and $L=1000$. The resulting MSE become
 \begin{align*}
-\textbf{X}_{MSE} = 0.121
+\text{MSE}(\mathbf{X}, \hat{\mathbf{X}}) = 0.121
 \end{align*}
 
 \begin{figure}[H]

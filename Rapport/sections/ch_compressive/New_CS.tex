@@ -46,7 +46,7 @@ Hence, the following segmentation is considered.
 
 Let $f$ be the sample frequency of the observed EEG measurement matrix $\mathbf{Y}$, and let $t$ be the length of a time interval in seconds determining the duration of one segment. 
 Here $s$ is the segment index. 
-As such the observed EEG measurement matrix $\mathbf{Y}$ can be divided into stationary segments $\mathbf{Y}_s \in \mathbb{R}^{M \times L_{s}}$, possibly overlapping, where $L_s = t \cdot f$ is the number of samples within one segment. 
+As such the observed EEG measurement matrix $\mathbf{Y}$ can be divided into stationary segments $\mathbf{Y}_s \in \mathbb{R}^{M \times L_{s}}$, possibly overlapping, where $L_s = t f$ is the number of samples within one segment. 
 For each segment the MMV model \eqref{eq:MMV_model} holds and is rewritten into
 \begin{align}\label{eq:MMV_seg}
 \mathbf{Y}_s = \textbf{A}_s\mathbf{X}_s + \textbf{E}_s, \quad \forall s.
@@ -81,7 +81,7 @@ Due to the problem statement the case of interest is when $M < N$, typically res
 Thus, $\mathbf{X}$ has to be recovered from an under-determined linear system. 
 Hence, the solution must be found in the infinite solution space, provided that one solution exists, thus simple linear algebra can not be used. 
 Alternatively, numerical methods can be considered. By mathematical optimization it is possible to restrict the solution by some constraint, and then find the unique optimal solution with respect to some cost function and the corresponding constraints.
-The theory of compressive sensing provides a framework for solving an under-determined system when $\mathbf{X}$ is known to have zero rows, thus row spareness. 
+The theory of compressive sensing provides a framework for solving an under-determined system when $\mathbf{X}$ is known to have zero rows, thus being row sparse. 
 Specifically a unique solution $\mathbf{X}$ can be found when $\mathbf{X}$ is $M$-sparse, cf. theorem \ref{th:CS_A} in appendix \ref{app_sec:CS}. 
 When the mixing matrix $\mathbf{A}$ is unknown, as in this current case, the concept of dictionary learning can be used to determine $\mathbf{A}$, still under the assumption that $\mathbf{X}$ is $M$-sparse.  
 

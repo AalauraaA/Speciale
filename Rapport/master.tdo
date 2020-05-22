@@ -41,34 +41,32 @@
 \defcounter {refsection}{0}\relax 
 \contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ Tjek dette afsnit omkring hvorfor optimisering problem ikke lykkes, cost funktion v\IeC {\ae }rende non-convex}{40}{section*.34}% 
 \defcounter {refsection}{0}\relax 
-\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ \IeC {\AE }ndre title i figurerne -- til norm2 of 'MSE' i yakse}{49}{section*.46}% 
+\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ Tjek lige dem m\IeC {\r a}de jeg har s\IeC {\ae }t de forskellige l\IeC {\ae }ngder ind af datas\IeC {\ae }ttene}{51}{section*.46}% 
 \defcounter {refsection}{0}\relax 
-\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ Tjek lige dem m\IeC {\r a}de jeg har s\IeC {\ae }t de forskellige l\IeC {\ae }ngder ind af datas\IeC {\ae }ttene}{51}{section*.47}% 
+\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ inset hat over X on figure}{54}{section*.48}% 
 \defcounter {refsection}{0}\relax 
-\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ inset hat over X on figure}{54}{section*.49}% 
+\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ cite is missing}{77}{section*.71}% 
 \defcounter {refsection}{0}\relax 
-\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ cite is missing}{77}{section*.72}% 
+\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ skrive beskrivelse til appendix}{81}{section*.73}% 
 \defcounter {refsection}{0}\relax 
-\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ skrive beskrivelse til appendix}{81}{section*.74}% 
+\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ 4.1: skal vi indf\IeC {\o }r z som en approximation til x. og s\IeC {\r a} et nyt omega eller? eller kan vi lade x* v\IeC {\ae }re l\IeC {\o }slingen til b\IeC {\r a}de P0 og P1}{82}{section*.74}% 
 \defcounter {refsection}{0}\relax 
-\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ 4.1: skal vi indf\IeC {\o }r z som en approximation til x. og s\IeC {\r a} et nyt omega eller? eller kan vi lade x* v\IeC {\ae }re l\IeC {\o }slingen til b\IeC {\r a}de P0 og P1}{82}{section*.75}% 
+\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ Tjek nedenst\IeC {\r a}ende udledning. a og x er ikke lige lange da $a_j$ er M lang mens $x_{i \cdot }$ er L lang}{83}{section*.75}% 
 \defcounter {refsection}{0}\relax 
-\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ Tjek nedenst\IeC {\r a}ende udledning. a og x er ikke lige lange da $a_j$ er M lang mens $x_{i \cdot }$ er L lang}{83}{section*.76}% 
+\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ kilde}{84}{section*.76}% 
 \defcounter {refsection}{0}\relax 
-\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ kilde}{84}{section*.77}% 
+\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ kort afsnit om PCA skal skrives, med kilde}{85}{section*.77}% 
 \defcounter {refsection}{0}\relax 
-\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ kort afsnit om PCA skal skrives, med kilde}{85}{section*.78}% 
+\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ next Rasmus missed cov(yy). either we define if like above wiht y=Ax but is x not given then so y|x for which var in known to be sigma. or it is just cov(yy) that we should use i main, se jan rettelse ogs\IeC {\r a}, han mener det er fint s\IeC {\r a}dan her. if we let it be, we assume that cov(yy) is just sigmaI}{88}{section*.78}% 
 \defcounter {refsection}{0}\relax 
-\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ next Rasmus missed cov(yy). either we define if like above wiht y=Ax but is x not given then so y|x for which var in known to be sigma. or it is just cov(yy) that we should use i main, se jan rettelse ogs\IeC {\r a}, han mener det er fint s\IeC {\r a}dan her. if we let it be, we assume that cov(yy) is just sigmaI}{88}{section*.79}% 
+\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ in the result we have used, the mean of y is subtracted.? }{88}{section*.79}% 
 \defcounter {refsection}{0}\relax 
-\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ in the result we have used, the mean of y is subtracted.? }{88}{section*.80}% 
+\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ Herfra og ned til kurtosis skal lige tjekkes i gennem og rettes til, tjek om ikke vi har nogle rettelser liggene fra et m\IeC {\o }de}{91}{section*.80}% 
 \defcounter {refsection}{0}\relax 
-\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ Herfra og ned til kurtosis skal lige tjekkes i gennem og rettes til, tjek om ikke vi har nogle rettelser liggene fra et m\IeC {\o }de}{91}{section*.81}% 
+\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ tilf\IeC {\o }j kilde til kurtosis}{91}{section*.81}% 
 \defcounter {refsection}{0}\relax 
-\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ tilf\IeC {\o }j kilde til kurtosis}{91}{section*.82}% 
+\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ henvis til et andet appendix}{94}{section*.82}% 
 \defcounter {refsection}{0}\relax 
-\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ henvis til et andet appendix}{94}{section*.83}% 
+\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ inset captions og aling figure}{97}{section*.83}% 
 \defcounter {refsection}{0}\relax 
-\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ inset captions og aling figure}{97}{section*.84}% 
-\defcounter {refsection}{0}\relax 
-\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ lave script appendix}{101}{section*.88}% 
+\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ lave script appendix}{101}{section*.87}% 

@@ -54,6 +54,6 @@ def Main_Algorithm(Y, M, L, n_seg, A_real, L_covseg = 10):
         X_result[i] = X_rec
         
     if N <= (M*(M+1))/2.:
-        return A_result, X_result
+        return A_result, X_result, A_init
     
-    return A_result, X_result
+    return A_result, X_result, A_init

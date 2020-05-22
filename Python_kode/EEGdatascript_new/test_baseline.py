@@ -10,7 +10,7 @@ import simulated_data
 import numpy as np
 import ICA
 import data
-np.random.seed(321)
+np.random.seed(591)
 
 def A_ICA(Y, request):
     if len(Y.shape) is 3:
@@ -32,7 +32,7 @@ def Main_Algorithm_test(N, k, Y, M, L, n_seg, A_real, L_covseg = 10): ## OBS rem
 
     #################################  Cov-DL  ####################################
 
-    A_result = np.zeros((n_seg, M, N))   # matrices to store result of each segment
+#    A_result = np.zeros((n_seg, M, N))   # matrices to store result of each segment
     X_result = np.zeros((n_seg, N, L-2))
     
     A_fix = np.random.normal(0,2,(M,N))
@@ -44,7 +44,7 @@ def Main_Algorithm_test(N, k, Y, M, L, n_seg, A_real, L_covseg = 10): ## OBS rem
         print('efter X')
         X_result[i] = X_rec
 
-    return A_result, X_result
+    return A_fix, X_result
 
 ##################### The test with vary specifications ######################
 M = 8 
@@ -72,22 +72,22 @@ for j in range(len(list_)):
         X_real = X_real.T[0:L-2].T
         A_result, X_result = Main_Algorithm_test(N, k, Y, M, L, n_seg, A_real, L_covseg=10)
         
-        mse_array, mse_avg = simulated_data.MSE_segments(X_real,X_result)
-        A_mse = simulated_data.MSE_one_error(A_real,A_result[0])
+        mse_array, mse_avg = simulated_data.MSE_segments(X_real[0],X_result[0])
+        A_mse = simulated_data.MSE_one_error(A_real,A_result)
             
         avg_A[p] = A_mse
         avg_X[p] = mse_avg
    
     list_A[j] = np.mean(avg_A)
     list_X[j] = np.mean(avg_X) 
-    list_A[j] = A_mse
-    list_X[j] = mse_array
+#    list_A[j] = A_mse
+#    list_X[j] = mse_array
 
 plt.figure(3)
-plt.title(r'$MSE(\mathbf{X},\hat{\mathbf{X}})$ for varying N - using $\hat{\mathbf{A}}_{norm}$')
+plt.title(r'$MSE(\mathbf{X},\hat{\mathbf{X}})$ for varying N - using $\hat{\mathbf{A}}_{norm2}$')
 plt.plot( list_, list_X, '-ob')
 plt.xlabel('N')
-plt.ylabel('$MSE(\mathbf{X},\hat{\mathbf{X}})$')
+plt.ylabel('MSE')
 plt.show()
 plt.savefig('figures/varyN2.png')
 

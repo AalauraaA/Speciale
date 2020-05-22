@@ -45,18 +45,23 @@ for i in range(iterations):
     #print(i)
     power_signal = np.mean(A_real)
     
-    # add noise
-    mu = 0
-    std = np.sqrt(power_signal/SNR[i])
-    print(std)
-    noise = np.random.normal(mu,std,(A_real.shape))
     
-    A = A_real + noise 
-
-    X_result = Main_Algorithm(Y, A, M, N, k, L, n_seg)
+    for j in range(100):
+        # add noise
+        mu = 0
+        std = np.sqrt(power_signal/SNR[i])
+        print(std)
+        noise = np.random.normal(mu,std,(A_real.shape))
         
-    X_mse[i] = MSE_one_error(X_real,X_result)  
-    A_mse[i]= MSE_one_error(A_real,A)
+        A = A_real + noise 
+    
+        X_result = Main_Algorithm(Y, A, M, N, k, L, n_seg)
+            
+        X_mse[i] += MSE_one_error(X_real,X_result)  
+        A_mse[i] += MSE_one_error(A_real,A)
+    
+    X_mse[i] = X_mse[i]/100
+    A_mse[i] = A_mse[i]/100
     
     # plotting noise signal
     plt.plot(np.reshape(A,A.size), label=i)

@@ -21,36 +21,41 @@ Similar, the source matrix $\mathbf{X}_s$ can be described in the covariance dom
 \end{align*}
 The second equality comes from the assumption of the sources within $\mathbf{X}_s$ being uncorrelated within one segment. By uncorrelated sources $\mathbf{X}_s$ the sample covariance matrix is asumed to be nearly diagonal. Thus it can be written as $\boldsymbol{\Lambda}_s + \boldsymbol{\varepsilon}$ where $\boldsymbol{\Lambda}_s$ is a diagonal matrix consisting of the diagonal entries of $\widehat{\boldsymbol{\Sigma}}_{\mathbf{X}_s}$ and $ \boldsymbol{\varepsilon}$ is a non-diagonal matrix representing the estimation error \cite{Balkan2015}.
 
-Each segment is now modelled in the covariance domain, note that the $\frac{1}{L_s}$ factor is left out in order to comply to the instruction of source. \todo{convenience alert!}
+Each segment is now modelled in the covariance domain, note that the $\frac{1}{L_s}$ factor is left out in order to comply to the instruction of the source \cite{Balkan2015}\todo{convenience alert! we should remove $\Sigma$ here i think}.
 \begin{align} 
-\widehat{\boldsymbol{\Sigma}}_{\mathbf{Y}_s} = \frac{1}{L_s}\mathbf{Y}_s \mathbf{Y}_s^T &= \frac{1}{L_s} \left( \mathbf{A}_s \mathbf{X}_s + \mathbf{E}_s \right) \left( \mathbf{A}_s \mathbf{X}_s + \mathbf{E}_s\right)^T \nonumber \\ 
- &= \frac{1}{L_s} \left( (\textbf{A}_s\textbf{X}_s)(\textbf{A}_s\textbf{X}_s)^T + \textbf{E}_s \textbf{E}_s^T + \textbf{E}_s (\textbf{A}_s\textbf{X}_s)^T + \textbf{A}_s\textbf{X}_s \textbf{E}_s^T \right) \nonumber \\
-&= \frac{1}{L_s} \left( \textbf{A}_s\textbf{X}_s \textbf{X}_s^T \textbf{A}_s^T + \textbf{E}_s \textbf{E}_s^T + \textbf{E}_s \textbf{X}_s^T \textbf{A}_s^T + \textbf{A}_s\textbf{X}_s \textbf{E}_s^T \right) \nonumber \\
-&=  \frac{1}{L_s} \left( \textbf{A}_s(\boldsymbol{\Lambda}_s +\boldsymbol{\varepsilon}) \textbf{A}_s^T + \textbf{E}_s \textbf{E}_s^T + \textbf{E}_s \textbf{X}_s^T \textbf{A}_s^T + \textbf{A}_s\textbf{X}_s \textbf{E}_s^T \right) \nonumber \\
-&= \frac{1}{L_s} \left( \textbf{A}_s \boldsymbol{\Lambda}_s \textbf{A}_s^T + \textbf{A}_s \boldsymbol{\varepsilon} \textbf{A}_s^T + \textbf{E}_s \textbf{E}_s^T + \textbf{E}_s \textbf{X}_s^T \textbf{A}_s^T + \textbf{A}_s\textbf{X}_s \textbf{E}_s^T\right) \label{eq:noise1} \\
-&= \frac{1}{L_s} \left( \textbf{A}_s \boldsymbol{\Lambda}_s \textbf{A}_s^T + \widetilde{\textbf{E}} \right) \label{eq:noise2}
+\widehat{\boldsymbol{\Sigma}}_{\mathbf{Y}_s} = \mathbf{Y}_s \mathbf{Y}_s^T &=  \left( \mathbf{A}_s \mathbf{X}_s + \mathbf{E}_s \right) \left( \mathbf{A}_s \mathbf{X}_s + \mathbf{E}_s\right)^T \nonumber \\ 
+ &=  (\textbf{A}_s\textbf{X}_s)(\textbf{A}_s\textbf{X}_s)^T + \textbf{E}_s \textbf{E}_s^T + \textbf{E}_s (\textbf{A}_s\textbf{X}_s)^T + \textbf{A}_s\textbf{X}_s \textbf{E}_s^T  \nonumber \\
+&= \textbf{A}_s\textbf{X}_s \textbf{X}_s^T \textbf{A}_s^T + \textbf{E}_s \textbf{E}_s^T + \textbf{E}_s \textbf{X}_s^T \textbf{A}_s^T + \textbf{A}_s\textbf{X}_s \textbf{E}_s^T  \nonumber \\
+&= \textbf{A}_s(\boldsymbol{\Lambda}_s +\boldsymbol{\varepsilon}) \textbf{A}_s^T + \textbf{E}_s \textbf{E}_s^T + \textbf{E}_s \textbf{X}_s^T \textbf{A}_s^T + \textbf{A}_s\textbf{X}_s \textbf{E}_s^T \nonumber \\
+&= \textbf{A}_s \boldsymbol{\Lambda}_s \textbf{A}_s^T + \textbf{A}_s \boldsymbol{\varepsilon} \textbf{A}_s^T + \textbf{E}_s \textbf{E}_s^T + \textbf{E}_s \textbf{X}_s^T \textbf{A}_s^T + \textbf{A}_s\textbf{X}_s \textbf{E}_s^T \label{eq:noise1} \\
+&= \textbf{A}_s \boldsymbol{\Lambda}_s \textbf{A}_s^T + \widetilde{\textbf{E}}_s \label{eq:noise2}
 \end{align}
-From \eqref{eq:noise1} to \eqref{eq:noise2} all terms where noise, $\boldsymbol{\varepsilon}$ and $\mathbf{E}$, is included, are aggregated in a joint noise term $\widetilde{\textbf{E}}$. 
-By vector notation \eqref{eq:noise2} is rewritten to be vectorized. 
-Because the covariance matrix $\widehat{\boldsymbol{\Sigma}}_{\mathbf{Y}_s}$ is symmetric it is sufficient to vectorize only the lower triangular parts, including the diagonal. 
-For this the function $\text{vec}(\cdot)$ is defined to map a symmetric $M \times M$ matrix into a vector of size $\widetilde{M} := \frac{M(M+1)}{2}$ making a row-wise vectorization of its lower triangular part. 
-Furthermore, let vec$^{-1}(\cdot)$ be the inverse function for devectorisation. 
-This result in the following model 
+From \eqref{eq:noise1} to \eqref{eq:noise2} all terms where noise, $\boldsymbol{\varepsilon}$ and $\mathbf{E}_S$, is included, are aggregated in a joint noise term $\widetilde{\textbf{E}}$. 
+Next, the expression \eqref{eq:noise2} is rewritten through a vectorization. 
+Because the covariance matrix $\widehat{\boldsymbol{\Sigma}}_{\mathbf{Y}_s}$ is symmetric it is sufficient to vectorize only the lower triangular part, including the diagonal. 
+For this purpose the function $\text{vec}(\cdot)$ is defined to map a symmetric $M \times M$ matrix into a vector of size $\widetilde{M}$ by row-wise vectorization of the lower triangular part. The increased dimension $\widetilde{M}$ becomes 
 \begin{align}
-\widehat{\boldsymbol{\Sigma}}_{\mathbf{Y}_s} &= \sum_{i=1}^{N} \textbf{a}_i \boldsymbol{\Lambda}_{s_{ii}} \textbf{a}_i^{T} + \widetilde{\textbf{E}}, \quad \boldsymbol{\Lambda}_{s_{ii}} \in \mathbb{R}_0 \nonumber \\
-& \nonumber \\
-\text{vec}(\widehat{\boldsymbol{\Sigma}}_{\mathbf{Y}_s}) &= \sum_{i=1}^N \text{vec}(\mathbf{a}_i \mathbf{a}_i^T) \boldsymbol{\Lambda}_{s_{ii}} + \text{vec}( \widetilde{\textbf{E}}) \nonumber \\
-&= \sum_{i=1}^N \mathbf{d}_i \boldsymbol{\Lambda}_{s_{ii}} + \text{vec}( \widetilde{\textbf{E}}) \nonumber \nonumber \\
-&= \mathbf{D} \boldsymbol{\delta}_s + \text{vec}( \widetilde{\textbf{E}}), \quad \forall s. \label{eq:cov1}
+\widetilde{M} := \frac{M(M+1)}{2}.
+\end{align}
+Furthermore, let $\text{vec}^{-1}: \mathbb{R}^{\widetilde{M}} \rightarrow \mathbb{R}^{M\times M}$ be the inverse function for devectorisation. 
+
+Applying $\text{vec}(\cdot)$ results in the following expression, which concludes the transformation of model \eqref{eq:MMV_seg} into the covariance domain. 
+Let $\textbf{a}_i$ be the $i$-th column of $\textbf{A}_s$, as such the matrix product can be written in sum form where $\boldsymbol{\Lambda}_{s_{ii}}$ is the $ii$-th entry of $\boldsymbol{\Lambda}_s$.  
+\begin{align}
+\mathbf{Y}_s \mathbf{Y}_s^T &= \sum_{i=1}^{N} \textbf{a}_i \boldsymbol{\Lambda}_{s_{ii}} \textbf{a}_i^{T} + \widetilde{\textbf{E}}_s, \quad \boldsymbol{\Lambda}_{s_{ii}} \nonumber \\
+\text{vec}\left( \mathbf{Y}_s \mathbf{Y}_s^T \right) &= \sum_{i=1}^N \text{vec}(\mathbf{a}_i \mathbf{a}_i^T) \boldsymbol{\Lambda}_{s_{ii}} + \text{vec}( \widetilde{\textbf{E}}_s) \nonumber \\
+&= \sum_{i=1}^N \mathbf{d}_i \boldsymbol{\Lambda}_{s_{ii}} + \text{vec}( \widetilde{\textbf{E}}_s) \nonumber \\
+&= \mathbf{D} \boldsymbol{\delta}_s + \text{vec}( \widetilde{\textbf{E}}_s), \quad \forall s. \label{eq:cov1}
 \end{align}
 Here $\boldsymbol{\delta}_s \in \mathbb{R}^{N}$ contains the diagonal entries of the source sample-covariance matrix $\boldsymbol{\Lambda}_s$
-and the matrix $\mathbf{D} \in \mathbb{R}^{\widetilde{M} \times N}$ consists of the columns $\mathbf{d}_i = \text{vec}(\mathbf{a}_i \mathbf{a}_i^T)$ where $\mathbf{a}_i$ is the rows of $\mathbf{A}$. Note that $\mathbf{D}$ and $\boldsymbol{\delta}_s$ are unknown while $\text{vec}(\widehat{\boldsymbol{\Sigma}}_{\mathbf{Y}_s})$ is known from the observed data.
-By this transformation to the covariance domain, one segment is now represented by the single measurement model with $\widetilde{M}$ "measurements". 
-It has been shown that this transformed model allows for identification of $k \leq \widetilde{M}$ active sources \cite{Pal2015}, which is a much weaker sparsity constraint than the original sparsity constraint $k \leq M$. 
-The purpose of the Cov-DL algorithm is to leverage this model to find the dictionary $\mathbf{A}$ from $\mathbf{D}$ and then still allow for $k \leq \widetilde{M}$ active sources to be identified. 
-That is the number of active sources are allowed to exceed the number of observations as intended.
+and the matrix $\mathbf{D} \in \mathbb{R}^{\widetilde{M} \times N}$ consists of the columns $\mathbf{d}_j = \text{vec}(\mathbf{a}_j \mathbf{a}_j^T)$. Note that $\mathbf{D}$ and $\boldsymbol{\delta}_s$ are unknown while $\text{vec}\left( \mathbf{Y}_s \mathbf{Y}_s^T \right)$ is known from the observed data.
+By this transformation to the covariance domain, one segment is now represented by the single measurement model with $\widetilde{M}$ ''measurements''. 
 
-\section{Determination of the Mixing Matrix}
+It has been shown that this transformed model allows for identification of $k \leq \widetilde{M}$ active sources \cite{Pal2015}, which is a much weaker sparsity constraint than the original sparsity constraint $k \leq M$. 
+The purpose of the Cov-DL algorithm is to leverage this transformed model to find the dictionary $\mathbf{A}$ from $\mathbf{D}$ and then still allow for $k \leq \widetilde{M}$ active sources to be recovered. 
+That is the number of active sources are allowed to exceed the number of sensors as intended.
+
+\section{Recovery of the Mixing Matrix}
 The goal is now to learn first $\textbf{D}$ and then the associated mixing matrix $\textbf{A}$. 
 Two methods are considered relying on the relation between $M$ and $N$. 
 For now the noise vector is ignored.

@@ -2,11 +2,11 @@
 When $N > \widetilde{M} = \frac{M(M+1)}{2}$ the transformed model \eqref{eq:cov1} makes an under-determined system.   
 This is similar to the original MMV model \eqref{eq:MMV_model} being under-determined  when $N > M$. 
 Thus, it is from the theory of compressive sensing again possible to solve the under-determined system if a certain sparsity is withhold, namely $\boldsymbol{\delta}_s$ being $\widetilde{M}$-sparse.
-Assuming the sufficient sparsity on $\boldsymbol{\delta}_s$ is withhold it is possible to learn the dictionary matrix of the covariance domain $\mathbf{D}$ by traditional dictionary learning methods applied to the observations represented in the covariance domain $\text{vec}(\widehat{\boldsymbol{\Sigma}}_{\mathbf{Y}_s})$ for all segments $s$.
+Assuming the sufficient sparsity on $\boldsymbol{\delta}_s$ is withhold it is possible to learn the dictionary matrix of the covariance domain $\mathbf{D}$ by traditional dictionary learning methods applied to the measurements represented in the covariance domain $\text{vec}\left( \mathbf{Y}_s \mathbf{Y}_s^T \right)$ for all segments $s$.
 
 \subsubsection{Dictionary Learning}\label{sec:dictionarylearning}
-Within the theory of compressive sensing the matrix $\textbf{A}$ is referred to as a dictionary matrix, as it determines how a sparse vector $\textbf{x}$ is transformed to the original non-sparse signal. 
-When the dictionary is not known a priori it is essential how to choose the dictionary matrix in order to achieve the best recovery, of the sparse vector $\mathbf{x}$ from the measurements $\mathbf{y}$. 
+As mentioned, within the theory of compressive sensing the matrix $\textbf{A}$ is referred to as a dictionary matrix, as it determines how a sparse vector $\textbf{x}$ is transformed to the original non-sparse signal. 
+When the dictionary is not known a priori it is essential how to choose the dictionary matrix in order to achieve the best recovery, of the sparse vector $\mathbf{x}$ from measurements $\mathbf{y}$. 
 This is clarified from the proof of theorem \ref{th:CS_A} in appendix \ref{app_sec:CS}. 
 One choice is a pre-constructed dictionary. 
 In many cases the use of a pre-constructed dictionary results in simple and fast algorithms for reconstruction of $\mathbf{x}$ \cite{Elad_book}. 
@@ -18,7 +18,8 @@ The alternative option is to consider an adaptive dictionary based on a set of t
 For this purpose learning methods are considered to empirically construct a fixed dictionary. 
 There exist several dictionary learning algorithms. One is the K-SVD algorithm which was presented in 2006 by Elad et al. and found to outperform pre-constructed dictionaries, when computational cost is of secondary interest \cite{Elad2006}. 
 The concept of the K-SVD algorithm is introduced, and the more detailed algorithm is to be found in appendix \ref{app_sec:K-SVD_alg}. 
-Consider the measurement matrix $\mathbf{Y} \in \mathbb{R}^{M \times L}$ consisting of measurement vectors $\lbrace \mathbf{y}_j \rbrace_{j=1}^L$. making a set of $L$ training examples forming a linear system
+
+Consider, from the general MMV model \eqref{eq:MMV_model}, the measurement matrix $\mathbf{Y} \in \mathbb{R}^{M \times L}$ consisting of measurement vectors $\lbrace \mathbf{y}_j \rbrace_{j=1}^L$. Let the set of measurement vectors make a set of $L$ training examples each forming a linear system
 \begin{align*}
 \mathbf{y}_j = \mathbf{A} \mathbf{x}_j.
 \end{align*}
@@ -28,27 +29,35 @@ For a known sparsity constraint $k$ the dictionary learning can be defined by th
 \min_{\mathbf{A}, \mathbf{X}} \sum_{j=1}^{L} \Vert \mathbf{y}_j - \mathbf{A} \mathbf{x}_j \Vert_2^2 \quad \text{subject to} \quad \Vert \textbf{x}_j \Vert_1 \leq k, \ 1 \leq j \leq L,
 \end{align}
 where both $\textbf{A}$ and $\textbf{x}_j$ are quantities to be determined.
-Learning the dictionary by the K-SVD algorithm consists of joint solving of the optimization problem with respect to $\mathbf{A}$ and $\mathbf{X}$ respectively. 
-An initial $\textbf{A}_0 = [\textbf{a}_1,\hdots,\textbf{a}_N]$ and the corresponding $\textbf{X}_0 = [\textbf{x}_1,\hdots,\textbf{x}_L]$ is determined. Then, for each iteration an update rule is applied to each column of $\textbf{A}_0$, that is updating first $\textbf{a}_j$ and then the corresponding entry $\textbf{x}_{ij}$ hvor i=j in\todo{vi skal lige have styr på aj og tilsvarende x}. 
+Learning the dictionary by the K-SVD algorithm consists of joint solving of the optimization problem with respect to $\mathbf{A}$ and $\mathbf{X}$. 
+An initial $\textbf{A}_0 = [\textbf{a}_1,\hdots,\textbf{a}_N]$ is chosen and the corresponding $\textbf{X}_0 = [\textbf{x}_1,\hdots,\textbf{x}_L]$ is determined. Then, for each iteration an update rule is applied to every column of $\textbf{A}_0$, that is updating first $\textbf{a}_j$ and then the corresponding entry $\textbf{x}_{j\cdot}$. 
 More details on the K-SVD algorithm are found in appendix \ref{app_sec:K-SVD_alg}. 
-The uniqueness of the recovered $\mathbf{A}$ depends on the recovery sparsity condition. As clarified earlier in \ref{sec:sol_met} the recovery of a unique solution $\mathbf{X}^\ast$ is only possible if $k < M$ \cite{phd2015}.
+The uniqueness of the $\hat{\mathbf{A}}$ depends on the recovery sparsity condition. As clarified earlier in \ref{sec:sol_met} the recovery of a unique solution $\mathbf{X}^\ast$ is only possible if $k < M$ \cite{phd2015}.
 %The dictionary learning algorithm K-SVD is a generalisation of the well known K-means clustering also referred to as vector quantization. In K-means clustering a set of $K$ vectors is learned referred to as mean vectors. Each signal sample is then represented by its nearest mean vector. That corresponds to the case with sparsity constraint $k = 1$ and the representation reduced to a binary scalar $x = \lbrace 1, 0 \rbrace$. Further instead of computing the mean of $K$ subsets the K-SVD algorithm computes the SVD factorisation of the $K$ different sub-matrices that correspond to the $K$ columns of $\textbf{A}$.
 
 
 \subsubsection{Application of Dictionary Learning}
-The establishments of an dictionary learning algorithm is now used to learn the transformed dictionary matrix $\textbf{D}$ in \eqref{eq:cov1}. 
-Here the transformed and vectorized measurements $\left\{ \text{vec}\left( \hat{\Sigma}_\textbf{Y}\right), \forall s\right\}$ makes the training dataset. 
-Note that each segment of the original measurement sample constitute only one sample in the covariance domain. 
-Thus the number of training samples depends on the length of a segment.     
-When K-SVD is applied and $\mathbf{D}$ is found it is possible to estimate the mixing matrix $\mathbf{A}$ that generated $\textbf{D}$ through the relation 
+The establishment of an dictionary learning algorithm, K-SVD, is now used to learn the transformed dictionary matrix $\textbf{D}$ in \eqref{eq:cov1}. 
+Note that $\textbf{D}$ corresponds to a segment $s$. Thus, in order to make training samples for learning $\textbf{D}$ a further segmentation is needed.
+This segmentation of $\textbf{Y}_s$ is indexed by $s'$. For convince $s$ will be avoided through out this chapter, as the same theory applies to all segments s. Hence, $\textbf{Y}_{s'}$ referrers to one segment within the outer segment of measurements $\textbf{Y}_s$\todo{LÆS:ny introduction of s'}.
+   
+The transformed and vectorized measurements $\left\{ \text{vec}\left( \mathbf{Y}_{s'} \mathbf{Y}_{s'}^T \right), \forall s' \right\}$ now makes the training dataset for learning $\textbf{D}$. 
+As such each segment $s'$ provides one training sample.   
+Thus, the number of available training samples, denoted $L_{s'}$, depends on the chosen length of the segments. In practise this will vary with respect to the total amount of available data. 
+
+K-SVD is applied to the transformed model \eqref{eq:cov1} and $\hat{\mathbf{D}}$ is found. Then it is possible to estimate the mixing matrix $\mathbf{A}$ that generated $\textbf{D}$ through the known relation 
 \begin{align*}
 \mathbf{d}_j = \text{vec}(\mathbf{a}_j \mathbf{a}_j^T).
 \end{align*}
-Here each column is found from the optimisation problem.
+For each column $\textbf{d}_j, j=1,\hdots,N$ the following optimisation problem is solved with respect to the corresponding column $\textbf{a}_j$ of the mixing matrix.
 \begin{align*}
-\min_{\textbf{a}_j} \| \text{vec}^{-1}(\textbf{d}_j) -\textbf{a}_j\textbf{a}_j^T\|_2^2, 
+\min_{\textbf{a}_j} \| \textbf{d}_j -\text{vec}\left(\textbf{a}_j\textbf{a}_j^T\right) \|_2^2, 
 \end{align*}
-for which the global minimizer is $\mathbf{a}^{\ast}_j=\sqrt{\lambda_j} \textbf{b}_j$\todo{Redegørelse for resultatet her skal laves}. 
+equivalent to 
+\begin{align}
+\min_{\textbf{a}_j} \| \text{vec}^{-1}(\textbf{d}_j) -\textbf{a}_j\textbf{a}_j^T\|_2^2. \label{eq:opt_DL1}
+\end{align}
+From \cite{Balkan2015} the global minimizer to \eqref{eq:opt_DL1} is given as $\mathbf{a}^{\ast}_j=\sqrt{\lambda_j} \textbf{b}_j$, without further details or a source.  
 Here $\lambda_j$ is the largest eigenvalue of $\text{vec}^{-1}(\textbf{d}_j)$,
 \begin{align*}
 \text{vec}^{-1}(\textbf{d}_j) = 
@@ -60,8 +69,12 @@ d_{N1} & d_{N2} & \cdots & d_{NN}
 \end{bmatrix}, \quad j \in [N]
 \end{align*}
 and $\textbf{b}_j$ is the corresponding eigenvector.
+\todo{evt. Redegørelse for resultatet her skal lave her}.
 
-By this each column of the mixing matrix $\textbf{A}$ can be estimated hence it is possible to determine the mixing matrix in the case where the measurements transformed into the covariance domain makes an under-determined system, but the necessary sparsity constraint, $\boldsymbol{\delta}_s$ being $\widetilde{M} = \frac{M(M+1)}{2}$-sparse (instead of $M$-sparse), is withhold.    
+From this result each column of the mixing matrix $\textbf{A}$ can be estimated. Hence, it is possible to determine the mixing matrix in the case where the measurements transformed into the covariance domain makes an under-determined system.
+Provided however that the necessary sparsity constraint $\boldsymbol{\delta}_s$ being $\widetilde{M}$-sparse is withhold. 
+Remember $\widetilde{M} := \frac{M(M+1)}{2}$ thus $M<k$ is allowed and the original sparsity constraint, $\textbf{X}$ being $M$-sparse, is relaxed. 
+
 
 
 

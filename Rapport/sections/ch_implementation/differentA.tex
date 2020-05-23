@@ -59,25 +59,25 @@ As the main interest in this thesis is to identify and localize the active sourc
 Furthermore, a disadvantage of using $\hat{\mathbf{A}}_{\text{ICA}}$ is the limitations in practice when $k = M$ is not possible. 
 From these observations a fixed estimate of the mixing matrix drawn from a normal distribution with mean 0 and variance 2, $\hat{\mathbf{A}}_{\text{norm}}$, is chosen as the alternative estimate of $\mathbf{A}$, and is used throughout the thesis. 
 
-Due to the unexpected relation between $MSE(\mathbf{A}, \hat{\mathbf{A}}_{\text{fix}})$ and $\text{MSE}(\mathbf{X}, \hat{\mathbf{X}})$ an additional plot is computed. Figure \ref{fig:X_func_SNR} show the $\text{MSE}(\mathbf{X}, \hat{\mathbf{X}})$ as a function of $\hat{\textbf{A}}$ with varying SNR value. 
-Additionally figure \ref{fig:A_func_SNR} show the corresponding MSE between the True $\textbf{A}$ and $\hat{\textbf{A}}$ where an increasing amount of noise is added.
+Due to the unexpected relation between MSE$(\mathbf{A}, \hat{\mathbf{A}}_{\text{fix}})$ and $\text{MSE}(\mathbf{X}, \hat{\mathbf{X}})$ an additional plot is computed. Figure \ref{fig:X_func_SNR} show the average $\text{MSE}(\mathbf{X}, \hat{\mathbf{X}})$ as a function of $\hat{\textbf{A}}$ with varying SNR value. This is conducted on 100 realisations of the SNR leading to the average MSE.
+Additionally figure \ref{fig:A_func_SNR} show the corresponding average MSE between the true $\textbf{A}$ and estimated $\hat{\textbf{A}}$ where an increasing amount of noise is added. The SNR is also conducted on 100 realisation.
 Note that the noise variance is decreasing along the x-axis. 
 The noise is generated as Gaussian white noise, with increasing variance corresponding to the desired SNR value. The SNR value is considered in the interval [0.01, 2]. 
 From figure \ref{fig:X_func_SNR} it is seen that MSE decreases as the SNR decreases. This indicates as first expected that the better estimate of $\textbf{A}$ the better estimate of $\textbf{X}$. However, this is still a contradiction to the result seen in figure \ref{fig:vary_A}. 
-This can however be due to the fact that the true $\textbf{A}$ being a Gaussian matrix with $\mu = 0$ and $\sigma = 1$ for which Gaussian noise is added. The MSE between the true $\textbf{A}$ and the noisy $\hat{\textbf{A}}$ seen in figure \ref{fig:A_func_SNR} is not as high as expected due to the relative large amount of noise, all being remarkably less than the corresponding MSE in table \ref{tab:fixed} \todo{det skal tydeliggøres om der er brugt gentagelser her eller er det bare et run. - T}.  
+This can however be due to the fact that the true $\textbf{A}$ being a Gaussian matrix with $\mu = 0$ and $\sigma = 1$ for which Gaussian noise is added. The average MSE between the true $\textbf{A}$ and the noisy $\hat{\textbf{A}}$ seen in figure \ref{fig:A_func_SNR} is not as high as expected due to the relative large amount of noise, all being remarkably less than the corresponding MSE in table \ref{tab:fixed}.  
 
 \begin{figure}[H]
     \begin{minipage}[t]{.45\textwidth}
     	\centering
 		\includegraphics[scale=0.5]{figures/ch_6/X_func_SNR.png}
-		\caption{$MSE(\textbf{X},\hat{\textbf{X}})$ estimated from $\textbf{Y}$ specified by $M=6$,$N=k=8$ and $L=1000$, as a function of SNR of given $\textbf{A}$. }
+		\caption{MSE$(\textbf{X},\hat{\textbf{X}})$ estimated from $\textbf{Y}$ specified by $M=6$,$N=k=8$ and $L=1000$, as a function of SNR of given $\textbf{A}$. }
 		\label{fig:X_func_SNR}
     \end{minipage} 
     \hfill
     \begin{minipage}[t]{.45\textwidth}
         \centering
 		\includegraphics[scale=0.5]{figures/ch_6/A_func_SNR.png}
-		\caption{$MSE(\textbf{A},\hat{\textbf{A}})$ where $\hat{\textbf{A}}$ is a function of the SNR. $\hat{\textbf{A}}$ correspond to $\hat{\textbf{A}}$ used in figure \ref{fig:X_func_SNR}}
+		\caption{MSE$(\textbf{A},\hat{\textbf{A}})$ where $\hat{\textbf{A}}$ is a function of the SNR. $\hat{\textbf{A}}$ correspond to $\hat{\textbf{A}}$ used in figure \ref{fig:X_func_SNR}}
 		\label{fig:A_func_SNR}
     \end{minipage}
 \end{figure}

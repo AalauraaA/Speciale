@@ -10,7 +10,7 @@ import simulated_data
 import numpy as np
 import ICA
 import data
-np.random.seed(591)
+np.random.seed(321)
 
 def A_ICA(Y, request):
     if len(Y.shape) is 3:

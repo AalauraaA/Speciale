@@ -178,6 +178,14 @@ Analysis},
   Year                     = {2010}
 }
 
+@Book{FFT,
+  Title                    = {Discrete-Time Signal Processing},
+  Author                   = {Alan V. Oppenheim and Ronald W. Schafer},
+  Publisher                = {Pearson Education Limited},
+  Year                     = {2014},
+  Edition                  = {3th}
+}
+
 @Book{FR,
   Title                    = {A Mathematical Introduction to Compressive Sensing},
   Author                   = {Foucart, Simon and Rauhut, Hoger},

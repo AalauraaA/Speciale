@@ -2,10 +2,10 @@
 In this chapter the issue of unknown $k$ is considered. The aim is to investigate the possibility of identifying an estimation of a non-active source signal from $\hat{\textbf{X}}_{Main}$ when the true $k$ is not provided to the algorithm. Instead of providing the true $k$ one let $k=N$ as such one ask the algorithm for $N$ non-zero source signals, but there only $k<N$ non-zero source signal within the synthetic data set. 
 At first the possibilities are investigated on synthetic data, cf. section \ref{sec:dataset} and afterwards the real EEG data.   
 
-\subsection{Empirical Test on Synthetic Data}
+\section{Empirical Test on Synthetic Data}
 Figure \ref{fig:ktest1} visualise the estimate $\hat{\textbf{X}}_{Main}$ from a stochastic data set $\textbf{Y}$ specified by $M=N=8$, $k=4$ and $L=1000$. 
-As seen i section \ref{sec:testMsbl_stoch} the case of $M=N$ should be solved almost exact by the M-SBL algorithm with true $\textbf{A}$ given. From the figure it is seen that the estimates of the zero rows have amplitudes close to zero, which distinguishes them from the remaining estimates, which is seen to almost exact. Due to the estimates of the zero rows being this close to zero they do not affect the MSE which is close to zero. Thus the mse do not indicate flaws within the estimate. 
-Furthermore it seen that the estimates of the zero rows form a scaled copy of one of the exact estimates. These observation indicates a potential for distinguishing the estimates of zero rows and hence determine k.     
+As seen in section \ref{sec:testMsbl_stoch} the case of $M=N$ should be solved almost exact by the M-SBL algorithm with true $\textbf{A}$ given. From the figure it is seen that the estimates of the zero rows have amplitudes close to zero, which distinguishes them from the remaining estimates, which is seen to almost exact. Due to the estimates of the zero rows being this close to zero they do not affect the MSE which is close to zero. Thus, the MSE do not indicate flaws within the estimate. 
+Furthermore it seen that the estimates of the zero rows form a scaled copy of one of the exact estimates. These observations indicate a potential for distinguishing the estimates of zero rows and hence determine $k$.     
 \begin{figure}[H]
     \centering
 	\includegraphics[scale=0.5]{figures/ch_estimate/k_test1.png}
@@ -14,10 +14,10 @@ Furthermore it seen that the estimates of the zero rows form a scaled copy of on
 \end{figure}
 Consider now the desired case where $M<N$.  
 Figure \ref{fig:ktest3} visualise the estimate $\hat{\textbf{X}}_{Main}$ from a stochastic data set $\textbf{Y}$ specified by $M=6$,$N=8$,$k=4$ and $L=1000$.
-From figure \ref{fig:ktest3} it is seen that the estimates of the zero rows is not as close to zero as in figure \ref{fig:ktest1}. Thus this can not be used as the indicator. However, the estimates of the zero rows still appears as a scaled replicas of an estimate of a non-zero row. By replica a signal is not considered an exact copy but a signal with similar trends over time.
+From figure \ref{fig:ktest3} it is seen that the estimates of the zero rows is not as close to zero as in figure \ref{fig:ktest1}. Thus, this can not be used as the indicator. However, the estimates of the zero rows still appears as a scaled replica of an estimate of a non-zero row. By a replica a signal is not considered an exact copy but a signal with similar trends over time.
 One attempt to locate the zero rows is to compare each row of $\hat{\textbf{X}}_{Main}$ to every other row by the MSE, in order to check if it appears more than one time.
 Two rows are considered replicas if their mutual MSE is below a tolerance equal to 1. This operation is performed on the estimate plotted in figure \ref{fig:ktest3} and gives the result displayed in table \ref{tab:replica1}.
-From table \ref{tab:replica1} it is seen that row 2,4,6 and 8 is found to appear more than one time. Theses row indexes correspond to the zero rows of $\textbf{X}$ as intended. This indicate the possibility of locating the zero rows from the estimate $\hat{\textbf{X}}_{Main}$ without providing the true $k$ as an input.      
+From table \ref{tab:replica1} it is seen that row 2,4,6 and 8 is found to appear more than one time. Theses row indexes correspond to the zero rows of $\textbf{X}$ as intended. This indicates the possibility of locating the zero rows from the estimate $\hat{\textbf{X}}_{Main}$ without providing the true $k$ as an input.      
 
 \begin{table}[h]
 \center
@@ -36,11 +36,10 @@ row index   & 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 \\ \hline
 	\caption{M=6, N=8, k=4, L=1000, MSE is 0.344}
 	\label{fig:ktest3}
 \end{figure}
-
+\noindent
 It is however expected that this precision must depend on the chosen tolerance for the mutual MSE. For comparison table \ref{tab:replica2}, \ref{tab:replica3} and \ref{tab:replica4} show the result from a tolerance of $0.5$, $1.5$ and $2$ respectively. 
-It is observed that a tolerance of $0.5$ and $2$ results in a conclusions with respect to the number of zero rows -  being respectively 2 and 6. From this it is clear that the tolerance is difficult to define and will affect the conclusion.  
-
-\begin{table}[h]
+It is observed that a tolerance of $0.5$ and $2$ results in a conclusion with respect to the number of zero rows -- being respectively 2 and 6. From this it is clear that the tolerance is difficult to define and will affect the conclusion.  
+\begin{table}[H]
 \center
 \begin{tabular}{|l|l|l|l|l|l|l|l|l|}
 \hline
@@ -50,8 +49,9 @@ row index   & 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 \\ \hline
 \caption{Number of replicas for each row based on the tolerence MSE $< 0.5$.}
 \label{tab:replica2}
 \end{table}
+\noindent
 
-\begin{table}[h]
+\begin{table}[H]
 \center
 \begin{tabular}{|l|l|l|l|l|l|l|l|l|}
 \hline
@@ -61,8 +61,8 @@ row index   & 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 \\ \hline
 \caption{Number of replicas for each row based on the tolerence MSE $< 1.5$.}
 \label{tab:replica3}
 \end{table}
-
-\begin{table}[h]
+\noindent
+\begin{table}[H]
 \center
 \begin{tabular}{|l|l|l|l|l|l|l|l|l|}
 \hline
@@ -72,13 +72,12 @@ row index   & 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 \\ \hline
 \caption{Number of replicas for each row based on the tolerence MSE $< 2$.}
 \label{tab:replica4}
 \end{table}
-
-The results so far have relied on the true $\textbf{A}$ as an input the the main algorithm, due to the conclusion of chapter \ref{ch:implementation} where the estimate of $\textbf{A}$ is abandoned. Thus this gives the results to be expected conditioned on an exact estimate of $\textbf{A}$ which this thesis do not manage to provide.
+\noindent
+The results so far have relied on the true $\textbf{A}$ as an input the main algorithm, due to the conclusion of chapter \ref{ch:implementation} where the estimate of $\textbf{A}$ is abandoned. Thus, this gives the results to be expected conditioned on an exact estimate of $\textbf{A}$ which this thesis does not manage to provide.
 
 Now the investigations are repeated but with use of the main algorithm for which a fixed $\textbf{A}$ is provided as input, cf. \ref{sec:test_base}.
-Similar to figure \ref{fig:ktest3}, figure \ref{fig:ktest5} show the estimates $\hat{\textbf{X}}_{Main}$ compared to the true $\textbf{X}$. As expected, according to the results from section \ref{sec:Main_test}, it is generally seen from figure \ref{fig:ktest5} that every row of the estimate is less accurate as a result of using a fixed $\textbf{A}$ instead of the true $\textbf{A}$. Tabel \ref{tab:replica5} shows the replica count with a MSE tolerance at 1. From the table it would be concluded that 7 out of the 8 rows are zero rows, while the true number is 4. This could indicate that the tolerance is set to high. Table \ref{tab:replica6} show the replica count for a MSE tolerance at 0.5. From table \ref{tab:replica6} it is seen that the number of replicas is reduced however it still does not result in the right conclusion.  
-
-\begin{table}[h]
+Similar to figure \ref{fig:ktest3}, figure \ref{fig:ktest5} show the estimates $\hat{\textbf{X}}_{Main}$ compared to the true $\textbf{X}$. As expected, according to the results from section \ref{sec:Main_test}, it is generally seen from figure \ref{fig:ktest5} that every row of the estimate is less accurate as a result of using a fixed $\textbf{A}$ instead of the true $\textbf{A}$. Table \ref{tab:replica5} shows the replica count with an MSE tolerance at 1. From the table it would be concluded that 7 out of the 8 rows are zero rows, while the true number is 4. This could indicate that the tolerance is set to high. Table \ref{tab:replica6} show the replica count for an MSE tolerance at 0.5. From table \ref{tab:replica6} it is seen that the number of replicas is reduced, however, it still does not result in the right conclusion.  
+\begin{table}[H]
 \center
 \begin{tabular}{|l|l|l|l|l|l|l|l|l|}
 \hline
@@ -88,8 +87,8 @@ row index   & 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 \\ \hline
 \caption{Number of replicas for each row based on the tolerence MSE $< 1$.}
 \label{tab:replica5}
 \end{table}
-
-\begin{table}[h]
+\noindent
+\begin{table}[H]
 \center
 \begin{tabular}{|l|l|l|l|l|l|l|l|l|}
 \hline
@@ -99,21 +98,19 @@ row index   & 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 \\ \hline
 \caption{Number of replicas for each row based on the tolerance MSE $< 0.5$.}
 \label{tab:replica6}
 \end{table}
-
+\noindent
 \begin{figure}[H]
 \centering
 \includegraphics[scale=0.5]{figures/ch_estimate/k_test5.png}
 \caption{$M=6$, $N=8$, $k=4$, MSE is 128.7}
 \label{fig:ktest5}
 \end{figure}
-
+\noindent
 From the observations made through this investigation, based on synthetic data, the following conclusions are made.
-From figure \ref{fig:ktest3} and table \ref{tab:fixed} a potential i found with respect to identifying the zero rows within the estimate. Here the zero rows are identified as the rows of the estimate for which similar signals appear in other rows indicating that no new estimate has been computed. 
-For figure \ref{fig:ktest6} and table \ref{tab:replica5} a fixed $\textbf{A}$ is used in the main algorithm, as it will be when applied to real EEG data. Here it has not been possible to identify the zero rows correctly, based on the replica count. Thus it must be concluded that the method is not reliable when the estimated is computed by the developed main algorithm. However it is essential that a potential was found under ideal conditions, due to the results from the main algorithm being on reliable as concluded in chapter \ref{ch:implementation}. 
+From figure \ref{fig:ktest3} and table \ref{tab:fixed} a potential is found with respect to identifying the zero rows within the estimate. Here the zero rows are identified as the rows of the estimate for which similar signals appear in other rows indicating that no new estimate has been computed. 
+For figure \ref{fig:ktest6} and table \ref{tab:replica5} a fixed $\textbf{A}$ is used in the main algorithm, as it will be when applied to real EEG data. Here it has not been possible to identify the zero rows correctly, based on the replica count. Thus, it must be concluded that the method is not reliable when the estimated is computed by the developed main algorithm. However, it is essential that a potential was found under ideal conditions, due to the results from the main algorithm being on reliable as concluded in chapter \ref{ch:implementation}. 
 
-However to finish the investigation the method replica count has been applied to the estimation of real EEG data. This is done due to the possibility of seen a different behaviour from the real EEG data compared to the synthetic data. 
-
-
+However, to finish the investigation, the method replica count has been applied to the estimation of real EEG data. This is done due to the possibility of seen a different behaviour from the real EEG data compared to the synthetic data. 
 
 \input{sections/ch_est/eeg_est.tex}
 

@@ -6,11 +6,8 @@ When $ \widetilde{M} > N $ it is expected from model \eqref{eq:cov1} that the tr
 This subspace is spanned by the columns of $\textbf{D}$, and is denoted as $\mathcal{R}(\textbf{D})$. 
 To learn $\mathcal{R}(\textbf{D})$ without having to impose any sparsity constraint on $\boldsymbol{\delta}$ it is possible to use Principal Component Analysis (PCA). The basic theory of PCA in found in appendix \ref{app_sec:PCA}. 
 
-PCA is applied to the set of training samples $\textbf{Z} = \left\{\text{vec}\left( \mathbf{Y}_{s'} \mathbf{Y}_{s'}^T \right)) : s' = 1, \hdots, L_{s'} \right\}$ and the $N$ first principal components are determined. The principal components form a set of basis vectors $\textbf{U}=[u_1,\hdots, u_N$. 
-
-
-Each principal component is defined by $\textbf{u}_i = \textbf{Z}\textbf{p}_i$ where $\textbf{p}_i$ is the $i'th$ eigenvector of the correlation matrix $\boldsymbol{\Sigma}_{\textbf{Z}}$. 
-
+PCA is applied to the set of training samples $\textbf{Z} = \left\{\text{vec}\left( \mathbf{Y}_{s'} \mathbf{Y}_{s'}^T \right) : s' = 1, \hdots, L_{s'} \right\}$ and the $N$ first principal components are determined. The principal components form a set of basis vectors $\textbf{U}=[u_1,\hdots, u_N$]. By \cite{Balkan2015} it is given that $\mathcal{R}(\textbf{U})=\mathcal{R}(\textbf{D})$. From \eqref{eq:cov1} it is clear that $\textbf{Z} \subset \mathcal{R}(\textbf{D})$, and by definition of PCA $\textbf{Z} \subset \mathcal{R}(\textbf{U})$ this implies $\mathcal{R}(\textbf{D}) \subset \mathcal{R}(\textbf{U})$.
+.....
   
  such that $\mathcal{R}(\textbf{U})=\mathcal{R}(\textbf{D})$. 
 However, this does not imply that $\textbf{D}=\textbf{U}$. 

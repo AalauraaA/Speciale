@@ -74,12 +74,12 @@ The OMP algorithm is an iteration process where an index set $S$ is updated -- a
 The vector $\mathbf{x}$ is then updated by a vector supported on $S$ which minimise the residual, that is the orthogonal projection of $\mathbf{y}$ onto the span$\lbrace \mathbf{a}_l \ \vert \ l \in S \rbrace$.
 
 \section{K-SVD Algorithm}\label{app_sec:K-SVD_alg}
-The dictionary learning algorithm K-SVD provides an updating rule which is applied to each column of $\mathbf{A}_0 = \left[ \mathbf{a}_0, \dots, \mathbf{a}_N \right] $ where $\mathbf{A}_0$ being a random initial dictionary matrix. Updating first $\mathbf{a}_j$ and then the corresponding coefficients in $\mathbf{X}$ which it is multiplied with the $i$-th row in $\mathbf{X}$ denoted by $\mathbf{x}_{i \cdot}$.
-Let $\mathbf{a}_{j_{0}}$ be the column to be updated and let the remaining columns be fixed. By rewriting the objective function in \eqref{eq:SVD1} using matrix notation it is possible to isolate the contribution from $\mathbf{a}_{j_{0}}$ \todo{Tjek nedenstående udledning. a og x er ikke lige lange da $a_j$ er M lang mens $x_{i \cdot}$ er L lang}.
+The dictionary learning algorithm K-SVD provides an updating rule which is applied to each column of $\mathbf{A}_0 = \left[ \mathbf{a}_1, \dots, \mathbf{a}_N \right] $ where $\mathbf{A}_0$ being a random initial dictionary matrix. Updating first $\mathbf{a}_j$ for $j=1, \dots, N$ and then the corresponding row of $\mathbf{X}$, $\mathbf{x}_{i\cdot}$ for $j=i$.
+Let $\mathbf{a}_{j_{0}}$ be the column to be updated and let the remaining columns be fixed. By rewriting the objective function in \eqref{eq:SVD1} using matrix notation it is possible to isolate the contribution from $\mathbf{a}_{j_{0}}$.
 \begin{align}\label{eq:SVD2} 
 \Vert \textbf{Y} - \textbf{AX} \Vert_{F}^{2} 
-&= \left\| \textbf{Y} - \sum_{j=1}^{N} \textbf{a}_j \textbf{x}_{i \cdot} \right\|_{F}^{2} \nonumber \\
-&= \left\| \left( \textbf{Y}- \sum_{j \neq j_0}^{N} \textbf{a}_j \textbf{x}_{i \cdot} \right) - \textbf{a}_{j_{0}} \textbf{x}_{i_0 \cdot} \right\| _{F}^{2},
+&= \left\| \textbf{Y} - \sum_{\substack{j=1 \\ j = i}}^{N} \textbf{a}_j \textbf{x}_{i \cdot} \right\|_{F}^{2} \nonumber \\
+&= \left\| \left( \textbf{Y}- \sum_{\substack{j \neq j_0 \\ j = i}}^{N} \textbf{a}_j \textbf{x}_{i \cdot} \right) - \textbf{a}_{j_{0}} \textbf{x}_{i_0 \cdot} \right\| _{F}^{2},
 \end{align}
 where $i = j$, $i_0 = j_0$ and where $F$ is the Frobenius norm that works on matrices
 \begin{align*}
@@ -89,13 +89,15 @@ In \eqref{eq:SVD2} the term in the parenthesis is denoted by $\textbf{E}_{j_0}$,
 \begin{align}\label{eq:SVD3}
 \min_{\textbf{a}_{j_{0}}, \textbf{x}_{i_0 \cdot}}\left\|\textbf{ E}_{j_{0}} - \textbf{a}_{j_{0}} \textbf{x}_{i_0 \cdot} \right\|_{F}^{2}.
 \end{align} 
-The optimal solution to \eqref{eq:SVD3} is known to be the rank-1 approximation of $\textbf{E}_{j_{0}}$. This comes from the Eckart–Young–Mirsky theorem \cite{?}\todo{Find cite} saying that a partial single value decomposition (SVD) makes the best low-rank approximation of a matrix such as $\textbf{E}_{j_0}$. The SVD is given as
+The optimal solution to \eqref{eq:SVD3} is known to be the rank-1 approximation of $\textbf{E}_{j_{0}}$ \cite[p. 232]{Elad_book}. That is a partial single value decomposition (SVD) makes the best low-rank approximation of a matrix such as $\textbf{E}_{j_0}$. 
+%This comes from the Eckart–Young–Mirsky theorem saying that a partial single value decomposition (SVD) makes the best low-rank approximation of a matrix such as $\textbf{E}_{j_0}$. 
+The SVD is given as
 \begin{align*}
 \mathbf{E}_{j_0} = \textbf{U} \boldsymbol{\Sigma} \textbf{V}^T \in \mathbb{R}^{M\times N},
 \end{align*}
 with $\textbf{U} \in \mathbb{R}^{M\times M}$ and $\textbf{V} \in \mathbb{R}^{N\times N}$ being unitary matrices\footnote{Unitary matrix: $\textbf{U}^T\textbf{U}=\textbf{UU}^T=\textbf{I}$} and $\boldsymbol{\Sigma} = \text{diag}\left[\boldsymbol{\sigma}_1, \dots, \boldsymbol{\sigma}_M \right] \in \mathbb{R}^{M \times N}$ a diagonal matrix. $\boldsymbol{\sigma}_j$ are the non-negative singular values of $\textbf{E}_{j_0}$. 
 %such that $\sigma_1 \geq \sigma_2 \geq \hdots \geq 0$. 
-The best $k$-rank approximation to $\textbf{E}_{j_0}$, with $k < \text{rank}(\textbf{E}_{j_0})$ is then given by \todo{kilde}: 
+The best $k$-rank approximation to $\textbf{E}_{j_0}$, with $k < \text{rank}(\textbf{E}_{j_0})$ is then given by \cite[p. 232]{Elad_book}: 
 \begin{align*}
 \textbf{E}_{j_{0}}^{(k)} = \sum_{j=1}^{k} \boldsymbol{\sigma}_j \textbf{u}_{j} \textbf{v}_{j}^T.
 \end{align*} 
@@ -145,26 +147,27 @@ In this section the method behind principal component analysis (PCA) used for th
 PCA is dimensionality reduction method used for reduction of dimension of large datasets. 
 In short, PCA used the statistical information of mean, variance and correlation between the data to transform the large dataset into smaller datasets while maintaining most of the original information. 
 These smaller datasets are known as the principal components and contain most of the information of the dataset but with fewer dimensions. 
-Before PCA is applied to a dataset, the data must undergo a standardization/scaling to remove any difference in the data. 
+For some datasets, before PCA is applied, the data must undergo a standardization/scaling to remove any difference in the data. 
 This is essential as large differences between the data would dominate. The standardization of a dataset $\mathbf{Z}$ is performed by
 \begin{align*}
 \tilde{\mathbf{z}}_i = \frac{\mathbf{z}_i - \bar{\mathbf{z}}_i}{s_{\mathbf{z}_i}}, \quad \forall i = 1, \dots, m
 \end{align*}
 where $\mathbf{z}_i$ is a row of a matrix $\mathbf{Z}$, $\bar{\mathbf{z}}_i$ is the sample mean of $\mathbf{z}_i$ and $s_{\mathbf{z}_i}$ is the standard deviation of $\mathbf{z}_i$. 
-The standardized dataset is now giving by $\tilde{\mathbf{Z}}$.
-With $\tilde{\mathbf{Z}}$ a correlation matrix is computed as
+The standardized dataset is now giving by $\tilde{\mathbf{Z}}$. 
+The standardization step is not necessary in the case of real EEG scalp measurements as no large difference between the data is present.
+
+With $\mathbf{Z}$ or the scaled data $\tilde{\mathbf{Z}}$ a correlation matrix is computed as
 \begin{align*}
-\boldsymbol{\Sigma}_{\tilde{\mathbf{Z}}} = \text{Corr}(\tilde{\mathbf{Z}}) = \frac{1}{m} \tilde{\mathbf{Z}}^T \tilde{\mathbf{Z}}
+\boldsymbol{\Sigma}_{\mathbf{Z}} = \text{Corr}(\mathbf{Z}) = \frac{1}{m} \mathbf{Z}^T \mathbf{Z}.
 \end{align*}
-From the correlation matrix a orthonormal basis of eigenvectors $\mathbf{p}_1, \dots, \mathbf{p}_m$ with corresponding eigenvalues $\lambda_1, \dots, \lambda_m$ exists, cf. theorem 6.15 in \cite[p.]{} \todo{indsæt cite}. Furthermore, one assume that $\lambda_1 \geq \dots \geq \lambda_m$. 
+From the correlation matrix a orthonormal basis of eigenvectors $\mathbf{p}_1, \dots, \mathbf{p}_m$ with corresponding eigenvalues $\lambda_1, \dots, \lambda_m$ exists, cf. theorem 6.15 in \cite[p. 375]{PCA}. Furthermore, one assume that $\lambda_1 \geq \dots \geq \lambda_m$. 
 %It exist beacuse Corr is symmetric
-The eigenvectors and eigenvalues can be computed from the correlation matrix by e.g. using a singular value decomposition (SVD). With SVD an orthogonal matrix $\mathbf{P}$ with the eigenvectors $\mathbf{p}_1, \dots, \mathbf{p}_m$ as columns is obtain with the associated eigenvalues as a diagonal matrix denoted as $\mathbf{D}$.
+The eigenvectors and eigenvalues can be computed from the correlation matrix by e.g. using a singular value decomposition (SVD). With SVD an orthogonal matrix $\mathbf{P}$ with the eigenvectors $\mathbf{p}_1, \dots, \mathbf{p}_m$ as columns is obtain with the associated eigenvalues as a diagonal matrix denoted as $\mathbf{P}_{\text{diag}}$.
 The principal components is then defined by
 \begin{align*}
-\mathbf{u}_i = \tilde{\mathbf{Z}} \mathbf{p}_i,
+\mathbf{u}_i = \mathbf{Z} \mathbf{p}_i,
 \end{align*}
-where $\mathbf{p}_i$ is the $i$-th eigenvector of the correlation matrix $\boldsymbol{\Sigma}_{\textbf{Z}}$. 
-Thus each principal component is a linear combination of the scaled dataset $\tilde{\mathbf{Z}}$ \cite{}.
-
-further is has to be mentioned that the PCs is a new basis for the vectors of which PCA i applied. 
+where $\mathbf{p}_i$ is the $i$-th eigenvector of the correlation matrix $\boldsymbol{\Sigma}_{\mathbf{Z}}$. 
+Thus each principal component is a linear combination of the dataset $\mathbf{Z}$ \cite[p. 460] {PCA}. 
+With the principal components the first $N$ components forms a set of basis vectors $\mathbf{U} = [\mathbf{u}_1, \dots, \mathbf{u}_N]$.
 

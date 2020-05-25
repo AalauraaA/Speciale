@@ -1,10 +1,7 @@
-\chapter{Extended ICA Algorithms}\label{app:ICA}
-
-\input{sections/ch_compressive/ICA.tex}
-
-
-
-This appendix provide an extension to the basic algorithm for ICA regarding the measure of non-Gaussianity and the computation method. This extended algorithm is referred to as fast ICA and is more commonly used for source separation. This is the algorithm used to apply ICA on EEG measurements for comparison within the thesis.        
+\chapter{Independent Component Analysis}\label{app:ICA}
+This appendix provide the basic theory of independent component analysis (ICA). The theory is necessary if one wants a deeper understanding towards the justification of applying result from ICA as a reference for evaluation of the main algorithm proposed in this thesis.   
+The appendix concludes with an algorithm specifying ICA method which is applied in the thesis. Additionally, an verification test is conducted to evaluate the applied ICA method on the synthetic data, cf. \ref{sec:dataset}.   
+\input{sections/ch_compressive/ICA.tex} 
 
 \section{Fixed-Point Algorithm - FastICA}
 An advantage of gradient algorithms is the possibility of fast adoption in non-stationary environments due the use of all input, $\textbf{y}$, at once. A disadvantage of the gradient algorithm is the resulting slow convergence, depending on the choice of $\gamma$ for which a bad choice in practise can disable convergence. A fixed-point iteration algorithm to maximise the non-Gaussianity is an alternative that could be used.\\

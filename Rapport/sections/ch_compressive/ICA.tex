@@ -1,15 +1,14 @@
-\section{Independent Component Analysis}\label{sec:ICA}
+\section{Basic Theory of Independent Component Analysis}
 Independent component analysis (ICA) is a method that applies to  the general problem of decomposition of a measurement vector into a source vector and a mixing matrix. 
-The intention of ICA is to separate a multivariate signal into statistical independent and non-Gaussian signals and furthermore identify the mixing matrix $\mathbf{A}$, given only the observed measurements $\mathbf{Y}$.
+The intention of ICA is to separate a multivariate signal into statistical independent and non-Gaussian signals, and identify the mixing matrix $\mathbf{A}$, given only the observed measurements $\mathbf{Y}$.
 A well known application example of source separation is the cocktail party problem, where it is sought to listen to one specific person speaking in a room full of people having interfering conversations. 
 Let $\mathbf{y} \in \mathbb{R}^M$ be a single measurement from $M$ microphones containing a linear mixture of all the speak signals that are present in the room. 
-When additional noise is not considered the problem can be described as the familiar linear system 
+When additional noise is not considered, the problem can be described as the familiar linear system 
 \begin{align}\label{eq:ICA1}
 \mathbf{y} = \mathbf{Ax}
 \end{align}
-where $\mathbf{x}\in \mathbb{R}^N$ contain the $N$ underlying speak signals and $\mathbf{A}$ is a mixing matrix where the coefficients depends (more or less?) on the distance from the source to the microphone. 
-As such each $y_i$ is a weighted sum of all the present sources of speak.
-\\ \\
+where $\mathbf{x}\in \mathbb{R}^N$ contain the $N$ underlying speak signals and $\mathbf{A}$ is a mixing matrix where the coefficients may depend on the distances from a source to the microphone. 
+As such each $y_i$ is a weighted sum of all the sources of speak present to the $i$-th microphone.
 By ICA both the mixing matrix $\mathbf{A}$ and the source signals $\mathbf{x}$ are sought estimated from the observed measurements $\mathbf{y}$. 
 The main attribute of ICA is the assumption that the sources in $\mathbf{x}$ are statistically independent and non-Gaussian distributed, hence the name independent components.
 \\     
@@ -28,13 +27,12 @@ The theorem states that the distribution of any linear mixture of two or more in
 \subsection{Assumptions and Preprocessing}
 For simplicity assume $\mathbf{A}$ is square i.e. $M = N$ and invertible. 
 As such when $\mathbf{A}$ has been estimated the inverse is computed and the components can simply be estimated as $\mathbf{x} = \mathbf{A}^{-1} \mathbf{y}$ \cite[p. 152-153]{ICA}.
-\\ 
 As both $\mathbf{A}$ and $\mathbf{x}$ are unknown the variances of the independent components can not be determined. 
 However it is reasonable to assume that $\mathbf{x}$ has unit variance -- $\mathbf{A}$ is assume to have unit variance as well. 
 Any scalar multiplier within a source can be cancelled out by dividing the corresponding column in $\mathbf{A}$ with the same scalar \cite[p. 154]{ICA}.
 For further simplification it is assumed without loss of generality that $\mathbb{E}[\mathbf{y}] = 0$ and $\mathbb{E}[\mathbf{x}] = 0$\cite[p. 154]{ICA}. 
 In case this assumption is not true, the measurements can be centred by subtracting the mean as preprocessing before doing ICA.
-\\ \\
+......
 A preprocessing step central to ICA is to whiten the measurements $\mathbf{y}$. 
 By the whitening process any correlation in the measurements are removed and unit variance is ensured -- the independent components $\mathbf{x}$ becomes uncorrelated and have unit variance. 
 Furthermore, this reduces the complexity of ICA and therefore simplifies the recovering process.

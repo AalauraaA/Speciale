@@ -2,48 +2,43 @@
 Consider again the measurements represented in the covariance domain \eqref{eq:cov1}.
 In the case of $\widetilde{M} > N$ an over-determined system is achieved where $\textbf{D}$ is high and thin. In general such a system is inconsistent. Thus it is not possible to find $\textbf{D}$ by traditional dictionary learning method	s and different methods most be considered.
 
-When $ \widetilde{M} > N $ it is expected from model \eqref{eq:cov1} that the transformed measurements $\text{vec}\left( \mathbf{Y}_{s'} \mathbf{Y}_{s'}^T \right)$ will live on or near a subspace of dimension $N$. 
-This subspace is spanned by the columns of $\textbf{D}$, and is denoted as $\mathcal{R}(\textbf{D})$. 
+Let the set for transformed measurements be denoted by $\textbf{Z} = \left\{\text{vec}\left( \mathbf{Y}_{s'} \mathbf{Y}_{s'}^T \right) : s' = 1, \hdots, L_{s'} \right\}$. 
+When $ \widetilde{M} > N $ it is expected from model \eqref{eq:cov1} that the transformed measurements $\textbf{Z}$ live on or near a subspace of dimension $N$. 
+This subspace is spanned by the columns of $\textbf{D}\in\mathbb{R}^{\widetilde{M}\times N}$, and is denoted as $\mathcal{R}(\textbf{D})$. 
 To learn $\mathcal{R}(\textbf{D})$ without having to impose any sparsity constraint on $\boldsymbol{\delta}$ it is possible to use Principal Component Analysis (PCA). The basic theory of PCA in found in appendix \ref{app_sec:PCA}. 
 
-PCA is applied to the set of training samples $\textbf{Z} = \left\{\text{vec}\left( \mathbf{Y}_{s'} \mathbf{Y}_{s'}^T \right) : s' = 1, \hdots, L_{s'} \right\}$ and the $N$ first principal components are determined. The principal components form a set of basis vectors $\textbf{U}=[u_1,\hdots, u_N$]. By \cite{Balkan2015} it is given that $\mathcal{R}(\textbf{U})=\mathcal{R}(\textbf{D})$. From \eqref{eq:cov1} it is clear that $\textbf{Z} \subset \mathcal{R}(\textbf{D})$, and by definition of PCA $\textbf{Z} \subset \mathcal{R}(\textbf{U})$ this implies $\mathcal{R}(\textbf{D}) \subset \mathcal{R}(\textbf{U})$.
-.....
-  
- such that $\mathcal{R}(\textbf{U})=\mathcal{R}(\textbf{D})$. 
-However, this does not imply that $\textbf{D}=\textbf{U}$. 
-In the case of two sets of basis vectors spanning the same space, namely $\mathcal{R}(\textbf{U})=\mathcal{R}(\textbf{D})$, the projection operator of the given subset must be unique \todo{need prove here? or is there just one $P:V\rightarrow V $ where $V = \mathcal{R}(\textbf{U})= \mathcal{R}(\textbf{D})$} 
-The projection matrix $\text{P}:\mathcal{R}(\textbf{U})\rightarrow \mathcal{R}(\textbf{D})$($\textbf{U}$?) can be find by considering the projection of an vector $\textbf{c}\in \mathbb{R}^{\widetilde{M}}$ onto $\mathcal{R}(\textbf{U})$, that is solving the least squares problem $\| \textbf{Ax}-\textbf{c}\|^{2}$ where $\textbf{Ax}\in \mathcal{R}(\textbf{U})$ and $\text{P} = \textbf{Ax}$. When $\textbf{A}$ has full rank the solution is given by the normal equation
-\begin{align*}
-\textbf{A}^T\textbf{A}\textbf{x} &= \textbf{A}^T\textbf{c}\\
-\textbf{x} &= (\textbf{A}^T\textbf{A})^{-1}\textbf{A}^T\textbf{c}
-\end{align*}	
-resulting in
-\begin{align*}
-\text{P}\textbf{c} = \textbf{Ax} &= \textbf{A}(\textbf{A}^T\textbf{A})^{-1}\textbf{A}^T\textbf{c}\\
-\text{P} &= \textbf{A}(\textbf{A}^T\textbf{A})^{-1}\textbf{A}^T 
-\end{align*} 
+PCA is applied to the set of transformed measurements $\textbf{Z}$ and the $N$ first principal components are determined. The principal components form a set of basis vectors $\textbf{U}=[u_1,\hdots, u_N]$. That is a new basis which spans the subspace of which $\textbf{Z}$ lives. Thus the equality, as claimed in \cite{Balkan2015}, $\mathcal{R}(\textbf{U})=\mathcal{R}(\textbf{D})$ can be justified\todo{LÆS: bør vi bare sige at det er givet? eller helgardere os?}.  
+However, this equality does not imply that $\textbf{D}=\textbf{U}$. 
+In the case of two bases spanning the same vector space, namely $\mathcal{R}(\textbf{U})=\mathcal{R}(\textbf{D})$, the projection operator of the given subsets must be the same. 
+Consider the projection matrix the projection operator $\text{P}$ projecting onto the space $\mathcal{R}(\textbf{D})$ spanned by the columns of $\textbf{D}$, $\text{P}:\mathbb{R}^{widetilde{M}}\rightarrow \mathcal{R}(\textbf{D})$. Due to $\textbf{D}$ having full rank it is a well known result that $\text{P} = \textbf{D}(\textbf{D}^T\textbf{D})^{-1}\textbf{D}^T$. 
 Thus $\mathcal{R}(\textbf{U})$ and $\mathcal{R}(\textbf{D})$ having the same projection matrix is true if and only if $\textbf{D}(\textbf{D}^T\textbf{D})^{-1}\textbf{D}^T=\textbf{U}(\textbf{U}^T\textbf{U})^{-1}\textbf{U}^T$. 
 Now, remember from the relation between $\textbf{A}$ and $\textbf{D}$ that $\textbf{d}_i = \text{vec}(\textbf{a}_i\textbf{a}_i^T)$. 
-From this it is possible to obtain $\textbf{A}$ through the following optimisation problem 
+
+From this it is possible to obtain $\textbf{D}$ and then $\textbf{A}$, such that $\textbf{D}$ span $\mathcal{R}(\textbf{D})$ and $\textbf{d}_i = \text{vec}(\textbf{a}_i\textbf{a}_i^T)$. This is specified by the following optimisation problem \cite{Balkan2015}
 \begin{align}
 \min_{\left\{\textbf{a}_i\right\}_{i = 1}^{N}}\Vert  \textbf{D}(\textbf{D}^T\textbf{D})^{-1}\textbf{D}^T &- \textbf{U}(\textbf{U}^T\textbf{U})^{-1}\textbf{U}^T \Vert_{F}^{2} \nonumber \\
 \text{s.t.} \ \textbf{d}_i&=\text{vec}(\textbf{a}_i\textbf{a}_i^T)\label{eq:Cov_DL2}
 \end{align}      
-where $\textbf{U}$ results from PCA performed on $\text{vec}(\widehat{\boldsymbol{\Sigma}}_{\textbf{Y}_s})$.
-In the following section the optimization problem is analysed and processed in order to determine a suitable solution method \todo{Vi skal have en kilde på dette sidste afsnit - L}. 
-%Additional optimization theory to support the analysis is found in appendix \ref{app:optimazion}  
-
+where $\textbf{U}$ results from PCA performed on $Z = \text{vec}\left( \mathbf{Y}_{s'} \mathbf{Y}_{s'}^T \right)$.
+From the source \cite{Balkan 2015} proposing the method it is only notified that that optimization problem \eqref{eq:Cov_DL2} is minimised by quasi-Newton optimization methods. Hence the exact minimization approach can not be depicted.    
+In the following section the optimization problem is analysed and processed in order to determine a suitable solution method. 
+ 
 \subsection{Solution to Optimization Problem}
-The optimization problem \eqref{eq:Cov_DL2} consists of an objective function forming a least-square problem with respect to the Frobenius norm.
-That is a convex quadratic objective function \todo{Jan spørger om hvordan vi ser dett? - L}.
-The constraints is a set of quadratic equality constraints. In general it is a rule of thumb that non-linear equality constraint are not convex \todo{Kilde på dette udsagn -L}.
-Due to the constraints not being considered convex the optimization problem does not meet the requirements of a convex optimization problem. Hence the numerical solution methods for convex optimization problems, for which convergence is ensured, does not imply directly. 
+The optimization problem \eqref{eq:Cov_DL2} consists of an objective function forming a least-square problem with respect to the Frobenius norm. It given that the squared norm, both the Euclidean and the Frobenius norm, are strictly convex \cite[p.173]{norm_optimization}.
+Thus the objective function of \eqref{eq:Cov_DL2} is assumed to be convex.
+The constraints in \eqref{eq:Cov_DL2} is a set of quadratic equality constraints. 
+This categorize the optimization problem as a quadratically constraint quadratic program. 
+However, the constraint is not necessarily convex.  
+By the constraints not being considered convex the optimization problem does not meet the requirements of a convex optimization problem. Hence the numerical solution methods for convex optimization problems, for which convergence is ensured, does not apply directly. In fact a non-convex quadratically constraint quadratic program in know to be a NP-hard problem\cite{qcqp}. Thus some sort of relaxation is preferred.  
 
-Due to the nature of the constraints it should be possible to reformulate the objective function to include the constraints into the objective function. That is construction an unconstrained least-squares problem, which is a special subclass of convex optimization \cite{cvxbook}.
+Due to the nature of the constraints it should be possible to reformulate the objective function to include the constraints into the objective function. That is constructing an unconstrained least-squares problem, which is a special subclass of convex optimization \cite{cvxbook}.
 
-Let $\textbf{D} = f(\textbf{a}_1, \hdots, \textbf{a}_N)$ then an optimization problem without constraints is achieved and it can be solved by use of for instance the gradient descent method.
-\todo[inline]{description of the exact solution method is missing, vi skal have slået den nye solver op, det skulle være en quasi newton methode, her skal bare en kort beskrivelse}
+Let $\textbf{D} = f(\textbf{a}_1, \hdots, \textbf{a}_N)$, where $f(\textbf{a}_1, \hdots, \textbf{a}_N) = \left[\textbf{d}_1, \hdots, \textbf{d}_N : \textbf{d}_i = \text{vec}(\textbf{a}_i\textbf{a}_i^T) \right] $. Then an optimization problem without constraints is achieved and it can be solved by use of basic gradient methods, for instance the Newton method. In order to avoid an explicit expression of the inverse Hessian, which is used in the Newton method, quasi-Newton methods can be considered\cite{Optimization2007}.  
+The general idea of quasi-Newton methods is to let the direction of search be based on a positive definite matrix which is generated from available data, with the purpose of estimating the Hessian. 
+Chosen for this thesis is the Broyden-Fletcher-Goldfarb-Shanno method.
 
+Rendering of general optimization theory plus the Theory of quasi-Newton methods is omitted in this thesis and the reader is referred to source \cite{Optimization2007}.
+For the implementation of Cov-DL in chapter \ref{ch:implementation} a predefined optimization module will be used.   
    
 
 %To make the constraint convex and linear the constraints are rewritten with respect to the assumption that $\textbf{a}_i\textbf{a}_i^{T} = \textbf{A}_i$. This results in the following constraints 

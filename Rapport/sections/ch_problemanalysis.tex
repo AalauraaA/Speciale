@@ -32,23 +32,23 @@ Generally, the distribution of EEG measurements of multiple sensors is considere
     \begin{minipage}[t]{.45\textwidth}
         \centering
         \includegraphics[width=\textwidth]{figures/EEG/volumeconduction.png}
-        \caption{Illustration of volume conduction}\label{fig:volumeconduction}
+        \caption{Illustration of volume conduction.}\label{fig:volumeconduction}
     \end{minipage} 
     \hfill
     \begin{minipage}[t]{.45\textwidth}
         \centering
         \includegraphics[width=\textwidth]{figures/EEG/EEG_example.png}
-        \caption{Example of time dependent EEG measurements within the four defined categories, source: \cite{EEGsignalprocessing}}\label{fig:EEG_example}
+        \caption{Example of time dependent EEG measurements within the four defined categories, source: \cite{EEGsignalprocessing}.}\label{fig:EEG_example}
     \end{minipage}
 \end{figure}
 
 \subsection{Application}\label{seg:application}
 EEG performed on humans and animals have a great number of applications with both clinical and research purposes. 
 Examples of clinical applications covers diagnosis and management of neurological disorders such as epilepsy and monitor alertness regarding coma or brain death.
-EEG capitalizes on the procedure being non-invasive and fast.
+EEG capitalises on the procedure being non-invasive and fast.
 Neural activity can be measured within fractions of a second after a stimulus has been provided. 
 These advantages contribute to the wide range of applications within research of the neural processes involved in or resulting from actions, emotions or cognition. Today such neural research are used in many different fields \cite[p. 4]{fundamentalEEG}.
-The hearing aid industry is one example where this research is highly prioritized. 
+The hearing aid industry is one example where this research is highly prioritised. 
 At Eriksholm research center, which is a part of the hearing aid manufacturer Oticon, cognitive hearing science is a research area within fast development \cite{Weberik}. 
 One main purpose at Eriksholm is to make it possible for a hearing aid to identify the user-intended sound source from real time EEG measurements and thereby exclude noise from elsewhere \cite{Emina2019} \cite{Bech2018}. 
 It is essentially the well-known but unsolved cocktail problem which is sought improved by use of EEG. 
@@ -57,10 +57,10 @@ This is where EEG and occasionally so called in-ear EEG is interesting. In conju
 Over the past two decades, functional integration has become an area of interest regarding EEG research \cite{Friston2011}. 
 Within neurobiology functional integration refers to the study of the correlation among activities in different regions of the brain. 
 In other words, how do different parts of the brain work together to process information and conduct a response \cite{Friston2002}. 
-For this purpose separation and localization of the original sources which contribute to the EEG measurement is of interest. 
+For this purpose separation and localisation of the original sources which contribute to the EEG measurement is of interest. 
 An article from 2016 \cite{Van2019} points out the importance of performing analysis regarding functional integration at source level rather than at EEG level. 
 It is argued through experiments that analysis at EEG level does not allow interpretations about the interaction between sources. 
-This emphasizes a potential for improving results within a wide range of EEG research, if the original active sources can be extracted from a specific EEG measurement.    
+This emphasises a potential for improving results within a wide range of EEG research, if the original active sources can be extracted from a specific EEG measurement.    
 
 %     
 %However, the focus of this research is the correlation between EEG measurements and the sound source rather than localization of the activated source from the EEG \cite{Emina2019}. 
@@ -80,7 +80,7 @@ The $i$-th column of $\mathbf{A}$ represents the relative projection weights fro
 Representing one time sample the linear system is in general referred to as a single measurement vector model. 
 It is only the measurement vector $\textbf{y}$ that is known hence it is unpossible to solve the linear system with respect to $\textbf{x}$ using basic linear algebra. 
 The task, in this case, is to identify both $\mathbf{A}$ and then $\mathbf{x}$, given the measurement vector $\mathbf{y}$. This problem is referred to as the inverse problem of EEG. 
-Finding $\textbf{x}$ from the inverse problem is referred to as source separation and localization. Separation is to find the signal of each active source, and localization is to place each active source signal at the right position within the source vector of dimension $N$, where $N$ is the maximum number of sources.      
+Finding $\textbf{x}$ from the inverse problem is referred to as source separation and localisation. Separation is to find the signal of each active source, and localisation is to place each active source signal at the right position within the source vector of dimension $N$, where $N$ is the maximum number of sources.      
 
 \subsection{Solution Method}\label{sec:ICAsolution}
 Independent Component Analysis (ICA) is one commonly applied method to solve the inverse problem of EEG \cite{Scott1996}, \cite{Scott1997}. ICA is a technique to find the matrix $\mathbf{A}$ such that the column wise elements of $\mathbf{X}$ is statistically independent. Thus statistical independence between the active sources is the essential assumption, which in the case of EEG are considered valid due to the volume conduction being effectively instantaneous \cite[p. 3]{Scott1997}. 
@@ -91,7 +91,7 @@ Such assumption undermines the reliability and usability of ICA, as the number o
 This is especially a drawback when low-density EEG are considered. Low-density EEG measurements are collected from equipment with less than 32 sensors, increasing the changes of $M$ being less that $N$. 
 However, improved capabilities of low-density EEG devices are desirable due to their relative low cost, mobility and ease to use. 
 
-This argues the importance of considering the inverse problem of EEG in the under-determined case where $N>M$. In the next section existing work considering the under-determined inverse problem of EEG is investigated further. 
+This argues the importance of considering the inverse problem of EEG in the under-determined case where $N>M$. In the following section existing work considering the under-determined inverse problem of EEG is investigated further. 
 
 \section{Related Work and Our Objective}\label{sec:relatedwork}
 As mentioned above ICA is a solid method for source separation in the case where separation into a number of sources equal to the number of sensors is adequate. The issue occurs in cases where the number of sources $N$ exceeds the number of sensors $M$. 

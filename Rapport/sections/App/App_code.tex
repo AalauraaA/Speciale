@@ -1,3 +1,20 @@
 \chapter{Python Scripts}\label{App:code}
-The Python scripts which have been used through this thesis                                                                                                                                                                                                                                                                         
-\todo{lave script appendix}
+The following list contain descriptions of the essential Python scripts which have been used through this thesis. 
+\begin{enumerate}
+\item \texttt{Data\_Simulation.py}: Contain functions for simulation of deterministic and random synthetic data, based on manual specification of each system.  
+\item \texttt{Data\_EEG.py}: Contain functions for import of EEG measurments, possible reduction and segmentation.  
+\item \texttt{ICA\_Fast.py}: Contain function to perform ICA.
+\item \texttt{Main\_Algorithm.py}: In this script the main algorithm composed by a compilation of the necessary modules. Remark, by letting \texttt{fix = True} Cov-DL is overwritten by $\hat{\textbf{A}}_{fix}$. 
+\begin{itemize}
+\item \texttt{Cov\_DL.py}: Contain the function to perform Cov-DL 
+\item \texttt{M\_SBL.py}: Contain the function to performM-SBL
+\end{itemize} 
+\item \texttt{Test\_Synthetic\_data.py}: Compilation of necessary modules to apply the main algorithm to on synthetic data and generate output, cf. chapter \ref{ch:implementation}.
+\item \texttt{Test\_EEG.py}: Compilation of necessary moduels to apply ICA and the main algorithm on EEG measurements, for the 3 different cases, cf. section \ref{seg:main_test_description }.  
+\item \texttt{Test\_AlphaFrequency.py}: Contain functions and corresponding compilation to perform  alpha wave analysis, cf. section \ref{sec:alpha_test}.
+\item \texttt{Test\_k\_Estimation.py}: Contain functions and corresponding compilation generate  estimation of $k$, cf. chapter \ref{ch:estimation_k} 
+\end{enumerate}
+The Python scripts are all available directly at \url{https://inset_link.git}. Besides the script, the folder contains the EEG measurements and a folder for which generated plots are allocated, is present.  
+
+
+	                                                                                                                                                                                                                                                                 

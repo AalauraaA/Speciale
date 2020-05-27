@@ -2,7 +2,9 @@
 To test the performance of the algorithm simulated data, corresponding to the model $\mathbf{Y} = \mathbf{A}\mathbf{X}$, is needed. All data sets are simulated based on the following approach, satisfying the sufficient conditions for recovery, displayed in theorem \ref{th:conditions}.
  
 A source matrix $\mathbf{X} \in \mathbb{R}^{N \times L}$ is constructed, such that each row makes an independent signal which varies over $L$ samples or a zero row. 
-As such the non-zero rows of $\mathbf{X}$ are mutually orthogonal\todo{Kan ikke finde noget på at independent rows af matrix leder til at den også er ortgonal. En matrix er ortogonal hvis $X * X^T = I$ eller $X^T = X^{-1}$}, which fulfils the first conditions of theorem \ref{th:conditions}.   
+By the sources being independent the rows of $\mathbf{X}$ becomes close to orthogonal \cite{Balkan2014}
+%As such the non-zero rows of $\mathbf{X}$ are mutually orthogonal\todo{Kan ikke finde noget på at independent rows af matrix leder til at den også er ortgonal. En matrix er ortogonal hvis $X * X^T = I$ eller $X^T = X^{-1}$}
+, which approach the first conditions of theorem \ref{th:conditions}.   
 Then a mixing matrix $\mathbf{A} \in \mathbb{R}^{M \times N}$ is constructed with identically distributed and independent entries. 
 As such the source signals are randomly mixed and the mixing matrix fulfils the second condition of theorem \ref{th:conditions}.
 With known $\mathbf{A}$ and $\mathbf{X}$ the measurement matrix $\mathbf{Y} \in \mathbb{R}^{M \times L}$ is simulated according to the model, by the matrix product $\mathbf{Y} = \mathbf{AX}$.  

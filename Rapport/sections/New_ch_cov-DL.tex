@@ -12,7 +12,7 @@ In short the algorithm consists of three steps.
 First the segmented MMV model of the EEG measurements is transformed into the covariance domain. 
 Then, by the increased dimensionality of the covariance domain, it is possible to learn the transformed mixing matrix of the covariance domain, denoted by $\mathbf{D}$, based on the theory of compressive sensing. 
 Here two different cases will appear dependent on the relation between the number of sources $N$ and the found dimension of the covariance domain, which depends on the number of measurements $M$. 
-Lastly, an inverse transformation is performed on the learned matrix $\textbf{D}$, in order to obtain the wanted estimate of the mixing matrix $\mathbf{A}$. 
+Lastly, an inverse transformation is performed on the learned matrix $\mathbf{D}$, in order to obtain the wanted estimate of the mixing matrix $\mathbf{A}$. 
 An essential aspect of this method is the prior assumption that the sources within one segment are uncorrelated, that is the rows of $\mathbf{X}_s$ being mutually uncorrelated. 
 
 The section is inspired by the article \cite{Balkan2015} and chapter 3 in \cite{phd2015}. 

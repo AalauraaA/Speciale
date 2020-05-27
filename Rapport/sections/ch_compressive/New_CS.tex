@@ -6,14 +6,17 @@ Let $\mathbf{y} \in \mathbb{R}^M$ be some vector. By basic linear algebra $\math
 Let $\mathbf{y}$ and $\mathbf{A}$ be known, then  
 \ref{eq:SMV_model} makes a system of $M$ linear equations with $N$ unknowns, referred to as a linear system. 
 
-To solve the linear system \ref{eq:SMV_model} with respect to $\textbf{x}$ one must look at the three different cases that can occur, depending on the relation between the number of linear equations $M$ and the number of unknowns $N$.
-For $M = N$, the system has one unique solution, provided that a solution exist.  
+To solve the linear system \ref{eq:SMV_model} with respect to $\textbf{x}$ one must look at the three different cases that can occur. 
+The cases depend on the relation between the number of linear equations $M$ and the number of unknowns $N$.
+For $M = N$, the system has one unique solution, provided that a solution exist. 
 If the square coefficient matrix $\mathbf{A}$ has full rank the solution can be found simply by inverting $\mathbf{A}$.
 \begin{align*}
 \mathbf{x} = \mathbf{A}^{-1} \mathbf{y}.
 \end{align*}
-For $M > N$ the system is over-determined, having more equations than unknown. There is not always a solution to an over-determined system.   
-For $M < N$ the system is under-determined, having fewer equations than unknowns. There exists infinitely many solutions to an under-determined system, provided that one solution exist \cite[p. ix]{CS}.  
+For $M > N$ the system is over-determined, having more equations than unknown. 
+There is not always a solution to an over-determined system.   
+For $M < N$ the system is under-determined, having fewer equations than unknowns. 
+There exists infinitely many solutions to an under-determined system, provided that one solution exist \cite[p. ix]{CS}.  
 
 Consider now $\mathbf{y} \in \mathbb{R}^M$ as the observed measurements provided by $M$ EEG sensors at time $t$. 
 The linear system \ref{eq:SMV_model} is then considered as a single measurement vector (SMV) model.  
@@ -38,7 +41,7 @@ Furthermore, $\mathbf{E} \in \mathbb{R}^{M \times L}$ is an additional noise mat
 The model is now referred to as the multiple measurement vector (MMV) model.
 As for \eqref{eq:SMV_model} the solution set of the linear system \eqref{eq:MMV_model} depends on the relation between $N$ and $M$ \cite[p. 42]{CS}. 
 
-As specified in chapter \ref{ch:motivation} it the case of more sources than sensors, $M<N$, that is of interest in this thesis.  
+As specified in chapter \ref{ch:motivation} it the case of more sources than sensors, $M < N$, that is of interest in this thesis.  
 
 \subsection{Segmentation}\label{seg_segmentation}
 In chapter \ref{ch:motivation} it is argued that EEG measurements are only stationary within small segments. 
@@ -52,8 +55,8 @@ For each segment the MMV model \eqref{eq:MMV_model} holds and is rewritten into
 \mathbf{Y}_s = \textbf{A}_s\mathbf{X}_s + \textbf{E}_s, \quad \forall s.
 \end{align}
 Based on the assumption that each segment is stationary, it is assumed that each source signal remains either active or non-active throughout the segment.
-Thus, $\mathbf{X}_s$, consists of $k$ non-zero rows -- the active sources.
-Note that the mixing matrix $\textbf{A}$ is not segmented in the same manner as $\textbf{Y}$ and $\textbf{X}$, as the size of $\textbf{A}$ do not change relative to the number of segments. $\textbf{A}_s\in \mathbb{R}^{M\times N}$ is the mixing matrix that corresponds to $\textbf{X}_s$, $\textbf{Y}_s$ and $\textbf{E}_s$\todo{LÆS: note om $\textbf{A}_s$}.
+Thus, $\mathbf{X}_s$, consists of $k$ non-zero rows, the active sources, and $N - k$ zero rows, the non-active sources.
+Note that the mixing matrix $\mathbf{A}$ is not segmented in the same manner as $\mathbf{Y}$ and $\mathbf{X}$, as the size of $\mathbf{A}$ do not change relative to the number of segments. $\mathbf{A}_s\in \mathbb{R}^{M \times N}$ is the mixing matrix that corresponds to $\mathbf{X}_s$, $\mathbf{Y}_s$ and $\mathbf{E}_s$.
 
 In order to characterize the source matrix with respect to the number of non-zero rows, the term row sparseness is considered. 
 Let the support $\text{supp}(\mathbf{X})$ denote the index set of non-zero rows of $\mathbf{X}$.
@@ -61,15 +64,15 @@ To count the non-zero rows of a matrix the $\ell_0$-norm is defined
 \begin{align*}
 \Vert \mathbf{X} \Vert_0 := \text{card}(\text{supp}(\mathbf{X})),
 \end{align*}
-where the function $\text{card}(\cdot)$ gives the cardinality of the input set. The segmented source matrix $\textbf{X}_s$ is said to be $p$-sparse if it contains at most $p$ non-zeros rows:
+where the function $\text{card}(\cdot)$ gives the cardinality of the input set. The segmented source matrix $\mathbf{X}_s$ is said to be $p$-sparse if it contains at most $p$ non-zeros rows:
 \begin{align*}
 \Vert \mathbf{X}_s \Vert_0 \leq p.
 \end{align*}
-With respect to the model the non-zero rows of the sources matrix makes the active source signals. Define  
+With respect to the model, the non-zero rows of the sources matrix make the active source signals. Define  
 \begin{align*}
 k := \Vert \mathbf{X}_s \Vert_0
 \end{align*} 
-as the number of active source signals within $\textbf{X}_s$, this implies that $k\leq N$. \todo{LÆS: ny første definition af k }
+as the number of active source signals within $\mathbf{X}_s$, this implies that $k \leq N$. 
 
 \section{Solution Method}\label{sec:sol_met}
 A MMV model for EEG measurements is now established.
@@ -77,26 +80,29 @@ From the model the aim is to recover the source matrix $\mathbf{X}_s$ for all se
 This gives an estimate of the original source signals from the brain as intended by the problem statement. 
 In this section the solution method is presented and discussed, based on the state of the art methods lightly presented in section \ref{sec:relatedwork}. This will outline the remaining chapters of the thesis. 
 
-Due to the problem statement the case of interest is when $M < N$, typically resulting from low density EEG measurements.  
+Due to the problem statement, the case of interest is when $M < N$, typically resulting from low density EEG measurements. 
 Thus, $\mathbf{X}$ has to be recovered from an under-determined linear system. 
-Hence, the solution must be found in the infinite solution space, provided that one solution exists, thus simple linear algebra can not be used. 
-Alternatively, numerical methods can be considered. By mathematical optimization it is possible to restrict the solution by some constraint, and then find the unique optimal solution with respect to some cost function and the corresponding constraints.
+Hence, the solution must be found in the infinite solution space provided that one solution exists, thus simple linear algebra can not be used. 
+Alternatively, numerical methods can be considered. By mathematical optimization it is possible to restrict the solution by some constraint. And then find the unique optimal solution with respect to some cost function and the corresponding constraints.
 The theory of compressive sensing provides a framework for solving an under-determined system when $\mathbf{X}$ is known to have zero rows, thus being row sparse. 
 Specifically a unique solution $\mathbf{X}$ can be found when $\mathbf{X}$ is $M$-sparse, cf. theorem \ref{th:CS_A} in appendix \ref{app_sec:CS}. 
-When the mixing matrix $\mathbf{A}$ is unknown, as in this current case, the concept of dictionary learning can be used to determine $\mathbf{A}$, still under the assumption that $\mathbf{X}$ is $M$-sparse.  
+When the mixing matrix $\mathbf{A}$ is unknown, as in this current case, the concept of dictionary learning can be used to determine $\mathbf{A}$. Still under the assumption that $\mathbf{X}$ is $M$-sparse.  
 
-The assumption of $\textbf{X}$ being $M$-sparse corresponds to the number of active sources $k\leq M$. However, from chapter \ref{ch:motivation} it can not be justified to apply this assumption on low density EEG measurements. Hence, the theory of compressive sensing can not be applied directly on the established model, when $M<N$.     
+The assumption of $\mathbf{X}$ being $M$-sparse corresponds to the number of active sources $k \leq M$. 
+However, from chapter \ref{ch:motivation} it can not be justified to apply this assumption on low density EEG measurements. 
+Hence, the theory of compressive sensing can not be applied directly on the established model, when $M < N$. 
 
 A method to overcome this limitation of compressive sensing, is the covariance domain dictionary learning (Cov-DL) method \cite{Balkan2015}, introduced in chapter \ref{ch:motivation}.
-
-The method leverage the increased dimensionality of the covariance domain in order to allow the theory of compressive sensing to apply to an under-determined system. 
+The method leverages the increased dimensionality of the covariance domain in order to allow the theory of compressive sensing to apply to an under-determined system. 
 Note that this method only applies to the process of learning $\mathbf{A}$, in the case where $\textbf{X}$ is not $M$-sparse. 
 Hence, a different approach is necessary to recover $\mathbf{X}$.
 
-For recovering $\mathbf{X}$, given both $\mathbf{Y}$ and $\mathbf{A}$ where $M<N$ and $k\leq N$, the method multiple sparse Bayesian learning (M-SBL)\cite{Balkan2014}, introduced in chapter \ref{ch:motivation}, is considered.
-This method takes advantage of the Bayesian statistic framework. Here, an empirical Bayesian estimation of $\textbf{X}$ is performed, based on the prior distribution of $\textbf{X}$ being defined by a data dependent hyper parameter.  
+For recovering $\mathbf{X}$, given both $\mathbf{Y}$ and $\mathbf{A}$ where $M < N$ and $k \leq N$, the method multiple sparse Bayesian learning (M-SBL)\cite{Balkan2014}, introduced in chapter \ref{ch:motivation}, is considered.
+This method takes advantage of the Bayesian statistic framework. 
+Here, an empirical Bayesian estimation of $\mathbf{X}$ is performed, based on the prior distribution of $\mathbf{X}$ being defined by a data-dependent hyperparameter.  
 
-Combining the two methods allows recovery of $\mathbf{A}$ and $\mathbf{X}$ given low density EEG measurements $\mathbf{Y}$\cite{phd2015}. In the following two chapters each method is studied extensively, with the purpose of proposing the main algorithm in chapter \ref{ch:implementation}. 
+Combining the two methods allows recovery of $\mathbf{A}$ and $\mathbf{X}$ given low density EEG measurements $\mathbf{Y}$ \cite{phd2015}. 
+In the following two chapters each method is studied extensively, with the purpose of proposing the main algorithm in chapter \ref{ch:implementation}. 
 
 
 

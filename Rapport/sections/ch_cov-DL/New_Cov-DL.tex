@@ -21,16 +21,16 @@ Similar, the source matrix $\mathbf{X}_s$ can be described in the covariance dom
 \end{align*}
 The second equality comes from the assumption of the sources within $\mathbf{X}_s$ being uncorrelated within one segment. By uncorrelated sources $\mathbf{X}_s$ the sample covariance matrix is asumed to be nearly diagonal. Thus it can be written as $\boldsymbol{\Lambda}_s + \boldsymbol{\varepsilon}$ where $\boldsymbol{\Lambda}_s$ is a diagonal matrix consisting of the diagonal entries of $\widehat{\boldsymbol{\Sigma}}_{\mathbf{X}_s}$ and $ \boldsymbol{\varepsilon}$ is a non-diagonal matrix representing the estimation error \cite{Balkan2015}.
 
-Each segment is now modelled in the covariance domain, note that the $\frac{1}{L_s}$ factor is left out in order to comply to the instruction of the source \cite{Balkan2015}\todo{convenience alert! we should remove $\Sigma$ here i think}.
+Each segment is now modelled in the covariance domain, note that the $\frac{1}{L_s}$ factor is left out in order to comply to the instruction of the source \cite{Balkan2015}.
 \begin{align} 
-\widehat{\boldsymbol{\Sigma}}_{\mathbf{Y}_s} = \mathbf{Y}_s \mathbf{Y}_s^T &=  \left( \mathbf{A}_s \mathbf{X}_s + \mathbf{E}_s \right) \left( \mathbf{A}_s \mathbf{X}_s + \mathbf{E}_s\right)^T \nonumber \\ 
+\mathbf{Y}_s \mathbf{Y}_s^T &=  \left( \mathbf{A}_s \mathbf{X}_s + \mathbf{E}_s \right) \left( \mathbf{A}_s \mathbf{X}_s + \mathbf{E}_s\right)^T \nonumber \\ 
  &=  (\textbf{A}_s\textbf{X}_s)(\textbf{A}_s\textbf{X}_s)^T + \textbf{E}_s \textbf{E}_s^T + \textbf{E}_s (\textbf{A}_s\textbf{X}_s)^T + \textbf{A}_s\textbf{X}_s \textbf{E}_s^T  \nonumber \\
 &= \textbf{A}_s\textbf{X}_s \textbf{X}_s^T \textbf{A}_s^T + \textbf{E}_s \textbf{E}_s^T + \textbf{E}_s \textbf{X}_s^T \textbf{A}_s^T + \textbf{A}_s\textbf{X}_s \textbf{E}_s^T  \nonumber \\
 &= \textbf{A}_s(\boldsymbol{\Lambda}_s +\boldsymbol{\varepsilon}) \textbf{A}_s^T + \textbf{E}_s \textbf{E}_s^T + \textbf{E}_s \textbf{X}_s^T \textbf{A}_s^T + \textbf{A}_s\textbf{X}_s \textbf{E}_s^T \nonumber \\
 &= \textbf{A}_s \boldsymbol{\Lambda}_s \textbf{A}_s^T + \textbf{A}_s \boldsymbol{\varepsilon} \textbf{A}_s^T + \textbf{E}_s \textbf{E}_s^T + \textbf{E}_s \textbf{X}_s^T \textbf{A}_s^T + \textbf{A}_s\textbf{X}_s \textbf{E}_s^T \label{eq:noise1} \\
 &= \textbf{A}_s \boldsymbol{\Lambda}_s \textbf{A}_s^T + \widetilde{\textbf{E}}_s \label{eq:noise2}
 \end{align}
-From \eqref{eq:noise1} to \eqref{eq:noise2} all terms where noise, $\boldsymbol{\varepsilon}$ and $\mathbf{E}_S$, is included, are aggregated in a joint noise term $\widetilde{\textbf{E}}$. 
+From \eqref{eq:noise1} to \eqref{eq:noise2} all terms where noise, $\boldsymbol{\varepsilon}$ and $\mathbf{E}_s$, is included, are aggregated in a joint noise term $\widetilde{\textbf{E}}_s$. 
 Next, the expression \eqref{eq:noise2} is rewritten through a vectorization. 
 Because the covariance matrix $\widehat{\boldsymbol{\Sigma}}_{\mathbf{Y}_s}$ is symmetric it is sufficient to vectorize only the lower triangular part, including the diagonal. 
 For this purpose the function $\text{vec}(\cdot)$ is defined to map a symmetric $M \times M$ matrix into a vector of size $\widetilde{M}$ by row-wise vectorization of the lower triangular part. The increased dimension $\widetilde{M}$ becomes 

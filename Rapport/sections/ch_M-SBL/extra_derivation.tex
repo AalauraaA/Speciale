@@ -9,7 +9,7 @@ Let $\mathbf{x}_{\cdot j} = \mathbf{x}$ and $\mathbf{y}_{\cdot j} = \mathbf{y}$ 
 \begin{align*}
 p(\mathbf{x} ; \boldsymbol{\gamma}) &\sim \mathcal{N}(\mathbf{0}, \boldsymbol{\gamma} \mathbf{I} ) \\
 & \\
-p(\mathbf{y} \vert \mathbf{x}) &\sim \mathcal{N}(\mathbf{A}\mathbf{x}, \boldsymbol{\sigma}^2 \mathbf{I})
+p(\mathbf{y} \vert \mathbf{x}) &\sim \mathcal{N}(\mathbf{A}\mathbf{x}, \sigma^2 \mathbf{I})
 \end{align*}
 Now define one Gaussian random variable  
 \begin{align*}
@@ -40,10 +40,10 @@ and
 \mathbf{A} \mathbf{x}
 \end{bmatrix}.
 \end{align*}
-Then, from \cite{conditional_cov} \todo{Hvad er dette for en kilde?}, the posterior distribution of $p\left( \mathbf{x}_{\cdot j} \vert \mathbf{y}_{\cdot j} ; \boldsymbol{\gamma} \right)$ is defined as\todo{For $\boldsymbol{\Sigma}$ er det $\boldsymbol{\Sigma}_{\mathbf{yy}}^{-1}$ eller $\boldsymbol{\Sigma}_{\mathbf{yy \vert \mathbf{x}}}^{-1}$. Vi introducere den sidste sigma men kan ikke finde nogen steder for vi anvender den}
+Then, from \cite{conditional_cov} \todo{Hvad er dette for en kilde?}, the posterior distribution of $p\left( \mathbf{x}_{\cdot j} \vert \mathbf{y}_{\cdot j} ; \boldsymbol{\gamma} \right)$ is defined but the covariance for $\mathbf{y}$ is not known. Instead, one assume that the covariance for $\mathbf{y}$ given $\mathbf{x}$ can be used instead:
 \begin{align*}
-\boldsymbol{\Sigma} &= \text{cov}(\mathbf{x} , \mathbf{x} \vert \mathbf{y}) = \boldsymbol{\Sigma}_{\mathbf{xx}} - \boldsymbol{\Sigma}_{\mathbf{xy}} \boldsymbol{\Sigma}_{\mathbf{yy}}^{-1} \boldsymbol{\Sigma}_{\mathbf{yx}} \\
-\boldsymbol{\mu} &= \boldsymbol{\mu}_{\mathbf{x}} + \boldsymbol{\Sigma}_{\mathbf{xy}} \boldsymbol{\Sigma}_{\mathbf{yy}}^{-1} (\mathbf{y} - \boldsymbol{\mu}_{\mathbf{y}})
+\boldsymbol{\Sigma} &= \text{cov}(\mathbf{x} , \mathbf{x} \vert \mathbf{y}) = \boldsymbol{\Sigma}_{\mathbf{xx}} - \boldsymbol{\Sigma}_{\mathbf{xy}} \boldsymbol{\Sigma}_{\mathbf{yy} \vert \mathbf{x}}^{-1} \boldsymbol{\Sigma}_{\mathbf{yx}} \\
+\boldsymbol{\mu} &= \boldsymbol{\mu}_{\mathbf{x}} + \boldsymbol{\Sigma}_{\mathbf{xy}} \boldsymbol{\Sigma}_{\mathbf{yy} \vert \mathbf{x}}^{-1} (\mathbf{y} - \boldsymbol{\mu}_{\mathbf{y}})
 \end{align*}
 Each of the conditional covariances within the previous expressing will now be found.
 
@@ -63,23 +63,23 @@ The covariance between $\mathbf{x}$ and $\mathbf{y} \vert \mathbf{x}$ is found b
 \end{align*}
 where $\text{cov} \left(\mathbf{x} , \mathbf{e} \right) = 0$ because they are uncorrelated.
 
-\paragraph{Conditional Covariance $\boldsymbol{\Sigma}_{\mathbf{yy}}$}
-\todo[inline]{next Rasmus missed cov(yy). either we define if like above wiht y=Ax but is x not given then so y|x for which var in known to be sigma. or it is just cov(yy) that we should use i main, se jan rettelse også, han mener det er fint sådan her. 
-if we let it be, we assume that cov(yy) is just sigmaI}
+%\paragraph{Conditional Covariance $\boldsymbol{\Sigma}_{\mathbf{yy}}$}
+%\todo[inline]{next Rasmus missed cov(yy). either we define if like above wiht y=Ax but is x not given then so y|x for which var in known to be sigma. or it is just cov(yy) that we should use i main, se jan rettelse også, han mener det er fint sådan her. 
+%if we let it be, we assume that cov(yy) is just sigmaI}
 
 \paragraph{Conditional Covariance $\boldsymbol{\Sigma}_{\mathbf{yy} \vert \mathbf{x}}$}
-Lastly the covariance of $\mathbf{y} \vert \mathbf{x}$ is similarly found by the definition of conditional covariance as follows 
+Lastly the covariance of $\mathbf{y} \vert \mathbf{x}$ is similarly found by the definition of conditional covariance under the assumption that $\boldsymbol{\Sigma}_{\mathbf{yy}} = \sigma^2 \mathbf{I}$:
 \begin{align*}
 \boldsymbol{\Sigma}_{\mathbf{yy} \vert \mathbf{x}} =  \text{cov} ( \mathbf{y} , \mathbf{y} \vert \mathbf{x}) &= \boldsymbol{\Sigma}_{\mathbf{yy}} - \boldsymbol{\Sigma}_{\mathbf{yx}} \boldsymbol{\Sigma}_{\mathbf{xx}}^{-1} \boldsymbol{\Sigma}_{\mathbf{xy}} \\
-&= \boldsymbol{\sigma}^2 \mathbf{I} - \boldsymbol{\gamma} \mathbf{I} \mathbf{A}^T (\boldsymbol{\gamma} \mathbf{I})^{-1} \mathbf{A} \boldsymbol{\gamma} \mathbf{I} \\
-&= \boldsymbol{\sigma}^2 \mathbf{I} - \mathbf{A} \boldsymbol{\gamma}\mathbf{I} \mathbf{A}^T.
+&= \sigma^2 \mathbf{I} - \boldsymbol{\gamma} \mathbf{I} \mathbf{A}^T (\boldsymbol{\gamma} \mathbf{I})^{-1} \mathbf{A} \boldsymbol{\gamma} \mathbf{I} \\
+&= \sigma^2 \mathbf{I} - \mathbf{A} \boldsymbol{\gamma}\mathbf{I} \mathbf{A}^T.
 \end{align*} 
 By combining all the found conditional covariances the resulting covariance becomes 
 \begin{align*}
 \boldsymbol{\Sigma} = \boldsymbol{\gamma} \mathbf{I} - \boldsymbol{\gamma} \mathbf{I} \mathbf{A}^T (\boldsymbol{\Sigma}_{\mathbf{yy} \vert \mathbf{x}})^{-1} \mathbf{A} \boldsymbol{\gamma} \mathbf{I}.
 \end{align*}
-The resulting mean becomes
+The resulting mean under the assumption that $\boldsymbol{\mu}_{\mathbf{y}} = \mathbf{0}$ becomes
 \begin{align*}
-\boldsymbol{\mu} &= \mathbf{0} + \boldsymbol{\gamma} \mathbf{I} \mathbf{A}^T \left( \boldsymbol{\Sigma}_{\mathbf{yy}} \right)^{-1} \left(\mathbf{y} - \mathbf{Ax}\right)
+\boldsymbol{\mu}_{\cdot j} &= \mathbf{0} + \boldsymbol{\gamma} \mathbf{I} \mathbf{A}^T \left( \boldsymbol{\Sigma}_{\mathbf{yy}} \right)^{-1} \left(\mathbf{y} - \mathbf{0}\right) \\
+&= \boldsymbol{\gamma} \mathbf{I} \mathbf{A}^T \left( \boldsymbol{\Sigma}_{\mathbf{yy}} \right)^{-1} \mathbf{y}
 \end{align*}  
-\todo{in the result we have used, the mean of y is subtracted.?  }

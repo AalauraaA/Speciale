@@ -39,18 +39,12 @@
 \defcounter {refsection}{0}\relax 
 \contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ Hvad er dette for en kilde?}{92}{section*.68}% 
 \defcounter {refsection}{0}\relax 
-\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ For $\boldsymbol {\Sigma }$ er det $\boldsymbol {\Sigma }_{\mathbf {yy}}^{-1}$ eller $\boldsymbol {\Sigma }_{\mathbf {yy \delimiter "0353353 \mathbf {x}}}^{-1}$. Vi introducere den sidste sigma men kan ikke finde nogen steder for vi anvender den}{92}{section*.69}% 
+\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ Herfra og ned til kurtosis skal lige tjekkes i gennem og rettes til, tjek om ikke vi har nogle rettelser liggene fra et m\IeC {\o }de}{95}{section*.72}% 
 \defcounter {refsection}{0}\relax 
-\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ next Rasmus missed cov(yy). either we define if like above wiht y=Ax but is x not given then so y|x for which var in known to be sigma. or it is just cov(yy) that we should use i main, se jan rettelse ogs\IeC {\r a}, han mener det er fint s\IeC {\r a}dan her. if we let it be, we assume that cov(yy) is just sigmaI}{92}{section*.73}% 
+\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ tilf\IeC {\o }j kilde til kurtosis}{96}{section*.73}% 
 \defcounter {refsection}{0}\relax 
-\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ in the result we have used, the mean of y is subtracted.? }{92}{section*.75}% 
+\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ henvis til et andet appendix}{98}{section*.74}% 
 \defcounter {refsection}{0}\relax 
-\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ Herfra og ned til kurtosis skal lige tjekkes i gennem og rettes til, tjek om ikke vi har nogle rettelser liggene fra et m\IeC {\o }de}{95}{section*.76}% 
+\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ inset captions og aling figure}{101}{section*.75}% 
 \defcounter {refsection}{0}\relax 
-\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ tilf\IeC {\o }j kilde til kurtosis}{96}{section*.77}% 
-\defcounter {refsection}{0}\relax 
-\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ henvis til et andet appendix}{98}{section*.78}% 
-\defcounter {refsection}{0}\relax 
-\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ inset captions og aling figure}{101}{section*.79}% 
-\defcounter {refsection}{0}\relax 
-\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ lave script appendix}{105}{section*.83}% 
+\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ lave script appendix}{105}{section*.79}% 

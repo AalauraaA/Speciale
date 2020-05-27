@@ -1,43 +1,44 @@
-\chapter{Extended ICA Algorithms}\label{app:ICA}
-
-\input{sections/ch_compressive/ICA.tex}
-
-
-
-This appendix provide an extension to the basic algorithm for ICA regarding the measure of non-Gaussianity and the computation method. This extended algorithm is referred to as fast ICA and is more commonly used for source separation. This is the algorithm used to apply ICA on EEG measurements for comparison within the thesis.        
+\chapter{Independent Component Analysis}\label{app:ICA}
+This appendix provide the basic theory of independent component analysis (ICA). The theory is necessary if one wants a deeper understanding towards the justification of applying result from ICA as a reference for evaluation of the main algorithm proposed in this thesis.   
+The appendix concludes with an algorithm specifying ICA method which is applied in the thesis. Additionally, an verification test is conducted to evaluate the applied ICA method on the synthetic data, cf. \ref{sec:dataset}.   
+\input{sections/ch_compressive/ICA.tex} 
 
 \section{Fixed-Point Algorithm - FastICA}
-An advantage of gradient algorithms is the possibility of fast adoption in non-stationary environments due the use of all input, $\textbf{y}$, at once. A disadvantage of the gradient algorithm is the resulting slow convergence, depending on the choice of $\gamma$ for which a bad choice in practise can disable convergence. A fixed-point iteration algorithm to maximise the non-Gaussianity is an alternative that could be used.\\
+An advantage of gradient algorithms is the possibility of fast adoption in non-stationary environments due the use of all input, $\textbf{y}$, at once. A disadvantage of the gradient algorithm is the resulting slow convergence, depending on the choice of $\gamma$ for which a bad choice in practise can disable convergence. A fixed-point iteration algorithm to maximise the non-Gaussianity is an alternative that could be used.
+
 Consider the gradient step derived in section \ref{sec:gra_kur}.
-In the fixed point iteration the sequence of $\gamma$ is omitted and replaced by a constant. This builds upon the fact that for a stable point of the gradient algorithm the gradient must point in the direction of $\textbf{b}_j$, hence be equal to $\textbf{b}_j$. In this case adding the gradient to $\textbf{b}_j$ does not change the direction and convergence is achieved.\\    
-Letting the gradient given in \eqref{eq:kurt} be equal to $\mathbf{w}$ and  considering the same simplifications again
+In the fixed point iteration the sequence of $\gamma$ is omitted and replaced by a constant. This builds upon the fact that for a stable point of the gradient algorithm the gradient must point in the direction of $\textbf{b}$, hence be equal to $\textbf{b}$. In this case adding the gradient to $\textbf{b}$ does not change the direction and convergence is achieved.   
+Letting the gradient given in \eqref{eq:kurt} be equal to $\mathbf{b}$ and  considering the same simplifications again
 suggests the new update step as \cite[p. 179]{ICA}
 \begin{align*}
-\mathbf{b}_j \gets \mathbb{E}[\mathbf{y}(\textbf{b}_{j}^T \textbf{y})^3] - 3 \mathbf{b}_j.
+\mathbf{b} \gets \mathbb{E}[\mathbf{y}(\textbf{b}^T \textbf{y})^3] - 3 \mathbf{b}.
 \end{align*}
-After the fixed point iteration $\textbf{b}_j$ is again divided by its norm to withhold the constraint $\Vert \textbf{b}_j \Vert = 1$.   
-Instead of $\gamma$ the fixed-point algorithm compute $\mathbf{b}_j$ directly from previous $\mathbf{b}_j$.\\
-The fixed-point algorithm is referred to as FastICA. The algorithm has shown to converge fast and reliably, then the current and previous $\mathbf{w}$ laid in the same direction \cite[p. 179]{ICA}. 
+After the fixed point iteration $\textbf{b}$ is again divided by its norm to withhold the constraint $\Vert \textbf{b} \Vert = 1$.   
+Instead of $\gamma$ the fixed-point algorithm compute $\mathbf{b}$ directly from previous $\mathbf{b}$.
+
+The fixed-point algorithm is referred to as FastICA. The algorithm has shown to converge fast and reliably, when the current and previous $\mathbf{b}$ point in the same direction \cite[p. 179]{ICA}. 
 
 \subsection{Negentropy}
 An alternative measure of non-Gaussianity is the negentropy, which is based on the differential entropy. The differential entropy $H$ of a random vector $\mathbf{y}$ with density $p_y (\boldsymbol{\eta})$ is defined as
 \begin{align*}
 H(\mathbf{y}) = - \int p_y (\boldsymbol{\eta}) \log (p_y (\boldsymbol{\eta})) \ d\boldsymbol{\eta}.
 \end{align*}
-The entropy describes the information that a random variable gives. The more unpredictable and unstructured a random variable is higher is the entropy, e.g. Gaussian random variables have a high entropy, in fact the highest entropy among the random variables of the same variance \cite[p. 182]{ICA}.
-\\ \\
+The entropy describes the information that a random variable gives. The more unpredictable and unstructured a random variable is higher is the entropy, e.g. Gaussian random variables have a high entropy, in fact they have the highest entropy among the random variables of the same variance \cite[p. 182]{ICA}.
+
 Negentropy is a normalised version of the differential entropy such that the measure of non-Gaussianity is zero when the random variable is Gaussian and non-negative otherwise. The negentropy $J$ of a random vector $\mathbf{y}$ is defined as 
 \begin{align*}
-J(\mathbf{y}) = H(\mathbf{y}_{\text{gaus}}) - H(\mathbf{y}),
+J(\mathbf{y}) = H(\mathbf{y}_{\text{gauss}}) - H(\mathbf{y}),
 \end{align*}
-with $\mathbf{y}_{\text{gaus}}$ being a Gaussian random variable of the same covariance and correlation as $\mathbf{y}$ \cite[p. 182]{ICA}.
-\\ \\
-As the kurtosis is sensitive for outliers the negentropy is instead difficult to compute computationally as the negentropy require a estimate of the pdf. As such an approximation of the negentropy is needed.\\
+with $\mathbf{y}_{\text{gauss}}$ being a Gaussian random variable of the same covariance and correlation as $\mathbf{y}$ \cite[p. 182]{ICA}.
+As the kurtosis is sensitive for outliers, the negentropy is instead difficult to compute computationally as the negentropy require a estimate of the pdf. As such an approximation of the negentropy is needed.
+To approximate the negentropy it is common to use the higher order comulants including the kurtosis. The following approximation of the scalar case is stated without further elaboration, the derivation can be found in \cite[p. 183]{ICA}. 
+\begin{align*}
+J(\mathbf{y}) \approx \frac{1}{12} \mathbb{E}[y^{3}]^2 \frac{1}{48}\text{kurt}(y)^2.
+\end{align*}
 
-To approximate the negentropy it is common to use the higher order comulants including the kurtosis. The following approximation is stated without further elaboration, the derivation can be found in \cite[p. 182]{ICA}. 
 
 \subsection{Fixed-Point Algorithm with Negentropy}
-Maximization of negentropy by use of the fixed-point algorithm is now presented, for derivation of the fixed point iteration see \cite[p. 188]{ICA}. Algorithm \ref{alg:fastICA} show Fast ICA using negentropy, this is the algorithm which is implemented for comparison with the source separation methods which are tested in this thesis.    
+Maximization of negentropy by use of the fixed-point algorithm is now presented, for derivation of the fixed point iteration see \cite[p. 188]{ICA}. Algorithm \ref{alg:fastICA} show Fast ICA using negentropy, this is the algorithm which is applied in the thesis for comparison with the source recovery methods which are tested in this thesis.    
 
 \begin{algorithm}[H]
 \caption{Fast ICA -- with negentropy }
@@ -49,15 +50,15 @@ Maximization of negentropy by use of the fixed-point algorithm is now presented,
 			\State
             \Procedure{FastICA}{$\textbf{y}$}    
 			\State$k=0$            
-            \State$\text{Initialise random vector} \quad \textbf{b}_{j(k)}$ \Comment{unit norm}
+            \State$\text{Initialise random vector} \quad \textbf{b}_{(k)}$ \Comment{unit norm}
             \For{$j \gets 1,2, \hdots ,N$ }
             
             	\While{$\text{convergance critia not meet}$} 
                		\State $k = k+1$
-                	\State $\textbf{b}_{j(k)} \gets \mathbb{E}[ \textbf{y}(\textbf{b}_{j}^T \textbf{y})] - \mathbb{E}[g'(\textbf{b}_{j}^T \textbf{y})] \textbf{b}_{j}$ \Comment{$g$ defined in \cite[p. 190]{ICA}} 
-                	\State $\textbf{b}_{j(k)} \gets \textbf{b}_j/\Vert \textbf{b}_j \Vert $ 
+                	\State $\textbf{b}_{(k)} \gets \mathbb{E}[ \textbf{y}(\textbf{b}_{(k-1)}^T \textbf{y})] - \mathbb{E}[g'(\textbf{b}_{(k-1)}^T \textbf{y})] \textbf{b}_{(k-1)}$ \Comment{$g$ cf. \cite[p. 190]{ICA}} 
+                	\State $\textbf{b}_{(k)} \gets \textbf{b}_{(k-1)}/\Vert \textbf{b}_{(k-1)} \Vert $ 
           		\EndWhile
-          		\State $x_{j} = \textbf{b}_{j}^T\textbf{y}$
+          		\State $x_{j} = \textbf{b}^T\textbf{y}$
           	\EndFor
           	
             \EndProcedure
@@ -65,27 +66,6 @@ Maximization of negentropy by use of the fixed-point algorithm is now presented,
         \label{alg:fastICA}
 \end{algorithm}
 
-
-%\section{OMP}
-%$\mathbf{A}^\ast$ is the adjoint of a matrix $\mathbf{A}$.
-%\begin{algorithm}[H]
-%\caption{Orthogonal Matching Pursuit (OMP)}\label{alg:OMP}
-%\begin{algorithmic}[1]
-%			\State$k = 0$			
-%			\State$\text{Initialize} \quad S_{(0)} =\emptyset$ 
-%			\State$\text{Initialize} \quad x_{(0)} =\mathbf{0}$
-%            \Procedure{OMP}{$\mathbf{A}, \mathbf{y}$}    
-%            \While{$\text{stopping criteria not meet}$} 
-%                \State$k = k + 1$
-%				\State$j_{(k)} = \arg \max_{j \in [N]} \lbrace \vert (\mathbf{A}^\ast (\mathbf{y} - \mathbf{Ax}_{(k-1)}))_j \vert \rbrace$				
-%				\State$S_{(k)} = S_{(k-1)} \cup \lbrace j_{(k)} \rbrace$ 
-%				\State$\mathbf{x}_{(k)} = \arg \min_{\mathbf{z} \in \mathbb{C}^N} \lbrace \Vert \mathbf{y} - \mathbf{Az} \Vert_2 \  \vert \ \text{supp}(\mathbf{z}) \subset S_{(k)} \rbrace$
-%          		\EndWhile
-%          		\State$\mathbf{x}^\ast = \mathbf{x}_{(k)}$
-%            \EndProcedure
-%        \end{algorithmic} 
-%        \label{alg:OMP}
-%\end{algorithm}
 
 \section{Verification of fast ICA on synthetic data}\label{app:ica_test}
 The purpose of this section is to verify the fast ICA algorithm which is used in this thesis. By this verification the purpose is to justify the ICA algorithm as a reference point with respect to performance of the developed main algorithm.
@@ -95,38 +75,38 @@ Consider the following linear system, which makes a model of EEG measurements.
 \begin{align*}
 \textbf{Y}=\textbf{AX}
 \end{align*}
-where $\textbf{Y}^{M\times L}$, $\textbf{A}^{M\times N}$ and $\textbf{x}^{N\times L}$. It is expected that the fast ICA algorithm manage to solve the linear system for $\textbf{X}$ and $\textbf{A}$ given only the measurements $\textbf{Y}$, in the case where $M=N$.  
+where $\textbf{Y}^{M\times L}$, $\textbf{A}^{M\times N}$ and $\textbf{X}^{N\times L}$. It is expected that the fast ICA algorithm manage to solve the linear system for $\textbf{X}$ and $\textbf{A}$ given only the measurements $\textbf{Y}$, in the case where $M=N$.  
 
 The fast ICA algorithm is applied to $\textbf{Y}$ and returns the estimates $\hat{\textbf{X}}_{ICA}$ and $\hat{\textbf{A}}_{ICA}$. 
 When using the fast ICA algorithm the output $\hat{\textbf{X}}_{ICA}$ do not correspond one to one with the true source signal, which become an issue when the estimation error is measured by the mean squared error (MSE) cf. subsection \ref{sec:mse}.  The fast ICA algorithm is invariant towards the amplitude and phase of the signal and furthermore the rows are not necessarily place the original location. 
-In order to get a valid MSE measure of the estimate, a function is defined to fit the estimate to the true source signal $\textbf{X}$. The function manage to pair the rows and change the phase, such that the total MSE is minimized. Furthermore each row of the estimate is scaled by the relationship between the  maximum value between the true row and the estimated row.
+In order to get a valid MSE measure of the estimate, a function is defined to fit the estimate to the true source signal $\textbf{X}$. The function manage to pair the rows and change the phase, such that the total MSE is minimized. Furthermore each row of the estimate is scaled by the relationship between the maximum value of the true row and the estimated row.
 From empirical observations only the phase shift performed by multiplying with $(-1)$ has shown necessary, hence it is easily applied to the fitting function.
 When the fitting function is applied two the estimate, the full potential of the fast ICA algorithm is considered reached.       
 
-Figure \ref{fig:appica1} illustrates $\hat{\textbf{X}}_{ICA}$, without used of the fitting function, resulting from the fast ICA algorithm applied to a simulated deterministic data set $\textbf{Y}$ specified by $M=N=k=4$ and $L=1000$. In the figure $\textbf{Y}$, $\textbf{X}$ and $\hat{\textbf{X}}_{ICA}$ are plotted separately and it is clear to see the invariance towards amplitude and phase.
+Figure \ref{fig:appica1} illustrates $\hat{\textbf{X}}_{ICA}$, without use of the fitting function, resulting from the fast ICA algorithm applied to a simulated deterministic data set $\textbf{Y}$ specified by $M=N=k=4$ and $L=1000$. In the figure $\textbf{Y}$, $\textbf{X}$ and $\hat{\textbf{X}}_{ICA}$ are plotted separately and it is clear to see the invariance towards amplitude and phase.
 The MSE from the original $\hat{\textbf{X}}_{ICA}$ becomes
 \begin{align*}
 MSE(\textbf{X},\hat{\textbf{X}}_{ICA}) = 0.608.
 \end{align*}
 
-In figure \ref{fig:appica1} the fitting function has been applied to $\hat{\textbf{X}}_{ICA}$. Each row of the fitted estimate is now plotted with the corresponding row of the true source signals. 
+In figure \ref{fig:appica2} the fitting function has been applied to $\hat{\textbf{X}}_{ICA}$. Each row of the fitted estimate is now plotted with the corresponding row of the true source signals. 
 The resulting MSE becomes 
 \begin{align*}
 MSE(\textbf{X},\hat{\textbf{X}}_{ICA}) = 0.046.
 \end{align*}  
-that is an essential change from the first measured MSE, and it is considered to provide at more valid measure of the estimate. From the visualisation and the corresponding MSE it is found that the fast ICA algorithm manage to estimate the source signals of the deterministic data set with a sufficiently small error\todo{inset captions og aling figure}. 
+This is an essential change from the first measured MSE, and it is considered to provide a more valid measure of the estimate. From the visualisation and the corresponding MSE it is found that the fast ICA algorithm manage to estimate the source signals of the deterministic data set with a sufficiently small error. 
 \begin{figure}[H]
     \begin{minipage}[t]{.45\textwidth}
 		\centering
-		\includegraphics[scale=0.5]{figures/ICAapp/ICA_app1.png}
-	\caption{}
+		\includegraphics[scale=0.45]{figures/ICAapp/ICA_app1.png}
+	\caption{Plot of simulated deterministic observations $Y$, specified by $M=N=k=4$ and $L=1000$. Corresponding plot of the true $\textbf{X}$ and the estimated $\hat{\textbf{X}}$ by ICA.}
 	\label{fig:appica1}
     \end{minipage} 
     \hfill
     \begin{minipage}[t]{.45\textwidth}
 		\centering
-		\includegraphics[scale=0.5]{figures/ICAapp/ICA_app2.png}
-	\caption{}
+		\includegraphics[scale=0.45]{figures/ICAapp/ICA_app2.png}
+	\caption{Direct comparison of the true $\textbf{X}$ and $\hat{\textbf{X}}_{ICA}$ after applying the fitting function.}
 	\label{fig:appica2}
     \end{minipage}
 \end{figure}
@@ -140,12 +120,12 @@ Again the the MSE is considered sufficiently small and by that the fast ICA is c
 \begin{figure}[H]
 	\centering
 	\includegraphics[scale=0.5]{figures/ICAapp/ICA_app3.png}
-	\caption{}
+	\caption{ICA applied to stochastic simulated observations $\textbf{Y}$. Direct comparison of the true $\textbf{X}$ and $\hat{\textbf{X}}_{ICA}$ after applying the fitting function.}
 	\label{fig:appica3}
 \end{figure}
 
 Consider now the case where $k \leq N=M$, that is the sources signal matrix has $k$ non-zeros rows. 
-The fast ICA algorithm is now applied to the a stochastic data set $\textbf{Y} $ specified by $N=M=6$, $k = 4$ and $L=1000$. Figure \ref{fig:appica5} and \ref{fig:appica6} show the comparison between the resulting $\hat{\textbf{X}}_{ICA}$ before and after the application of the fitting function, respectively. The resulting MSE becomes:
+The fast ICA algorithm is now applied to a stochastic data set $\textbf{Y} $ specified by $N=M=6$, $k = 4$ and $L=1000$. Figure \ref{fig:appica5} and \ref{fig:appica6} show the comparison of the resulting $\hat{\textbf{X}}_{ICA}$ and the true $\textbf{X}$ before and after the application of the fitting function, respectively. The resulting MSE becomes:
 \begin{align*}
 MSE(\textbf{X},\hat{\textbf{X}}_{ICA}) = 1.784.
 \end{align*} 
@@ -166,9 +146,9 @@ It is seen from figure \ref{fig:appica6} that the fast ICA algorithm manage to  
     \end{minipage}
 \end{figure}
 
-With these tests the quality of the fast ICA algorithm has been verified. As such the fast ICA algorithm can be used as a reference, when applied to real EEG data. It is further established that $k\leq N$ can be estimated by fast ICA. 
+With these tests the quality of the fast ICA algorithm has been verified. As such the fast ICA algorithm can be used as a reference, when applied to real EEG data. It is further established that $k\leq M$ can be estimated by fast ICA. 
 
-Remember though that the ICA estimate is conditioned under $k\leq N=M$, however this condition is not certain for real EEG data as the true $N$ is always unknown.   
+Remember though that the ICA estimate is conditioned under $k\leq N=M$, however this condition is not necessarily withhold for real EEG measurements as the true $N$ is always unknown.   
 
 
 

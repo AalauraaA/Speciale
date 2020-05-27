@@ -2,6 +2,13 @@
 % Encoding: Cp1252
 
 
+@Book{FR,
+  Title                    = {A Mathematical Introduction to Compressive Sensing},
+  Author                   = {Foucart, Simon and Rauhut, Hoger},
+  Publisher                = {Springer Science+Business Media New York},
+  Year                     = {2013}
+}
+
 @Article{ARD,
   Title                    = {A New View of Automatic Relevance Determination},
   Author                   = {Wipf, D. P. and Nagarajan, S. S.},
@@ -9,12 +16,12 @@
   Year                     = {2008}
 }
 
-@Article{Arnaud2012,
-  Title                    = {Blind separation of auditory event-related brain responses intoindependent components},
-  Author                   = {Delorme, Arnaud and Palmer, Jason and Onton, Julie and Oostenveld, Robert and Makeig, Scott},
-  Journal                  = {PLoS ONE},
-  Year                     = {2012},
-  Volume                   = {7(2)}
+@Article{Emina2019,
+  Title                    = {A Tutorial on Auditory Attention Identification Methods},
+  Author                   = {Alickovic, Emina and Lunner, Thomas and Gustafsson, Fredrik and Ljung, Lennart},
+  Journal                  = {Front. Neurosci},
+  Year                     = {2019},
+  Volume                   = {13:153}
 }
 
 @Article{article_wipf,
@@ -27,12 +34,48 @@
   Volume                   = {Vol. 55}
 }
 
-@Article{Balkan2014,
-  Title                    = {Localization of More Sources Than Sensors via
-Jointly-Sparse Bayesian Learning},
-  Author                   = {Balkan, Ozgur and Kreutz-Delgado, Kenneth and Makeig, Scott},
-  Journal                  = {IEEE Signal Processing Letters},
-  Year                     = {2014}
+@PhdThesis{phd_wipf,
+  Title                    = {Bayesian Methods for Finding Sparse Representations},
+  Author                   = {Wipf, D. P.},
+  School                   = {University of California, San Diego},
+  Year                     = {2006}
+}
+
+@Article{Scott1997,
+  Title                    = {Blind separation of auditory event-related brain responses into independent components},
+  Author                   = {Makeig, Scott and Jung, Tzyy-Ping and J. Bell, Anthony and Ghahremani, Dara and J. Sejnowski, Terrence},
+  Journal                  = {Proc. Natl. Acad. Sci. USA},
+  Year                     = {1997},
+  Volume                   = {94}
+}
+
+@Article{Arnaud2012,
+  Title                    = {Blind separation of auditory event-related brain responses intoindependent components},
+  Author                   = {Delorme, Arnaud and Palmer, Jason and Onton, Julie and Oostenveld, Robert and Makeig, Scott},
+  Journal                  = {PLoS ONE},
+  Year                     = {2012},
+  Volume                   = {7(2)}
+}
+
+@Book{CS,
+  Title                    = {Compressed Sensing: Theory and Application},
+  Author                   = {C. Eldar, Yonina and Kutyniok, Gitta},
+  Publisher                = {Cambridge University Presse, New York},
+  Year                     = {2012}
+}
+
+@Book{cvxbook,
+  Title                    = {Convex Optimization},
+  Author                   = {Boyd, S. and Vandenberhe, L.},
+  Publisher                = {Cambridge University Press},
+  Year                     = {2004}
+}
+
+@Book{norm_optimization,
+  Title                    = {Convex Optimization and Euclidean Distance Geometry},
+  Author                   = {Dattorro, J. },
+  Publisher                = {Meboo Publising USA},
+  Year                     = {2005}
 }
 
 @Article{Balkan2015,
@@ -43,36 +86,36 @@ Overcomplete EEG Source Identification},
   Year                     = {2015}
 }
 
-@Article{Bech2018,
-  Title                    = {Toward EEG-Assisted Hearing Aids: Objective Threshold Estimation Based on Ear-EEG in Subjects With Sensorineural Hearing Loss},
-  Author                   = {Bech Christensen, Christian and K. Hietkamp, Renskje and M. Harte, James and Lunner, Thomas and Kidmose, Preben},
-  Journal                  = {Trends Hear, SAGE},
-  Year                     = {2018},
-  Volume                   = {22}
-}
-
-@Article{Elad2006,
-  Title                    = {K-SVD: An Algorithm for Designing Overcomplete Dictionaries for Sparse Representation},
-  Author                   = {Aharon,M. and Elad, M. and Bruckstein, A.},
-  Journal                  = {IEEE Transactions on signal processing},
-  Year                     = {2006},
-  Volume                   = {Vol. 54, No. 11 }
-}
-
-@Article{Emina2019,
-  Title                    = {A Tutorial on Auditory Attention Identification Methods},
-  Author                   = {Alickovic, Emina and Lunner, Thomas and Gustafsson, Fredrik and Ljung, Lennart},
-  Journal                  = {Front. Neurosci},
+@Article{Van2019,
+  Title                    = {Critical Comments on EEG Sensor Space Dynamical Connectivity
+Analysis},
+  Author                   = {Van de Steen, Frederik and Faes,Luca and Karahan, Esin and Songsiri, Jitkomut and A. Valdes-Sosa, Pedro and Marinazzo, Daniele},
+  Journal                  = {Brain Topography},
   Year                     = {2019},
-  Volume                   = {13:153}
+  Volume                   = {32 p. 643-654}
 }
 
-@Article{Friston2002,
-  Title                    = {Functional integration and inference in the brain},
-  Author                   = {Friston, Karl J.},
-  Journal                  = {Progress in Neurobiology 590},
-  Year                     = {2002},
-  Volume                   = {1-31}
+@Book{FFT,
+  Title                    = {Discrete-Time Signal Processing},
+  Author                   = {Alan V. Oppenheim and Ronald W. Schafer},
+  Publisher                = {Pearson Education Limited},
+  Year                     = {2014},
+  Edition                  = {3th}
+}
+
+@Book{EEGsignalprocessing,
+  Title                    = {EEG Signal Processing},
+  Author                   = {Sanei, Saeid and Chambers, J.A.},
+  Publisher                = {Johm Wiley and sons, Ltd},
+  Year                     = {2007}
+}
+
+@Book{PCA,
+  Title                    = {Elementary Linear Algebra 2015 - A Customised Edition of Elementary Linear Algebra: A Matrix Approach},
+  Author                   = {Lawrence E. Spence, Arnold J. Insel and Stephen H. Friedberg},
+  Editor                   = {Olav Geil},
+  Publisher                = {Pearson Education Limited},
+  Year                     = {2015}
 }
 
 @Article{Friston2011,
@@ -81,6 +124,14 @@ Overcomplete EEG Source Identification},
   Journal                  = {Brain Connectivity},
   Year                     = {2011},
   Volume                   = {1}
+}
+
+@Article{Friston2002,
+  Title                    = {Functional integration and inference in the brain},
+  Author                   = {Friston, Karl J.},
+  Journal                  = {Progress in Neurobiology 590},
+  Year                     = {2002},
+  Volume                   = {1-31}
 }
 
 @Article{fundamentalEEG,
@@ -109,20 +160,12 @@ P. 1017-1025},
   Year                     = {2011}
 }
 
-@Article{Pal2015,
-  Title                    = {Pushing the Limits of Sparse Support Recovery Using
-Correlation Information},
-  Author                   = {Pal, Piya and Vaidyanathan, P. P.},
-  Journal                  = {IEEE Transactions on Signal Processing},
-  Year                     = {2015},
-  Volume                   = {VOL. 63, NO. 3, Feb.}
-}
-
-@Article{Palmer2008,
-  Title                    = {Newton Method for the ICA Mixture Model},
-  Author                   = {Palmer, J. A. and Makeig, S. and Kreutz-Delgado,K. and Rao, B. D.},
-  Journal                  = {ICASSP 2008},
-  Year                     = {2008}
+@Book{ICA,
+  Title                    = {Independent Component Analysis},
+  Author                   = {Hyvarinen, A. and Karhunen, J. and Oja, E.},
+  Editor                   = {Simon Haykin},
+  Publisher                = {John Wiley and Sons, Inc.},
+  Year                     = {2001}
 }
 
 @Article{Scott1996,
@@ -133,80 +176,35 @@ Correlation Information},
   Volume                   = {8}
 }
 
-@Article{Scott1997,
-  Title                    = {Blind separation of auditory event-related brain responses into independent components},
-  Author                   = {Makeig, Scott and Jung, Tzyy-Ping and J. Bell, Anthony and Ghahremani, Dara and J. Sejnowski, Terrence},
-  Journal                  = {Proc. Natl. Acad. Sci. USA},
-  Year                     = {1997},
-  Volume                   = {94}
-}
-
-@Article{Van2019,
-  Title                    = {Critical Comments on EEG Sensor Space Dynamical Connectivity
-Analysis},
-  Author                   = {Van de Steen, Frederik and Faes,Luca and Karahan, Esin and Songsiri, Jitkomut and A. Valdes-Sosa, Pedro and Marinazzo, Daniele},
-  Journal                  = {Brain Topography},
-  Year                     = {2019},
-  Volume                   = {32 p. 643-654}
-}
-
-@Book{CS,
-  Title                    = {Compressed Sensing: Theory and Application},
-  Author                   = {C. Eldar, Yonina and Kutyniok, Gitta},
-  Publisher                = {Cambridge University Presse, New York},
-  Year                     = {2012}
-}
-
-@Book{cvxbook,
-  Title                    = {Convex Optimization},
-  Author                   = {Boyd, S. and Vandenberhe, L.},
-  Publisher                = {Cambridge University Press},
-  Year                     = {2004}
-}
-
-@Book{EEGsignalprocessing,
-  Title                    = {EEG Signal Processing},
-  Author                   = {Sanei, Saeid and Chambers, J.A.},
-  Publisher                = {Johm Wiley and sons, Ltd},
-  Year                     = {2007}
-}
-
-@Book{Elad_book,
-  Title                    = {Sparse and Redundant Representations},
-  Author                   = {Elad, M},
-  Publisher                = {Springer},
-  Year                     = {2010}
-}
-
-@Book{FFT,
-  Title                    = {Discrete-Time Signal Processing},
-  Author                   = {Alan V. Oppenheim and Ronald W. Schafer},
-  Publisher                = {Pearson Education Limited},
-  Year                     = {2014},
-  Edition                  = {3th}
-}
-
-@Book{FR,
-  Title                    = {A Mathematical Introduction to Compressive Sensing},
-  Author                   = {Foucart, Simon and Rauhut, Hoger},
-  Publisher                = {Springer Science+Business Media New York},
-  Year                     = {2013}
-}
-
-@Book{ICA,
-  Title                    = {Independent Component Analysis},
-  Author                   = {Hyvarinen, A. and Karhunen, J. and Oja, E.},
-  Editor                   = {Simon Haykin},
-  Publisher                = {John Wiley and Sons, Inc.},
-  Year                     = {2001}
-}
-
 @Book{Kay,
   Title                    = {Intuitive Probability and Random Processes using MATLAB},
   Author                   = {Steven M. Kay},
   Publisher                = {Springer Science+Business Media, LLC},
   Year                     = {2006},
   Note                     = {4-th corrected version of the 5-th printing (2012)}
+}
+
+@Article{Elad2006,
+  Title                    = {K-SVD: An Algorithm for Designing Overcomplete Dictionaries for Sparse Representation},
+  Author                   = {Aharon,M. and Elad, M. and Bruckstein, A.},
+  Journal                  = {IEEE Transactions on signal processing},
+  Year                     = {2006},
+  Volume                   = {Vol. 54, No. 11 }
+}
+
+@Article{Balkan2014,
+  Title                    = {Localization of More Sources Than Sensors via
+Jointly-Sparse Bayesian Learning},
+  Author                   = {Balkan, Ozgur and Kreutz-Delgado, Kenneth and Makeig, Scott},
+  Journal                  = {IEEE Signal Processing Letters},
+  Year                     = {2014}
+}
+
+@Article{Palmer2008,
+  Title                    = {Newton Method for the ICA Mixture Model},
+  Author                   = {Palmer, J. A. and Makeig, S. and Kreutz-Delgado,K. and Rao, B. D.},
+  Journal                  = {ICASSP 2008},
+  Year                     = {2008}
 }
 
 @Book{Optimization2007,
@@ -216,17 +214,34 @@ Analysis},
   Year                     = {2007}
 }
 
+@Article{Pal2015,
+  Title                    = {Pushing the Limits of Sparse Support Recovery Using
+Correlation Information},
+  Author                   = {Pal, Piya and Vaidyanathan, P. P.},
+  Journal                  = {IEEE Transactions on Signal Processing},
+  Year                     = {2015},
+  Volume                   = {VOL. 63, NO. 3, Feb.}
+}
+
+@Article{qcqp,
+  Title                    = {Relaxations and Randomized Methods for Nonconvex
+QCQPs},
+  Author                   = {Boyd, S. and d’Aspremont, A.},
+  Journal                  = {EE392o, Stanford University},
+  Year                     = {2003}
+}
+
+@Book{Elad_book,
+  Title                    = {Sparse and Redundant Representations},
+  Author                   = {Elad, M},
+  Publisher                = {Springer},
+  Year                     = {2010}
+}
+
 @Misc{Weberik,
   Title                    = {Studies within Steering of hearing devices using EEG and Ear-EEG},
   HowPublished             = {\url{https://www.eriksholm.com/research/cognitive-hearing-science/eeg-steering}},
   Note                     = {Accessed: 2019-10-03}
-}
-
-@PhdThesis{phd_wipf,
-  Title                    = {Bayesian Methods for Finding Sparse Representations},
-  Author                   = {Wipf, D. P.},
-  School                   = {University of California, San Diego},
-  Year                     = {2006}
 }
 
 @PhdThesis{phd2015,
@@ -236,5 +251,13 @@ Analysis},
   Year                     = {2015},
   Month                    = {January},
   Type                     = {Master thesis}
+}
+
+@Article{Bech2018,
+  Title                    = {Toward EEG-Assisted Hearing Aids: Objective Threshold Estimation Based on Ear-EEG in Subjects With Sensorineural Hearing Loss},
+  Author                   = {Bech Christensen, Christian and K. Hietkamp, Renskje and M. Harte, James and Lunner, Thomas and Kidmose, Preben},
+  Journal                  = {Trends Hear, SAGE},
+  Year                     = {2018},
+  Volume                   = {22}
 }
 

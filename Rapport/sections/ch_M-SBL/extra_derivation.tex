@@ -40,7 +40,7 @@ and
 \mathbf{A} \mathbf{x}
 \end{bmatrix}.
 \end{align*}
-Then, from \cite{conditional_cov} \todo{Hvad er dette for en kilde?}, the posterior distribution of $p\left( \mathbf{x}_{\cdot j} \vert \mathbf{y}_{\cdot j} ; \boldsymbol{\gamma} \right)$ is defined but the covariance for $\mathbf{y}$ is not known. Instead, one assume that the covariance for $\mathbf{y}$ given $\mathbf{x}$ can be used instead:
+Then, from \cite{conditional_cov}, the posterior distribution of $p\left( \mathbf{x}_{\cdot j} \vert \mathbf{y}_{\cdot j} ; \boldsymbol{\gamma} \right)$ is defined but the covariance for $\mathbf{y}$ is not known. Instead, one assume that the covariance for $\mathbf{y}$ given $\mathbf{x}$ can be used instead:
 \begin{align*}
 \boldsymbol{\Sigma} &= \text{cov}(\mathbf{x} , \mathbf{x} \vert \mathbf{y}) = \boldsymbol{\Sigma}_{\mathbf{xx}} - \boldsymbol{\Sigma}_{\mathbf{xy}} \boldsymbol{\Sigma}_{\mathbf{yy} \vert \mathbf{x}}^{-1} \boldsymbol{\Sigma}_{\mathbf{yx}} \\
 \boldsymbol{\mu} &= \boldsymbol{\mu}_{\mathbf{x}} + \boldsymbol{\Sigma}_{\mathbf{xy}} \boldsymbol{\Sigma}_{\mathbf{yy} \vert \mathbf{x}}^{-1} (\mathbf{y} - \boldsymbol{\mu}_{\mathbf{y}})

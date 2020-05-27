@@ -4,11 +4,10 @@ The main algorithm consists of three main stages, an initialization, Cov-DL for 
 Considering figure \ref{fig:flow}, each stage of the algorithm is illustrated within one horizontal row of the flow diagram, furthermore the input and output are placed in their own row.    
 \begin{figure}[H]
 \centering
-\includegraphics[scale=0.8]{figures/ch_6/baseline_flowchart.png}
+\includegraphics[scale=0.9]{figures/ch_6/baseline_flowchart.png}
 \caption{Flowchart illustrating the implementation of the main algorithm.}
 \label{fig:flow}
 \end{figure}
-\noindent \todo{indsæt hat på gamma, X og A i flowchart og ændre data matrix Y til measurement matrix Y.}
 The input of the main algorithm consists of the measurement matrix $\mathbf{Y} \in \mathbb{R}^{M \times L}$, along with the corresponding sample frequency $f$. 
 Within the initialization stage the measurement matrix $\mathbf{Y}$ go through segmentation as described in subsection \ref{seg_segmentation}. 
 The length of the segments is predefined by a time interval $t$ in seconds such that $L_{s} = tf$. 

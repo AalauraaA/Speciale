@@ -70,7 +70,7 @@ Prior to the application of ICA, the input is divided into segments.
 That is the same segmentation as inside the main algorithm, cf. section \ref{sec:implementation_flow}.
 The size of the segments is defined due to the expected stationarity of the sources. 
 As described in the motivation chapter \ref{ch:motivation} sources are stationary if you look at sufficiently small intervals. 
-Segments at $t = 1$ second is chosen from the belief that the brain activity can be assumed stationary within short time interval.
+Segments at $t = 1$ second is chosen from the assumption that the brain activity can be assumed stationary within short time interval.
 Furthermore, one must take in mind that shorter time interval lead to more segments and therefore a higher computational complexity. 
 After the segmentation the ICA is applied to every segment, returning $\hat{\textbf{X}}_{\text{ICA} s} \in \mathbb{R}^{M \times L_s}$.
 From appendix \ref{app:ica_test} it is seen that ICA manage to estimate the non-active sources by zero rows, when no noise is present. 

@@ -1,7 +1,7 @@
 \subsection{Case 0, $M=N$}
 The results are plotted for data set S1\_Cclean. The data set consist of 144 time segments with $L_s = 516$ samples and $M\_ = 27$ sensors. Figure \ref{fig:M=N_1} show $MSE\left(\hat{\mathbf{X}}_{\text{main}},\hat{\mathbf{X}}_{\text{ICA}}\right)$ for all segments $s$. ICA is applied on $\textbf{Y}_s$ specified by $M\_ = 27$ and $L_s = 516$. The main algorithm is applied on $\textbf{Y}_s$ without any reduction hence specified by $M=27$ and $L_s=516$, given $\textbf{A}_{fix}$ and $N = k$ provided from ICA.
 Figure \ref{fig:M=N_1_2} show the same plot but the y-axis is specified to the interval [-10,50] for better visualization.
-Furthermore is the MSE tolerance $= 5$ plotted, indicting for each segment whether the estimate $\hat{\mathbf{X}}_{\text{main}}$ is sufficiency close to $\hat{\mathbf{X}}_{\text{main}}$. It is seen that for a majority of the segments the MSE lies under the tolerance, but single outliers appears for which the MSE of the segment is remarkably increased.    
+Furthermore is the MSE tolerance $= 5$ plotted, indicting for each segment whether the estimate $\hat{\mathbf{X}}_{\text{main}}$ is sufficiency close to $\hat{\mathbf{X}}_{\text{main}}$. It is seen that for a majority of the segments the MSE lies under the tolerance, but single outliers appears for which the MSE of the segment is significantly increased.    
 \begin{figure}[H]
 \begin{widepage}
     \begin{minipage}[t]{.45\textwidth}
@@ -40,7 +40,7 @@ From figure \ref{fig:M=N_2} it is seen that the estimate of each source result i
 \end{widepage}
 \end{figure}
 \noindent
-The test is repeated for every data set, and the results are summarised in table \ref{tab:case_0}. In general a low MSE is achieved in average over all segments of one data set, relative to the tolerance, and the corresponding percentage is likewise relative high, with an average at $83\%$. A single result is seen to deviate from the tendency, the data set of test subject 3 with closed eyes. Here a remarkably high average MSE value is found, indicating a majority of the segment has resulted in a significantly high MSE, while a percentage of $???$ was below the tolerance. 
+The test is repeated for every data set, and the results are summarised in table \ref{tab:case_0}. In general a low MSE is achieved in average over all segments of one data set, relative to the tolerance, and the corresponding percentage is likewise relative high, with an average at $83\%$. A single result is seen to deviate from the tendency, the data set of test subject 3 with closed eyes. Here a significant high average MSE value is found, indicating a majority of the segment has resulted in a significantly high MSE, while a percentage of $???$ was below the tolerance. 
 In chapter \ref{ch:implementation} it is found that the main algorithm was capable of providing an almost exact estimate for $M=N$ when the true $\textbf{A}$ is provided. Thus, it is expected that the general performance is decreased in this case where the true $\textbf{A}$ in unknown and $\textbf{A}_{fix}$ is given.
 
 The achieved results will serve as reference when analysing the results of the following cases where the main algorithm is applied on data set reduced with respect to the original data set.         

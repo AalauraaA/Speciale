@@ -4,7 +4,7 @@ Consider the MMV model for a non-segmented case of EEG measurements with $L$ sam
 \begin{align}
 \mathbf{Y} = \mathbf{AX} + \mathbf{E}.\label{eq:MSBL_MMV}
 \end{align}
-The model consist of the measurement matrix $\mathbf{Y} \in \mathbb{R}^{M \times L}$, source matrix $\mathbf{X} \in \mathbb{R}^{N \times L}$, mixing matrix $\mathbf{A} \in \mathbb{R}^{M \times N}$ and noise matrix $\mathbf{E} \in \mathbb{R}^{M \times L}$. Note that $\mathbf{A}$ is known throughout the chapter, as it is found by COV-DL in chapter \ref{ch:Cov-DL}.
+The model consist of the measurement matrix $\mathbf{Y} \in \mathbb{R}^{M \times L}$, source matrix $\mathbf{X} \in \mathbb{R}^{N \times L}$, mixing matrix $\mathbf{A} \in \mathbb{R}^{M \times N}$ and noise matrix $\mathbf{E} \in \mathbb{R}^{M \times L}$. Note that $\mathbf{A}$ is known throughout the chapter, as it is found by Cov-DL in chapter \ref{ch:Cov-DL}.
 The aim is to recover the source matrix $\mathbf{X}$ in the case of fewer measurements than active sources, $M < k$, where $k\leq N$. 
 In \cite{Balkan2014} it is proven that exact localization of the active sources can be achieved with M-SBL for $k > M$, when two sufficient conditions are satisfied. 
 The basic approach of M-SBL is to apply Bayesian statistics to find the support set $S$ providing the non-zero rows of the source matrix $\mathbf{X}$ which corresponds to localization of the active sources. Finally, the value of the localized active sources can be estimated.  
@@ -78,7 +78,7 @@ where the denominator is the marginal likelihood of $\mathbf{y}_{\cdot j}$ also 
 where $\boldsymbol{\Gamma} = \text{diag}(\boldsymbol{\gamma})$ and $\boldsymbol{\Sigma}_y = \sigma^2 \mathbf{I} + \mathbf{A} \boldsymbol{\Gamma} \mathbf{A}^T$. The derivation of the posterior mean and covariance if found in appendix \ref{app_sec:mean_cov}.   
 
 Let the posterior mean $\mathcal{M}$ serve as the point estimate for the source matrix $\mathbf{X}$.
-It is clear that whenever $\gamma_i = 0$ the corresponding $\textbf{x}:{i\cdot}$ is equal to zero with probability 1.
+It is clear that whenever $\gamma_i = 0$ the corresponding $\textbf{x}_{i\cdot}$ is equal to zero with probability 1.
 \begin{align*}
 \mathbb{P}(\mathbf{x}_{i \cdot} = \mathbf{0} \vert \mathbf{Y} ; \gamma_i = 0) = 1.
 \end{align*}
@@ -121,16 +121,16 @@ For simultaneous sparse approximation problems, this is the process referred to 
 
 From the resulting $\boldsymbol{\gamma}^\ast$ the support set $S$ of the source matrix $\mathbf{X}$ can be extracted, 
 \begin{align*}
-S = \{ i \vert \hat{\gamma}_i \neq 0 \},
+S = \{ i \vert \gamma_i^{\ast} \neq 0 \},
 \end{align*}
 concluding the localization of active sources within $\mathbf{X}$. 
 In practise some arbitrary small threshold can be used such that that any sufficiently small hyperparameter is discarded\cite[p.149]{phd_wipf}.
-For identification of the active sources the estimate of the source matrix $\mathbf{X}$ is given as $\mathbf{X}^\ast = \mathcal{M}^\ast $, with $\mathcal{M}^\ast = \mathbb{E}[\mathbf{X}\vert \mathbf{Y} ; \boldsymbol{\gamma}^\ast]$. 
+For identification of the active sources the estimate of the source matrix $\mathbf{X}$ is given as $\hat{\mathbf{X}} = \mathcal{M} $, with $\mathcal{M} = \mathbb{E}[\mathbf{X}\vert \mathbf{Y} ; \boldsymbol{\gamma}^{\ast}]$. 
 This leads to the following estimate  
 \begin{align*}
-\mathbf{X}^\ast = 
+\hat{\mathbf{X}} = 
 \begin{cases}
-\mathbf{x}_{i\cdot} = \boldsymbol{\mu}_{i \cdot}^\ast, & i \in S \\
+\mathbf{x}_{i\cdot} = \boldsymbol{\mu}_{i \cdot}, & i \in S \\
 \mathbf{x}_{i\cdot} = \mathbf{0}, & i \not \in S
 \end{cases}
 \end{align*}
@@ -140,20 +140,20 @@ As mentioned, the case where one would like to find the noise free sparse repres
 \Sigma &= \left[ \textbf{I} - \boldsymbol{\Gamma}^{1/2} \left( \mathbf{A} \boldsymbol{\Gamma}^{1/2}\right)^{\dagger} \mathbf{A} \right]\boldsymbol{\Gamma}\\
 \mathcal{M} &= \boldsymbol{\Gamma}^{1/2}\left( \mathbf{A} \boldsymbol{\Gamma}^{1/2}\right)^{\dagger} \mathbf{Y}
 \end{align*} 
-where $(\cdot)^{\dagger}$ is the pseudo-inverse\todo{erstat * med hat også i algoritmen}.
+where $(\cdot)^{\dagger}$ is the pseudo-inverse.
 
 \subsection{When k is Known}\label{subsec:kestimate}
-From M-SBL the number of active sources $k$ is estimated as the number of non-zero entries in the hyperparameter $\boldsymbol{\gamma}$.
+From M-SBL the number of active sources $k$ is estimated as the number of non-zero entries in the hyperparameter $\boldsymbol{\gamma}^{\ast}$.
 However, in the current scenario $\textbf{A}$ is estimated by Cov-DL prior to the application of M-SBL, where $k$ is provided as input to Cov-DL, cf. chapter \ref{ch:Cov-DL}.
 Thus, $k$ is known in prior to M-SBL and is therefore used as a parameter to the M-SBL algorithm. 
-With $k$ being known the estimation of the support set $S$ from the non-zero rows of $\boldsymbol{\gamma}$, cf. section \ref{seg:EBE}, is overruled.
-Instead, when generating the support set $S_k$ one choose the $k$ largest entries of $\boldsymbol{\gamma}$ \cite[p. 3]{Balkan2014}.
+With $k$ being known the estimation of the support set $S$ from the non-zero rows of $\boldsymbol{\gamma}^{\ast}$, cf. section \ref{seg:EBE}, is overruled.
+Instead, when generating the support set $S^k$ one choose the $k$ largest entries of $\boldsymbol{\gamma}^{\ast}$ \cite[p. 3]{Balkan2014}.
 The estimate of the source matrix is then found by
 \begin{align*}
-\mathbf{X}^\ast = 
+\hat{\mathbf{X}} = 
 \begin{cases}
-\mathbf{x}_{i\cdot} = \boldsymbol{\mu}_{i \cdot}^\ast, & i \in S_k \\
-\mathbf{x}_{i\cdot} = \mathbf{0}, & i \not \in S_k
+\mathbf{x}_{i\cdot} = \boldsymbol{\mu}_{i \cdot}, & i \in S^k \\
+\mathbf{x}_{i\cdot} = \mathbf{0}, & i \not \in S^k
 \end{cases}
 \end{align*}
 

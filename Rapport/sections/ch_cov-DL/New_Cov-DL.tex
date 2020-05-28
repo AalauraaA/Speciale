@@ -21,15 +21,17 @@ Similar, the source matrix $\mathbf{X}_s$ can be described in the covariance dom
 \end{align*}
 The second equality comes from the assumption of the sources within $\mathbf{X}_s$ being uncorrelated within one segment. By uncorrelated sources $\mathbf{X}_s$ the sample covariance matrix is asumed to be nearly diagonal. Thus it can be written as $\boldsymbol{\Lambda}_s + \boldsymbol{\varepsilon}$ where $\boldsymbol{\Lambda}_s$ is a diagonal matrix consisting of the diagonal entries of $\widehat{\boldsymbol{\Sigma}}_{\mathbf{X}_s}$ and $ \boldsymbol{\varepsilon}$ is a non-diagonal matrix representing the estimation error \cite{Balkan2015}.
 
-Each segment is now modelled in the covariance domain, note that the $\frac{1}{L_s}$ factor is left out in order to comply to the instruction of the source \cite{Balkan2015}.
+Each segment is now modelled in the covariance domain.
+\begin{widepage}
 \begin{align} 
-\mathbf{Y}_s \mathbf{Y}_s^T &=  \left( \mathbf{A}_s \mathbf{X}_s + \mathbf{E}_s \right) \left( \mathbf{A}_s \mathbf{X}_s + \mathbf{E}_s\right)^T \nonumber \\ 
- &=  (\textbf{A}_s\textbf{X}_s)(\textbf{A}_s\textbf{X}_s)^T + \textbf{E}_s \textbf{E}_s^T + \textbf{E}_s (\textbf{A}_s\textbf{X}_s)^T + \textbf{A}_s\textbf{X}_s \textbf{E}_s^T  \nonumber \\
-&= \textbf{A}_s\textbf{X}_s \textbf{X}_s^T \textbf{A}_s^T + \textbf{E}_s \textbf{E}_s^T + \textbf{E}_s \textbf{X}_s^T \textbf{A}_s^T + \textbf{A}_s\textbf{X}_s \textbf{E}_s^T  \nonumber \\
-&= \textbf{A}_s(\boldsymbol{\Lambda}_s +\boldsymbol{\varepsilon}) \textbf{A}_s^T + \textbf{E}_s \textbf{E}_s^T + \textbf{E}_s \textbf{X}_s^T \textbf{A}_s^T + \textbf{A}_s\textbf{X}_s \textbf{E}_s^T \nonumber \\
-&= \textbf{A}_s \boldsymbol{\Lambda}_s \textbf{A}_s^T + \textbf{A}_s \boldsymbol{\varepsilon} \textbf{A}_s^T + \textbf{E}_s \textbf{E}_s^T + \textbf{E}_s \textbf{X}_s^T \textbf{A}_s^T + \textbf{A}_s\textbf{X}_s \textbf{E}_s^T \label{eq:noise1} \\
+\widehat{\boldsymbol{\Sigma}}_{\mathbf{Y}_s}= \frac{1}{L_s}\mathbf{Y}_s \mathbf{Y}_s^T &=  \frac{1}{L_s}\left( \mathbf{A}_s \mathbf{X}_s + \mathbf{E}_s \right) \left( \mathbf{A}_s \mathbf{X}_s + \mathbf{E}_s\right)^T \nonumber \\ 
+&= \frac{1}{L_s} (\textbf{A}_s\textbf{X}_s)(\textbf{A}_s\textbf{X}_s)^T +\frac{1}{L_s}\textbf{E}_s \textbf{E}_s^T + \frac{1}{L_s}\textbf{E}_s (\textbf{A}_s\textbf{X}_s)^T + \frac{1}{L_s}\textbf{A}_s\textbf{X}_s \textbf{E}_s^T  \nonumber \\
+&=\frac{1}{L_s} \textbf{A}_s\textbf{X}_s \textbf{X}_s^T \textbf{A}_s^T +\frac{1}{L_s} \textbf{E}_s \textbf{E}_s^T +\frac{1}{L_s} \textbf{E}_s \textbf{X}_s^T \textbf{A}_s^T +\frac{1}{L_s} \textbf{A}_s\textbf{X}_s \textbf{E}_s^T  \nonumber \\
+&= \textbf{A}_s(\boldsymbol{\Lambda}_s +\boldsymbol{\varepsilon}) \textbf{A}_s^T +\frac{1}{L_s} \textbf{E}_s \textbf{E}_s^T + \frac{1}{L_s}\textbf{E}_s \textbf{X}_s^T \textbf{A}_s^T + \frac{1}{L_s}\textbf{A}_s\textbf{X}_s \textbf{E}_s^T \nonumber \\
+&= \textbf{A}_s \boldsymbol{\Lambda}_s \textbf{A}_s^T + \textbf{A}_s \boldsymbol{\varepsilon} \textbf{A}_s^T + \frac{1}{L_s}\textbf{E}_s \textbf{E}_s^T +\frac{1}{L_s} \textbf{E}_s \textbf{X}_s^T \textbf{A}_s^T + \frac{1}{L_s}\textbf{A}_s\textbf{X}_s \textbf{E}_s^T \label{eq:noise1} \\
 &= \textbf{A}_s \boldsymbol{\Lambda}_s \textbf{A}_s^T + \widetilde{\textbf{E}}_s \label{eq:noise2}
 \end{align}
+\end{widepage}
 From \eqref{eq:noise1} to \eqref{eq:noise2} all terms where noise, $\boldsymbol{\varepsilon}$ and $\mathbf{E}_s$, is included, are aggregated in a joint noise term $\widetilde{\textbf{E}}_s$. 
 Next, the expression \eqref{eq:noise2} is rewritten through a vectorization. 
 Because the covariance matrix $\widehat{\boldsymbol{\Sigma}}_{\mathbf{Y}_s}$ is symmetric it is sufficient to vectorize only the lower triangular part, including the diagonal. 
@@ -42,13 +44,13 @@ Furthermore, let $\text{vec}^{-1}: \mathbb{R}^{\widetilde{M}} \rightarrow \mathb
 Applying $\text{vec}(\cdot)$ results in the following expression, which concludes the transformation of model \eqref{eq:MMV_seg} into the covariance domain. 
 Let $\textbf{a}_i$ be the $i$-th column of $\textbf{A}_s$, as such the matrix product can be written in sum form where $\boldsymbol{\Lambda}_{s_{ii}}$ is the $ii$-th entry of $\boldsymbol{\Lambda}_s$.  
 \begin{align}
-\mathbf{Y}_s \mathbf{Y}_s^T &= \sum_{i=1}^{N} \textbf{a}_i \boldsymbol{\Lambda}_{s_{ii}} \textbf{a}_i^{T} + \widetilde{\textbf{E}}_s, \quad \boldsymbol{\Lambda}_{s_{ii}} \nonumber \\
-\text{vec}\left( \mathbf{Y}_s \mathbf{Y}_s^T \right) &= \sum_{i=1}^N \text{vec}(\mathbf{a}_i \mathbf{a}_i^T) \boldsymbol{\Lambda}_{s_{ii}} + \text{vec}( \widetilde{\textbf{E}}_s) \nonumber \\
+\widehat{\boldsymbol{\Sigma}}_{\mathbf{Y}_s} &= \sum_{i=1}^{N} \textbf{a}_i \boldsymbol{\Lambda}_{s_{ii}} \textbf{a}_i^{T} + \widetilde{\textbf{E}}_s, \quad \boldsymbol{\Lambda}_{s_{ii}} \nonumber \\
+\text{vec}\left( \widehat{\boldsymbol{\Sigma}}_{\mathbf{Y}_s} \right) &= \sum_{i=1}^N \text{vec}(\mathbf{a}_i \mathbf{a}_i^T) \boldsymbol{\Lambda}_{s_{ii}} + \text{vec}( \widetilde{\textbf{E}}_s) \nonumber \\
 &= \sum_{i=1}^N \mathbf{d}_i \boldsymbol{\Lambda}_{s_{ii}} + \text{vec}( \widetilde{\textbf{E}}_s) \nonumber \\
 &= \mathbf{D} \boldsymbol{\delta}_s + \text{vec}( \widetilde{\textbf{E}}_s), \quad \forall s. \label{eq:cov1}
 \end{align}
 Here $\boldsymbol{\delta}_s \in \mathbb{R}^{N}$ contains the diagonal entries of the source sample-covariance matrix $\boldsymbol{\Lambda}_s$
-and the matrix $\mathbf{D} \in \mathbb{R}^{\widetilde{M} \times N}$ consists of the columns $\mathbf{d}_j = \text{vec}(\mathbf{a}_j \mathbf{a}_j^T)$. Note that $\mathbf{D}$ and $\boldsymbol{\delta}_s$ are unknown while $\text{vec}\left( \mathbf{Y}_s \mathbf{Y}_s^T \right)$ is known from the observed data.
+and the matrix $\mathbf{D} \in \mathbb{R}^{\widetilde{M} \times N}$ consists of the columns $\mathbf{d}_j = \text{vec}(\mathbf{a}_j \mathbf{a}_j^T)$. Note that $\mathbf{D}$ and $\boldsymbol{\delta}_s$ are unknown while $\text{vec}\left( \widehat{\boldsymbol{\Sigma}}_{\mathbf{Y}_s} \right)$ is known from the observed data.
 By this transformation to the covariance domain, one segment is now represented by the single measurement model with $\widetilde{M}$ ''measurements''. 
 
 It has been shown that this transformed model allows for identification of $k \leq \widetilde{M}$ active sources \cite{Pal2015}, which is a much weaker sparsity constraint than the original sparsity constraint $k \leq M$. 
@@ -70,7 +72,7 @@ For now the noise vector is ignored.
 \begin{algorithmic}[1]
            \Procedure{Cov-DL}{$\textbf{Y}_s$}    
 			\For{$s \gets 1,\hdots, L_{s'}$}			
-				\State$\textbf{y}_{\text{cov}_{s'}} = \text{vec}\left( \mathbf{Y}_{s'} \mathbf{Y}_{s'}^T \right)$	
+				\State$\textbf{y}_{\text{cov}_{s'}} = \text{vec}\left( \widehat{\boldsymbol{\Sigma}}_{\mathbf{Y}_{s'}} \right)$	
 			\EndFor			
 			\State$\textbf{Y}_{\text{cov}} = \{\textbf{y}_{\text{cov}_{s'}}\}_{s'=1}^{L_{s'}}$
 			\State

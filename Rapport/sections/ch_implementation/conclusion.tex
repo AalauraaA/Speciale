@@ -30,3 +30,10 @@ Thus the lack of a precise estimate of $\mathbf{A}$ might influence the final re
 Overall, the implementation of the main algorithm is approved. 
 However the performance is not as good as expected. 
 From this the main algorithm is ready to be tested on real EEG measurements in order to evaluate the performance with respect to the problem statement of this thesis. These tests are specified and conducted in the next chapter. 
+\todo[inline]{thought to be included based on comments from other sections:\\
+One should go through the Cov-DL method step by step. especially with focus on:\\
+-Checking the found $\textbf{D}$\\
+-Whether the true $\textbf{D}$ results in the true $\textbf{A}$\\
+-Whether the epsilon error gained from the X being only close to orthogonal is small as expected. \\
+The considerations of the optimization problem not being convex is removed from above, so it can be mentioned here:
+(eksemple på formulering)In chapter \ref{ch:Cov-DL} it is assumed that the optimization problem is convex but no further investigation regarding the truthfulness of this assumption was made. The inconsistent results might suggest that the optimization problem might not be convex. However, the fact that the optimization is terminated successfully with a cost equal to zero supports the existence of a global minimum.}

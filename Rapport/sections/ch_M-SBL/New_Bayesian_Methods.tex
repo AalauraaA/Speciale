@@ -140,18 +140,14 @@ As mentioned, the case where one would like to find the noise free sparse repres
 \Sigma &= \left[ \textbf{I} - \boldsymbol{\Gamma}^{1/2} \left( \mathbf{A} \boldsymbol{\Gamma}^{1/2}\right)^{\dagger} \mathbf{A} \right]\boldsymbol{\Gamma}\\
 \mathcal{M} &= \boldsymbol{\Gamma}^{1/2}\left( \mathbf{A} \boldsymbol{\Gamma}^{1/2}\right)^{\dagger} \mathbf{Y}
 \end{align*} 
-where $(\cdot)^{\dagger}$ is the pseudo-inverse.
+where $(\cdot)^{\dagger}$ is the pseudo-inverse\todo{erstat * med hat også i algoritmen}.
 
 \subsection{When k is Known}\label{subsec:kestimate}
 From M-SBL the number of active sources $k$ is estimated as the number of non-zero entries in the hyperparameter $\boldsymbol{\gamma}$.
 However, in the current scenario $\textbf{A}$ is estimated by Cov-DL prior to the application of M-SBL, where $k$ is provided as input to Cov-DL, cf. chapter \ref{ch:Cov-DL}.
 Thus, $k$ is known in prior to M-SBL and is therefore used as a parameter to the M-SBL algorithm. 
 With $k$ being known the estimation of the support set $S$ from the non-zero rows of $\boldsymbol{\gamma}$, cf. section \ref{seg:EBE}, is overruled.
-Instead, when generating the support set $S$ one choose the $k$ largest entries of $\boldsymbol{\gamma}$.\todo{Jeg kan ikke få det sidste til at give mening her}
- such that \cite[p. 3]{Balkan2014}
-\begin{align*}
-S_k = \{ i \vert \hat{\gamma}_i \neq 0 \}, \quad i \in k.
-\end{align*}
+Instead, when generating the support set $S_k$ one choose the $k$ largest entries of $\boldsymbol{\gamma}$ \cite[p. 3]{Balkan2014}.
 The estimate of the source matrix is then found by
 \begin{align*}
 \mathbf{X}^\ast = 
@@ -190,7 +186,7 @@ The estimate of the source matrix is then found by
 \For{$j = 1, \dots, k$}	
 	\If{$\boldsymbol{\gamma} (\arg \max (\boldsymbol{\gamma}))$ != $0$}
 		\State Support($j$) = $\arg \max (\boldsymbol{\gamma}$)
-		\State $\boldsymbol{\gamma}(\arg \max (\boldsymbol{\gamma}_{\text{value}})) = 0$
+		\State $\boldsymbol{\gamma}(\arg \max (\boldsymbol{\gamma})) = 0$
 	\EndIf
 \EndFor
 \State $\hat{\mathbf{X}} = \mathbf{0} \in \mathbb{R}^{N \times L}$

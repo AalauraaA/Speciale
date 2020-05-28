@@ -2,7 +2,7 @@
 When $N > \widetilde{M} = \frac{M(M+1)}{2}$ the transformed model \eqref{eq:cov1} makes an under-determined system.   
 This is similar to the original MMV model \eqref{eq:MMV_model} being under-determined  when $N > M$. 
 Thus, it is from the theory of compressive sensing again possible to solve the under-determined system if a certain sparsity is withhold, namely $\boldsymbol{\delta}_s$ being $\widetilde{M}$-sparse.
-Assuming the sufficient sparsity on $\boldsymbol{\delta}_s$ is withhold it is possible to learn the dictionary matrix of the covariance domain $\mathbf{D}$ by traditional dictionary learning methods applied to the measurements represented in the covariance domain $\text{vec}\left( \mathbf{Y}_s \mathbf{Y}_s^T \right)$ for all segments $s$.
+Assuming the sufficient sparsity on $\boldsymbol{\delta}_s$ is withhold it is possible to learn the dictionary matrix of the covariance domain $\mathbf{D}$ by traditional dictionary learning methods applied to the measurements represented in the covariance domain $\text{vec}\left(\widehat{\boldsymbol{\Sigma}}_{\mathbf{Y}_s}\right)$ for all segments $s$.
 
 \subsubsection{Dictionary Learning}\label{sec:dictionarylearning}
 As mentioned, within the theory of compressive sensing the matrix $\mathbf{A}$ is referred to as a dictionary matrix, as it determines how a sparse vector $\mathbf{x}$ is transformed to the original non-sparse signal. 
@@ -44,7 +44,7 @@ This segmentation of $\mathbf{Y}_s$ is indexed by $s'$.
 For convenience $s$ will be avoided through out this chapter, as the same theory applies to all segments $s$.
 Hence, $\mathbf{Y}_{s'}$ referrers to one segment within the outer segment of measurements $\mathbf{Y}_s$. 
    
-The transformed and vectorized measurements $\left\{ \text{vec} \left( \mathbf{Y}_{s'} \mathbf{Y}_{s'}^T \right), \forall s' \right\}$ now makes the training dataset for learning $\mathbf{D}$. 
+The transformed and vectorized measurements $\text{vec} \left( \widehat{\boldsymbol{\Sigma}}_{\mathbf{Y}_{s'}} \right), \forall s'$ now makes the training dataset for learning $\mathbf{D}$. 
 As such each segment $s'$ provides one training sample.   
 Thus, the number of available training samples, denoted $L_{s'}$, depends on the chosen length of the segments. In practise this will vary with respect to the total amount of available data. 
 

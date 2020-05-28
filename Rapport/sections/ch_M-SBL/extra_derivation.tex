@@ -8,75 +8,83 @@ from \eqref{eq:bay} in section \ref{seg:EBE}.
 Let $\mathbf{x}_{\cdot j} = \mathbf{x}$ and $\mathbf{y}_{\cdot j} = \mathbf{y}$ to ease the notation throughout the derivation. The prior and likelihood is then defined as
 \begin{align*}
 p(\mathbf{x} ; \boldsymbol{\gamma}) &\sim \mathcal{N}(\mathbf{0}, \boldsymbol{\gamma} \mathbf{I} ) \\
-& \\
-p(\mathbf{y} \vert \mathbf{x}) &\sim \mathcal{N}(\mathbf{A}\mathbf{x}, \sigma^2 \mathbf{I})
+p(\mathbf{y} \vert \mathbf{x}) &\sim \mathcal{N}(\mathbf{A}\mathbf{x}, \sigma^2 \mathbf{I}).
 \end{align*}
-Now define one Gaussian random variable  
+from the known SMV model of $\textbf{y}$ the above implies
 \begin{align*}
-\mathbf{z} = \begin{bmatrix}
-\mathbf{x} \\ 
-\mathbf{y}\vert \mathbf{x} 
-\end{bmatrix} \in \mathbb{R}^{N + M}.	
-\end{align*}  
-The mean and covariance of the Gaussian variable $\mathbf{z}$ can then be partitioned into 
-\begin{align*}
-\boldsymbol{\Sigma}_{\mathbf{z}} = 
-\begin{bmatrix}
-\boldsymbol{\Sigma}_{\mathbf{x}\mathbf{x}} & \boldsymbol{\Sigma}_{\mathbf{x}\mathbf{y}} \\ 
-\boldsymbol{\Sigma}_{\mathbf{y}\mathbf{x}} & \boldsymbol{\Sigma}_{\mathbf{y}\mathbf{y}}
-\end{bmatrix} 
-\in \mathbb{R}^{N+M \times N+M}
+\textbf{y}=\textbf{A}\textbf{x}+\textbf{e}, \quad \textbf{e}\sim \mathcal{N}(0,\sigma^2\textbf{I}) 
 \end{align*}
-and
-\begin{align*}
-\boldsymbol{\mu}_{\mathbf{z}} = 
-\begin{bmatrix}
-\boldsymbol{\mu}_{\mathbf{x}} \\ 
-\boldsymbol{\mu}_{\mathbf{y} \vert \mathbf{x}}
-\end{bmatrix} 
-= 
-\begin{bmatrix}
-\mathbf{0}  \\ 
-\mathbf{A} \mathbf{x}
-\end{bmatrix}.
-\end{align*}
-Then, from \cite{conditional_cov}, the posterior distribution of $p\left( \mathbf{x}_{\cdot j} \vert \mathbf{y}_{\cdot j} ; \boldsymbol{\gamma} \right)$ is defined but the covariance for $\mathbf{y}$ is not known. Instead, one assume that the covariance for $\mathbf{y}$ given $\mathbf{x}$ can be used instead:
-\begin{align*}
-\boldsymbol{\Sigma} &= \text{cov}(\mathbf{x} , \mathbf{x} \vert \mathbf{y}) = \boldsymbol{\Sigma}_{\mathbf{xx}} - \boldsymbol{\Sigma}_{\mathbf{xy}} \boldsymbol{\Sigma}_{\mathbf{yy} \vert \mathbf{x}}^{-1} \boldsymbol{\Sigma}_{\mathbf{yx}} \\
-\boldsymbol{\mu} &= \boldsymbol{\mu}_{\mathbf{x}} + \boldsymbol{\Sigma}_{\mathbf{xy}} \boldsymbol{\Sigma}_{\mathbf{yy} \vert \mathbf{x}}^{-1} (\mathbf{y} - \boldsymbol{\mu}_{\mathbf{y}})
-\end{align*}
-Each of the conditional covariances within the previous expressing will now be found.
 
-\paragraph{Conditional Covariance $\boldsymbol{\Sigma}_{\mathbf{xx}}$}
+%Now define one Gaussian random variable  
+%\begin{align*}
+%\mathbf{z} = \begin{bmatrix}
+%\mathbf{x} \\ 
+%\mathbf{y}\vert \mathbf{x} 
+%\end{bmatrix} \in \mathbb{R}^{N + M}.	
+%\end{align*}  
+%The mean and covariance of the Gaussian variable $\mathbf{z}$ can then be partitioned into 
+%\begin{align*}
+%\boldsymbol{\Sigma}_{\mathbf{z}} = 
+%\begin{bmatrix}
+%\boldsymbol{\Sigma}_{\mathbf{x}\mathbf{x}} & \boldsymbol{\Sigma}_{\mathbf{x}\mathbf{y}} \\ 
+%\boldsymbol{\Sigma}_{\mathbf{y}\mathbf{x}} & \boldsymbol{\Sigma}_{\mathbf{y}\mathbf{y}}
+%\end{bmatrix} 
+%\in \mathbb{R}^{N+M \times N+M}
+%\end{align*}
+%and
+%\begin{align*}
+%\boldsymbol{\mu}_{\mathbf{z}} = 
+%\begin{bmatrix}
+%\boldsymbol{\mu}_{\mathbf{x}} \\ 
+%\boldsymbol{\mu}_{\mathbf{y} \vert \mathbf{x}}
+%\end{bmatrix} 
+%= 
+%\begin{bmatrix}
+%\mathbf{0}  \\ 
+%\mathbf{A} \mathbf{x}
+%\end{bmatrix}.
+%\end{align*}
+From \cite{conditional_cov} the conditional covariance is given by
+\begin{align*}
+\boldsymbol{\Sigma} &= \text{cov}(\mathbf{x} , \mathbf{x} \vert \mathbf{y}) = \boldsymbol{\Sigma}_{\mathbf{xx}} - \boldsymbol{\Sigma}_{\mathbf{xy}} \boldsymbol{\Sigma}_{\mathbf{yy}}^{-1} \boldsymbol{\Sigma}_{\mathbf{yx}} \\
+\boldsymbol{\mu} &= \boldsymbol{\mu}_{\mathbf{x}} + \boldsymbol{\Sigma}_{\mathbf{xy}} \boldsymbol{\Sigma}_{\mathbf{yy}}^{-1} (\mathbf{y} - \boldsymbol{\mu}_{\mathbf{y}})
+\end{align*}
+Each of the covariances within the expressing will now be found.
+
+\paragraph{Covariance $\boldsymbol{\Sigma}_{\mathbf{xx}}$}
 The covariance of $\mathbf{x}$ comes directly from the distribution  
 \begin{align*}
 \boldsymbol{\Sigma}_{\mathbf{xx}} = \boldsymbol{\gamma} \mathbf{I}
 \end{align*} 
 
-\paragraph{Conditional Covariance $\boldsymbol{\Sigma}_{\mathbf{yx}}$}
-The covariance between $\mathbf{x}$ and $\mathbf{y} \vert \mathbf{x}$ is found by using the linearity of covariance and $\mathbf{y} = \mathbf{Ax} + \mathbf{e}$:
+\paragraph{Covariance $\boldsymbol{\Sigma}_{\mathbf{xy}}$}
+The covariance between $\mathbf{x}$ and $\mathbf{y}$ is found by using the linearity of covariance and $\mathbf{y} = \mathbf{Ax} + \mathbf{e}$:
 \begin{align*}
 \boldsymbol{\Sigma}_{\mathbf{yx}} &= \text{cov} \left(\mathbf{x} , \mathbf{Ax} + \mathbf{e} \right) \\ 
 &= \text{cov} \left(\mathbf{x} , \mathbf{Ax} \right) + \text{cov} \left(\mathbf{x} , \mathbf{e} \right) \\
 &= \boldsymbol{\Sigma}_{\mathbf{xx}} \mathbf{A}^T \\
 &= \boldsymbol{\gamma} \mathbf{I} \mathbf{A}^T
 \end{align*}
-where $\text{cov} \left(\mathbf{x} , \mathbf{e} \right) = 0$ because they are uncorrelated.
+where $\text{cov} \left(\mathbf{x} , \mathbf{e} \right) = 0$ because $\textbf{x}$ and $\textbf{e}$ are uncorrelated.
 
-%\paragraph{Conditional Covariance $\boldsymbol{\Sigma}_{\mathbf{yy}}$}
-%\todo[inline]{next Rasmus missed cov(yy). either we define if like above wiht y=Ax but is x not given then so y|x for which var in known to be sigma. or it is just cov(yy) that we should use i main, se jan rettelse også, han mener det er fint sådan her. 
-%if we let it be, we assume that cov(yy) is just sigmaI}
-
-\paragraph{Conditional Covariance $\boldsymbol{\Sigma}_{\mathbf{yy} \vert \mathbf{x}}$}
-Lastly the covariance of $\mathbf{y} \vert \mathbf{x}$ is similarly found by the definition of conditional covariance under the assumption that $\boldsymbol{\Sigma}_{\mathbf{yy}} = \sigma^2 \mathbf{I}$:
+\paragraph{Covariance $\boldsymbol{\Sigma}_{\mathbf{yx}}$}
+The covariance between $\mathbf{y}$ and $\mathbf{x}$ is defined by the transpose of $\boldsymbol{\Sigma}_{\mathbf{yx}}$
 \begin{align*}
-\boldsymbol{\Sigma}_{\mathbf{yy} \vert \mathbf{x}} =  \text{cov} ( \mathbf{y} , \mathbf{y} \vert \mathbf{x}) &= \boldsymbol{\Sigma}_{\mathbf{yy}} - \boldsymbol{\Sigma}_{\mathbf{yx}} \boldsymbol{\Sigma}_{\mathbf{xx}}^{-1} \boldsymbol{\Sigma}_{\mathbf{xy}} \\
-&= \sigma^2 \mathbf{I} - \boldsymbol{\gamma} \mathbf{I} \mathbf{A}^T (\boldsymbol{\gamma} \mathbf{I})^{-1} \mathbf{A} \boldsymbol{\gamma} \mathbf{I} \\
-&= \sigma^2 \mathbf{I} - \mathbf{A} \boldsymbol{\gamma}\mathbf{I} \mathbf{A}^T.
+\boldsymbol{\Sigma}_{\mathbf{xy}} &= \left( \boldsymbol{\gamma} \mathbf{I} \mathbf{A}^T\right)\\
+&= \textbf{A}\boldsymbol{\gamma}\mathbf{I}
+\end{align*}
+
+\paragraph{Covariance $\boldsymbol{\Sigma}_{\mathbf{yy}}$}
+Lastly the covariance of $\mathbf{y} \vert \mathbf{x}$ is similarly found using again the linearity of covariance:
+\begin{align*}
+\boldsymbol{\Sigma}_{\mathbf{yy}} = \text{cov} \left(\mathbf{Ax} + \mathbf{e} , \mathbf{Ax} + \mathbf{e} \right) \\ 
+&= \text{cov}\left( \mathbf{Ax},\mathbf{Ax} \right) + \text{cov}\left(\mathbf{Ax},  \mathbf{e} \right) + \text{cov}\left( \mathbf{e}, \mathbf{Ax} \right) + \text{cov}\left( \mathbf{e}, \mathbf{e} \right)\\
+&= \textbf{A}\boldsymbol{\Sigma}_{\mathbf{xx}}\textbf{A}^T + \boldsymbol{\Sigma}_{\mathbf{ee}} \\
+&= \textbf{A}\boldsymbol{\gamma} \mathbf{I}\textbf{A}^T + \sigma^2 \mathbf{I}
 \end{align*} 
 By combining all the found conditional covariances the resulting covariance becomes 
 \begin{align*}
-\boldsymbol{\Sigma} = \boldsymbol{\gamma} \mathbf{I} - \boldsymbol{\gamma} \mathbf{I} \mathbf{A}^T (\boldsymbol{\Sigma}_{\mathbf{yy} \vert \mathbf{x}})^{-1} \mathbf{A} \boldsymbol{\gamma} \mathbf{I}.
+\boldsymbol{\Sigma} = \boldsymbol{\gamma} \mathbf{I} - \boldsymbol{\gamma} \mathbf{I} \mathbf{A}^T (\textbf{A}\boldsymbol{\gamma} \mathbf{I}\textbf{A}^T + \sigma^2 \mathbf{I})^{-1} \mathbf{A} \boldsymbol{\gamma} \mathbf{I}.
 \end{align*}
 The resulting mean under the assumption that $\boldsymbol{\mu}_{\mathbf{y}} = \mathbf{0}$ becomes
 \begin{align*}

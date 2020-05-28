@@ -7,12 +7,27 @@ At first the provided data sets with EEG measurements are described. Followed by
 Finally, a summary is provided to highlight the conclusions.  
 
 \section{Data Description}
-\todo{Tjek lige dem måde jeg har sæt de forskellige længder ind af datasættene}
 For this thesis a data base of real EEG scalp measurements has been provided, from the department of electronic systems at Aalborg University. 
 The data base consists of data sets of EEG measurements resulting from three test subjects. 
 For each of three test subjects two data set is provided, one where the test subject sits still with open eyes and one similar but with closed eyes, resulting in a data base with 6 data sets. 
-For the measurements an EEG cap with $32$ sensors measuring the scalp EEG signal with sample frequency at $512$ Hz over a period of $[144, 123, 185, 230, 214, 222]$ seconds, resulting in $L = [74161, 63245, 94918, 117900, 110060, 114065]$ samples. 
-That is 27 channels with names and position available in \texttt{EEG.chanlocs} structure. 
+For the measurements an EEG cap with $32$ sensors measuring the scalp EEG signal with sample frequency at $512$ Hz over a varying period time.
+That is 27 channels with names and position available in \texttt{EEG.chanlocs} structure.
+The data sets are specified in table \ref{tab:data_spec} 
+\begin{table}[]
+\centering
+\begin{tabular}{|l|l|l|l|l|l|l|}
+\hline
+ \multicolumn{2}{|l|}{EEG measurements } & $M$ & $L$    & $f_s$ & $n_{seg}$ & $L_s$ \\ \hline
+1.& \texttt{S1\_Cclean} & 27  & 74161  & 512   & 144       & 144   \\ \hline
+2.& \texttt{S1\_Oclean} & 27  & 63245  & 512   & 123       & 123   \\ \hline
+3.& \texttt{S2\_Cclean} & 27  & 94918  & 512   & 185       & 185   \\ \hline
+4.& \texttt{S2\_Oclean} & 27  & 117900 & 512   & 230       & 230   \\ \hline
+5.& \texttt{S3\_Cclean} & 27  & 110060 & 512   & 214       & 214   \\ \hline
+6.& \texttt{S3\_Oclean} & 27  & 114065 & 512   & 22        & 22    \\ \hline
+\end{tabular}
+\caption{Specifations of the available data sets of EEG measurements, including specification of the segments resulting from segmentation into segments of length $t=1$ seconds.}
+\label{tab:data_spec}
+\end{table}
 
 Before the data base was provided each raw data set had undergone the following preprocessing.
 The data were bandpass filtered between 1 and 40 Hz. Then decomposed by ICA where the independent components related to eye activity or movement was removed. Thus, for every data set 27 sensors remains. One data set then consist solely of the measurement matrix $\mathbf{Y} \in \mathbb{R}^{27\times L}$.
@@ -91,9 +106,8 @@ The described test is performed on the following three cases,
 \end{itemize}
 
 \section{Results}
-For each case the test is performed on three data set -- \texttt{S1\_Cclean}, \texttt{S2\_Cclean} and \texttt{S3\_Cclean}. Measurements for three test subjects sitting with closed eyes in $[144, 185, 214]$ seconds.
+For each case the test is performed on all the data sets specified in table \ref{tab:data_spec}
 The results are plotted for one data set for visual understanding, lastly the results of all three data sets are compared in a table.  
-
 \input{sections/ch_eegtest/test.tex}
 
 \subsection{Summary of Results}

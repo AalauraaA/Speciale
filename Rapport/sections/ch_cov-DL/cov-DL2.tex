@@ -5,7 +5,7 @@ In general such a system is inconsistent.
 Thus, it is not possible to find $\mathbf{D}$ by traditional dictionary learning methods and different methods most be considered.
 Let the set for transformed measurements be denoted by 
 \begin{align*}
-\mathbf{Y}_{\text{Cov}} := \left\{\text{vec}\left( \mathbf{Y}_{s'} \mathbf{Y}_{s'}^T \right) \right\}_{s' = 1}^{L_{s'}}.
+\mathbf{Y}_{\text{cov}} := \left\{\text{vec}\left( \widehat{\boldsymbol{\Sigma}}_{\mathbf{Y}_{s'}} \right) \right\}_{s' = 1}^{L_{s'}}.
 \end{align*}
 When $ \widetilde{M} > N $ it is expected from model \eqref{eq:cov1} that the transformed measurements $\mathbf{Y}_{\text{Cov}}$ live on or near a subspace of dimension $N$. 
 This subspace is spanned by the columns of $\mathbf{D} \in \mathbb{R}^{\widetilde{M} \times N}$, and is denoted as $\mathcal{R}(\mathbf{D})$. 
@@ -14,7 +14,7 @@ To learn $\mathcal{R}(\mathbf{D})$ without having to impose any sparsity constra
 PCA is applied to the set of transformed measurements $\mathbf{Z}$ and the $N$ first principal components are determined. 
 The principal components form a set of basis vectors $\mathbf{U} = [\mathbf{u}_1, \dots, \mathbf{u}_N]$. 
 That is a new basis which spans the subspace of which $\mathbf{Z}$ lives. 
-Thus the equality, as claimed in \cite{Balkan2015}, $\mathcal{R}(\mathbf{U}) = \mathcal{R}(\mathbf{D})$ can be justified\todo{LÆS: bør vi bare sige at det er givet? eller helgardere os?}.  
+Thus the equality, as claimed in \cite{Balkan2015}, $\mathcal{R}(\mathbf{U}) = \mathcal{R}(\mathbf{D})$ can be justified.  
 However, this equality does not imply that $\mathbf{D} = \mathbf{U}$. 
 In the case of two bases spanning the same vector space, namely $\mathcal{R}(\mathbf{U}) = \mathcal{R}(\mathbf{D})$, the projection operator of the given subsets must be the same. 
 Consider the projection matrix the projection operator $\text{P}$ projecting onto the space $\mathcal{R}(\mathbf{D})$ spanned by the columns of $\mathbf{D}$, $\text{P}:\mathbb{R}^{\widetilde{M}}\rightarrow \mathcal{R}(\mathbf{D})$. 
@@ -28,7 +28,7 @@ This is specified by the following optimisation problem \cite{Balkan2015}
 \min_{\left\{\mathbf{a}_i\right\}_{i = 1}^{N}}\Vert  \mathbf{D}(\mathbf{D}^T \mathbf{D})^{-1} \mathbf{D}^T &- \mathbf{U}(\mathbf{U}^T \mathbf{U})^{-1}\mathbf{U}^T \Vert_{F}^{2} \nonumber \\
 \text{s.t.} \ \mathbf{d}_i &= \text{vec}(\mathbf{a}_i \mathbf{a}_i^T)\label{eq:Cov_DL2}
 \end{align}      
-where $\mathbf{U}$ results from PCA performed on $\textbf{Y}_{\text{Cov}}$.
+where $\mathbf{U}$ results from PCA performed on $\textbf{Y}_{\text{cov}}$.
 From the source \cite{Balkan2015} proposing the method it is only notified that that optimization problem \eqref{eq:Cov_DL2} is minimised by quasi-Newton optimization methods. Hence the exact minimization approach can not be depicted.    
 In the following section the optimization problem is analysed and processed in order to determine a suitable solution method. 
  

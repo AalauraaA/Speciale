@@ -50,7 +50,8 @@ def Main_Algorithm_test(N, k, Y, M, L, n_seg, A_real, L_covseg = 10): ## OBS rem
 M = 8 
 
 """ List for variation of N """
-list_ = np.arange(M+1,36+1,2)  # vary N 
+#list_ = np.arange(M+1,36+1,2)  # vary N 
+list_ = np.array([M+1])
 
 average = 500  # number og times each systems is solved, before the average is computed
 list_A = np.zeros(len(list_))
@@ -90,4 +91,14 @@ plt.xlabel('N')
 plt.ylabel('MSE')
 plt.show()
 plt.savefig('figures/varyN2.png')
-
+#
+#plt.figure(4)
+#plt.subplot(1, 2, 1)
+#plt.title('Outliers included')
+#plt.boxplot(avg_X,labels=['$N = M+1$'])
+#plt.ylabel('MSE')
+#plt.subplot(1, 2, 2)
+#plt.title('Outliers excluded')
+#plt.boxplot(avg_X,showfliers=False,labels=['$N = M+1$'])
+#plt.ylabel('MSE')
+#plt.tight_layout()

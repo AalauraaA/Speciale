@@ -1,16 +1,18 @@
 \defcounter {refsection}{0}\relax 
-\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ evt. Redeg\IeC {\o }relse for resultatet her skal lave her}{22}{section*.9}% 
+\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ evt. Redeg\IeC {\o }relse for resultatet her skal lave her}{22}{section*.10}
 \defcounter {refsection}{0}\relax 
-\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ insert $\ast $ p\IeC {\r a} flow diagram}{35}{section*.10}% 
+\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ insert $\ast $ p\IeC {\r a} flow diagram}{35}{section*.11}
 \defcounter {refsection}{0}\relax 
-\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ Tjek lige denne s\IeC {\ae }tning i forhold til fejlledet}{38}{section*.12}% 
+\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ Tjek lige denne s\IeC {\ae }tning i forhold til fejlledet}{38}{section*.13}
 \defcounter {refsection}{0}\relax 
-\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ Skal vi skrive different her eller beholde independent?}{38}{section*.13}% 
+\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ Skal vi skrive different her eller beholde independent?}{38}{section*.14}
 \defcounter {refsection}{0}\relax 
-\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ T\IeC {\ae }nker ikke at vi beh\IeC {\o }ves at inds\IeC {\ae }tte cov(X,X) men bare huske det til eksamen}{38}{section*.14}% 
+\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ T\IeC {\ae }nker ikke at vi beh\IeC {\o }ves at inds\IeC {\ae }tte cov(X,X) men bare huske det til eksamen}{38}{section*.15}
 \defcounter {refsection}{0}\relax 
-\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ Jeg pr\IeC {\o }vede her at snakke om invariance problem meget kort. T\IeC {\ae }nker at de yderligere skal n\IeC {\ae }vnes senere i kapitlet hvor main testes}{40}{section*.17}% 
+\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ Jeg pr\IeC {\o }vede her at snakke om invariance problem meget kort. T\IeC {\ae }nker at de yderligere skal n\IeC {\ae }vnes senere i kapitlet hvor main testes}{40}{section*.18}
 \defcounter {refsection}{0}\relax 
-\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ thought to be included based on comments from other sections:\\ One should go through the Cov-DL method step by step. especially with focus on:\\ -Checking the found $\textbf {D}$\\ -Whether the true $\textbf {D}$ results in the true $\textbf {A}$\\ -Whether the epsilon error gained from the X being only close to orthogonal is small as expected. \\ The considerations of the optimization problem not being convex is removed from above, so it can be mentioned here: (eksemple p\IeC {\r a} formulering)In chapter \ref {ch:Cov-DL} it is assumed that the optimization problem is convex but no further investigation regarding the truthfulness of this assumption was made. The inconsistent results might suggest that the optimization problem might not be convex. However, the fact that the optimization is terminated successfully with a cost equal to zero supports the existence of a global minimum.}{43}{section*.22}% 
+\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ thought to be included based on comments from other sections:\\ One should go through the Cov-DL method step by step. especially with focus on:\\ -Checking the found $\textbf {D}$\\ -Whether the true $\textbf {D}$ results in the true $\textbf {A}$\\ -Whether the epsilon error gained from the X being only close to orthogonal is small as expected. \\ The considerations of the optimization problem not being convex is removed from above, so it can be mentioned here: (eksemple p\IeC {\r a} formulering)In chapter \ref {ch:Cov-DL} it is assumed that the optimization problem is convex but no further investigation regarding the truthfulness of this assumption was made. The inconsistent results might suggest that the optimization problem might not be convex. However, the fact that the optimization is terminated successfully with a cost equal to zero supports the existence of a global minimum.}{43}{section*.23}
 \defcounter {refsection}{0}\relax 
-\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ cite is missing}{81}{section*.56}% 
+\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ Er det ikke varying SNR af true A i figurene?}{50}{section*.30}
+\defcounter {refsection}{0}\relax 
+\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ cite is missing}{81}{section*.58}

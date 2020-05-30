@@ -7,7 +7,7 @@ By the sources being independent and having zero mean the rows of $\mathbf{X}$ b
 which approximate the first conditions of theorem \ref{th:conditions}.   
 Then a mixing matrix $\mathbf{A} \in \mathbb{R}^{M \times N}$ is constructed with identically distributed and independent entries. 
 As such the source signals are randomly mixed and the mixing matrix fulfils the second condition of theorem \ref{th:conditions}.
-With known $\mathbf{A}$ and $\mathbf{X}$ the measurement matrix $\mathbf{Y} \in \mathbb{R}^{M \times L}$ is simulated according to the model, by the matrix product $\mathbf{Y} = \mathbf{AX}$. Note that the error matrix $\mathbf{E}$ is omitted in this chapter as the focus will be to evalute the performance of the recovering \todo{Tjek lige denne sætning i forhold til fejlledet}.  
+With known $\mathbf{A}$ and $\mathbf{X}$ the measurement matrix $\mathbf{Y} \in \mathbb{R}^{M \times L}$ is simulated according to the model, by the matrix product $\mathbf{Y} = \mathbf{AX}$. Note that the error matrix $\mathbf{E}$ is omitted in this chapter, as noise is not included in the synthetic data.  
 
 Two different kinds of data sets are simulated.
 One deterministic data set with simple and predictable source signals to ensure a solution and easy visualization.
@@ -15,7 +15,7 @@ And a stochastic data set with randomized and fluctuating source signals to rese
 
 \subsection{Deterministic Data Set}\label{subseg_simpledata}
 Two different deterministic data sets are simulated, with a different number of zero rows. 
-The first is specified by $N = 5$, $k = 4$, $M = 3$ and $L = 1000$. That is a source matrix $\mathbf{X}$ with $4$ independent \todo{Skal vi skrive different her eller beholde independent?} signals and $1$ zero row which is mixed into a measurement matrix with $3$ measurement per sample.  
+The first is specified by $N = 5$, $k = 4$, $M = 3$ and $L = 1000$. That is a source matrix $\mathbf{X}$ with $4$ rows generated independently and $1$ zero row which is mixed into a measurement matrix with $3$ measurement per sample.  
 The second deterministic data set is specified by $N = 8$, $k = 4$, $M = 3$ and $L = 1000$. This is 3 additional zero rows.
 From the specifications the first data set comply to $N \leq \frac{M(M+1)}{2}$ which imply the use of Cov-DL2.
 The second data set comply to $N > \frac{M(M+1)}{2}$ and $k \leq \frac{M(M+1)}{2}$ implying the use of Cov-DL1. 
@@ -28,7 +28,7 @@ The four different source signals of $\mathbf{X}$ are defined to be approximatel
 \item[3.] a sinus signal $\sin(4t)$
 \item[4.] a sign function of a sinus signal $\sin(3t)$
 \end{itemize}
-\todo{Tænker ikke at vi behøves at indsætte cov(X,X) men bare huske det til eksamen} with $t$ being a time index defined in the interval $[0,4]$ with $L$ samples. 
+\todo{undersøg lige hurtigt cov(X,X)} with $t$ being a time index defined in the interval $[0,4]$ with $L$ samples. 
 Each of the four signals are randomly drawn and used to construct a source matrix $\mathbf{X}$ of size $k \times L$, then zero rows are inserted randomly, such that $\mathbf{X} \in \mathbb{R}^{N \times L}$. 
 The mixing matrix $\mathbf{A}$ of size $M \times N$ is randomly generated from a Gaussian distribution. 
 By multiplying the source matrix and the mixing matrix the measurement matrix $\mathbf{Y}$ is achieved.

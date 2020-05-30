@@ -65,19 +65,12 @@ Finally an additional observation can be gained from figure \ref{fig:cov1_simple
 
 \subsubsection{Summary with respect to $\hat{\mathbf{A}}$}
 From the above results it is found that the estimate $\hat{\mathbf{A}}$, especially within the Cov-DL2 branch, can not be considered as a valid estimate of the mixing matrix $\mathbf{A}$. 
-The results suggeste immediately that the flaw lies within either the derivation of the cost function to the optimization problem, more specifically within the assumption made throughout the derivation concerning the relation between $\mathbf{A}, \mathbf{D}$ and $\mathbf{U}$. 
-In general three scenarios can be considered. An implementation mistake, a misinterpretation of the source \cite{Balkan2015} or the method do not work as ....
-The appearance of this issue may suggest there is a lack within the published results \cite{Balkan2015} considering the possibility of reproducibility of the results. 
+The results suggest immediately that the flaw lies within either the derivation of the cost function to the optimization problem, more specifically within the assumption made throughout the derivation concerning the relation between $\mathbf{A}, \mathbf{D}$ and $\mathbf{U}$. 
+In general three scenarios can be considered. The occurence of an mistake with respect to the implementation, a misinterpretation of the source \cite{Balkan2015} leading to wrong implementation or lastly the method do not work as claimed by the source. 
+In order to investigate the source of the insufficient results the main attribute would be a thorough step by step run-through of the implementation. Elements of special interest could be the found $\textbf{D}$ relative to $\textbf{A}$ and the amount of noise resulting from the rows of $\textbf{X}$ being close to orthogonal. 
+A different aspect could be the assumption of the optimization problem \eqref{eq:Cov_DL2} being convex without further investigation regarding the truthfulness of this assumption. The inconsistent results might suggest that the optimization problem might not be convex. However, the fact that the optimization is terminated successfully with a cost equal to zero supports the existence of a global minimum.
 
-Due to the time limitation of the project, the error is not investigated further, and it is concluded that the estimate of $\mathbf{A}$ is not valid hence it will not be used as an input for the next stage of the main algorithm, M-SBL. This conclusion suggests an alternative action must be considered. This is discussed further in section \ref{sec:test_base}.
-
-\todo[inline]{thought to be included based on comments from other sections:\\
-One should go through the Cov-DL method step by step. especially with focus on:\\
--Checking the found $\textbf{D}$\\
--Whether the true $\textbf{D}$ results in the true $\textbf{A}$\\
--Whether the epsilon error gained from the X being only close to orthogonal is small as expected. \\
-The considerations of the optimization problem not being convex is removed from above, so it can be mentioned here:
-(eksemple på formulering)In chapter \ref{ch:Cov-DL} it is assumed that the optimization problem is convex but no further investigation regarding the truthfulness of this assumption was made. The inconsistent results might suggest that the optimization problem might not be convex. However, the fact that the optimization is terminated successfully with a cost equal to zero supports the existence of a global minimum.}
+Due to the time limitation of the project, the described investigation towards the source of the error is not conducted. It is concluded that the estimate of $\mathbf{A}$ is not valid hence it will not be used as an input for the next stage of the main algorithm, M-SBL. This conclusion suggests an alternative to the estimate must be considered. This is discussed further in section \ref{sec:test_base}.
 
 \subsection{Test of M-SBL}
 From the flowchart \ref{fig:flow} it seen that the M-SBL algorithm takes $\hat{\mathbf{A}}$ and $\mathbf{Y}$ as input.

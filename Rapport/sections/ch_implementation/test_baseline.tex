@@ -1,40 +1,47 @@
 \section{Test of the Main Algorithm}\label{sec:test_base}
-In this section the performance of the main algorithm is evaluated. That is the algorithm visualised in the flow diagram, figure \ref{fig:flow}, where the Cov-DL algorithm and the M-SBL algorithm are combined. However, as discussed due to the negative conclusion on the verification of Cov-DL an alternative has to be considered.  
+In this section the performance of the main algorithm is evaluated. 
+That is the algorithm visualized in the flow diagram \ref{fig:flow} where the Cov-DL algorithm and the M-SBL algorithm are combined. 
+However, as discussed due to the negative conclusion on the verification of Cov-DL an alternative to the mixing matrix has to be considered.  
  
 \input{sections/ch_implementation/differentA.tex}  
 
 \subsection{Performance Test of Main Algorithm}\label{sec:Main_test}
 In order to evaluate the performance of the main algorithm, tests are conducted on several simulated stochastic data sets with different specifications. 
 The aim is to see how the relationship between $N$ and $M$ affect the performance, in other words how robust the algorithm is towards low density measurements, $M < N$. 
-The main algorithm is tested on simulated stochastic data sets specified by $M=8$, $L=1000$, $k=N$ with $N$ in the range $N = [M+1,\dots,36]$, as such $k<\widetilde{M}$ is withheld ensuring a solution.
+The main algorithm is tested on simulated stochastic data sets specified by $M = 8$, $L = 1000$, $k = N$ with $N$ in the range $N = M+1, \dots, 36$, as such $k < \widetilde{M}$ is withheld ensuring a solution.
 For each value of $N$ ten different data sets are simulated and solved, and the average $\text{MSE}(\mathbf{X}, \hat{\mathbf{X}})$ are used as the result. 
-The average $\text{MSE}(\mathbf{X}, \hat{\mathbf{X}})$ are plotted in figure \ref{fig:varyN1}.
+The average $\text{MSE}(\mathbf{X}, \hat{\mathbf{X}})$ are visualized in figure \ref{fig:varyN1}.
 \begin{figure}[H]
     \centering
 	\includegraphics[scale=0.5]{figures/ch_6/varyN1.png}
-	\caption{Visualization of $\text{MSE}(\mathbf{X}, \hat{\mathbf{X}})$ of the main algorithm with simulated stochastic data sets specified by $M = 8$, $L=1000$ and $k = N$ for $N = M+1, \hdots , 36$. Average over 10 repetitions for each $N$.}
+	\caption{Visualization of $\text{MSE}(\mathbf{X}, \hat{\mathbf{X}})$ of the main algorithm with simulated stochastic data sets specified by $M = 8$, $L = 1000$ and $k = N$ for $N = M+1, \dots , 36$. Average over ten repetitions for each $N$.}
 	\label{fig:varyN1}
 \end{figure}
 \noindent
-From figure \ref{fig:varyN1} it is seen that the $\text{MSE}(\mathbf{X}, \hat{\mathbf{X}})$ lies in the interval $[4,14]$, however no clear trend appears in the plot. 
-This suggests that it is not representative averages which have been plotted. Thus the test is repeated with more repetitions for each value of $N$. The new result of the $\text{MSE}(\mathbf{X}, \hat{\mathbf{X}})$ is seen in figure \ref{fig:varyN2}.
+From figure \ref{fig:varyN1} it is seen that the $\text{MSE}(\mathbf{X}, \hat{\mathbf{X}})$ lies in the interval $[4,14]$.
+However, no clear trend appears in the figure. 
+This suggests that it is not representative averages which have been visualized. 
+Thus, the test is repeated with more repetitions for each value of $N$. 
+The new result of the $\text{MSE}(\mathbf{X}, \hat{\mathbf{X}})$ is seen in figure \ref{fig:varyN2}.
 \begin{figure}[H]
     \centering
 	\includegraphics[scale=0.5]{figures/ch_6/varyN2.png}
-	\caption{Visualization of $\text{MSE}(\mathbf{X}, \hat{\mathbf{X}})$ of the main algorithm with simulated stochastic data sets specified by $M = 8$, $L=1000$ and $k = N$ for $N = M+1, \hdots , 36$. Average over 500 repetitions for each $N$.}
+	\caption{Visualization of $\text{MSE}(\mathbf{X}, \hat{\mathbf{X}})$ of the main algorithm with simulated stochastic data sets specified by $M = 8$, $L = 1000$ and $k = N$ for $N = M+1, \dots ,36$. Average over 500 repetitions for each $N$.}
 	\label{fig:varyN2}
 \end{figure}  
 \noindent
-Figure \ref{fig:varyN2} confirms the result of the first test. however the average MSE for $N=M+1 = 9$ has increased significantly . To investigate this behaviour the corresponding boxplot presenting the 500 repetitions is visualised in figure \ref{fig:box}, respectively with and without outlier. Here it is clear that the significant increase in average correspond to a few significant outliers. 
+Figure \ref{fig:varyN2} confirms the result of the first test. 
+However, the average MSE for $N = M + 1 = 9$ has increased significantly. 
+To investigate this behaviour the corresponding box-plot presenting the 500 repetitions is visualized in figure \ref{fig:box}, respectively with and without outliers. 
+Here it is clear that the significant increase in average correspond to a few significant outliers. 
 \begin{figure}[H]
     \centering
 	\includegraphics[scale=0.5]{figures/ch_6/boxplot.png}
 	\caption{f}
 	\label{fig:box}
 \end{figure}
-
-%Thus, it must be that average behaviour which is seen. 
+\noindent 
 Over all, this suggests that the performance of the main algorithm is not affected by the relation between $M$ and $N$.
 However, this assumption is counter intuitive and it is a contradiction to the results seen in figure \ref{fig:AR1} and \ref{fig:AR2}, where the true $\mathbf{A}$ was utilised. 
-Thus the choice of the alternative estimate $\hat{\mathbf{A}}_{\text{norm}}$ might have influenced the results negatively. 
+Thus, the choice of the alternative estimate $\hat{\mathbf{A}}_{\text{norm2}}$ might have influenced the results negatively. 
 Furthermore, it is worth to notice the relative large y-axis of the $\text{MSE}(\mathbf{X}, \hat{\mathbf{X}})$ suggesting a very high variance within the resulting $\text{MSE}(\mathbf{X}, \hat{\mathbf{X}})$, which add a certain unreliability to the results.    

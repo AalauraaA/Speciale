@@ -1,20 +1,14 @@
 \chapter{Further Studies}
 Based on the accomplished conclusions, further studies regarding the proposed main algorithm and the general issue of source signal recovery will be discussed.
 
-One essential finding in this thesis was the negative result with respect to the proposed implementation of the COV-DL method. It is concluded that the reproducibility of the corresponding article was not sufficient. However, it is not excluded that further studies would enable a successful implementation.  
-%As described in chapter \ref{ch:implementation} the main algorithm do not manage to successfully recover the mixing matrix and source matrix from the simulated data sets. And by that lead to a non successful recovering of unknown sources from the real EEG measurements. 
-%It was discussed in chapter \ref{ch:discussion} that in Cov-DL the optimisation process did not success.
-This could be further investigations in form of rewriting the optimisation problem or choosing a different optimisation process. 
+One essential finding in this thesis was the negative result with respect to the proposed implementation of the Cov-DL method. It is concluded that the reproducibility of the corresponding article was not sufficient. However, it is not excluded that further studies would enable a successful implementation. 
+This could be further investigations in form of rewriting the optimization problem or choosing a different optimization process. 
 
-Another aspect could be to dismiss the COV-DL method and do some research with respect to alternative methods for finding the mixing matrix.   
-%was that the methods behind the main algorithm was unreproducible and therefore was not the best fit for this thesis to seek in recovering sources. 
-Such method could be the low resolution electrical tomograph (LORETA), which localises electrical activity inside the brain. Or, the minimum norm estimates (MNE), which reconstructs the activity on the cortical surface \cite{??}\todo{cite is missing}.
+Another aspect could be to dismiss the Cov-DL method and do some research with respect to alternative methods for finding the mixing matrix. 
+Such method could be the low resolution electrical tomograph (LORETA), which localizes electrical activity inside the brain. Or, the minimum norm estimates (MNE), which reconstructs the activity on the cortical surface \cite{LORETA}.
 
 From the overall perspective of the topic, it could be of interest to alter the view on the EEG measurements. In this thesis the purpose was to recover active source signals from the EEG measurements, by the main algorithm. 
 A news article from April 2020, \cite{Ing2020}, presents the newest research from Eriksholm Research Center. Concerning application of EEG measurements within a hearing aid, as mentioned in the chapter \ref{ch:motivation}. They suggest that, by focusing only on recovery of signals from eye movements, the direction of the sight can be measured. 
-As this thesis focus on finding all sources from the provided EEG measurements, this could be a change of focus. The advantage of targeting the specific signals, which was before considered as noise on the EEG measurement, is that fewer sensors is needed and fewer signals are sought recovered. This results in fewer computations and a potential of avoiding the difficult under-determined case could be present.      
+As this thesis focus on finding all sources from the provided EEG measurements, this could be a change of focus. The advantage of targeting the specific signals, which was before considered as noise on the EEG measurement, is that fewer sensors is needed and fewer signals are sought recovered. This result in fewer computations and a potential of avoiding the difficult under-determined case could be present. 
 For this case a different EEG measurements data base must be provided or created since the data used in this thesis do not contain the signals created by the eye movement and surrounding muscle movements.
-
-%A last thing that could interesting to work further on is to make the main algorithm into a real-time application such as this could a useful algorithm within the hearing aids industry. 
-%One of the issue with this kind of application would be to make it low in time consumption as it would not be effective in short-time conversations if the it take 1 minutes to read and analyse the EEG measurements.
 

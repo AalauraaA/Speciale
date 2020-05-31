@@ -9,6 +9,13 @@
   Year                     = {2013}
 }
 
+@Book{MSE_book,
+  Title                    = {A Modern Introduction to Probability and Statistics},
+  Author                   = {Dekking, F.M. and Kraaikamp, C. and Lopuhaa, H.P. and Meester, L.E.},
+  Publisher                = {Springer},
+  Year                     = {2005}
+}
+
 @Article{ARD,
   Title                    = {A New View of Automatic Relevance Determination},
   Author                   = {Wipf, D. P. and Nagarajan, S. S.},
@@ -251,6 +258,13 @@ QCQPs},
   Year                     = {2015},
   Month                    = {January},
   Type                     = {Master thesis}
+}
+
+@Article{LORETA,
+  Title                    = {The inverse problem in electroencephalography using the bidomainmodel of electrical activity},
+  Author                   = {Rincon, A. Lopez and  Shimoda, S.},
+  Journal                  = {Journal of Neuroscience Methods},
+  Year                     = {2016}
 }
 
 @Article{Bech2018,

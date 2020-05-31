@@ -3,7 +3,8 @@ Through this chapter the implementation process has been described, followed by 
 
 From the test of M-SBL on stochastic data sets it was verified that the algorithm provide the expected output, and from $\text{MSE}(\mathbf{X}, \hat{\mathbf{X}})$ and the corresponding visual comparison, the estimate was found to be sufficient. 
 The verification of M-SBL was conditioned on the true mixing matrix $\mathbf{A}$ as input, to not let the precision of the estimate $\hat{\mathbf{A}}$ from Cov-DL affect the results. 
-Furthermore, the possibilities of letting $k = N$ was discussed. Neither $N$ nor $k$ is known in practise, but one has to provide the best guess for both $N$ and $k$ to the algorithm in order to provide corresponding number of source signals. 
+Furthermore, the possibilities of letting $k = N$ was discussed. 
+Neither $N$ nor $k$ is known in practice, but one has to provide the best guess for both $N$ and $k$ to the algorithm in order to provide corresponding number of source signals. 
 By letting $k = N$ one only has to guess the maximal number of active sources and not the relation between active and non-active sources, which is considered easier. 
 Considering the consequences within the M-SBL, letting $k = N$ will reduce the chance of dislocation among the rows, which is seen as an advantage. 
 Furthermore, tests on the deterministic data sets confirmed that the estimated active sources were not degraded. 
@@ -17,18 +18,20 @@ However, as the estimate of $\mathbf{A}$ resulting from Cov-DL is crucial in ord
 Then, the missing estimate must be taking into account when evaluating the final results.
 
 Different suggestions for an alternative estimate of $\mathbf{A}$ was proposed and evaluated by the resulting $\text{MSE}(\mathbf{X}, \hat{\mathbf{X}})$. 
-Here it was found that the fixed estimate $\hat{\mathbf{A}}_{\text{norm}}$ generated from a normal distribution with mean $0$ and variance $2$ provided the best result, when tested on stochastic data sets resembling real EEG measurements. 
+Here it was found that the fixed estimate $\hat{\mathbf{A}}_{\text{norm2}}$ generated from a normal distribution with mean $0$ and variance $2$ provided the best result, when tested on stochastic data sets resembling real EEG measurements. 
 
 Lastly, the performance of the main algorithm was tested on stochastic data sets. 
 Here tests were performed on varying $N$ in order to investigate performance relative to the relation between $M$ and $N$. 
 For each value of $N$, several repetitions were conducted and the average $\text{MSE}(\mathbf{X}, \hat{\mathbf{X}})$ was evaluated. 
 The $\text{MSE}(\mathbf{X}, \hat{\mathbf{X}})$ was found to lie within an interval from 2 to 25, without any characteristic trend relative to the increasing $N$. 
 From this is it concluded that the performance does not rely on the relation between $N$ and $M$. 
-Despite that this was indicated by the tests where the true $\mathbf{A}$ was utilised. 
-Thus the lack of a precise estimate of $\mathbf{A}$ might influence the final results. 
+Despite that this was indicated by the tests where the true $\mathbf{A}$ was utilized. 
+Thus, the lack of a precise estimate of $\mathbf{A}$ might influence the final results. 
 
 Overall, the implementation of the resulting main algorithm is approved. 
-Thus the main algorithm is ready to be tested on real EEG measurements in order to evaluate the performance with respect to the problem statement of this thesis. These tests are specified and conducted in the next chapter. 
+Thus, the main algorithm is ready to be tested on real EEG measurements in order to evaluate the performance with respect to the problem statement of this thesis. 
+These tests are specified and conducted in the next chapter. 
 
-However, by using a fixed estimate of the mixing matrix $\textbf{A}$ which might be far from true the mixing matrix, the estimated source signals $\hat{\textbf{X}}$ can not be considered reliable. Under different circumstance it would be preferred to investigate the issues of Cov-DL until a sufficient estimate was verified before testing the main algorithm on EEG measurements.
-Hence the results to be obtained by applying the main algorithm to EEG measurements will serve as investigation of the possible extent of the performance of the main algorithm, when $\hat{\textbf{A}}$ is randomly generated rather than estimated from the given measurements.       
+However, by using a fixed estimate of the mixing matrix $\mathbf{A}$ which might be far from true the mixing matrix, the estimated source signals $\hat{\mathbf{X}}$ can not be considered reliable. 
+Under different circumstance it would be preferred to investigate the issues of Cov-DL until a sufficient estimate was verified before testing the main algorithm on EEG measurements.
+Hence, the results to be obtained by applying the main algorithm to EEG measurements will serve as investigation of the possible extent of the performance of the main algorithm, when $\hat{\textbf{A}}$ is randomly generated rather than estimated from the given measurements.       

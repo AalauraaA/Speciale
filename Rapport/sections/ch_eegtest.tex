@@ -1,84 +1,92 @@
 \chapter{Test on EEG measurements}\label{ch:eeg_test}
 The main algorithm was implemented and tested on simulated data in chapter \ref{ch:implementation}. 
 In this chapter the main algorithm is tested on EEG measurements, for which it is intended. 
-Two different approaches are considered with respect to evaluating the resulting estimates of the source signals -- ICA comparison and alpha wave analysis, respectively.
+Two different approaches are considered with respect to evaluating the resulting estimates of the source signals, ICA comparison and alpha wave analysis, respectively.
 
-At first the provided data sets with EEG measurements are described. Followed by a test description and an analysis of the results for both of the evaluation approaches. 
+At first the provided data sets with EEG measurements are described. 
+Followed by a test description and an analysis of the results for both of the evaluation approaches. 
 Finally, a summary is provided to highlight the conclusions.  
 
 \section{Data Description}
 For this thesis a data base of real EEG scalp measurements has been provided, from the department of electronic systems at Aalborg University. 
 The data base consists of data sets of EEG measurements resulting from three test subjects. 
-For each of three test subjects two data set is provided, one where the test subject sits still with open eyes and one similar but with closed eyes, resulting in a data base with 6 data sets. 
+For each of three test subjects, two data set is provided. One where the test subject sits still with open eyes and one similar but with closed eyes, resulting in a data base with 6 data sets. 
 For the measurements an EEG cap with $32$ sensors measuring the scalp EEG signal with sample frequency at $512$ Hz over a varying period time.
 That is 27 channels with names and position available in \texttt{EEG.chanlocs} structure.
-The data sets are specified in table \ref{tab:data_spec} 
-\begin{table}[]
+The data sets are specified in table \ref{tab:data_spec}.
+\begin{table}[H]
 \centering
 \begin{tabular}{|l|l|l|l|l|l|l|}
 \hline
- \multicolumn{2}{|l|}{EEG measurements } & $M$ & $L$    & $f_s$ & $n_{seg}$ & $L_s$ \\ \hline
-1.& \texttt{S1\_Cclean} & 27  & 74161  & 512   & 144       & 144   \\ \hline
-2.& \texttt{S1\_Oclean} & 27  & 63245  & 512   & 123       & 123   \\ \hline
-3.& \texttt{S2\_Cclean} & 27  & 94918  & 512   & 185       & 185   \\ \hline
-4.& \texttt{S2\_Oclean} & 27  & 117900 & 512   & 230       & 230   \\ \hline
-5.& \texttt{S3\_Cclean} & 27  & 110060 & 512   & 214       & 214   \\ \hline
-6.& \texttt{S3\_Oclean} & 27  & 114065 & 512   & 22        & 22    \\ \hline
+ \multicolumn{2}{|l|}{EEG measurements } & $M\_$ & $L$    & $f_s$ & $n_{\text{seg}}$ & $L_s$ \\ \hline
+1.& \texttt{S1\_Cclean} & 27  & 74161  & 512   & 144       & 516   \\ \hline
+2.& \texttt{S1\_Oclean} & 27  & 63245  & 512   & 123       & 514   \\ \hline
+3.& \texttt{S2\_Cclean} & 27  & 94918  & 512   & 185       & 513   \\ \hline
+4.& \texttt{S2\_Oclean} & 27  & 117900 & 512   & 230       & 512   \\ \hline
+5.& \texttt{S3\_Cclean} & 27  & 110060 & 512   & 214       & 514   \\ \hline
+6.& \texttt{S3\_Oclean} & 27  & 114065 & 512   & 222        & 513    \\ \hline
 \end{tabular}
-\caption{Specifations of the available data sets of EEG measurements, including specification of the segments resulting from segmentation into segments of length $t=1$ seconds.}
+\caption{Specifications of the available data sets of EEG measurements, including specification of the segments resulting from segmentation into segments of length $t=1$ seconds.}
 \label{tab:data_spec}
 \end{table}
-
+\noindent
 Before the data base was provided each raw data set had undergone the following preprocessing.
-The data were bandpass filtered between 1 and 40 Hz. Then decomposed by ICA where the independent components related to eye activity or movement was removed. Thus, for every data set 27 sensors remains. One data set then consist solely of the measurement matrix $\mathbf{Y} \in \mathbb{R}^{27\times L}$.
-
-%The data set is then ready to be divided in segments for which a source matrix $\hat{\textbf{X}}$ is to be estimated by the main algorithm described in chapter \ref{ch:implementation}.
+The data were bandpass filtered between 1 and 40 Hz. Then decomposed by ICA where the independent components related to eye activity or movement was removed. 
+Thus, for every data set 27 sensors remains. 
+One data set then consist solely of the measurement matrix $\mathbf{Y} \in \mathbb{R}^{27\times L}$.
 
 \section{Test Description}\label{seg:main_test_description}
 The test procedure is now described through specification of the evaluation criteria and the practical implementation of the test.
-Remember the aim of the developed main algorithm is to estimated the source matrix in the case where the number of sensors is less than the number of active source signals -- $M < k \leq N$.
+Remember the aim of the implemented main algorithm is to estimated the source matrix in the case where the number of sensors is less than the number of active source signals -- $M < k \leq N$.
 
 \subsection{Performance Evaluation by Comparison to ICA}
-From the description of ICA used on EEG measurements, cf. section \ref{sec:ICAsolution} ICA are considered unreliable when using low-density EEG equipment where $M<32$, but for $M \geq 32$ the currently considered the most reliable method for the source estimation. However note again that the true number of sources is unknown thus there is always some unreliability to the result. 
+From the description of ICA used on EEG measurements, cf. section \ref{sec:ICAsolution}, ICA is considered unreliable when using low density EEG equipment where $M < 32$. 
+For $M \geq 32$ ICA is currently considered the most reliable method for the source recovery. 
+However, note that the true number of sources is unknown thus there is always some unreliability to the result. 
 
-From the view that the sources found by ICA where $N=M$ is the best estimate, it is possible to let that estimate serve as a reference to be compared to the estimates achieved when $M<N$. 
-In practice that is to perform ICA on a data set $\textbf{Y} \in \mathbb{R}^{M \times L}$ resulting in $\hat{\textbf{X}}_{ICA}\in \mathbb{R}^{N\times L}$ where $M=N$. 
-Then a specific number of sensors are removed from the data set $\textbf{Y}$ such that $M<N$ then and $\hat{\textbf{X}}_{\text{Main}}\in \mathbb{R}^{N\times L}$ is estimated by the main algorithm. 
-Then the performance of the main algorithm can be measured by comparison to the $\hat{\textbf{X}}_{\text{ICA}}$ -- does the main algorithm manage to find the same active sources as ICA, but for $M<N$?
+From the view that the sources found by ICA is the best estimate, it is possible to let that estimate serve as a reference for comparison of estimates recovered from $M < N$. 
+In practice that is to perform ICA on a data set $\mathbf{Y} \in \mathbb{R}^{M \times L}$ resulting in $\hat{\mathbf{X}}_{\text{ICA}} \in \mathbb{R}^{N \times L}$ where $M = N$. 
+Then a specific number of sensors are removed from the data set $\mathbf{Y}$ such that $\hat{\mathbf{X}}_{\text{main}} \in \mathbb{R}^{N\times L}$ is estimated by the main algorithm  with $M < N$. 
+The performance of the main algorithm can be measured by comparison to the $\hat{\mathbf{X}}_{\text{ICA}}$. 
+Does the main algorithm manage to find the same active sources as ICA, but for $M < N$?
 
 In appendix \ref{app:ica_test} the ICA algorithm is verified on simulated data without noise. 
-It is found that ICA manage to estimate $\textbf{X}$ almost exact, when $M=N=k$. 
-Furthermore, it is seen that for $k < N$ ICA manage to estimate the zero rows as zero. This supports that the estimate by ICA can serve as a reference.     
+It was found that ICA manages to estimate $\mathbf{X}$ almost exact, when $M = N = k$. 
+Furthermore, it is seen that for $k < N$ ICA manages to estimate the zero rows as zero. 
+This supports that the estimate by ICA can serve as a reference.     
 
 To compare the two estimates the MSE, cf. section \ref{sec:mse}, is used. 
-However, an issue arises due to the fact that ICA do not manage to localise each of the found sources. 
-That is the row of $\hat{\textbf{X}}_{\text{ICA}}$ do not correspond to the true $\textbf{X}$. 
-Furthermore, the ICA algorithm is invariant toward the phase and the amplitude. This must necessarily worsen the resulting MSE.  
+However, an issue arises due to the fact that ICA do not manage to localize each of the found sources. 
+That is the row of $\hat{\mathbf{X}}_{\text{ICA}}$ do not correspond to the true $\mathbf{X}$. 
+Furthermore, the ICA algorithm is invariant toward the phase and the amplitude. 
+This must necessarily worsen the resulting MSE.  
 
-The issue is cover in appendix \ref{app:ica_test}. 
-Here a function is considered, which manage to pair and fit the rows with the lowest mutual MSE and then arrange the rows of $\hat{\textbf{X}}_{\text{ICA}}$ such that $MSE(\textbf{X},\hat{\textbf{X}}_{\text{ICA}})$ is minimised. 
+The issue is covered in appendix \ref{app:ica_test}. 
+Here a function is considered, which manage to pair and fit the rows with the lowest mutual MSE and then arrange the rows of $\hat{\mathbf{X}}_{\text{ICA}}$ such that $\text{MSE}(\mathbf{X}, \hat{\textbf{X}}_{\text{ICA}})$ is minimised. 
 The fitting consists of a possible phase shift and scaling of the amplitude. 
 The right optimal fit was found through a brute-force search, however this is impossible as the possible number of combinations increases as $k$ increases. 
-This suggests the definition of an optimisation problem minimising the resulting MSE with respect to the combination of row indexes, possible phase and corresponding amplitude scaling. 
-Unfortunately, a successful optimization was not achieved within the time scope of this project, thus the fitting process is not applied to the results achieved from the EEG measurements in this chapter. 
+This suggests the definition of an optimization problem minimizing the resulting MSE with respect to the combination of row indexes, possible phase and corresponding amplitude scaling. 
+Unfortunately, a successful optimization was not achieved within the time scope of this thesis.
+Thus, the fitting process is not applied to the results achieved from the EEG measurements in this chapter. 
 This factor must be taken into account when evaluating the results.
 
-Consider again the resulting MSE$(\hat{\textbf{X}}_{ICA},\hat{\textbf{X}}_{\text{Main}})$. 
+Consider again the resulting MSE$(\hat{\mathbf{X}}_{\text{ICA}}, \hat{\mathbf{X}}_{\text{main}})$. 
 To evaluate further on the question whether the same sources have been found a tolerance for the MSE is introduced. 
-With MSE$(\hat{\textbf{X}}_{\text{ICA}},\hat{\textbf{X}}_{\text{Main}})$ being an average over the MSE of each row within one segment a low value indicate that main part of the rows makes an estimate similar the estimate from ICA. 
-From this perspective a tolerance for MSE$(\hat{\textbf{X}}_{\text{ICA}},\hat{\textbf{X}}_{\text{Main}})$ decides whether the same sources are achieved with success. 
-The tolerance is set to 6 due to previous observations with respect to the simulated data, especially figure \ref{fig:AR2} indicate that an MSE below 6 is achievable for a system where $M<<N$ with use of $\textbf{A}_{\text{real}}$. 
-It could be argued that the tolerance should be increased as the estimate of $\textbf{A}$ is not expected to be nearly as good, however this will could give a distorted image of the results.          
+With MSE$(\hat{\mathbf{X}}_{\text{ICA}}, \hat{\mathbf{X}}_{\text{main}})$ being an average over the MSE of each row within one segment a low value indicate that main part of the rows makes an estimate similar the estimate from ICA. 
+From this perspective a tolerance for MSE$(\hat{\mathbf{X}}_{\text{ICA}}, \hat{\mathbf{X}}_{\text{main}})$ decides whether the same sources are achieved with success. 
+The tolerance is set to six due to previous observations with respect to the simulated data. Especially figure \ref{fig:AR2} indicate that an MSE below six is achievable for a system where $M << N$ with use of $\mathbf{A}_{\text{true}}$. 
+It could be argued that the tolerance should be increased as the estimate of $\mathbf{A}$ is not expected to be nearly as good. 
+However, this could give a distorted image of the results.    
 
 \subsection{Test Setup}
-The test set up is visualised in figure \ref{fig:flow2} by a flow diagram, showing the essential steps of the test. 
+The test setup is visualized in figure \ref{fig:flow2} by a flow diagram, showing the essential steps of the test. 
 \begin{figure}[H]
     \centering
 	\includegraphics[scale=1]{figures/ch_7/flow2.png}
-	\caption{Flow diagram for visualisation of the test procedure for one data set. Example given for $M<N$ where \texttt{request = 1/3} result in $M=9$.}
+	\caption{Flow diagram for visualization of the test procedure for one data set. Example given for $M < N$ where \texttt{request = 1/3} result in $M = 9$.}
 	\label{fig:flow2}
 \end{figure}
-%%% describtion of the flowchart - remainings
+\noindent
 In the flow diagram the two estimation processes are seen to run parallel but taking the same input. 
 Prior to the application of ICA, the input is divided into segments. 
 That is the same segmentation as inside the main algorithm, cf. section \ref{sec:implementation_flow}.
@@ -86,39 +94,43 @@ The size of the segments is defined due to the expected stationarity of the sour
 As described in the motivation chapter \ref{ch:motivation} sources are stationary if you look at sufficiently small intervals. 
 Segments at $t = 1$ second is chosen from the assumption that the brain activity can be assumed stationary within short time interval.
 Furthermore, one must take in mind that shorter time interval lead to more segments and therefore a higher computational complexity. 
-After the segmentation the ICA is applied to every segment, returning $\hat{\textbf{X}}_{\text{ICA} s} \in \mathbb{R}^{M \times L_s}$.
+After the segmentation the ICA is applied to every segment, returning $\hat{\mathbf{X}}_{\text{ICA} s} \in \mathbb{R}^{M \times L_s}$.
 From appendix \ref{app:ica_test} it is seen that ICA manage to estimate the non-active sources by zero rows, when no noise is present. 
 When ICA is applied to the EEG measurements noise is expected. 
 Thus the non-active sources defined by the average amplitude being within a tolerance interval around zero, defined by tol = $[10E-03, -10E-03]$. 
-When the non-active sources are identified, they are removed and the resulting estimate is reduced to $\hat{\textbf{X}}_{\text{ICA} s} \in \mathbb{R}^{k \times L_s}$. 
+When the non-active sources are identified, they are removed and the resulting estimate is reduced to $\hat{\mathbf{X}}_{\text{ICA} s} \in \mathbb{R}^{k \times L_s}$. 
 The found number of active sources $k$ is then given as input to the main algorithm where $k = N$. 
-In parallel to the ICA process the input data is reduced as specified in the previous subsection. 
+In parallel to the ICA process the input data is reduced as specified in the previous section. 
 Then the main algorithm is applied to the reduced data set. 
-Within the main algorithm the data are like wise divided in segments and an estimate $\hat{\textbf{X}}_{\text{Main} s} \in \mathbb{R}^{k \times L_s}$ is returned. 
-Note that $\textbf{A}_{\text{fix}}$ is given as a manual input, replacing the Cov-DL algorithm as concluded in chapter \ref{ch:implementation}.
-At the end the resulting two estimates have the same dimensions which allow for $\hat{\textbf{X}}_{\text{Main} s}$ to be evaluated with respect to $\hat{\textbf{X}}_{\text{ICA} s}$ by the MSE. 
+Within the main algorithm the data are like wise divided in segments and an estimate $\hat{\mathbf{X}}_{\text{main} s} \in \mathbb{R}^{k \times L_s}$ is returned. 
+Note that $\mathbf{A}_{\text{fix}}$ is given as a manual input, replacing the Cov-DL algorithm as concluded in chapter \ref{ch:implementation}.
+At the end the resulting two estimates have the same dimensions which allow for $\hat{\mathbf{X}}_{\text{main} s}$ to be evaluated with respect to $\hat{\mathbf{X}}_{\text{ICA} s}$ by the MSE. 
 \\ \\
 The described test is performed on the following three cases,
 \begin{itemize}
-\item \textbf{Case 0}: $M = N$ , to see the best possible result achieved by the main algorithm. 
+\item \textbf{Case 0}: $M = N$ to see the best possible result achieved by the main algorithm. 
 \item \textbf{Case 1}: $M < N$ every third sensor is removed. 
 \item \textbf{Case 2}: $M << N$ every second sensor is removed.
 \end{itemize}
 
 \section{Results}
-For each case the test is performed on all the data sets specified in table \ref{tab:data_spec}
-The results are plotted for one data set for visual understanding, lastly the results of all three data sets are compared in a table.  
+For each case the test is performed on all the data sets specified in table \ref{tab:data_spec}.
+The results are visualized for one data set for visual understanding.
+Lastly, the results of all three data sets are compared in a table.  
+
+The results are plotted for data set S1\_Cclean. 
+The data set consist of 144 time segments with $L_s = 516$ samples and $M\_ = 27$ sensors. 
 \input{sections/ch_eegtest/test.tex}
 
 \subsection{Summary of Results}
-The main algorithm has been tested on 6 data sets of EEG measurement, for a varying relation between the number of sensors and sources -- respectively case 0, 1 and 2.
-When the number of sensors is reduced with respect to the number of sources to be found, a significant decrease in performance was found -- comparing case 0 and 1. 
-However a corresponding decrease of performance was not found when further sensors was removed -- comparing case 1 and 2. 
+The main algorithm has been tested on six data sets of EEG measurement, for a varying relation between the number of sensors and sources, case 0, 1 and 2 respectively.
+When the number of sensors is reduced with respect to the number of sources to be found, a significant decrease in performance was found. When comparing case 0 and 1. 
+However, a corresponding decrease of performance was not found when further sensors was removed when comparing case 1 and 2. 
 
-From the conclusions made in chapter \ref{ch:implemantation} it was not expected that the main algorithm would provide successful results, without estimating $\textbf{A}$ form the data. 
+From the conclusions made in chapter \ref{ch:implementation} it was not expected that the main algorithm would provide successful results, without estimating $\mathbf{A}$ form the data. 
 The results of case 0 do however indicate a solid estimate provided by the main algorithm, with an average percentage of successfully estimated segments at $83\%$. 
 
-Furthermore, it is worth to note that the resulting MSE values has potential for improvement when considering optimization of the source localisation of the ICA estimate, cf. appendix \ref{app:ica_test}.
+Furthermore, it is worth to note that the resulting MSE values has potential for improvement when considering optimization of the source localization of the ICA estimate, cf. appendix \ref{app:ica_test}.
 
 \input{sections/ch_eegtest/frequency.tex}
 

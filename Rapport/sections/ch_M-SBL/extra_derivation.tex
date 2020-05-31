@@ -1,20 +1,19 @@
 \section{Derivation of Posterior Mean $\mathcal{M}$ and Covariance $\boldsymbol{\Sigma}$}\label{app_sec:mean_cov}
 The purpose of this section is to derive the mean $\mathcal{M}$ and covariance $\boldsymbol{\Sigma}$ of the posterior distribution
 \begin{align*}
-p\left( \mathbf{x}_{\cdot j} \vert \mathbf{y}_{\cdot j} ; \boldsymbol{\gamma} \right) \sim \mathcal{N}(\boldsymbol{\mu}_{\cdot j} , \boldsymbol{\Sigma}).
+p\left( \mathbf{x}_{\cdot j} \vert \mathbf{y}_{\cdot j} ; \boldsymbol{\gamma} \right) \sim \mathcal{N}(\boldsymbol{\mu}_{\cdot j} , \boldsymbol{\Sigma}),
 \end{align*}
 from \eqref{eq:bay} in section \ref{seg:EBE}. 
 
 Let $\mathbf{x}_{\cdot j} = \mathbf{x}$ and $\mathbf{y}_{\cdot j} = \mathbf{y}$ to ease the notation throughout the derivation. The prior and likelihood is then defined as
 \begin{align*}
-p(\mathbf{x} ; \boldsymbol{\gamma}) &\sim \mathcal{N}(\mathbf{0}, \boldsymbol{\gamma} \mathbf{I} ) \\
+p(\mathbf{x} ; \boldsymbol{\gamma}) &\sim \mathcal{N}(\mathbf{0}, \boldsymbol{\gamma} \mathbf{I} ), \\
 p(\mathbf{y} \vert \mathbf{x}) &\sim \mathcal{N}(\mathbf{A}\mathbf{x}, \sigma^2 \mathbf{I}).
 \end{align*}
-from the known SMV model of $\textbf{y}$ the above implies
+From the known SMV model of $\mathbf{y}$ the above implies
 \begin{align*}
-\textbf{y}=\textbf{A}\textbf{x}+\textbf{e}, \quad \textbf{e}\sim \mathcal{N}(0,\sigma^2\textbf{I}) 
+\mathbf{y} = \mathbf{A} \mathbf{x} + \mathbf{e}, \quad \mathbf{e} \sim \mathcal{N}(\mathbf{0},\sigma^2 \mathbf{I}) 
 \end{align*}
-
 %Now define one Gaussian random variable  
 %\begin{align*}
 %\mathbf{z} = \begin{bmatrix}
@@ -77,7 +76,7 @@ The covariance between $\mathbf{y}$ and $\mathbf{x}$ is defined by the transpose
 \paragraph{Covariance $\boldsymbol{\Sigma}_{\mathbf{yy}}$}
 Lastly the covariance of $\mathbf{y} \vert \mathbf{x}$ is similarly found using again the linearity of covariance:
 \begin{align*}
-\boldsymbol{\Sigma}_{\mathbf{yy}} = \text{cov} \left(\mathbf{Ax} + \mathbf{e} , \mathbf{Ax} + \mathbf{e} \right) \\ 
+\boldsymbol{\Sigma}_{\mathbf{yy}} &= \text{cov} \left(\mathbf{Ax} + \mathbf{e} , \mathbf{Ax} + \mathbf{e} \right) \\ 
 &= \text{cov}\left( \mathbf{Ax},\mathbf{Ax} \right) + \text{cov}\left(\mathbf{Ax},  \mathbf{e} \right) + \text{cov}\left( \mathbf{e}, \mathbf{Ax} \right) + \text{cov}\left( \mathbf{e}, \mathbf{e} \right)\\
 &= \textbf{A}\boldsymbol{\Sigma}_{\mathbf{xx}}\textbf{A}^T + \boldsymbol{\Sigma}_{\mathbf{ee}} \\
 &= \textbf{A}\boldsymbol{\gamma} \mathbf{I}\textbf{A}^T + \sigma^2 \mathbf{I}
@@ -89,5 +88,5 @@ By combining all the found conditional covariances the resulting covariance beco
 The resulting mean under the assumption that $\boldsymbol{\mu}_{\mathbf{y}} = \mathbf{0}$ becomes
 \begin{align*}
 \boldsymbol{\mu}_{\cdot j} &= \mathbf{0} + \boldsymbol{\gamma} \mathbf{I} \mathbf{A}^T \left( \boldsymbol{\Sigma}_{\mathbf{yy}} \right)^{-1} \left(\mathbf{y} - \mathbf{0}\right) \\
-&= \boldsymbol{\gamma} \mathbf{I} \mathbf{A}^T \left( \boldsymbol{\Sigma}_{\mathbf{yy}} \right)^{-1} \mathbf{y}
+&= \boldsymbol{\gamma} \mathbf{I} \mathbf{A}^T \left( \boldsymbol{\Sigma}_{\mathbf{yy}} \right)^{-1} \mathbf{y}.
 \end{align*}  

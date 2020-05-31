@@ -17,7 +17,7 @@ These observations indicate a potential for distinguishing the estimates of zero
 \begin{figure}[H]
     \centering
 	\includegraphics[scale=0.5]{figures/ch_estimate/k_test1.png}
-	\caption{Each plot shows one row of the estimate $\hat{\mathbf{X}}_{\text{main}}$ using $\mathbf{A}_{\text{true}}$, compared to the corresponding true row in $\mathbf{X}$. The MSE is $1.196E-29$. Only samples in the interval $[0,100]$ are plotted.}
+	\caption{Each plot shows one row of the estimate $\hat{\mathbf{X}}_{\text{main}}$ using true $\mathbf{A}$, compared to the corresponding true row in $\mathbf{X}$. The MSE is $1.196E-29$. Only samples in the interval $[0,100]$ are plotted.}
 	\label{fig:ktest1}
 \end{figure}
 \noindent
@@ -47,7 +47,7 @@ Row index   & 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 \\ \hline
 \begin{figure}[H]
 	\centering
 	\includegraphics[scale=0.5]{figures/ch_estimate/k_test3.png}
-	\caption{Each plot shows one row of the estimate $\hat{\mathbf{X}}_{\text{main}}$ using $\mathbf{A}_{\text{true}}$, compared to the corresponding true row in $\mathbf{X}$. The MSE is $0.344$. Only samples in the interval $[0,100]$ are plotted.}
+	\caption{Each plot shows one row of the estimate $\hat{\mathbf{X}}_{\text{main}}$ using true $\mathbf{A}$, compared to the corresponding true row in $\mathbf{X}$. The MSE is $0.344$. Only samples in the interval $[0,100]$ are plotted.}
 	\label{fig:ktest3}
 \end{figure}
 \noindent
@@ -88,12 +88,12 @@ Row index   & 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 \\ \hline
 \label{tab:replica4}
 \end{table}
 \noindent
-The results so far have relied on the true mixing matrix $\mathbf{A}_{\text{true}}$ as an input the main algorithm, due to the conclusion of chapter \ref{ch:implementation} where the estimate of $\mathbf{A}$ is abandoned. 
+The results so far have relied on the true mixing matrix $\mathbf{A}$ as an input the main algorithm, due to the conclusion of chapter \ref{ch:implementation} where the estimate of $\mathbf{A}$ is abandoned. 
 Thus, this gives the results to be expected conditioned on an exact estimate of $\mathbf{A}$ which this thesis does not manage to provide.
 
-Now the investigations are repeated but with use of the main algorithm with a fixed $\mathbf{A}$ provided as an input, cf. \ref{sec:test_base}.
+Now the investigations are repeated but with use of the main algorithm with a fixed $\mathbf{A}_{\text{fix}}$ provided as an input, cf. \ref{sec:test_base}.
 Similar to figure \ref{fig:ktest3}, figure \ref{fig:ktest5} shows the estimates $\hat{\mathbf{X}}_{\text{main}}$ compared to the true $\mathbf{X}$. 
-As expected, according to the results from section \ref{sec:Main_test}, it is generally seen from figure \ref{fig:ktest5} that every row of the estimate is less accurate as a result of using a fixed $\mathbf{A}$ instead of the true $\mathbf{A}_{\text{true}}$. 
+As expected, according to the results from section \ref{sec:Main_test}, it is generally seen from figure \ref{fig:ktest5} that every row of the estimate is less accurate as a result of using a fixed $\mathbf{A}_{\text{fix}}$ instead of the true $\mathbf{A}$. 
 Table \ref{tab:replica5} shows the replica count with an MSE tolerance at 1. 
 From the table it is seen that 7 out of the 8 rows are zero rows, while the true number is 4 rows. 
 This could indicate that the tolerance is set to high. 
@@ -132,7 +132,7 @@ Row index   & 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 \\ \hline
 From the observations made through this investigation, based on synthetic data, the following conclusions are made.
 From figure \ref{fig:ktest3} and table \ref{tab:replica1} a potential is found with respect to identifying the zero rows within the estimate. 
 Here the zero rows are identified as the rows of the estimate for which similar signals appear in other rows indicating that no new estimate has been computed. 
-From figure \ref{fig:ktest6} {fig:ktest5}and table \ref{tab:replica5} and \ref{tab:replica6} a fixed $\mathbf{A}$ is used in the main algorithm, as it will be when applied to real EEG data. 
+From figure \ref{fig:ktest5}and table \ref{tab:replica5} and \ref{tab:replica6} a fixed $\mathbf{A}_{\text{fix}}$ is used in the main algorithm, as it will be when applied to real EEG data. 
 Here it has not been possible to identify the zero rows correctly, based on the replica count. 
 Thus, it must be concluded that the method is not reliable when the estimated is computed by the main algorithm. 
 However, it is essential that a potential was found under ideal conditions, due to the results from the main algorithm being reliable as concluded in chapter \ref{ch:implementation}. 

@@ -1,10 +1,11 @@
 \chapter{Supplementary Theory for Chapter \ref{ch:Cov-DL}}\label{app:Cov-DL}
-Throughout this chapter supplementary theory for understanding the covariance-domain dictionary learning (Cov-DL) is described. First an introduction to compressive sensing which is the framework behind Cov-DL. Then an dictionary learning algorithm used for finding the dictionary matrix $\mathbf{D}$ in section \ref{sec:cov1} will be described. And at last principal component analysis (PCA) is introduced as the method behind finding $\mathbf{D}$ in section \ref{sec:over_det}.
+Throughout this chapter supplemental theory for understanding the covariance-domain dictionary learning (Cov-DL) is described. First an introduction to compressive sensing which is the framework behind Cov-DL. Then an dictionary learning algorithm used for finding the dictionary matrix $\mathbf{D}$ in section \ref{sec:cov1} will be described. And at last principal component analysis (PCA) is introduced as the method behind finding $\mathbf{D}$ in section \ref{sec:over_det}.
 
 \section{Introduction to Compressive Sensing}\label{app_sec:CS}
 Compressive sensing is the theory of efficient recovery of a signal from a minimal number of observed measurements. 
-It is build upon empirical observations assuring that many signals can be approximated by remarkably sparser signals.   
-Assume linear acquisition of the observed measurements, then the relation between the measurements and the signal to be recovered can be modelled by the multiple measurement vector (MMV) model \eqref{eq:MMV_model} \cite{FR}. 
+It is build upon empirical observations assuring that many signals can be approximated by remarkably sparser signals. 
+Assume linear acquisition of the observed measurements. 
+Then the relation between the measurements and the signal to be recovered can be modeled by the multiple measurement vector (MMV) model \eqref{eq:MMV_model} \cite{FR}. 
 
 Through this section the introduction of the theory behind compressive sensing will be presented for one measurement vector of \eqref{eq:MMV_model}, $\mathbf{y}$, such that the theory is based on the linear system \eqref{eq:SMV_model}. This will be done for simplicity, but the theory will still apply for the extended linear system \eqref{eq:MMV_model}.
 
@@ -14,20 +15,18 @@ However, by enforcing certain sparsity constraints it is possible to recover the
 The sparsity constraints are the ones presented in \ref{sec:SMV} where the $\ell_0$ is introduced to count the non-zeros of the signal of interest, the source vector $\mathbf{x}$. 
 The number of non-zeros (active sources) $k$ describe how sparse the source vector is.
  
-%\subsection{Optimisation Problem}\label{sec:opti}
-To find a $k$-sparse solution to the linear system \eqref{eq:SMV_model} it can be viewed as the following optimisation problem. 
+To find a $k$-sparse solution to the linear system \eqref{eq:SMV_model} it can be viewed as the following optimization problem. 
 \begin{align*}\label{eq:SMV_p0}
 \mathbf{x}^\ast = \arg \min_{\mathbf{x} \in \mathbb{C}} \Vert \mathbf{x} \Vert_0 \quad \text{subject to} \quad \mathbf{Ax} = \mathbf{y}.
 \end{align*}
-Unfortunately, this optimisation problem is non-convex due to the definition of the $\ell_0$-norm and is therefore difficult to solve -- it is a NP-hard problem. 
-Instead, by replacing the $\ell_0$-norm with the $\ell_1$-norm, the optimisation problem can be approximated and hence becomes computationally feasible \cite[p. 27]{CS}
-%\todo{4.1: skal vi indfør z som en approximation til x. og så et nyt omega eller? eller kan vi lade x* være løslingen til både P0 og P1}
+Unfortunately, this optimization problem is non-convex due to the definition of the $\ell_0$-norm and is therefore difficult to solve -- it is a NP-hard problem. 
+Instead, by replacing the $\ell_0$-norm with the $\ell_1$-norm, the optimization problem can be approximated and hence becomes computationally feasible \cite[p. 27]{CS}
 \begin{align}\label{eq:SMV_p1}
 \mathbf{x}^\ast = \arg \min_{\mathbf{x} \in \mathbb{C}} \Vert \mathbf{x} \Vert_1 \quad \text{subject to} \quad \mathbf{Ax} = \mathbf{y}.
 \end{align} 
-With this optimisation problem the best $k$-sparse solution $\mathbf{x}^\ast$ can be found. 
-The optimisation problem is referred to as $\ell_1$ optimisation problem or Basis Pursuit. 
-The following theorem justifies that the $\ell_1$ optimisation problem finds a sparse solution \cite[p. 62-63]{FR}.
+With this optimization problem the best $k$-sparse solution $\mathbf{x}^\ast$ can be found. 
+The optimization problem is referred to as $\ell_1$ optimization problem or Basis Pursuit. 
+The following theorem justifies that the $\ell_1$ optimization problem finds a sparse solution \cite[p. 62-63]{FR}.
 \begin{theorem}\label{th:CS_A}
 A mixing matrix $\mathbf{A} \in \mathbb{R}^{M \times N}$ is defined with columns $\mathbf{A} = [\mathbf{a}_1, \dots, \mathbf{a}_N]$. 
 By assuming uniqueness of a solution $\mathbf{x}^{\ast}$ to
@@ -39,8 +38,6 @@ the system $\lbrace \mathbf{a}_j, j \in \text{supp}( \mathbf{x}^\ast) \rbrace$ i
 \Vert \mathbf{x}^\ast \Vert_0 = \text{card}(\text{supp} (\mathbf{x}^\ast)) \leq M.
 \end{align*}
 \end{theorem}
-%To prove this theorem one needs to realise that the set $\lbrace \mathbf{a}_j, j \in S \rbrace$, with $S = \text{supp}(\mathbf{x}^\ast)$, can not have more than $M$ linearly independence columns. This will be done by a contradiction.
-%So when $M \ll N$ a sparse signal is automatically achieved.
 \begin{proof}
 Assume that the set $\lbrace \mathbf{a}_l, l \in S \rbrace$ of $l$ columns from matrix $\mathbf{A} \in \mathbb{R}^{M \times N}$ is linearly dependent with the support $S = \text{supp}(\mathbf{x}^\ast)$.
 Thus a non-zero vector $\mathbf{v} \in \mathbb{R}^N$ supported on $S$ exists such that $\mathbf{Av} = \textbf{0}$ -- the system is linear dependent. The unique solution $\mathbf{x}^\ast$ can then be written as, for any $t \neq 0$,
@@ -66,47 +63,47 @@ t \sum_{l \in S} \text{sgn}(x_l^\ast)v_l \leq 0,
 which contradicts that $\mathbf{v}$ make the columns of $\mathbf{A}$ linear dependent. 
 Therefore, the set $\lbrace \mathbf{a}_l, l \in S \rbrace$ must be linearly independent.
 \end{proof}
-From the theorem it must be concluded that the choice of the mixing matrix $\mathbf{A}$ has a significant impact on whenever a unique solution $\mathbf{x}^\ast$ exist for the $\ell_1$ optimisation problem \eqref{eq:SMV_p1}. Therefore, when recovering $\mathbf{A}$, some considerations regarding the recovering process of $\mathbf{A}$ must be taken into account. A method for the recovering of $\mathbf{A}$ could be to use a dictionary. This will be explained in the following section \ref{sec:dictionarylearning}.
-%The $\ell_1$ optimisation makes the foundation of several algorithms solving alternative versions of \eqref{eq:SMV_p1} where noise is incorporated. 
+From the theorem it must be concluded that the choice of the mixing matrix $\mathbf{A}$ has a significant impact on whenever a unique solution $\mathbf{x}^\ast$ exist for the $\ell_1$ optimization problem \eqref{eq:SMV_p1}. Therefore, when recovering $\mathbf{A}$, some considerations regarding the recovering process of $\mathbf{A}$ must be taken into account. A method for the recovering of $\mathbf{A}$ could be to use a dictionary. This will be explained in the following section \ref{sec:dictionarylearning}.
 
-An alternative solution method to the $\ell_1$ optimisation includes greedy algorithms such as the Orthogonal Matching Pursuit (OMP) \cite[P. 65]{FR}. 
+An alternative solution method to the $\ell_1$ optimization includes greedy algorithms like the Orthogonal Matching Pursuit (OMP) \cite[P. 65]{FR}. 
 The OMP algorithm is an iteration process where an index set $S$ is updated -- at each iteration -- by adding indices corresponding to the columns of $\mathbf{A}$ which describe the residual best possible, hence greedy.
-The vector $\mathbf{x}$ is then updated by a vector supported on $S$ which minimise the residual, that is the orthogonal projection of $\mathbf{y}$ onto the span$\lbrace \mathbf{a}_l \ \vert \ l \in S \rbrace$.
+The vector $\mathbf{x}$ is then updated by a vector supported on $S$ which minimize the residual. That is the orthogonal projection of $\mathbf{y}$ onto the span$\lbrace \mathbf{a}_l \ \vert \ l \in S \rbrace$.
 
 \section{K-SVD Algorithm}\label{app_sec:K-SVD_alg}
 The dictionary learning algorithm K-SVD provides an updating rule which is applied to each column of $\mathbf{A}_0 = \left[ \mathbf{a}_1, \dots, \mathbf{a}_N \right] $ where $\mathbf{A}_0$ being a random initial dictionary matrix. Updating first $\mathbf{a}_j$ for $j=1, \dots, N$ and then the corresponding row of $\mathbf{X}$, $\mathbf{x}_{i\cdot}$ for $j=i$.
 Let $\mathbf{a}_{j_{0}}$ be the column to be updated and let the remaining columns be fixed. By rewriting the objective function in \eqref{eq:SVD1} using matrix notation it is possible to isolate the contribution from $\mathbf{a}_{j_{0}}$.
 \begin{align}\label{eq:SVD2} 
-\Vert \textbf{Y} - \textbf{AX} \Vert_{F}^{2} 
-&= \left\| \textbf{Y} - \sum_{\substack{j=1 \\ j = i}}^{N} \textbf{a}_j \textbf{x}_{i \cdot} \right\|_{F}^{2} \nonumber \\
-&= \left\| \left( \textbf{Y}- \sum_{\substack{j \neq j_0 \\ j = i}}^{N} \textbf{a}_j \textbf{x}_{i \cdot} \right) - \textbf{a}_{j_{0}} \textbf{x}_{i_0 \cdot} \right\| _{F}^{2},
+\Vert \mathbf{Y} - \mathbf{AX} \Vert_{F}^{2} 
+&= \left\| \mathbf{Y} - \sum_{\substack{j=1 \\ j = i}}^{N} \mathbf{a}_j \mathbf{x}_{i \cdot} \right\|_{F}^{2} \nonumber \\
+&= \left\| \left( \mathbf{Y}- \sum_{\substack{j \neq j_0 \\ j = i}}^{N} \mathbf{a}_j \mathbf{x}_{i \cdot} \right) - \mathbf{a}_{j_{0}} \mathbf{x}_{i_0 \cdot} \right\| _{F}^{2},
 \end{align}
 where $i = j$, $i_0 = j_0$ and where $F$ is the Frobenius norm that works on matrices
 \begin{align*}
 \Vert \mathbf{A} \Vert_F = \sqrt{\sum_{i=1}^M \sum_{j=1}^N \vert a_{ij} \vert^2}.
 \end{align*} 
-In \eqref{eq:SVD2} the term in the parenthesis is denoted by $\textbf{E}_{j_0}$, an error matrix, and hence by minimising \eqref{eq:SVD2} with respect to $\mathbf{a}_{j_0}$ and $\mathbf{x}_{i_0 \cdot}$ leads to the optimal contribution from $j_0$
+In \eqref{eq:SVD2} the term in the parenthesis is denoted by $\mathbf{E}_{j_0}$, an error matrix, and hence by minimizing \eqref{eq:SVD2} with respect to $\mathbf{a}_{j_0}$ and $\mathbf{x}_{i_0 \cdot}$ leads to the optimal contribution from $j_0$
 \begin{align}\label{eq:SVD3}
-\min_{\textbf{a}_{j_{0}}, \textbf{x}_{i_0 \cdot}}\left\|\textbf{ E}_{j_{0}} - \textbf{a}_{j_{0}} \textbf{x}_{i_0 \cdot} \right\|_{F}^{2}.
+\min_{\mathbf{a}_{j_{0}}, \mathbf{x}_{i_0 \cdot}}\left\|\mathbf{E}_{j_{0}} - \mathbf{a}_{j_{0}} \mathbf{x}_{i_0 \cdot} \right\|_{F}^{2}.
 \end{align} 
-The optimal solution to \eqref{eq:SVD3} is known to be the rank-1 approximation of $\textbf{E}_{j_{0}}$ \cite[p. 232]{Elad_book}. That is a partial single value decomposition (SVD) makes the best low-rank approximation of a matrix such as $\textbf{E}_{j_0}$. 
-%This comes from the Eckart–Young–Mirsky theorem saying that a partial single value decomposition (SVD) makes the best low-rank approximation of a matrix such as $\textbf{E}_{j_0}$. 
+The optimal solution to \eqref{eq:SVD3} is known to be the rank-1 approximation of $\mathbf{E}_{j_{0}}$ \cite[p. 232]{Elad_book}. That is a partial single value decomposition (SVD) makes the best low-rank approximation of a matrix such as $\mathbf{E}_{j_0}$. 
 The SVD is given as
 \begin{align*}
-\mathbf{E}_{j_0} = \textbf{U} \boldsymbol{\Sigma} \textbf{V}^T \in \mathbb{R}^{M\times N},
+\mathbf{E}_{j_0} = \mathbf{U} \boldsymbol{\Sigma} \mathbf{V}^T \in \mathbb{R}^{M \times N},
 \end{align*}
-with $\textbf{U} \in \mathbb{R}^{M\times M}$ and $\textbf{V} \in \mathbb{R}^{N\times N}$ being unitary matrices\footnote{Unitary matrix: $\textbf{U}^T\textbf{U}=\textbf{UU}^T=\textbf{I}$} and $\boldsymbol{\Sigma} = \text{diag}\left[\boldsymbol{\sigma}_1, \dots, \boldsymbol{\sigma}_M \right] \in \mathbb{R}^{M \times N}$ a diagonal matrix. $\boldsymbol{\sigma}_j$ are the non-negative singular values of $\textbf{E}_{j_0}$. 
-%such that $\sigma_1 \geq \sigma_2 \geq \hdots \geq 0$. 
-The best $k$-rank approximation to $\textbf{E}_{j_0}$, with $k < \text{rank}(\textbf{E}_{j_0})$ is then given by \cite[p. 232]{Elad_book}: 
+with $\mathbf{U} \in \mathbb{R}^{M \times M}$ and $\mathbf{V} \in \mathbb{R}^{N \times N}$ being unitary matrices\footnote{Unitary matrix: $\mathbf{U}^T \mathbf{U} = \mathbf{UU}^T = \mathbf{I}$} and $\boldsymbol{\Sigma} = \text{diag}\left(\boldsymbol{\sigma}_1, \dots, \boldsymbol{\sigma}_M \right) \in \mathbb{R}^{M \times N}$ a diagonal matrix. $\boldsymbol{\sigma}_j$ are the non-negative singular values of $\mathbf{E}_{j_0}$. 
+The best $k$-rank approximation to $\mathbf{E}_{j_0}$, with $k < \text{rank}(\mathbf{E}_{j_0})$ is then given by \cite[p. 232]{Elad_book}: 
 \begin{align*}
-\textbf{E}_{j_{0}}^{(k)} = \sum_{j=1}^{k} \boldsymbol{\sigma}_j \textbf{u}_{j} \textbf{v}_{j}^T.
+\mathbf{E}_{j_{0}}^{(k)} = \sum_{j=1}^{k} \boldsymbol{\sigma}_j \mathbf{u}_{j} \mathbf{v}_{j}^T.
 \end{align*} 
-Since the outer product always has rank-1 letting $\textbf{a}_{j_0} = \textbf{u}_1$ and $\textbf{x}_{i_0 \cdot} = \boldsymbol{\sigma}_{j} \textbf{v}_{1}^T$ solves the optimisation problem \eqref{eq:SVD3}.
-However in order to preserve the sparsity in $\textbf{X}$ while optimising, only the non-zero entries in $\textbf{x}_{i_0 \cdot}$ are allowed to vary. For this purpose only a subset of columns in $\textbf{E}_{j_0}$ is considered, those which correspond to the non-zero entries of $\textbf{x}_{i_0 \cdot}$. A matrix $\textbf{P}_{i_0}$ is defined to restrict $\textbf{x}_{i_0 \cdot}$ to only contain the non-zero-rows corresponding to $N_{j_0}$ non-zero rows:
+Since the outer product always has rank-1 letting $\mathbf{a}_{j_0} = \mathbf{u}_1$ and $\mathbf{x}_{i_0 \cdot} = \boldsymbol{\sigma}_{j} \mathbf{v}_{1}^T$ solves the optimization problem \eqref{eq:SVD3}.
+However, in order to preserve the sparsity in $\mathbf{X}$ while optimizing, only the non-zero entries in $\mathbf{x}_{i_0 \cdot}$ are allowed to vary. 
+For this purpose only a subset of columns in $\mathbf{E}_{j_0}$ is considered.
+Those which correspond to the non-zero entries of $\mathbf{x}_{i_0 \cdot}$. 
+A matrix $\mathbf{P}_{i_0}$ is defined to restrict $\mathbf{x}_{i_0 \cdot}$ to only contain the non-zero-rows corresponding to $N_{j_0}$ non-zero rows:
 \begin{align*}
-\textbf{x}_{i_0 \cdot}^{(R)} = \textbf{x}_{i_0 \cdot} \textbf{P}_{i_0}
+\mathbf{x}_{i_0 \cdot}^{(R)} = \mathbf{x}_{i_0 \cdot} \mathbf{P}_{i_0}
 \end{align*}
-where $R$ denoted the restriction. By applying the SVD to the error matrix which has been restricted $\textbf{E}_{j_0}^{(R)} = \textbf{E}_{j_0} \textbf{P}_{i_0}$ and updating $\textbf{a}_{j_0}$ and $\textbf{x}_{i_0 \cdot}^{(R)}$ the rank-1 approximation is found and the original representation vector is updated as $\textbf{x}_{i_0 \cdot} = \textbf{x}_{i_0 \cdot}^{(R)} \textbf{P}_{i_0}^{T}$.  
+where $R$ denoted the restriction. By applying the SVD to the error matrix which has been restricted $\mathbf{E}_{j_0}^{(R)} = \mathbf{E}_{j_0} \mathbf{P}_{i_0}$ and updating $\mathbf{a}_{j_0}$ and $\mathbf{x}_{i_0 \cdot}^{(R)}$ the rank-1 approximation is found and the original representation vector is updated as $\mathbf{x}_{i_0 \cdot} = \mathbf{x}_{i_0 \cdot}^{(R)} \mathbf{P}_{i_0}^{T}$.  
 \\ \\
 The main steps of K-SVD is described in algorithm \ref{alg:K_SVD}. 
 \begin{algorithm}[H]
@@ -144,30 +141,32 @@ The main steps of K-SVD is described in algorithm \ref{alg:K_SVD}.
 \section{Principal Component Analysis}\label{app_sec:PCA}
 In this section the method behind principal component analysis (PCA) used for the Cov-DL described in section \ref{sec:over_det}.
 
-PCA is dimensionality reduction method used for reduction of dimension of large datasets. 
-In short, PCA used the statistical information of mean, variance and correlation between the data to transform the large dataset into smaller datasets while maintaining most of the original information. 
-These smaller datasets are known as the principal components and contain most of the information of the dataset but with fewer dimensions. 
+PCA is dimensionality reduction method used for reduction of dimensions of large data sets. 
+In short, PCA used the statistical information of mean, variance and correlation between the data to transform the large data set into smaller datasets while maintaining most of the original information. 
+These smaller data sets are known as the principal components and contain most of the information of the data set but with fewer dimensions. 
 For some datasets, before PCA is applied, the data must undergo a standardization/scaling to remove any difference in the data. 
 This is essential as large differences between the data would dominate. The standardization of a dataset $\mathbf{Z}$ is performed by
 \begin{align*}
 \tilde{\mathbf{z}}_i = \frac{\mathbf{z}_i - \bar{\mathbf{z}}_i}{s_{\mathbf{z}_i}}, \quad \forall i = 1, \dots, m
 \end{align*}
 where $\mathbf{z}_i$ is a row of a matrix $\mathbf{Z}$, $\bar{\mathbf{z}}_i$ is the sample mean of $\mathbf{z}_i$ and $s_{\mathbf{z}_i}$ is the standard deviation of $\mathbf{z}_i$. 
-The standardized dataset is now giving by $\tilde{\mathbf{Z}}$. 
-The standardization step is not necessary in the case of real EEG scalp measurements as no large difference between the data is present.
+The standardized data set is now giving by $\tilde{\mathbf{Z}}$. 
+The standardization step is unnecessary in the case of real EEG scalp measurements as no large difference between the data is present.
 
 With $\mathbf{Z}$ or the scaled data $\tilde{\mathbf{Z}}$ a correlation matrix is computed as
 \begin{align*}
 \boldsymbol{\Sigma}_{\mathbf{Z}} = \text{Corr}(\mathbf{Z}) = \frac{1}{m} \mathbf{Z}^T \mathbf{Z}.
 \end{align*}
-From the correlation matrix a orthonormal basis of eigenvectors $\mathbf{p}_1, \dots, \mathbf{p}_m$ with corresponding eigenvalues $\lambda_1, \dots, \lambda_m$ exists, cf. theorem 6.15 in \cite[p. 375]{PCA}. Furthermore, one assume that $\lambda_1 \geq \dots \geq \lambda_m$. 
+From the correlation matrix a orthonormal basis of eigenvectors $\mathbf{p}_1, \dots, \mathbf{p}_m$ with corresponding eigenvalues $\lambda_1, \dots, \lambda_m$ exists, cf. theorem 6.15 in \cite[p. 375]{PCA}. 
+Furthermore, one assumes that $\lambda_1 \geq \dots \geq \lambda_m$. 
 %It exist beacuse Corr is symmetric
-The eigenvectors and eigenvalues can be computed from the correlation matrix by e.g. using a singular value decomposition (SVD). With SVD an orthogonal matrix $\mathbf{P}$ with the eigenvectors $\mathbf{p}_1, \dots, \mathbf{p}_m$ as columns is obtain with the associated eigenvalues as a diagonal matrix denoted as $\mathbf{P}_{\text{diag}}$.
-The principal components is then defined by
+The eigenvectors and eigenvalues can be computed from the correlation matrix by e.g. using a singular value decomposition (SVD). 
+With SVD an orthogonal matrix $\mathbf{P}$ with the eigenvectors $\mathbf{p}_1, \dots, \mathbf{p}_m$ as columns is obtained with the associated eigenvalues as a diagonal matrix denoted as $\mathbf{P}_{\text{diag}}$.
+The principal components are then defined by
 \begin{align*}
 \mathbf{u}_i = \mathbf{Z} \mathbf{p}_i,
 \end{align*}
 where $\mathbf{p}_i$ is the $i$-th eigenvector of the correlation matrix $\boldsymbol{\Sigma}_{\mathbf{Z}}$. 
-Thus each principal component is a linear combination of the dataset $\mathbf{Z}$ \cite[p. 460] {PCA}. 
+Thus, each principal component is a linear combination of the dataset $\mathbf{Z}$ \cite[p. 460] {PCA}. 
 With the principal components the first $N$ components forms a set of basis vectors $\mathbf{U} = [\mathbf{u}_1, \dots, \mathbf{u}_N]$.
 

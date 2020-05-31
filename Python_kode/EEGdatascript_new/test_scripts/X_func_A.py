@@ -71,7 +71,7 @@ for i in range(iterations):
 plt.show()
 """ PLOTS """
 plt.figure(1)
-plt.title('MSE($\mathbf{X},\hat{\mathbf{X}}}$) for varying SNR of $\hat{\mathbf{A}}$')
+plt.title('MSE($\mathbf{X},\hat{\mathbf{X}}}$) for varying SNR of $\mathbf{A}$')
 plt.plot(SNR,X_mse,'-b', label = 'MSE($\mathbf{X},\hat{\mathbf{X}}$)')
 #plt.plot(SNR,A_mse,'-r', label = 'MSE($\mathbf{A},\hat{\mathbf{A}}$)')
 plt.ylabel('MSE')
@@ -82,7 +82,7 @@ plt.savefig('X_func_SNR.png')
 plt.show()
 
 plt.figure(2)
-plt.title('MSE($\mathbf{A},\hat{\mathbf{A}}}$) for varying SNR of $\hat{\mathbf{A}}$')
+plt.title('MSE($\mathbf{A},\hat{\mathbf{A}}}$) for varying SNR of $\mathbf{A}$')
 #plt.plot(SNR,X_mse,'-b', label = 'MSE($\mathbf{X},\hat{\mathbf{X}}$)')
 plt.plot(SNR,A_mse,'-r', label = 'MSE($\mathbf{A},\hat{\mathbf{A}}$)')
 plt.ylabel('MSE')

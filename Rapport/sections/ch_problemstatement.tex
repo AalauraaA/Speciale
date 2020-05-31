@@ -3,14 +3,13 @@ EEG scalp measurements, a mixture of electrical signals originating from brain a
 \begin{align*}
 \mathbf{y} = \mathbf{Ax}.
 \end{align*}
-$\mathbf{y}$ is the EEG measurements from sensors placed on the scalp, $\mathbf{A}$ represent the mixing of the electrical signals, denoted as the mixing matrix, and $\mathbf{x}$ is the original electrical signals, denoted as sources. 
-Only the EEG measurements $\mathbf{y}$ is known and it is of interest to recover first the mixing matrix $\mathbf{A}$ and hereby recover the original sources $\mathbf{x}$. The original sources have been shown significant for practical use compared to the raw EEG measurements. 
+$\mathbf{y}$ is the EEG measurements from sensors placed on the scalp, $\mathbf{A}$ represent the mixing of the electrical signals, denoted as the mixing matrix. And $\mathbf{x}$ is the original electrical signals, denoted as sources. 
+Only the EEG measurements $\mathbf{y}$ is known and it is of interest to recover first the mixing matrix $\mathbf{A}$ and hereby recover the original sources $\mathbf{x}$. The original sources have been shown significantly for practical use compared to the raw EEG measurements. 
 Especially the case where the number of sources exceeds the number of sensors is of interest, resulting from the use low-density EEG equipment which is beneficial due to low cost and easy application. 
 In the linear algebraic sense, this case creates an under-determined linear system which is difficult to solve.
-Two state of the art methods, targeting this specific case, are seen to successfully recover the sources -- the covariance-domain dictionary learning (Cov-DL) method and the multiple sparse Bayesian learning (M-SBL) method. 
-The Cov-DL method recovers the mixing matrix from the given measurements while the M-SBL method localises and identifies the sources given the recovered mixing matrix and the measurements. 
+Two state of the art methods, targeting this specific case, are seen to successfully recover the sources. The covariance-domain dictionary learning (Cov-DL) method and the multiple sparse Bayesian learning (M-SBL) method. 
+The Cov-DL method recovers the mixing matrix from the given measurements while the M-SBL method localizes and identifies the sources given the recovered mixing matrix and the measurements. 
 However, one drawback of the methods is the required knowledges of the number of active sources as this is an unknown variable in practice. 
-
 %Through chapter \ref{ch:motivation} the potential of EEG measurements and 
 %especially low-density EEG measurements have been established. 
 %Furthermore, this potential is found to be increased through recovery of 

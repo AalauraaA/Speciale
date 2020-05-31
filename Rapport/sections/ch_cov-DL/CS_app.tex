@@ -141,30 +141,32 @@ The main steps of K-SVD is described in algorithm \ref{alg:K_SVD}.
 \section{Principal Component Analysis}\label{app_sec:PCA}
 In this section the method behind principal component analysis (PCA) used for the Cov-DL described in section \ref{sec:over_det}.
 
-PCA is dimensionality reduction method used for reduction of dimension of large datasets. 
-In short, PCA used the statistical information of mean, variance and correlation between the data to transform the large dataset into smaller datasets while maintaining most of the original information. 
-These smaller datasets are known as the principal components and contain most of the information of the dataset but with fewer dimensions. 
+PCA is dimensionality reduction method used for reduction of dimensions of large data sets. 
+In short, PCA used the statistical information of mean, variance and correlation between the data to transform the large data set into smaller datasets while maintaining most of the original information. 
+These smaller data sets are known as the principal components and contain most of the information of the data set but with fewer dimensions. 
 For some datasets, before PCA is applied, the data must undergo a standardization/scaling to remove any difference in the data. 
 This is essential as large differences between the data would dominate. The standardization of a dataset $\mathbf{Z}$ is performed by
 \begin{align*}
 \tilde{\mathbf{z}}_i = \frac{\mathbf{z}_i - \bar{\mathbf{z}}_i}{s_{\mathbf{z}_i}}, \quad \forall i = 1, \dots, m
 \end{align*}
 where $\mathbf{z}_i$ is a row of a matrix $\mathbf{Z}$, $\bar{\mathbf{z}}_i$ is the sample mean of $\mathbf{z}_i$ and $s_{\mathbf{z}_i}$ is the standard deviation of $\mathbf{z}_i$. 
-The standardized dataset is now giving by $\tilde{\mathbf{Z}}$. 
-The standardization step is not necessary in the case of real EEG scalp measurements as no large difference between the data is present.
+The standardized data set is now giving by $\tilde{\mathbf{Z}}$. 
+The standardization step is unnecessary in the case of real EEG scalp measurements as no large difference between the data is present.
 
 With $\mathbf{Z}$ or the scaled data $\tilde{\mathbf{Z}}$ a correlation matrix is computed as
 \begin{align*}
 \boldsymbol{\Sigma}_{\mathbf{Z}} = \text{Corr}(\mathbf{Z}) = \frac{1}{m} \mathbf{Z}^T \mathbf{Z}.
 \end{align*}
-From the correlation matrix a orthonormal basis of eigenvectors $\mathbf{p}_1, \dots, \mathbf{p}_m$ with corresponding eigenvalues $\lambda_1, \dots, \lambda_m$ exists, cf. theorem 6.15 in \cite[p. 375]{PCA}. Furthermore, one assume that $\lambda_1 \geq \dots \geq \lambda_m$. 
+From the correlation matrix a orthonormal basis of eigenvectors $\mathbf{p}_1, \dots, \mathbf{p}_m$ with corresponding eigenvalues $\lambda_1, \dots, \lambda_m$ exists, cf. theorem 6.15 in \cite[p. 375]{PCA}. 
+Furthermore, one assumes that $\lambda_1 \geq \dots \geq \lambda_m$. 
 %It exist beacuse Corr is symmetric
-The eigenvectors and eigenvalues can be computed from the correlation matrix by e.g. using a singular value decomposition (SVD). With SVD an orthogonal matrix $\mathbf{P}$ with the eigenvectors $\mathbf{p}_1, \dots, \mathbf{p}_m$ as columns is obtain with the associated eigenvalues as a diagonal matrix denoted as $\mathbf{P}_{\text{diag}}$.
-The principal components is then defined by
+The eigenvectors and eigenvalues can be computed from the correlation matrix by e.g. using a singular value decomposition (SVD). 
+With SVD an orthogonal matrix $\mathbf{P}$ with the eigenvectors $\mathbf{p}_1, \dots, \mathbf{p}_m$ as columns is obtained with the associated eigenvalues as a diagonal matrix denoted as $\mathbf{P}_{\text{diag}}$.
+The principal components are then defined by
 \begin{align*}
 \mathbf{u}_i = \mathbf{Z} \mathbf{p}_i,
 \end{align*}
 where $\mathbf{p}_i$ is the $i$-th eigenvector of the correlation matrix $\boldsymbol{\Sigma}_{\mathbf{Z}}$. 
-Thus each principal component is a linear combination of the dataset $\mathbf{Z}$ \cite[p. 460] {PCA}. 
+Thus, each principal component is a linear combination of the dataset $\mathbf{Z}$ \cite[p. 460] {PCA}. 
 With the principal components the first $N$ components forms a set of basis vectors $\mathbf{U} = [\mathbf{u}_1, \dots, \mathbf{u}_N]$.
 

@@ -1,4 +1,5 @@
 \defcounter {refsection}{0}\relax 
+<<<<<<< HEAD
 \contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ hertil}{7}{section*.7}% 
 \defcounter {refsection}{0}\relax 
 \contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ evt. Redeg\IeC {\o }relse for resultatet her skal lave her}{22}{section*.11}% 
@@ -10,3 +11,14 @@
 \contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ Jeg \IeC {\ae }ndrede p\IeC {\r a} opstilling da jeg synes det s\IeC {\r a} bedre ud. Hvad synes du? - L}{39}{section*.16}% 
 \defcounter {refsection}{0}\relax 
 \contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ Jeg pr\IeC {\o }vede her at snakke om invariance problem meget kort. T\IeC {\ae }nker at de yderligere skal n\IeC {\ae }vnes senere i kapitlet hvor main testes}{40}{section*.18}% 
+=======
+\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ evt. Redeg\IeC {\o }relse for resultatet her skal lave her}{22}{section*.10}
+\defcounter {refsection}{0}\relax 
+\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ insert $\ast $ p\IeC {\r a} flow diagram}{35}{section*.11}
+\defcounter {refsection}{0}\relax 
+\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ unders\IeC {\o }g lige hurtigt cov(X,X). Jeg f\IeC {\r a}r den til at n\IeC {\ae }sten at v\IeC {\ae }re nul i alle indgange - L}{38}{section*.13}
+\defcounter {refsection}{0}\relax 
+\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ Jeg \IeC {\ae }ndrede p\IeC {\r a} opstilling da jeg synes det s\IeC {\r a} bedre ud. Hvad synes du? - L}{39}{section*.15}
+\defcounter {refsection}{0}\relax 
+\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ Jeg pr\IeC {\o }vede her at snakke om invariance problem meget kort. T\IeC {\ae }nker at de yderligere skal n\IeC {\ae }vnes senere i kapitlet hvor main testes}{40}{section*.17}
+>>>>>>> 0badeb38e4cc66b2d997e3cadde87b152c1014f5

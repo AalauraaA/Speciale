@@ -1,111 +1,104 @@
 \section{Basic Theory of Independent Component Analysis}
-Independent component analysis (ICA) is a method that applies to  the general problem of decomposition of a measurement vector into a source vector and a mixing matrix. 
-The intention of ICA is to separate a multivariate signal into statistical independent and non-Gaussian signals, and identify the mixing matrix $\mathbf{A}$, given only the observed measurements $\mathbf{Y}$.
-A well known application example of source separation is the cocktail party problem, where it is sought to listen to one specific person speaking in a room full of people having interfering conversations. 
+Independent component analysis (ICA) is a method that applies to the general problem of decomposition of a measurement vector into a source vector and a mixing matrix. 
+The intention of ICA is to separate a multivariate signal into statistical independent and non-Gaussian signals. And identify the mixing matrix $\mathbf{A}$, given only the observed measurements $\mathbf{Y}$.
+A well-known application example of source separation is the cocktail party problem, where it is sought to listen to one specific person speaking in a room full of people having interfering conversations. 
 Let $\mathbf{y} \in \mathbb{R}^M$ be a single measurement from $M$ microphones containing a linear mixture of all the speak signals that are present in the room. 
 When additional noise is not considered, the problem can be described as the familiar linear system 
 \begin{align}\label{eq:ICA1}
-\mathbf{y} = \mathbf{Ax}
+\mathbf{y} = \mathbf{Ax},
 \end{align}
-where $\mathbf{x}\in \mathbb{R}^N$ contain the $N$ underlying speak signals and $\mathbf{A}$ is a mixing matrix where the coefficients may depend on the distances from a source to the microphone. 
+where $\mathbf{x} \in \mathbb{R}^N$ contain the $N$ underlying speak signals. $\mathbf{A}$ is a mixing matrix where the coefficients may depend on the distances from a source to the microphone. 
 As such each $y_i$ is a weighted sum of all the sources of speak present to the $i$-th microphone.
 By ICA both the mixing matrix $\mathbf{A}$ and the source signals $\mathbf{x}$ are sought estimated from the observed measurements $\mathbf{y}$. 
 The main attribute of ICA is the assumption that the sources in $\mathbf{x}$ are statistically independent and non-Gaussian distributed, hence the name independent components.
 \\     
 By independence, one means in general that changes in one source signal do not affect the other source signals. 
-In theory $n$ variables $x_1, \hdots , x_n$ is independent if the joint probability density function (pdf) of $\mathbf{x}$ satisfies
+In theory $N$ variables $x_1, \dots , x_N$ is independent if the joint probability density function (pdf) of $\mathbf{x}$ satisfies
 \begin{align*}
-p(x_1, x_2, \dots, x_n) = p_1(x_1) p_2(x_2) \cdots p_n(x_n).
+p(x_1, x_2, \dots, x_N) = p_1(x_1) p_2(x_2) \cdots p_n(x_N).
 \end{align*}
-
-%Furthermore it is assumed that the independent components $\mathbf{x}$ do not have Gaussian distribution as this will effect the recovery of $\mathbf{x}$ due to ICA using higher-order cumulant method. For Gaussian distribution the cumulant will be zero which is not wanted in the recovery process. Thus the distribution of the independent components are unknown. This will further be described in section \ref{sec:est_ica}.
-
 The possibility of separating a signal into independent and non-Gaussian components originates from the central limit theorem \cite[p. 34]{ICA}. 
 The theorem states that the distribution of any linear mixture of two or more independent random variables tends toward a Gaussian distribution, under certain conditions. 
-For instance the distribution of a mixture of two independent random variables is always closer to a Gaussian distribution than the original variables. In other word the original variables is most non-Gaussian.   
+For instance the distribution of a mixture of two independent random variables is always closer to a Gaussian distribution than the original variables. In other word the original variables is most non-Gaussian. 
 The application of the central limit theorem within ICA will be elaborated later in this appendix.
-%Thus, when a non-Gaussian distribution of the independent components is achieved through optimization it must be the original sources.
 
 \subsection{Assumptions and Preprocessing}
-For simplicity assume $\mathbf{A}$ is square i.e. $M = N$ and invertible. 
+For simplicity assumes that $\mathbf{A}$ is square i.e. $M = N$ and invertible. 
 As such when $\mathbf{A}$ has been estimated the inverse is computed and the components can simply be estimated as $\mathbf{x} = \mathbf{A}^{-1} \mathbf{y}$ \cite[p. 152-153]{ICA}.
 As both $\mathbf{A}$ and $\mathbf{x}$ are unknown the variances of the independent components can not be determined. 
-However it is reasonable to assume that $\mathbf{x}$ has unit variance -- $\mathbf{A}$ is assume to have unit variance as well. 
-Any scalar multiplier within a source can be cancelled out by dividing the corresponding column in $\mathbf{A}$ with the same scalar \cite[p. 154]{ICA}.
+However, it is reasonable to assume that $\mathbf{x}$ has unit variance -- $\mathbf{A}$ is assumed to have unit variance as well. 
+Any scalar multiplier within a source can be canceled out by dividing the corresponding column in $\mathbf{A}$ with the same scalar \cite[p. 154]{ICA}.
 For further simplification it is assumed without loss of generality that $\mathbb{E}[\mathbf{y}] = 0$ and $\mathbb{E}[\mathbf{x}] = 0$\cite[p. 154]{ICA}. 
-In case this assumption is not true, the measurements can be centred by subtracting the mean as preprocessing before doing ICA.
+In case this assumption is not true, the measurements can be centered by subtracting the mean as preprocessing before doing ICA.
 
 A preprocessing step central to ICA is to whiten the measurements $\mathbf{y}$. 
 By the whitening process any correlation in the measurements are removed and unit variance is ensured -- the independent components $\mathbf{x}$ becomes uncorrelated and have unit variance. 
 Furthermore, this reduces the complexity of ICA and therefore simplifies the recovering process.
 Whitening is a linear transformation of the observed data. 
-This is multiplying the measurement vector $\textbf{y}$ with a whitening matrix $\textbf{V}$,
+This is multiplying the measurement vector $\mathbf{y}$ with a whitening matrix $\mathbf{V}$
 \begin{align*}
-\textbf{y}_{\text{white}} = \textbf{V}\textbf{y}
+\mathbf{y}_{\text{white}} = \mathbf{V} \mathbf{y},
 \end{align*} 
-to obtain a new measurement vector $\textbf{y}_{white}$ which is considered white. 
-To obtain a whitening matrix the eigenvalue decomposition (EVD) of the covariance matrix can be used,
+to obtain a new measurement vector $\mathbf{y}_{\text{white}}$ which is considered white. 
+To obtain a whitening matrix, the eigenvalue decomposition (EVD) of the covariance matrix can be used:
 \begin{align*}
-\mathbb{E}[\mathbf{yy}^T] = \mathbf{EDE}^T
+\mathbb{E}[\mathbf{yy}^T] = \mathbf{EDE}^T,
 \end{align*}
 where $\mathbf{D}$ is a diagonal matrix of eigenvalues and $\mathbf{E}$ is a matrix consisting of the associated eigenvectors. 
 From $\mathbf{E}$ and $\mathbf{D}$ a whitening matrix $\mathbf{V}$ is constructed as
 \begin{align*}
 \mathbf{V} = \mathbf{ED}^{-1/2} \mathbf{E}^T,
 \end{align*}
-where $\mathbf{D}^{-1/2} = \text{diag}(d_1^{-1/2},\dots, d_n^{-1/2})$ is a component-wise operation\cite[p.159]{ICA}.
+where $\mathbf{D}^{-1/2} = \text{diag}(d_1^{-1/2}, \dots, d_n^{-1/2})$ is a component-wise operation \cite[p. 159]{ICA}.
 \\  
 By multiplying the measurement vector $\mathbf{y}$ with a whitening matrix $\mathbf{V}$ the data becomes white
-\begin{align}
-\mathbf{y}_{\text{white}} &= \mathbf{Vy} = \mathbf{VAx} = \mathbf{A}_{\text{white}} \mathbf{x}. \nonumber
-\end{align}
-Furthermore the corresponding mixing matrix $\mathbf{A}_{\text{white}}$ becomes orthogonal 
+\begin{align*}
+\mathbf{y}_{\text{white}} &= \mathbf{Vy} = \mathbf{VAx} = \mathbf{A}_{\text{white}} \mathbf{x}.
+\end{align*}
+Furthermore, the corresponding mixing matrix $\mathbf{A}_{\text{white}}$ becomes orthogonal 
 \begin{align*}
  \mathbb{E}[\mathbf{y}_{\text{white}} \mathbf{y}_{\text{white}}^T] = \mathbf{A}_{\text{white}} \mathbb{E}[\mathbf{xx}^T] \mathbf{A}_{\text{white}}^T = \mathbf{A}_{\text{white}} \mathbf{A}_{\text{white}}^T = \mathbf{I},
  \end{align*} 
-where $\mathbb{E}[\mathbf{xx}^T] = \mathbf{I}$ due to $\textbf{x}$ having zero mean and uncorrelated entries. 
+where $\mathbb{E}[\mathbf{xx}^T] = \mathbf{I}$ due to $\mathbf{x}$ having zero mean and uncorrelated entries. 
 
-As a consequence ICA can restrict its search for the mixing matrix to the orthogonal matrix space -- that is instead of estimating $N^2$ parameters ICA has only to estimate an orthogonal matrix which has $N(N-1)/2$ parameters \cite[p. 159]{ICA}.
+As a consequence ICA can restrict its search for the mixing matrix to the orthogonal matrix space. That is instead of estimating $N^2$ parameters ICA has only to estimate an orthogonal matrix which has $N(N-1)/2$ parameters \cite[p. 159]{ICA}.
 
 \subsection{Recovery of the Independent Components}\label{sec:est_ica}
 The estimation of the mixing coefficients $a_{ij}$ and the independent components $x_i$ by ICA is now elaborated, based on \cite[p. 166]{ICA}.  
 
 The simple and intuitive method is to take advantage of the assumption of non-Gaussian independent components. 
-Consider again the model of a single measurement vector $\textbf{y}=\textbf{Ax}$, where the data vector comply to the assumption of being mixture of independent components. Here the independent components can be estimated by the inverted model
+Consider again the model of a single measurement vector $\mathbf{y} = \mathbf{Ax}$, where the data vector complies to the assumption of being mixture of independent components. Here the independent components can be estimated by the inverted model
 \begin{align*}
-\textbf{x}=\textbf{A}^{-1}\textbf{y}.
+\mathbf{x} = \mathbf{A}^{-1} \mathbf{y}.
 \end{align*}
-%Let $\textbf{A}^{-1}=\textbf{B}$, 
-Consider first the estimation of a single independent component $x_i$, here a linear combination of $y_i$ is considered. Denote for now a single independet component by $z$ such that
+Consider first the estimation of a single independent component $x_i$.
+Here a linear combination of $y_i$ is considered. Denote for now a single independent component by $z$ such that
 \begin{align}
-z = \textbf{b}^T \textbf{y} = \sum_k b_k y_k \label{eq:ICA_comp}
+z = \mathbf{b}^T \mathbf{y} = \sum_k b_k y_k, \label{eq:ICA_comp}
 \end{align} 
-where one want to determine the vector $\textbf{b}$. This can be rewritten to 
+where one want to determine the vector $\mathbf{b}$. This can be rewritten to 
 \begin{align*}
-z = \textbf{b}^T \textbf{Ax}
+z = \mathbf{b}^T \mathbf{Ax}
 \end{align*} 
-From this it is seen that $y$ is a linear combination of the $x_i$ with coefficients given by the vector $\textbf{b}^T \textbf{A}$, now denote this vector by $\textbf{q}$. As such  
+From this it is seen that $\mathbf{y}$ is a linear combination of the $x_i$ with coefficients given by the vector $\mathbf{b}^T \mathbf{A}$.
+Let now $\mathbf{b}^T \mathbf{A}$ be denoted by the $\textbf{q}$. As such  
 \begin{align}
-z = \textbf{b}^T \textbf{y}= \textbf{b}^T \textbf{Ax} = \textbf{q}^T \textbf{x} = \sum_k q_k x_k. \label{eq:ICA_comp2} 
+z = \mathbf{b}^T \mathbf{y} = \mathbf{b}^T \mathbf{Ax} = \mathbf{q}^T \mathbf{x} = \sum_k q_k x_k. \label{eq:ICA_comp2} 
 \end{align}
-By this expression, consider the thought of $\textbf{b}$ being one of the rows in $\textbf{A}^{-1}$, then the linear combination $\textbf{b}^{T}\textbf{y}$ is equal to one of the independent components. 
-%That is 
-%\begin{align}
-%\textbf{A}^{-1}_{i \cdot} = \textbf{b}^T \Rightarrow  x_i = \textbf{b}^T \textbf{y}_i
-%\end{align}
+By this expression, consider the thought of $\mathbf{b}$ being one of the rows in $\mathbf{A}^{-1}$, then the linear combination $\mathbf{b}^{T}\mathbf{y}$ is equal to one of the independent components. 
  
-The objective is now to apply the central limit theorem to determine $\textbf{b}$ such that it equals one of the rows of $\textbf{A}^{-1}$. 
-As $\textbf{A}$ is unknown it is not possible to determine $\textbf{b}$ exactly, but an estimate can be found to make a good approximation.
+The objective is now to apply the central limit theorem to determine $\mathbf{b}$ such that it equals one of the rows of $\mathbf{A}^{-1}$. 
+As $\mathbf{A}$ is unknown it is not possible to determine $\mathbf{b}$ exactly, but an estimate can be found to make a good approximation.
 
-Due to $z$ denoting some $x_i$ it is clear that the equality in \eqref{eq:ICA_comp2} only holds true when $\textbf{q}$ consist of only one non-zero element equal to 1.  
-Thus, from the central limit theorem the distribution of $\textbf{q}^T\textbf{x}$ is most non-Gaussian when it equals one of the independent components which was assumed non-Gaussian. 
-As such, since $\textbf{q}^T \textbf{x} = \textbf{b}^{T} \textbf{y}$, it is possible to vary the coefficients in $\textbf{b}$ and look at the distribution of $\textbf{b}_{i \cdot} \textbf{y}$. 
-Finding the vector $\textbf{b}^T$ that maximizes the non-Gaussianity would then correspond to $\textbf{q} = \textbf{A}^T \textbf{b}^T$ having only a single non-zero element. 
-Thus maximizing the non-Gaussianity of $\textbf{b}_{i \cdot} \textbf{y}$ results in one of the independent components \cite[p. 166]{ICA}. 
-Considering the $N$-dimensional space of vectors $\textbf{b}^T$ there exist $2N$ local maxima, corresponding to $x_i$ and $-x_i$ for all $N$ independent components \cite[p. 166]{ICA}. 
+Due to $z$ denoting some $x_i$ it is clear that the equality in \eqref{eq:ICA_comp2} only holds true when $\mathbf{q}$ consist of only one non-zero element equal to 1.  
+Thus, from the central limit theorem the distribution of $\mathbf{q}^T \mathbf{x}$ is most non-Gaussian when it equals one of the independent components which was assumed non-Gaussian. 
+As such, since $\mathbf{q}^T \mathbf{x} = \mathbf{b}^{T} \mathbf{y}$, it is possible to vary the coefficients in $\mathbf{b}$ and look at the distribution of $\mathbf{b}_{i \cdot} \mathbf{y}$. 
+Finding the vector $\mathbf{b}^T$ that maximizes the non-Gaussianity would then correspond to $\mathbf{q} = \mathbf{A}^T \mathbf{b}^T$ having only a single non-zero element. 
+Thus maximizing the non-Gaussianity of $\mathbf{b}_{i \cdot} \mathbf{y}$ results in one of the independent components \cite[p. 166]{ICA}. 
+Considering the $N$-dimensional space of vectors $\mathbf{b}^T$ there exist $2N$ local maxima, corresponding to $x_i$ and $-x_i$ for all $N$ independent components \cite[p. 166]{ICA}. 
 
 \subsection{Kurtosis}
-To maximize the non-Gaussianity a measure for Gaussianity is needed. Kurtosis is a quantitative measure used for non-Gaussianity of random variables\cite[p.171]{ICA}. 
+To maximize the non-Gaussianity, a measure for Gaussianity is needed. Kurtosis is a quantitative measure used for non-Gaussianity of random variables \cite[p. 171]{ICA}. 
 Kurtosis of a random variable $y$ is the fourth-order cumulant denoted by $\text{kurt}(y)$. 
 For $y$ with zero mean and unit variance, kurtosis reduces to 
 \begin{align*}
@@ -113,65 +106,64 @@ For $y$ with zero mean and unit variance, kurtosis reduces to
 \end{align*} 
 It is seen that the kurtosis is a normalized version of the fourth-order moment defined as $\mathbb{E}[y^4]$. 
 For a Gaussian random variable the fourth-order moment equals $3(\mathbb{E}[y^2])^2$ hence the corresponding kurtosis will be zero \cite[p. 171]{ICA}. 
-Consequently the kurtosis of non-Gaussian random variables will almost always be different from zero.
+Consequently, the kurtosis of non-Gaussian random variables will almost always be different from zero.
 \\
-The kurtosis is a common measure for non-Gaussianity due to its simplicity  both theoretical and computational. 
+The kurtosis is a common measure for non-Gaussianity due to its simplicity both theoretical and computational. 
 The kurtosis can be estimated computationally by the fourth-order moment of sample data when the variance is constant.
 Furthermore, for two independent random variables $x_1, x_2$ the following linear properties applies to the kurtosis of the sum
 \begin{align*}
-\text{kurt}(x_1 + x_2)=\text{kurt}(x_1)+ \text{kurt}(x_2) \quad \text{and} \quad \text{kurt}(\alpha x_1) = \alpha^4 \text{kurt}(x_1)
+\text{kurt}(x_1 + x_2) = \text{kurt}(x_1) + \text{kurt}(x_2) \quad \text{and} \quad \text{kurt}(\alpha x_1) = \alpha^4 \text{kurt}(x_1)
 \end{align*}  
 However, one complication concerning kurtosis as a measure is that kurtosis is sensitive to outliers \cite[p. 182]{ICA}.
 \\ \\      
-Consider from \eqref{eq:ICA_comp2} the vector $\textbf{q} = \textbf{A}^T\textbf{b}$ such that $\textbf{b}^T \textbf{y} = \sum_{k=1} q_k x_k$. 
+Consider from \eqref{eq:ICA_comp2} the vector $\mathbf{q} = \mathbf{A}^T \mathbf{b}$ such that $\mathbf{b}^T \mathbf{y} = \sum_{k=1} q_k x_k$. 
 By the additive property of kurtosis
 \begin{align*}
-\text{kurt} \left( \textbf{b}^T\textbf{y} \right) = \sum_{k=1}q_k^4 \text{kurt}(x_k).
+\text{kurt} \left( \mathbf{b}^T \mathbf{y} \right) = \sum_{k=1}q_k^4 \text{kurt}(x_k).
 \end{align*}
 Then the assumption of the independent components having unit variance results in $\mathbb{E}[x_i^2]= \sum_{k=1}q_k^2=1$. 
-That is geometrically that $\textbf{q}$ is constrained to the unit sphere, $\| \textbf{q}\|^2 = 1$. 
+That is geometrically that $\mathbf{q}$ is constrained to the unit sphere, $\| \mathbf{q}\|^2 = 1$. 
 
-By this an optimisation problem maximising the kurtosis of $\textbf{b}^T \textbf{y}$ is similar to maximizing $\vert \text{kurt}(x_i)\vert = \vert \sum_{k=1}q_k^4 \text{kurt}(x_k) \vert $ on the unit sphere.
-Due to the described preprocessing $\textbf{b}^T$ is assumed to be white and it can be shown that $\Vert \textbf{q} \Vert = \Vert \textbf{b}^T \Vert$ \cite[p. 174]{ICA}. 
-This shows that constraining $\Vert \textbf{q} \Vert$ to one is similar to constraining $\Vert \textbf{b}^T \Vert$ to one. 
+By this an optimization problem maximizing the kurtosis of $\mathbf{b}^T \mathbf{y}$ is similar to maximizing $\vert \text{kurt}(x_i)\vert = \vert \sum_{k=1}q_k^4 \text{kurt}(x_k) \vert $ on the unit sphere.
+Due to the described preprocessing $\mathbf{b}^T$ is assumed to be white and it can be shown that $\Vert \mathbf{q} \Vert = \Vert \mathbf{b}^T \Vert$ \cite[p. 174]{ICA}. 
+This shows that constraining $\Vert \mathbf{q} \Vert$ to one is similar to constraining $\Vert \mathbf{b}^T \Vert$ to one. 
 
 \subsection{Basic ICA algorithm}\label{sec:gra_kur}
-Now a basic ICA algorithm is specified, this algorithm is based on the gradient optimisation method with kurtosis.
+Now a basic ICA algorithm is specified, this algorithm is based on the gradient optimization method with kurtosis.
 
-The general idea behind a gradient algorithm is to determine the direction for which $\text{kurt}(\textbf{b}^T \textbf{y})$ is growing the most, based on the gradient. 
-The gradient of $\vert \text{kurt}(\textbf{b}^T \textbf{y}) \vert$ is computed as
+The general idea behind a gradient algorithm is to determine the direction for which $\text{kurt}(\mathbf{b}^T \mathbf{y})$ is growing the most, based on the gradient. 
+The gradient of $\vert \text{kurt}(\mathbf{b}^T \mathbf{y}) \vert$ is computed as
 \begin{align}\label{eq:kurt}
 \frac{\partial \vert \text{kurt}(\textbf{b}^T \textbf{y})\vert}{\partial \mathbf{b}} &= 4 \text{sign}(\text{kurt}(\textbf{b}^T \textbf{y})) (\mathbb{E}[\mathbf{y} (\textbf{b}^T \textbf{y})^3] - 3 \mathbf{y} \mathbb{E}[(\textbf{b}^T \textbf{y})^2]) 
 \end{align} 
-As $\mathbb{E}[(\textbf{b}^T \textbf{y})^2] =\Vert \mathbf{y} \Vert^2$ for whitened data the corresponding term does only affect the norm of $\textbf{b}$ within the gradient algorithm. 
+As $\mathbb{E}[(\mathbf{b}^T \mathbf{y})^2] = \Vert \mathbf{y} \Vert^2$ for whitened data the corresponding term does only affect the norm of $\mathbf{b}$ within the gradient algorithm. 
 Thus, as it is only the direction that is of interest, this term can be omitted. 
-Because the optimisation is restricted to the unit sphere a projection of $\textbf{b}$ onto the unit sphere must be performed in every step of the gradient method. 
-This is done by dividing $\textbf{b}$ by its norm. 
+Because the optimization is restricted to the unit sphere a projection of $\mathbf{b}$ onto the unit sphere must be performed in every step of the gradient method. 
+This is done by dividing $\mathbf{b}$ by its norm. 
 This gives update step \cite[p. 178]{ICA}
 \begin{align*}
 \Delta \textbf{b} &\propto \text{sign}\left( \text{kurt}(\textbf{b}^T \textbf{y}) \right) \mathbb{E}[\textbf{y}(\textbf{b}^T \textbf{y})^3] \\
 \textbf{b} &\leftarrow \textbf{b}/\Vert \textbf{b} \Vert
 \end{align*}  
-The expectation operator can be omitted in order to achieve an adaptive version of the algorithm, now using every measurement $\textbf{y}$. 
+The expectation operator can be omitted in order to achieve an adaptive version of the algorithm, now using every measurement $\mathbf{y}$. 
 However, the expectation operator from the definition of kurtosis can not be omitted and must therefore be estimated. 
 This can be done by $\gamma$ by serving it as the learning rate of the gradient method.
 \begin{align*}
 \Delta \gamma \propto((\textbf{b}^T \textbf{y})^4 - 3) - \gamma
 \end{align*}
-
 Algorithm \ref{alg:basicICA} combines the above theory, to give an overview of the basic ICA procedure. 
 \begin{algorithm}[H]
 \caption{Basis ICA}
 \begin{algorithmic}[1]
 			\Procedure{Pre-processing}{$\textbf{y}$}
 			\State $\text{Center measurements} \quad \textbf{y} \gets \textbf{y} - \bar{\textbf{y}}$
-			\State $\text{Whitening} \quad \textbf{y}\gets \textbf{y}_{white}$ 
+			\State $\text{Whitening} \quad \textbf{y}\gets \textbf{y}_{\text{white}}$ 
 			\EndProcedure  
 			\State
             \Procedure{ICA}{$\textbf{y}$}    
 			\State$k=0$            
-            \State$\text{Initialise random vector} \quad \textbf{b}_{(k)}$ \Comment{unit norm}
-            \State$\text{Initialise random value} \quad \gamma_{(k)}$
+            \State$\text{Initialize random vector} \quad \textbf{b}_{(k)}$ \Comment{unit norm}
+            \State$\text{Initialize random value} \quad \gamma_{(k)}$
             \For{$j \gets 1,2, \hdots ,N$ }
             
             	\While{$\text{convergence critia not meet}$} 
@@ -190,14 +182,11 @@ Algorithm \ref{alg:basicICA} combines the above theory, to give an overview of t
 
 \subsection{ICA for sparse signal recovery}
 ICA is widely used within sparse signal recovery.   
-When ICA is applied to a measurement vector $\textbf{y}\in\mathbb{R}^{M}$ it is possible to separate the mixed signal into $M$ or less independent components. 
+When ICA is applied to a measurement vector $\mathbf{y} \in \mathbb{R}^{M}$ it is possible to separate the mixed signal into $M$ or less independent components. 
 However, by assuming that the  independent components make a $k$-sparse signal it is possible to apply ICA within sparse signal recovery of cases where $M < N$ and $k \leq M$. 
 \\
-To apply ICA to such cases the independent components are obtained by the pseudo-inverse solution 
+To apply ICA to such cases, the independent components are obtained by the pseudo-inverse solution 
 \begin{align*}
 \hat{\mathbf{x}} = \mathbf{A}_S^{\dagger} \mathbf{y}
 \end{align*}
 where $\mathbf{A}_S$ is derived from the dictionary matrix $\mathbf{A}$ by containing only the columns associated with the non-zero entries of $\textbf{x}$, specified by the support set $S$, cf. appendix \ref{app_sec:CS}. 
-
- 
-

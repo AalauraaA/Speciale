@@ -1,10 +1,10 @@
 \subsection{Case 0, $M = N$}
 ICA is applied on $\mathbf{Y}_s$ specified by $M\_ = 27$ and $L_s = 516$. 
-The main algorithm is applied on $\mathbf{Y}_s$ without any reduction hence specified by $M\_ = 27$ and $L_s = 516$, given $\mathbf{A}_{\text{norm2}}$ and $N = k$ provided from ICA.
+The main algorithm is applied on $\mathbf{Y}_s$ without any reduction hence specified by $M = 27$ and $L_s = 516$, given $\hat{\mathbf{A}}_{\text{fix}}$ and $N = k$ provided from ICA.
 Figure \ref{fig:M=N_1} show $\text{MSE}\left(\hat{\mathbf{X}}_{\text{main}},\hat{\mathbf{X}}_{\text{ICA}}\right)$ for all segments $s$. 
 Figure \ref{fig:M=N_1_2} show the same plot but the y-axis is specified to the interval $[-10,50]$ for better visualization.
 Furthermore, the MSE tolerance $= 5$ is plotted, indicting for each segment whether the estimate $\hat{\mathbf{X}}_{\text{main}}$ is sufficiency close to $\hat{\mathbf{X}}_{\text{main}}$. 
-It is seen that for a majority of the segments the MSE lies under the tolerance, but single outliers appears for which the MSE of the segment is significantly increased.    
+For a majority of the segments the MSE lies under the tolerance, but single outliers appears for which the MSE of the segment is significantly increased. Taking the average over all segments the average achieved MSE is $5.17$.    
 \begin{figure}[H]
 \begin{widepage}
     \begin{minipage}[t]{.45\textwidth}
@@ -24,7 +24,7 @@ It is seen that for a majority of the segments the MSE lies under the tolerance,
 \end{figure}
 \noindent
 To investigate the behavior of a single segment figure \ref{fig:M=N_2} show the MSE value computed for each row of the two estimates of a specific segment. 
-That is MSE$(\hat{\mathbf{X}}_{\text{main}_{i}}$, $\hat{\mathbf{X}}_{\text{ICA}_{i}})$ for every row $i = 1, \dots, k$ in time segment $s = 56$. 
+That is MSE$(\hat{\mathbf{X}}_{\text{main}_{i}}$, $\hat{\mathbf{X}}_{\text{ICA}_{i}})$ for every row $i = 1, \dots, k$ in time segment $s = 5$. 
 Additionally figure \ref{fig:M=N_3} show and compare the corresponding estimates for four random chosen sources. 
 This allows for visual comparison of the estimates relative to the corresponding MSE value seen in figure \ref{fig:M=N_2}. 
 Note that for better visual comparison each plotted row of $\hat{\mathbf{X}}_{\text{ICA}}$ is scaled with respect to the max value of the corresponding row in $\hat{\mathbf{X}}_{\text{main}}$.
@@ -35,14 +35,14 @@ In contradiction to this, figure \ref{fig:M=N_3} do not confirm that the estimat
     \begin{minipage}[t]{.45\textwidth}
 \centering
 \includegraphics[width=1\linewidth]{figures/ch_7/resultat/mse_none_removed_ica_timeseg5.png}
-\caption{MSE$\left(\hat{\mathbf{X}}_{\text{main}_{i}},\hat{\mathbf{X}}_{\text{ICA}_{i}}\right)$ for every row $i = 1, \dots, k$ in time segment $s=56$.}
+\caption{MSE$\left(\hat{\mathbf{X}}_{\text{main}_{i}},\hat{\mathbf{X}}_{\text{ICA}_{i}}\right)$ for every row $i = 1, \dots, k$ in time segment $s=5$.}
 \label{fig:M=N_2}
 \end{minipage} 
 \hspace{0.5cm}
 \begin{minipage}[t]{.45\textwidth}
 \centering
 \includegraphics[width=1\linewidth]{figures/ch_7/resultat/EEG_none_removed_scaled_timeseg5S1_CClean.png}
-\caption{Plot of the $k = 13$ sources from $\hat{\mathbf{X}}_{\text{main}}$ and $\hat{\mathbf{X}}_{\text{ICA}}$ from time segment $s = 56$ with $M = N$}
+\caption{Plot comparing four random chosen rows from $\hat{\mathbf{X}}_{\text{main}}$ and $\hat{\mathbf{X}}_{\text{ICA}}$ from time segment $s = 5$ with $M = N$ and $k=13$.}
 	\label{fig:M=N_3}
     \end{minipage}
 \end{widepage}
@@ -54,9 +54,9 @@ And the corresponding percentage is likewise relative high, with an average at $
 A single result is seen to deviate from the tendency, which is the data set of test subject 3 with closed eyes. 
 Here a significant high average MSE value is found, indicating a majority of the segment has resulted in a significantly high MSE, while a percentage of $63\%$ was below the tolerance. 
 In chapter \ref{ch:implementation} it is found that the main algorithm was capable of providing an almost exact estimate for $M = N$ when the true $\mathbf{A}$ is provided. 
-Thus, it is expected that the general performance is decreased in this case where the true $\mathbf{A}$ in unknown and $\mathbf{A}_{\text{norm2}}$ is given.
+Thus, it is expected that the general performance is decreased in this case where the true $\mathbf{A}$ is unknown and $\hat{\mathbf{A}}_{\text{fix}}$ is given.
 
-The achieved results will serve as reference when analyzing the results of the following cases where the main algorithm is applied on data set reduced with respect to the original data set.         
+The achieved results will serve as reference when analyzing the results of the following cases where the main algorithm is applied on data set with reduced number of sensors compared to the original data set.         
 \begin{table}[H]
 \centering
 \begin{tabular}{|c|c|c|c|c|c|c|}
@@ -73,12 +73,12 @@ The achieved results will serve as reference when analyzing the results of the f
 
 \subsection{Case 1, $M < N$}
 The main algorithm is applied on $\mathbf{Y}_s$, where the number of sensors is reduced by one-third. 
-As such the main algorithm is applied on $\mathbf{Y}_s$ specified by $M = 18$ and $L_s = 516$, given $\mathbf{A}_{\text{norm2}}$ and $N = k$ provided from ICA. 
+As such the main algorithm is applied on $\mathbf{Y}_s$ specified by $M = 18$ and $L_s = 516$, given $\hat{\mathbf{A}}_{\text{fix}}$ and $N = k$ provided from ICA. 
 ICA is applied on the original data set with segments $\mathbf{Y}_s$ specified by $M\_ = 27$ and $L_s = 516$.  
-The viewed plots correspond to those of case 0, but for reduce number of sources $M < N$, hence detailed plot description is omitted here.   
+The viewed plots correspond to those of case 0, but for the reduced number of sources $M < N$, hence detailed plot description is omitted here.   
 
-From figure \ref{fig:M<N_1} and \ref{fig:M<N_1_2} it is seen that the for a majority of the segments the MSE value is close to the tolerance, but the number of outliers has increased compared to case 0.
-This indicates that for an increased number of segments the main algorithm do not manage to estimate enough sources sufficiently in order to stay below the tolerance.   
+From figure \ref{fig:M<N_1} and \ref{fig:M<N_1_2} it is seen that a majority of the segments have MSE value close to the tolerance, but the number of outliers have increased compared to case 0.
+This indicates that for an increased number of segments the main algorithm do not manage to estimate enough sources sufficiently in order to stay below the tolerance. Taking the average over all segments the average achieved MSE is $5.35$.
 \begin{figure}[H]
 \begin{widepage}
     \begin{minipage}[t]{.45\textwidth}
@@ -97,21 +97,21 @@ This indicates that for an increased number of segments the main algorithm do no
 \end{widepage}
 \end{figure}
 \noindent 
-From figure \ref{fig:M<N_2} and \ref{fig:M<N_3} showing the results of segment 56, it is seen that the MSE for each source has increased slightly compared to case 0. 
+From figure \ref{fig:M<N_2} and \ref{fig:M<N_3} showing the results of segment 5, it is seen that the MSE for each source has increased slightly compared to case 0. 
 This supports the observation from figure \ref{fig:M<N_1_2}.      
 \begin{figure}[H]
 \begin{widepage}
     \begin{minipage}[t]{.45\textwidth}
 \centering
 \includegraphics[width=1\linewidth]{figures/ch_7/resultat/mse_third_removed_ica_timeseg5.png}
-\caption{MSE$\left(\hat{\mathbf{X}}_{\text{main}_{i}},\hat{\mathbf{X}}_{\text{ICA}_{i}}\right)$ for every row $i = 1, \dots, k$ in time segment $s=56$.}
+\caption{MSE$\left(\hat{\mathbf{X}}_{\text{main}_{i}},\hat{\mathbf{X}}_{\text{ICA}_{i}}\right)$ for every row $i = 1, \dots, k$ in time segment $s=5$.}
 \label{fig:M<N_2}
 \end{minipage} 
 \hspace{0.5cm}
 \begin{minipage}[t]{.45\textwidth}
 \centering
 \includegraphics[width=1\linewidth]{figures/ch_7/resultat/EEG_third_removed_scaled_timeseg5S1_CClean.png}
-\caption{Plot of the $k = 13$ sources from $\hat{\mathbf{X}}_{\text{main}}$ and $\hat{\mathbf{X}}_{\text{ICA}}$ from time segment $s = 56$ with $M = N$.}
+\caption{Plot comparing four random chosen rows from $\hat{\mathbf{X}}_{\text{main}}$ and $\hat{\mathbf{X}}_{\text{ICA}}$ from time segment $s = 5$ with $M = N$ and $k=13$.}
 	\label{fig:M<N_3}
     \end{minipage}
 \end{widepage}
@@ -119,8 +119,8 @@ This supports the observation from figure \ref{fig:M<N_1_2}.
 \noindent
 The test is repeated for every data set, and the results are summarized in table \ref{tab:case_1}. 
 Comparing table \ref{tab:case_1} to table \ref{tab:case_0}, it is seen that the percentage of segments below the tolerance are decreasing, with the majority being close to $50\%$.
-This thoroughly indicating that half of the time the main algorithm do not manage to provide a sufficient estimate when $M = 2/3N$.  
-Furthermore, both the average MSE and the corresponding percentage appears fluctuating relative to case 0 indicating some unreliability in the results.  
+This is roughly indicating that half of the time the main algorithm do not manage to provide a sufficient estimate when $M = 2/3N$.  
+Furthermore, both the average MSE and the corresponding percentages appear fluctuating relative to case 0 indicating some unreliability in the results.  
 \begin{table}[H]
 \centering
 \begin{tabular}{|c|c|c|c|c|c|c|}
@@ -137,13 +137,13 @@ Furthermore, both the average MSE and the corresponding percentage appears fluct
 
 \subsection{Case 2, $M << N$}
 The main algorithm is applied on $\mathbf{Y}_s$, where the number of sensors is reduced to half. 
-As such the main algorithm is applied on $\mathbf{Y}_s$ specified by $M = 13$ and $L_s = 516$, given $\mathbf{A}_{\text{norm2}}$ and $N = k$ provided from ICA.  
+As such the main algorithm is applied on $\mathbf{Y}_s$ specified by $M = 13$ and $L_s = 516$, given $\hat{\mathbf{A}}_{\text{fix}}$ and $N = k$ provided from ICA.  
 ICA is applied on the original data set with segments $\mathbf{Y}_s$ specified by $M\_= 27$ and $L_s = 516$. 
 The viewed plots correspond to those of case 0 and case 1, but for further reduce number of sources $M << N$, hence detailed plot description is omitted.   
 
 From figure \ref{fig:M<<N_1} and \ref{fig:M<<N_1_2} it is seen that the MSE value for each segment is more widely scatted around the tolerance, compared to case 0 and 1. 
-Outliers where the MSE value has increased significantly do also occur, similar to case 1. 
-This indicates that the performance of the main algorithm has decreased further, compared to case 1. 
+Outliers, where the MSE value has increased significantly, do also occur similar to case 1. 
+This indicates that the performance of the main algorithm has decreased further, compared to case 1. Taking the average over all segments the average achieved MSE is $11.36$.
 \begin{figure}[H]
 \begin{widepage}
     \begin{minipage}[t]{.45\textwidth}
@@ -163,29 +163,29 @@ This indicates that the performance of the main algorithm has decreased further,
 \end{figure}
 \noindent 
 The above indication is supported by figure \ref{fig:M<<N_2} and \ref{fig:M<<N_3} showing an general increase in MSE. 
-However, segment 56 still makes a fairly good example as the majority of the sources have achieves a MSE below the tolerance of six. 
+However, segment 5 makes a fairly good example as the majority of the sources have achieves a MSE below the tolerance of 5. 
 From figure \ref{fig:M<<N_3} the increased MSE do not appear visually compared to either case 1 or case 0.        
 \begin{figure}[H]
 \begin{widepage}
     \begin{minipage}[t]{.49\textwidth}
 \centering
 \includegraphics[width=1\linewidth]{figures/ch_7/resultat/mse_second_removed_ica_timeseg5.png}
-\caption{MSE$\left(\hat{\mathbf{X}}_{\text{main}_{i}},\hat{\mathbf{X}}_{\text{ICA}_{i}}\right)$ for every row $i = 1, \dots, k$ in time segment $s = 56$.}
+\caption{MSE$\left(\hat{\mathbf{X}}_{\text{main}_{i}},\hat{\mathbf{X}}_{\text{ICA}_{i}}\right)$ for every row $i = 1, \dots, k$ in time segment $s = 5$.}
 \label{fig:M<<N_2}
 \end{minipage} 
 \hspace{.5cm}
 \begin{minipage}[t]{.49\textwidth}
 \centering
 \includegraphics[width=1\linewidth]{figures/ch_7/resultat/EEG_second_removed_scaled_timeseg5S1_CClean.png}
-\caption{Plot of the $k = 13$ sources from $\hat{\mathbf{X}}_{\text{main}}$ and $\hat{\mathbf{X}}_{\text{ICA}}$ from time segment $s = 56$ with $M << N$.}
+\caption{Plot comparing four random chosen rows from $\hat{\mathbf{X}}_{\text{main}}$ and $\hat{\mathbf{X}}_{\text{ICA}}$ from time segment $s = 5$ with $M << N$ and $k=13$.}
 	\label{fig:M<<N_3}
     \end{minipage}
 \end{widepage}
 \end{figure}
 \noindent
-The test is repeated for every data set, and the results are summarized in table \ref{tab:case_2}. Comparing table \ref{tab:case_0} to table \ref{tab:case_1} it is generally seen that the percentage of segments below the tolerance is not decreased but improved.
-Though without getting close to the tendency from case 0. 
-Furthermore, the average MSE has not increased remarkably compared to case 1. 
+The test is repeated for every data set, and the results are summarized in table \ref{tab:case_2}. Comparing table \ref{tab:case_0} to table \ref{tab:case_1} it is generally seen that the percentage of segments below the tolerance are not decreased but improved.
+Though, without getting close to the tendency from case 0. 
+Furthermore, the average MSE have not increased remarkably compared to case 1. 
 As such the performance of the main algorithm in case 2 is in general not found to be worse than for case 1.
 However, a clear improvement is not seen either.  
 \begin{table}[H]

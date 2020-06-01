@@ -1,69 +1,72 @@
 \section{Covariance Domain Representation}\label{sec:cov}
 Consider a single sample vector $\textbf{y}_i\in \mathbb{R}^{M}$, containing EEG measurements. 
-The covariance of $\textbf{y}_i$ is defined as
+The covariance of $\mathbf{y}_i$ is defined as \todo{hvad er i sampled op til? -L}
 \begin{align*}
-\boldsymbol{\Sigma}_{\textbf{y}_i}=\mathbb{E}[(\textbf{y}_i-\mathbb{E}[\textbf{y}_i])(\textbf{y}_i-\mathbb{E}[\textbf{y}_i])^T],
+\boldsymbol{\Sigma}_{\mathbf{y}_i} = \mathbb{E}[(\mathbf{y}_i - \mathbb{E}[\mathbf{y}_i]) (\mathbf{y}_i - \mathbb{E}[\mathbf{y}_i])^T],
 \end{align*}
 where $\mathbb{E}[\cdot]$ is the expected value operator. 
-Let $\textbf{Y}_{s}=\left[\textbf{y}_1, \hdots ,\textbf{y}_{L_s}\right]$ be the observed measurement matrix containing all samples of segment $s$.
-Furthermore, assume that all sample vectors $\textbf{y}_i$ within one segment have zero mean and the same distribution.  
-Then $\mathbf{Y}_s \in \mathbb{R}^{M \times L_s}$ is described in the covariance-domain by the sample covariance $\widehat{\boldsymbol{\Sigma}}$. The sample covariance is defined as the empirical covariance among the $M$ measurements across the $L_s$ samples. That is a $M \times M$ matrix $\widehat{\boldsymbol{\Sigma}}_{\mathbf{Y}_s} = [\sigma_{jk}]$ with entries 
+Let $\mathbf{Y}_{s} = \left[\mathbf{y}_1, \dots, \mathbf{y}_{L_s}\right]$ be the observed measurement matrix containing all samples of segment $s$.
+Furthermore, assume that all sample vectors $\mathbf{y}_i$ within one segment have zero mean and the same distribution.  
+Then $\mathbf{Y}_s \in \mathbb{R}^{M \times L_s}$ is described in the covariance-domain by the sample covariance $\widehat{\boldsymbol{\Sigma}}$. 
+The sample covariance is defined as the empirical covariance among the $M$ measurements across the $L_s$ samples. 
+That is a $M \times M$ matrix $\widehat{\boldsymbol{\Sigma}}_{\mathbf{Y}_s} = [\sigma_{jk}]$ with entries 
 \begin{align*}
-\sigma_{jk}= \frac{1}{L_s}\sum_{i=1}^{L_s} y_{ji} y_{ki}.
+\sigma_{jk} = \frac{1}{L_s} \sum_{i=1}^{L_s} y_{ji} y_{ki}.
 \end{align*}
 Using matrix notation the sample covariance of $\mathbf{Y}_s$ can be written as
 \begin{align*}
 \widehat{\boldsymbol{\Sigma}}_{\mathbf{Y}_s} = \frac{1}{L_s} \mathbf{Y}_s \mathbf{Y}_s^T.
 \end{align*} 
-Similar, the source matrix $\mathbf{X}_s$ can be described in the covariance domain by the sample covariance matrix:
+Similar, the source matrix $\mathbf{X}_s$ can be described in the covariance-domain by the sample covariance matrix:
 \begin{align*}
-\widehat{\boldsymbol{\Sigma}}_{\mathbf{X}_s} &= \frac{1}{L_s} \mathbf{X}_s \mathbf{X}_s^T = \boldsymbol{\Lambda}_s + \boldsymbol{\varepsilon}. 
+\widehat{\boldsymbol{\Sigma}}_{\mathbf{X}_s} = \frac{1}{L_s} \mathbf{X}_s \mathbf{X}_s^T = \boldsymbol{\Lambda}_s + \boldsymbol{\varepsilon}. 
 \end{align*}
-The second equality comes from the assumption of the sources within $\mathbf{X}_s$ being uncorrelated. By uncorrelated sources $\mathbf{X}_s$ the sample covariance matrix is asumed to be nearly diagonal. Thus it can be written as $\boldsymbol{\Lambda}_s + \boldsymbol{\varepsilon}$ where $\boldsymbol{\Lambda}_s$ is a diagonal matrix consisting of the diagonal entries of $\widehat{\boldsymbol{\Sigma}}_{\mathbf{X}_s}$ and $ \boldsymbol{\varepsilon}_s$ is a non-diagonal matrix with entries close to zero representing the estimation error \cite{Balkan2015}.
+The second equality comes from the assumption of the sources within $\mathbf{X}_s$ being uncorrelated. 
+By uncorrelated sources $\mathbf{X}_s$ the sample covariance matrix is assumed to be nearly diagonal. 
+Thus it can be written as $\boldsymbol{\Lambda}_s + \boldsymbol{\varepsilon}$ where $\boldsymbol{\Lambda}_s$ is a diagonal matrix consisting of the diagonal entries of $\widehat{\boldsymbol{\Sigma}}_{\mathbf{X}_s}$ and $ \boldsymbol{\varepsilon}_s$ is a non-diagonal matrix with entries close to zero representing the estimation error \cite{Balkan2015}.
 
-Each segment is now modelled in the covariance-domain.
+Each segment is now modeled in the covariance-domain:
 \begin{widepage}
 \begin{align} 
-\widehat{\boldsymbol{\Sigma}}_{\mathbf{Y}_s}= \frac{1}{L_s}\mathbf{Y}_s \mathbf{Y}_s^T &=  \frac{1}{L_s}\left( \mathbf{A}_s \mathbf{X}_s + \mathbf{E}_s \right) \left( \mathbf{A}_s \mathbf{X}_s + \mathbf{E}_s\right)^T \nonumber \\ 
-&= \frac{1}{L_s} (\textbf{A}_s\textbf{X}_s)(\textbf{A}_s\textbf{X}_s)^T +\frac{1}{L_s}\textbf{E}_s \textbf{E}_s^T + \frac{1}{L_s}\textbf{E}_s (\textbf{A}_s\textbf{X}_s)^T + \frac{1}{L_s}\textbf{A}_s\textbf{X}_s \textbf{E}_s^T  \nonumber \\
-&=\frac{1}{L_s} \textbf{A}_s\textbf{X}_s \textbf{X}_s^T \textbf{A}_s^T +\frac{1}{L_s} \textbf{E}_s \textbf{E}_s^T +\frac{1}{L_s} \textbf{E}_s \textbf{X}_s^T \textbf{A}_s^T +\frac{1}{L_s} \textbf{A}_s\textbf{X}_s \textbf{E}_s^T  \nonumber \\
-&= \textbf{A}_s(\boldsymbol{\Lambda}_s +\boldsymbol{\varepsilon}_s) \textbf{A}_s^T +\frac{1}{L_s} \textbf{E}_s \textbf{E}_s^T + \frac{1}{L_s}\textbf{E}_s \textbf{X}_s^T \textbf{A}_s^T + \frac{1}{L_s}\textbf{A}_s\textbf{X}_s \textbf{E}_s^T \nonumber \\
-&= \textbf{A}_s \boldsymbol{\Lambda}_s \textbf{A}_s^T + \textbf{A}_s \boldsymbol{\varepsilon}_s \textbf{A}_s^T + \frac{1}{L_s}\textbf{E}_s \textbf{E}_s^T +\frac{1}{L_s} \textbf{E}_s \textbf{X}_s^T \textbf{A}_s^T + \frac{1}{L_s}\textbf{A}_s\textbf{X}_s \textbf{E}_s^T \label{eq:noise1} \\
-&= \textbf{A}_s \boldsymbol{\Lambda}_s \textbf{A}_s^T + \widetilde{\textbf{E}}_s \label{eq:noise2}
+\widehat{\boldsymbol{\Sigma}}_{\mathbf{Y}_s} = \frac{1}{L_s}\mathbf{Y}_s \mathbf{Y}_s^T &=  \frac{1}{L_s} \left(\mathbf{A}_s \mathbf{X}_s + \mathbf{E}_s\right) \left(\mathbf{A}_s \mathbf{X}_s + \mathbf{E}_s\right)^T \nonumber \\ 
+&= \frac{1}{L_s} \left(\mathbf{A}_s \mathbf{X}_s\right) \left(\mathbf{A}_s \mathbf{X}_s\right)^T +\frac{1}{L_s} \mathbf{E}_s \mathbf{E}_s^T + \frac{1}{L_s} \mathbf{E}_s \left(\mathbf{A}_s \mathbf{X}_s\right)^T + \frac{1}{L_s} \mathbf{A}_s \mathbf{X}_s \mathbf{E}_s^T  \nonumber \\
+&= \frac{1}{L_s} \mathbf{A}_s \mathbf{X}_s \mathbf{X}_s^T \mathbf{A}_s^T + \frac{1}{L_s} \mathbf{E}_s \mathbf{E}_s^T + \frac{1}{L_s} \mathbf{E}_s \mathbf{X}_s^T \mathbf{A}_s^T + \frac{1}{L_s} \mathbf{A}_s \mathbf{X}_s \mathbf{E}_s^T  \nonumber \\
+&= \mathbf{A}_s \left(\boldsymbol{\Lambda}_s + \boldsymbol{\varepsilon}_s\right) \mathbf{A}_s^T + \frac{1}{L_s} \mathbf{E}_s \mathbf{E}_s^T + \frac{1}{L_s} \mathbf{E}_s \mathbf{X}_s^T \mathbf{A}_s^T + \frac{1}{L_s} \mathbf{A}_s \mathbf{X}_s \mathbf{E}_s^T \nonumber \\
+&= \mathbf{A}_s \boldsymbol{\Lambda}_s \mathbf{A}_s^T + \mathbf{A}_s \boldsymbol{\varepsilon}_s \mathbf{A}_s^T + \frac{1}{L_s} \mathbf{E}_s \mathbf{E}_s^T +\frac{1}{L_s} \mathbf{E}_s \mathbf{X}_s^T \mathbf{A}_s^T + \frac{1}{L_s} \mathbf{A}_s \mathbf{X}_s \mathbf{E}_s^T \label{eq:noise1} \\
+&= \mathbf{A}_s \boldsymbol{\Lambda}_s \mathbf{A}_s^T + \widetilde{\mathbf{E}}_s \label{eq:noise2}
 \end{align}
 \end{widepage}
-From \eqref{eq:noise1} to \eqref{eq:noise2} all terms where noise, $\boldsymbol{\varepsilon}_s$ and $\mathbf{E}_s$, is included, are aggregated in a joint noise term $\widetilde{\textbf{E}}_s$. 
+From \eqref{eq:noise1} to \eqref{eq:noise2} all terms where noise, $\boldsymbol{\varepsilon}_s$ and $\mathbf{E}_s$, is included, are aggregated in a joint noise term $\widetilde{\mathbf{E}}_s$. 
 Next, the expression \eqref{eq:noise2} is rewritten through a vectorization. 
 Because the covariance matrix $\widehat{\boldsymbol{\Sigma}}_{\mathbf{Y}_s}$ is symmetric it is sufficient to vectorize only the lower triangular part, including the diagonal. 
-For this purpose the function $\text{vec}(\cdot)$ is defined to map a symmetric $M \times M$ matrix into a vector of size $\widetilde{M}$ by row-wise vectorization of the lower triangular part. The increased dimension $\widetilde{M}$ becomes 
+For this purpose the function $\text{vec}(\cdot)$ is defined. $\text{vec}(\cdot)$ map a symmetric $M \times M$ matrix into a vector of size $\widetilde{M}$ by row-wise vectorization of the lower triangular part. The increased dimension $\widetilde{M}$ becomes 
 \begin{align}
 \widetilde{M} := \frac{M(M+1)}{2}.
 \end{align}
-Furthermore, let $\text{vec}^{-1}: \mathbb{R}^{\widetilde{M}} \rightarrow \mathbb{R}^{M\times M}$ be the inverse function for devectorisation. 
+Furthermore, let $\text{vec}^{-1}: \mathbb{R}^{\widetilde{M}} \rightarrow \mathbb{R}^{M\times M}$ be the inverse function for devectorization. 
 
-Let $\textbf{a}_i$ be the $i$-th column of $\textbf{A}_s$, then the matrix product in \eqref{eq:noise2} can be written in sum form where $\boldsymbol{\Lambda}_{s_{ii}}$ is the $ii$-th entry of $\boldsymbol{\Lambda}_s$. 
+Let $\mathbf{a}_i$ be the $i$-th column of $\mathbf{A}_s$, then the matrix product in \eqref{eq:noise2} can be written in sum form where $\boldsymbol{\Lambda}_{s_{ii}}$ is the $ii$-th entry of $\boldsymbol{\Lambda}_s$. 
 \begin{align}
-\widehat{\boldsymbol{\Sigma}}_{\mathbf{Y}_s} &= \sum_{i=1}^{N} \textbf{a}_i \boldsymbol{\Lambda}_{s_{ii}} \textbf{a}_i^{T} + \widetilde{\textbf{E}}_s, \quad \boldsymbol{\Lambda}_{s_{ii}} \label{eq:cov_domain}
+\widehat{\boldsymbol{\Sigma}}_{\mathbf{Y}_s} &= \sum_{i=1}^{N} \mathbf{a}_i \boldsymbol{\Lambda}_{s_{ii}} \mathbf{a}_i^{T} + \widetilde{\mathbf{E}}_s, \quad \boldsymbol{\Lambda}_{s_{ii}} \label{eq:cov_domain}
 \end{align}
-Applying $\text{vec}(\cdot)$ to \eqref{eq:cov_domain} results in the following expression, which concludes the transformation of model \eqref{eq:MMV_seg} into the covariance-domain. 
+Applying $\text{vec}(\cdot)$ to \eqref{eq:cov_domain} results in the following expression, which concludes the transformation of model \eqref{eq:MMV_seg} into the covariance-domain: 
 \begin{align}
-\text{vec}\left( \widehat{\boldsymbol{\Sigma}}_{\mathbf{Y}_s} \right) &= \sum_{i=1}^N \text{vec}(\mathbf{a}_i \mathbf{a}_i^T) \boldsymbol{\Lambda}_{s_{ii}} + \text{vec}( \widetilde{\textbf{E}}_s) \nonumber \\
-&= \sum_{i=1}^N \mathbf{d}_i \boldsymbol{\Lambda}_{s_{ii}} + \text{vec}( \widetilde{\textbf{E}}_s) \nonumber \\
-&= \mathbf{D}_s \boldsymbol{\delta}_s + \text{vec}( \widetilde{\textbf{E}}_s), \quad \forall s. \label{eq:cov1}
+\text{vec} \left(\widehat{\boldsymbol{\Sigma}}_{\mathbf{Y}_s} \right) &= \sum_{i=1}^N \text{vec}\left(\mathbf{a}_i \mathbf{a}_i^T\right) \boldsymbol{\Lambda}_{s_{ii}} + \text{vec}\left(\widetilde{\mathbf{E}}_s\right) \nonumber \\
+&= \sum_{i=1}^N \mathbf{d}_i \boldsymbol{\Lambda}_{s_{ii}} + \text{vec}\left(\widetilde{\mathbf{E}}_s\right) \nonumber \\
+&= \mathbf{D}_s \boldsymbol{\delta}_s + \text{vec}\left(\widetilde{\mathbf{E}}_s\right), \quad \forall s. \label{eq:cov1}
 \end{align}
-Here $\boldsymbol{\delta}_s \in \mathbb{R}^{N}$ contains the diagonal entries of the source sample covariance matrix $\boldsymbol{\Lambda}_s$
-and the matrix $\mathbf{D}_s \in \mathbb{R}^{\widetilde{M} \times N}$ consists of the columns $\mathbf{d}_j = \text{vec}(\mathbf{a}_j \mathbf{a}_j^T)$. Note that $\mathbf{D}$ and $\boldsymbol{\delta}_s$ are unknown while $\text{vec}\left( \widehat{\boldsymbol{\Sigma}}_{\mathbf{Y}_s} \right)$ is known from the observed measurements.
-By this transformation to the covariance-domain, one segment is now represented by s single measurement model with $\widetilde{M}$ ''measurements''. 
+Here $\boldsymbol{\delta}_s \in \mathbb{R}^{N}$ contains the diagonal entries of the source sample covariance matrix $\boldsymbol{\Lambda}_s$ and the matrix $\mathbf{D}_s \in \mathbb{R}^{\widetilde{M} \times N}$ consists of the columns $\mathbf{d}_j = \text{vec}\left(\mathbf{a}_j \mathbf{a}_j^T\right)$. 
+Note that $\mathbf{D}$ and $\boldsymbol{\delta}_s$ are unknown while $\text{vec}\left( \widehat{\boldsymbol{\Sigma}}_{\mathbf{Y}_s}\right)$ is known from the observed measurements.
+By this transformation to the covariance-domain, one segment is now represented by $s$ single measurement model with $\widetilde{M}$ ''measurements''. 
 
-It has been shown that this transformed model allows for identification of $k \leq \widetilde{M}$ active sources \cite{Pal2015}, which is a much weaker sparsity constraint than the original sparsity constraint $k \leq M$. 
-The purpose of the Cov-DL algorithm is to leverage this transformed model to find the dictionary $\mathbf{A}_s$ from $\mathbf{D}_s$ still allowing for $k \leq \widetilde{M}$ active sources to be recovered. 
+It has been shown that this transformed model allows for identification of $k \leq \widetilde{M}$ active sources \cite{Pal2015}. This is a much weaker sparsity constraint than the original sparsity constraint $k \leq M$. 
+The purpose of the Cov-DL algorithm is to leverage this transformed model to find the dictionary $\mathbf{A}_s$ from $\mathbf{D}_s$. Still allowing for $k \leq \widetilde{M}$ active sources to be recovered. 
 That is the number of active sources are allowed to exceed the number of sensors as intended.
 
 \section{Recovery of the Mixing Matrix}
-The goal is now to learn first $\textbf{D}_s$ and then the associated mixing matrix $\textbf{A}_s$. 
+The goal is now to learn first $\mathbf{D}_s$ and then the associated mixing matrix $\mathbf{A}_s$. 
 Two methods are considered relying on the relation between $M$ and $N$. 
 For now the noise vector is ignored.
-
 
 \input{sections/ch_cov-DL/Cov-DL1.tex}
 \input{sections/ch_cov-DL/Cov-DL2.tex}
@@ -105,11 +108,11 @@ For now the noise vector is ignored.
 \end{algorithm}
 
 \section{Remarks}
-Through this chapter the theoretical aspects of the Cov-DL method proposed by \cite{Balkan2015} have been investigated in order to create algorithm \ref{alg:Cov1} from which the implementation of Cov-DL will be based. Furthermore the following remarks are considered with respect to the implementation.   
+Through this chapter the theoretical aspects of the Cov-DL method proposed by \cite{Balkan2015} have been investigated in order to create algorithm \ref{alg:Cov1} from which the implementation of Cov-DL will be based. Furthermore, the following remarks are considered with respect to the implementation. 
 
-The length of each time segment $s$ has to be defined with respect to the assumption of the signals being stationary. However, it can not be assured that the assumption is withhold for every segment and this will introduce a source of error. 
+The length of each time segment $s$ has to be defined with respect to the assumption of the signals being stationary. However, it can not be assured that the assumption is withheld for every segment and this will introduce a source of error. 
 This must be taken into account in the preprocessing part for the implementation of Cov-DL when the EEG measurements are divided into segments.
 
-For each segment a further segmentation is conducted into segments $s'$, each serving as one sample in the covariance-domain. Here the number of samples $L_{s'}$, depending on the chosen length, is most likely to influence the estimated dictionary. This is assuming that more training data will provide better results. Here a certain trade off may be considered. Longer segments $s'$ lead to better sample covariance representation but also a fewer number of training samples. Opposite, too short segments $s'$ might compromise the sample covariance-domain representation, thus the number of training sample will increase but the training samples might not be as representative.                 
-This trade off must be taken into account during the implementation of Cov-DL.  
+For each segment a further segmentation is conducted into segments $s'$, each serving as one sample in the covariance-domain. Here the number of samples $L_{s'}$, depending on the chosen length, is most likely to influence the estimated dictionary. This is assuming that more training data will provide better results. Here a certain trade off may be considered. Longer segments $s'$ lead to better sample covariance representation but also a less number of training samples. Opposite, too short segments $s'$ might compromise the sample covariance-domain representation, thus the number of training sample will increase but the training samples might not be as representative. 
+This trade off must be taken into account during the implementation of Cov-DL. 
 Furthermore, overlapping segments might be an option for potential improvement of the Cov-DL method.

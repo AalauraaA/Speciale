@@ -1,8 +1,8 @@
-\section{Implementation of Algorithms}\label{sec:implementation_flow}
-In this section the implementation of the main algorithm is described with use of a flowchart which illustrates the flow through the code.
-The main algorithm consists of three main stage: an initialization, Cov-DL for recovery of $\mathbf{A}$ and lastly M-SBL for recovery of $\mathbf{X}$. 
-Considering figure \ref{fig:flow}, each stage of the algorithm is illustrated within one horizontal row of the flow diagram.
-Furthermore, the input and output are placed in their own row\todo{insert $\ast$ på flow diagram}.    
+\section{Implementation}\label{sec:implementation_flow}
+In this section the implementation of the main algorithm is described.  A flowchart is constructed to illustrate the flow through the code.
+The main algorithm consists of three main stage: an initialization, application of Cov-DL for recovery of $\mathbf{A}$ and lastly application of M-SBL for recovery of $\mathbf{X}$. 
+At the flowchart, figure \ref{fig:flow}, each stage of the algorithm is illustrated within one horizontal row.
+Furthermore, the input and output are placed in their own row\todo{insert $\ast$ på flow diagram + bindestreg i cov-do, + s på A og X?}.    
 \begin{figure}[H]
 \centering
 \includegraphics[scale=0.7]{figures/ch_6/baseline_flowchart.png}
@@ -11,20 +11,22 @@ Furthermore, the input and output are placed in their own row\todo{insert $\ast$
 \end{figure}
 \noindent
 The input of the main algorithm consists of the measurement matrix $\mathbf{Y} \in \mathbb{R}^{M \times L}$, along with the corresponding sample frequency $f$. 
-Within the initialization stage the measurement matrix $\mathbf{Y}$ goes through segmentation as described in section \ref{seg_segmentation}. 
-For the segmentation the segments will not be overlapping.
-The length of the segments is predefined by a time interval $t$ in seconds such that $L_{s} = tf$. 
+Within the initialization stage the measurement matrix $\mathbf{Y}$ goes through a segmentation as described in section \ref{seg_segmentation}. 
+Resulting in non-overlapping segments.
+The length of the segments is predefined by a time interval of $t$ seconds such that $L_{s} = tf$. 
 Each segment $s$ is now specified by the measurement matrix $\mathbf{Y}_s \in \mathbb{R}^{M \times L_{s}}$.
-After the segmentation a loop is constructed such that for every segment $s$ the remaining two stages, Cov-DL and M-SBL, of the main algorithm are performed. 
-For each segment $s$, $N$ and $k$ are manually defined. 
+After the segmentation a loop is constructed such that the remaining two stages of the main algorithm, are performed for every segment $s$. 
+First $N$ and $k$ are manually defined. 
 This definition is either known in advance from the data or in the case of real EEG measurements they are unknown and a qualified guess must be made.
-With one segment and corresponding specifications of the expected number of active sources, the second stage of the algorithm is initialized, recovery of $\mathbf{A}$.
-The implementation of Cov-DL stage follows algorithm \ref{alg:Cov1} from section \ref{seg:alg_cov} closely thus only the main steps are illustrated on the flow diagram \ref{fig:flow}.
-First the measurement matrix $\mathbf{Y}_s$ for all segments is transformed to the covariance domain. Then it is vectorized, resulting in an extension of the dimensionality of $\mathbf{Y}$ from $M$ to $\widetilde{M} = \frac{M(M+1)}{2}$.
+
+With the specifications of one segment, the second stage of the algorithm is initialized, recovery of $\mathbf{A}_s$.
+The implementation of the Cov-DL stage follows algorithm \ref{alg:Cov1} from section \ref{seg:alg_cov} closely, thus only the main steps are illustrated on the flow diagram \ref{fig:flow}.
+First the measurement matrix $\mathbf{Y}_s$ is transformed to the covariance-domain and vectorized. This results in the extension of the dimensionality from $M$ to $\widetilde{M} = \frac{M(M+1)}{2}$.
 Next, the estimation of $\mathbf{A}_s$ is performed from either Cov-DL1 or Cov-DL2 depending on the relation between $\widetilde{M}$ and $N$, as described respectively in section \ref{sec:cov1} and \ref{sec:over_det}.
-The estimate $\hat{\mathbf{A}}$ and the measurement matrix $\mathbf{Y}$ serve as the input to the following stage, M-SBL for recovering of $\mathbf{X}$. 
-The finishing stage of the main algorithm consists of the iterative EM algorithm for maximizing the marginal likelihood \eqref{eq:likelihood} with respect to $\boldsymbol{\gamma}$. $\boldsymbol{\gamma}$ is the hyperparameter from which $\mathbf{X}$ can be determined as described in section \ref{seg:M_sblalg}. 
-Lastly, the output of the main algorithm $\hat{\mathbf{X}}$ and $\hat{\mathbf{A}}$ is illustrated on the flowchart \ref{fig:flow}.
+The estimate $\hat{\mathbf{A}_s}$ and the measurement matrix $\mathbf{Y}_S$ serve as the input to the following stage, M-SBL for recovering of $\mathbf{X}_s$. 
+
+The finishing stage of the main algorithm consists of the iterative EM algorithm for maximizing the marginal likelihood \eqref{eq:likelihood} with respect to $\boldsymbol{\gamma}$. The resulting $\boldsymbol{\gamma}^{\ast}$ is the hyperparameter from which $\mathbf{X}_s$ is determined as described in section \ref{seg:M_sblalg}. 
+Lastly, the output of the main algorithm $\hat{\mathbf{X}}_s$ and $\hat{\mathbf{A}}_s$ is illustrated on the flowchart \ref{fig:flow}.
 
 \subsection{Coding Practice}
 The implementation of the main algorithm is performed in Python 3.6. The software and guide to run the scripts are available through appendix \ref{App:code}.
@@ -32,12 +34,12 @@ The implementation of the main algorithm is performed in Python 3.6. The softwar
 The practical implementation process is based on module development. 
 The established model and the three stages of the main algorithm make the system design. 
 For each stage the necessary tasks are identified and divided into smaller modules. 
-For each module the task is specified, and the algorithms are established and implemented. 
+For each module the task is specified, and an algorithm is established and implemented. 
 This is followed by a test of the module and possible modifications until the task is performed without error. 
 Due to the time limitation of this thesis, the software was developed along side the dynamic research process. 
-Hence, the specifications to some modules have been redefined and hence the modification process are repeated. 
+Hence, the specifications to some modules have been redefined and the modification process are repeated. 
 Finally, the modules are united into one stage for which tests are performed, and lastly all the stages are united to the resulting main algorithm.
 
 The software is based on functions, for example one module is specified by one function, for which docstrings is used, following NumPy docstring format\footnote{\url{https://numpydoc.readthedocs.io/en/latest/}} allowing insight into the structure and thoughts behind the different software elements.
 
-For each of the stages Cov-DL and M-SBL, verification and performance tests will be performed and described later in this chapter, followed by testing phase of the main algorithm. 
+For each of the stages Cov-DL and M-SBL,  the verification and performance tests are described later in this chapter, followed by the testing phase of the main algorithm. 

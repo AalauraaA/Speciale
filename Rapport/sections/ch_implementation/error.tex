@@ -1,9 +1,9 @@
 \subsection{Error Measurement}\label{sec:mse}  
-To evaluate performance of the algorithms, it is evident to look at the differences between the true and estimated matrices, mixing matrix $\mathbf{A}$ and source matrix $\mathbf{X}$ -- which is possible due to the input data being simulated. 
-With the model in \eqref{eq:MMV} being invariant the true difference between the true and estimated matrices can not be measured. 
-However by only measuring the performance of one estimate, and not being dependent on another estimate, the invariance do not occur. 
-Thus the finalized test of the main algorithm the performance would be affected and not showing the real performance of main algorithm. 
-However, this can be overcome by looking the performance of the individual estimated and then with the results in mind map and empirical conclusion on the performance of the main algorithm  \todo{Jeg prøvede her at snakke om invariance problem meget kort. Tænker at de yderligere skal nævnes senere i kapitlet hvor main testes}.
+To evaluate the estimates, and hereby the performance of each stage of the main algorithm, it is evident to look at the differences between the true and estimated matrices, mixing matrix $\mathbf{A}$ and source matrix $\mathbf{X}$ -- which is possible due to the input data being simulated. 
+%With the model in \eqref{eq:MMV} being invariant the true difference between the true and estimated matrices can not be measured. 
+%However by only measuring the performance of one estimate, and not being dependent on another estimate, the invariance do not occur. 
+%Thus the finalized test of the main algorithm the performance would be affected and not showing the real performance of main algorithm. 
+%However, this can be overcome by looking the performance of the individual estimated and then with the results in mind map and empirical conclusion on the performance of the main algorithm.
 
 For this task the mean squared error (MSE) has been chosen. 
 The MSE measures the average squared difference between some estimated value and the true value. 
@@ -24,6 +24,9 @@ For $\mathbf{X}, \hat{\mathbf{X}} \in \mathbb{R}^{N \times L}$ the MSE is writte
 Similarly, the MSE can be written for $\mathbf{A},\hat{\mathbf{A}} \in \mathbb{R}^{M \times N}$.  
 
 The MSE is viewed as a measure of the quality of an estimator, in this case of how M-SBL and Cov-DL perform. 
-The MSE considers both the variance among the estimated samples and the bias which is how far the average estimate value is from the true value \cite[p.305]{MSE_book}.  
+The MSE considers both the variance among the estimated samples and the bias which is how far the average estimated value is from the true value \cite[p.305]{MSE_book}.  
 Thus the larger MSE the more widely dispersed is the estimate around the true parameter.
 In particular, $\hat{\mathbf{X}}_1$ is considered  a better estimated than $\hat{\mathbf{X}}_2$ if $\text{MSE}(\mathbf{X},\hat{\mathbf{X}}_1)< \text{MSE}(\mathbf{X},\hat{\mathbf{X}}_2)$. 
+
+One drawback of applying the MSE as the performance measure has to be considered. The general MMV model, when both $\textbf{A}$ and $\textbf{X}$ are unknown, is in fact invariant toward mutual interchange of rows. Conditioned on similar interchange of rows in both $\textbf{A}$ and $\textbf{X}$. With respect to MSE this introduces a possibility of comparing the wrong parameters leading to a misleading MSE. However, the extent of this issue is assumed to be limited when the estimates of $\textbf{A}$ and $\textbf{X}$ are conducted and evaluated separately. Though this will be kept in mind when analysing the results.        
+

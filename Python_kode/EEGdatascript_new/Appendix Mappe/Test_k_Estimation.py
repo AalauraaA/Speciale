@@ -24,11 +24,11 @@ The script use the:
 # =============================================================================
 # Import libraries
 # =============================================================================
+from Main_Algorithm import Main_Algorithm
+import Data_EEG
+import Data_Simulation
 import numpy as np
-from main import Main_Algorithm_EEG
-import data
-import simulated_data
-from plot_functions import plot_seperate_sources
+import matplotlib.pyplot as plt
 
 np.random.seed(1234)
 # =============================================================================
@@ -41,35 +41,17 @@ data_file = 'data/' + data_name            # file path
 segment_time = 1                           # length of segments i seconds
 
 # =============================================================================
-# Main Algorithm with random A
+# Main Algorithm with fixed A
 # =============================================================================
-request='remove 1/2' # remove sensors and the same sources from dataset - none, every third or every second
-Y, M, L, n_seg = data._import(data_file, segment_time, request=request)
+" Import Segmented Dataset "
+request='remove 1/2' # remove sensors and the same sources from dataset
+#request='remove 1/3' # remove sensors and the same sources from dataset
+#request = 'none'
+Y, M, L, n_seg = Data_EEG._import(data_file, segment_time, request=request)
 
 k = np.ones([len(Y)]) * (M+4)  # a choice for k -- k = M + 4
 
-if data_name == 'S1_CClean.mat':
-    " For S1_CClean.mat remove last sample of first segment "
-    Y[0] = Y[0].T[:-1]
-    Y[0] = Y[0].T
-
-if data_name == 'S1_OClean.mat':
-    " For S1_OClean.mat remove last sample of segment 1 to 22 "
-    for i in range(len(Y)):
-        if i <= 22:
-            Y[i] = Y[i].T[:-1]
-            Y[i] = Y[i].T
-        else:
-            continue
-
-" Recovering of the source matrix X"
-X_result = []
-for i in range(k.shape[0]): # Making the right size of X for all segments
-    X_result.append(np.zeros([len(Y), int(k[i])]))
-
-for i in range(len(Y)): # Looking at one time segment
-    A = np.random.normal(0,2,(M,int(k[i])))
-    X_result[i] = Main_Algorithm_EEG(Y[i], A, M, int(k[i]), L)
+A_result, X_result = Main_Algorithm(Y, M, k, L, data = 'EEG', fix = True)
 
 " Searching for replicates  "
 list_ = np.zeros([len(Y), len(X_result[0])])
@@ -77,14 +59,25 @@ for seg in range(len(Y)):
     for i in range(len(X_result[0])):
         rep = 0
         for j in range(len(X_result[0])):
-            mse = simulated_data.MSE_one_error(X_result[seg][i], X_result[seg][j])
+            mse = Data_Simulation.MSE_one_error(X_result[seg][i], X_result[seg][j])
             if  mse < 1.0:
                 rep += 1
         list_[seg][i] = rep
 
 " Plots of segment seg = 9 -- the 10 th segment"
 seg = 9
-fignr = 1
 figsave = "figures/EEG_second_removed_est_k" + str(data_name) + '_' + str(seg) + ".png"
-plot_seperate_sources(X_result[seg], M, int(k[seg]), int(k[seg]), L, figsave, fignr)
+plt.figure(1)
+plt.title('M = {}, N = {}, k = {}, L = {}'.format(M, int(k[seg]), int(k[seg]), L))
+nr_plot=0
+for i in range(int(k[seg])):
+    if np.any(X_result[seg][i]!=0):
+        nr_plot += 1
+        plt.subplot(k, 1, nr_plot)
+       
+        plt.plot(X_result[seg][i],'g', label='Recovered X')
 
+plt.legend()
+plt.xlabel('sample')
+plt.show()
+plt.savefig(figsave)

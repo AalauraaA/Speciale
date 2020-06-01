@@ -2,103 +2,170 @@
 """
 Created on Mon Mar 23 10:36:46 2020
 
-@author: trine
-"""
+@author: Mattek10b
 
-# -*- coding: utf-8 -*-
+This script contain the functions needed to perform Cov-DL. It consist of:
+    - _dictionarylearning
+    - _inversevectorization
+    - _vectorization
+    - _A
+    - _covdomain
+    - Cov_DL1
+    - Cov_DL2
+The script need the sklearn.decomposition, scipy.optimize and NumPy libraries.
 """
-Created on Wed Dec  4 13:34:43 2019
-
-@author: trine
-"""
+# =============================================================================
+# Libraries and Packages
+# =============================================================================
 from sklearn.decomposition import DictionaryLearning
 from sklearn.decomposition import PCA
 import numpy as np
 
-def _dictionarylearning(Y, n, k, iter_=100000):
-    dct = DictionaryLearning(n_components=n, transform_algorithm='lars',
+# =============================================================================
+# Functions
+# =============================================================================
+def _dictionarylearning(Y, N, k, iter_=100000):
+    """
+    Perform dictionary learning on the given data set.
+    --------------------------------------------------
+    Input:
+        Y: Measurement matrix of size M x L
+        N: Number of sources
+        k: Number of active sources
+    Output:
+        D: A dictionary matrix
+    """
+    dct = DictionaryLearning(n_components=N, transform_algorithm='lars',
                              transform_n_nonzero_coefs=k, max_iter=iter_)
     dct.fit(Y.T)
-    A_new = dct.components_
-    return A_new.T
+    D = dct.components_
+    return D.T
 
-def _inversevectorization(x):
+def _inversevectorization(d):
     """
-    input:  vector of size m(m+1)/2
-    output: matrix og´f size mxm
+    Perform the devectorization of covariances.
+    -------------------------------------------
+    Input:  
+        d: A vector of size M(M+1)/2
+    Output: 
+        D: A matrix of size M x N
     """
-    m = int(np.sqrt(x.size*2))
-    if (m*(m+1))//2 != x.size:
-        print("inverse vectorization fail")
+    M = int(np.sqrt(d.size*2))
+    if (M*(M+1))//2 != d.size:
+        print("Inverse vectorization fail")
         return None
     else:
-        R, C = np.tril_indices(m)
-        out = np.zeros((m, m), dtype=x.dtype)
-        out[R, C] = x
-        out[C, R] = x
-    return out
+        R, C = np.tril_indices(M)
+        D = np.zeros((M, M), dtype=d.dtype)
+        D[R, C] = d
+        D[C, R] = d
+    return D
 
-def _vectorization(X, m):
-    vec_X = X[np.tril_indices(m)]
-    return vec_X
+def _vectorization(Y, M):
+    """
+    Perform vectorization of a matrix.
+    ----------------------------------
+    Input:
+        Y: A matrix of size M x L
+        M: Number of sensors 
+    Output:
+        vec_Y: A vector of size M(M+1)/2
+    """
+    vec_Y = Y[np.tril_indices(M)]
+    return vec_Y
 
-def _A(D, m, n):
+def _A(D, M, N):
     """
-    determine A from D
+    Determine the mixing matrix A from the dictionary D.
+    ----------------------------------------------------
+    Input:
+        D: A dictionary matrix of size M x N
+        M: Number of sensors
+        N: Number of sources
+    Output:
+        A_rec: A recovered mixing matrix of size M x N
     """
-    A_rec = np.zeros(([m, n]))
-    for j in range(n):
+    A_rec = np.zeros(([M, N]))
+    for j in range(N):
         d = D.T[j]
         matrix_d = _inversevectorization(d)
         E = np.linalg.eig(matrix_d)[0]
         V = np.linalg.eig(matrix_d)[1]
-        max_eig = np.max(np.abs(E))     # should it be abselut here?
+        max_eig = np.max(np.abs(E))     
         index = np.where(np.abs(E) == max_eig)
-        max_vec = V[:, index[0]]        # using the column as eigen vector here
+        max_vec = V[:, index[0]]        # using the column as eigenvector here
         temp = np.sqrt(max_eig)*max_vec
         A_rec.T[j] = temp.T
     return A_rec
 
 def _covdomain(Y, L, L_covseg, M):
+    """
+    Perform the transformation to the covariance-domain.
+    ----------------------------------------------------
+    Input:
+        Y: Measurement matrix of size m x L
+        L: Number of samples
+        L_covseg: Number of samples in one segment
+        M: Number of sensors
+    """
     n_seg = int(L/L_covseg)               # number of segments
-    Y = Y.T[:n_seg*L_covseg].T              # remove last segment if to small
+    Y = Y.T[:n_seg*L_covseg].T            # remove last segment if to small
     Ys = np.split(Y, n_seg, axis=1)       # list of all segments in axis 0
     Y_big = np.zeros([int(M*(M+1)/2.), n_seg])
-    for j in range(n_seg):                   # loop over all segments
-        Y_cov = np.cov(Ys[j])           # normalised covariance mtrix is np.corrcoef(Ys[j])
+    for j in range(n_seg):                # loop over all segments
+        Y_cov = np.cov(Ys[j])             
         Y_big.T[j] = _vectorization(Y_cov, M)
     return Y_big
 
 def Cov_DL1(Y_big, M, N, k):
     """
+    Perform Cov-DL1 on the data set.
+    --------------------------------
+    Input:
+        Y_big: Measurement matrix Y in covariance domain of size M(M+1)/2 
+        M: Number of sensors
+        N: Number of sources
+        k: Number of active sources
+    Output:
+        A_rec: Recovered mixing matrix in time domain of size M x N
     """
-    print('using Cov_DL1')
-    D = _dictionarylearning(Y_big, N, k)
-    A_rec = _A(D, M, N)
+    print('Using Cov-DL1')
+    D = _dictionarylearning(Y_big, N, k) 
+    A_rec = _A(D, M, N)   # Determined A from dictionary matrix D
     print('Estimation of A is done')
     return A_rec
 
-# funktion til brug i DL2:
-
-def Cov_DL2(Y_big, m, n, k, A_real):
-    """ 
+def Cov_DL2(Y_big, M, N, k):
+    """
+    Perform Cov-DL2 on the data set.
+    --------------------------------
+    Input:
+        Y_big: Measurement matrix Y in covariance domain of size M(M+1)/2 
+        M: Number of sensors
+        N: Number of sources
+        k: Number of active sources
+        A_real: True mixing matrix for known data sets
+    Output:
+        A_rec: Recovered mixing matrix in time domain of size M x N
+        A_ini: Initial mixing matrix for optimization
     """
     print('Using Cov_DL2 \n')
-    #np.random.seed(12)
-    # Dictionary Learning on Transformed System
-    pca = PCA(n_components=n, svd_solver='randomized', whiten=True)
+    
+    " Performing PCA of measurement matrix Y in covariance domain "
+    pca = PCA(n_components=N, svd_solver='randomized', whiten=True)
     pca.fit(Y_big.T)
     U = pca.components_.T
-#    A = np.random.random((m,n))    # random initial A
-    A = np.random.randn(m, n)       # Gaussian initial A
-#    A = np.random.randint(-5,5,(m,n))
-    a = np.reshape(A, (A.size),order='F')     # normal vectorization of initial A
-
+    
+    " Initial mixing matrix A for optimization "
+    A_ini = np.random.randn(M, N)               # Gaussian initial A
+    a = np.reshape(A_ini, (A_ini.size),order='F')   # Normal vectorization of initial A
+    
+    " Minimization of optimization problem "
     def D_(a):
-        D = np.zeros((int(m*(m+1)/2), n))
-        for i in range(n):
-            A_tilde = np.outer(a[m*i:m*i+m], a[m*i:m*i+m].T)
-            D.T[i] = A_tilde[np.tril_indices(m)]
+        D = np.zeros((int(M*(M+1)/2), N))
+        for i in range(N):
+            A_tilde = np.outer(a[M*i:M*i+M], a[M*i:M*i+M].T)
+            D.T[i] = A_tilde[np.tril_indices(M)]
         return D
 
     def D_term(a):
@@ -110,15 +177,16 @@ def Cov_DL2(Y_big, m, n, k, A_real):
 
     def cost1(a):
         return np.linalg.norm(D_term(a)-U_term())**2
+    
     # predefined optimization method, without defineing the gradient og the cost.
     from scipy.optimize import minimize
     res = minimize(cost1, a, method='BFGS',# BFGS, Nelder-Mead
                   options={'maxiter': 10000, 'disp': True})
     a_new = res.x
-    A_rec = np.reshape(a_new, (m, n), order='F')
+    A_rec = np.reshape(a_new, (M, N), order='F')
     
     print('\nCost(A_init) = {}'.format(np.round_(cost1(a), decimals=4)))
     print('Cost(A_estimte) = {}'.format(np.round_(cost1(a_new), decimals=4)))
-    print('Cost(A_true) = {}'.format(np.round_(cost1(np.reshape(A_real, (A_real.size),order='F')),decimals=4)))
+#    print('Cost(A_true) = {}'.format(np.round_(cost1(np.reshape(A_real, (A_real.size),order='F')),decimals=4)))
     
-    return A_rec, A
+    return A_rec, A_ini

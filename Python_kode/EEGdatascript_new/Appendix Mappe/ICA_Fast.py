@@ -2,17 +2,36 @@
 """
 Created on Fri May  8 09:31:52 2020
 
-@author: Laura
-"""
+@author: Mattek10b
 
-def X_ica(data_name, Y, M):  
-    from sklearn.decomposition import FastICA
-    import numpy as np
-   
-    " Perform FastICA on Segmented Dataset "
-    n_seg = len(Y)
-    N = Y[0].shape[0]
-    L = Y[0].shape[1]
+This script contain the functions needed to perform FastICA. It consists of:
+    - X_ica
+The script need the sklearn.decomposition and NumPy libraries.
+"""
+# =============================================================================
+# Libraries and Packages
+# =============================================================================
+from sklearn.decomposition import FastICA
+import numpy as np
+
+# =============================================================================
+# Function
+# =============================================================================
+def X_ica(data_name, Y, M):
+    """
+    Perform FastICA on segmented data set.
+    ---------------------------------------
+    Input:
+        data_name: The name of the chosen EEG data set
+        Y: Segmented measurement matrix
+        M: Number of sensors
+    Output:
+        X_ica_nonzero: The source matrix of size k x L
+        k: Number of active sources
+    """
+    n_seg = len(Y)      # Number of segments
+    N = Y[0].shape[0]   # Number of sources
+    L = Y[0].shape[1]   # Number of samples
     
     X_ica = np.zeros((n_seg, N, L-2))
     A_ica = np.zeros((n_seg, N, M))

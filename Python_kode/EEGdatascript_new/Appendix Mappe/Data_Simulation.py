@@ -2,85 +2,106 @@
 """
 Created on Wed Mar 25 10:43:00 2020
 
-@author: trine
-"""
+@author: Mattek10b
 
-# -*- coding: utf-8 -*-
+This script contain the functions needed to construct the simulated data sets
+and the measure of performance.
+It consist of:
+    - MSE_all_errors
+    - MSE_one_error
+    - MSE_segments
+    - mix_signals
+    - generate_AR
+The script need the sklearn.metrics, SciPy and NumPy libraries.
 """
-Created on Tue Nov 19 10:19:05 2019
-
-@author: mathi
-"""
+# =============================================================================
+# Libraries and Packages
+# =============================================================================
 import numpy as np
-from sklearn.datasets import make_sparse_coded_signal
 from sklearn.metrics import mean_squared_error
 from scipy import signal
-
-# consider Y = AX 
-# 
-# m -> number of measurements, dim of y
-# n -> number of sources, dim of x
-# k -> number og non-zeros entries in x, aktive sources 
-# n_samples -> number of samples
  
-
-def MSE_all_errors(real,estimate):
+# =============================================================================
+# Performance Measure
+# =============================================================================
+def MSE_all_errors(real, estimate):
     """
-    Mean Squared Error (MSE) - m or n errors
+    Mean Squared Error (MSE) - M or N errors
+
+    A small value -- close to zero -- is a good estimation.
+    The inputs must be transponet to perform the action rowwise
     ----------------------------------------------------------------------
-    Info:
-        A small value -- close to zero -- is a good estimation.
-        The inputs must be transponet to perform the action rowwise
     Input:
         real: observation matrix
         estimate: calculated matrix
     
-    Output: MSE
+    Output: 
+        error: The calculated MSE
     """
     error = mean_squared_error(real.T, estimate.T, multioutput='raw_values')
     return error
 
 def MSE_one_error(real,estimate):
     """
-    Mean Squared Error (MSE) - One Error
+    Mean Squared Error (MSE) - One error
+
+    A small value -- close to zero -- is a good estimation.
+    The inputs must be transponet to perform the action rowwise
     ----------------------------------------------------------------------
-    Info:
-        A small value -- close to zero -- is a good estimation.
-        The inputs must be transponet to perform the action rowwise
     Input:
         real: observation matrix
         estimate: calculated matrix
     
-    Output: MSE
+    Output: 
+        error: The calculated MSE
     """
     error = mean_squared_error(real.T, estimate.T)
     return error
 
-def MSE_segments(X_rec, X_true):
+def MSE_segments(estimate, real):
     """
-    inputs are one segment (sources, Ls)
+    Calculate one MSE error or M/N MSE error for each segment.
+    ----------------------------------------------------------
+    Input:
+        real: observation matrix
+        estimate: calculated matrix
+    
+    Output: 
+        mse_rows: The calculated MSE for N/M errors for each segment
+        mse_segment: The calculated MSE for one error for each segment
     """
-    mse_segment = MSE_one_error(X_rec, X_true)
-    mse_rows = MSE_all_errors(X_rec, X_true)
+    mse_segment = MSE_one_error(real, estimate)
+    mse_rows = MSE_all_errors(real, estimate)
     return mse_rows, mse_segment
 
-def mix_signals(n_samples, m, version=None, duration=4):
+# =============================================================================
+# Data Simulation
+# =============================================================================
+def mix_signals(n_samples, M, version=None, duration=4):
     """ 
     Generation of 4 independent signals, united in X with manuel zero rows in 
     between for sparsity. 
     Generation of random mixing matrix A and corresponding Y, such that Y = AX
+    ---------------------------------------------------------------------------
+    Input:
+        n_samples: Number of samples
+        M: Number of sensors
+        version:
             M=3
-    version none -> N=5, k=4
-    version 0 -> N=4, k=4
-    version 1 -> N=8, k=4    -> cov_dl1 
+            version none --> N=5, k=4
+            version 0    --> N=4, k=4
+            version 1    --> N=8, k=4    --> Cov-DL1 
+                    
             M=6
-    version 2 -> N=8, k=8
-    version 3 -> N=12, k=8
-    version 4 -> N=21, k=8   -> cov_dl1
-
-    RETURN: Y, A, X,
+            version 2    --> N=8,  k=8
+            version 3    --> N=12, k=8
+            version 4    --> N=21, k=8   --> Cov-DL1
+        duration: The lenght of signal in seconds. Fixed to 4 seconds
+    Output:
+        Y: Measurement matrix of size M X L
+        A: Mixing matrix of size M x N
+        X: Source matrix of size N x L
     """
-    #np.random.seed(1234)
     time = np.linspace(0, duration, n_samples)  # list of time index 
     
     s1 = np.sin(2 * time)                       # sinusoidal
@@ -93,8 +114,8 @@ def mix_signals(n_samples, m, version=None, duration=4):
     s8 = np.sin(8 * time)                       # different sinusoidal
     
     zero_row = np.zeros(n_samples)
-    
     X = np.c_[s1, zero_row, s3, s4, s2].T 
+    
     if version == 'test':
         X = np.c_[s1, s2, s3].T
     if version == 0:
@@ -109,62 +130,31 @@ def mix_signals(n_samples, m, version=None, duration=4):
         X = np.c_[s1, zero_row, zero_row, s2, s3, zero_row,  zero_row,
                   zero_row, s4, zero_row,  zero_row, zero_row, s5, zero_row,
                   s6, zero_row, s7,  zero_row,  zero_row, s8,  zero_row].T
-        
-    n = len(X)
-    A = np.random.randn(m,n)                   # Random mix matrix
-    #A = np.array([[1, 1, 1], [0.5, 2, 1.0], [1.5, 1.0, 2.0]])
-    #A = np.array([[1,2,3,4,5],
-#                  [6,7,8,9,10],
-#                  [11,12,13,14,15]])
-#    A = A/np.linalg.norm(A, ord=2, axis=0, keepdims=True)
-    Y = np.dot(X.T, A.T)                            # Observed signal
+    
+    " Finding A and Y "    
+    N = len(X)
+    A = np.random.randn(M,N)   # Random mixing matrix
+    Y = np.dot(X.T, A.T)       # Measurement matrix
     return Y.T, A, X
 
-
-def gaussian_signals(m, n, n_samples, non_zero, long=True):
-    """ 
-    RETURN: Y, A, X,
-    """
-    X = np.zeros((n,n_samples))
-    zero_row = np.zeros(n_samples)
-    
-    for i in range(n):
-        X[i] = np.random.normal(0,1,n_samples)
-
-    A = np.random.randn(m, n)                 # Random mix matrix
-    Y = np.dot(A, X)                       # Observed signal
-    
-    if long==True:
-        X = np.zeros((n*2,n_samples))
-        for i in np.arange(0,n+1,2):
-            X[i] = np.random.normal(0,1,n_samples)
-            X[i+1] = zero_row
-            
-        n = len(X)
-        A = np.random.randn(m, n)                 # Random mix matrix
-        A = A/np.linalg.norm(A, ord=2, axis=0, keepdims=True)
-        Y = np.dot(A, X)    
-    return Y, A, X
-
-
 def generate_AR(N, M, L, non_zero):
-    """
-    Generate sources from an AR process
-    
+    """ 
+    Generation of 4 independent autoregressive signals, united in X with 
+    manuel zero rows in between for sparsity. 
+    Generation of random mixing matrix A and corresponding Y, such that Y = AX
+    ---------------------------------------------------------------------------
     Input:
-        N: size of the rows (amount of sources)
-        L: size of the columns (amount of samples)
-        
+        N: Number of sources
+        L: Number of samples       
     Output:
-        Y:
-        A:
+        Y: Measurement matrix of size M x L
+        A: Mixing matrix of size M x N
         X: Source matrix of size N x L 
     """
-    #np.random.seed(123)
     X = np.zeros([N, L+2])
     
     for i in range(N):
-        ind = np.random.randint(1,4)
+        ind = np.random.randint(1,4)  # Choose randomly between the 4 AR processes
         for j in range(2,L):
             if ind == 1:
                 sig = np.random.uniform(-1,1,(2))
@@ -196,28 +186,31 @@ def generate_AR(N, M, L, non_zero):
     
     Real_X = Real_X.T[2:].T  
 
-    " System "
-    A_Real = np.random.randn(M,N)
-    Y_Real = np.dot(A_Real, Real_X)    
+    " Finding A and Y "
+    A_Real = np.random.randn(M,N)   # Random mixing matrix
+    Y_Real = np.dot(A_Real, Real_X) # Measurement matrix   
     return Y_Real, A_Real, Real_X
 
 def segmentation_split(Y, X, Ls, n_sampels):
     """
-    Segmentation of data by split into segments of length Ls. 
-    The last segment is removed if too small.  
-    
-    OUTPUT:
-        Ys -> array of size (n_seg, m, Ls), with segments in axis 0 
-        Xs -> array of size (n_seg, n, Ls), with segments in axis 0 
-        n_seg -> number of segments
+    Segmentation of simulated data by spliting the data into segments of 
+    length Ls. The last segment is removed if too small. 
+    --------------------------------------------------------------------
+    Input:
+        Y: Measurement matrix of size M x L
+        X: Source matrix of size N x L
+        Ls: Number of samples in one segment
+        n_samples: Number of samples
+    Output:
+        Ys: Segmented measurement matrix of size n_seg x M x Ls) 
+        Xs: Segmented source matrix of size n_seg x N x Ls) 
+        n_seg: Number of segments
     """ 
     n_seg = int(n_sampels/Ls)               # Number of segments
-    X = X.T[:n_seg*Ls]                        # remove last segement if too small
+    X = X.T[:n_seg*Ls]                      # remove last segement if too small
     Y = Y.T[:n_seg*Ls]
     
-    Ys = np.split(Y.T, n_seg, axis=1)        # Matrixs with segments in axis=0
-    Xs = np.split(X.T, n_seg, axis=1)
+    Ys = np.split(Y.T, n_seg, axis=1)        # Matrices with segments in axis=0
+    Xs = np.split(X.T, n_seg, axis=1)        # Matrices with segments in axis=0
     
     return Ys, Xs, n_seg
-
-

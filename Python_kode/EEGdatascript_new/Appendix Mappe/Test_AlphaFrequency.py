@@ -2,11 +2,25 @@
 """
 Created on Fri May  8 09:30:49 2020
 
-@author: Laura
+@author: Mattek10b
+
+This script perform the alpha wave frequency analysis on the EEG data sets:
+    - S1_CClean.mat
+    - S1_OClean.mat
+    - S3_CClean.mat
+    - S3_OClean.mat
+    - S4_CClean.mat
+    - S4_OClean.mat
+This script need the module:
+    - Main_Algorithm
+    - Data_EEG
+    - ICA_Fast
+The script can be run directly. If one need results from another data set,
+change data_name_C or data_name_O to look at another test subject.
 """
-import X_ICA
-import X_MAIN
-import data
+from Main_Algorithm import Main_Algorithm
+import Data_EEG
+import ICA_Fast
 import numpy as np
 from matplotlib import pyplot as plt
 from scipy.signal import butter, lfilter
@@ -29,12 +43,12 @@ segment_time = 1                             # length of segments i seconds
 # ICA
 # =============================================================================
 " ICA - Closed Eyes Dataset "
-Y_ica_C, M_ica_C, L_ica_C, n_seg_ica_C = data._import(data_file_C, segment_time, request='none')
-X_ica_C, k_C = X_ICA.X_ica(data_name_C, Y_ica_C, M_ica_C)
+Y_ica_C, M_ica_C, L_ica_C, n_seg_ica_C = Data_EEG._import(data_file_C, segment_time, request='none')
+X_ica_C, k_C = ICA_Fast.X_ica(data_name_C, Y_ica_C, M_ica_C)
 
 " ICA - Open Eyes Dataset "
-Y_ica_O, M_ica_O, L_ica_O, n_seg_ica_O = data._import(data_file_O, segment_time, request='none')
-X_ica_O, k_O = X_ICA.X_ica(data_name_O, Y_ica_O, M_ica_O)
+Y_ica_O, M_ica_O, L_ica_O, n_seg_ica_O = Data_EEG._import(data_file_O, segment_time, request='none')
+X_ica_O, k_O = ICA_Fast.X_ica(data_name_O, Y_ica_O, M_ica_O)
 
 # =============================================================================
 # Main Algorithm with random A
@@ -45,12 +59,12 @@ X_ica_O, k_O = X_ICA.X_ica(data_name_O, Y_ica_O, M_ica_O)
 request = 'none'
 
 " Main - Closed Eyes Dataset "
-Y_C, M_C, L_C, n_seg_C = data._import(data_file_C, segment_time, request=request)
-X_C, Y_C = X_MAIN.X_main(data_name_C, Y_C, M_C, k_C)
+Y_C, M_C, L_C, n_seg_C = Data_EEG._import(data_file_C, segment_time, request=request)
+A_C, X_C = Main_Algorithm(Y_C, M_C, k_C, L_C, data = 'EEG', fix = True)
 
 " Main - Open Eyes Dataset "
-Y_O, M_O, L_O, n_seg_O = data._import(data_file_O, segment_time, request=request)
-X_O, Y_O = X_MAIN.X_main(data_name_O, Y_O, M_O, k_O)
+Y_O, M_O, L_O, n_seg_O = Data_EEG._import(data_file_O, segment_time, request=request)
+A_O, X_O = Main_Algorithm(Y_O, M_O, k_O, L_O, data = 'EEG', fix = True)
 # =============================================================================
 # DFT
 # =============================================================================
@@ -67,10 +81,10 @@ X_O_matrix = X_O[segment]
 Y_C_matrix = Y_C[segment]
 Y_O_matrix = Y_O[segment]
 
-X_C_time = np.linspace(0,1,len(X_C_signal)) # time signal (0ne second) for source signal
-X_O_time = np.linspace(0,1,len(X_O_signal)) # time signal (0ne second) for measurment signal
-Y_C_time = np.linspace(0,1,len(Y_C_signal)) # time signal (0ne second) for source signal
-Y_O_time = np.linspace(0,1,len(Y_O_signal)) # time signal (0ne second) for measurment signal
+X_C_time = np.linspace(0, 1, len(X_C_signal)) # time signal (0ne second) for source signal
+X_O_time = np.linspace(0, 1, len(X_O_signal)) # time signal (0ne second) for measurment signal
+Y_C_time = np.linspace(0, 1, len(Y_C_signal)) # time signal (0ne second) for source signal
+Y_O_time = np.linspace(0, 1, len(Y_O_signal)) # time signal (0ne second) for measurment signal
 
 def DFT(signal):
     fft = np.fft.rfft(signal)    # FFT of signal

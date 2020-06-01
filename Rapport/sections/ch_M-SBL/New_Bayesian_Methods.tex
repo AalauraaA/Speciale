@@ -6,26 +6,27 @@ Consider again the MMV model \eqref{eq:MMV_seg} of EEG measurements
 \end{align}
 For convenience the segment index $s$ is omitted as the same theory applies to every segment.  
 Note that $\mathbf{A}$ is known throughout the chapter, as it is estimated by Cov-DL in chapter \ref{ch:Cov-DL}.
-The aim is to recover the source matrix $\mathbf{X}$ by an estimate $\hat{\mathbf{X}}$, in the case of fewer measurements than active sources, $M < k$, where $k\leq N$. 
+The aim is to recover the source matrix $\mathbf{X}$ by an estimate $\hat{\mathbf{X}}$, in the case of fewer measurements than active sources, $M < k$, where $k \leq N$. 
 
-In \cite{Balkan2014} it is proven that exact localization of the active sources can be achieved with M-SBL for $M<k$, when two sufficient conditions are satisfied. 
-The basic approach of M-SBL is to apply Bayesian statistics to find a support set $S$ specifying the non-zero rows of the source matrix $\mathbf{X}$ which corresponds to localization of the active sources. Finally, the values of the localized active sources can be estimated.  
+In \cite{Balkan2014} it is proven that exact localization of the active sources can be achieved with M-SBL for $M < k$, when two sufficient conditions are satisfied. 
+The basic approach of M-SBL is to apply Bayesian statistics to find a support set $S$ specifying the non-zero rows of the source matrix $\mathbf{X}$ which corresponds to localization of the active sources. Finally, the values of the localized active sources can be estimated.
 
 \section{Bayesian Inference} 
 The formal framework of Bayesian statistics is Bayes' theorem \cite[p. 86]{Kay}. The objective of Bayes' theorem is to leverage of both data and some specified prior. This is where the distinguishes from the likelihood of classical frequentist statistics lies.     
 
-Consider now the current MMV model \eqref{eq:MSBL_MMV} within the Bayesian framework. The model parameter -- the source matrix $\textbf{X}$ -- is wished estimated given the measurement matrix $\textbf{Y}$. 
-By Bayes' theorem the distribution of $\textbf{X}$ given $\textbf{Y}$ is established, that is the posterior distribution 
+Consider now the current MMV model \eqref{eq:MSBL_MMV} within the Bayesian framework. The model parameter -- the source matrix $\mathbf{X}$ -- is wished estimated given the measurement matrix $\mathbf{Y}$. 
+By Bayes' theorem the distribution of $\mathbf{X}$ given $\mathbf{Y}$ is established, that is the posterior distribution 
 \begin{align*}
 p(\mathbf{X}|\mathbf{Y}) = \frac{p(\mathbf{Y}|\mathbf{X}) p(\mathbf{X})}{p(\mathbf{Y})}.
 \end{align*} 
-Here $p(\mathbf{Y}|\mathbf{X})$ is the probability density function of $\mathbf{Y}$ given $\mathbf{X}$, also referred to as the likelihood function, $p(\mathbf{X})$ is a prior distribution of $\mathbf{X}$ and $p(\mathbf{Y})$ is the distribution of $\mathbf{Y}$ serving as a normalizing parameter.
+Here $p(\mathbf{Y}|\mathbf{X})$ is the probability density function of $\mathbf{Y}$ given $\mathbf{X}$, also referred to as the likelihood function. $p(\mathbf{X})$ is a prior distribution of $\mathbf{X}$ and $p(\mathbf{Y})$ is the distribution of $\mathbf{Y}$ serving as a normalizing parameter.
 By maximizing the posterior distribution $p(\mathbf{X}|\mathbf{Y})$ with respect to $\mathbf{X}$, the maximum a posteriori (MAP) estimate for the source matrix is established
 \begin{align*}
 \hat{\mathbf{X}}_{\text{MAP}} &= \arg \max_{\mathbf{X}} \frac{p(\mathbf{Y} \vert \mathbf{X}) p(\mathbf{X})}{p(\mathbf{Y)}}.
 \end{align*}
 That is the estimate of $\hat{\mathbf{X}}$ with the highest posterior probability given the measurements $\mathbf{Y}$. 
-In the desired case where $M < N$ the MMV model \eqref{eq:MSBL_MMV} makes an under-determined system. Hence, an infinite number of solutions of equal likelihoods does potentially exist.  
+In the desired case where $M < N$ the MMV model \eqref{eq:MSBL_MMV} makes an under-determined system. 
+Hence, an infinite number of solutions of equal likelihoods does potentially exist.  
 
 Let the source matrix $\mathbf{X}$ be seen as a variable drawn from some distribution $p(\mathbf{X})$, as such it is possible to narrow down the solution space. 
 Assuming a prior belief that $\mathbf{Y}$ is generated from a sparse source matrix, gives a so-called sparsity inducing prior. 
@@ -45,42 +46,52 @@ The main asset of this alternative approach is the use of an empirical prior.
 That is a flexible prior distribution depending on an unknown set of hyperparameters, which is to be learned from the data.
  
 \subsection{Empirical Bayesian Estimation}\label{seg:EBE}
-First assume that the likelihood function $p(\mathbf{Y} \vert \mathbf{X})$ is Gaussian, with noise variance $\sigma^2\textbf{I}$. In general it is assumed that $\sigma^2$ is known. Furthermore, the noise-free case where $\sigma^2 \rightarrow 0$ will be discussed. 
-Due to $\textbf{y}_{\cdot j}$ consisting of measurement of individual EEG sensors, it is reasonable to assume independence. Furthermore, it is clear from the MMV model that one sample of measurements $\textbf{y}_{\cdot j}$ only depends of one source sample $\textbf{x}_{\cdot j}$. Hence every entry in $\textbf{Y}$ are assumed independent and identically distributed with likelihood 
+First assume that the likelihood function $p(\mathbf{Y} \vert \mathbf{X})$ is Gaussian, with noise variance $\sigma^2\mathbf{I}$. 
+In general it is assumed that $\sigma^2$ is known. 
+Furthermore, the noise-free case where $\sigma^2 \rightarrow 0$ will be discussed. 
+Due to $\mathbf{y}_{\cdot j}$ consisting of measurement of individual EEG sensors, it is reasonable to assume independence. 
+Furthermore, it is clear from the MMV model that one sample of measurements $\mathbf{y}_{\cdot j}$ only depends of one source sample $\mathbf{x}_{\cdot j}$. Hence, every entry in $\mathbf{Y}$ are assumed independently and identically distributed with likelihood 
 \begin{align*}
 p(y_{ij}\vert x_{ij}) &\sim \mathcal{N}(\mathbf{A}_{i \cdot}\textbf{x}_{\cdot j}, \sigma^2) \\
-& = \frac{1}{\sigma^2\sqrt{2\pi}}\exp\left( -\frac{1}{2}\left( \frac{y_{ij}- \mathbf{A}_{i \cdot}\textbf{x}_{\cdot j}}{\sigma}\right)^{2}\right)
+& = \frac{1}{\sigma^2\sqrt{2\pi}}\exp\left( -\frac{1}{2}\left( \frac{y_{ij}- \mathbf{A}_{i \cdot}\textbf{x}_{\cdot j}}{\sigma}\right)^{2}\right).
 \end{align*}
-Now the empirical prior is defined due to the application of ARD. A $L$-dimensional Gaussian prior is assigned to each row in $\textbf{X}$. Note that, similar to $\textbf{Y}$, the parameters $x_{ij}$ are assumed to be independent and identically distributed.
+Now the empirical prior is defined due to the application of ARD. 
+A $L$-dimensional Gaussian prior is assigned to each row in $\mathbf{X}$. 
+Note that, similar to $\mathbf{Y}$, the parameters $x_{ij}$ are assumed to be independent and identically distributed.
 The empirical prior for each $x_{ij}$ is then defined by a Gaussian distribution with zero mean and a variance controlled by an unknown hyperparameter $\gamma_i$:
 \begin{align*}
 p (x_{i j} ; \gamma_i) &\sim \mathcal{N}(0, \gamma_i).
 \end{align*}
-Note that every entry of the $i$-th row is controlled by the same hyperparameter $\gamma_i$, that is one source signal over time is controlled by one hyperparameter. 
-By combining the prior of each parameter, the prior of $\textbf{X}$ is fully specified by 
+Note that every entry of the $i$-th row is controlled by the same hyperparameter $\gamma_i$. 
+That is one source signal over time is controlled by one hyperparameter. 
+By combining the prior of each parameter, the prior of $\mathbf{X}$ is fully specified by 
 \begin{align*}
 p (\mathbf{X} ; \boldsymbol{\gamma}) &= \prod_{i=1}^N p (\mathbf{x}_{i \cdot} ; \gamma_i),
 \end{align*}
-with the hyperparameter vector $\boldsymbol{\gamma} = [\gamma_1, \dots, \gamma_N]^T$. Note that the prior can be factorised over columns, resulting in 
+with the hyperparameter vector $\boldsymbol{\gamma} = [\gamma_1, \dots, \gamma_N]^T$. 
+Note that the prior can be factorized over columns, resulting in 
 \begin{align*}
-p\left(\textbf{x}_{\cdot j};\boldsymbol{\gamma}\right) = \prod_{i=1}^{N}p\left( x_{ij};\gamma_{i}\right).
+p\left(\mathbf{x}_{\cdot j} ; \boldsymbol{\gamma}\right) = \prod_{i=1}^{N} p\left( x_{ij} ; \gamma_{i}\right).
 \end{align*} 
-Combining the prior $p\left(\textbf{x}_{\cdot j};\boldsymbol{\gamma}\right)$ and the likelihood $p(\mathbf{y}_{\cdot j} \vert \mathbf{x}_{\cdot j})$ the posterior of the $j$-th column of the source matrix $\mathbf{X}$ becomes
+Combining the prior $p\left(\mathbf{x}_{\cdot j};\boldsymbol{\gamma}\right)$ and the likelihood $p(\mathbf{y}_{\cdot j} \vert \mathbf{x}_{\cdot j})$ the posterior of the $j$-th column of the source matrix $\mathbf{X}$ becomes
 \begin{align}
 p(\mathbf{x}_{\cdot j} \vert \mathbf{y}_{\cdot j} ; \boldsymbol{\gamma}) &= \frac{p(\mathbf{y}_{\cdot j} | \mathbf{x}_{\cdot j} ; \boldsymbol{\gamma}) p(\mathbf{x}_{\cdot j} ; \boldsymbol{\gamma})}{p(\mathbf{y}_{\cdot j} | \boldsymbol{\gamma})} \nonumber \\
 &= \frac{p(\mathbf{y}_{\cdot j} | \mathbf{x}_{\cdot j} ; \boldsymbol{\gamma}) p(\mathbf{x}_{\cdot j} ; \boldsymbol{\gamma})}{\int p(\mathbf{y}_{\cdot j} | \mathbf{x}_{\cdot j}) p(\mathbf{x}_{\cdot j} ; \boldsymbol{\gamma}) \ d \mathbf{x}_{\cdot j}} \nonumber \\ 
 &\propto p(\mathbf{y}_{\cdot j} | \mathbf{x}_{\cdot j} ; \boldsymbol{\gamma}) p(\mathbf{x}_{\cdot j} ; \boldsymbol{\gamma}) \nonumber \\
 &\sim \mathcal{N}(\boldsymbol{\mu}_{\cdot j}, \boldsymbol{\Sigma}),\label{eq:bay}
 \end{align}
-where the denominator is the marginal likelihood of $\mathbf{y}_{\cdot j}$ also referred to as the evidence. The marginalization is elaborated in the following section. Mean and covariance of \eqref{eq:bay} for every $j = 1, \dots, L$ is given as.
+where the denominator is the marginal likelihood of $\mathbf{y}_{\cdot j}$ also referred to as the evidence. 
+The marginalization is elaborated in the following section. 
+Mean and covariance of \eqref{eq:bay} for every $j = 1, \dots, L$ is given as
 \begin{align}
 \Sigma &= \text{Cov}(\mathbf{x}_{\cdot j} \vert \mathbf{y}_{\cdot j} ; \boldsymbol{\gamma}) = \boldsymbol{\Gamma} - \boldsymbol{\Gamma} \mathbf{A}^T \boldsymbol{\Sigma}_y^{-1} \mathbf{A} \boldsymbol{\Gamma} \label{eq:moments1} \\
 \mathcal{M} &= [\boldsymbol{\mu}_{\cdot 1}, \dots, \boldsymbol{\mu}_{\cdot L}] = \mathbb{E}[\mathbf{X} \vert \mathbf{Y} ; \boldsymbol{\gamma}] = \boldsymbol{\Gamma} \mathbf{A}^T \boldsymbol{\Sigma}_y^{-1} \mathbf{Y}, \label{eq:moments2} 
 \end{align}
-where $\boldsymbol{\Gamma} = \text{diag}(\boldsymbol{\gamma})$ and $\boldsymbol{\Sigma}_y = \sigma^2 \mathbf{I} + \mathbf{A} \boldsymbol{\Gamma} \mathbf{A}^T$. The derivation of the posterior mean and covariance if found in appendix \ref{app_sec:mean_cov}.   
+where $\boldsymbol{\Gamma} = \text{diag}(\boldsymbol{\gamma})$ and $\boldsymbol{\Sigma}_y = \sigma^2 \mathbf{I} + \mathbf{A} \boldsymbol{\Gamma} \mathbf{A}^T$. 
+The derivation of the posterior mean and covariance if found in appendix \ref{app_sec:mean_cov}.   
 
 Now let the posterior mean $\mathcal{M}$ serve as the estimate for the source matrix $\mathbf{X}$ \cite[p. 147]{phd_wipf}.
-It is clear that whenever $\gamma_i = 0$ the corresponding $\textbf{x}_{i\cdot}$ is equal to zero with probability 1.
+It is clear that whenever $\gamma_i = 0$ the corresponding $\mathbf{x}_{i\cdot}$ is equal to zero with probability 1:
 \begin{align*}
 \mathbb{P}(\mathbf{x}_{i \cdot} = \mathbf{0} \vert \mathbf{Y} ; \gamma_i = 0) = 1.
 \end{align*}
@@ -89,37 +100,43 @@ This ensures the posterior mean $\mathcal{M}$ of the $i$-th row, $\boldsymbol{\m
 From this it is evident that for estimating the support set of $\mathbf{X}$ it is sufficient to estimate the hyperparameter $\boldsymbol{\gamma}$, from which the support set $S$ can be extracted.  
 This leads to the actual M-SBL algorithm for which the aim is to estimate $\boldsymbol{\gamma}$ and the corresponding $\mathcal{M}$.
 
-\section{M-SBL for estimation of $\textbf{X}$}\label{seg:M_sblalg}
-The M-SBL algorithm is now specified in order to estimate the hyperparameter $\boldsymbol{\gamma}$ and then the corresponding unknown sources $\textbf{X}$.
+\section{M-SBL for estimation of $\mathbf{X}$}\label{seg:M_sblalg}
+The M-SBL algorithm is now specified in order to estimate the hyperparameter $\boldsymbol{\gamma}$ and then the corresponding unknown sources $\mathbf{X}$.
 Due to the empirical Bayesian strategy the unknown source matrix $\mathbf{X}$ is integrated out, also referred to as marginalization.
 By integrating the posterior with respect to the unknown sources $\mathbf{X}$ the marginal likelihood of the observed data $\mathbf{Y}$ is achieved \cite[p. 146]{phd_wipf} 
 \begin{align*}
 \mathcal{L}(\boldsymbol{\gamma};\textbf{Y}) &= \int p (\mathbf{Y} \vert \mathbf{X}) p (\mathbf{X} ; \boldsymbol{\gamma}) \ d\mathbf{X} \\
 &= p (\mathbf{Y} \vert \boldsymbol{\gamma}).
 \end{align*}
-The resulting marginal likelihood of $\boldsymbol{\gamma}$ is to be maximised with respect to $\boldsymbol{\gamma}$, that is the maximum likelihood estimate (MLE). From the ARD approach the MLE is considered the cost function. 
-The $-2 \log (\cdot)$ transformation is applied in order for the cost function to be minimized, and factors not depending on $\textbf{Y}$ is removed. This result in the following log likelihood. 
+The resulting marginal likelihood of $\boldsymbol{\gamma}$ is to be maximized with respect to $\boldsymbol{\gamma}$, that is the maximum likelihood estimate (MLE). 
+From the ARD approach the MLE is considered the cost function. 
+The $-2 \log (\cdot)$ transformation is applied in order for the cost function to be minimized, and factors not depending on $\mathbf{Y}$ is removed. This result in the following log likelihood: 
 \begin{align}
 \ell(\boldsymbol{\gamma};\textbf{Y})&= - 2 \log(p (\mathbf{Y} ; \boldsymbol{\gamma}))\nonumber \\ 
 &= -2\log \left( 2\pi^{\frac{M}{2}}\vert \boldsymbol{\Sigma}_{y}\vert^{\frac{1}{2}}\exp \left( - \frac{1}{2} \sum_{j=1}^L \textbf{y}_{\cdot j}^T \boldsymbol{\Sigma}_{y}^{-1} \textbf{y}_{\cdot j} \right) \right)\nonumber \\
 &= L \log ( \vert \boldsymbol{\Sigma}_y \vert ) + \sum_{j=1}^L \mathbf{y}_{\cdot j}^T \boldsymbol{\Sigma}_y ^{-1} \mathbf{y}_{\cdot j}.\label{eq:likelihood}
 \end{align}
-It is not expected that an explicit solution to the minimization problem can be found by differentiating and letting the expression equal to zero. Hence the problem has to be solved iteratively based on an initial parameter guess $\boldsymbol{\gamma}_{(0)}$.
+It is not expected that an explicit solution to the minimization problem can be found by differentiating and letting the expression equal to zero. 
+Hence, the problem has to be solved iteratively based on an initial parameter guess $\boldsymbol{\gamma}_{(0)}$.
 
-One iterative method is the expectation maximisation (EM) algorithm.
-In general each iteration consists of an expectation (E) step, where a function determines the expectation of the likelihood function given the currently estimated parameters. The E-step is followed by an maximization (M) step which computes the parameters by maximizing the expected likelihood found in the E-step.
+One iterative method is the expectation maximization (EM) algorithm.
+In general each iteration consists of an expectation (E) step, where a function determines the expectation of the likelihood function given the currently estimated parameters. 
+The E-step is followed by an maximization (M) step which computes the parameters by maximizing the expected likelihood found in the E-step.
 In this case the E-step is to compute the posterior moments using \eqref{eq:moments1} and \eqref{eq:moments2} while the M-step is the following update rule of $\gamma_i$ \cite[p.147]{phd_wipf}
 \begin{align*}
 \gamma_i^{(k+1)} = \frac{1}{L} \Vert \boldsymbol{\mu}_{i \cdot} \Vert_2^2 + \boldsymbol{\Sigma}_{ii}, \quad \forall i = 1, \dots, N.
 \end{align*}
 The M-step is, in general, very slow on large data. 
-An alternative is to use a fixed point update rule to fasten convergence on large data, however the resulting convergence has been found to sometimes be inferior compared to the convergence obtained by the above update rule\cite[p.147]{phd_wipf}. The general point of a fixed-point update is to define the new value from the previous value. 
-The fixed point updating step is here achieved by taking the derivative of the marginal log likelihood $\ell(\boldsymbol{\gamma})$ with respect to $\boldsymbol{\gamma}$ and equating it with zero. 
+An alternative is to use a fixed-point update rule to fasten convergence on large data. 
+However, the resulting convergence has been found to sometimes be inferior compared to the convergence obtained by the above update rule \cite[p.147]{phd_wipf}. 
+The general point of a fixed-point update is to define the new value from the previous value. 
+The fixed-point updating step is here achieved by taking the derivative of the marginal log likelihood $\ell(\boldsymbol{\gamma})$ with respect to $\boldsymbol{\gamma}$ and equating it with zero. 
 This leads to the following update rule which can replace the above M-step in the EM-algorithm \cite[p.147]{phd_wipf}
 \begin{align}
 \gamma_i^{(k+1)} = \frac{\frac{1}{L} \Vert \boldsymbol{\mu}_{i \cdot} \Vert_2^2}{1 - \gamma_i^{-1 (k)} \boldsymbol{\Sigma}_{ii}}, \quad \forall i = 1, \dots, N.
 \end{align}
-Empirically this alternative update rule has shown to be useful in highly under-determined large-scale cases. Based on many hyper parameters being driving toward zero, allowing for the corresponding weight in the source matrix to be discarded. 
+Empirically this alternative update rule has shown to be useful in highly under-determined large-scale cases. 
+Based on many hyperparameters being driving toward zero, allowing for the corresponding weight in the source matrix to be discarded. 
 For simultaneous sparse approximation problems, this is the process referred to as multiple sparse Bayesian learning, M-SBL.
 
 From the resulting $\boldsymbol{\gamma}^\ast$ the support set $S$ of the source matrix $\mathbf{X}$ is extracted, 
@@ -127,7 +144,7 @@ From the resulting $\boldsymbol{\gamma}^\ast$ the support set $S$ of the source 
 S = \{ i \vert \gamma_i^{\ast} \neq 0 \},
 \end{align*}
 concluding the localization of active sources within $\mathbf{X}$. 
-In practise some arbitrary small threshold can be used such that any sufficiently small hyperparameter is discarded\cite[p.149]{phd_wipf}.
+In practice some arbitrary small threshold can be used such that any sufficiently small hyperparameter is discarded \cite[p.149]{phd_wipf}.
 For identification of the active sources the estimate of the source matrix $\mathbf{X}$ is given as $\hat{\mathbf{X}} = \mathcal{M} $, with $\mathcal{M} = \mathbb{E}[\mathbf{X}\vert \mathbf{Y} ; \boldsymbol{\gamma}^{\ast}]$. 
 This leads to the following estimate  
 \begin{align*}
@@ -137,8 +154,8 @@ This leads to the following estimate
 \mathbf{x}_{i\cdot} = \mathbf{0}, & i \not \in S
 \end{cases}
 \end{align*}
-
-As mentioned, the case of a the noise free sparse representations should be considered. That is the limit when $\sigma^2\rightarrow 0$. Here the M-SBL steps can be adapted easily by using a modified version the moments, given by \cite[p.148]{phd_wipf} as 
+As mentioned, the case of a the noise free sparse representations should be considered. 
+That is the limit when $\sigma^2 \rightarrow 0$. Here the M-SBL steps can be adapted easily by using a modified version the moments, given by \cite[p.148]{phd_wipf} as 
 \begin{align*}
 \Sigma &= \left[ \textbf{I} - \boldsymbol{\Gamma}^{1/2} \left( \mathbf{A} \boldsymbol{\Gamma}^{1/2}\right)^{\dagger} \mathbf{A} \right]\boldsymbol{\Gamma}\\
 \mathcal{M} &= \boldsymbol{\Gamma}^{1/2}\left( \mathbf{A} \boldsymbol{\Gamma}^{1/2}\right)^{\dagger} \mathbf{Y}
@@ -147,7 +164,7 @@ where $(\cdot)^{\dagger}$ is the pseudo-inverse.
 
 \subsection{When k is Known}\label{subsec:kestimate}
 From M-SBL the number of active sources $k$ is estimated as the number of non-zero entries in the hyperparameter $\boldsymbol{\gamma}^{\ast}$.
-However, in the current scenario $\textbf{A}$ is estimated by Cov-DL, prior to the application of M-SBL, where $k$ is provided as input to Cov-DL, cf. chapter \ref{ch:Cov-DL}.
+However, in the current scenario $\mathbf{A}$ is estimated by Cov-DL, prior to the application of M-SBL, where $k$ is provided as input to Cov-DL, cf. chapter \ref{ch:Cov-DL}.
 Thus, $k$ is known in prior to M-SBL and can hereby be used as a known parameter to the M-SBL method. 
 With $k$ being known the estimation of the support set $S$ from the non-zero rows of $\boldsymbol{\gamma}^{\ast}$, cf. section \ref{seg:EBE}, is overruled.
 Instead, when generating the support set $S^k$ one choose the $k$ largest entries of $\boldsymbol{\gamma}^{\ast}$ \cite[p. 3]{Balkan2014}.
@@ -170,7 +187,7 @@ The estimate of the source matrix is then found by
 \begin{algorithm}[H]
 \caption{M-SBL}
 \begin{algorithmic}[1]
-\Procedure{M-SBL}{$\textbf{Y}, \mathbf{A}$}
+\Procedure{M-SBL}{$\mathbf{Y}, \mathbf{A}$}
 \State $\boldsymbol{\gamma}_{(0)} = \mathbf{1} \in \mathbb{R}^N$
 \State tol $=0.0001$
 \While{p $< 3$ \textbf{or} any$(\boldsymbol{\gamma}_{(p)} - \boldsymbol{\gamma}_{(p-1)}) \geq$ tol} 
@@ -203,9 +220,12 @@ The estimate of the source matrix is then found by
 
 \subsection{Sufficient Conditions for Exact Source Localization}
 In \cite{Balkan2014} it is proven that exact source localization is guaranteed in the under-determined case, $k > M$ when the conditions in the following theorem are fulfilled.
-The theorem is based on a theoretical analysis of the minima where noise-free conditions are considered, that is letting $\sigma^2 \rightarrow 0$. Thus, it is essential that the following theorem applies to the noise-free case. 
+The theorem is based on a theoretical analysis of the minima where noise-free conditions are considered, that is letting $\sigma^2 \rightarrow 0$. 
+Thus, it is essential that the following theorem applies to the noise-free case. 
 
-First, define a function $f:\mathbb{R}^{M \times N} \rightarrow \mathbb{R}^{\frac{M(M+1)}{2}\times N}$, such that for $B = f(\mathbf{A})$ the $j$-th column is given as $\mathbf{b}_{\cdot j} = \text{vec}(\mathbf{a}_{\cdot j}\mathbf{a}_{\cdot j}^T)$. Here the function $\text{vec}(\cdot)$ corresponds to the function defined in section \ref{sec:cov}, being a vectorization of the upper triangular part of a matrix. Furthermore $\mathbf{X}_S\in \mathbb{R}^{k\times L}$ denote only the non-zero rows of $\textbf{X}$ -- the active sources.  
+First, define a function $f : \mathbb{R}^{M \times N} \rightarrow \mathbb{R}^{\frac{M(M+1)}{2}\times N}$, such that for $B = f(\mathbf{A})$ the $j$-th column is given as $\mathbf{b}_{\cdot j} = \text{vec}(\mathbf{a}_{\cdot j}\mathbf{a}_{\cdot j}^T)$. 
+Here the function $\text{vec}(\cdot)$ corresponds to the function defined in section \ref{sec:cov}, being a vectorization of the lower triangular part of a matrix. 
+Furthermore, $\mathbf{X}_S \in \mathbb{R}^{k \times L}$ denote only the non-zero rows of $\mathbf{X}$ -- the active sources.  
 \begin{theorem}
 Given a dictionary matrix $\mathbf{A}$ and a set of observed measurement $\mathbf{Y}$, M-SBL recovers the support set of any size $k$ exactly in the noise-free case, if the following conditions are satisfied. 
 \begin{enumerate}
@@ -213,8 +233,6 @@ Given a dictionary matrix $\mathbf{A}$ and a set of observed measurement $\mathb
 \item $\text{Rank}(f(\mathbf{A}))= N$.
 \end{enumerate}
 The proof can be found in \cite[p. 16]{Balkan2014}.
-
-
 \label{th:conditions}
 \end{theorem}  
 

@@ -23,18 +23,18 @@ import simulated_data
 np.random.seed(12345) 
 
 # Cov-DL1
-#M = 3
-#L = 1000
-#k = 4
-#N = 8
-#n_seg = 1
-
-# Cov-DL2
 M = 3
 L = 1000
 k = 4
-N = 5 
+N = 8
 n_seg = 1
+
+# Cov-DL2
+#M = 3
+#L = 1000
+#k = 4
+#N = 5 
+#n_seg = 1
 
 Y, A_real, X_real = simulated_data.mix_signals(L,M,version=None)
 

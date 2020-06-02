@@ -22,7 +22,7 @@ k = 16
 L = 1000 
 n_seg = 1
 
-iterationer = 10
+iterationer = 50
 Xmse_list = np.zeros((5,iterationer))
 Amse_list = np.zeros((5,iterationer))
 
@@ -63,13 +63,13 @@ for j in range(len(Xmse)):
 """ PLOTS """
 plt.figure(1)
 plt.subplot(2, 1, 1)
-plt.title('MSE of varying fixed A')
-plt.plot(Xmse, 'ob', label = 'X')
+plt.title('MSE of varying fixed $\hat{\mathbf{A}}$')
+plt.plot(Xmse, 'ob', label = 'MSE($\mathbf{X},\hat{\mathbf{X}}$)')
 plt.xticks([])
 plt.ylabel('MSE')
 plt.legend(loc='upper left', bbox_to_anchor=(1, 1))
 plt.subplot(2, 1, 2)
-plt.plot(Amse, 'or', label = 'A')
+plt.plot(Amse, 'or', label = 'MSE($\mathbf{A},\hat{\mathbf{A}}$)')
 plt.xticks([0, 1, 2, 3, 4],["True $\mathbf{A}$","uniform \n [-1,1)","normal 2 \n $\mu = 0, \sigma = 2$","normal 1 \n $\mu = 0, \sigma = 1$","ICA"])
 
 plt.ylabel('MSE')

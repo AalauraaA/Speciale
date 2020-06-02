@@ -12,6 +12,7 @@ It consist of:
     - MSE_segments
     - mix_signals
     - generate_AR
+    
 The script need the sklearn.metrics, SciPy and NumPy libraries.
 """
 # =============================================================================
@@ -88,14 +89,11 @@ def mix_signals(n_samples, M, version=None, duration=4):
         M: Number of sensors
         version:
             M=3
+            version test --> N=3, k=3
             version none --> N=5, k=4
             version 0    --> N=4, k=4
             version 1    --> N=8, k=4    --> Cov-DL1 
                     
-            M=6
-            version 2    --> N=8,  k=8
-            version 3    --> N=12, k=8
-            version 4    --> N=21, k=8   --> Cov-DL1
         duration: The lenght of signal in seconds. Fixed to 4 seconds
     Output:
         Y: Measurement matrix of size M X L
@@ -108,13 +106,9 @@ def mix_signals(n_samples, M, version=None, duration=4):
     s2 = np.sign(np.sin(3 * time))              # square signal
     s3 = signal.sawtooth(2 * np.pi * time)      # saw tooth signal
     s4 = np.sin(4 * time)                       # different sinusoidal
-    s5 = np.cos(2 * time)                       # cosinus
-    s6 = np.sign(np.sin(4 * time))              # square signal
-    s7 = signal.sawtooth(5 * np.pi * time)      # saw tooth signal
-    s8 = np.sin(8 * time)                       # different sinusoidal
     
     zero_row = np.zeros(n_samples)
-    X = np.c_[s1, zero_row, s3, s4, s2].T 
+    X = np.c_[s1, zero_row, s3, s4, s2].T       # version 'none'
     
     if version == 'test':
         X = np.c_[s1, s2, s3].T
@@ -122,14 +116,6 @@ def mix_signals(n_samples, M, version=None, duration=4):
         X = np.c_[s1, s3, s4, s2].T
     if version == 1:
         X = np.c_[zero_row, s1, zero_row, s3, zero_row, zero_row, s4, s2].T
-    if version == 2:
-        X = np.c_[s1, s2, s3, s4, s5, s6, s7, s8].T
-    if version == 3:
-        X = np.c_[s1, zero_row, s2, s3, zero_row, s4, zero_row, s5, s6, zero_row, s7, s8].T
-    if version == 4:
-        X = np.c_[s1, zero_row, zero_row, s2, s3, zero_row,  zero_row,
-                  zero_row, s4, zero_row,  zero_row, zero_row, s5, zero_row,
-                  s6, zero_row, s7,  zero_row,  zero_row, s8,  zero_row].T
     
     " Finding A and Y "    
     N = len(X)

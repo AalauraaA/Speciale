@@ -5,6 +5,7 @@ Created on Mon Mar 23 10:36:46 2020
 @author: Mattek10b
 
 This script contain the functions needed to perform Cov-DL. It consist of:
+    
     - _dictionarylearning
     - _inversevectorization
     - _vectorization
@@ -12,6 +13,7 @@ This script contain the functions needed to perform Cov-DL. It consist of:
     - _covdomain
     - Cov_DL1
     - Cov_DL2
+    
 The script need the sklearn.decomposition, scipy.optimize and NumPy libraries.
 """
 # =============================================================================
@@ -41,26 +43,6 @@ def _dictionarylearning(Y, N, k, iter_=100000):
     D = dct.components_
     return D.T
 
-def _inversevectorization(d):
-    """
-    Perform the devectorization of covariances.
-    -------------------------------------------
-    Input:  
-        d: A vector of size M(M+1)/2
-    Output: 
-        D: A matrix of size M x N
-    """
-    M = int(np.sqrt(d.size*2))
-    if (M*(M+1))//2 != d.size:
-        print("Inverse vectorization fail")
-        return None
-    else:
-        R, C = np.tril_indices(M)
-        D = np.zeros((M, M), dtype=d.dtype)
-        D[R, C] = d
-        D[C, R] = d
-    return D
-
 def _vectorization(Y, M):
     """
     Perform vectorization of a matrix.
@@ -73,6 +55,26 @@ def _vectorization(Y, M):
     """
     vec_Y = Y[np.tril_indices(M)]
     return vec_Y
+
+def _inversevectorization(d):
+    """
+    Perform the devectorization of covariances.
+    -------------------------------------------
+    Input:  
+        d: A vector of size M(M+1)/2
+    Output: 
+        D: A matrix of size M x M
+    """
+    M = int(np.sqrt(d.size*2))
+    if (M*(M+1))//2 != d.size:
+        print("Inverse vectorization fail")
+        return None
+    else:
+        R, C = np.tril_indices(M)
+        D = np.zeros((M, M), dtype=d.dtype)
+        D[R, C] = d
+        D[C, R] = d
+    return D
 
 def _A(D, M, N):
     """
@@ -103,7 +105,7 @@ def _covdomain(Y, L, L_covseg, M):
     Perform the transformation to the covariance-domain.
     ----------------------------------------------------
     Input:
-        Y: Measurement matrix of size m x L
+        Y: Measurement matrix of size M x L
         L: Number of samples
         L_covseg: Number of samples in one segment
         M: Number of sensors
@@ -178,7 +180,7 @@ def Cov_DL2(Y_big, M, N, k):
     def cost1(a):
         return np.linalg.norm(D_term(a)-U_term())**2
     
-    # predefined optimization method, without defineing the gradient og the cost.
+    # predefined optimization method.
     from scipy.optimize import minimize
     res = minimize(cost1, a, method='BFGS',# BFGS, Nelder-Mead
                   options={'maxiter': 10000, 'disp': True})

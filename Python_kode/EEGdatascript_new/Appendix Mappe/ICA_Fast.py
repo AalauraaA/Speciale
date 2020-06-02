@@ -6,6 +6,7 @@ Created on Fri May  8 09:31:52 2020
 
 This script contain the functions needed to perform FastICA. It consists of:
     - X_ica
+    
 The script need the sklearn.decomposition and NumPy libraries.
 """
 # =============================================================================

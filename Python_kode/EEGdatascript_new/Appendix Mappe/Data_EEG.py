@@ -16,6 +16,7 @@ The functions are:
     - fit_Y
     - _import
     - _reduction
+    
 The script need the scipy.io and NumPy libraries.
 """
 # =============================================================================

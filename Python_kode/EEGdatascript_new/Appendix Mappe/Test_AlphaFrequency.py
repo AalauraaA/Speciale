@@ -4,7 +4,8 @@ Created on Fri May  8 09:30:49 2020
 
 @author: Mattek10b
 
-This script perform the alpha wave frequency analysis on the EEG data sets:
+This script perform the alpha wave frequency analysis on the EEG data sets of
+one test subject at the time, available data sets are:
     - S1_CClean.mat
     - S1_OClean.mat
     - S3_CClean.mat

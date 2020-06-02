@@ -20,7 +20,7 @@ np.random.seed(1234)
 # =============================================================================
 # Import EEG data file
 # =============================================================================
-data_name = 'S4_CClean.mat'
+data_name = 'S1_CClean.mat'
 
 data_file = 'data/' + data_name            # file path
 

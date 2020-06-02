@@ -1,17 +1,17 @@
 \chapter*{Danish Summary}
 %\addcontentsline{toc}{chapter}{Danish Summary}
-I dette kandidatspeciale undersøges det hvordan man kan genskabe de originale kilder til den hjerne aktivitet, der måles via Elektroencefalografi (EEG). Med udgangspunkt i lineær algebra kan EEG-målinger modelleres som et lineært system $\mathbf{Y}=\mathbf{AX}$. 
+I dette kandidatspeciale undersøges det hvordan man kan genskabe de originale kilder til den hjerne aktivitet, der måles via elektroencefalografi (EEG). Med udgangspunkt i lineær algebra kan EEG-målinger modelleres som et lineært system $\mathbf{Y}=\mathbf{AX}$. 
 Her udgør $\mathbf{X}$ de original kilder, $\mathbf{A}$ udgør transformationen af $\mathbf{X}$ til de observerede EEG-målinger, som $\mathbf{Y}$ udgør.   
 At løse systemet med hensyn til de original kilder $\mathbf{X}$ omtales som det inverse EEG-problem. 
 Dette omfatter en estimering af både $\mathbf{A}$ og $\mathbf{X}$.
 I dette speciale ønskes det at løse det inverse EEG-problem i det specifikke tilfælde hvor der er færre sensorer end der er kilder.  
 Der tages udgangspunkt i to ”state of the art” metoder, covariance-domain dictionary learning (Cov-DL) og multiple sparse Bayesian learning (M-SBL), til at løse dette problem. 
 Her er det primære formål er at eftervise de resultater som tidligere er opnået ved anvendelse af disse metoder. Herigennem sættes der fokus på reproducerbarhed af de udvalgte videnskabelige artikler.  
-De to metoder implementeres i én algoritme, som omtales the main algorith. 
+De to metoder implementeres i én algoritme, som omtales the main algorithm. 
 Metoden Cov-DL anvendes til at finde transformationsmatricen og M-SBL benytter sig af den fundne transformationsmatrix til at finde matricen med kilder. 
 Sekundært sættes algoritmen i et praktisk perspektiv, hvor det undersøges hvorvidt det er muligt at estimere antallet af aktive kilder i hjernen.
 Under implementeringen af algoritmen bliver de enkelte metoder testet og analyseret på simuleret data. 
-Testene evalueres ved at sammenligne de fundne estimater med de sande værdier, hertil anvendes mean-square error (MSE). 
+Testene evalueres ved at sammenligne de fundne estimater med de sande værdier, hertil anvendes mean squared error (MSE). 
 For Cov-DL lykkedes det ikke at estimere transformationsmatricen på samme vis som angivet i den anvendte kilde.
 Den anden metode, M-SBL, ses at være succesfuld når den sande transformationsmatrice benyttes. 
 Herfra kan det konkluderes, at den tilsvarende videnskabelige artikel tilvejebragte en tilstrækkelig grad af reproducerbarhed.

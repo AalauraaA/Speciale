@@ -29,14 +29,22 @@ k = 4
 N = 8
 n_seg = 1
 
+<<<<<<< HEAD
 ## Cov-DL2
+=======
+# Cov-DL2
+>>>>>>> b317e570c50fcc9e9273915747489a3d771b93cf
 #M = 3
 #L = 1000
 #k = 4
 #N = 5 
 #n_seg = 1
 
+<<<<<<< HEAD
 Y, A_real, X_real = simulated_data.mix_signals(L,M,version=1)
+=======
+Y, A_real, X_real = simulated_data.mix_signals(L,M,version=None)
+>>>>>>> b317e570c50fcc9e9273915747489a3d771b93cf
 
 Y = np.reshape(Y, (1,Y.shape[0], Y.shape[1]))
 X_real = np.reshape(X_real,(1, X_real.shape[0],X_real.shape[1]))

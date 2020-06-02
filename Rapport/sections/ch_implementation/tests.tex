@@ -51,11 +51,6 @@ These evaluations ensure that the optimization solver did manage to find the sol
 By evaluating the cost function with respect to the true $\mathbf{A}$ it is seen that the true mixing matrix is not a global minimizer to the optimization problem. 
 This suggests that the optimization problem, derived in section \ref{sec:over_det}, do not fulfil the purpose.
 However, it has to be mentioned that this is merely an interesting observation rather than a concluding result, as $\text{cost}(\mathbf{A}) = \text{cost}(\hat{\mathbf{A}})$ is not guaranteed. 
-In general the following holds for every $\mathbf{A}$:
-\begin{align*}
-\hat{\mathbf{A}} = \text{argmin}\  \text{cost}(\mathbf{A}) \leq \text{cost}(\mathbf{A}_{\text{true}}) \geq \text{cost}(\hat{\mathbf{A}}) \leq \text{cost}(\mathbf{A})\quad \forall \mathbf{A} 
-\end{align*}  
-
 \begin{figure}[H]
 \centering
 \includegraphics[scale=0.5]{figures/ch_6/COV2_simple.png}
@@ -124,14 +119,14 @@ The zero rows of the estimate $\hat{\mathbf{X}}$ is not visualized and therefore
 \noindent
 The resulting MSE between the true $\mathbf{X}$ and the estimate $\hat{\mathbf{X}}$ from figure \ref{fig:M-SBL_simple1} with $N = 5$, becomes 
 \begin{align*}
-\text{MSE}(\mathbf{X}, \hat{\mathbf{X}}) = 0.127.
+\text{MSE}(\mathbf{X}, \hat{\mathbf{X}}) = 0.13.
 \end{align*}
 From figure \ref{fig:M-SBL_simple1} it is seen that all four source signals are recovered at the right locations relative to the removal of the zero rows from $\mathbf{X}$ and $\hat{\mathbf{X}}$. 
 As suggested by the achieved MSE the estimate is not exact, but it is clear that the estimates, by looking at figure \ref{fig:M-SBL_simple1}, manage to follow the right pattern of the true signals. 
 
 The resulting MSE between the true $\mathbf{X}$ and the estimated $\hat{\mathbf{X}}$ from figure \ref{fig:M-SBL_simple2} with $N = 8$ thus more sparse, becomes 
 \begin{align*}
-\text{MSE}(\mathbf{X}, \hat{\mathbf{X}}) = 0.161. 
+\text{MSE}(\mathbf{X}, \hat{\mathbf{X}}) = 0.162. 
 \end{align*}
 From figure \ref{fig:M-SBL_simple2} it is again seen that the source signals are recovered at the right locations. 
 However visually the estimates appear slightly more imprecise. 
@@ -163,7 +158,7 @@ Figure \ref{fig:M-SBL_simple3} shows the estimated source signals for a simulati
 \noindent
 The resulting MSE becomes
 \begin{align*}
-\text{MSE}(\mathbf{X}, \hat{\mathbf{X}}) = 0.121
+\text{MSE}(\mathbf{X}, \hat{\mathbf{X}}) = 0.124
 \end{align*}
 From the above discussion and the results in figure \ref{fig:M-SBL_simple3} it is confirmed that letting $N = k$ has no disadvantage when a correct localization of the source signal is not a priority. 
 It is chosen that $N = k$ will be used throughout the thesis. 
@@ -173,14 +168,14 @@ The M-SBL algorithm is now tested on two stochastic data sets which resembles re
 The first stochastic data set is simulated with specifications $N = k = 8$, $M = 6$, $L=1000$. 
 The resulting estimate is visualized in figure \ref{fig:AR1} and the MSE becomes 
 \begin{align*}
-\text{MSE}(\mathbf{X}, \hat{\mathbf{X}}) = 1.643.
+\text{MSE}(\mathbf{X}, \hat{\mathbf{X}}) = 1.1.
 \end{align*} 
 The second stochastic data set is simulated with specifications $N = k =16$, $M = 6$ and $L=1000$. 
 This tests the capabilities of the implementation of M-SBL when the distance between $M$ and $N$ is enlarged. 
 The performance relative to the relation between $N$ and $M$ is further investigated for the main algorithm in section \ref{sec:test_base}.
 The resulting estimate is plotted in figure \ref{fig:AR2} and the MSE becomes 
 \begin{align*}
-\text{MSE}(\mathbf{X}, \hat{\mathbf{X}}) = 5.182. 
+\text{MSE}(\mathbf{X}, \hat{\mathbf{X}}) = 3.652. 
 \end{align*}  
 \begin{figure}[H]
 \begin{widepage}

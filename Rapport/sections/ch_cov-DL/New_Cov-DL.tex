@@ -110,7 +110,7 @@ For now the noise vector is ignored.
 \section{Remarks}
 Through this chapter the theoretical aspects of the Cov-DL method proposed by \cite{Balkan2015} have been investigated in order to create algorithm \ref{alg:Cov1} from which the implementation of Cov-DL will be based. Furthermore, the following remarks are considered with respect to the implementation. 
 
-The length of each time segment $s$ has to be defined with respect to the assumption of the signals being stationary. However, it can not be assured that the assumption is withheld for every segment and this will introduce a source of error. 
+The length of each time segment $s$ has to be defined with respect to the assumption of the signals being stationary. However, it can not be assured that the assumption is withhold for every segment and this will introduce a source of error. 
 This must be taken into account in the preprocessing part for the implementation of Cov-DL when the EEG measurements are divided into segments.
 
 For each segment a further segmentation is conducted into segments $s'$, each serving as one sample in the covariance-domain. Here the number of samples $L_{s'}$, depending on the chosen length, is most likely to influence the estimated dictionary. This is assuming that more training data will provide better results. Here a certain trade off may be considered. Longer segments $s'$ lead to better sample covariance representation but also a less number of training samples. Opposite, too short segments $s'$ might compromise the sample covariance-domain representation, thus the number of training sample will increase but the training samples might not be as representative. 

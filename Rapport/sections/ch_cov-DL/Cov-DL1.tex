@@ -1,8 +1,8 @@
 \subsection{Under-determined System}\label{sec:cov1}
 When $\widetilde{M} < N$ the transformed model \eqref{eq:cov1} makes an under-determined system. 
 This is similar to the original MMV model \eqref{eq:MMV_model} being under-determined when $M < N$. 
-Thus, from the theory of compressive sensing, it is again possible to solve the under-determined system if a certain sparsity is withheld, namely $\boldsymbol{\delta}_s$ being $\widetilde{M}$-sparse.
-Assuming the sufficient sparsity on $\boldsymbol{\delta}_s$ is withheld it is possible to learn the dictionary matrix of the covariance-domain $\mathbf{D}_s$. 
+Thus, from the theory of compressive sensing, it is again possible to solve the under-determined system if a certain sparsity is withhold, namely $\boldsymbol{\delta}_s$ being $\widetilde{M}$-sparse.
+Assuming the sufficient sparsity on $\boldsymbol{\delta}_s$ is withhold it is possible to learn the dictionary matrix of the covariance-domain $\mathbf{D}_s$. 
 This can be done by traditional dictionary learning methods applied to the measurements represented in the covariance-domain $\text{vec}\left(\widehat{\boldsymbol{\Sigma}}_{\mathbf{Y}_s}\right)$ for all segments $s$.
 
 \subsubsection{Dictionary Learning}\label{sec:dictionarylearning}
@@ -75,7 +75,7 @@ and $\mathbf{b}_j$ is the corresponding eigenvector.
 
 From this result each column of the mixing matrix $\mathbf{A}$ can be estimated. 
 Hence, it is possible to determine the mixing matrix in the case where the measurements transformed into the covariance-domain makes an under-determined system.
-Provided however that the necessary sparsity constraint of $\boldsymbol{\delta}$ being $\widetilde{M}$-sparse is withheld. 
+Provided however that the necessary sparsity constraint of $\boldsymbol{\delta}$ being $\widetilde{M}$-sparse is withhold. 
 Remember $\widetilde{M} := \frac{M(M+1)}{2}$ thus $M < k$ is allowed and the original sparsity constraint, $\mathbf{X}$ being $M$-sparse, is relaxed. 
 
 

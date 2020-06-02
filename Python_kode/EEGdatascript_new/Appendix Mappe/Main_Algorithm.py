@@ -82,6 +82,7 @@ def Main_Algorithm(Y, M, k, L, data = 'EEG', fix = True):
         
                 elif k <= (M*(M+1))/2.:
                     A_rec = Cov_DL.Cov_DL1(Y_big, M, N, k)
+                    A_init = None
                     A_result[i] = A_rec
         
                 elif k > (M*(M+1))/2.:
@@ -89,4 +90,4 @@ def Main_Algorithm(Y, M, k, L, data = 'EEG', fix = True):
             
                 X_rec = M_SBL.M_SBL(A_rec, Y[i], M, N, k, iterations=1000, noise=False)
                 X_result[i] = X_rec
-            return A_result, X_result
+            return A_result, A_init, X_result

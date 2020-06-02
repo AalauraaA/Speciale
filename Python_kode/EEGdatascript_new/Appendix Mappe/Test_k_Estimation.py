@@ -49,8 +49,8 @@ request='remove 1/2' # remove sensors and the same sources from dataset
 #request = 'none'
 Y, M, L, n_seg = Data_EEG._import(data_file, segment_time, request=request)
 
-k = np.ones([len(Y)]) * (M+4)  # a choice for k -- k = M + 4
-
+#k = np.ones([len(Y)]) * (M+4)  # a choice for k -- k = M + 4
+k = np.ones([len(Y)]) * 27
 A_result, X_result = Main_Algorithm(Y, M, k, L, data = 'EEG', fix = True)
 
 " Searching for replicates  "
@@ -67,17 +67,23 @@ for seg in range(len(Y)):
 " Plots of segment seg = 9 -- the 10 th segment"
 seg = 9
 figsave = "figures/EEG_second_removed_est_k" + str(data_name) + '_' + str(seg) + ".png"
-plt.figure(1)
-plt.title('M = {}, N = {}, k = {}, L = {}'.format(M, int(k[seg]), int(k[seg]), L))
-nr_plot=0
-for i in range(int(k[seg])):
-    if np.any(X_result[seg][i]!=0):
-        nr_plot += 1
-        plt.subplot(k, 1, nr_plot)
-       
-        plt.plot(X_result[seg][i],'g', label='Recovered X')
 
-plt.legend()
-plt.xlabel('sample')
-plt.show()
-plt.savefig(figsave)
+def plot_seperate_sources(X_reconstruction,M,N,k,L,figsave,nr):
+    plt.figure(nr)
+    plt.title('M = {}, N = {}, k = {}, L = {}'.format(M,N,k,L))
+    nr_plot=0
+    for i in range(N):
+        if np.any(X_reconstruction[i]!=0):
+            nr_plot += 1
+            plt.subplot(13, 1, nr_plot)
+           
+            plt.plot(X_reconstruction[i],'g', label='Recovered X')
+        if nr_plot == 13:
+            break
+    plt.legend()
+    plt.xlabel('sample') 
+    plt.show()
+    plt.savefig(figsave)
+
+
+plot_seperate_sources(X_result[seg], M, int(k[seg]), int(k[seg]), L, figsave,1)

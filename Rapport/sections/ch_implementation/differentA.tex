@@ -29,7 +29,6 @@ The four different fixed estimates $\hat{\mathbf{A}}_{\text{fix}}$ are tested on
 As a reference the true mixing matrix $\mathbf{A}$ is included in the plot, to see the best possible $\text{MSE}(\mathbf{X}, \hat{\mathbf{X}})$.
 To get an average performance 50 different simulations are conducted with the same specifications. For each system $\mathbf{X}$ is estimated from each of the four fixed estimates\footnote{Note that for each of the 50 repetitions four different realizations of $\hat{\mathbf{A}}_{\text{fix}}$ are fixed.} of $\mathbf{A}$, and the corresponding MSE is computed. 
 The resulting average $\text{MSE}(\mathbf{A}, \hat{\mathbf{A}}_{\text{fix}})$ and $\text{MSE}(\mathbf{X}, \hat{\mathbf{X}})$ are visualized in figure \ref{fig:vary_A}, for each of the four $\hat{\mathbf{A}}_{\text{fix}}$. 
-Furthermore, the plotted values are found in table \ref{tab:fixed}.
 \begin{figure}[H]
 \centering
 \includegraphics[scale=0.5]{figures/ch_6/A_fix1.png}
@@ -76,8 +75,8 @@ Additionally figure \ref{fig:A_func_SNR} shows the corresponding average $\text{
 From figure \ref{fig:X_func_SNR} it is seen that MSE decreases as the SNR increases. 
 This indicates as first expected that the better estimate of the true mixing matrix $\mathbf{A}$ the better estimate of source matrix $\mathbf{X}$. 
 However, this is still a contradiction to the result seen in figure \ref{fig:vary_A}. 
-This could possible correspond to true mixing matrix $\mathbf{A}$ being a Gaussian matrix with $\mu = 0$ and $\sigma = 1$ for which Gaussian noise is added. 
-The average $\text{MSE}(\mathbf{A}, \hat{\mathbf{A}})$ seen in figure \ref{fig:A_func_SNR} is seen to be far below 1 even for a large amount of noise, which is remarkably lower than the MSE values previously seen in figure \ref{fig:vary_A}\todo{begge plot titles skal ændres, hat på A}.  
+This could possible correspond to true mixing matrix $\mathbf{A}$ being a Gaussian matrix with mean $0$ and variance $1$ for which Gaussian noise is added. 
+The average $\text{MSE}(\mathbf{A}, \hat{\mathbf{A}})$ seen in figure \ref{fig:A_func_SNR} is seen to be far below 1 even for a large amount of noise, which is remarkably lower than the MSE values previously seen in figure \ref{fig:vary_A}.  
 \begin{figure}[H]
 \begin{widepage}
     \begin{minipage}[t]{.45\textwidth}

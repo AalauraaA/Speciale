@@ -10,7 +10,7 @@ In order to evaluate the performance of the main algorithm, tests are conducted 
 The aim is to see how the relationship between $N$ and $M$ affect the performance, in other words how robust the algorithm is towards low-density measurements, $M < N$. 
 The main algorithm is tested on simulated stochastic data sets specified by $M = 8$, $L = 1000$, $k = N$ with $N$ in the range $N = M+1, \dots, 36$, as such $k < \widetilde{M}$ is withheld ensuring a solution.
 For each value of $N$ ten different data sets are simulated and solved, and the average $\text{MSE}(\mathbf{X}, \hat{\mathbf{X}})$ are used as the result. 
-The average $\text{MSE}(\mathbf{X}, \hat{\mathbf{X}})$ as a function of $N$ are visualized in figure.
+The average $\text{MSE}(\mathbf{X}, \hat{\mathbf{X}})$ as a function of $N$ are visualized in figure \ref{fig:varyN1}.
 \begin{figure}[H]
     \centering
 	\includegraphics[scale=0.5]{figures/ch_6/varyN1.png}

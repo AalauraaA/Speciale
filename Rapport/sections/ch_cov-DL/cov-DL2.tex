@@ -35,17 +35,17 @@ From the source proposing the method \cite{Balkan2015}, it is only notified that
 In the following section the optimization problem is analyzed and processed in order to determine a suitable solution method. 
  
 \subsection{Solution to Optimization Problem}
-The optimization problem \eqref{eq:Cov_DL2} consists of an objective function forming a least-squares problem with respect to the Frobenius norm. It is given that the squared norm, both the Euclidean and the Frobenius norm, are strictly convex \cite[p.173]{norm_optimization}.
+The optimization problem \eqref{eq:Cov_DL2} consists of an objective function forming a least-squares problem with respect to the Frobenius norm. It is given that the squared norm, both the Euclidean and the Frobenius norm, are strictly convex \cite[p. 173]{norm_optimization}.
 Thus the objective function of \eqref{eq:Cov_DL2} is assumed to be convex.
 The constraint in \eqref{eq:Cov_DL2} is a set of quadratic equality constraints. 
 This categorizes the optimization problem as a quadratically constraint quadratic program. 
 However, the constraints are not necessarily convex. 
-By the constraints not being considered convex the optimization problem does not meet the requirements of a convex optimization problem. Hence, the numerical solution methods for convex optimization problems, for which convergence is ensured, does not apply directly. In fact a non-convex quadratically constraint quadratic program ins know to be a NP-hard problem\cite{qcqp}. Thus, some sort of relaxation is preferred.  
+By the constraints not being considered convex the optimization problem does not meet the requirements of a convex optimization problem. Hence, the numerical solution methods for convex optimization problems, for which convergence is ensured, does not apply directly. In fact a non-convex quadratically constraint quadratic program ins know to be a NP-hard problem \cite{qcqp}. Thus, some sort of relaxation is preferred.  
 
 Due to the nature of the constraints, it should be possible to reformulate the objective function to include the constraints into the objective function. That is constructing an unconstrained least-squares problem, which is a special subclass of convex optimization \cite{cvxbook}.
 
 Let $\mathbf{D} = f\left(\mathbf{a}_1, \dots, \mathbf{a}_N\right)$ where $f\left(\mathbf{a}_1, \dots, \mathbf{a}_N\right) = \left\{\mathbf{d}_j = \text{vec}\left(\mathbf{a}_j \mathbf{a}_j^T\right) \right\}_{j=1}^{N}$. 
-Then an optimization problem without constraints is achieved, and it can be solved by use of basic gradient methods, for instance the Newton method. In order to avoid an explicit expression of the inverse Hessian, used in the Newton method, quasi-Newton methods can be considered\cite{Optimization2007}. 
+Then an optimization problem without constraints is achieved, and it can be solved by use of basic gradient methods, for instance the Newton method. In order to avoid an explicit expression of the inverse Hessian, used in the Newton method, quasi-Newton methods can be considered \cite{Optimization2007}. 
 The general idea of quasi-Newton methods is to let the direction of search be based on a positive definite matrix generated from available data as an alternative to the Hessian. 
 %Chosen for this thesis is the Broyden-Fletcher-Goldfarb-Shanno method.
 

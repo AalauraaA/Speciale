@@ -1,5 +1,5 @@
 \chapter{Conclusion}
-The main purpose of this thesis is to recreate a state of the art result for solving the EEG inverse problem, with respect to the original brain source signals, in the under-determined case.
+The main purpose of this thesis is to recreate state of the art results for solving the EEG inverse problem, with respect to the original brain source signals, in the under-determined case.
 Secondary the method is sought improved from a practical perspective.
 
 A main algorithm was proposed, based on the state of the art methods covariance-domain dictionary learning (Cov-DL) \cite{Balkan2015} and multiple sparse Bayesian learning (M-SBL) \cite{Balkan2014}, for recovery of respectively the mixing matrix and the source signals, from the EEG inverse problem. 
@@ -12,10 +12,10 @@ Though, with respect to investigating the extent of the resulting main algorithm
 
 From the analysis of the results, a potentially reliable recovery of the source signals was seen for the complete system, while for the case of interest, the under-determined case, the performance was not evaluated as sufficient. Thus it is concluded that only when the proposed main algorithm is conditioned on an exact estimate of the mixing matrix does it provide sufficiently recovered source signals.  
 %Thus it must be concluded that the proposed main algorithm do not provide a sufficient recovery of the source signals. Furthermore, the extent of the algorithm can not be determined based on the fluctuation results. 
-An alternative test was conducted as an attempt to analyse the recovered source signals from a different perspective. A frequency analysis relating the results from EEG level to similar result on source level.
+An alternative test was conducted as an attempt to analyze the recovered source signals from a different perspective. A frequency analysis relating the results from EEG level to similar result on source level.
 From this analysis no significant founding was discovered in favor of the recovered sources, thus the previous conclusion is preserved. 
 
-With respect to the practical perspective adressed in the problem statement, the issue of the unknown number of active source was investigate through empirical tests. A method was proposed with respect to identification of non-active sources recovered without the true k being know.
+With respect to the practical perspective addressed in the problem statement, the issue of the unknown number of active source was investigate through empirical tests. A method was proposed with respect to identification of non-active sources recovered without the true $k$ being known.
 The method showed potential when applied to recovered source signals conditioned on the true mixing matrix. However, when applied to the under-determined case difficulties did arise. Thus, it is concluded that the method does not provide a sufficient estimate of the number of active sources. But the found potential suggests that further work on the method may allow the possibility of finding a reliable estimate. 
 
 Overall, it is concluded that a recreation of the specified state of the art methods for source recovery was not successfully provided by the proposed main algorithm - utilizing the proposed alternative to the estimation of the mixing matrix. However when conditioned on an exact estimate of the mixing matrix, the main algorithm showed grate potential for source signal recovery, even for the under-determined case which has been of interest within this thesis. 

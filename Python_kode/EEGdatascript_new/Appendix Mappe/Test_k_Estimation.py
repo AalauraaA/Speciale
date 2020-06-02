@@ -49,7 +49,6 @@ request='remove 1/2' # remove sensors and the same sources from dataset
 #request = 'none'
 Y, M, L, n_seg = Data_EEG._import(data_file, segment_time, request=request)
 
-#k = np.ones([len(Y)]) * (M+4)  # a choice for k -- k = M + 4
 k = np.ones([len(Y)]) * 27
 A_result, X_result = Main_Algorithm(Y, M, k, L, data = 'EEG', fix = True)
 
@@ -75,10 +74,10 @@ def plot_seperate_sources(X_reconstruction,M,N,k,L,figsave,nr):
     for i in range(N):
         if np.any(X_reconstruction[i]!=0):
             nr_plot += 1
-            plt.subplot(13, 1, nr_plot)
+            plt.subplot(8, 1, nr_plot)
            
             plt.plot(X_reconstruction[i],'g', label='Recovered X')
-        if nr_plot == 13:
+        if nr_plot == 8:
             break
     plt.legend()
     plt.xlabel('sample') 

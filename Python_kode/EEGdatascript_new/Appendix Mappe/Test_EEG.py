@@ -93,7 +93,7 @@ plt.title(r'MSE($\^\mathbf{X}_{main}$,$\^\mathbf{X}_{ICA}$) for all time segment
 plt.xlabel('Time Segment')
 plt.ylabel('MSE')
 plt.legend()
-plt.savefig('figures/average_mse_none_removed_ica.png')
+plt.savefig('figures/average_mse_second_removed_ica.png')
 
 plt.figure(2)
 plt.plot(mse_segment, '-ro', label = 'MSE')
@@ -104,7 +104,7 @@ plt.xlabel('Time Segment')
 plt.ylabel('MSE')
 plt.legend()
 plt.axis([-1,145, -10,50])
-plt.savefig('figures/average_mse_none_removed_ica_zoom.png')
+plt.savefig('figures/average_mse_second_removed_ica_zoom.png')
 
 plt.figure(3)
 plt.plot(mse_rows[segment], '-ro', label = 'MSE per row')
@@ -112,7 +112,7 @@ plt.title(r'MSE($\^\mathbf{X}_{main}$,$\^\mathbf{X}_{ICA}$) for time segment = 5
 plt.xlabel('Sources')
 plt.ylabel('MSE')
 plt.legend()
-plt.savefig('figures/mse_none_removed_ica_timeseg5.png')
+plt.savefig('figures/mse_second_removed_ica_timeseg5.png')
 
 # =============================================================================
 # Calculating Average of the Average MSE 
@@ -145,8 +145,8 @@ print('n_seg = {} and Ls = {}'.format(n_seg, L))
 # =============================================================================
 # Visualization of Sources
 # =============================================================================
-figsave1 = "figures/EEG_none_removed_timeseg5" + str(data_name) + '_' + ".png"
-figsave2 = "figures/EEG_none_removed_scaled_timeseg5" + str(data_name) + '_' + ".png"
+figsave1 = "figures/EEG_second_removed_timeseg5" + str(data_name) + '_' + ".png"
+figsave2 = "figures/EEG_second_removed_scaled_timeseg5" + str(data_name) + '_' + ".png"
 index = [5, 10, 15, int(k[segment])-1]
 
 plt.figure(5)
@@ -207,7 +207,7 @@ plt.subplot(4, 1, 4)
 plt.plot(X_result[segment][index[3]], 'g', label='Main Alg.')
 plt.plot( X_ica_scale[segment][index[3]], 'r', label='ICA scaled')
 plt.legend(loc='upper left', bbox_to_anchor=(1, 1))
-plt.xlabel('Source {}'.format(index[2])')
+plt.xlabel('Source {}'.format(index[3]))
 plt.tight_layout() 
 plt.show()
 plt.savefig(figsave2)

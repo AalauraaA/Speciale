@@ -268,72 +268,8 @@ plt.show()
 plt.savefig('figures/DFT_plot_X_timeseg15_source10.png')
 
 
-" Measurement signal Y and Source signal X Plots "
-plt.figure(2)
-plt.subplot(411)
-plt.plot(Y_C_time, Y_C_filter, 'b', label='Measurement 10')
-plt.xlabel('Time')
-plt.title('Filtered Measurement Signal from S1_CClean')
-plt.legend()
-
-plt.subplot(412)
-plt.plot(Y_O_time, Y_O_filter, 'b', label='Measurement 10')
-plt.xlabel('Time')
-plt.title('Filtered Measurement Signal from S1_OClean')
-plt.legend()
-
-plt.subplot(413)
-plt.plot(X_C_time, X_C_filter, 'r', label='Source 10')
-plt.xlabel('Time')
-plt.title('Filtered Source Signal from S1_CClean')
-plt.legend()
-
-plt.subplot(414)
-plt.plot(X_O_time, X_O_filter, 'r', label='Source 10')
-plt.xlabel('Time')
-plt.title('Filtered Source Signal from S1_OClean')
-plt.legend()
-plt.show()
-plt.savefig('figures/DFT_plot_X_and_Y_signal_timeseg15_source10.png')
-
-
 " Measurement Matrix Y and Source Matrix X Plots "
-plt.figure(3)
-plt.subplot(411)
-plt.plot(Y_C_time, sum(Y_C_filter_matrix), label='Time Segement 15')
-plt.xlabel('Time')
-plt.title('Filtered Measurement Matrix from S1_CClean')
-plt.legend()
-
-plt.subplot(412)
-plt.plot(Y_O_time, sum(Y_O_filter_matrix), label='Time Segment 15')
-plt.xlabel('Time')
-plt.title('Filtered Measurement Matrix from S1_OClean')
-plt.legend()
-
-plt.subplot(413)
-plt.plot(X_C_time, sum(X_C_filter_matrix), label='Time Segment 15')
-plt.xlabel('Time')
-plt.title('Filtered Source Matrix from S1_CClean')
-plt.legend()
-
-plt.subplot(414)
-plt.plot(X_O_time, sum(X_O_filter_matrix), label='Time Segment 15')
-plt.xlabel('Time')
-plt.title('Filtered Source Matrix from S1_OClean')
-plt.legend()
-plt.show()
-plt.savefig('figures/DFT_plot_X_and_Y_matrix_timeseg15.png')
-
-" Measurement Matrix Y and Source Matrix X Plots "
-#plt.figure(4)
-#plt.subplot(411)
-#plt.stem(sum(Y_C_power_matrix), label='Time Segement 15')
-#plt.title('FFT Filtered Measurement Matrix from S1_CClean')
-#plt.xlabel('Frequency [Hz]')
-#plt.ylabel('Power')
-#plt.axis([-1,70,0,100000])
-#plt.legend()
+plt.figure(4)
 
 plt.subplot(221)
 plt.stem(sum(Y_O_power_filter_matrixSEG), label=' Open eyes')
@@ -388,9 +324,3 @@ plt.axis([0,100,0,20])
 plt.legend()
 plt.show()
 plt.savefig('figures/DFT_X_difference.png')
-
-plt.figure(7)
-plt.plot(average_diff2_X, 'ro-')
-plt.title('Difference Between Filtered Recovered Source Matrix X')
-plt.xlabel('Time Segment')
-plt.show()

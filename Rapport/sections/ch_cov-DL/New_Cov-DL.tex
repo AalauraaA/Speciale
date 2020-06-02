@@ -1,17 +1,17 @@
 \section{Covariance-Domain Representation}\label{sec:cov}
-Consider a single sample vector $\textbf{y}_i\in \mathbb{R}^{M}$, containing EEG measurements. 
-The covariance of $\mathbf{y}_i$ is defined as \todo{hvad er i sampled op til? -L}
+Consider a single sample vector $\textbf{y}_j\in \mathbb{R}^{M}$, containing EEG measurements. 
+The covariance of $\mathbf{y}_j$ is defined as
 \begin{align*}
-\boldsymbol{\Sigma}_{\mathbf{y}_i} = \mathbb{E}[(\mathbf{y}_i - \mathbb{E}[\mathbf{y}_i]) (\mathbf{y}_i - \mathbb{E}[\mathbf{y}_i])^T],
+\boldsymbol{\Sigma}_{\mathbf{y}_j} = \mathbb{E}[(\mathbf{y}_j - \mathbb{E}[\mathbf{y}_j]) (\mathbf{y}_j - \mathbb{E}[\mathbf{y}_j])^T],
 \end{align*}
 where $\mathbb{E}[\cdot]$ is the expected value operator. 
 Let $\mathbf{Y}_{s} = \left[\mathbf{y}_1, \dots, \mathbf{y}_{L_s}\right]$ be the observed measurement matrix containing all samples of segment $s$.
-Furthermore, assume that all sample vectors $\mathbf{y}_i$ within one segment have zero mean and the same distribution.  
+Furthermore, assume that all sample vectors $\mathbf{y}_j$ within one segment have zero mean and the same distribution.  
 Then $\mathbf{Y}_s \in \mathbb{R}^{M \times L_s}$ is described in the covariance-domain by the sample covariance $\widehat{\boldsymbol{\Sigma}}$. 
 The sample covariance is defined as the empirical covariance among the $M$ measurements across the $L_s$ samples. 
 That is a $M \times M$ matrix $\widehat{\boldsymbol{\Sigma}}_{\mathbf{Y}_s} = [\sigma_{jk}]$ with entries 
 \begin{align*}
-\sigma_{jk} = \frac{1}{L_s} \sum_{i=1}^{L_s} y_{ji} y_{ki}.
+\sigma_{kj} = \frac{1}{L_s} \sum_{i=1}^{L_s} y_{ij} y_{ij}.
 \end{align*}
 Using matrix notation the sample covariance of $\mathbf{Y}_s$ can be written as
 \begin{align*}
@@ -45,14 +45,14 @@ For this purpose the function $\text{vec}(\cdot)$ is defined. $\text{vec}(\cdot)
 \end{align}
 Furthermore, let $\text{vec}^{-1}: \mathbb{R}^{\widetilde{M}} \rightarrow \mathbb{R}^{M\times M}$ be the inverse function for devectorization. 
 
-Let $\mathbf{a}_i$ be the $i$-th column of $\mathbf{A}_s$, then the matrix product in \eqref{eq:noise2} can be written in sum form where $\boldsymbol{\Lambda}_{s_{ii}}$ is the $ii$-th entry of $\boldsymbol{\Lambda}_s$. 
+Let $\mathbf{a}_j$ be the $j$-th column of $\mathbf{A}_s$, then the matrix product in \eqref{eq:noise2} can be written in sum form where $\boldsymbol{\Lambda}_{s_{jj}}$ is the $jj$-th entry of $\boldsymbol{\Lambda}_s$. 
 \begin{align}
-\widehat{\boldsymbol{\Sigma}}_{\mathbf{Y}_s} &= \sum_{i=1}^{N} \mathbf{a}_i \boldsymbol{\Lambda}_{s_{ii}} \mathbf{a}_i^{T} + \widetilde{\mathbf{E}}_s, \quad \boldsymbol{\Lambda}_{s_{ii}} \label{eq:cov_domain}
+\widehat{\boldsymbol{\Sigma}}_{\mathbf{Y}_s} &= \sum_{j=1}^{N} \mathbf{a}_j \boldsymbol{\Lambda}_{s_{jj}} \mathbf{a}_j^{T} + \widetilde{\mathbf{E}}_s, \quad \boldsymbol{\Lambda}_{s_{jj}} \label{eq:cov_domain}
 \end{align}
 Applying $\text{vec}(\cdot)$ to \eqref{eq:cov_domain} results in the following expression, which concludes the transformation of model \eqref{eq:MMV_seg} into the covariance-domain: 
 \begin{align}
-\text{vec} \left(\widehat{\boldsymbol{\Sigma}}_{\mathbf{Y}_s} \right) &= \sum_{i=1}^N \text{vec}\left(\mathbf{a}_i \mathbf{a}_i^T\right) \boldsymbol{\Lambda}_{s_{ii}} + \text{vec}\left(\widetilde{\mathbf{E}}_s\right) \nonumber \\
-&= \sum_{i=1}^N \mathbf{d}_i \boldsymbol{\Lambda}_{s_{ii}} + \text{vec}\left(\widetilde{\mathbf{E}}_s\right) \nonumber \\
+\text{vec} \left(\widehat{\boldsymbol{\Sigma}}_{\mathbf{Y}_s} \right) &= \sum_{j=1}^N \text{vec}\left(\mathbf{a}_j \mathbf{a}_j^T\right) \boldsymbol{\Lambda}_{s_{jj}} + \text{vec}\left(\widetilde{\mathbf{E}}_s\right) \nonumber \\
+&= \sum_{j=1}^N \mathbf{d}_j \boldsymbol{\Lambda}_{s_{jj}} + \text{vec}\left(\widetilde{\mathbf{E}}_s\right) \nonumber \\
 &= \mathbf{D}_s \boldsymbol{\delta}_s + \text{vec}\left(\widetilde{\mathbf{E}}_s\right), \quad \forall s. \label{eq:cov1}
 \end{align}
 Here $\boldsymbol{\delta}_s \in \mathbb{R}^{N}$ contains the diagonal entries of the source sample covariance matrix $\boldsymbol{\Lambda}_s$ and the matrix $\mathbf{D}_s \in \mathbb{R}^{\widetilde{M} \times N}$ consists of the columns $\mathbf{d}_j = \text{vec}\left(\mathbf{a}_j \mathbf{a}_j^T\right)$. 

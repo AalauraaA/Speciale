@@ -1,4 +1,4 @@
-\section{Covariance-Domain Representation}\label{sec:cov}
+\section{Covariance-domain Representation}\label{sec:cov}
 Consider a single sample vector $\textbf{y}_j\in \mathbb{R}^{M}$, containing EEG measurements. 
 The covariance of $\mathbf{y}_j$ is defined as
 \begin{align*}
@@ -9,9 +9,9 @@ Let $\mathbf{Y}_{s} = \left[\mathbf{y}_1, \dots, \mathbf{y}_{L_s}\right]$ be the
 Furthermore, assume that all sample vectors $\mathbf{y}_j$ within one segment have zero mean and the same distribution.  
 Then $\mathbf{Y}_s \in \mathbb{R}^{M \times L_s}$ is described in the covariance-domain by the sample covariance $\widehat{\boldsymbol{\Sigma}}$. 
 The sample covariance is defined as the empirical covariance among the $M$ measurements across the $L_s$ samples. 
-That is a $M \times M$ matrix $\widehat{\boldsymbol{\Sigma}}_{\mathbf{Y}_s} = [\sigma_{jk}]$ with entries 
+That is a $M \times M$ matrix $\widehat{\boldsymbol{\Sigma}}_{\mathbf{Y}_s} = [\sigma_{kj}]$ with entries 
 \begin{align*}
-\sigma_{kj} = \frac{1}{L_s} \sum_{i=1}^{L_s} y_{ij} y_{ij}.
+\sigma_{kj} = \frac{1}{L_s} \sum_{j=1}^{L_s} y_{ij} y_{ij}.
 \end{align*}
 Using matrix notation the sample covariance of $\mathbf{Y}_s$ can be written as
 \begin{align*}
@@ -19,7 +19,7 @@ Using matrix notation the sample covariance of $\mathbf{Y}_s$ can be written as
 \end{align*} 
 Similar, the source matrix $\mathbf{X}_s$ can be described in the covariance-domain by the sample covariance matrix:
 \begin{align*}
-\widehat{\boldsymbol{\Sigma}}_{\mathbf{X}_s} = \frac{1}{L_s} \mathbf{X}_s \mathbf{X}_s^T = \boldsymbol{\Lambda}_s + \boldsymbol{\varepsilon}. 
+\widehat{\boldsymbol{\Sigma}}_{\mathbf{X}_s} = \frac{1}{L_s} \mathbf{X}_s \mathbf{X}_s^T = \boldsymbol{\Lambda}_s + \boldsymbol{\varepsilon}_s. 
 \end{align*}
 The second equality comes from the assumption of the sources within $\mathbf{X}_s$ being uncorrelated. 
 By uncorrelated sources $\mathbf{X}_s$ the sample covariance matrix is assumed to be nearly diagonal. 
@@ -56,7 +56,7 @@ Applying $\text{vec}(\cdot)$ to \eqref{eq:cov_domain} results in the following e
 &= \mathbf{D}_s \boldsymbol{\delta}_s + \text{vec}\left(\widetilde{\mathbf{E}}_s\right), \quad \forall s. \label{eq:cov1}
 \end{align}
 Here $\boldsymbol{\delta}_s \in \mathbb{R}^{N}$ contains the diagonal entries of the source sample covariance matrix $\boldsymbol{\Lambda}_s$ and the matrix $\mathbf{D}_s \in \mathbb{R}^{\widetilde{M} \times N}$ consists of the columns $\mathbf{d}_j = \text{vec}\left(\mathbf{a}_j \mathbf{a}_j^T\right)$. 
-Note that $\mathbf{D}$ and $\boldsymbol{\delta}_s$ are unknown while $\text{vec}\left( \widehat{\boldsymbol{\Sigma}}_{\mathbf{Y}_s}\right)$ is known from the observed measurements.
+Note that $\mathbf{D}_s$ and $\boldsymbol{\delta}_s$ are unknown while $\text{vec}\left( \widehat{\boldsymbol{\Sigma}}_{\mathbf{Y}_s}\right)$ is known from the observed measurements.
 By this transformation to the covariance-domain, one segment is now represented by $s$ single measurement model with $\widetilde{M}$ ''measurements''. 
 
 It has been shown that this transformed model allows for identification of $k \leq \widetilde{M}$ active sources \cite{Pal2015}. This is a much weaker sparsity constraint than the original sparsity constraint $k \leq M$. 

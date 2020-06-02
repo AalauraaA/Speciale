@@ -12,7 +12,7 @@ In short the algorithm consists of three steps.
 First the EEG measurements are transformed onto the covariance-domain. 
 Then, by the increased dimensionality of the covariance-domain, it is possible to learn the transformed mixing matrix of the covariance-domain. The transformed mixing matrix is denoted by $\mathbf{D}$, based on the theory of compressive sensing. 
 Here two different cases will appear depending on the relation between the number of sources $N$ and the found dimension of the covariance-domain, the number of measurements $M$. 
-Lastly, an inverse transformation is performed on the learned matrix $\mathbf{D}$, in order to obtain the wanted estimate of the mixing matrix $\mathbf{A}_s$. 
+Lastly, an inverse transformation is performed on the learned matrix $\mathbf{D}_s$, in order to obtain the wanted estimate of the mixing matrix $\mathbf{A}_s$. 
 An essential aspect of this method is the prior assumption that the sources within one segment are uncorrelated, that is the rows of $\mathbf{X}_s$ being mutually uncorrelated. 
 
 The section is inspired by the article \cite{Balkan2015} and chapter 3 in \cite{phd2015}. 

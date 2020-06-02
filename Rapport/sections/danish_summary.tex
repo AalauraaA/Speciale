@@ -7,12 +7,12 @@ Dette omfatter en estimering af både $\mathbf{A}$ og $\mathbf{X}$.
 I dette speciale ønskes det at løse det inverse EEG-problem i det specifikke tilfælde hvor der er færre sensorer end der er kilder.  
 Der tages udgangspunkt i to ”state of the art” metoder, covariance-domain dictionary learning (Cov-DL) og multiple sparse Bayesian learning (M-SBL), til at løse dette problem. 
 Her er det primære formål er at eftervise de resultater som tidligere er opnået ved anvendelse af disse metoder. Herigennem sættes der fokus på reproducerbarhed af de udvalgte videnskabelige artikler.  
-De to metoder implementeres i én algoritme, som omtales "The main algorithm". 
+De to metoder implementeres i én algoritme, som omtales the main algorith. 
 Metoden Cov-DL anvendes til at finde transformationsmatricen og M-SBL benytter sig af den fundne transformationsmatrix til at finde matricen med kilder. 
 Sekundært sættes algoritmen i et praktisk perspektiv, hvor det undersøges hvorvidt det er muligt at estimere antallet af aktive kilder i hjernen.
 Under implementeringen af algoritmen bliver de enkelte metoder testet og analyseret på simuleret data. 
-Testene evalueres ved at sammenligne de fundne estimater med de sande værdier, hertil anvendes mean-square-error (MSE). 
-For Cov-DL lykkes det ikke at estimere transformationsmatricen på samme vis som angivet i den anvendte kilde.
+Testene evalueres ved at sammenligne de fundne estimater med de sande værdier, hertil anvendes mean-square error (MSE). 
+For Cov-DL lykkedes det ikke at estimere transformationsmatricen på samme vis som angivet i den anvendte kilde.
 Den anden metode, M-SBL, ses at være succesfuld når den sande transformationsmatrice benyttes. 
 Herfra kan det konkluderes, at den tilsvarende videnskabelige artikel tilvejebragte en tilstrækkelig grad af reproducerbarhed.
 
@@ -21,6 +21,6 @@ Med udgangspunkt i testresultater og det faktum at transformationsmatricen er va
 Med det formål at evaluere algoritmens performance på rigtige EEG-målinger introduceres independent component analysis (ICA) og dens estimater. 
 Dette er en allerede eksisterende og succesfuld metode for det inverse EEG-problem – for systemer med et lige antal sensorer og kilder. 
 Estimaterne fra ICA sammenlignes med de tilsvarende estimater fra den samlede algoritme, hvor et varierende antal at sensorer er fjernet, for at tilnærme det ønskede system. 
-Når ingen sensorer er fjernet, ses et snævert potentiale for et tilstrækkeligt estimat, men for systemer med flere kilder end sensorer fejler metoden, som det kunne forventes ved fastsat transformationsmatrix. 
+Når ingen sensorer er fjernet, ses et snævert potentiale for et tilstrækkeligt estimat, men for systemer med flere kilder end sensorer fejler metoden, som det kunne forventes ved anvendelse af det alternative estimat af transformationsmatricen. 
 Som en alternativ test udføres en frekvensanalyse der sammenligner de rå EEG-målinger med de fundne kilder. Resultatet af dette ændrer ikke på de tidligere konklusioner.
 Endeligt undersøges muligheden for at estimere antallet af aktive kilder i hjernen. Her ses et potentiale ved test på simuleret data, dog forringes denne performance når antallet af sensorer reduceres.   

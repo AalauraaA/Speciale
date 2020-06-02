@@ -8,11 +8,11 @@ Let $\mathbf{y}$ and $\mathbf{A}$ be known. Then \eqref{eq:SMV_model} makes a sy
 To solve the linear system \eqref{eq:SMV_model} with respect to $\mathbf{x}$ one must look at the three different cases which can occur. 
 The cases depend on the relation between the number of linear equations $M$ and the number of unknowns $N$.
 For $M = N$, the system has one unique solution, provided that a solution exist. 
-If the square coefficient matrix $\mathbf{A}$ has full rank the solution can be found simply by inverting $\mathbf{A}$.
+If the square coefficient matrix $\mathbf{A}$ has full rank the solution can be found simply by inverting $\mathbf{A}$:
 \begin{align*}
 \mathbf{x} = \mathbf{A}^{-1} \mathbf{y}.
 \end{align*}
-For $M > N$ the system is over-determined, having more equations than unknown. 
+For $M > N$ the system is over-determined, having more equations than unknowns. 
 There is not always a solution to an over-determined system. 
 For $M < N$ the system is under-determined, having fewer equations than unknowns. 
 There exists infinitely many solutions to an under-determined system, provided that one solution exist \cite[p. ix]{CS}.  
@@ -35,7 +35,7 @@ The SMV model is now expanded to include $L$ measurement vectors and external no
 \begin{align}\label{eq:MMV_model}
 \mathbf{Y} = \mathbf{AX}+\textbf{E}.
 \end{align}
-$\mathbf{Y} \in \mathbb{R}^{M \times L}$ is the observed measurement matrix, $\mathbf{X} \in \mathbb{R}^{N \times L}$ is the source matrix, and $\mathbf{A} \in \mathbb{R}^{M \times N}$ is the mixing matrix. 
+The matrix $\mathbf{Y} \in \mathbb{R}^{M \times L}$ is the observed measurement matrix, $\mathbf{X} \in \mathbb{R}^{N \times L}$ is the source matrix, and $\mathbf{A} \in \mathbb{R}^{M \times N}$ is the mixing matrix. 
 Furthermore, $\mathbf{E} \in \mathbb{R}^{M \times L}$ is an additional noise matrix, to be expected from physical measurement equipment.  
 The model is now referred to as a multiple measurement vector (MMV) model.
 As for \eqref{eq:SMV_model} the solution set of the linear system \eqref{eq:MMV_model} depends on the relation between $N$ and $M$ \cite[p. 42]{CS}. 
@@ -49,7 +49,7 @@ Hence, the following segmentation is considered.
 Let $f$ be the sample frequency of the observed EEG measurements $\mathbf{Y}$. And let $t$ be the length of an interval in seconds determining the duration of one segment. Choose $t$ sufficiently small such that the assumption of stationarity can be justified. 
 Finally let $s$ be the segment index. 
 As such the observed EEG measurement matrix $\mathbf{Y}$ can be divided into stationary segments $\mathbf{Y}_s \in \mathbb{R}^{M \times L_{s}}$, possibly overlapping, where $L_s = t f$ is the number of samples within one segment.
-For each segment the MMV model \eqref{eq:MMV_model} holds and is rewritten into.  
+For each segment the MMV model \eqref{eq:MMV_model} holds and is rewritten into  
 \begin{align}\label{eq:MMV_seg}
 \mathbf{Y}_s = \textbf{A}_s\mathbf{X}_s + \textbf{E}_s, \quad \forall s.
 \end{align}
@@ -67,7 +67,7 @@ where the function $\text{card}(\cdot)$ gives the cardinality of the input set. 
 \begin{align*}
 \Vert \mathbf{X}_s \Vert_0 \leq p.
 \end{align*}
-Now denote the number of active sources by $k$, then $k$ is defined by the number of non-zero rows of the sources matrix 
+Now denote the number of active sources by $k$, then $k$ is defined by the number of non-zero rows of the source matrix 
 \begin{align*}
 k := \Vert \mathbf{X}_s \Vert_0
 \end{align*} 
@@ -75,24 +75,24 @@ where $k \leq N$.
 
 \section{Solution Method}\label{sec:sol_met}
 A MMV model for EEG measurements is now established.
-From the model the aim is, for all segments $s$, to recover the source matrix $\mathbf{X}_s$, by an estimate $\hat{\mathbf{X}}_s$ given only $\mathbf{Y}_s$
+From the model the aim is, for all segments $s$, to recover the source matrix $\mathbf{X}_s$, by an estimate $\hat{\mathbf{X}}_s$ given only $\mathbf{Y}_s$.
 As such the original source signals from the brain are recovered as intended by the problem statement. 
 In this section the solution method is presented and discussed, based on the state of the art methods which were lightly presented in chapter \ref{ch:motivation}. This will outline the remaining chapters of the thesis. 
 
 Due to the problem statement, the case of interest is when $M < N$, typically resulting from low-density EEG measurements. 
-Thus, $\mathbf{X}_s$ has to be recovered from an under-determined linear system. 
+Thus, the source matrix $\mathbf{X}_s$ has to be recovered from an under-determined linear system. 
 Hence, the solution must be found in the infinite solution space provided that one solution exists, thus simple linear algebra can not be used. 
-Alternatively, numerical methods can be considered. By mathematical optimization it is possible to restrict the solution by some constraint. Then find a unique optimal solution with respect to some cost function and the corresponding constraint.
+Alternatively, numerical methods can be considered. By mathematical optimization it is possible to restrict the solution by some constraint. And, then find a unique optimal solution with respect to some cost function and the corresponding constraint.
 The theory of compressive sensing provides a framework for solving an under-determined system when $\mathbf{X}_s$ is known to have zero rows, thus being row sparse. 
 More specifically a unique solution $\mathbf{X}_s$ can be found when $\mathbf{X}_s$ is $M$-sparse, cf. theorem \ref{th:CS_A} in appendix \ref{app_sec:CS}. 
 When the mixing matrix $\mathbf{A}_s$ is unknown, as in this current case, the concept of dictionary learning can be used to determine $\mathbf{A}_s$. Still under the assumption that $\mathbf{X}_s$ is $M$-sparse.  
 
 The assumption of $\mathbf{X}_s$ being $M$-sparse corresponds to the number of the active sources $k \leq M$. 
-However, from chapter \ref{ch:motivation} it can not be justified to apply this assumption on low density EEG measurements. 
+However, from chapter \ref{ch:motivation} it can not be justified to apply this assumption on low-density EEG measurements. 
 Hence, the theory of compressive sensing can not be applied directly on the established model, when $M < N$. 
 
-A method to overcome this limitation of compressive sensing, is the covariance domain dictionary learning (Cov-DL) method \cite{Balkan2015}, introduced in chapter \ref{ch:motivation}.
-The method leverages the increased dimensionality of the covariance domain in order to allow the theory of compressive sensing to apply to an under-determined system. 
+A method to overcome this limitation of compressive sensing, is the covariance-domain dictionary learning (Cov-DL) method \cite{Balkan2015}, introduced in chapter \ref{ch:motivation}.
+The method leverages the increased dimensionality of the covariance-domain in order to allow the theory of compressive sensing to apply to an under-determined system. 
 Note that this method only applies to the process of learning $\mathbf{A}_s$, in the case where $\mathbf{X}_s$ is not $M$-sparse. 
 Hence, a different approach is necessary to recover $\mathbf{X}_s$.
 

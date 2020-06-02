@@ -1,4 +1,4 @@
-In this chapter the multiple sparse Bayesian learning (M-SBL) method is described in details, leading to an algorithm specifying the method. As the method leverage a Bayesian framework the general concept of Bayesian inference is briefly introduced prior to the M-SBL method. The chapter is generally based upon \cite{Balkan2014} where the method is applied to the MMV model, which is of interest in this thesis. More detailed theory is found in \cite{phd_wipf} and \cite{article_wipf}.
+In this chapter the multiple sparse Bayesian learning (M-SBL) method is described in details, leading to an algorithm specifying the method. As the method leverage a Bayesian framework the general concept of Bayesian statistics is briefly introduced prior to the M-SBL method. The chapter is generally based upon \cite{Balkan2014} where the method is applied to the MMV model, which is of interest in this thesis. More detailed theory is found in \cite{phd_wipf} and \cite{article_wipf}.
 
 Consider again the MMV model \eqref{eq:MMV_seg} of EEG measurements
 \begin{align}
@@ -9,7 +9,7 @@ Note that $\mathbf{A}$ is known throughout the chapter, as it is estimated by Co
 The aim is to recover the source matrix $\mathbf{X}$ by an estimate $\hat{\mathbf{X}}$, in the case of fewer measurements than active sources, $M < k$, where $k \leq N$. 
 
 In \cite{Balkan2014} it is proven that exact localization of the active sources can be achieved with M-SBL for $M < k$, when two sufficient conditions are satisfied. 
-The basic approach of M-SBL is to apply Bayesian statistics to find a support set $S$ specifying the non-zero rows of the source matrix $\mathbf{X}$ which corresponds to localization of the active sources. Finally, the values of the localized active sources can be estimated.
+The basic approach of M-SBL is to apply Bayesian statistics to find a support set $S$ specifying the non-zero rows of the source matrix $\mathbf{X}$ which corresponds to localization of the active sources. Finally, the values of the localized active sources can be estimated, that is the identification which concludes the recovery of $\mathbf{X}$ .
 
 \section{Bayesian Inference} 
 The formal framework of Bayesian statistics is Bayes' theorem \cite[p. 86]{Kay}. The objective of Bayes' theorem is to leverage of both data and some specified prior. This is where the distinguishes from the likelihood of classical frequentist statistics lies.     
@@ -122,7 +122,7 @@ Hence, the problem has to be solved iteratively based on an initial parameter gu
 One iterative method is the expectation maximization (EM) algorithm.
 In general each iteration consists of an expectation (E) step, where a function determines the expectation of the likelihood function given the currently estimated parameters. 
 The E-step is followed by an maximization (M) step which computes the parameters by maximizing the expected likelihood found in the E-step.
-In this case the E-step is to compute the posterior moments using \eqref{eq:moments1} and \eqref{eq:moments2} while the M-step is the following update rule of $\gamma_i$ \cite[p.147]{phd_wipf}
+In this case the E-step is to compute the posterior moments using \eqref{eq:moments1} and \eqref{eq:moments2} while the M-step is the following update rule of $\gamma_i$ \cite[p. 147]{phd_wipf}
 \begin{align*}
 \gamma_i^{(k+1)} = \frac{1}{L} \Vert \boldsymbol{\mu}_{i \cdot} \Vert_2^2 + \boldsymbol{\Sigma}_{ii}, \quad \forall i = 1, \dots, N.
 \end{align*}
@@ -131,7 +131,7 @@ An alternative is to use a fixed-point update rule to fasten convergence on larg
 However, the resulting convergence has been found to sometimes be inferior compared to the convergence obtained by the above update rule \cite[p.147]{phd_wipf}. 
 The general point of a fixed-point update is to define the new value from the previous value. 
 The fixed-point updating step is here achieved by taking the derivative of the marginal log likelihood $\ell(\boldsymbol{\gamma})$ with respect to $\boldsymbol{\gamma}$ and equating it with zero. 
-This leads to the following update rule which can replace the above M-step in the EM-algorithm \cite[p.147]{phd_wipf}
+This leads to the following update rule which can replace the above M-step in the EM-algorithm \cite[p. 147]{phd_wipf}
 \begin{align}
 \gamma_i^{(k+1)} = \frac{\frac{1}{L} \Vert \boldsymbol{\mu}_{i \cdot} \Vert_2^2}{1 - \gamma_i^{-1 (k)} \boldsymbol{\Sigma}_{ii}}, \quad \forall i = 1, \dots, N.
 \end{align}
@@ -144,7 +144,7 @@ From the resulting $\boldsymbol{\gamma}^\ast$ the support set $S$ of the source 
 S = \{ i \vert \gamma_i^{\ast} \neq 0 \},
 \end{align*}
 concluding the localization of active sources within $\mathbf{X}$. 
-In practice some arbitrary small threshold can be used such that any sufficiently small hyperparameter is discarded \cite[p.149]{phd_wipf}.
+In practice some arbitrary small threshold can be used such that any sufficiently small hyperparameter is discarded \cite[p. 149]{phd_wipf}.
 For identification of the active sources the estimate of the source matrix $\mathbf{X}$ is given as $\hat{\mathbf{X}} = \mathcal{M} $, with $\mathcal{M} = \mathbb{E}[\mathbf{X}\vert \mathbf{Y} ; \boldsymbol{\gamma}^{\ast}]$. 
 This leads to the following estimate  
 \begin{align*}
@@ -154,8 +154,8 @@ This leads to the following estimate
 \mathbf{x}_{i\cdot} = \mathbf{0}, & i \not \in S
 \end{cases}
 \end{align*}
-As mentioned, the case of a the noise free sparse representations should be considered. 
-That is the limit when $\sigma^2 \rightarrow 0$. Here the M-SBL steps can be adapted easily by using a modified version the moments, given by \cite[p.148]{phd_wipf} as 
+As mentioned, the case of a the noise-free sparse representations should be considered. 
+That is the limit when $\sigma^2 \rightarrow 0$. Here the M-SBL steps can be adapted easily by using a modified version the moments, given by \cite[p. 148]{phd_wipf} as 
 \begin{align*}
 \Sigma &= \left[ \textbf{I} - \boldsymbol{\Gamma}^{1/2} \left( \mathbf{A} \boldsymbol{\Gamma}^{1/2}\right)^{\dagger} \mathbf{A} \right]\boldsymbol{\Gamma}\\
 \mathcal{M} &= \boldsymbol{\Gamma}^{1/2}\left( \mathbf{A} \boldsymbol{\Gamma}^{1/2}\right)^{\dagger} \mathbf{Y}
@@ -183,7 +183,7 @@ The estimate of the source matrix is then found by
 %By k being known in prior the tolerance determining when a parameter is close enough to zero are overruled. In stead the k largest hyper parameter are chosen to form $S$, which makes the support set of $\hat{\textbf{X}}$.          
 
 
-\subsection{Pseudo Code for the M-SBL Algorithm}
+\section{Pseudo Code for the M-SBL Algorithm}
 \begin{algorithm}[H]
 \caption{M-SBL}
 \begin{algorithmic}[1]
@@ -218,18 +218,18 @@ The estimate of the source matrix is then found by
 \end{algorithmic}
 \end{algorithm}
 
-\subsection{Sufficient Conditions for Exact Source Localization}
+\section{Sufficient Conditions for Exact Source Localization}
 In \cite{Balkan2014} it is proven that exact source localization is guaranteed in the under-determined case, $k > M$ when the conditions in the following theorem are fulfilled.
 The theorem is based on a theoretical analysis of the minima where noise-free conditions are considered, that is letting $\sigma^2 \rightarrow 0$. 
 Thus, it is essential that the following theorem applies to the noise-free case. 
 
 First, define a function $f : \mathbb{R}^{M \times N} \rightarrow \mathbb{R}^{\frac{M(M+1)}{2}\times N}$, such that for $B = f(\mathbf{A})$ the $j$-th column is given as $\mathbf{b}_{\cdot j} = \text{vec}(\mathbf{a}_{\cdot j}\mathbf{a}_{\cdot j}^T)$. 
 Here the function $\text{vec}(\cdot)$ corresponds to the function defined in section \ref{sec:cov}, being a vectorization of the lower triangular part of a matrix. 
-Furthermore, $\mathbf{X}_S \in \mathbb{R}^{k \times L}$ denote only the non-zero rows of $\mathbf{X}$ -- the active sources.  
+Furthermore, $\mathbf{X}_{S^k} \in \mathbb{R}^{k \times L}$ denote only the non-zero rows of $\mathbf{X}$ -- the active sources.  
 \begin{theorem}
 Given a dictionary matrix $\mathbf{A}$ and a set of observed measurement $\mathbf{Y}$, M-SBL recovers the support set of any size $k$ exactly in the noise-free case, if the following conditions are satisfied. 
 \begin{enumerate}
-\item The active sources $\mathbf{X}_S$ are orthogonal. That is, $\mathbf{X}_S \mathbf{X}_S^T = \boldsymbol{\Lambda}$, where $\boldsymbol{\Lambda}$ is a diagonal matrix.
+\item The active sources $\mathbf{X}_{S^k}$ are orthogonal. That is, $\mathbf{X}_S \mathbf{X}_{S^k}^T = \boldsymbol{\Lambda}$, where $\boldsymbol{\Lambda}$ is a diagonal matrix.
 \item $\text{Rank}(f(\mathbf{A}))= N$.
 \end{enumerate}
 The proof can be found in \cite[p. 16]{Balkan2014}.

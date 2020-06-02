@@ -1,12 +1,12 @@
 \subsection{Alternative to Estimate $\hat{\textbf{A}}$}  
-As concluded does the implementation of Cov-DL not provide a sufficient estimate of the mixing matrix $\mathbf{A}$. 
+As concluded the implementation of Cov-DL does not provide a sufficient estimate of the mixing matrix $\mathbf{A}$. 
 Therefore a different approach is necessary. 
 
 Replacing the insufficient estimate by a fixed estimate $\hat{\mathbf{A}}_{\text{fix}}$ is one immediately solution. By the term fixed one referrers to the estimate being manual chosen rather than being data dependent.  
-This choice is supported by the observations from Cov-DL2 where $\mathbf{A}_{\text{init}}$ matrix provides an estimate which happens to be at least as good as the one provided by Cov-DL. 
+This choice is supported by the observations from Cov-DL2 where the matrix $\mathbf{A}_{\text{init}}$ provides an estimate which happens to be at least as good as the one provided by Cov-DL. 
 Thus, the challenge is now to choose a fixed matrix for which its characteristics resemble those of the true mixing matrix. 
 However, from chapter \ref{ch:motivation} it is clear that no specific characteristics of the mixing matrix are known, which supports the choice of a random matrix of Gaussian distribution or similar, as it was chosen for the initial guess $\mathbf{A}_{\text{init}}$.
-By randomly generating the fixed estimated, an estimate is drawn from the specific distribution. Thus different realizations occur for every data set.    
+By randomly generating the fixed estimate, an estimate is drawn from the specific distribution. Thus different realizations occur for every data set.    
 From this perspective three fixed estimates of the mixing matrix are defined, by drawing each entry from a specified distribution: 
 \begin{itemize}
 \item[] $\hat{\mathbf{A}}_{\text{uni}} \sim \mathcal{U}(-1,1)$
@@ -26,8 +26,8 @@ Similar the estimate of $\mathbf{A}$ is reduced by removing the same rows as in 
 This yields an estimate $\hat{\mathbf{A}}_{\text{ICA}}$ which can be used as a fixed input to M-SBL along with the corresponding reduced $\mathbf{Y}$.
 
 The four different fixed estimates $\hat{\mathbf{A}}_{\text{fix}}$ are tested on the stochastic data set specified by $M = 10$, $N = k = 16$ and $L = 1000$. 
-As a reference the true mixing matrix $\mathbf{A}$ is included in the plot, to see the best possible $\text{MSE}(\mathbf{X}, \hat{\mathbf{X}})$.
-To get an average performance 50 different simulations are conducted with the same specifications. For each system $\mathbf{X}$ is estimated from each of the four fixed estimates\footnote{Note that for each of the 50 repetitions four different realizations of $\hat{\mathbf{A}}_{\text{fix}}$ are fixed.} of $\mathbf{A}$, and the corresponding MSE is computed. 
+As a reference the true mixing matrix $\mathbf{A}$ is included in the figure, to see the best possible $\text{MSE}(\mathbf{X}, \hat{\mathbf{X}})$.
+To get an average performance 50 different simulations are conducted with the same specifications. For each system $\mathbf{X}$ is estimated from each of the four fixed estimates\footnote{Note for each of the 50 repetitions that four different realizations of $\hat{\mathbf{A}}_{\text{fix}}$ are fixed.} of $\mathbf{A}$, and the corresponding MSE is computed. 
 The resulting average $\text{MSE}(\mathbf{A}, \hat{\mathbf{A}}_{\text{fix}})$ and $\text{MSE}(\mathbf{X}, \hat{\mathbf{X}})$ are visualized in figure \ref{fig:vary_A}, for each of the four $\hat{\mathbf{A}}_{\text{fix}}$. 
 \begin{figure}[H]
 \centering
@@ -57,19 +57,19 @@ The lowest $\text{MSE}(\mathbf{A}, \hat{\mathbf{A}}_{\text{fix}})$ is achieved b
 However, as this do not result in the best estimate of $\mathbf{X}$ a different choice of $\hat{\mathbf{A}}_{\text{fix}}$ is still considered. 
 The lowest $\text{MSE}(\mathbf{X}, \hat{\mathbf{X}})$ is achieved by use of $\hat{\mathbf{A}}_{\text{norm2}}$, which resulted in the largest $\text{MSE}(\mathbf{A}, \hat{\mathbf{A}}_{\text{fix}})$. 
       
-As the main interest in this thesis is to identify the active sources of EEG measurements, a low $\text{MSE}(\mathbf{X}, \hat{\mathbf{X}})$ is more desirable than a low $\text{MSE}(\mathbf{A}, \hat{\mathbf{A}}_{\text{fix}})$. 
+As the main interest in this thesis is to recover the active sources of EEG measurements, a low $\text{MSE}(\mathbf{X}, \hat{\mathbf{X}})$ is more desirable than a low $\text{MSE}(\mathbf{A}, \hat{\mathbf{A}}_{\text{fix}})$. 
 Furthermore, a disadvantage of using $\hat{\mathbf{A}}_{\text{ICA}}$ is the limitations in practice when $k = M$ is not possible. 
 From these observations a fixed estimate of the mixing matrix drawn from a normal distribution with mean 0 and variance 2, is chosen as the alternative estimate of $\mathbf{A}$. 
 Thus is it concluded that $\hat{\mathbf{A}}_{\text{fix}} := \hat{\mathbf{A}}_{\text{norm2}}$ will replace the Cov-DL stage in the main algorithm, cf. figure \ref{fig:flow}, throughout the remaining parts of this thesis. 
 
 Due to the unexpected relation between MSE$(\mathbf{A}, \hat{\mathbf{A}}_{\text{fix}})$ and $\text{MSE}(\mathbf{X}, \hat{\mathbf{X}})$ an additional investigation is conducted. 
 Figure \ref{fig:X_func_SNR} shows the $\text{MSE}(\mathbf{X}, \hat{\mathbf{X}})$ as a function of the mixing matrix $\mathbf{A}$ with varying SNR. 
-Specifically white noise $\textbf{W}(\text{SNR})$ is added to the true mixing matrix depending on the desired SNR, such that 
+Specifically white noise $\textbf{W}(\text{SNR})$, a Gaussian matrix with increasing variance as a function of the desired SNR, is added to the true mixing matrix, such that 
 \begin{align*}
 \hat{\textbf{A}} = \textbf{A}+\textbf{W}(\text{SNR}).
 \end{align*}
 The SNR is considered in the interval $[0.01, 2]$. 
-For each SNR 100 simulations are performed an the average $\text{MSE}(\mathbf{X}, \hat{\mathbf{X}})$ is computed.
+For each SNR 100 simulations are performed and the average $\text{MSE}(\mathbf{X}, \hat{\mathbf{X}})$ is computed.
 Additionally figure \ref{fig:A_func_SNR} shows the corresponding average $\text{MSE}(\mathbf{A}, \hat{\mathbf{A}})$.
 
 From figure \ref{fig:X_func_SNR} it is seen that MSE decreases as the SNR increases. 

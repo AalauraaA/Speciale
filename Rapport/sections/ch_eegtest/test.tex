@@ -3,7 +3,7 @@ ICA is applied on $\mathbf{Y}_s$ specified by $M\_ = 27$ and $L_s = 516$.
 The main algorithm is applied on $\mathbf{Y}_s$ without any reduction hence specified by $M = 27$ and $L_s = 516$, given $\hat{\mathbf{A}}_{\text{fix}}$ and $N = k$ provided from ICA.
 Figure \ref{fig:M=N_1} show $\text{MSE}\left(\hat{\mathbf{X}}_{\text{main}},\hat{\mathbf{X}}_{\text{ICA}}\right)$ for all segments $s$. 
 Figure \ref{fig:M=N_1_2} show the same plot but the y-axis is specified to the interval $[-10,50]$ for better visualization.
-Furthermore, the MSE tolerance $= 5$ is plotted, indicting for each segment whether the estimate $\hat{\mathbf{X}}_{\text{main}}$ is sufficiency close to $\hat{\mathbf{X}}_{\text{main}}$. 
+Furthermore, the MSE tolerance $= 5$ is visualized, indicting for each segment whether the estimate $\hat{\mathbf{X}}_{\text{main}}$ is sufficiency close to $\hat{\mathbf{X}}_{\text{ICA}}$. 
 For a majority of the segments the MSE lies under the tolerance, but single outliers appears for which the MSE of the segment is significantly increased. Taking the average over all segments the average achieved MSE is $5.17$.    
 \begin{figure}[H]
 \begin{widepage}
@@ -17,7 +17,7 @@ For a majority of the segments the MSE lies under the tolerance, but single outl
     \begin{minipage}[t]{.45\textwidth}
         \centering
 		\includegraphics[width=1\linewidth]{figures/ch_7/resultat/average_mse_none_removed_ica_zoom.png}
-	\caption{$\text{MSE} \left(\hat{\mathbf{X}}_{\text{main}}, \hat{\mathbf{X}}_{\text{ICA}}\right)$ for all $n_{\text{seg}} = $ 144 segments. Plotted only for the y-axis interval $[-10, 50]$ for better visualization.}
+	\caption{$\text{MSE} \left(\hat{\mathbf{X}}_{\text{main}}, \hat{\mathbf{X}}_{\text{ICA}}\right)$ for all $n_{\text{seg}} = $ 144 segments. Visualized only for the y-axis interval $[-10, 50]$ for better visualization.}
 	\label{fig:M=N_1_2}
     \end{minipage}
 \end{widepage}
@@ -27,9 +27,9 @@ To investigate the behavior of a single segment figure \ref{fig:M=N_2} show the 
 That is MSE$(\hat{\mathbf{X}}_{\text{main}_{i}}$, $\hat{\mathbf{X}}_{\text{ICA}_{i}})$ for every row $i = 1, \dots, k$ in time segment $s = 5$. 
 Additionally figure \ref{fig:M=N_3} show and compare the corresponding estimates for four random chosen sources. 
 This allows for visual comparison of the estimates relative to the corresponding MSE value seen in figure \ref{fig:M=N_2}. 
-Note that for better visual comparison each plotted row of $\hat{\mathbf{X}}_{\text{ICA}}$ is scaled with respect to the max value of the corresponding row in $\hat{\mathbf{X}}_{\text{main}}$.
+Note that for better visual comparison each visualized row of $\hat{\mathbf{X}}_{\text{ICA}}$ is scaled with respect to the max value of the corresponding row in $\hat{\mathbf{X}}_{\text{main}}$.
 From figure \ref{fig:M=N_2} it is seen that the estimate of each source result in a relative low MSE. This indicates that the main algorithm has managed to estimate the same source as the ICA algorithm. 
-In contradiction to this, figure \ref{fig:M=N_3} do not confirm that the estimates are close, as generally the two signals in one plot does not follow the same trend.   
+In contradiction to this, figure \ref{fig:M=N_3} do not confirm that the estimates are close, as generally the two signals does not follow the same trend.   
 \begin{figure}[H]
 \begin{widepage}
     \begin{minipage}[t]{.45\textwidth}
@@ -42,7 +42,7 @@ In contradiction to this, figure \ref{fig:M=N_3} do not confirm that the estimat
 \begin{minipage}[t]{.45\textwidth}
 \centering
 \includegraphics[width=1\linewidth]{figures/ch_7/resultat/EEG_none_removed_scaled_timeseg5S1_CClean.png}
-\caption{Plot comparing four random chosen rows from $\hat{\mathbf{X}}_{\text{main}}$ and $\hat{\mathbf{X}}_{\text{ICA}}$ from time segment $s = 5$ with $M = N$ and $k=23$. Note $\hat{\mathbf{X}}_{\text{ICA}}$ is scaled for better visualization.}
+\caption{Figure comparing four random chosen rows from $\hat{\mathbf{X}}_{\text{main}}$ and $\hat{\mathbf{X}}_{\text{ICA}}$ from time segment $s = 5$ with $M = N$ and $k=23$. Note $\hat{\mathbf{X}}_{\text{ICA}}$ is scaled for better visualization.}
 	\label{fig:M=N_3}
     \end{minipage}
 \end{widepage}
@@ -63,7 +63,7 @@ The achieved results will serve as reference when analyzing the results of the f
 \hline
 \multirow{2}{*}{\textbf{\begin{tabular}[c]{@{}c@{}}Case 0 \\ $M = N$\end{tabular}}} & \multicolumn{2}{c|}{Test subject 1} & \multicolumn{2}{c|}{Test subject 2} & \multicolumn{2}{c|}{Test subject 3} \\ \cline{2-7} 
                                                                                   & Open             & Close            & Open             & Close            & Open            & Close             \\ \hline
-\multicolumn{1}{|c|}{Average MSE()}                                               & 2.913            & 5.172            & 1.572            & 15.06            & 4.753            & 19.44           \\ \hline
+\multicolumn{1}{|c|}{Average MSE($\hat{\mathbf{X}}_{\text{ICA}},\hat{\mathbf{X}}_{\text{main}}$)}                                               & 2.913            & 5.172            & 1.572            & 15.06            & 4.753            & 19.44           \\ \hline
 \begin{tabular}[c]{@{}c@{}}Segments below \\ tolerance in \%\end{tabular}          & 91             & 92            & 98 & 61             & 87            & 63 \\ \hline
 \end{tabular}
 \caption{Summarized results for case 0. Test is performed on the every data set.}
@@ -75,7 +75,7 @@ The achieved results will serve as reference when analyzing the results of the f
 The main algorithm is applied on $\mathbf{Y}_s$, where the number of sensors is reduced by one-third. 
 As such the main algorithm is applied on $\mathbf{Y}_s$ specified by $M = 18$ and $L_s = 516$, given $\hat{\mathbf{A}}_{\text{fix}}$ and $N = k$ provided from ICA. 
 ICA is applied on the original data set with segments $\mathbf{Y}_s$ specified by $M\_ = 27$ and $L_s = 516$.  
-The viewed plots correspond to those of case 0, but for the reduced number of sources $M < N$, hence detailed plot description is omitted here.   
+The viewed figures correspond to those of case 0, but for the reduced number of sources $M < N$, hence detailed figure description is omitted here.   
 
 From figure \ref{fig:M<N_1} and \ref{fig:M<N_1_2} it is seen that a majority of the segments have MSE value close to the tolerance, but the number of outliers have increased compared to case 0.
 This indicates that for an increased number of segments the main algorithm do not manage to estimate enough sources sufficiently in order to stay below the tolerance. Taking the average over all segments the average achieved MSE is $5.35$.
@@ -91,7 +91,7 @@ This indicates that for an increased number of segments the main algorithm do no
     \begin{minipage}[t]{.45\textwidth}
         \centering
 		\includegraphics[width=1\linewidth]{figures/ch_7/resultat/average_mse_third_removed_ica_zoom.png}
-	\caption{MSE$\left(\hat{\mathbf{X}}_{\text{main}},\hat{\mathbf{X}}_{\text{ICA}}\right)$ for all $n_{\text{seg}} = $ 144 segments. Plotted only for the y-axis interval $[-10, 50]$ for better visualization.}
+	\caption{MSE$\left(\hat{\mathbf{X}}_{\text{main}},\hat{\mathbf{X}}_{\text{ICA}}\right)$ for all $n_{\text{seg}} = $ 144 segments. Visualized only for the y-axis interval $[-10, 50]$ for better visualization.}
 	\label{fig:M<N_1_2}
     \end{minipage}
 \end{widepage}
@@ -111,7 +111,7 @@ This supports the observation from figure \ref{fig:M<N_1_2}.
 \begin{minipage}[t]{.45\textwidth}
 \centering
 \includegraphics[width=1\linewidth]{figures/ch_7/resultat/EEG_third_removed_scaled_timeseg5S1_CClean.png}
-\caption{Plot comparing four random chosen rows from $\hat{\mathbf{X}}_{\text{main}}$ and $\hat{\mathbf{X}}_{\text{ICA}}$ from time segment $s = 5$ with $M = N$ and $k=23$. Note $\hat{\mathbf{X}}_{\text{ICA}}$ is scaled for better visualization.}
+\caption{Figure comparing four random chosen rows from $\hat{\mathbf{X}}_{\text{main}}$ and $\hat{\mathbf{X}}_{\text{ICA}}$ from time segment $s = 5$ with $M = N$ and $k=23$. Note $\hat{\mathbf{X}}_{\text{ICA}}$ is scaled for better visualization.}
 	\label{fig:M<N_3}
     \end{minipage}
 \end{widepage}
@@ -127,7 +127,7 @@ Furthermore, both the average MSE and the corresponding percentages appear fluct
 \hline
 \multirow{2}{*}{\textbf{\begin{tabular}[c]{@{}c@{}}Case 1 \\ $M < N$\end{tabular}}} & \multicolumn{2}{c|}{Test subject 1} & \multicolumn{2}{c|}{Test subject 2} & \multicolumn{2}{c|}{Test subject 3} \\ \cline{2-7} 
                                                                                   & Open             & Close            & Open             & Close            & Open              & Close           \\ \hline
-\multicolumn{1}{|c|}{Average MSE()}                                               & 9.79            & 5.351            & 13.89            & 15.13            & 6.25          & 18.21          \\ \hline
+\multicolumn{1}{|c|}{Average MSE($\hat{\mathbf{X}}_{\text{ICA}},\hat{\mathbf{X}}_{\text{main}}$)}                                               & 9.79            & 5.351            & 13.89            & 15.13            & 6.25          & 18.21          \\ \hline
 \begin{tabular}[c]{@{}c@{}}Segments below \\ tolerance in \%\end{tabular}          & 53             & 80             & 66 & 46             & 77              & 48            \\ \hline
 \end{tabular}
 \caption{Summarized results for case 1. Test is performed on the every data set.}
@@ -139,7 +139,7 @@ Furthermore, both the average MSE and the corresponding percentages appear fluct
 The main algorithm is applied on $\mathbf{Y}_s$, where the number of sensors is reduced to half. 
 As such the main algorithm is applied on $\mathbf{Y}_s$ specified by $M = 13$ and $L_s = 516$, given $\hat{\mathbf{A}}_{\text{fix}}$ and $N = k$ provided from ICA.  
 ICA is applied on the original data set with segments $\mathbf{Y}_s$ specified by $M\_= 27$ and $L_s = 516$. 
-The viewed plots correspond to those of case 0 and case 1, but for further reduce number of sources $M << N$, hence detailed plot description is omitted.   
+The viewed figures correspond to those of case 0 and case 1, but for further reduce number of sources $M << N$, hence detailed figure description is omitted.   
 
 From figure \ref{fig:M<<N_1} and \ref{fig:M<<N_1_2} it is seen that the MSE value for each segment is more widely scatted around the tolerance, compared to case 0 and 1. 
 Outliers, where the MSE value has increased significantly, do also occur similar to case 1. 
@@ -156,7 +156,7 @@ This indicates that the performance of the main algorithm has decreased further,
     \begin{minipage}[t]{.45\textwidth}
         \centering
 		\includegraphics[width=1\linewidth]{figures/ch_7/resultat/average_mse_second_removed_ica_zoom.png}
-	\caption{MSE$\left(\hat{\mathbf{X}}_{\text{main}},\hat{\mathbf{X}}_{\text{ICA}}\right)$ for all $n_{\text{seg}} = $ 144 segments. Plotted only for the y-axis interval $[-10, 50]$ for better visualization.}
+	\caption{MSE$\left(\hat{\mathbf{X}}_{\text{main}},\hat{\mathbf{X}}_{\text{ICA}}\right)$ for all $n_{\text{seg}} = $ 144 segments. Visualized only for the y-axis interval $[-10, 50]$ for better visualization.}
 	\label{fig:M<<N_1_2}
     \end{minipage}
 \end{widepage}
@@ -177,7 +177,7 @@ From figure \ref{fig:M<<N_3} the increased MSE do not appear visually compared t
 \begin{minipage}[t]{.49\textwidth}
 \centering
 \includegraphics[width=1\linewidth]{figures/ch_7/resultat/EEG_second_removed_scaled_timeseg5S1_CClean.png}
-\caption{Plot comparing four random chosen rows from $\hat{\mathbf{X}}_{\text{main}}$ and $\hat{\mathbf{X}}_{\text{ICA}}$ from time segment $s = 5$ with $M << N$ and $k=23$. Note $\hat{\mathbf{X}}_{\text{ICA}}$ is scaled for better visualization.}
+\caption{Figure comparing four random chosen rows from $\hat{\mathbf{X}}_{\text{main}}$ and $\hat{\mathbf{X}}_{\text{ICA}}$ from time segment $s = 5$ with $M << N$ and $k=23$. Note $\hat{\mathbf{X}}_{\text{ICA}}$ is scaled for better visualization.}
 	\label{fig:M<<N_3}
     \end{minipage}
 \end{widepage}
@@ -194,7 +194,7 @@ However, a clear improvement is not seen either.
 \hline
 \multirow{2}{*}{\textbf{\begin{tabular}[c]{@{}c@{}}Case 2\\ $M << N$\end{tabular}}} & \multicolumn{2}{c|}{Test subject 1} & \multicolumn{2}{c|}{Test subject 2} & \multicolumn{2}{c|}{Test subject 3} \\ \cline{2-7} 
                                                                                   & Open             & Close            & Open             & Close            & Open             & Close            \\ \hline
-\multicolumn{1}{|c|}{Average MSE()}                                               & 8.378            & 11.36            & 19.58            & 13.11            & 13.99           & 11.96            \\ \hline
+\multicolumn{1}{|c|}{Average MSE($\hat{\mathbf{X}}_{\text{ICA}},\hat{\mathbf{X}}_{\text{main}}$)}                                               & 8.378            & 11.36            & 19.58            & 13.11            & 13.99           & 11.96            \\ \hline
 \begin{tabular}[c]{@{}c@{}}Segments below \\ tolerance in \%\end{tabular}          & 75             & 74             & 42 & 72             & 69             & 69 \\ \hline
 \end{tabular}
 \caption{Summarized results for case 2. Test is performed on the every data set.}

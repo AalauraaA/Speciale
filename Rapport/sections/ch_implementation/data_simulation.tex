@@ -18,8 +18,8 @@ The first is specified by $N = 5$, $k = 4$, $M = 3$ and $L = 1000$.
 That is a source matrix $\mathbf{X}$ with $4$ rows individually generated and $1$ zero row. By the specifications the source matrix $\mathbf{X}$ is mixed into a measurement matrix $\mathbf{Y}$ with $3$ measurements per sample.  
 The second deterministic data set is specified by $N = 8$, $k = 4$, $M = 3$ and $L = 1000$. 
 That is 3 additional zero rows.
-From the specifications the first data set comply to $N \leq \frac{M(M+1)}{2}$ which imply the use of Cov-DL2.
-The second data set comply to $N > \frac{M(M+1)}{2}$ and $k \leq \frac{M(M+1)}{2}$ implying the use of Cov-DL1. 
+From the specifications the first data set comply to $N \leq \widetilde{M}$ which imply the use of Cov-DL2.
+The second data set comply to $N > \widetilde{M}$ and $k \leq \widetilde{M}$ implying the use of Cov-DL1. 
 As such it is possible to test both branches of the Cov-DL method. 
      
 The four non-zero source signals of $\mathbf{X}$ are defined by the following individual functions, causing the rows to be approximately orthogonal

@@ -7,7 +7,7 @@ As seen from the flowchart \ref{fig:flow} Cov-DL takes a measurement matrix $\ma
 The Cov-DL algorithm is tested on the two simulations of the deterministic data, specified in section \ref{subseg_simpledata}. 
 
 \subsubsection{Cov-DL1}
-For measurement matrix $\mathbf{Y}$ specified by $N > \widetilde{M}$ and $k \leq \widetilde{M}$, implying Cov-DL1, the true and estimated values of the mixing matrix $\mathbf{A}$ are plotted in figure \ref{fig:cov1_simple} for visual comparison. 
+For measurement matrix $\mathbf{Y}$ specified by $N > \widetilde{M}$ and $k \leq \widetilde{M}$, implying Cov-DL1, the true and estimated values of the mixing matrix $\mathbf{A}$ are visualized in figure \ref{fig:cov1_simple}. 
 Note that each matrix is vectorized such that the corresponding entries are compared.  
 The resulting $\text{MSE}(\mathbf{A}, \hat{\mathbf{A}})$ is seen below. 
 As a reference the MSE is measured between $\mathbf{A}$ and a corresponding estimate being a zero matrix.   
@@ -15,7 +15,7 @@ As a reference the MSE is measured between $\mathbf{A}$ and a corresponding esti
 \text{MSE}(\mathbf{A}, \hat{\mathbf{A}}) = 1.74 \\
 \text{MSE}(\mathbf{A}, \mathbf{0}) = 1.40.
 \end{align*}
-From figure \ref{fig:cov1_simple} it is seen that the error of the estimate varies significantly for each entry. 
+From figure \ref{fig:cov1_simple} it is seen that the difference between the estimate and the true value varies significantly for each entry. 
 Though, the estimated values are seen to fall within the same range as the true values.
 Furthermore, the $\text{MSE}(\mathbf{A}, \hat{\mathbf{A}})$ is fairly small suggesting that the estimate is acceptable. However, a smaller MSE is obtained from the estimate being a zero matrix, which argues against $\hat{\mathbf{A}}$ being an acceptable estimate. 
 
@@ -27,7 +27,7 @@ Furthermore, the $\text{MSE}(\mathbf{A}, \hat{\mathbf{A}})$ is fairly small sugg
 \end{figure}
 
 \subsubsection{Cov-DL2}
-For the measurement matrix $\mathbf{Y}$ specified by $N \leq \widetilde{M}$, implying Cov-DL2, the true and estimated values of $\mathbf{A}$ are plotted in figure \ref{fig:cov2_simple} for visual comparison. 
+For the measurement matrix $\mathbf{Y}$ specified by $N \leq \widetilde{M}$, implying Cov-DL2, the true and estimated values of $\mathbf{A}$ are visualized in figure \ref{fig:cov2_simple}. 
 Additionally, $\mathbf{A}_{\text{init}}$ is plotted in the same figure. 
 The matrix $\mathbf{A}_{\text{init}}$ is the initial matrix provide to the optimization solver -- a realization of a Gaussian matrix with zero mean and unit variance. 
 The resulting MSE values is seen below, again the zero matrix estimate is used as a reference. 
@@ -41,7 +41,7 @@ This suggests some flaw within the optimization process.
 By printing the convergence message from the used optimization solver, it is confirmed that the optimization process was found to be terminated successfully. 
 With a current cost function value at $0.0$ after 26 iterations. 
 This suggests that a global minimum has been found, but the minimum, $\hat{\mathbf{A}}$, does not correspond to the true $\mathbf{A}$. 
-To confirm this the following evaluations of the cost function was conducted. 
+To confirm this the following evaluations of the cost function was conducted: 
 \begin{align*}
 &\text{cost}(\hat{\mathbf{A}}) = 0.0\\
 &\text{cost}(\mathbf{A}_{\text{init}}) = 1.64\\
@@ -54,7 +54,7 @@ However, it has to be mentioned that this is merely an interesting observation r
 \begin{figure}[H]
 \centering
 \includegraphics[scale=0.5]{figures/ch_6/COV2_simple.png}
-\caption{The initial $\mathbf{A}_{\text{init}}$ and the estimate $\hat{\mathbf{A}}$ compared to the true values $\mathbf{A}$.}
+\caption{The values of $\mathbf{A}_{\text{init}}$ and $\hat{\mathbf{A}}$ compared to the true values $\mathbf{A}$.}
 \label{fig:cov2_simple}
 \end{figure}
 
@@ -64,7 +64,7 @@ It appears visually to that the issue of the model being invariant towards the o
 For instance neither of the three most negative values in $\mathbf{A}$ is found to be estimated at a different index. 
 As such this potential flaw within the error measurement is not found to contribute to the insufficient results. 
 
-\subsubsection{Summary with respect to verification of Cov-DL}
+\subsubsection{Summary with Respect to Verification of Cov-DL}
 From the above results it is found that the estimate $\hat{\mathbf{A}}$, especially within the Cov-DL2 branch, can not be considered as a valid estimate of the mixing matrix $\mathbf{A}$. 
 The results suggest immediately that the flaw lies within the derivation of the cost function to the optimization problem. More specifically within the assumptions made throughout the derivation concerning the relation between $\mathbf{A}, \mathbf{D}$ and $\mathbf{U}$. 
 However, in general three scenarios can be considered. 
@@ -82,7 +82,7 @@ This conclusion suggests that some alternative to the estimate must be considere
 This is discussed further in section \ref{sec:test_base}.
 
 \subsection{Test of M-SBL}
-From the flowchart \ref{fig:flow} it seen that the M-SBL algorithm takes the estimated mixing matrix $\hat{\mathbf{A}}$ and measurement matrix $\mathbf{Y}$ as input. however, in order to not, let the performance of Cov-DL affect the result of M-SBL the true mixing matrix $\mathbf{A}$ is used as an input throughout this section, along with the corresponding $\mathbf{Y}$. 
+From the flowchart \ref{fig:flow} it seen that the M-SBL algorithm takes the estimated mixing matrix $\hat{\mathbf{A}}$ and measurement matrix $\mathbf{Y}$ as input. However, in order to not let the performance of Cov-DL affect the result of M-SBL the true mixing matrix $\mathbf{A}$ is used as an input throughout this section, along with the corresponding $\mathbf{Y}$. 
 The implementation is first tested on a deterministic data set specified by $M = N = k = 4$ and $L=1000$. 
 This result will serve as a reference, showing the best possible performance due to the system having an equal number of equations and unknowns, where a unique solution exists.
 The resulting estimate is seen in figure \ref{fig:M-SBL_simple0}. 
@@ -122,7 +122,7 @@ The resulting MSE between the true $\mathbf{X}$ and the estimate $\hat{\mathbf{X
 \text{MSE}(\mathbf{X}, \hat{\mathbf{X}}) = 0.13.
 \end{align*}
 From figure \ref{fig:M-SBL_simple1} it is seen that all four source signals are recovered at the right locations relative to the removal of the zero rows from $\mathbf{X}$ and $\hat{\mathbf{X}}$. 
-As suggested by the achieved MSE the estimate is not exact, but it is clear that the estimates, by looking at figure \ref{fig:M-SBL_simple1}, manage to follow the right pattern of the true signals. 
+As suggested by the achieved MSE the estimate is not exact, but it is clear that the estimates to some extent manage to follow the right pattern of the true signals. 
 
 The resulting MSE between the true $\mathbf{X}$ and the estimated $\hat{\mathbf{X}}$ from figure \ref{fig:M-SBL_simple2} with $N = 8$ thus more sparse, becomes 
 \begin{align*}
@@ -137,7 +137,7 @@ Due to the problem statement in chapter \ref{ch:problemstatement} it is an issue
 A short discussion in section \ref{subsec:kestimate}, describes how $k$ can be estimated within the M-SBL algorithm. 
 However, one still needs to provide $k$ in order to estimate $\mathbf{A}$, thus a qualified estimate of $k$ can not be avoided. 
 
-Similar to $k$, the maximum number of active sources $N$ is unknown in practice as it is described in chapter \ref{ch:motivation}. 
+Similar to $k$, the maximum number of active sources $N$ is unknown in practice as described in chapter \ref{ch:motivation}. 
 The difference between $k$ and $N$ defines the number of zero rows in $\mathbf{X}$.
 During the estimation of $\mathbf{X}$ the localization of the non-zero rows are, in general, significant in order to minimize the MSE. 
 However, the fact that the true $N$ can not be known for EEG measurements weakens the argument for focusing on the localization rather than only focusing on the value estimation of the source signals. 
@@ -147,12 +147,12 @@ From this it can be argued that $N = k$ is a sufficient estimate of $N$.
 However, remember from chapter \ref{ch:M-SBL} that the existence of a solution is limited to $N = k \leq \widetilde{M}$.
 
 Now consider the effect of letting $N = k$ within the M-SBL algorithm. 
-Here it is only the estimation of the support set which is eliminated, as non zero rows will occur. 
-Figure \ref{fig:M-SBL_simple3} shows the estimated source signals for a simulation of the deterministic data set now specified by $N = k = 4$, $M = 3$ and $L = 1000$. 
+Here it is only the estimation of the support set which is eliminated, as non-zero rows will occur. 
+Figure \ref{fig:M-SBL_simple3} shows the estimated source signals for a simulation of the deterministic data set specified by $N = k = 4$, $M = 3$ and $L = 1000$. 
 \begin{figure}[H]
 \centering
 \includegraphics[scale=0.5]{figures/ch_6/M-SBL_simple3.png}
-\caption{Estimated values of $\hat{\textbf{X}}$ compared to the true 				values $\textbf{X}$. From deterministic data $\textbf{Y}$ specified by $N=k=4$, $M = 3$ and $L=1000$  and the true mixing matrix $\mathbf{A}$.}
+\caption{Estimated values of $\hat{\textbf{X}}$ compared to the true 				values $\textbf{X}$. From deterministic data $\textbf{Y}$ specified by $N=k=4$, $M = 3$ and $L=1000$ and given the true mixing matrix $\mathbf{A}$.}
 \label{fig:M-SBL_simple3}
 \end{figure}
 \noindent
@@ -161,11 +161,11 @@ The resulting MSE becomes
 \text{MSE}(\mathbf{X}, \hat{\mathbf{X}}) = 0.124
 \end{align*}
 From the above discussion and the results in figure \ref{fig:M-SBL_simple3} it is confirmed that letting $N = k$ has no disadvantage when a correct localization of the source signal is not a priority. 
-It is chosen that $N = k$ will be used throughout the thesis. 
+It is chosen that $N = k$ will be used throughout the thesis. This imply that the recovery process only consists of identification and not localization. 
 
 \subsection{Test on Stochastic Data}\label{sec:testMsbl_stoch}
 The M-SBL algorithm is now tested on two stochastic data sets which resembles real EEG measurements. 
-The first stochastic data set is simulated with specifications $N = k = 8$, $M = 6$, $L=1000$. 
+The first stochastic data set is simulated with specifications $N = k = 8$, $M = 6$ and $L=1000$. 
 The resulting estimate is visualized in figure \ref{fig:AR1} and the MSE becomes 
 \begin{align*}
 \text{MSE}(\mathbf{X}, \hat{\mathbf{X}}) = 1.1.
@@ -173,7 +173,7 @@ The resulting estimate is visualized in figure \ref{fig:AR1} and the MSE becomes
 The second stochastic data set is simulated with specifications $N = k =16$, $M = 6$ and $L=1000$. 
 This tests the capabilities of the implementation of M-SBL when the distance between $M$ and $N$ is enlarged. 
 The performance relative to the relation between $N$ and $M$ is further investigated for the main algorithm in section \ref{sec:test_base}.
-The resulting estimate is plotted in figure \ref{fig:AR2} and the MSE becomes 
+The resulting estimate is visualized in figure \ref{fig:AR2} and the MSE becomes 
 \begin{align*}
 \text{MSE}(\mathbf{X}, \hat{\mathbf{X}}) = 3.652. 
 \end{align*}  

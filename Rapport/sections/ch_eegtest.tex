@@ -21,7 +21,7 @@ The data sets are specified in table \ref{tab:data_spec}.
 \centering
 \begin{tabular}{|l|l|l|l|l|l|l|}
 \hline
- \multicolumn{2}{|l|}{EEG measurements } & $M\_$ & $L$    & $f_s$ & $n_{\text{seg}}$ & $L_s$ \\ \hline
+ \multicolumn{2}{|l|}{EEG measurements } & $M\_$ & $L$    & $f$ & $n_{\text{seg}}$ & $L_s$ \\ \hline
 1.& \texttt{S1\_Cclean} & 27  & 74161  & 512   & 144       & 516   \\ \hline
 2.& \texttt{S1\_Oclean} & 27  & 63245  & 512   & 123       & 514   \\ \hline
 3.& \texttt{S2\_Cclean} & 27  & 94918  & 512   & 185       & 513   \\ \hline
@@ -36,7 +36,7 @@ The data sets are specified in table \ref{tab:data_spec}.
 
 \section{Test by ICA Comparison}\label{seg:main_test_description}
 The test procedure is now described through specification of the evaluation criteria and the practical implementation of the test.
-Remember the aim of the implemented main algorithm is to estimate the source matrix in the case where the number of active sources exceeds the number of sensors -- $M < k \leq N$.
+Remember the aim of the implemented main algorithm is to estimate the source matrix in the case where the number of active sources exceeds the number of sensors, $M < k \leq N$.
 
 \subsection{Performance Evaluation}
 From the description of ICA used on EEG measurements, cf. section \ref{sec:ICAsolution}, ICA is considered unreliable when using low-density EEG equipment where $M < 32$. 
@@ -45,13 +45,13 @@ However, note that the true number of sources is unknown thus there is always so
 
 From the view that the sources found by ICA is the best estimate, it is possible to let that estimate serve as a reference for comparison of estimates recovered from $M < N$. 
 In practice that is to perform ICA on a data set $\mathbf{Y} \in \mathbb{R}^{M \times L}$ resulting in $\hat{\mathbf{X}}_{\text{ICA}} \in \mathbb{R}^{N \times L}$ where $M = N$. 
-Then a specific number of sensors are removed from the data set $\mathbf{Y}$ such that $M < N$, the sources signals are now estimated by the main algorithm resulting in $\hat{\textbf{X}}_{\text{main}}\in \mathbb{R}^{N \times L}$. 
+Then a specific number of sensors are removed from the data set $\mathbf{Y}$ such that $M < N$, the source signals are now estimated by the main algorithm resulting in $\hat{\textbf{X}}_{\text{main}}\in \mathbb{R}^{N \times L}$. 
 The performance of the main algorithm is then to be measured by comparison to the $\hat{\mathbf{X}}_{\text{ICA}}$. 
 The question is here whether the main algorithm manage to find the same active sources as ICA, but for $M < N$.
 
 In appendix \ref{app:ICA} ICA is described theoretically and the applied algorithm is verified on simulated data without noise. 
 It was found that ICA manages to estimate $\mathbf{X}$ almost exact, when $M = N = k$. 
-Furthermore, it is seen that for $k < N$ ICA manages to estimate the zero rows as correctly. 
+Furthermore, it is seen that for $k < N$ ICA manages to estimate the zero rows correctly. 
 This supports that the estimate by ICA can serve as a reference.     
 
 To compare the two estimates the MSE, cf. section \ref{sec:mse}, is used. 
@@ -61,9 +61,9 @@ Furthermore, the ICA algorithm is invariant towards the phase and the amplitude.
 This must necessarily worsen the resulting MSE.  
 
 This issue is covered in appendix \ref{app:ica_test}. 
-Here a function is considered, which manage to pair and fit the rows with the lowest mutual MSE and then arrange the rows of $\hat{\mathbf{X}}_{\text{ICA}}$ such that $\text{MSE}(\mathbf{X}, \hat{\textbf{X}}_{\text{ICA}})$ is minimised. 
+Here a function is considered, which manage to pair and fit the rows with the lowest mutual MSE and then arrange the rows of $\hat{\mathbf{X}}_{\text{ICA}}$ such that $\text{MSE}(\mathbf{X}, \hat{\textbf{X}}_{\text{ICA}})$ is minimized. 
 The fitting consists of a possible phase shift and scaling of the amplitude. 
-The right optimal fit was found through a brute-force search, however this is impossible as the possible number of combinations increases as $k$ increases. 
+The right optimal fit was found through a brute-force search. However, this is impossible as the possible number of combinations increases as $k$ increases. 
 This suggests the definition of an optimization problem minimizing the resulting MSE with respect to the combination of row indexes, possible phase and corresponding amplitude scaling. 
 Unfortunately, a successful optimization was not achieved within the time scope of this thesis.
 Thus, the fitting process is not applied to the results achieved from the EEG measurements in this chapter. 
@@ -82,7 +82,7 @@ The test setup is visualized in figure \ref{fig:flow2} by a flow diagram, showin
 \begin{figure}[H]
     \centering
 	\includegraphics[scale=1]{figures/ch_7/flow2.png}
-	\caption{Flow diagram for visualization of the test procedure for one data set. Example given for $M < N$ where \texttt{request = 1/3} result in $M = 18$.}
+	\caption{Flow diagram for visualization of the test procedure for one data set. Example given for $M < N$ where \texttt{request = 1/3} resulting in $M = 18$.}
 	\label{fig:flow2}
 \end{figure}
 \noindent
@@ -117,7 +117,7 @@ For each case the test is performed on all the data sets specified in table \ref
 The results are visualized for one data set to get an visual understanding.
 Lastly, the results of all three data sets are compared in a table.  
 
-The results are plotted for data set S1\_Cclean. 
+The results are plotted for data set \texttt{S1\_Cclean}. 
 The data set consist of 144 time segments with $L_s = 516$ samples and $M\_ = 27$ sensors. 
 \input{sections/ch_eegtest/test.tex} 
 \subsection{Summary of Results}

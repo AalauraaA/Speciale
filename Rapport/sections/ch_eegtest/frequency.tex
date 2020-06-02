@@ -17,8 +17,8 @@ To perform the filtering a bandpass Butterworth filter of order 5 with cut-off f
 The filtering is performed in the time domain to both the EEG signals and the source signals recovered from the main algorithm.
 The filtering process is illustrated in figure \ref{fig:dft_1}.
 In the illustrated example only one source signal is investigated in both time and frequency domain, where the fast Fourier transformation (FFT) is applied \cite[Chapter 9]{FFT}. 
-The source signal of interest was recovered from the closed eyes data set \texttt{S1\_CClean} from time segment $15$. 
-The system specification used to recover the source signal was $M = 27$ and $k = 14$.
+The source signal of interest was recovered within the closed eyes data set \texttt{S1\_CClean} from time segment $15$. 
+The system specification used to recover the source signal was $M = 27$ and $k = 14$, with $k$ obtained by ICA.
 \begin{figure}[H]
 \centering
 \includegraphics[scale=0.28]{figures/ch_7/DFT_plot_X_timeseg15_source10.png}
@@ -49,7 +49,7 @@ By this it is possible to compare the relation found on source level and the rel
 
 \subsection{Results}
 Figure \ref{fig:dft_2} shows an example of one time segment. 
-To the left is the power spectrum of the filtered EEG measurements plotted for open and closed eyes respectively. 
+To the left is the power spectrum of the filtered EEG measurements visualized for open and closed eyes respectively. 
 The resulting relation between the two is $1.15$. 
 To the right is the power spectrum of the filtered source signals. 
 Likewise for open and closed eyes respectively. 
@@ -57,13 +57,13 @@ The resulting relation between open and closed eyes is here $1.41$.
 \begin{figure}[H]
 \centering
 \includegraphics[scale=0.5]{figures/ch_7/FFT_plot.png}
-\caption{power spectrum of the filtered EEG measurements and source signals of time segment 35 for open and closed eyes data set of test subject 1.}
+\caption{Power spectrum of the filtered EEG measurements and recovered source signals of time segment 35 for open and closed eyes data set of test subject 1.}
 \label{fig:dft_2}
 \end{figure}
 \noindent
 By observing figure \ref{fig:dft_2} it is seen, for the specific segment, that the power within the alpha band is significantly larger within the EEG measurements compared to the sources. 
 Furthermore, is it seen for both the EEG measurements and the source signals that the power has increased from open to closed eyes. 
-Considering the calculated relations is it seen the that biggest increase in power is found on source level. 
+Considering the calculated relations is it seen that the biggest increase in power is found on source level. 
 This behavior does support the theory, however the result of a single segment is not sufficient to draw any conclusion.          
 
 Figure \ref{fig:dft_5} and \ref{fig:dft_6} illustrate the $C/O$ relation computed for the 100 time segments, of the EEG measurements and source signals respectively. 

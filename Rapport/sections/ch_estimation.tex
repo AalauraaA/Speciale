@@ -2,7 +2,7 @@
 In this chapter the issue of unknown number of active sources $k$ is considered. 
 The aim is to investigate the possibility of identifying an estimation of a non-active source signal from $\hat{\textbf{X}}_{\text{main}}$ when the true $k$ is not provided to the main algorithm. 
 Instead of providing the true $k$ one let $k = N$.
-As such one ask the main algorithm for $N$ active source signals, but there are only $k < N$ active source signal. 
+As such one ask the main algorithm for $N$ active source signals, but there are only $k < N$ active source signals. 
 At first the possibilities are investigated on synthetic data set, cf. section \ref{sec:dataset} and afterwards on a real EEG data set.   
 
 \section{Empirical Test on Synthetic Data}
@@ -17,7 +17,7 @@ These observations indicate a potential for distinguishing the estimates of zero
 \begin{figure}[H]
     \centering
 	\includegraphics[scale=0.5]{figures/ch_estimate/k_test1.png}
-	\caption{Each plot shows one row of the estimate $\hat{\mathbf{X}}_{\text{main}}$ where $k=N$ and true $\mathbf{A}$ is given, compared to the corresponding true row in $\mathbf{X}$. The MSE is $1.196E-29$. Only samples in the interval $[0,100]$ are plotted.}
+	\caption{Each plot shows one row of the estimate $\hat{\mathbf{X}}_{\text{main}}$ where $k=N$ and true $\mathbf{A}$ is given, compared to the corresponding true row in $\mathbf{X}$. The MSE is $1.196E-29$. Only samples in the interval $[0,100]$ are visualized.}
 	\label{fig:ktest1}
 \end{figure}
 \noindent
@@ -29,14 +29,14 @@ However, the estimates of the zero rows still appears as a scaled replica of an 
 \begin{figure}[H]
 	\centering
 	\includegraphics[scale=0.5]{figures/ch_estimate/k_test3.png}
-	\caption{Each plot shows one row of the estimate $\hat{\mathbf{X}}_{\text{main}}$ using true $\mathbf{A}$, compared to the corresponding true row in $\mathbf{X}$. The MSE is $0.344$. Only samples in the interval $[0,100]$ are plotted.}
+	\caption{Each plot shows one row of the estimate $\hat{\mathbf{X}}_{\text{main}}$ using true $\mathbf{A}$, compared to the corresponding true row in $\mathbf{X}$. The MSE is $0.344$. Only samples in the interval $[0,100]$ are visualized.}
 	\label{fig:ktest3}
 \end{figure}
 \noindent
-A replica in this case not is considered an exact copy but a signal with similar trends over time.
+A replica in this case is not considered an exact copy but a signal with similar trends over time.
 One attempt to locate the zero rows is to compare each row of $\hat{\mathbf{X}}_{\text{main}}$ to every other row by the MSE, in order to check if it appears more than one time.
 Two rows are considered replicas if their mutual MSE is below a tolerance equal to 1. 
-This operation is performed on the estimated source matrix $\hat{\mathbf{X}}_{\text{main}}$ plotted in figure \ref{fig:ktest3}.
+This operation is performed on the estimated source matrix $\hat{\mathbf{X}}_{\text{main}}$ visualized in figure \ref{fig:ktest3}.
 The operation gives the results displayed in table \ref{tab:replica1}.
 From table \ref{tab:replica1} it is seen that source signals of row 2, 4, 6 and 8 are found to appear more than one time. These row indexes correspond to the zero rows of $\mathbf{X}$ as intended. 
 This indicates the possibility of locating the zero rows from the estimate $\hat{\mathbf{X}}_{\text{main}}$ without providing the true $k$ as an input.  
@@ -97,7 +97,7 @@ As expected, according to the results from section \ref{sec:Main_test}, it is ge
 \begin{figure}[H]
 \centering
 \includegraphics[scale=0.5]{figures/ch_estimate/k_test5.png}
-\caption{Each plot shows one row of the estimate $\hat{\mathbf{X}}_{\text{main}}$ using $\mathbf{A}_{\text{norm2}}$, compared to the corresponding true row in $\mathbf{X}$. The MSE is $128.7$. Only samples in the interval $[0,100]$ are plotted.}
+\caption{Each plot shows one row of the estimate $\hat{\mathbf{X}}_{\text{main}}$ using $\mathbf{A}_{\text{norm2}}$, compared to the corresponding true row in $\mathbf{X}$. The MSE is $128.7$. Only samples in the interval $[0,100]$ are visualized.}
 \label{fig:ktest5}
 \end{figure}
 \noindent
@@ -137,6 +137,6 @@ Here it has not been possible to identify the zero rows correctly, based on the 
 Thus, it must be concluded that the method is not reliable when the estimate is computed by the main algorithm. 
 However, it is essential that a potential was found under ideal conditions.
 
-To finish the investigation, the replica count method has been applied to the estimation of real EEG data. This is done due to the possibility of seeing a different behavior from the real EEG data compared to the synthetic data. 
+To finish the investigation, the replica count method has been applied to the estimation of real EEG measurements. This is done due to the possibility of seeing a different behavior from the real EEG measurements compared to the synthetic data. 
 
 \input{sections/ch_est/eeg_est.tex}

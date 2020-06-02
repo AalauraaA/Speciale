@@ -28,7 +28,9 @@ def M_SBL(A, Y, M, N, k, iterations, noise):
         k: Number of active sources
         iterations: Number of iterations
         noise: Either True or False
-    Output
+    Output:
+        X_rec: recovered sources signals of size N x L-2
+        
     """
     L = Y.shape[1]
     tol = 0.0001
@@ -105,7 +107,7 @@ def M_SBL(A, Y, M, N, k, iterations, noise):
             H[np.argmax(H)] = 0
 
     " Create new mean with support set "
-    New_mean = np.zeros([N, L - 2])
+    X_rec = np.zeros([N, L - 2])
     for i in support:
-        New_mean[int(i)] = mean[_iter - 1][int(i)]
-    return New_mean
+        X_rec[int(i)] = mean[_iter - 1][int(i)]
+    return X_rec

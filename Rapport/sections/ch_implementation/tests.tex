@@ -51,6 +51,11 @@ These evaluations ensure that the optimization solver did manage to find the sol
 By evaluating the cost function with respect to the true $\mathbf{A}$ it is seen that the true mixing matrix is not a global minimizer to the optimization problem. 
 This suggests that the optimization problem, derived in section \ref{sec:over_det}, do not fulfil the purpose.
 However, it has to be mentioned that this is merely an interesting observation rather than a concluding result, as $\text{cost}(\mathbf{A}) = \text{cost}(\hat{\mathbf{A}})$ is not guaranteed. 
+In general the following holds for every $\mathbf{A}$:
+\begin{align*}
+\hat{\mathbf{A}} = \text{argmin}\  \text{cost}(\mathbf{A}) \leq \text{cost}(\mathbf{A}_{\text{true}}) \geq \text{cost}(\hat{\mathbf{A}}) \leq \text{cost}(\mathbf{A})\quad \forall \mathbf{A} 
+\end{align*}  
+
 \begin{figure}[H]
 \centering
 \includegraphics[scale=0.5]{figures/ch_6/COV2_simple.png}

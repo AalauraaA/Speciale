@@ -23,12 +23,12 @@ Thus $\mathcal{R}(\mathbf{U})$ and $\mathcal{R}(\mathbf{D})$ having the same pro
 \begin{align*}
 \mathbf{D} (\mathbf{D}^T\mathbf{D})^{-1} \mathbf{D}^T = \mathbf{U}(\mathbf{U}^T \mathbf{U})^{-1} \mathbf{U}^T.
 \end{align*}
-Now, remember from the relation between $\mathbf{A}$ and $\mathbf{D}$ that $\mathbf{d}_i = \text{vec}(\mathbf{a}_i \mathbf{a}_i^T)$. 
-From this it is possible to obtain $\mathbf{D}$ and then $\mathbf{A}$, such that $\mathbf{D}$ spans $\mathcal{R}(\mathbf{U})$ and $\mathbf{d}_i = \text{vec}(\mathbf{a}_i \mathbf{a}_i^T)$. 
+Now, remember from the relation between $\mathbf{A}$ and $\mathbf{D}$ that $\mathbf{d}_j = \text{vec}(\mathbf{a}_j \mathbf{a}_j^T)$. 
+From this it is possible to obtain $\mathbf{D}$ and then $\mathbf{A}$, such that $\mathbf{D}$ spans $\mathcal{R}(\mathbf{U})$ and $\mathbf{d}_j = \text{vec}(\mathbf{a}_j \mathbf{a}_j^T)$. 
 This is specified by the following optimization problem \cite{Balkan2015}
 \begin{align}
-\min_{\left\{\mathbf{a}_i\right\}_{i = 1}^{N}}\Vert  \mathbf{D}(\mathbf{D}^T \mathbf{D})^{-1} \mathbf{D}^T &- \mathbf{U}(\mathbf{U}^T \mathbf{U})^{-1}\mathbf{U}^T \Vert_{F}^{2} \nonumber \\
-\text{s.t.} \ \mathbf{d}_i &= \text{vec}(\mathbf{a}_i \mathbf{a}_i^T),\label{eq:Cov_DL2}
+\min_{\left\{\mathbf{a}_j\right\}_{j = 1}^{N}}\Vert  \mathbf{D}(\mathbf{D}^T \mathbf{D})^{-1} \mathbf{D}^T &- \mathbf{U}(\mathbf{U}^T \mathbf{U})^{-1}\mathbf{U}^T \Vert_{F}^{2} \nonumber \\
+\text{s.t.} \ \mathbf{d}_j &= \text{vec}(\mathbf{a}_j \mathbf{a}_j^T),\label{eq:Cov_DL2}
 \end{align}      
 where $\mathbf{U}$ results from PCA performed on $\mathbf{Y}_{\text{cov}}$.
 From the source proposing the method \cite{Balkan2015}, it is only notified that the optimization problem \eqref{eq:Cov_DL2} is minimized by quasi-Newton optimization methods. Hence, the exact minimization approach can not be recreated. 

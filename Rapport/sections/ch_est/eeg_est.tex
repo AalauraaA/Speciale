@@ -5,15 +5,12 @@ Hence, the replica count method is just applied an estimation $\hat{\mathbf{X}}_
 
 The source signal estimation is performed on segment 10 from the \texttt{S1\_Cclean} EEG data set, where every second sensor is removed to achieve the case where $M < N$. 
 Specifically $\hat{\mathbf{X}}_{\text{main}}$ is computed given $k = N$ and $\hat{\textbf{A}}_{\text{fix}}$ resulting from segment of EEG measurements specified by $M = 1/2 N = 13$. 
-%For the estimation one must give an initial guess for the number of active sources. 
-%Remember that $k > M$ and $k < N$.  
-%$k = 17$ has been chosen as a choice for how many active sources exists in time segment $s = 10$
 
-Figure \ref{fig:eeg_k} visualize the recovered source matrix $\hat{\mathbf{X}}_{\text{main}}$ from time segment $s = 10$ for $M = 13$ and $k = N = 27$. For visual simplicity only  10 sources are visualized.
+Figure \ref{fig:eeg_k} visualize the recovered source matrix $\hat{\mathbf{X}}_{\text{main}}$ from time segment $s = 10$ for $M = 13$ and $k = N = 27$. For visual simplicity only 8 out of 27 sources are visualized.
 \begin{figure}[H]
     \centering
 	\includegraphics[scale=0.5]{figures/ch_estimate/eeg_k_timeseg_10.png}
-	\caption{The recovered source matrix $\hat{\mathbf{X}}_{\text{main}}$ from time segment $s = 10$ from \texttt{S1\_Cclean} for $M = 13$ and $k = N = 27$.}
+	\caption{The recovered source matrix $\hat{\mathbf{X}}_{\text{main}}$ from time segment $s = 10$ from \texttt{S1\_Cclean} for $M = 13$ and $k = N = 27$. Note only the first 8 rows of $\hat{\mathbf{X}}_{\text{main}}$ is plotted for simplicity.}
 	\label{fig:eeg_k}
 \end{figure}
 \noindent

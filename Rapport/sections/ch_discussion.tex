@@ -1,51 +1,53 @@
 \chapter{Discussion}
 The purpose of this thesis was to investigate the possibility of reproducing state of the art methods and results for recovery of source signals, from low-density scalp EEG measurements inducing an under-determined system.
-The considered state of the art methods is multiple sparse Bayesian learning (M-SBL)\cite{Balkan2014} and covariance-domain dictionary learning (Cov-DL)\cite{Balkan2015}, both published by O. Balkan, et al. in the year of 2014 and 2015 respectively. 
-It was found that this task was not easy as they did not provide any software to reproduce their results. The resulting combination of Cov-DL and M-SBL, the main algorithm, did not manage to fully solve the inverse EEG problem of recovering the mixing matrix $\mathbf{A}$ and a source matrix $\mathbf{X}$ successfully, from the EEG measurements. 
-From the verification of the Cov-DL method, it was concluded that it failed to provide a sufficient estimate $\hat{\mathbf{A}}$, when applied on simulated data. 
+The considered state of the art methods are multiple sparse Bayesian learning (M-SBL)\cite{Balkan2014} and covariance-domain dictionary learning (Cov-DL)\cite{Balkan2015}, both published by O. Balkan, et al. in the year of 2014 and 2015 respectively. 
+It was found that this task was not easy. Among others did the scientific articles not provide any software to allow recreation of their results. The resulting combination of Cov-DL and M-SBL, the main algorithm, did not manage to fully solve the inverse EEG problem of recovering the mixing matrix $\mathbf{A}$ and the source matrix $\mathbf{X}$ successfully, from the EEG measurements. 
+From the verification of the Cov-DL method, it was concluded that it failed to provide a sufficient estimate $\hat{\mathbf{A}}$, when applied on synthetic data. 
 Due to not having a successful estimate of $\mathbf{A}$ the recovery of  $\mathbf{X}$ was compromised when using the M-SBL method.
 However, when using the true $\mathbf{A}$, M-SBL provides an estimate $\hat{\mathbf{X}}$ sufficiently close to the real source matrix, in the under-determined case $M < N$. 
-In the main algorithm the estimate $\hat{\mathbf{A}}$ from Cov-DL was replaced by a fixed mixing matrix $\hat{\mathbf{A}}_{\text{fix}}$. 
-The final performance of the main algorithm was found to vary significantly, hence a sufficient performance was not confirmed. 
+In the main algorithm the estimate $\hat{\mathbf{A}}$ from Cov-DL was replaced by a fixed estimate of the mixing matrix $\hat{\mathbf{A}}_{\text{fix}}$. 
+The final performance of the main algorithm was found to vary significantly, when applied to synthetic data, hence a sufficient performance was not confirmed. 
 As expected a similar conclusion was to be drawn from tests on real EEG measurement. 
 
-In chapter \ref{ch:implementation} it was concluded that the implementation of the Cov-DL method is unsuccessful.
-The issue was located to the definition of the optimization problem determining the columns of $\hat{\mathbf{A}}$. 
-This does question the reproducibility of the scientific article \cite{Balkan2015} which has been used as the main source. 
-The article \cite{Balkan2015} did not provide any code or implementation specifications. 
+In chapter \ref{ch:implementation} an unsuccessful implementation of the Cov-DL method concluded.
+By the observed results the issue appears to be located within the definition of the optimization problem determining the columns of $\hat{\mathbf{A}}$. 
+The possibility of en implementation error can not be denied as an additional thorough run-through of the implementation was not possible within the time scope of the thesis. 
+However, the findings may suggest a misinterpretation of the theory and reasoning presented by the article. Lastly the possibility that the method do not manage to provide the same results when applied on different data has to be considered.       
+Overall this questions the reproducibility of the scientific article \cite{Balkan2015} which proposes the method. 
+The article did not provide any code or implementation specifications. 
 Likewise, it was not possible to recreate or access the exact data, which was used to provide the results presented in the article. 
-Thus, the intention was never to recreate the exact results from the article but rather to demonstrate the conclusion. That the method manages to provide results of a certain success rate. 
+Thus, the intention was never to recreate the exact results from the article but rather to demonstrate the conclusions resulting from a certain success rate.  
 One could argue that testing the implementation on the same data would lead to a different conclusion. 
 However, this was sought approached by the stochastic simulated data, cf. section \ref{sec:dataset}, which was created with inspiration from the article.
 
-In chapter \ref{ch:implementation} it was concluded that the M-SBL method manage to successfully estimate $\mathbf{X}$ when applied to the simulated stochastic data sets and given the true $\mathbf{A}$. 
+In chapter \ref{ch:implementation} it was concluded that the M-SBL method manage to successfully estimate $\mathbf{X}$ when applied to the stochastic data sets and given the true $\mathbf{A}$. 
 Though, the performance was found to decrease slightly as the number of sources increases relative to the number of sensors. 
 Regarding the reproducibility of the article \cite{Balkan2014} the results indicate that the provided information about M-SBL has been sufficient.
 However, this article did, as \cite{Balkan2015}, not provide any code or data disabling the possibility of recreating the exact results. In \cite{Balkan2014} tests were conducted on random simulations of $\mathbf{A}$ and $\mathbf{X}$ with various noise level added. 
-Thus, due to no counter arguments, the tests of M-SBL in this thesis were conducted on the simulated data sets already created for the tests of Cov-DL, with inspiration from \cite{Balkan2015}.
+Thus, due to no counter arguments, the tests of M-SBL in this thesis were conducted on the synthetic data sets already created for the tests of Cov-DL, with inspiration from \cite{Balkan2015}.
+
 With respect to the main algorithm, uniting Cov-DL and M-SBL, an alternative to the estimate of $\mathbf{A}$ was necessary. 
-Through empirical tests, which is discussed later, a $\hat{\mathbf{A}}_{\text{fix}}$ was chosen to replace the estimate from Cov-DL. 
-With $\hat{\mathbf{A}}_{\text{fix}}$ the main algorithm manage to estimate $\mathbf{X}$ but with a significantly higher error compared to the use of the true $\mathbf{A}$, which is not considered to be successful.
+Through empirical tests, which is discussed later, a fixed estimate $\hat{\mathbf{A}}_{\text{fix}}$ was chosen to replace the estimate from Cov-DL. 
+With $\hat{\mathbf{A}}_{\text{fix}}$ the main algorithm manage to estimate $\mathbf{X}$ but with a significantly higher error compared to the performance conditioned on the true $\mathbf{A}$. Hence this performance is not considered to be successful.
 
 The performance test of the main algorithm was first conducted on simulated stochastic data resembling real EEG measurements. 
-Inspired by \cite{Balkan2015} the sources was synthesized by independent auto-regressive processes. 
+Inspired by \cite{Balkan2015} the sources were simulated by independent auto-regressive processes. 
 The true $\mathbf{A}$ however, was simply generated by a Gaussian distribution. 
 This choice was based on a lack of information to point in different directions. 
 Instead of the true $\mathbf{A}$ being chosen as a stochastic matrix a deterministic matrix could have been chosen instead. 
-The choice of the stochastic true $\mathbf{A}$ for the simulated data sets could affect the results when testing the fixed alternatives for the mixing matrix estimated by Cov-DL. 
+The choice of the stochastic true $\mathbf{A}$ for the synthetic data sets could affect the results when testing the fixed alternatives for the mixing matrix estimated by Cov-DL. 
 From the test, cf. section \ref{sec:test_base}, it was found that a fixed Gaussian estimate, generated with same specifications as the true $\mathbf{A}$, did not lead to the best recovery of the $\mathbf{X}$, which went against the natural expectation -- the better estimate of $\mathbf{A}$ the better estimate of $\mathbf{X}$. 
 Here a fixed estimate with Gaussian distribution of higher variance provided the best estimate of $\mathbf{X}$. 
 It is here one could argue that the stochastic true $\mathbf{A}$ had an influence to the results. 
 Furthermore, the choice of error measurement might also be reflected in the results. Not being sufficient towards the purpose. 
 
-The common choice of error measurement throughout the thesis was the mean-square error (MSE). 
+The common choice of error measurement throughout the thesis was the mean squared error (MSE). 
 The MSE measures the performance of an estimate with respect to the true value, by comparing each element and summing the squared error. 
 Hence, the MSE is providing a measure of how far the estimate is from the true value. 
 This was considered a sufficient error measurement for evaluation of Cov-DL and M-SBL.
 However, one challenge when using MSE is to set a tolerance defining when an estimate is considered successful. 
-It could be argued that set tolerance should vary with respect to the data of interest.
-Though, it was not chosen to evaluate to the estimates with respect to success rate. By this the above challenge was avoided, and the method is replaced by a more soft evaluation based on the MSE. 
-A different choice of error measurement could have been the use of correlation between variables of the estimate and the true values. With respect to the comparison of the main algorithm to ICA as the ground truth, to be discussed next, using the correlations as the evaluation might have overcome the scaling issue with respect to ICA.    
+It could be argued that the chosen tolerance should vary with respect to the data of interest.
+A different choice of error measurement could have been the use of correlation between the estimated values and the true values. With respect to the comparison of the main algorithm to ICA, where ICA is considered the ground truth, using the correlations as the evaluation might have overcome the scaling issue with respect to ICA.    
 
 Consider now the performance test of the main algorithm on real EEG measurements. 
 The choice of evaluating the performance by considering the ICA solution as the ground truth has been crucial. 

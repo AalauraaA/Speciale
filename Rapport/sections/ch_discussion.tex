@@ -52,14 +52,14 @@ A different choice of error measurement could have been the use of correlation b
 Consider now the performance test of the main algorithm on real EEG measurements. 
 The choice of evaluating the performance by considering the ICA solution as the ground truth has been crucial. 
 First of all the foundation for the evaluation was not ideal. 
-It is an issue that the performance of the main algorithm on the simulated data was not as good expected, presumably due to the estimate of $\mathbf{A}$ being replaced by a fixed estimate. 
-Thus, it is not reasonable to trust the results when the algorithm is applied to data for which the true results are not known at all. 
+It is an issue that the performance of the main algorithm on the simulated data was not as good as expected, presumably due to the estimate of $\mathbf{A}$ being replaced by a fixed estimate. 
+Thus, it is not reasonable to trust the results when the algorithm is applied to real EEG measurements for which the true results are unknown. 
 However, it can be argued that when comparing the obtained result to the best-known solution, in this case provided by ICA, a small error will indicate an acceptable performance from the main algorithm. 
 The arguments accounting for the use of ICA were discussed in section \ref{seg:main_test_description}. 
 However, an unreliability will be present as the ICA algorithm is limited to $M = N$. 
-The true $N$ is unknown, thus ICA is never guaranteed to find all the active sources.
+The true $N$ is in general unknown, thus by ICA it is never guaranteed to find all the active sources.
 Furthermore, the comparison of the main algorithm to ICA was found to be compromised. 
-The localization and phase of the active sources are not necessary the same for the two estimates, which distorted the MSE between the two matrices to an unknown degree.
+The localization and phase of the active sources are not necessarily the same for the two estimates, which distorts the MSE between the two matrices to an unknown degree.
 In despite of this issue, the comparison was still performed by MSE, which suggest a potential to improve the found performance. 
 Against the prior expectation, an acceptable performance was found for the case $M = N$, though for the cases of interest where $M < N$ the performance was decreased significantly.    
 

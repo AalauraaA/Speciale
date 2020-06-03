@@ -69,19 +69,19 @@ where $\text{cov} \left(\mathbf{x} , \mathbf{e} \right) = 0$ because $\textbf{x}
 \paragraph{Covariance $\boldsymbol{\Sigma}_{\mathbf{yx}}$}
 The covariance between $\mathbf{y}$ and $\mathbf{x}$ is defined by the transpose of $\boldsymbol{\Sigma}_{\mathbf{yx}}$
 \begin{align*}
-\boldsymbol{\Sigma}_{\mathbf{xy}} &= \left( \boldsymbol{\gamma} \mathbf{I} \mathbf{A}^T\right)\\
+\boldsymbol{\Sigma}_{\mathbf{xy}} &= \left( \boldsymbol{\gamma} \mathbf{I} \mathbf{A}^T\right)^T\\
 &= \textbf{A}\boldsymbol{\gamma}\mathbf{I}
 \end{align*}
 
 \paragraph{Covariance $\boldsymbol{\Sigma}_{\mathbf{yy}}$}
-Lastly the covariance of $\mathbf{y} \vert \mathbf{x}$ is similarly found using again the linearity of covariance:
+Lastly the covariance of $\mathbf{y}$ and $\mathbf{y}$ is similarly found using again the linearity of covariance:
 \begin{align*}
 \boldsymbol{\Sigma}_{\mathbf{yy}} &= \text{cov} \left(\mathbf{Ax} + \mathbf{e} , \mathbf{Ax} + \mathbf{e} \right) \\ 
 &= \text{cov}\left( \mathbf{Ax},\mathbf{Ax} \right) + \text{cov}\left(\mathbf{Ax},  \mathbf{e} \right) + \text{cov}\left( \mathbf{e}, \mathbf{Ax} \right) + \text{cov}\left( \mathbf{e}, \mathbf{e} \right)\\
 &= \textbf{A}\boldsymbol{\Sigma}_{\mathbf{xx}}\textbf{A}^T + \boldsymbol{\Sigma}_{\mathbf{ee}} \\
 &= \textbf{A}\boldsymbol{\gamma} \mathbf{I}\textbf{A}^T + \sigma^2 \mathbf{I}
 \end{align*} 
-By combining all the found conditional covariances the resulting covariance becomes 
+By combining all the found covariances the resulting covariance becomes 
 \begin{align*}
 \boldsymbol{\Sigma} = \boldsymbol{\gamma} \mathbf{I} - \boldsymbol{\gamma} \mathbf{I} \mathbf{A}^T (\textbf{A}\boldsymbol{\gamma} \mathbf{I}\textbf{A}^T + \sigma^2 \mathbf{I})^{-1} \mathbf{A} \boldsymbol{\gamma} \mathbf{I}.
 \end{align*}

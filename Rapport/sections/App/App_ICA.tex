@@ -22,20 +22,21 @@ An alternative measure of non-Gaussianity is the negentropy, based on the differ
 \begin{align*}
 H(\mathbf{y}) = - \int p_y (\boldsymbol{\eta}) \log (p_y (\boldsymbol{\eta})) \ d\boldsymbol{\eta}.
 \end{align*}
-The entropy describes the information that a random variable gives. The more unpredictable and unstructured a random variable is higher is the entropy, e.g. Gaussian random variables have a high entropy, in fact they have the highest entropy among the random variables of the same variance \cite[p. 182]{ICA}.
+The entropy describes the information that a random variable gives. The more unpredictable and unstructured a random variable is higher is the entropy, e.g. Gaussian random variables have a high entropy. 
+In fact they have the highest entropy among the random variables of the same variance \cite[p. 182]{ICA}.
 
-Negentropy is a normalised version of the differential entropy such that the measure of non-Gaussianity is zero when the random variable is Gaussian and non-negative otherwise. The negentropy $J$ of a random vector $\mathbf{y}$ is defined as 
+Negentropy is a normalized version of the differential entropy such that the measure of non-Gaussianity is zero when the random variable is Gaussian and non-negative otherwise. The negentropy $J$ of a random vector $\mathbf{y}$ is defined as 
 \begin{align*}
 J(\mathbf{y}) = H(\mathbf{y}_{\text{gauss}}) - H(\mathbf{y}),
 \end{align*}
 with $\mathbf{y}_{\text{gauss}}$ being a Gaussian random variable of the same covariance and correlation as $\mathbf{y}$ \cite[p. 182]{ICA}.
 As the kurtosis is sensitive for outliers, the negentropy is instead difficult to compute computationally as the negentropy requires an estimate of the pdf. As such an approximation of the negentropy is needed.
-To approximate the negentropy, it is common to use the higher order cumulants including the kurtosis. The following approximation of the scalar case is stated without further elaboration, and the derivation can be found in \cite[p. 183]{ICA}. 
+To approximate the negentropy, it is common to use the higher order cumulants including the kurtosis. The following approximation of the scalar case is stated without further elaboration, and the derivation can be found in \cite[p. 183]{ICA}: 
 \begin{align*}
 J(\mathbf{y}) \approx \frac{1}{12} \mathbb{E}[y^{3}]^2 \frac{1}{48}\text{kurt}(y)^2.
 \end{align*}
 
-\subsection{Fixed-Point Algorithm with Negentropy}
+\subsection{FastICA with Negentropy}
 Maximization of negentropy by use of the fixed-point algorithm is now presented, for derivation of the fixed-point iteration see \cite[p. 188]{ICA}. Algorithm \ref{alg:fastICA} show FastICA using negentropy.
 This is the algorithm applied for comparison with the source recovery methods tested in this thesis.    
 \begin{algorithm}[H]
@@ -65,7 +66,7 @@ This is the algorithm applied for comparison with the source recovery methods te
 \end{algorithm}
 
 \section{Verification of FastICA on Synthetic Data}\label{app:ica_test}
-The purpose of this section is to verify the FastICA algorithm used in this thesis. By this verification the purpose is to justify the FastICA algorithm as a reference point with respect to performance of the developed main algorithm.
+The purpose of this section is to verify the FastICA algorithm used in this thesis. By this verification the purpose is to justify the FastICA algorithm as a reference point with respect to performance of the main algorithm.
 
 The FastICA algorithm is tested on synthetic data simulated as described in section \ref{sec:dataset}. 
 Consider the following linear system, which makes a model of EEG measurements 
@@ -76,21 +77,24 @@ where $\mathbf{Y} \in \mathbb{R}^{M \times L}$, $\mathbf{A} \in \mathbb{R}^{M\ti
 It is expected that the FastICA algorithm manages to solve the linear system for $\mathbf{X}$ and $\mathbf{A}$ given only the measurements $\mathbf{Y}$, in the case where $M = N$.  
 
 The FastICA algorithm is applied to $\mathbf{Y}$ and returns the estimates $\hat{\mathbf{X}}_{\text{ICA}}$ and $\hat{\mathbf{A}}_{\text{ICA}}$. 
-When using the FastICA algorithm the output $\hat{\mathbf{X}}_{\text{ICA}}$ do not correspond one to one with the true source signals, which become an issue when the estimation error is measured by the mean squared error (MSE) cf. section \ref{sec:mse}.  The FastICA algorithm is invariant towards the amplitude and phase of the source signal.
-Furthermore, the rows are not necessarily place the exact location. 
+When using the FastICA algorithm the output $\hat{\mathbf{X}}_{\text{ICA}}$ do not correspond one to one with the true source signals. 
+This becomes an issue when the estimation error is measured by the mean squared error (MSE) cf. section \ref{sec:mse}.  
+The FastICA algorithm is invariant towards the amplitude and phase of the source signal.
+Furthermore, the rows are not necessarily placed at the exact locations. 
 In order to get a valid MSE measure of the estimate, a function is defined to fit the estimate to the true source signal $\mathbf{X}$. 
 The function manages to pair the rows and change the phase, such that the total MSE is minimized. 
 Furthermore, each row of the estimate is scaled by the relationship between the maximum value of the true row and the estimated row.
-From empirical observations only the phase shift performed by multiplying with $(-1)$ has shown necessarily, hence it is easily applied to the fitting function.
-When the fitting function is applied two the estimate, the full potential of the FastICA algorithm is considered reached.       
+From empirical observations only the phase shift performed by multiplying with $(-1)$ has shown to be necessarily, hence it is easily applied to the fitting function.
+When the fitting function is applied to the estimate, the full potential of the FastICA algorithm is considered reached.       
 
-Figure \ref{fig:appica1} illustrates $\hat{\mathbf{X}}_{\text{ICA}}$, without use of the fitting function, resulting from the FastICA algorithm applied to a simulated deterministic data set $\mathbf{Y}$ specified by $M = N = k = 4$ and $L = 1000$. 
-In the figure $\mathbf{Y}$, $\mathbf{X}$ and $\hat{\mathbf{X}}_{\text{ICA}}$ are plotted separately and it is clear to see the invariance towards amplitude and phase.
-The MSE from the original $\hat{\mathbf{X}}_{\text{ICA}}$ becomes
+Figure \ref{fig:appica1} illustrates the estimate of the source matrix $\hat{\mathbf{X}}_{\text{ICA}}$, without use of the fitting function. 
+That is the FastICA algorithm applied to a simulated deterministic data set $\mathbf{Y}$ specified by $M = N = k = 4$ and $L = 1000$. 
+In figure \ref{fig:appica1} the matrices $\mathbf{Y}$, $\mathbf{X}$ and $\hat{\mathbf{X}}_{\text{ICA}}$ are visualized separately and it is clear to see the invariance towards amplitude and phase.
+The MSE between the true source matrix $\mathbf{X}$ and the estimate $\hat{\mathbf{X}}_{\text{ICA}}$ becomes
 \begin{align*}
 \text{MSE}(\mathbf{X}, \hat{\mathbf{X}}_{\text{ICA}}) = 0.608.
 \end{align*}
-In figure \ref{fig:appica2} the fitting function has been applied to $\hat{\mathbf{X}}_{\text{ICA}}$. Each row of the fitted estimate is now plotted with the corresponding row of the true source signals. 
+In figure \ref{fig:appica2} the fitting function has been applied to $\hat{\mathbf{X}}_{\text{ICA}}$. Each row of the fitted estimate is now visualized with the corresponding row of the true source signals. 
 The resulting MSE becomes 
 \begin{align*}
 \text{MSE}(\mathbf{X}, \hat{\mathbf{X}}_{\text{ICA}}) = 0.046.
@@ -102,7 +106,7 @@ From the visualization and the corresponding MSE, it is found that the FastICA a
     \begin{minipage}[t]{.45\textwidth}
 		\centering
 		\includegraphics[scale=0.45]{figures/ICAapp/ICA_app1.png}
-	\caption{Plot of simulated deterministic data set $\mathbf{Y}$, specified by $M = N = k = 4$ and $L = 1000$. Corresponding plot of the true $\mathbf{X}$ and the estimated $\hat{\mathbf{X}}$ by ICA.}
+	\caption{Figure of simulated deterministic data set $\mathbf{Y}$, specified by $M = N = k = 4$ and $L = 1000$. Corresponding plot of the true $\mathbf{X}$ and the estimated $\hat{\mathbf{X}}$ by ICA.}
 	\label{fig:appica1}
     \end{minipage} 
     \hfill
@@ -115,9 +119,9 @@ From the visualization and the corresponding MSE, it is found that the FastICA a
 \end{widepage}
 \end{figure}
 \noindent
-A similar test is now performed on a stochastic data set $\mathbf{Y}$, cf. section \ref{sec:stoch_data}, again specified by $M = N = k = 4$ and $L = 1000$. 
+A similar test is now performed on a simulated stochastic data set $\mathbf{Y}$, cf. section \ref{sec:stoch_data}, specified by $M = N = k = 4$ and $L = 1000$. 
 Figure \ref{fig:appica3} show the comparison of the fitted $\hat{\mathbf{X}}_{\text{ICA}}$ and the true source signals $\mathbf{X}$. 
-Note that only the first 100 samples are plotted for easier visualization. The resulting MSE becomes:
+Note that only the first 100 samples are visualized for better visualization comparison. The resulting MSE becomes
 \begin{align*}
 \text{MSE}(\mathbf{X}, \hat{\mathbf{X}}_{\text{ICA}}) = 0.037.
 \end{align*}       
@@ -129,9 +133,9 @@ Again the MSE is considered sufficiently small and by that the FastICA is consid
 	\label{fig:appica3}
 \end{figure}
 \noindent
-Consider now the case where $k \leq N = M$, that is the sources signal matrix has $k$ non-zeros rows. 
-The FastICA algorithm is now applied to a stochastic data set $\mathbf{Y} $ specified by $N = M = 6$, $k = 4$ and $L = 1000$. 
-Figure \ref{fig:appica5} and \ref{fig:appica6} show the comparison of the resulting $\hat{\mathbf{X}}_{\text{ICA}}$ and the true $\mathbf{X}$ before and after the application of the fitting function, respectively. The resulting MSE becomes:
+Consider now the case where $k \leq N = M$, that is the source signal matrix has $k$ non-zeros rows. 
+The FastICA algorithm is now applied to a simulated stochastic data set $\mathbf{Y} $ specified by $N = M = 6$, $k = 4$ and $L = 1000$. 
+Figure \ref{fig:appica5} and \ref{fig:appica6} show the comparison of the resulting $\hat{\mathbf{X}}_{\text{ICA}}$ and the true $\mathbf{X}$ before and after the application of the fitting function, respectively. The resulting MSE becomes
 \begin{align*}
 \text{MSE}(\mathbf{X}, \hat{\mathbf{X}}_{\text{ICA}}) = 1.784.
 \end{align*} 
@@ -141,7 +145,7 @@ It is seen from figure \ref{fig:appica6} that the FastICA algorithm manages to d
     \begin{minipage}[t]{.45\textwidth}
 		\centering
 		\includegraphics[scale=0.5]{figures/ICAapp/ICA_app5.png}
-	\caption{Plot of simulated stochastic data set $\mathbf{Y}$, specified by $M = N = 6$, $k = 4$ and $L = 1000$. Corresponding plot of the true $\mathbf{X}$ and the estimated $\hat{\mathbf{X}}$ by ICA.}
+	\caption{Figure of simulated stochastic data set $\mathbf{Y}$, specified by $M = N = 6$, $k = 4$ and $L = 1000$. Corresponding plot of the true $\mathbf{X}$ and the estimated $\hat{\mathbf{X}}$ by ICA.}
 	\label{fig:appica5}
     \end{minipage} 
     \hfill
@@ -155,7 +159,7 @@ It is seen from figure \ref{fig:appica6} that the FastICA algorithm manages to d
 \end{figure}
 \noindent
 With these tests the quality of the FastICA algorithm has been verified. 
-As such the FastICA algorithm can be used as a reference, when applied to real EEG data. 
+As such the FastICA algorithm can be used as a reference, when applied to real EEG measurements. 
 It is further established that $k \leq M$ can be estimated by FastICA. 
 Remember though that the ICA estimate is conditioned under $k \leq N = M$.
-However, this condition is not necessarily withheld for real EEG measurements as the true $N$ is always unknown.  
+However, this condition is not necessarily withhold for real EEG measurements as the true $N$ is always unknown.  

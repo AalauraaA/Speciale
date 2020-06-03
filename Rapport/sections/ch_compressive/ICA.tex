@@ -13,7 +13,7 @@ By ICA both the mixing matrix $\mathbf{A}$ and the source signals $\mathbf{x}$ a
 The main attribute of ICA is the assumption that the sources in $\mathbf{x}$ are statistically independent and non-Gaussian distributed, hence the name independent components.
 \\     
 By independence, one means in general that changes in one source signal do not affect the other source signals. 
-In theory $N$ variables $x_1, \dots , x_N$ is independent if the joint probability density function (pdf) of $\mathbf{x}$ satisfies
+In theory $N$ variables $x_1, \dots , x_N$ are independent if the joint probability density function (pdf) of $\mathbf{x}$ satisfies
 \begin{align*}
 p(x_1, x_2, \dots, x_N) = p_1(x_1) p_2(x_2) \cdots p_n(x_N).
 \end{align*}
@@ -28,14 +28,14 @@ As such when $\mathbf{A}$ has been estimated the inverse is computed and the com
 As both $\mathbf{A}$ and $\mathbf{x}$ are unknown the variances of the independent components can not be determined. 
 However, it is reasonable to assume that $\mathbf{x}$ has unit variance -- $\mathbf{A}$ is assumed to have unit variance as well. 
 Any scalar multiplier within a source can be canceled out by dividing the corresponding column in $\mathbf{A}$ with the same scalar \cite[p. 154]{ICA}.
-For further simplification it is assumed without loss of generality that $\mathbb{E}[\mathbf{y}] = 0$ and $\mathbb{E}[\mathbf{x}] = 0$\cite[p. 154]{ICA}. 
-In case this assumption is not true, the measurements can be centered by subtracting the mean as preprocessing before doing ICA.
+For further simplification it is assumed without loss of generality that $\mathbb{E}[\mathbf{y}] = 0$ and $\mathbb{E}[\mathbf{x}] = 0$ \cite[p. 154]{ICA}. 
+In case this assumption is not true, the measurements can be centered by subtracting the mean as preprocessing before performing ICA.
 
 A preprocessing step central to ICA is to whiten the measurements $\mathbf{y}$. 
 By the whitening process any correlation in the measurements are removed and unit variance is ensured -- the independent components $\mathbf{x}$ becomes uncorrelated and have unit variance. 
 Furthermore, this reduces the complexity of ICA and therefore simplifies the recovering process.
 Whitening is a linear transformation of the observed data. 
-This is multiplying the measurement vector $\mathbf{y}$ with a whitening matrix $\mathbf{V}$
+That is multiplying the measurement vector $\mathbf{y}$ with a whitening matrix $\mathbf{V}$
 \begin{align*}
 \mathbf{y}_{\text{white}} = \mathbf{V} \mathbf{y},
 \end{align*} 
@@ -92,9 +92,9 @@ As $\mathbf{A}$ is unknown it is not possible to determine $\mathbf{b}$ exactly,
 
 Due to $z$ denoting some $x_i$ it is clear that the equality in \eqref{eq:ICA_comp2} only holds true when $\mathbf{q}$ consist of only one non-zero element equal to 1.  
 Thus, from the central limit theorem the distribution of $\mathbf{q}^T \mathbf{x}$ is most non-Gaussian when it equals one of the independent components which was assumed non-Gaussian. 
-As such, since $\mathbf{q}^T \mathbf{x} = \mathbf{b}^{T} \mathbf{y}$, it is possible to vary the coefficients in $\mathbf{b}$ and look at the distribution of $\mathbf{b}_{i \cdot} \mathbf{y}$. 
+As such, since $\mathbf{q}^T \mathbf{x} = \mathbf{b}^{T} \mathbf{y}$, it is possible to vary the coefficients in $\mathbf{b}$ and look at the distribution of $b_{i \cdot} \mathbf{y}$. 
 Finding the vector $\mathbf{b}^T$ that maximizes the non-Gaussianity would then correspond to $\mathbf{q} = \mathbf{A}^T \mathbf{b}^T$ having only a single non-zero element. 
-Thus maximizing the non-Gaussianity of $\mathbf{b}_{i \cdot} \mathbf{y}$ results in one of the independent components \cite[p. 166]{ICA}. 
+Thus maximizing the non-Gaussianity of $b_{i \cdot} \mathbf{y}$ results in one of the independent components \cite[p. 166]{ICA}. 
 Considering the $N$-dimensional space of vectors $\mathbf{b}^T$ there exist $2N$ local maxima, corresponding to $x_i$ and $-x_i$ for all $N$ independent components \cite[p. 166]{ICA}. 
 
 \subsection{Kurtosis}
@@ -140,7 +140,7 @@ As $\mathbb{E}[(\mathbf{b}^T \mathbf{y})^2] = \Vert \mathbf{y} \Vert^2$ for whit
 Thus, as it is only the direction that is of interest, this term can be omitted. 
 Because the optimization is restricted to the unit sphere a projection of $\mathbf{b}$ onto the unit sphere must be performed in every step of the gradient method. 
 This is done by dividing $\mathbf{b}$ by its norm. 
-This gives update step \cite[p. 178]{ICA}
+This gives the update step \cite[p. 178]{ICA}
 \begin{align*}
 \Delta \textbf{b} &\propto \text{sign}\left( \text{kurt}(\textbf{b}^T \textbf{y}) \right) \mathbb{E}[\textbf{y}(\textbf{b}^T \textbf{y})^3] \\
 \textbf{b} &\leftarrow \textbf{b}/\Vert \textbf{b} \Vert
@@ -180,7 +180,7 @@ Algorithm \ref{alg:basicICA} combines the above theory, to give an overview of t
         \label{alg:basicICA}
 \end{algorithm}
 
-\subsection{ICA for sparse signal recovery}
+\subsection{ICA for Sparse Signal Recovery}
 ICA is widely used within sparse signal recovery.   
 When ICA is applied to a measurement vector $\mathbf{y} \in \mathbb{R}^{M}$ it is possible to separate the mixed signal into $M$ or less independent components. 
 However, by assuming that the  independent components make a $k$-sparse signal it is possible to apply ICA within sparse signal recovery of cases where $M < N$ and $k \leq M$. 

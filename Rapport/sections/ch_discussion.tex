@@ -60,33 +60,33 @@ However, an unreliability will be present as the ICA algorithm is limited to $M 
 The true $N$ is in general unknown, thus by ICA it is never guaranteed to find all the active sources.
 Furthermore, the comparison of the main algorithm to ICA was found to be compromised. 
 The localization and phase of the active sources are not necessarily the same for the two estimates, which distorts the MSE between the two matrices to an unknown degree.
-In despite of this issue, the comparison was still performed by MSE, which suggest a potential to improve the found performance. 
+In despite of this issue, the comparison was still performed by MSE, which suggests a potential to improve the found performance. 
 Against the prior expectation, an acceptable performance was found for the case $M = N$, though for the cases of interest where $M < N$ the performance was decreased significantly.    
 
-Due to the possible unreliability of the performance evaluation with respect to ICA, an alternative test was considered -- the alpha wave analysis. 
-However, from the analysis no new conclusion was made. The expected behavior was not observed, with respect to an increased amount of alpha frequency for the test subject having closed eyes.
-The behavior was more or less fluctuating over time. However, exceptions from the expected behavior were also found for the raw measurement. This indicates that different approaches, with respect to measuring the power within the alpha band, should be considered.
-The advantage of this test approach, in general, is that one see past the challenge of recovering the exact source signal, but rather consider the practical usage of the source separation. For instance, when considering the usage of the source signals within a hearing aid, cf. section \ref{seg:application}, the amount of active source signals might be more significant than an exact recovery.         
+Due to the possible unreliability of the performance evaluation with respect to ICA, an alternative test was considered -- the alpha wave analysis, comparing results on EEG level to results on source level. 
+However, from the analysis no new conclusions were made. The expected behavior was in general not observed, with respect to an increased amount of alpha frequency for the test subject having closed eyes.
+The behavior was more or less fluctuating over time. However it is worth to notice that exceptions from the expected behavior were also found on EEG level. This indicates that different approaches, with respect to measuring the power within the alpha band, should be considered.
+The advantage of this test approach, in general, is that one sees past the challenge of recovering the exact source signal, and rather considers the practical usage of the source separation. For instance, when considering the usage of the source signals within a hearing aid, cf. section \ref{seg:application}, the amount of active source signals might be more significant than an exact recovery.         
 
-The last issue addressed in this thesis was the estimation of the number of active sources $k$ relative to the maximum number of sources $N$. Through out the implementation of the main algorithm in chapter \ref{ch:implementation} it was argued that setting $k = N$, would not compromise the results. 
-In fact perhaps lead to better estimates as fewer sources must be recovered and therefore reduces the amount of possible errors.
+The last issue addressed in this thesis was the estimation of the number of active sources $k$ relative to the maximum number of sources $N$. Throughout the implementation of the main algorithm in chapter \ref{ch:implementation} it was argued that setting $k = N$, would not compromise the results. 
+In fact it would perhaps lead to better estimates as fewer sources must be recovered and therefore the amount of possible errors are reduced.
 This is supported by \cite{Balkan2014} where the same assumption is used.
-Likewise for M-SBL, providing $k$ would only reduce possible errors within localization of the sources.
-However, by setting $k = N$ one must assume that $k$ sources are active, thus no less that $k$ sources are estimated. 
+Likewise for M-SBL, providing $k$ would reduce possible errors within localization of the sources.
+However, by setting $k = N$ one must assume than $k$ sources are active, thus no less that $k$ sources are estimated. 
 Hence, to justify this definition of $k$ one must have a qualified guess with respect to the true $k$. 
-However, this is the issue addressed in the problem statement, as this is not possible in practice.    
+This is the exact issue addressed in the problem statement, as this is not possible in practice.    
 
-To address this exact issue an investigation with respect to estimation of $k$ was conducted in chapter \ref{ch:estimation_k}. 
-Due to interesting empirical observation, it was chosen to analyse the source signals resulting from the main algorithm when $k = N = \widetilde{M}$. 
+To address this issue an investigation with respect to estimation of $k$ was conducted in chapter \ref{ch:estimation_k}. 
+Due to interesting empirical observations, it was chosen to analyze the source signals resulting from the main algorithm when $k = N = \widetilde{M}$. 
 That is estimating the maximum number of active sources under the hypothesis that the false estimates where to be identified among the true estimates. By false estimate there is referred to a non-zero estimate of a zero row. 
-From visual observation of results from the simulated stochastic data sets, a potential was seen as the false estimates appear as replicas of the true estimates. 
+From visual observation of the results achieved from the simulated stochastic data sets, a potential was seen as the false estimates appear as replicas of the true estimates. 
 These false estimates was identified by searching for the replicates of the true estimates.
 However, this was not found successful in the desired cases where $M < k$. 
 Here the false estimates manage to diverge more from the true estimates. 
 Furthermore, the identification method was found to have trouble separating the true estimate from the corresponding replicates.
 Hence alternative methods could have been considered with respect to estimation of $k$. 
 One obvious approach is to consider the estimate of $k$ which could be provided from M-SBL, if a $k$ was not given as an input to the algorithm. 
-However, the success rate of such estimation of $k$ was not provided in the article \cite{Balkan2014} of which the article was based. As the performance presented in the article was obtained by providing $k$ to the algorithm, cf. \ref{subsec:kestimate}.   
+However, the success rate of such estimation of $k$ was not provided in the article \cite{Balkan2014}. The performance presented in the article was obtained by providing $k$ to the algorithm, cf. \ref{subsec:kestimate}.   
 
-Throughout this chapter the choices which ware found essential toward the obtained conclusions have been discussed and alternative choices have been considered. 
-None of these alternatives are sought investigated in the thesis but they will serve as essential aspects to be considered if further work on the main algorithm where to be conducted. 
+Throughout this chapter the choices which were found essential toward the obtained conclusions have been discussed and alternative choices have been considered. 
+None of these alternatives are sought investigated in the thesis but they will serve as essential aspects to be considered if further work on the main algorithm were to be conducted. 

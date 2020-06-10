@@ -151,10 +151,10 @@ The main steps of K-SVD is described in algorithm \ref{alg:K_SVD}.
 In this section the method behind principal component analysis (PCA) used for the Cov-DL described in section \ref{sec:over_det}.
 
 PCA is dimensionality reduction method used for reduction of dimensions of large data sets. 
-In short, PCA used the statistical information of mean, variance and correlation between the data to transform the large data set into smaller datasets while maintaining most of the original information. 
+In short, PCA used the statistical information of mean, variance and correlation between the data to transform the large data set into smaller data sets while maintaining most of the original information. 
 These smaller data sets are known as the principal components and contain most of the information of the data set but with fewer dimensions. 
-For some datasets, before PCA is applied, the data must undergo a standardization/scaling to remove any difference in the data. 
-This is essential as large differences between the data would dominate. The standardization of a dataset $\mathbf{Z}$ is performed by
+For some data sets, before PCA is applied, the data must undergo a standardization/scaling to remove any difference in the data. 
+This is essential as large differences between the data would dominate. The standardization of a data set $\mathbf{Z}$ is performed by
 \begin{align*}
 \tilde{\mathbf{z}}_i = \frac{\mathbf{z}_i - \bar{\mathbf{z}}_i}{s_{\mathbf{z}_i}}, \quad \forall i = 1, \dots, m
 \end{align*}
@@ -176,6 +176,6 @@ The principal components are then defined by
 \mathbf{u}_i = \mathbf{Z} \mathbf{p}_i,
 \end{align*}
 where $\mathbf{p}_i$ is the $i$-th eigenvector of the correlation matrix $\boldsymbol{\Sigma}_{\mathbf{Z}}$. 
-Thus, each principal component is a linear combination of the dataset $\mathbf{Z}$ \cite[p. 460] {PCA}. 
+Thus, each principal component is a linear combination of the data set $\mathbf{Z}$ \cite[p. 460] {PCA}. 
 With the principal components the first $N$ components forms a set of basis vectors $\mathbf{U} = [\mathbf{u}_1, \dots, \mathbf{u}_N]$.
 

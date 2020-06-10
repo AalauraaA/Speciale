@@ -100,7 +100,7 @@ This ensures the posterior mean $\mathcal{M}$ of the $i$-th row, $\boldsymbol{\m
 From this it is evident that for estimating the support set of $\mathbf{X}$ it is sufficient to estimate the hyperparameter $\boldsymbol{\gamma}$, from which the support set $S$ can be extracted.  
 This leads to the actual M-SBL algorithm for which the aim is to estimate $\boldsymbol{\gamma}$ and the corresponding $\mathcal{M}$.
 
-\section{M-SBL for estimation of $\mathbf{X}$}\label{seg:M_sblalg}
+\section{M-SBL for Estimation of $\mathbf{X}$}\label{seg:M_sblalg}
 The M-SBL algorithm is now specified in order to estimate the hyperparameter $\boldsymbol{\gamma}$ and then the corresponding unknown sources $\mathbf{X}$.
 Due to the empirical Bayesian strategy the unknown source matrix $\mathbf{X}$ is integrated out, also referred to as marginalization.
 By integrating the posterior with respect to the unknown sources $\mathbf{X}$ the marginal likelihood of the observed data $\mathbf{Y}$ is achieved \cite[p. 146]{phd_wipf} 
@@ -162,7 +162,7 @@ That is the limit when $\sigma^2 \rightarrow 0$. Here the M-SBL steps can be ada
 \end{align*} 
 where $(\cdot)^{\dagger}$ is the pseudo-inverse.
 
-\subsection{When k is Known}\label{subsec:kestimate}
+\subsection{When $k$ is Known}\label{subsec:kestimate}
 From M-SBL the number of active sources $k$ is estimated as the number of non-zero entries in the hyperparameter $\boldsymbol{\gamma}^{\ast}$.
 However, in the current scenario $\mathbf{A}$ is estimated by Cov-DL, prior to the application of M-SBL, where $k$ is provided as input to Cov-DL, cf. chapter \ref{ch:Cov-DL}.
 Thus, $k$ is known in prior to M-SBL and can hereby be used as a known parameter to the M-SBL method. 

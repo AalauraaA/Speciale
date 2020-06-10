@@ -48,7 +48,7 @@ This illustrates how the source signals are transformed by the mixing matrix $\m
 \subsection{Stochastic Data}\label{sec:stoch_data}
 The purpose of this second kind of data is to resemble EEG measurements for which the main algorithm is intended. 
 Here different data sets are simulated depending on the chosen specifications of $N$, $k$, $M$ and $L$. 
-Every data set is constructed based on four different linear autoregressive processes of various orders, each process representing one source signal
+Every data set is constructed based on four different linear auto-regressive processes of various orders, each process representing one source signal
 \begin{align*}
 &x_{t}^{1} = \sum_{i=1}^{2} \phi_i x_{t-i}^{1} + w_t^{1} &x_{t}^{2} = \sum_{i=1}^{2} \zeta_i x_{t-i}^{2} + w_t^{2} \\
 &x_{t}^{3} = \sum_{i=1}^{3} \eta_i x_{t-i}^{3} + w_t^{3}  &x_{t}^{4} = \sum_{i=1}^{4} \xi_i x_{t-i}^{4} + w_t^{4}
@@ -60,7 +60,7 @@ Every data set is constructed based on four different linear autoregressive proc
 %\item[-] $x_{t}^{4} = \sum_{i=1}^{4} \xi_i x_{t-i}^{4} + w_t^{4}$
 %\end{itemize}
 where $\boldsymbol{\phi}, \boldsymbol{\zeta}, \boldsymbol{\eta}$ and $\boldsymbol{\xi}$ are different model parameters and $w_t^{j}$ for $j = 1,\dots ,4$ are mutually independent Gaussian distributed white noise coefficients.
-The source matrix $\mathbf{X}$ is constructed by drawing $k$ autoregressive processes, randomly drawn among the four, each of length $L$. 
+The source matrix $\mathbf{X}$ is constructed by drawing $k$ auto-regressive processes, randomly drawn among the four, each of length $L$. 
 If $k < N$ zero rows are inserted randomly such that $\mathbf{X} \in \mathbb{R}^{N \times L}$. 
 The mixing matrix $\mathbf{A} \in \mathbb{R}^{M \times N}$ is, like previously, generated randomly from a Gaussian distribution.
 By multiplying the source matrix and the mixing matrix, the measurement matrix $\mathbf{Y}$ is simulated. 

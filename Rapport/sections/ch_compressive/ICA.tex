@@ -92,9 +92,9 @@ As $\mathbf{A}$ is unknown it is not possible to determine $\mathbf{b}$ exactly,
 
 Due to $z$ denoting some $x_i$ it is clear that the equality in \eqref{eq:ICA_comp2} only holds true when $\mathbf{q}$ consist of only one non-zero element equal to 1.  
 Thus, from the central limit theorem the distribution of $\mathbf{q}^T \mathbf{x}$ is most non-Gaussian when it equals one of the independent components which was assumed non-Gaussian. 
-As such, since $\mathbf{q}^T \mathbf{x} = \mathbf{b}^{T} \mathbf{y}$, it is possible to vary the coefficients in $\mathbf{b}$ and look at the distribution of $b_{i \cdot} \mathbf{y}$. 
+As such, since $\mathbf{q}^T \mathbf{x} = \mathbf{b}^{T} \mathbf{y}$, it is possible to vary the coefficients in $\mathbf{b}$ and look at the distribution of $\mathbf{b}^{T} \mathbf{y}$. 
 Finding the vector $\mathbf{b}^T$ that maximizes the non-Gaussianity would then correspond to $\mathbf{q} = \mathbf{A}^T \mathbf{b}^T$ having only a single non-zero element. 
-Thus maximizing the non-Gaussianity of $b_{i \cdot} \mathbf{y}$ results in one of the independent components \cite[p. 166]{ICA}. 
+Thus maximizing the non-Gaussianity of $\mathbf{b}^{T} \mathbf{y}$ results in one of the independent components \cite[p. 166]{ICA}. 
 Considering the $N$-dimensional space of vectors $\mathbf{b}^T$ there exist $2N$ local maxima, corresponding to $x_i$ and $-x_i$ for all $N$ independent components \cite[p. 166]{ICA}. 
 
 \subsection{Kurtosis}
